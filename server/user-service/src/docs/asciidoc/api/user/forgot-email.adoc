@@ -1,5 +1,5 @@
 [[forgot-email]]
-=== 비밀번호 변경 API
+=== 계정 이메일 찾기 API
 
 ==== HTTP Request
 include::{snippets}/forgot-email/http-request.adoc[]
