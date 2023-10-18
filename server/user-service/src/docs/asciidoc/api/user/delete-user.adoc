@@ -1,0 +1,10 @@
+[[delete-user]]
+=== 회원 탈퇴 API
+
+==== HTTP Request
+include::{snippets}/delete-user/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/delete-user/http-response.adoc[]
+include::{snippets}/delete-user/response-fields.adoc[]

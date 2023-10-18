@@ -1,5 +1,5 @@
 [[create-user]]
-=== 회원 가입
+=== 회원 가입 API
 
 ==== HTTP Request
 include::{snippets}/create-user/http-request.adoc[]
