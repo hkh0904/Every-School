@@ -1,0 +1,29 @@
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+= Every School(user-service) REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+include::overview.adoc[]
+
+[[User-API]]
+== User API
+
+include::api/user/login-user.adoc[]
+include::api/user/create-user.adoc[]
+include::api/user/search-user-info.adoc[]
+include::api/user/forgot-email.adoc[]
+include::api/user/forgot-pwd.adoc[]
+include::api/user/edit-pwd.adoc[]
+include::api/user/delete-user.adoc[]
+
+[[Auth-API]]
+== Auth API
+
+include::api/auth/auth-email.adoc[]
+include::api/auth/auth-email-check.adoc[]
