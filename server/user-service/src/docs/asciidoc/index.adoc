@@ -14,6 +14,7 @@ include::overview.adoc[]
 [[User-API]]
 == User API
 
+include::api/user/login-user.adoc[]
 include::api/user/create-user.adoc[]
 include::api/user/search-user-info.adoc[]
 include::api/user/forgot-email.adoc[]
