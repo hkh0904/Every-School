@@ -1,6 +1,7 @@
 package com.everyschool.userservice.docs.user;
 
 import com.everyschool.userservice.api.controller.user.AuthController;
+import com.everyschool.userservice.api.controller.user.request.AuthEmailCheckRequest;
 import com.everyschool.userservice.api.controller.user.request.AuthEmailRequest;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,6 +47,45 @@ public class AuthControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("email").type(JsonFieldType.STRING)
                         .optional()
                         .description("계정 이메일")
+                ),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.NULL)
+                        .description("응답 데이터")
+                )
+            ));
+    }
+
+    @DisplayName("이메일 인증 체크 API")
+    @Test
+    void authEmailCheck() throws Exception {
+        AuthEmailCheckRequest request = AuthEmailCheckRequest.builder()
+            .email("ssafy@ssafy.com")
+            .authCode("qwer1234")
+            .build();
+
+        mockMvc.perform(
+                post("/auth/email/check")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("auth-email-check",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("email").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("계정 이메일"),
+                    fieldWithPath("authCode").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("인증 번호")
                 ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
