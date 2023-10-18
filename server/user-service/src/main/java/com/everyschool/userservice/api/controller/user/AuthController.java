@@ -1,10 +1,10 @@
 package com.everyschool.userservice.api.controller.user;
 
 import com.everyschool.userservice.api.ApiResponse;
+import com.everyschool.userservice.api.controller.user.request.AuthEmailRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    public ApiResponse<?> authEmail() {
-        return null;
+    @PostMapping("/email")
+    public ApiResponse<String> authEmail(@RequestBody AuthEmailRequest request) {
+        return ApiResponse.ok(null);
     }
 }
