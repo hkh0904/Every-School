@@ -1,0 +1,11 @@
+[[forgot-email]]
+=== 비밀번호 변경 API
+
+==== HTTP Request
+include::{snippets}/forgot-email/http-request.adoc[]
+include::{snippets}/forgot-email/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/forgot-email/http-response.adoc[]
+include::{snippets}/forgot-email/response-fields.adoc[]
