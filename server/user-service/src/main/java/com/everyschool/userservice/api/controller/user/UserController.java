@@ -3,6 +3,7 @@ package com.everyschool.userservice.api.controller.user;
 import com.everyschool.userservice.api.ApiResponse;
 import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
+import com.everyschool.userservice.api.controller.user.request.ForgotPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
@@ -43,8 +44,9 @@ public class UserController {
         return ApiResponse.ok(response);
     }
 
-    public ApiResponse<?> forgetPassword() {
-        return null;
+    @PostMapping("/forgot/pwd")
+    public ApiResponse<String> forgotPwd(@RequestBody ForgotPwdRequest request) {
+        return ApiResponse.ok(null);
     }
 
     @PutMapping("/{userKey}/pwd")
