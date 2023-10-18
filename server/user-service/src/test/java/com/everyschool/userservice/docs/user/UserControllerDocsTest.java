@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import java.util.UUID;
+
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -80,6 +83,40 @@ public class UserControllerDocsTest extends RestDocsSupport {
                         .description("회원 유형"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("가입 일시")
+                )
+            ));
+    }
+
+    @DisplayName("회원 탈퇴 API")
+    @Test
+    void withdrawal() throws Exception {
+        String userKey = UUID.randomUUID().toString();
+
+        mockMvc.perform(
+                delete("/{userKey}/withdrawal", userKey)
+                    .header("Authorization", "Bearer Token")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("delete-user",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.email").type(JsonFieldType.STRING)
+                        .description("계정 이메일"),
+                    fieldWithPath("data.name").type(JsonFieldType.STRING)
+                        .description("이름"),
+                    fieldWithPath("data.type").type(JsonFieldType.STRING)
+                        .description("회원 유형"),
+                    fieldWithPath("data.withdrawalDate").type(JsonFieldType.ARRAY)
+                        .description("탈퇴 일시")
                 )
             ));
     }
