@@ -1,6 +1,7 @@
 package com.everyschool.userservice.api.controller.user;
 
 import com.everyschool.userservice.api.ApiResponse;
+import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
@@ -42,8 +43,9 @@ public class UserController {
         return null;
     }
 
-    public ApiResponse<?> editPassword() {
-        return null;
+    @PutMapping("/{userKey}/pwd")
+    public ApiResponse<String> editPwd(@PathVariable String userKey, @RequestBody EditPwdRequest request) {
+        return ApiResponse.ok(null);
     }
 
     @DeleteMapping("/{userKey}/withdrawal")

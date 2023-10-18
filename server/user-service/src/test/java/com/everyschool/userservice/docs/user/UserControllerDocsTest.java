@@ -1,6 +1,7 @@
 package com.everyschool.userservice.docs.user;
 
 import com.everyschool.userservice.api.controller.user.UserController;
+import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,8 +13,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -83,6 +83,48 @@ public class UserControllerDocsTest extends RestDocsSupport {
                         .description("회원 유형"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("가입 일시")
+                )
+            ));
+    }
+
+    @DisplayName("비밀번호 변경 API")
+    @Test
+    void editPwd() throws Exception {
+        String userKey = UUID.randomUUID().toString();
+
+        EditPwdRequest request = EditPwdRequest.builder()
+            .currentPwd("ssafy1234@")
+            .newPwd("ssafy5678!")
+            .build();
+
+        mockMvc.perform(
+                put("/{userKey}/pwd", userKey)
+                    .header("Authorization", "Bearer Token")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("edit-pwd",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("currentPwd").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("현재 비밀번호"),
+                    fieldWithPath("newPwd").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("새 비밀번호")
+                ),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.NULL)
+                        .description("응답 데이터")
                 )
             ));
     }
