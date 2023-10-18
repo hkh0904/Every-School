@@ -1,0 +1,11 @@
+[[create-user]]
+=== 회원 가입
+
+==== HTTP Request
+include::{snippets}/create-user/http-request.adoc[]
+include::{snippets}/create-user/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-user/http-response.adoc[]
+include::{snippets}/create-user/response-fields.adoc[]
