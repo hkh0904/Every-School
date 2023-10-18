@@ -15,6 +15,7 @@ include::overview.adoc[]
 == User API
 
 include::api/user/create-user.adoc[]
+include::api/user/edit-pwd.adoc[]
 include::api/user/delete-user.adoc[]
 
 [[Auth-API]]
