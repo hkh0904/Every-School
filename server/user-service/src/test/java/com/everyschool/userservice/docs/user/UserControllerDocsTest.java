@@ -2,9 +2,9 @@ package com.everyschool.userservice.docs.user;
 
 import com.everyschool.userservice.api.controller.user.UserController;
 import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
+import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
 import com.everyschool.userservice.docs.RestDocsSupport;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -83,6 +83,45 @@ public class UserControllerDocsTest extends RestDocsSupport {
                         .description("회원 유형"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("가입 일시")
+                )
+            ));
+    }
+
+    @DisplayName("이메일 찾기 API")
+    @Test
+    void forgotEmail() throws Exception {
+        ForgotEmailRequest request = ForgotEmailRequest.builder()
+            .name("김싸피")
+            .birth("010101")
+            .build();
+
+        mockMvc.perform(
+                post("/forgot")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("forgot-email",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("name").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("이름"),
+                    fieldWithPath("birth").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("생년월일")
+                ),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.STRING)
+                        .description("응답 데이터")
                 )
             ));
     }

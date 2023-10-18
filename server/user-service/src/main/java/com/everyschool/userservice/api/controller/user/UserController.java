@@ -2,6 +2,7 @@ package com.everyschool.userservice.api.controller.user;
 
 import com.everyschool.userservice.api.ApiResponse;
 import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
+import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
@@ -35,8 +36,11 @@ public class UserController {
         return null;
     }
 
-    public ApiResponse<?> forgetEmail() {
-        return null;
+    @PostMapping("/forgot")
+    public ApiResponse<String> forgotEmail(@RequestBody ForgotEmailRequest request) {
+        String response = "ssa**@ssafy.com";
+
+        return ApiResponse.ok(response);
     }
 
     public ApiResponse<?> forgetPassword() {
