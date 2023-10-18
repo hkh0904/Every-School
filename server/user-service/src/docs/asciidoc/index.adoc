@@ -16,3 +16,8 @@ include::overview.adoc[]
 
 include::api/user/create-user.adoc[]
 include::api/user/delete-user.adoc[]
+
+[[Auth-API]]
+== Auth API
+
+include::api/auth/auth-email.adoc[]
