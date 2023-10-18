@@ -5,6 +5,7 @@ import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
 import com.everyschool.userservice.api.controller.user.request.ForgotPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
+import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,17 @@ public class UserController {
         return ApiResponse.created(response);
     }
 
-    public ApiResponse<?> createChild() {
-        return null;
+    @GetMapping("/{userKey}/info")
+    public ApiResponse<UserInfoResponse> searchUserInfo(@PathVariable String userKey) {
+        UserInfoResponse response = UserInfoResponse.builder()
+            .type("학생")
+            .email("ssafy@ssafy.com")
+            .name("김싸피")
+            .birth("010101")
+            .joinDate(LocalDateTime.now())
+            .build();
+
+        return ApiResponse.ok(response);
     }
 
     @PostMapping("/forgot")

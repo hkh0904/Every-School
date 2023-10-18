@@ -89,6 +89,41 @@ public class UserControllerDocsTest extends RestDocsSupport {
             ));
     }
 
+    @DisplayName("회원 정보 조회 API")
+    @Test
+    void searchUserInfo() throws Exception {
+        String userKey = UUID.randomUUID().toString();
+
+        mockMvc.perform(
+                get("/{userKey}/info", userKey)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-user-info",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.type").type(JsonFieldType.STRING)
+                        .description("회원 구분"),
+                    fieldWithPath("data.email").type(JsonFieldType.STRING)
+                        .description("계정 이메일"),
+                    fieldWithPath("data.name").type(JsonFieldType.STRING)
+                        .description("이름"),
+                    fieldWithPath("data.birth").type(JsonFieldType.STRING)
+                        .description("생년월일"),
+                    fieldWithPath("data.joinDate").type(JsonFieldType.ARRAY)
+                        .description("가입 일시")
+                )
+            ));
+    }
+
     @DisplayName("이메일 찾기 API")
     @Test
     void forgotEmail() throws Exception {
