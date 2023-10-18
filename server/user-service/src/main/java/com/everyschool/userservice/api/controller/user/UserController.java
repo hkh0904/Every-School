@@ -1,10 +1,14 @@
 package com.everyschool.userservice.api.controller.user;
 
 import com.everyschool.userservice.api.ApiResponse;
+import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
+import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @RestController
@@ -12,8 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class UserController {
 
-    public ApiResponse<?> join() {
-        return null;
+    @PostMapping("/join")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<?> join(@RequestBody JoinUserRequest request) {
+        UserResponse response = UserResponse.builder()
+            .email("ssafy@ssafy.com")
+            .name("김싸피")
+            .type("학생")
+            .createdDate(LocalDateTime.now())
+            .build();
+
+        return ApiResponse.created(response);
     }
 
     public ApiResponse<?> createChild() {
