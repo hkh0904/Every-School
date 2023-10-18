@@ -21,3 +21,4 @@ include::api/user/delete-user.adoc[]
 == Auth API
 
 include::api/auth/auth-email.adoc[]
+include::api/auth/auth-email-check.adoc[]
