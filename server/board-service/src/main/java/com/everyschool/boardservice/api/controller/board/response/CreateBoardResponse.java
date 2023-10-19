@@ -12,16 +12,16 @@ public class CreateBoardResponse {
     private String title;
     private String content;
     private int hit;
-    private Long categoryId;
+    private String categoryName;
     private LocalDateTime createdDate;
 
     @Builder
-    private CreateBoardResponse(String userName, String title, String content, int hit, Long categoryId, LocalDateTime createdDate) {
+    private CreateBoardResponse(String userName, String title, String content, int hit, String categoryName, LocalDateTime createdDate) {
         this.userName = userName;
         this.title = title;
         this.content = content;
         this.hit = hit;
-        this.categoryId = categoryId;
+        this.categoryName = categoryName;
         this.createdDate = createdDate;
     }
 }
