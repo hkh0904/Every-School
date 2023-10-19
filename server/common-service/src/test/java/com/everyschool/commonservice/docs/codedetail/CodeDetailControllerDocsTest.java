@@ -10,8 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -100,5 +99,35 @@ public class CodeDetailControllerDocsTest extends RestDocsSupport {
                         .description("상세 코드 이름")
                 )
             ));
+    }
+
+    @DisplayName("상세 코드 삭제 API")
+    @Test
+    void removeCodeDetail() throws Exception {
+        mockMvc.perform(
+            delete("/common-service/groups/{groupId}/codes/{codeId}", 1L, 11L)
+        )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("remove-code-detail",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.codeId").type(JsonFieldType.NUMBER)
+                        .description("상세 코드 PK"),
+                    fieldWithPath("data.name").type(JsonFieldType.STRING)
+                        .description("상세 코드 이름"),
+                    fieldWithPath("data.removedDate").type(JsonFieldType.ARRAY)
+                        .description("삭제 일시")
+                )
+            ));
+
     }
 }

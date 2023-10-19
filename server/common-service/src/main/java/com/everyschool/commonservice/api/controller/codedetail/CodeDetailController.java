@@ -5,6 +5,7 @@ import com.everyschool.commonservice.api.controller.codedetail.request.CreateCod
 import com.everyschool.commonservice.api.controller.codedetail.response.CodeDetailResponse;
 import com.everyschool.commonservice.api.controller.codedetail.response.CodeResponse;
 import com.everyschool.commonservice.api.controller.codedetail.response.CreateCodeDetailResponse;
+import com.everyschool.commonservice.api.controller.codedetail.response.RemoveCodeDetailResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -52,11 +53,14 @@ public class CodeDetailController {
         return ApiResponse.ok(response);
     }
 
-    public ApiResponse<?> editCodeDetail() {
-        return null;
-    }
+    @DeleteMapping("/{codeId}")
+    public ApiResponse<RemoveCodeDetailResponse> removeCodeDetail(@PathVariable Long groupId, @PathVariable Long codeId) {
+        RemoveCodeDetailResponse response = RemoveCodeDetailResponse.builder()
+            .codeId(11L)
+            .name("이사장")
+            .removedDate(LocalDateTime.now())
+            .build();
 
-    public ApiResponse<?> removeCodeDetail() {
-        return null;
+        return ApiResponse.ok(response);
     }
 }
