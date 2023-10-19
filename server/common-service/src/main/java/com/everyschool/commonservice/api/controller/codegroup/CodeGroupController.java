@@ -4,6 +4,7 @@ import com.everyschool.commonservice.api.ApiResponse;
 import com.everyschool.commonservice.api.controller.codegroup.request.CreateCodeGroupRequest;
 import com.everyschool.commonservice.api.controller.codegroup.response.CodeGroupResponse;
 import com.everyschool.commonservice.api.controller.codegroup.response.CreateCodeGroupResponse;
+import com.everyschool.commonservice.api.controller.codegroup.response.RemoveCodeGroupResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,11 +46,14 @@ public class CodeGroupController {
         return ApiResponse.ok(responses);
     }
 
-    public ApiResponse<?> editCodeGroup() {
-        return null;
-    }
+    @DeleteMapping("/{groupId}")
+    public ApiResponse<RemoveCodeGroupResponse> removeCodeGroup(@PathVariable Long groupId) {
+        RemoveCodeGroupResponse response = RemoveCodeGroupResponse.builder()
+            .groupId(1L)
+            .name("직책")
+            .removedDate(LocalDateTime.now())
+            .build();
 
-    public ApiResponse<?> removeCodeGroup() {
-        return null;
+        return ApiResponse.ok(response);
     }
 }
