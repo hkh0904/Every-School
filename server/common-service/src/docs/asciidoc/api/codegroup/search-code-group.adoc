@@ -1,0 +1,10 @@
+[[search-code-group]]
+=== 코드 그룹 목록 조회 API
+
+==== HTTP Request
+include::{snippets}/search-code-group/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-code-group/http-response.adoc[]
+include::{snippets}/search-code-group/response-fields.adoc[]
