@@ -22,3 +22,4 @@ include::api/codegroup/remove-code-group.adoc[]
 == Code Detail API
 
 include::api/codedetail/create-code-detail.adoc[]
+include::api/codedetail/search-code-detail.adoc[]
