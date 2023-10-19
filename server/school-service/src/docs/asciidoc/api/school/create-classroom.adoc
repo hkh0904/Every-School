@@ -1,0 +1,11 @@
+[[create-classroom]]
+=== 학급 등록 API
+
+==== HTTP Request
+include::{snippets}/create-classroom/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-classroom/http-response.adoc[]
+include::{snippets}/create-classroom/response-fields.adoc[]
+

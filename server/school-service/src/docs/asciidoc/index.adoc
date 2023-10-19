@@ -1,7 +1,7 @@
 ifndef::snippets[]
 :snippets: ../../build/generated-snippets
 endif::[]
-= Every School(user-service) REST API 문서
+= Every School(school-service) REST API 문서
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -14,5 +14,7 @@ include::overview.adoc[]
 [[School-API]]
 == School API
 
-include::api/school/search-school.adoc[]
+include::api/school/search-schools.adoc[]
+include::api/school/search-one-school.adoc[]
+include::api/school/create-classroom.adoc[]
 
