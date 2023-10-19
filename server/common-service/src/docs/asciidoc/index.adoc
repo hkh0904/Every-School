@@ -16,3 +16,4 @@ include::overview.adoc[]
 
 include::api/codegroup/create-code-group.adoc[]
 include::api/codegroup/search-code-group.adoc[]
+include::api/codegroup/remove-code-group.adoc[]
