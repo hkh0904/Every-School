@@ -23,3 +23,4 @@ include::api/codegroup/remove-code-group.adoc[]
 
 include::api/codedetail/create-code-detail.adoc[]
 include::api/codedetail/search-code-detail.adoc[]
+include::api/codedetail/remove-code-detail.adoc[]
