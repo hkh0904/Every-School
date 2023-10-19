@@ -11,9 +11,12 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -81,6 +84,41 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                         .description("카테고리 이름"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일시")
+                )
+            ));
+    }
+
+    @DisplayName("교내 공지 목록 조회 API")
+    @Test
+    void searchBoards() throws Exception {
+
+        mockMvc.perform(
+                get("/board-service/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
+                    .param("limit", "4")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-board-list",
+                preprocessResponse(prettyPrint()),
+                requestParameters(
+                    parameterWithName("limit")
+                        .description("출력할 목록 수")
+                ),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                        .description("응답 데이터"),
+                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
+                        .description("교내 공지 PK"),
+                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
+                        .description("교내 공지 제목"),
+                    fieldWithPath("data[].createDate").type(JsonFieldType.STRING)
+                        .description("교내 공지 작성일")
                 )
             ));
     }

@@ -1,0 +1,11 @@
+[[search-board-list]]
+=== 게시글 작성 API
+
+==== HTTP Request
+include::{snippets}/search-board-list/http-request.adoc[]
+include::{snippets}/search-board-list/request-parameters.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-board-list/http-response.adoc[]
+include::{snippets}/search-board-list/response-fields.adoc[]
