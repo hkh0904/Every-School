@@ -38,19 +38,17 @@ public class SchoolControllerDocsTest extends RestDocsSupport {
                             .description("상태"),
                     fieldWithPath("message").type(JsonFieldType.STRING)
                             .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
                             .description("응답 데이터"),
-                    fieldWithPath("data.name").type(JsonFieldType.STRING)
+                    fieldWithPath("data[].name").type(JsonFieldType.STRING)
                             .description("학교 이름"),
-                    fieldWithPath("data.address").type(JsonFieldType.STRING)
+                    fieldWithPath("data[].address").type(JsonFieldType.STRING)
                             .description("학교 주소"),
-                    fieldWithPath("data.url").type(JsonFieldType.STRING)
+                    fieldWithPath("data[].url").type(JsonFieldType.STRING)
                             .description("학교 홈페이지 주소"),
-                    fieldWithPath("data.tel").type(JsonFieldType.STRING)
+                    fieldWithPath("data[].tel").type(JsonFieldType.STRING)
                             .description("확교 전화번호")
                 )
             ));
-
-
     }
 }
