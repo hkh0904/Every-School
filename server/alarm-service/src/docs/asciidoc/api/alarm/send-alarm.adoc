@@ -1,0 +1,11 @@
+[[send-alarm]]
+=== 사용자 알림 전송 API
+
+==== HTTP Request
+include::{snippets}/send-alarm/http-request.adoc[]
+include::{snippets}/send-alarm/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/send-alarm/http-response.adoc[]
+include::{snippets}/send-alarm/response-fields.adoc[]
