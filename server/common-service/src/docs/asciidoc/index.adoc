@@ -15,3 +15,4 @@ include::overview.adoc[]
 == Code Group API
 
 include::api/codegroup/create-code-group.adoc[]
+include::api/codegroup/search-code-group.adoc[]
