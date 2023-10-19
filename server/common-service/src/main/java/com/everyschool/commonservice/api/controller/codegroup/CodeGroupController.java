@@ -1,10 +1,14 @@
 package com.everyschool.commonservice.api.controller.codegroup;
 
 import com.everyschool.commonservice.api.ApiResponse;
+import com.everyschool.commonservice.api.controller.codegroup.request.CreateCodeGroupRequest;
+import com.everyschool.commonservice.api.controller.codegroup.response.CreateCodeGroupResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @RestController
@@ -12,8 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/common-service/groups")
 public class CodeGroupController {
 
-    public ApiResponse<?> createCodeGroup() {
-        return null;
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<CreateCodeGroupResponse> createCodeGroup(@RequestBody CreateCodeGroupRequest request) {
+        CreateCodeGroupResponse response = CreateCodeGroupResponse.builder()
+            .groupId(1L)
+            .name("직책")
+            .createdDate(LocalDateTime.now())
+            .build();
+
+        return ApiResponse.created(response);
     }
 
     public ApiResponse<?> searchCodeGroups() {
