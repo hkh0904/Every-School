@@ -1,0 +1,11 @@
+[[create-board]]
+=== 게시글 작성 API
+
+==== HTTP Request
+include::{snippets}/create-board/http-request.adoc[]
+include::{snippets}/create-board/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-board/http-response.adoc[]
+include::{snippets}/create-board/response-fields.adoc[]
