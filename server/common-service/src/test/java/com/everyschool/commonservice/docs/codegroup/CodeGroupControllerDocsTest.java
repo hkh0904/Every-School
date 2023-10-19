@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -61,6 +62,33 @@ public class CodeGroupControllerDocsTest extends RestDocsSupport {
                         .description("코드 그룹 이름"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("등록 일시")
+                )
+            ));
+    }
+
+    @DisplayName("코드 그룹 목록 조회 API")
+    @Test
+    void searchCodeGroups() throws Exception {
+        mockMvc.perform(
+            get("/common-service/groups")
+        )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-code-group",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                        .description("응답 데이터"),
+                    fieldWithPath("data[].groupId").type(JsonFieldType.NUMBER)
+                        .description("코드 그룹 PK"),
+                    fieldWithPath("data[].name").type(JsonFieldType.STRING)
+                        .description("코드 그룹 이름")
                 )
             ));
     }
