@@ -13,3 +13,5 @@ include::overview.adoc[]
 
 [[Alarm-API]]
 == Alarm API
+
+include::api/alarm/send-alarm.adoc[]
