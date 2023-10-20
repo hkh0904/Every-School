@@ -15,3 +15,5 @@ include::overview.adoc[]
 == Board API
 
 include::api/board/create-board.adoc[]
+include::api/board/search-board-list.adoc[]
+include::api/board/search-board.adoc[]
