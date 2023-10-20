@@ -3,7 +3,7 @@
 
 ==== HTTP Request
 
-include::delete-board-request.adoc[]
+include::request/delete-board-request.adoc[]
 include::{snippets}/delete-board/http-request.adoc[]
 
 ==== HTTP Response
