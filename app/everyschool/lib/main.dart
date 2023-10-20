@@ -1,3 +1,4 @@
+import 'package:everyschool/home/home.dart';
 import 'package:everyschool/main/btmnav.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
@@ -35,7 +36,7 @@ class _MainState extends State<Main> {
   final List<Widget> pages = [
     Center(child: Text('신고')),
     Center(child: Text('연락처')),
-    Center(child: Text('홈')),
+    Home(),
     Center(child: Text('메세지')),
     Center(child: Text('커뮤니티')),
   ];
