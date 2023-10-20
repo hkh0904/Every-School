@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -32,12 +33,13 @@ public class BoardControllerDocsTest extends RestDocsSupport {
             .schoolId(1L)
             .classId(1L)
             .useComment(false)
+            .uploadFiles(new ArrayList<>())
             .build();
 
         mockMvc.perform(
                 post("/board-service/boards/{userKey}", UUID.randomUUID().toString())
                     .content(objectMapper.writeValueAsString(request))
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
             .andExpect(status().isCreated())
@@ -61,7 +63,9 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                         .description("학급 코드"),
                     fieldWithPath("useComment").type(JsonFieldType.BOOLEAN)
                         .optional()
-                        .description("댓글 사용 여부")
+                        .description("댓글 사용 여부"),
+                    fieldWithPath("uploadFiles").type(JsonFieldType.ARRAY)
+                        .description("이미지나 파일")
                 ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -83,7 +87,9 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("data.categoryName").type(JsonFieldType.STRING)
                         .description("카테고리 이름"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
-                        .description("게시글 작성일시")
+                        .description("게시글 작성일시"),
+                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
+                        .description("이미지")
                 )
             ));
     }
@@ -155,7 +161,9 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("data.userName").type(JsonFieldType.STRING)
                         .description("작성자"),
                     fieldWithPath("data.createDate").type(JsonFieldType.STRING)
-                        .description("교내 공지 작성일")
+                        .description("교내 공지 작성일"),
+                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
+                        .description("파일들")
                 )
             ));
     }
