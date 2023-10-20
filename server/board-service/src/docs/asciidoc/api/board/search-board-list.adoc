@@ -2,6 +2,7 @@
 === 게시글 작성 API
 
 ==== HTTP Request
+include::search-board-list-request.adoc[]
 include::{snippets}/search-board-list/http-request.adoc[]
 include::{snippets}/search-board-list/request-parameters.adoc[]
 
