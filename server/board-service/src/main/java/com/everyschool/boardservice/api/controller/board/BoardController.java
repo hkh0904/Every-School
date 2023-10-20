@@ -35,6 +35,7 @@ public class BoardController {
             .content("학교 쉬어요~")
             .hit(0)
             .categoryName("교내 공지 공지")
+            .categoryId(1L)
             .createdDate(LocalDateTime.of(2023, 10, 15, 10, 30))
             .uploadFiles(uploadFile)
             .build();
@@ -72,6 +73,25 @@ public class BoardController {
                                                   @PathVariable String boardId) {
         // TODO: 2023-10-19 교내 공지 상세 조회
         //  학교 키로 공지글만 가져오기 
+        BoardResponse response = BoardResponse.builder()
+            .boardId(2L)
+            .title("수업시간 외 학교 체육관 사용에 관한 공지")
+            .content("사용 명부를 작성한 사람만 사용 가능")
+            .userName("오체육")
+            .createDate("2023.10.10 14:20")
+            .uploadFiles(new ArrayList<>())
+            .build();
+        return ApiResponse.ok(response);
+    }
+
+    @PatchMapping("/{schoolId}/{userKey}/{boardId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<BoardResponse> editBoard(@PathVariable Long schoolId,
+                                                @PathVariable String userKey,
+                                                @PathVariable String boardId,
+                                                @Valid EditBoardRequest request) {
+        // TODO: 2023-10-19 교내 공지 상세 조회
+        //  학교 키로 공지글만 가져오기
         BoardResponse response = BoardResponse.builder()
             .boardId(2L)
             .title("수업시간 외 학교 체육관 사용에 관한 공지")

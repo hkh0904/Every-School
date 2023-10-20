@@ -15,16 +15,18 @@ public class CreateBoardResponse {
     private String content;
     private int hit;
     private String categoryName;
+    private Long categoryId;
     private LocalDateTime createdDate;
     private List<MultipartFile> uploadFiles;
 
     @Builder
-    private CreateBoardResponse(String userName, String title, String content, int hit, String categoryName, LocalDateTime createdDate, List<MultipartFile> uploadFiles) {
+    private CreateBoardResponse(String userName, String title, String content, int hit, String categoryName, Long categoryId, LocalDateTime createdDate, List<MultipartFile> uploadFiles) {
         this.userName = userName;
         this.title = title;
         this.content = content;
         this.hit = hit;
         this.categoryName = categoryName;
+        this.categoryId = categoryId;
         this.createdDate = createdDate;
         this.uploadFiles = uploadFiles;
     }
