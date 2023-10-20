@@ -5,18 +5,16 @@ import com.everyschool.userservice.domain.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 @Getter
+@Table(name = "`user`")
 public class User extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -29,7 +27,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, updatable = false, length = 20)
     private String name;
 
-    @Column(nullable = false, updatable = false, length = 8)
+    @Column(nullable = false, updatable = false, length = 10)
     private String birth;
 
     @Column(unique = true, nullable = false, length = 36)
@@ -45,6 +43,7 @@ public class User extends BaseEntity {
 
     @Builder
     private User(String email, String pwd, String name, String birth, int userCodeId) {
+        this();
         this.email = email;
         this.pwd = pwd;
         this.name = name;
