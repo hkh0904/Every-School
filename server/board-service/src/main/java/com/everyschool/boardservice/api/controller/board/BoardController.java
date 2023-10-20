@@ -3,6 +3,7 @@ package com.everyschool.boardservice.api.controller.board;
 import com.everyschool.boardservice.api.ApiResponse;
 import com.everyschool.boardservice.api.controller.board.request.CreateBoardRequest;
 import com.everyschool.boardservice.api.controller.board.response.BoardListResponse;
+import com.everyschool.boardservice.api.controller.board.response.BoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.CreateBoardResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,8 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<List<BoardListResponse>> searchBoards(@PathVariable Long schoolId,
                                                              @PathVariable String userKey,
-                                                             @RequestParam Integer limit
+                                                             @RequestParam Integer limit,
+                                                             @RequestParam Long categoryId
     ) {
         // TODO: 2023-10-19 교내 공지 목록 조회
 
@@ -56,5 +58,22 @@ public class BoardController {
 
         List<BoardListResponse> responseList = List.of(response1, response2);
         return ApiResponse.ok(responseList);
+    }
+
+    @GetMapping("/{schoolId}/{userKey}/{boardId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<BoardResponse> searchBoard(@PathVariable Long schoolId,
+                                                  @PathVariable String userKey,
+                                                  @PathVariable String boardId) {
+        // TODO: 2023-10-19 교내 공지 상세 조회
+        //  학교 키로 공지글만 가져오기 
+        BoardResponse response = BoardResponse.builder()
+            .boardId(2L)
+            .title("수업시간 외 학교 체육관 사용에 관한 공지")
+            .content("사용 명부를 작성한 사람만 사용 가능")
+            .userName("오체육")
+            .createDate("2023.10.10 14:20")
+            .build();
+        return ApiResponse.ok(response);
     }
 }

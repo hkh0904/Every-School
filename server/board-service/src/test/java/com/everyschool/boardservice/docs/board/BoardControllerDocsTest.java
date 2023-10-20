@@ -95,6 +95,7 @@ public class BoardControllerDocsTest extends RestDocsSupport {
         mockMvc.perform(
                 get("/board-service/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
                     .param("limit", "4")
+                    .param("categoryId", "1")
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -102,7 +103,9 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                 preprocessResponse(prettyPrint()),
                 requestParameters(
                     parameterWithName("limit")
-                        .description("출력할 목록 수")
+                        .description("출력할 목록 수"),
+                    parameterWithName("categoryId")
+                        .description("카테고리 코드")
                 ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -118,6 +121,40 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("data[].title").type(JsonFieldType.STRING)
                         .description("교내 공지 제목"),
                     fieldWithPath("data[].createDate").type(JsonFieldType.STRING)
+                        .description("교내 공지 작성일")
+                )
+            ));
+    }
+
+    @DisplayName("교내 공지 상세 조회 API")
+    @Test
+    void searchBoard() throws Exception {
+
+        mockMvc.perform(
+                get("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-board",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
+                        .description("교내 공지 PK"),
+                    fieldWithPath("data.title").type(JsonFieldType.STRING)
+                        .description("교내 공지 제목"),
+                    fieldWithPath("data.content").type(JsonFieldType.STRING)
+                        .description("교내 공지 내용"),
+                    fieldWithPath("data.userName").type(JsonFieldType.STRING)
+                        .description("작성자"),
+                    fieldWithPath("data.createDate").type(JsonFieldType.STRING)
                         .description("교내 공지 작성일")
                 )
             ));
