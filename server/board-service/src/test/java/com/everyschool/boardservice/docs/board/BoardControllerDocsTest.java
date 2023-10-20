@@ -86,10 +86,12 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                         .description("조회수"),
                     fieldWithPath("data.categoryName").type(JsonFieldType.STRING)
                         .description("카테고리 이름"),
+                    fieldWithPath("data.categoryId").type(JsonFieldType.NUMBER)
+                        .description("카테고리 코드"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일시"),
-                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
-                        .description("이미지")
+                    fieldWithPath("data.uploadFileNum").type(JsonFieldType.NUMBER)
+                        .description("이미지 수")
                 )
             ));
     }

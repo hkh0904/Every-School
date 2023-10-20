@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -28,7 +27,6 @@ public class BoardController {
     public ApiResponse<CreateBoardResponse> createBoard(@Valid CreateBoardRequest request,
                                                         @PathVariable String userKey) {
         // TODO: 2023-10-19 교내 공지 작성
-        List<MultipartFile> uploadFile = new ArrayList<>();
         CreateBoardResponse response = CreateBoardResponse.builder()
             .userName("김선생")
             .title("개교 기념일 안내")
@@ -37,7 +35,7 @@ public class BoardController {
             .categoryName("교내 공지 공지")
             .categoryId(1L)
             .createdDate(LocalDateTime.of(2023, 10, 15, 10, 30))
-            .uploadFiles(uploadFile)
+            .uploadFileNum(2)
             .build();
         return ApiResponse.created(response);
     }
@@ -90,7 +88,7 @@ public class BoardController {
                                                 @PathVariable String userKey,
                                                 @PathVariable String boardId,
                                                 @Valid EditBoardRequest request) {
-        // TODO: 2023-10-19 교내 공지 상세 조회
+        // TODO: 2023-10-19 교내 공지 수정
         //  학교 키로 공지글만 가져오기
         BoardResponse response = BoardResponse.builder()
             .boardId(2L)
@@ -105,8 +103,8 @@ public class BoardController {
 
     @DeleteMapping("/{schoolId}/{userKey}/{boardId}")
     public ApiResponse<String> deleteBoard(@PathVariable Long schoolId,
-                                         @PathVariable String userKey,
-                                         @PathVariable String boardId) {
+                                           @PathVariable String userKey,
+                                           @PathVariable String boardId) {
         // TODO: 2023-10-19 교내 공지글 삭제
         return ApiResponse.ok("삭제되었습니다.");
     }
