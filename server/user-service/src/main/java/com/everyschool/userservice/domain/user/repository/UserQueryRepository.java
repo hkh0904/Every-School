@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
+import static com.everyschool.userservice.domain.user.QUser.user;
+
 @Repository
 public class UserQueryRepository {
 
@@ -15,6 +17,11 @@ public class UserQueryRepository {
     }
 
     public boolean existEmail(String email) {
-        return false;
+        Long result = queryFactory
+            .select(user.id)
+            .from(user)
+            .where(user.email.eq(email))
+            .fetchFirst();
+        return result != null;
     }
 }
