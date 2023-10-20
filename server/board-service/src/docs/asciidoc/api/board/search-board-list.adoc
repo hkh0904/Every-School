@@ -1,5 +1,5 @@
 [[search-board-list]]
-=== 게시글 작성 API
+=== 교내 공지 목록 조회 API
 
 ==== HTTP Request
 include::search-board-list-request.adoc[]
