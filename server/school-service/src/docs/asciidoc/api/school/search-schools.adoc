@@ -1,11 +1,11 @@
 [[search-schools]]
 === 학교 리스트 조회 API
 
-// ==== HTTP Request
-// include::{snippets}/search-schools/http-request.adoc[]
-//
-//
-// ==== HTTP Response
-// include::{snippets}/search-schools/http-response.adoc[]
-// include::{snippets}/search-schools/response-fields.adoc[]
-//
+==== HTTP Request
+include::{snippets}/search-schools/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-schools/http-response.adoc[]
+include::{snippets}/search-schools/response-fields.adoc[]
+

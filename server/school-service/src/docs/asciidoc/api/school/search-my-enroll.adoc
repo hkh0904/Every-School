@@ -1,0 +1,11 @@
+[[search-my-enroll]]
+=== 내 등록 요청 조회 API
+
+==== HTTP Request
+include::{snippets}/search-my-enroll/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-my-enroll/http-response.adoc[]
+include::{snippets}/search-my-enroll/response-fields.adoc[]
+

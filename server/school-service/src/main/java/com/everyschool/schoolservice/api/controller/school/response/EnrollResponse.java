@@ -1,4 +1,4 @@
-package com.everyschool.schoolservice.api.controller.enroll.response;
+package com.everyschool.schoolservice.api.controller.school.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

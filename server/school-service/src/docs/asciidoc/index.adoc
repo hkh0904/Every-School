@@ -17,4 +17,7 @@ include::overview.adoc[]
 include::api/school/search-schools.adoc[]
 include::api/school/search-one-school.adoc[]
 include::api/school/create-classroom.adoc[]
+include::api/school/enroll-class.adoc[]
+include::api/school/search-my-enroll.adoc[]
+include::api/school/search-enroll-list.adoc[]
 

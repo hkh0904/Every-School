@@ -1,4 +1,4 @@
-package com.everyschool.schoolservice.api.controller.enroll.request;
+package com.everyschool.schoolservice.api.controller.school.request;
 
 import lombok.Builder;
 import lombok.Data;
@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class EnrollRequest {
+    private char type;
+
     private String schoolName;
     private String name;
     private int grade;
     private int classNum;
     private int year;
-    private char type;
+
 
 
     @Builder
