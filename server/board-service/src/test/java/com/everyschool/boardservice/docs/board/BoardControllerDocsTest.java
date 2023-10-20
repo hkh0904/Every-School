@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -224,6 +222,30 @@ public class BoardControllerDocsTest extends RestDocsSupport {
                         .description("교내 공지 작성일"),
                     fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
                         .description("파일들")
+                )
+            ));
+    }
+
+    @DisplayName("교내 공지 삭제 API")
+    @Test
+    void deleteBoard() throws Exception {
+
+        mockMvc.perform(
+                delete("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("delete-board",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.STRING)
+                        .description("삭제 결과")
                 )
             ));
     }

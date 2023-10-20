@@ -102,4 +102,12 @@ public class BoardController {
             .build();
         return ApiResponse.ok(response);
     }
+
+    @DeleteMapping("/{schoolId}/{userKey}/{boardId}")
+    public ApiResponse<String> deleteBoard(@PathVariable Long schoolId,
+                                         @PathVariable String userKey,
+                                         @PathVariable String boardId) {
+        // TODO: 2023-10-19 교내 공지글 삭제
+        return ApiResponse.ok("삭제되었습니다.");
+    }
 }
