@@ -1,5 +1,6 @@
 package com.everyschool.userservice.api.controller.user.request;
 
+import com.everyschool.userservice.api.service.user.dto.CreateUserDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,5 +39,15 @@ public class JoinUserRequest {
         this.password = password;
         this.name = name;
         this.birth = birth;
+    }
+
+    public CreateUserDto toDto() {
+        return CreateUserDto.builder()
+            .userCodeId(this.userCode)
+            .email(this.email)
+            .pwd(this.password)
+            .name(this.name)
+            .birth(this.birth)
+            .build();
     }
 }
