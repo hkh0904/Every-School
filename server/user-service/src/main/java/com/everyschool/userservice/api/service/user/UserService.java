@@ -23,14 +23,17 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     public UserResponse createUser(CreateUserDto dto) {
-        boolean isExistEmail = userQueryRepository.existEmail(dto.getEmail());
-        if (isExistEmail) {
-            throw new DuplicateException("이미 사용 중인 이메일 입니다.");
-        }
+        emailDuplicateValidation(dto);
 
         String userKey = UUID.randomUUID().toString();
         String encodedPwd = passwordEncoder.encode(dto.getPwd());
 
+        User savedUser = insertUser(dto, encodedPwd, userKey);
+
+        return UserResponse.of(savedUser);
+    }
+
+    private User insertUser(CreateUserDto dto, String encodedPwd, String userKey) {
         User user = User.builder()
             .email(dto.getEmail())
             .pwd(encodedPwd)
@@ -40,8 +43,13 @@ public class UserService {
             .userCodeId(dto.getUserCodeId())
             .build();
 
-        User savedUser = userRepository.save(user);
+        return userRepository.save(user);
+    }
 
-        return UserResponse.of(savedUser);
+    private void emailDuplicateValidation(CreateUserDto dto) {
+        boolean isExistEmail = userQueryRepository.existEmail(dto.getEmail());
+        if (isExistEmail) {
+            throw new DuplicateException("이미 사용 중인 이메일 입니다.");
+        }
     }
 }
