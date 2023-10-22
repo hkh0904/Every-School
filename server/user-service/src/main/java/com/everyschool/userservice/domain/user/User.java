@@ -38,16 +38,16 @@ public class User extends BaseEntity {
 
     protected User() {
         super();
-        this.userKey = UUID.randomUUID().toString();
     }
 
     @Builder
-    private User(String email, String pwd, String name, String birth, int userCodeId) {
+    private User(String email, String pwd, String name, String birth, String userKey, int userCodeId) {
         this();
         this.email = email;
         this.pwd = pwd;
         this.name = name;
         this.birth = birth;
+        this.userKey = userKey;
         this.userCodeId = userCodeId;
     }
 }

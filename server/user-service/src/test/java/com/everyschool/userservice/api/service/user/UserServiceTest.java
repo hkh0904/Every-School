@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.*;
 
 class UserServiceTest extends IntegrationTestSupport {
@@ -70,6 +72,7 @@ class UserServiceTest extends IntegrationTestSupport {
             .pwd(passwordEncoder.encode("ssafy1234@"))
             .name("김싸피")
             .birth("2001-01-01")
+            .userKey(UUID.randomUUID().toString())
             .userCodeId(1)
             .build();
         return userRepository.save(user);
