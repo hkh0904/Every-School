@@ -1,6 +1,5 @@
 .MainPage {
   display: flex;
-  color: white;
 }
 
 
@@ -9,6 +8,7 @@
   background-color: #15075F;
   min-height: calc(100vh - 60px);
   border-top: 0.5px solid #868E96;
+  color: white;
 }
 
 .teacherInfo {

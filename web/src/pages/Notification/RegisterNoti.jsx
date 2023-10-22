@@ -1,9 +1,9 @@
-function RegisterNoti(){
-  return(
-    <div>
-      <p>아니왜안뜨냐니까아아아가</p>
-    </div>
-  );
+import React from 'react'
+
+const RegisterNoti = () => {
+  return (
+    <div>RegisterNoti</div>
+  )
 }
 
 export default RegisterNoti
