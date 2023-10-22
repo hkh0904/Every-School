@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 
+/**
+ * 회원 API
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -25,6 +30,12 @@ public class UserController {
 
     private final UserService userService;
 
+    /**
+     * 회원 가입 API
+     *
+     * @param request 회원 가입시 필요한 회원 정보
+     * @return 가입에 성공한 회원의 기본 정보
+     */
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<UserResponse> join(@Valid @RequestBody JoinUserRequest request) {
