@@ -1,7 +1,19 @@
 import React from 'react';
+import styles from './NavBar.module.css';
 
-const NavBar = () => {
-  return <div>NavBar</div>;
+function NavBar() {
+  return (
+    <div className={styles.navbar}>
+      <div className={styles.logo}>
+        <img src="assets/main/logo.png" alt="" />
+        <img src="assets/main/logo_text.png" alt="" />
+      </div>
+      <div className={styles.menu}>
+        <p>알림</p>
+        <p>로그아웃</p>
+      </div>
+    </div>
+  );
 };
 
 export default NavBar;
