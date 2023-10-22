@@ -25,4 +25,19 @@ public class AuthService {
 
         operations.set(message.getTo(), authNumber, 3, TimeUnit.MINUTES);
     }
+
+    public void checkEmailAuthNumber(String email, String authNumber) {
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        String storedAuthNumber = operations.get(email);
+
+        if (storedAuthNumber == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!storedAuthNumber.equals(authNumber)) {
+            throw new IllegalArgumentException();
+        }
+
+        redisTemplate.delete(email);
+    }
 }
