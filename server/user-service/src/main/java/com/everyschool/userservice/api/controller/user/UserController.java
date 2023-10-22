@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class UserController {
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserResponse> join(@RequestBody JoinUserRequest request) {
+    public ApiResponse<UserResponse> join(@Valid @RequestBody JoinUserRequest request) {
         UserResponse response = UserResponse.builder()
             .email("ssafy@ssafy.com")
             .name("김싸피")
