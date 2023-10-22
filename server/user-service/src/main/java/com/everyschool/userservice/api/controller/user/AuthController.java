@@ -29,6 +29,8 @@ public class AuthController {
 
     @PostMapping("/email/check")
     public ApiResponse<String> authEmailCheck(@RequestBody AuthEmailCheckRequest request) {
-        return ApiResponse.ok(null);
+        authService.checkEmailAuthNumber(request.getEmail(), request.getAuthCode());
+
+        return ApiResponse.of(HttpStatus.OK, "인증 번호 일치", null);
     }
 }
