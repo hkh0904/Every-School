@@ -2,6 +2,7 @@ package com.everyschool.userservice.docs.codegroup;
 
 import com.everyschool.userservice.api.controller.codegroup.CodeGroupController;
 import com.everyschool.userservice.api.controller.codegroup.request.CreateCodeGroupRequest;
+import com.everyschool.userservice.api.controller.codegroup.response.CreateCodeGroupResponse;
 import com.everyschool.userservice.api.service.codegroup.CodeGroupService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import java.time.LocalDateTime;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -34,6 +39,15 @@ public class CodeGroupControllerDocsTest extends RestDocsSupport {
         CreateCodeGroupRequest request = CreateCodeGroupRequest.builder()
             .groupName("직책")
             .build();
+
+        CreateCodeGroupResponse response = CreateCodeGroupResponse.builder()
+            .groupId(1)
+            .groupName("직책")
+            .createdDate(LocalDateTime.now())
+            .build();
+
+        given(codeGroupService.createCodeGroup(anyString()))
+            .willReturn(response);
 
         mockMvc.perform(
             post("/code-groups")
