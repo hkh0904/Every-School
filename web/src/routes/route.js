@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import MainPage from '../pages/MainPage/MainPage';
-import RegisterNoti from '../pages/Notification/RegisterNoti';
+import RegisterNotiPage from '../pages/Notification/RegisterNotiPage';
+import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 
 function RouteLink() {
   // const { currentUser } = useContext(AuthContext);
@@ -27,7 +28,8 @@ function RouteLink() {
 
         {/* 로그인으로 보호받는 주소 */}
         <Route path="/" element={<MainPage />}>
-          <Route path='docs/register-noti' element={<RegisterNoti/>}/>
+          <Route path='docs/register-noti' element={<RegisterNotiPage/>}/>
+          <Route path='docs/register-payment' element={<RegisterPayPage/>}/>
         </Route>
         {/* <Route Component={PrivateRouter}>
           <Route path="/mypage/:id" element={<Mypage />} />

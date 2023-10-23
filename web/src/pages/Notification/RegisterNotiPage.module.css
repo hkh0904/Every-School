@@ -37,3 +37,18 @@
 .selectBox > div:nth-child(2) {
   flex: 2;
 }
+
+.register {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+
+.register > p {
+  color: #4A5056;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
