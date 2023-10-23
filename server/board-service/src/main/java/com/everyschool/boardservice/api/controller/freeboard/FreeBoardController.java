@@ -1,8 +1,6 @@
 package com.everyschool.boardservice.api.controller.freeboard;
 
 import com.everyschool.boardservice.api.ApiResponse;
-import com.everyschool.boardservice.api.controller.board.request.EditBoardRequest;
-import com.everyschool.boardservice.api.controller.board.response.BoardResponse;
 import com.everyschool.boardservice.api.controller.freeboard.request.CreateFreeBoardRequest;
 import com.everyschool.boardservice.api.controller.freeboard.request.EditFreeBoardRequest;
 import com.everyschool.boardservice.api.controller.freeboard.response.CommentResponse;
@@ -122,9 +120,9 @@ public class FreeBoardController {
     @PatchMapping("/{schoolId}/{userKey}/{boardId}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<FreeBoardResponse> editFreeBoard(@PathVariable Long schoolId,
-                                                @PathVariable String userKey,
-                                                @PathVariable String boardId,
-                                                @Valid EditFreeBoardRequest request) {
+                                                        @PathVariable String userKey,
+                                                        @PathVariable String boardId,
+                                                        @Valid EditFreeBoardRequest request) {
         // TODO: 2023-10-19 자유게시판 게시글 수정
         //  학교 키로 공지글만 가져오기
         CommentResponse reComment1 = CommentResponse.builder()
@@ -172,11 +170,11 @@ public class FreeBoardController {
         return ApiResponse.ok(response);
     }
 
-//    @DeleteMapping("/{schoolId}/{userKey}/{boardId}")
-//    public ApiResponse<String> deleteBoard(@PathVariable Long schoolId,
-//                                           @PathVariable String userKey,
-//                                           @PathVariable String boardId) {
-//        // TODO: 2023-10-19 자유게시판 게시글 삭제
-//        return ApiResponse.ok("삭제되었습니다.");
-//    }
+    @DeleteMapping("/{schoolId}/{userKey}/{boardId}")
+    public ApiResponse<String> deleteFreeBoard(@PathVariable Long schoolId,
+                                               @PathVariable String userKey,
+                                               @PathVariable String boardId) {
+        // TODO: 2023-10-19 자유게시판 게시글 삭제
+        return ApiResponse.ok("삭제되었습니다.");
+    }
 }

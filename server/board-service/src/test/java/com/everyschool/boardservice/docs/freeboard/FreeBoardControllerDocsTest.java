@@ -186,7 +186,7 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-    @DisplayName("교내 공지 수정 API")
+    @DisplayName("게시글 수정 API")
     @Test
     void editFreeBoard() throws Exception {
 
@@ -254,6 +254,30 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
                         .description("대댓글 작성 시간"),
                     fieldWithPath("data.comments[].reComment[].reComment").type(JsonFieldType.ARRAY)
                         .description("대대댓글(null or 빈 값)")
+                )
+            ));
+    }
+
+    @DisplayName("게시글 삭제")
+    @Test
+    void deleteFreeBoard() throws Exception {
+
+        mockMvc.perform(
+                delete("/board-service/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("delete-free-board",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.STRING)
+                        .description("삭제 결과")
                 )
             ));
     }
