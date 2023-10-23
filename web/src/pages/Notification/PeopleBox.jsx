@@ -1,7 +1,6 @@
 import PeopleTable from './PeopleTable';
-import styles from './PeopleBox.module.css'
+import styles from './PeopleBox.module.css';
 import { useState } from 'react';
-
 
 export default function PeopleBox() {
   const [selectAll, setSelectAll] = useState(false);
@@ -10,21 +9,17 @@ export default function PeopleBox() {
     setSelectAll(!selectAll);
   };
 
-
-
   return (
     <div className={styles.peopleBox}>
       <div className={styles.selectPeople}>
         <p className={styles.peopleTitle}>대상</p>
         <div className={styles.allSelect}>
           <p>전체 선택</p>
-          <input type="checkbox" name="" id=""
-          checked={selectAll} 
-          onChange={handleSelectAll} />
+          <input type='checkbox' name='' id='' checked={selectAll} onChange={handleSelectAll} />
         </div>
       </div>
       <div className={styles.table}>
-        <PeopleTable selectAll={selectAll}/>
+        <PeopleTable selectAll={selectAll} />
       </div>
     </div>
   );
