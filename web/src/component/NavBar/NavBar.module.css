@@ -1,7 +1,7 @@
 .navbar {
   min-width: 1024px;
   height: 60px;
-  background-color: #15075F;
+  background-color: #15075f;
   color: white;
   align-items: center;
   display: flex;
@@ -14,28 +14,23 @@
   align-items: center;
 }
 
-
-.logo > img:nth-child(1) {
+.logoImg1 {
   height: 40px;
 }
 
-.logo > img:nth-child(2) {
+.logoImg2 {
   height: 27px;
   margin-left: 5px;
 }
-
 
 .menu {
   display: flex;
   margin-right: 20px;
 }
 
-
 .menu > p:nth-child(1) {
   margin-right: 20px;
 }
 
-
 .menu > p:nth-child(2) {
-  
 }

@@ -17,7 +17,38 @@
   margin-left: 0.625rem;
 }
 
-.title > p:nth-child(2),
-.title > p:nth-child(3) {
+.title > p:nth-child(2) {
   margin-left: 0.625rem;
+  margin-bottom: 0;
+}
+
+.csltMessage {
+  margin-left: 0.625rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.correctMsg {
+  display: flex;
+  align-items: center;
+}
+
+.correctMsg > input {
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: #f6f5f9;
+  width: 30rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.3rem;
+}
+
+.setMsg {
+  display: flex;
+}
+
+.msgBtn {
+  border: 1px solid black;
+  padding: 0 1.2rem;
+  margin-left: 1rem;
+  cursor: pointer;
 }
