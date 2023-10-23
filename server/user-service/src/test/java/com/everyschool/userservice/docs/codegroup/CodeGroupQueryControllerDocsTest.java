@@ -57,11 +57,11 @@ public class CodeGroupQueryControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("data").type(JsonFieldType.ARRAY)
                         .description("응답 데이터"),
                     fieldWithPath("data[].groupId").type(JsonFieldType.NUMBER)
-                        .description("응답 데이터"),
+                        .description("코드 그룹 ID"),
                     fieldWithPath("data[].groupName").type(JsonFieldType.STRING)
-                        .description("응답 데이터"),
+                        .description("코드 그룹 이름"),
                     fieldWithPath("data[].isDeleted").type(JsonFieldType.BOOLEAN)
-                        .description("응답 데이터")
+                        .description("코드 그룹 삭제 여부")
                 )
             ));
     }
