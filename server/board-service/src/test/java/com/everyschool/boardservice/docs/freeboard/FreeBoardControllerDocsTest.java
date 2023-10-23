@@ -102,7 +102,7 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-board-list",
+            .andDo(document("search-free-board-list",
                 preprocessResponse(prettyPrint()),
                 requestParameters(
                     parameterWithName("limit")
