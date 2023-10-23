@@ -1,9 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
 import MainPage from '../pages/MainPage/MainPage';
-import RegisterNoti from '../pages/Notification/RegisterNoti';
 import ManageMyclassPage from '../pages/ManageMyclass/ManageMyclassPage';
 import ManageParentsPage from '../pages/ManageParents/ManageParentsPage'
 import ReportHistoryPage from '../pages/ReportHistory/ReportHistoryPage';
+import RegisterNotiPage from '../pages/Notification/RegisterNotiPage';
+import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 
 function RouteLink() {
   // const { currentUser } = useContext(AuthContext);
@@ -19,7 +20,7 @@ function RouteLink() {
     <>
       <Routes>
         {/* 예시 주소 */}
-        
+
         {/* <Route path="/recommend/festival/:id" element={<FestivalDetail />} /> */}
 
         {/* 로그인 없이 가능한 주소 */}
@@ -29,6 +30,14 @@ function RouteLink() {
         </Route> */}
 
         {/* 로그인으로 보호받는 주소 */}
+      <Route path="/" element={<MainPage />}>
+        <Route path='manage/parents' element={<ManageParents />} />
+        <Route path='manage/myclass' element={<ManageMyclass />} />
+        <Route path='report/history' element={<ReportHistory />} />
+        <Route path='docs/register-noti' element={<RegisterNotiPage />} />
+        <Route path='docs/register-payment' element={<RegisterPayPage />} />
+      </Route>
+      {/* <Route Component={PrivateRouter}>
         <Route path="/" element={<MainPage />}>
           <Route path='manage/myclass' element={<ManageMyclassPage/>}/>
         </Route>
@@ -44,7 +53,7 @@ function RouteLink() {
         {/* <Route Component={PrivateRouter}>
           <Route path="/mypage/:id" element={<Mypage />} />
         </Route> */}
-      </Routes>
+    </Routes >
     </>
   );
 }

@@ -1,13 +1,13 @@
 .Peopletable {
   border-top: 1px solid #d9d9d9;
-  /* border-collapse: collapse; */
+  border-collapse: collapse;
   min-width: 17rem;
 }
 
 
 .tableHeader {
   text-align: center;
-  height: 1.5rem;
+  height: 2.1rem;
 }
 
 .tableHeader th {
@@ -26,21 +26,13 @@
   }
 }
 
-@media ( max-width: 1400px ) {
+@media ( max-width: 1300px ) {
   .tableHeader th {
-    padding: 0 0.25rem 0 0.25rem;
+    padding: 0 0.1rem 0 0.1rem;
   }
 }
 
-.page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-
-.page svg {
-  margin-left: 5px;
-  margin-right: 5px;
+.tableBody tr {
+  height: 2rem;
+  border-top: 1px solid #d9d9d9;
 }
