@@ -32,11 +32,14 @@ function RouteLink() {
 
         {/* 로그인으로 보호받는 주소 */}
         <Route path="/" element={<MainPage />}>
+          {/* 학급 관리 */}
           <Route path="manage/parents" element={<ManageParentsPage />} />
           <Route path="manage/myclass" element={<ManageMyclassPage />} />
-          <Route path="report/history" element={<ReportHistoryPage />} />
-          <Route path="docs/register-noti" element={<RegisterNotiPage />} />
           <Route path="manage/class" element={<ManageClassPage />} />
+          {/* 신고페이지 */}
+          <Route path="report/history" element={<ReportHistoryPage />} />
+          {/* 고지서 등록 */}
+          <Route path="docs/register-noti" element={<RegisterNotiPage />} />
           <Route path="docs/register-payment" element={<RegisterPayPage />} />
         </Route>
 
