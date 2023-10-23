@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,6 +19,7 @@ public class JoinUserRequest {
 
     @NotEmpty
     @Size(max = 100)
+    @Email
     private String email;
 
     @NotEmpty
