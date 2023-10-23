@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.everyschool'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 
 java {
 	sourceCompatibility = '11'
@@ -15,9 +15,23 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('springCloudVersion', "2021.0.8")
+}
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+
+	//spring boot
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//spring cloud
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 tasks.named('test') {

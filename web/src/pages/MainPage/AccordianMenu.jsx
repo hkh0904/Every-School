@@ -1,0 +1,78 @@
+import { useState } from "react";
+import styles from './AccordianMenu.module.css';
+import { FaUserCog } from 'react-icons/fa'
+import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
+import { IoMdChatbubbles, IoMdSettings } from "react-icons/io";
+import { AiFillNotification } from "react-icons/ai";
+import { TbReport } from "react-icons/tb";
+import { NavLink } from "react-router-dom";
+
+function AccordianMenu() {
+  const MenuList = [
+    {
+      title: '학급 관리', list: ['우리반 보기', '학부모 보기', '학급 승인'], icon: FaUserCog,
+      address: ['/manage/myclass', '/manage/parents', '/manage/class/']
+    },
+    {
+      title: '상담 관리', list: ['상담 확인', '상담 내역'], icon: IoMdChatbubbles,
+      address: ['/consult/approve/', '/consult/history/']
+    },
+    {
+      title: '안내문 등록', list: ['가정통신문 등록', '고지서 등록'], icon: AiFillNotification,
+      address: ['/docs/register-noti', '/docs/register-payment']
+    },
+    {
+      title: '신고 관리', list: ['접수된 신고', '처리내역'], icon: TbReport,
+      address: ['/report/manage', '/report/history']
+    },
+    {
+      title: '개인정보 수정', list: [], icon: IoMdSettings,
+      address: '/mypage'
+    },
+  ]
+
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const handleToggle = (index) => {
+
+    if (expandedIndex === index) {
+      setExpandedIndex(null);
+    } else {
+      setExpandedIndex(index);
+    }
+  };
+
+
+  return (
+    <div className={styles.AccordianMenu}>
+      {MenuList.map((menu, index) => (
+        <div key={index}>
+          <div className={styles.accordianTitle} onClick={() => handleToggle(index)}>
+            {
+              index === 4 ?
+                <NavLink to={menu.address} className={({isActive})=>[isActive ? styles.isActive : styles.titleLink]}>
+                  {menu.icon()}
+                  <p>{menu.title}</p>
+                </NavLink> :
+                <div className={styles.accordianMain}>
+                  {menu.icon()}
+                  <p>{menu.title}</p>
+                </div>
+            }
+            <p className={styles.accordianExpand}>{menu.list.length > 0 ? (expandedIndex === index ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />) : null}</p>
+          </div>
+          {expandedIndex === index && (
+            <ul className={styles.accordionList}>
+              {menu.list.map((item, itemIndex) => (
+                <li key={itemIndex}><NavLink to={menu.address[itemIndex]}
+                className={({isActive})=>[isActive ? styles.itemActive : styles.itemInActive]}>{item}</NavLink></li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default AccordianMenu;

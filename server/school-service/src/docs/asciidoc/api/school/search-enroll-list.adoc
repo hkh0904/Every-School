@@ -1,0 +1,11 @@
+[[search-enroll-list]]
+=== [선생님 용] 요청 리스트 API
+
+==== HTTP Request
+include::{snippets}/search-enroll-list/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-enroll-list/http-response.adoc[]
+include::{snippets}/search-enroll-list/response-fields.adoc[]
+

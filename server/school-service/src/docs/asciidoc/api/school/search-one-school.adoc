@@ -1,0 +1,11 @@
+[[search-one-school]]
+=== 학교 단건 조회 API
+
+==== HTTP Request
+include::{snippets}/search-one-school/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-one-school/http-response.adoc[]
+include::{snippets}/search-one-school/response-fields.adoc[]
+
