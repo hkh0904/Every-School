@@ -2,8 +2,10 @@ package com.everyschool.boardservice.api.controller.freeboard;
 
 import com.everyschool.boardservice.api.ApiResponse;
 import com.everyschool.boardservice.api.controller.freeboard.request.CreateFreeBoardRequest;
+import com.everyschool.boardservice.api.controller.freeboard.response.CommentResponse;
 import com.everyschool.boardservice.api.controller.freeboard.response.CreateFreeBoardResponse;
 import com.everyschool.boardservice.api.controller.freeboard.response.FreeBoardListResponse;
+import com.everyschool.boardservice.api.controller.freeboard.response.FreeBoardResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -61,24 +64,58 @@ public class FreeBoardController {
         return ApiResponse.ok(responseList);
     }
 
-//    @GetMapping("/{schoolId}/{userKey}/{boardId}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ApiResponse<BoardResponse> searchBoard(@PathVariable Long schoolId,
-//                                                  @PathVariable String userKey,
-//                                                  @PathVariable String boardId) {
-//        // TODO: 2023-10-19 자유게시판 게시글 조회
-//        //  학교 키로 공지글만 가져오기
-//        BoardResponse response = BoardResponse.builder()
-//            .boardId(2L)
-//            .title("수업시간 외 학교 체육관 사용에 관한 공지")
-//            .content("사용 명부를 작성한 사람만 사용 가능")
-//            .userName("오체육")
-//            .createDate("2023.10.10 14:20")
-//            .uploadFiles(new ArrayList<>())
-//            .build();
-//        return ApiResponse.ok(response);
-//    }
-//
+    @GetMapping("/{schoolId}/{userKey}/{boardId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<FreeBoardResponse> searchFreeBoard(@PathVariable Long schoolId,
+                                                          @PathVariable String userKey,
+                                                          @PathVariable String boardId) {
+        // TODO: 2023-10-19 자유게시판 게시글 조회
+        //  학교 키로 공지글만 가져오기
+        CommentResponse reComment1 = CommentResponse.builder()
+            .userNumber(2)
+            .createdDate("10/10 14:41")
+            .content("차은우랑 결혼할거임")
+            .reComment(new ArrayList<>())
+            .build();
+
+        CommentResponse reComment2 = CommentResponse.builder()
+            .userNumber(1)
+            .createdDate("10/10 14:51")
+            .content("차은우는 뭔 죄")
+            .reComment(new ArrayList<>())
+            .build();
+
+        CommentResponse reComment3 = CommentResponse.builder()
+            .userNumber(0)
+            .createdDate("10/10 14:55")
+            .content("69세 차은우랑 결혼하신다함")
+            .reComment(new ArrayList<>())
+            .build();
+
+        List<CommentResponse> reComment = List.of(reComment1, reComment2, reComment3);
+
+        CommentResponse comment1 = CommentResponse.builder()
+            .userNumber(1)
+            .createdDate("10/10 14:31")
+            .content("ㅋㅋㅋㅋㅋㅋㅋㅋㅇㅈㅇㅈ")
+            .reComment(reComment)
+            .build();
+
+        List<CommentResponse> commentResponses = List.of(comment1);
+
+
+        FreeBoardResponse response = FreeBoardResponse.builder()
+            .boardId(2L)
+            .title("1학년 2반 차은우 잘생김")
+            .content("ㅇㅈ?")
+            .userName("익명")
+            .createDate("2023.10.10 14:20")
+            .uploadFiles(new ArrayList<>())
+            .comments(commentResponses)
+            .build();
+        return ApiResponse.ok(response);
+    }
+
 //    @PatchMapping("/{schoolId}/{userKey}/{boardId}")
 //    @ResponseStatus(HttpStatus.OK)
 //    public ApiResponse<BoardResponse> editBoard(@PathVariable Long schoolId,

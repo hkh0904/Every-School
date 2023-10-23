@@ -131,6 +131,60 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
             ));
     }
 
+    @DisplayName("자유 게시판 상세 조회 API")
+    @Test
+    void searchBoard() throws Exception {
+
+        mockMvc.perform(
+                get("/board-service/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-free-board",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
+                        .description("게시글 PK"),
+                    fieldWithPath("data.title").type(JsonFieldType.STRING)
+                        .description("게시글 제목"),
+                    fieldWithPath("data.content").type(JsonFieldType.STRING)
+                        .description("게시글 내용"),
+                    fieldWithPath("data.userName").type(JsonFieldType.STRING)
+                        .description("작성자"),
+                    fieldWithPath("data.createDate").type(JsonFieldType.STRING)
+                        .description("게시글 작성일"),
+                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
+                        .description("파일들"),
+                    fieldWithPath("data.comments").type(JsonFieldType.ARRAY)
+                        .description("댓글들"),
+                    fieldWithPath("data.comments[].userNumber").type(JsonFieldType.NUMBER)
+                        .description("댓글 유저 번호"),
+                    fieldWithPath("data.comments[].content").type(JsonFieldType.STRING)
+                        .description("댓글 내용"),
+                    fieldWithPath("data.comments[].createdDate").type(JsonFieldType.STRING)
+                        .description("댓글 작성 시간"),
+                    fieldWithPath("data.comments[].reComment").type(JsonFieldType.ARRAY)
+                        .description("대댓글 목록"),
+                    fieldWithPath("data.comments[].reComment[].userNumber").type(JsonFieldType.NUMBER)
+                        .description("대댓글 유저 번호"),
+                    fieldWithPath("data.comments[].reComment[].content").type(JsonFieldType.STRING)
+                        .description("대댓글 내용"),
+                    fieldWithPath("data.comments[].reComment[].createdDate").type(JsonFieldType.STRING)
+                        .description("대댓글 작성 시간"),
+                    fieldWithPath("data.comments[].reComment[].reComment").type(JsonFieldType.ARRAY)
+                        .description("대대댓글(null or 빈 값)")
+                )
+            ));
+    }
+
     @Override
     protected Object initController() {
         return new FreeBoardController();
