@@ -39,7 +39,6 @@ public class CodeDetailQueryRepository {
                 codeDetail.id,
                 codeDetail.codeName,
                 codeDetail.isDeleted
-
             ))
             .from(codeDetail)
             .where(

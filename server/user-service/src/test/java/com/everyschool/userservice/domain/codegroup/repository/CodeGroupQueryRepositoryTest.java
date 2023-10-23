@@ -1,11 +1,13 @@
 package com.everyschool.userservice.domain.codegroup.repository;
 
 import com.everyschool.userservice.IntegrationTestSupport;
+import com.everyschool.userservice.api.controller.codegroup.response.CodeGroupResponse;
 import com.everyschool.userservice.domain.codegroup.CodeGroup;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -21,7 +23,7 @@ class CodeGroupQueryRepositoryTest extends IntegrationTestSupport {
     @Test
     void existGroupName() {
         //given
-        saveCodeGroup();
+        saveCodeGroup("직책");
 
         //when
         boolean isExistGroupName = codeGroupQueryRepository.existGroupName("직책");
@@ -30,9 +32,26 @@ class CodeGroupQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(isExistGroupName).isTrue();
     }
 
-    private CodeGroup saveCodeGroup() {
+    @DisplayName("등록된 모든 그룹을 조회한다.")
+    @Test
+    void findAll() {
+        //given
+        CodeGroup group1 = saveCodeGroup("직책");
+        CodeGroup group2 = saveCodeGroup("회원구분");
+        CodeGroup group3 = saveCodeGroup("카테고리");
+
+        //when
+        List<CodeGroupResponse> responses = codeGroupQueryRepository.findAll();
+
+        //then
+        assertThat(responses).hasSize(3)
+            .extracting("groupName")
+            .containsExactlyInAnyOrder("직책", "회원구분", "카테고리");
+    }
+
+    private CodeGroup saveCodeGroup(String groupName) {
         CodeGroup codeGroup = CodeGroup.builder()
-            .groupName("직책")
+            .groupName(groupName)
             .build();
         return codeGroupRepository.save(codeGroup);
     }
