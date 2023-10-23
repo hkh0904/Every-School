@@ -2,6 +2,7 @@ package com.everyschool.userservice.api.service.auth;
 
 import com.everyschool.userservice.api.client.mail.MailSendClient;
 import com.everyschool.userservice.api.client.mail.dto.EmailMessage;
+import com.everyschool.userservice.domain.user.repository.UserQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 public class AuthService {
 
+    private final UserQueryRepository userQueryRepository;
     private final MailSendClient mailSendClient;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -39,5 +41,10 @@ public class AuthService {
         }
 
         redisTemplate.delete(email);
+
+        boolean isExistEmail = userQueryRepository.existEmail(email);
+        if (isExistEmail) {
+            throw new IllegalArgumentException();
+        }
     }
 }

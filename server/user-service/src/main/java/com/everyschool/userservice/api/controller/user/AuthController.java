@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 회원 인증 API
  *
@@ -30,7 +32,7 @@ public class AuthController {
      * @return 200 OK null
      */
     @PostMapping("/email")
-    public ApiResponse<String> authEmail(@RequestBody AuthEmailRequest request) {
+    public ApiResponse<String> authEmail(@Valid @RequestBody AuthEmailRequest request) {
         log.debug("call AuthController#authEmail");
         log.debug("AuthEmailRequest={}", request);
 
@@ -48,7 +50,7 @@ public class AuthController {
      * @return 200 OK null
      */
     @PostMapping("/email/check")
-    public ApiResponse<String> authEmailCheck(@RequestBody AuthEmailCheckRequest request) {
+    public ApiResponse<String> authEmailCheck(@Valid @RequestBody AuthEmailCheckRequest request) {
         log.debug("call AuthController#authEmailCheck");
         log.debug("AuthEmailCheckRequest={}", request);
 

@@ -4,11 +4,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @NoArgsConstructor
 public class AuthEmailCheckRequest {
 
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String authCode;
 
     @Builder
