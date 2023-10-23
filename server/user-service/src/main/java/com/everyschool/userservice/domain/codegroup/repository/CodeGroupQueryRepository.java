@@ -1,6 +1,5 @@
 package com.everyschool.userservice.domain.codegroup.repository;
 
-import com.everyschool.userservice.domain.codegroup.QCodeGroup;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 

@@ -1,5 +1,6 @@
 package com.everyschool.userservice.api.controller.codegroup.response;
 
+import com.everyschool.userservice.domain.codegroup.CodeGroup;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,5 +18,13 @@ public class CreateCodeGroupResponse {
         this.groupId = groupId;
         this.groupName = groupName;
         this.createdDate = createdDate;
+    }
+
+    public static CreateCodeGroupResponse of(CodeGroup codeGroup) {
+        return CreateCodeGroupResponse.builder()
+            .groupId(codeGroup.getId())
+            .groupName(codeGroup.getGroupName())
+            .createdDate(codeGroup.getCreatedDate())
+            .build();
     }
 }
