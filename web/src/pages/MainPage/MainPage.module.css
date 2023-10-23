@@ -4,7 +4,7 @@
 
 
 .menubar {
-  width: 240px;
+  min-width: 240px;
   background-color: #15075F;
   min-height: calc(100vh - 60px);
   border-top: 0.5px solid #868E96;
@@ -27,4 +27,7 @@
 }
 
 
-
+.outlet {
+  width: 100%;
+  min-width: 784px;
+}
