@@ -1,0 +1,12 @@
+[[search-chat-room-list]]
+=== 교내 공지 작성 API
+
+==== HTTP Request
+
+include::request/search-chat-room-list-request.adoc[]
+include::{snippets}/search-chat-room-list/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/search-chat-room-list/http-response.adoc[]
+include::{snippets}/search-chat-room-list/response-fields.adoc[]
