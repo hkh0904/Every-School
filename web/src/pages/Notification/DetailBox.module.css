@@ -19,11 +19,12 @@
 
 .inputTitle > input {
   width: 99%;
-  height: 2rem;
+  height: 2.5rem;
   border-radius: 0;
   border: 1px solid #d9d9d9;
   outline: none;
   font-family: 'Pretendard Variable';
+  margin-bottom: 3px;
 }
 
 .inputTitle > input::placeholder {
@@ -42,7 +43,7 @@
   width: 99%;
   border-radius: 0;
   outline: none;
-  height: 13rem;
+  height: 19rem;
   resize: none;
   border-radius: 0;
   border: 1px solid #d9d9d9;
