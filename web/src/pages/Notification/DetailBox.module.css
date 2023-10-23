@@ -1,0 +1,12 @@
+.detailTitle {
+  font-weight: 700;
+  font-size: 21px;
+}
+
+.detailBox {
+  background-color: white;
+  /* max-height: 25rem; */
+  min-width: 34rem;
+  border: 1px solid #D9D9D9;
+  padding: 1rem 1.2rem 0 1.2rem;
+}

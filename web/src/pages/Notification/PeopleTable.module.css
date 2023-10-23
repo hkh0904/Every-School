@@ -1,0 +1,46 @@
+.Peopletable {
+  border-top: 1px solid #d9d9d9;
+  /* border-collapse: collapse; */
+  min-width: 17rem;
+}
+
+
+.tableHeader {
+  text-align: center;
+  height: 1.5rem;
+}
+
+.tableHeader th {
+  padding: 0 0.25rem 0 0.25rem;
+}
+
+@media ( max-width: 1600px ) {
+  .tableHeader th {
+    padding: 0 0.6rem 0 0.6rem;
+  }
+}
+
+@media ( max-width: 1500px ) {
+  .tableHeader th {
+    padding: 0 0.3rem 0 0.3rem;
+  }
+}
+
+@media ( max-width: 1400px ) {
+  .tableHeader th {
+    padding: 0 0.25rem 0 0.25rem;
+  }
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+
+.page svg {
+  margin-left: 5px;
+  margin-right: 5px;
+}
