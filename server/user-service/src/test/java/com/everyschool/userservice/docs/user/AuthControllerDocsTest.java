@@ -3,6 +3,7 @@ package com.everyschool.userservice.docs.user;
 import com.everyschool.userservice.api.controller.user.AuthController;
 import com.everyschool.userservice.api.controller.user.request.AuthEmailCheckRequest;
 import com.everyschool.userservice.api.controller.user.request.AuthEmailRequest;
+import com.everyschool.userservice.api.service.auth.AuthService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -21,9 +23,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class AuthControllerDocsTest extends RestDocsSupport {
 
+    private final AuthService authService = mock(AuthService.class);
+
     @Override
     protected Object initController() {
-        return new AuthController();
+        return new AuthController(authService);
     }
 
     @DisplayName("이메일 인증 API")

@@ -1,5 +1,6 @@
 package com.everyschool.userservice.api.controller.user.response;
 
+import com.everyschool.userservice.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,5 +20,15 @@ public class UserResponse {
         this.name = name;
         this.type = type;
         this.createdDate = createdDate;
+    }
+
+    // TODO: 10/22/23 type enum으로 분리하는 방법 생각
+    public static UserResponse of(User user) {
+        return UserResponse.builder()
+            .email(user.getEmail())
+            .name(user.getName())
+            .type("none")
+            .createdDate(user.getCreatedDate())
+            .build();
     }
 }
