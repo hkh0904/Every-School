@@ -62,50 +62,46 @@ public class ChatControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-//    @DisplayName("교내 공지 목록 조회 API")
-//    @Test
-//    void searchBoards() throws Exception {
-//
-//        mockMvc.perform(
-//                get("/board-service/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
-//                    .param("limit", "4")
-//                    .param("categoryId", "1")
-//            )
-//            .andDo(print())
-//            .andExpect(status().isOk())
-//            .andDo(document("search-board-list",
-//                preprocessResponse(prettyPrint()),
-//                requestParameters(
-//                    parameterWithName("limit")
-//                        .description("출력할 목록 수"),
-//                    parameterWithName("categoryId")
-//                        .description("카테고리 코드")
-//                ),
-//                responseFields(
-//                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-//                        .description("코드"),
-//                    fieldWithPath("status").type(JsonFieldType.STRING)
-//                        .description("상태"),
-//                    fieldWithPath("message").type(JsonFieldType.STRING)
-//                        .description("메시지"),
-//                    fieldWithPath("data").type(JsonFieldType.ARRAY)
-//                        .description("응답 데이터"),
-//                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
-//                        .description("교내 공지 PK"),
-//                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
-//                        .description("교내 공지 제목"),
-//                    fieldWithPath("data[].createDate").type(JsonFieldType.STRING)
-//                        .description("교내 공지 작성일")
-//                )
-//            ));
-//    }
-//
-//    @DisplayName("교내 공지 상세 조회 API")
+    @DisplayName("채팅방 목록 조회 API")
+    @Test
+    void searchChatRoomList() throws Exception {
+
+        mockMvc.perform(
+                get("/chat-service/chat-room/{userKey}", UUID.randomUUID().toString())
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-chat-room-list",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                        .description("응답 데이터"),
+                    fieldWithPath("data[].roomId").type(JsonFieldType.NUMBER)
+                        .description("채팅방 PK"),
+                    fieldWithPath("data[].roomTitle").type(JsonFieldType.STRING)
+                        .description("채팅방 제목"),
+                    fieldWithPath("data[].lastMessage").type(JsonFieldType.STRING)
+                        .description("채팅방 마지막 메세지"),
+                    fieldWithPath("data[].updateTime").type(JsonFieldType.ARRAY)
+                        .description("채팅방 마지막 대화 시간"),
+                    fieldWithPath("data[].unreadMessageNum").type(JsonFieldType.NUMBER)
+                        .description("읽지 않은 메세지 수")
+                )
+            ));
+    }
+
+//    @DisplayName(" 상세 조회 API")
 //    @Test
 //    void searchBoard() throws Exception {
 //
 //        mockMvc.perform(
-//                get("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+//                get("/chat-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
 //            )
 //            .andDo(print())
 //            .andExpect(status().isOk())
@@ -121,33 +117,33 @@ public class ChatControllerDocsTest extends RestDocsSupport {
 //                    fieldWithPath("data").type(JsonFieldType.OBJECT)
 //                        .description("응답 데이터"),
 //                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
-//                        .description("교내 공지 PK"),
+//                        .description(" PK"),
 //                    fieldWithPath("data.title").type(JsonFieldType.STRING)
-//                        .description("교내 공지 제목"),
+//                        .description(" 제목"),
 //                    fieldWithPath("data.content").type(JsonFieldType.STRING)
-//                        .description("교내 공지 내용"),
+//                        .description(" 내용"),
 //                    fieldWithPath("data.userName").type(JsonFieldType.STRING)
 //                        .description("작성자"),
 //                    fieldWithPath("data.createDate").type(JsonFieldType.STRING)
-//                        .description("교내 공지 작성일"),
+//                        .description(" 작성일"),
 //                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
 //                        .description("파일들")
 //                )
 //            ));
 //    }
 //
-//    @DisplayName("교내 공지 수정 API")
+//    @DisplayName(" 수정 API")
 //    @Test
 //    void editBoard() throws Exception {
 //
 //        EditBoardRequest request = EditBoardRequest.builder()
-//            .title("수업시간 외 학교 체육관 사용에 관한 공지")
+//            .title("수업시간 외 학교 체육관 사용에 관한")
 //            .content("사용 명부를 작성한 사람만 사용 가능")
 //            .categoryId(1L)
 //            .uploadFiles(new ArrayList<>())
 //            .build();
 //        mockMvc.perform(
-//                patch("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+//                patch("/chat-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
 //                    .content(objectMapper.writeValueAsString(request))
 //                    .contentType(MediaType.MULTIPART_FORM_DATA)
 //            )
@@ -179,27 +175,27 @@ public class ChatControllerDocsTest extends RestDocsSupport {
 //                    fieldWithPath("data").type(JsonFieldType.OBJECT)
 //                        .description("응답 데이터"),
 //                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
-//                        .description("교내 공지 PK"),
+//                        .description(" PK"),
 //                    fieldWithPath("data.title").type(JsonFieldType.STRING)
-//                        .description("교내 공지 제목"),
+//                        .description(" 제목"),
 //                    fieldWithPath("data.content").type(JsonFieldType.STRING)
-//                        .description("교내 공지 내용"),
+//                        .description(" 내용"),
 //                    fieldWithPath("data.userName").type(JsonFieldType.STRING)
 //                        .description("작성자"),
 //                    fieldWithPath("data.createDate").type(JsonFieldType.STRING)
-//                        .description("교내 공지 작성일"),
+//                        .description(" 작성일"),
 //                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
 //                        .description("파일들")
 //                )
 //            ));
 //    }
 //
-//    @DisplayName("교내 공지 삭제 API")
+//    @DisplayName(" 삭제 API")
 //    @Test
 //    void deleteBoard() throws Exception {
 //
 //        mockMvc.perform(
-//                delete("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+//                delete("/chat-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
 //            )
 //            .andDo(print())
 //            .andExpect(status().isOk())
