@@ -1,9 +1,11 @@
 import React from "react";
 import { useMemo } from "react";
-import StudentTable from "./StudentTable";
-import styles from "./ManageMyclass.module.css";
+import Table from "../../component/Table/Table";
+import styles from "./ManageMyclassPage.module.css";
+import SvgIcon from "@mui/material/SvgIcon";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const ManageMyclass = () => {
+const ManageMyclassPage = () => {
   const columns = useMemo(
     () => [
       {
@@ -138,22 +140,22 @@ const ManageMyclass = () => {
     <div className={styles.container}>
       <div className={styles.row}>
         <div>
-          <div>우리반 보기</div>
-          <div>총원 : OO명</div>
+          <div className={styles.headText}>우리반 보기</div>
+          <div className={styles.underText}>총원 : OO명</div>
         </div>
-        <div>
-          <button>추가</button>
+        <div className={styles.plusButton}>
+        <SvgIcon component={AddCircleIcon} inheritViewBox />
+          <p>추가</p>
         </div>
       </div>
       <hr />
-      <br />
       <div className={styles.tableBox}>
         <div className={styles.scrollContainer}>
-          <StudentTable columns={columns} data={data} />
+          <Table columns={columns} data={data} />
         </div>
       </div>
     </div>
   );
 };
 
-export default ManageMyclass;
+export default ManageMyclassPage;
