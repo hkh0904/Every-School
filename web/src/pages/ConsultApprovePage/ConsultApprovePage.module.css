@@ -1,0 +1,23 @@
+.ConsultApprove {
+  background-color: #f6f5f9;
+  min-height: calc(100vh - 60px);
+  padding: 3rem 4rem 0 4rem;
+}
+
+.title {
+  min-width: 60rem;
+  border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 1.5rem;
+}
+
+.title > p:nth-child(1) {
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 21px;
+  margin-left: 0.625rem;
+}
+
+.title > p:nth-child(2),
+.title > p:nth-child(3) {
+  margin-left: 0.625rem;
+}
