@@ -14,8 +14,7 @@ include::overview.adoc[]
 [[chat-API]]
 == Chat API
 
-// include::api/chat/create-board.adoc[]
-// include::api/chat/search-board-list.adoc[]
-// include::api/chat/search-board.adoc[]
-// include::api/chat/edit-board.adoc[]
-// include::api/chat/delete-board.adoc[]
+include::api/chat/create-chat-room.adoc[]
+include::api/chat/search-chat-room-list.adoc[]
+include::api/chat/send-chat.adoc[]
+include::api/chat/search-chat.adoc[]
