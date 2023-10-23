@@ -1,9 +1,12 @@
 package com.everyschool.userservice.domain.codegroup.repository;
 
+import com.everyschool.userservice.domain.codegroup.QCodeGroup;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+
+import static com.everyschool.userservice.domain.codegroup.QCodeGroup.codeGroup;
 
 @Repository
 public class CodeGroupQueryRepository {
@@ -15,6 +18,11 @@ public class CodeGroupQueryRepository {
     }
 
     public boolean existGroupName(String groupName) {
-        return false;
+        Integer result = queryFactory
+            .select(codeGroup.id)
+            .from(codeGroup)
+            .where(codeGroup.groupName.eq(groupName))
+            .fetchFirst();
+        return result != null;
     }
 }
