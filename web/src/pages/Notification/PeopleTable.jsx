@@ -1,4 +1,3 @@
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import styles from './PeopleTable.module.css'
 import { useEffect, useState } from 'react';
 
