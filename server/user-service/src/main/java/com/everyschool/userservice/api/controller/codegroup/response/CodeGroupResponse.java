@@ -8,7 +8,7 @@ public class CodeGroupResponse {
 
     private Integer groupId;
     private String groupName;
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @Builder
     public CodeGroupResponse(Integer groupId, String groupName, boolean isDeleted) {
