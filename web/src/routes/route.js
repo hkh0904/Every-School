@@ -8,15 +8,6 @@ import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 import ManageClassPage from '../pages/ManageClassPage/ManageClassPage';
 
 function RouteLink() {
-  // const { currentUser } = useContext(AuthContext);
-
-  // const ProtectedRoute = ({ children }) => {
-  //   if (!currentUser) {
-  //     return <Navigate to="/login" />;
-  //   }
-
-  //   return children;
-  // };
   return (
     <>
       <Routes>
@@ -31,16 +22,16 @@ function RouteLink() {
         </Route> */}
 
         {/* 로그인으로 보호받는 주소 */}
-        <Route path="/" element={<MainPage />}>
+        <Route path='/' element={<MainPage />}>
           {/* 학급 관리 */}
-          <Route path="manage/parents" element={<ManageParentsPage />} />
-          <Route path="manage/myclass" element={<ManageMyclassPage />} />
-          <Route path="manage/class" element={<ManageClassPage />} />
+          <Route path='manage/parents' element={<ManageParentsPage />} />
+          <Route path='manage/myclass' element={<ManageMyclassPage />} />
+          <Route path='manage/class' element={<ManageClassPage />} />
           {/* 신고페이지 */}
-          <Route path="report/history" element={<ReportHistoryPage />} />
+          <Route path='report/history' element={<ReportHistoryPage />} />
           {/* 고지서 등록 */}
-          <Route path="docs/register-noti" element={<RegisterNotiPage />} />
-          <Route path="docs/register-payment" element={<RegisterPayPage />} />
+          <Route path='docs/register-noti' element={<RegisterNotiPage />} />
+          <Route path='docs/register-payment' element={<RegisterPayPage />} />
         </Route>
 
         {/* <Route Component={PrivateRouter}>
