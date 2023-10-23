@@ -2,7 +2,7 @@
 === 교내 공지 수정 API
 
 ==== HTTP Request
-include::request/search-board-list-request.adoc[]
+include::request/edit-board-request.adoc[]
 include::{snippets}/edit-board/http-request.adoc[]
 include::{snippets}/edit-board/request-fields.adoc[]
 
