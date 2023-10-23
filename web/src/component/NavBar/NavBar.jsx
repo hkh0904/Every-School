@@ -5,8 +5,8 @@ function NavBar() {
   return (
     <div className={styles.navbar}>
       <div className={styles.logo}>
-        <img src="assets/main/logo.png" alt="" />
-        <img src="assets/main/logo_text.png" alt="" />
+        <img src={process.env.PUBLIC_URL + "assets/main/logo.png"} alt="" />
+        <img src={process.env.PUBLIC_URL + "assets/main/logo_text.png"} alt="" />
       </div>
       <div className={styles.menu}>
         <p>알림</p>
