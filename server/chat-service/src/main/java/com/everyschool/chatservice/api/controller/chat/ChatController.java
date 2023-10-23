@@ -23,6 +23,7 @@ public class ChatController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateChatRoomResponse> createChatRoom(@RequestBody @Valid CreateChatRoomRequest request) {
 
+        // TODO: 2023-10-23 회원 정보 요청
         // TODO: 2023-10-23 채팅방 생성
         CreateChatRoomResponse response = CreateChatRoomResponse.builder()
             .roomId(2L)
@@ -33,6 +34,7 @@ public class ChatController {
 
     @GetMapping("/chat-room/{userKey}")
     public ApiResponse<List<ChatRoomListResponse>> searchChatRoomList(@PathVariable String userKey) {
+
 
         // TODO: 2023-10-23 채팅방 목록 조회
         ChatRoomListResponse response1 = ChatRoomListResponse.builder()
@@ -63,6 +65,13 @@ public class ChatController {
         return ApiResponse.ok(responses);
     }
 
-    // TODO: 2023-10-23 메세지 전송
+    @PostMapping("/chat-room/{chatRoomId}")
+    public ApiResponse<Long> sendMessage(@PathVariable String chatRoomId) {
+
+        // TODO: 2023-10-23 메세지 전송
+        // TODO: 2023-10-23 회원 정보 요청하기
+        return ApiResponse.ok(1L);
+    }
+
     // TODO: 2023-10-23 메세지 조회
 }

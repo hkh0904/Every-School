@@ -96,42 +96,30 @@ public class ChatControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-//    @DisplayName(" 상세 조회 API")
-//    @Test
-//    void searchBoard() throws Exception {
-//
-//        mockMvc.perform(
-//                get("/chat-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
-//            )
-//            .andDo(print())
-//            .andExpect(status().isOk())
-//            .andDo(document("search-board",
-//                preprocessResponse(prettyPrint()),
-//                responseFields(
-//                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-//                        .description("코드"),
-//                    fieldWithPath("status").type(JsonFieldType.STRING)
-//                        .description("상태"),
-//                    fieldWithPath("message").type(JsonFieldType.STRING)
-//                        .description("메시지"),
-//                    fieldWithPath("data").type(JsonFieldType.OBJECT)
-//                        .description("응답 데이터"),
-//                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
-//                        .description(" PK"),
-//                    fieldWithPath("data.title").type(JsonFieldType.STRING)
-//                        .description(" 제목"),
-//                    fieldWithPath("data.content").type(JsonFieldType.STRING)
-//                        .description(" 내용"),
-//                    fieldWithPath("data.userName").type(JsonFieldType.STRING)
-//                        .description("작성자"),
-//                    fieldWithPath("data.createDate").type(JsonFieldType.STRING)
-//                        .description(" 작성일"),
-//                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
-//                        .description("파일들")
-//                )
-//            ));
-//    }
-//
+    @DisplayName("채팅 전송 API")
+    @Test
+    void sendMessage() throws Exception {
+
+        mockMvc.perform(
+                post("/chat-service/chat-room/{chatRoomId}", 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("send-chat",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.NUMBER)
+                        .description("응답 데이터(채팅 PK)")
+                )
+            ));
+    }
+
 //    @DisplayName(" 수정 API")
 //    @Test
 //    void editBoard() throws Exception {
