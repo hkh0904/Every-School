@@ -1,11 +1,10 @@
-import React from "react";
 import { useMemo } from "react";
 import Table from "../../component/Table/Table";
 import styles from "./ManageMyclassPage.module.css";
 import SvgIcon from "@mui/material/SvgIcon";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const ManageMyclassPage = () => {
+export default function ManageMyclassPage () {
   const columns = useMemo(
     () => [
       {
@@ -157,5 +156,3 @@ const ManageMyclassPage = () => {
     </div>
   );
 };
-
-export default ManageMyclassPage;

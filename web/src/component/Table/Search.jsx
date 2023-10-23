@@ -1,7 +1,6 @@
-import React from "react";
 import styles from "./Table.module.css";
 
-function Search({ onSubmit }) {
+export default function Search({ onSubmit }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit(event.target.elements.filter.value);
@@ -55,5 +54,3 @@ function Search({ onSubmit }) {
     </div>
   );
 }
-
-export default Search;

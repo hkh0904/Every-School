@@ -1,11 +1,10 @@
-import React from "react";
 import { useMemo } from "react";
 import Table from "../../component/Table/Table";
 import styles from "./ManageParentsPage.module.css";
 import SvgIcon from "@mui/material/SvgIcon";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const ManageParentsPage = () => {
+export default function ManageParentsPage() {
   const columns = useMemo(
     () => [
       {
@@ -109,5 +108,3 @@ const ManageParentsPage = () => {
     </div>
   )
 }
-
-export default ManageParentsPage

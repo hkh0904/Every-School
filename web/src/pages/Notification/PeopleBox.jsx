@@ -3,7 +3,7 @@ import styles from './PeopleBox.module.css'
 import { useState } from 'react';
 
 
-function PeopleBox() {
+export default function PeopleBox() {
   const [selectAll, setSelectAll] = useState(false);
 
   const handleSelectAll = () => {
@@ -29,5 +29,3 @@ function PeopleBox() {
     </div>
   );
 }
-
-export default PeopleBox

@@ -1,10 +1,9 @@
-import React from 'react'
 import styles from './RegisterNotiPage.module.css'
 import DetailBox from './DetailBox'
 import PeopleBox from './PeopleBox'
 import RegisterBtn from '../../component/Button/RegisterBtn'
 
-const RegisterNotiPage = () => {
+export default function RegisterNotiPage () {
   return (
     <div className={styles.registerNoti}>
       <div className={styles.title}>
@@ -21,5 +20,3 @@ const RegisterNotiPage = () => {
     </div>
   )
 }
-
-export default RegisterNotiPage

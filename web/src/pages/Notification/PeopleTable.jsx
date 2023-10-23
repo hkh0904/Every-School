@@ -1,7 +1,7 @@
 import styles from './PeopleTable.module.css'
 import { useEffect, useState } from 'react';
 
-function PeopleTable({ selectAll }) {
+export default function PeopleTable({ selectAll }) {
   const headers = [
     {
       text: '번호',
@@ -126,5 +126,3 @@ function PeopleTable({ selectAll }) {
     </div>
   );
 }
-
-export default PeopleTable;

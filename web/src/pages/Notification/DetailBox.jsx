@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './DetailBox.module.css'
 
 
-function DetailBox() {
+export default function DetailBox() {
   const [fileName, setFileName] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -44,5 +44,3 @@ function DetailBox() {
     </div>
   );
 }
-
-export default DetailBox

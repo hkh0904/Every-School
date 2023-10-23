@@ -1,9 +1,5 @@
-import React from 'react'
-
-const ReportHistoryPage = () => {
+export default function ReportHistoryPage() {
   return (
     <div>ReportHistoryPage</div>
   )
 }
-
-export default ReportHistoryPage
