@@ -7,7 +7,7 @@ import { AiFillNotification } from "react-icons/ai";
 import { TbReport } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 
-function AccordianMenu() {
+export default function AccordianMenu() {
   const MenuList = [
     {
       title: "학급 관리",
@@ -106,5 +106,3 @@ function AccordianMenu() {
     </div>
   );
 }
-
-export default AccordianMenu;

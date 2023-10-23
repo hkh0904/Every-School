@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import styles from './MainPage.module.css'
 import AccordianMenu from './AccordianMenu';
 
-function MainPage(){
+export default function MainPage(){
   return (
     <div className={styles.MainPage}>
       <div className={styles.menubar}>
@@ -22,5 +22,3 @@ function MainPage(){
     </div>
   )
 }
-
-export default MainPage;

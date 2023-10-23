@@ -1,9 +1,8 @@
-import React from "react";
 import { useTable, useGlobalFilter, useSortBy } from "react-table";
 import Search from "./Search";
 import styles from "./Table.module.css";
 
-function Table({ columns, data }) {
+export default function Table({ columns, data }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -85,5 +84,3 @@ function Table({ columns, data }) {
     </>
   );
 }
-
-export default Table;
