@@ -1,0 +1,17 @@
+.studentTable {
+  margin-top: 1rem;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tableEle {
+  padding: 1rem;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.tableSearch {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}

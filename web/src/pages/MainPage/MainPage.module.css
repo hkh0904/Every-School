@@ -26,5 +26,8 @@
   font-size: 14px;
 }
 
-
+.outlet {
+  width: 100%;
+  min-width: 784px;
+}
 
