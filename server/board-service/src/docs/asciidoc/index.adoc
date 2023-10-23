@@ -20,7 +20,11 @@ include::api/board/search-board.adoc[]
 include::api/board/edit-board.adoc[]
 include::api/board/delete-board.adoc[]
 
-
 [[Free-Board-API]]
 == Free Board API
+
 include::api/freeboard/create-free-board.adoc[]
+include::api/freeboard/delete-free-board.adoc[]
+include::api/freeboard/edit-free-board.adoc[]
+include::api/freeboard/search-free-board-list.adoc[]
+include::api/freeboard/search-free-board.adoc[]
