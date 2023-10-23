@@ -20,7 +20,12 @@ public class CodeGroupController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateCodeGroupResponse> createCodeGroup(@RequestBody CreateCodeGroupRequest request) {
+        log.debug("call CodeGroupController#createCodeGroup");
+        log.debug("CreateCodeGroupRequest={}", request);
+
         CreateCodeGroupResponse response = codeGroupService.createCodeGroup(request.getGroupName());
+        log.debug("CreateCodeGroupResponse={}", response);
+
         return ApiResponse.created(response);
     }
 }
