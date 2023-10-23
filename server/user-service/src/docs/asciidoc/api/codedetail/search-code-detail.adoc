@@ -1,0 +1,10 @@
+[[search-code-detail]]
+=== 공통 상세 코드 전체 조회 API
+
+==== HTTP Request
+include::{snippets}/search-code-detail/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-code-detail/http-response.adoc[]
+include::{snippets}/search-code-detail/response-fields.adoc[]
