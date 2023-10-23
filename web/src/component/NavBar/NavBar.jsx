@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './NavBar.module.css';
 
-function NavBar() {
+export default function NavBar() {
   return (
     <div className={styles.navbar}>
       <div className={styles.logo}>
@@ -15,5 +15,3 @@ function NavBar() {
     </div>
   );
 };
-
-export default NavBar;

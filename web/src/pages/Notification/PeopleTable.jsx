@@ -1,8 +1,7 @@
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import styles from './PeopleTable.module.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function PeopleTable() {
+export default function PeopleTable({ selectAll }) {
   const headers = [
     {
       text: '번호',
@@ -79,11 +78,14 @@ function PeopleTable() {
     setSelectedItems(updatedSelectedItems);
   };
 
-  const handleSelectAll = () => {
-    const allSelected = selectedItems.every(item => item);
-    const updatedSelectedItems = items.map(() => !allSelected);
+  useEffect(() => {
+    const updatedSelectedItems = items.map(() => selectAll);
     setSelectedItems(updatedSelectedItems);
-  };
+    const selectedNames = items
+      .filter((item, index) => updatedSelectedItems[index])
+      .map((item) => item.name);
+    console.log(selectedNames);
+  }, [selectAll]);
 
   const handleSaveSelectedNames = () => {
     const selectedNames = items
@@ -102,7 +104,7 @@ function PeopleTable() {
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className={styles.tableBody}>
           {items.map((item, index) => (
             <tr key={index}>
               {headerKey.slice(0, 4).map((key) => (
@@ -121,9 +123,6 @@ function PeopleTable() {
           ))}
         </tbody>
       </table>
-      <button onClick={handleSaveSelectedNames}>선택된 이름 저장</button>
     </div>
   );
 }
-
-export default PeopleTable;

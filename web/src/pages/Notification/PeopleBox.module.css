@@ -3,7 +3,7 @@
   /* max-height: 25rem; */
   min-width: 17rem;
   margin-right: 2rem;
-  padding: 1rem 1.5rem 1rem 1.5rem;
+  padding: 0.1rem 1.5rem 1rem 1.5rem;
   border: 1px solid #D9D9D9;
 }
 
@@ -43,6 +43,6 @@
   display: flex;
   justify-content: center;
   text-align: center;
-  height: 19rem;
+  height: 20.5rem;
   overflow: auto;
 }
