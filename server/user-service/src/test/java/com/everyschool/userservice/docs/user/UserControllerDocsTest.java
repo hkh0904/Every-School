@@ -5,15 +5,23 @@ import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
 import com.everyschool.userservice.api.controller.user.request.ForgotPwdRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
+import com.everyschool.userservice.api.controller.user.response.UserResponse;
+import com.everyschool.userservice.api.service.user.UserService;
+import com.everyschool.userservice.api.service.user.dto.CreateUserDto;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -25,9 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserControllerDocsTest extends RestDocsSupport {
 
+    private final UserService userService = mock(UserService.class);
+
     @Override
     protected Object initController() {
-        return new UserController();
+        return new UserController(userService);
     }
 
     @DisplayName("회원 가입 API")
@@ -38,8 +48,18 @@ public class UserControllerDocsTest extends RestDocsSupport {
             .email("ssafy@ssafy.com")
             .password("ssafy1234@")
             .name("김싸피")
-            .birth("01.01.01")
+            .birth("2001-01-01")
             .build();
+
+        UserResponse response = UserResponse.builder()
+            .email("ssafy@ssafy.com")
+            .name("김싸피")
+            .type("학생")
+            .createdDate(LocalDateTime.now())
+            .build();
+
+        given(userService.createUser(any(CreateUserDto.class)))
+            .willReturn(response);
 
         mockMvc.perform(
                 post("/join")
