@@ -31,9 +31,9 @@ function RouteLink() {
 
         {/* 로그인으로 보호받는 주소 */}
       <Route path="/" element={<MainPage />}>
-        <Route path='manage/parents' element={<ManageParents />} />
-        <Route path='manage/myclass' element={<ManageMyclass />} />
-        <Route path='report/history' element={<ReportHistory />} />
+        <Route path='manage/parents' element={<ManageParentsPage />} />
+        <Route path='manage/myclass' element={<ManageMyclassPage />} />
+        <Route path='report/history' element={<ReportHistoryPage />} />
         <Route path='docs/register-noti' element={<RegisterNotiPage />} />
         <Route path='docs/register-payment' element={<RegisterPayPage />} />
       </Route>
