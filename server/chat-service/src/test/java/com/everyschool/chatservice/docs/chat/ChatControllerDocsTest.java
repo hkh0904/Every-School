@@ -120,87 +120,38 @@ public class ChatControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-//    @DisplayName(" 수정 API")
-//    @Test
-//    void editBoard() throws Exception {
-//
-//        EditBoardRequest request = EditBoardRequest.builder()
-//            .title("수업시간 외 학교 체육관 사용에 관한")
-//            .content("사용 명부를 작성한 사람만 사용 가능")
-//            .categoryId(1L)
-//            .uploadFiles(new ArrayList<>())
-//            .build();
-//        mockMvc.perform(
-//                patch("/chat-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
-//                    .content(objectMapper.writeValueAsString(request))
-//                    .contentType(MediaType.MULTIPART_FORM_DATA)
-//            )
-//            .andDo(print())
-//            .andExpect(status().isOk())
-//            .andDo(document("edit-board",
-//                preprocessRequest(prettyPrint()),
-//                preprocessResponse(prettyPrint()),
-//                requestFields(
-//                    fieldWithPath("title").type(JsonFieldType.STRING)
-//                        .optional()
-//                        .description("게시글 제목"),
-//                    fieldWithPath("content").type(JsonFieldType.STRING)
-//                        .optional()
-//                        .description("게시글 내용"),
-//                    fieldWithPath("categoryId").type(JsonFieldType.NUMBER)
-//                        .optional()
-//                        .description("카테고리 코드"),
-//                    fieldWithPath("uploadFiles").type(JsonFieldType.ARRAY)
-//                        .description("이미지나 파일")
-//                ),
-//                responseFields(
-//                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-//                        .description("코드"),
-//                    fieldWithPath("status").type(JsonFieldType.STRING)
-//                        .description("상태"),
-//                    fieldWithPath("message").type(JsonFieldType.STRING)
-//                        .description("메시지"),
-//                    fieldWithPath("data").type(JsonFieldType.OBJECT)
-//                        .description("응답 데이터"),
-//                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
-//                        .description(" PK"),
-//                    fieldWithPath("data.title").type(JsonFieldType.STRING)
-//                        .description(" 제목"),
-//                    fieldWithPath("data.content").type(JsonFieldType.STRING)
-//                        .description(" 내용"),
-//                    fieldWithPath("data.userName").type(JsonFieldType.STRING)
-//                        .description("작성자"),
-//                    fieldWithPath("data.createDate").type(JsonFieldType.STRING)
-//                        .description(" 작성일"),
-//                    fieldWithPath("data.uploadFiles").type(JsonFieldType.ARRAY)
-//                        .description("파일들")
-//                )
-//            ));
-//    }
-//
-//    @DisplayName(" 삭제 API")
-//    @Test
-//    void deleteBoard() throws Exception {
-//
-//        mockMvc.perform(
-//                delete("/chat-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
-//            )
-//            .andDo(print())
-//            .andExpect(status().isOk())
-//            .andDo(document("delete-board",
-//                preprocessResponse(prettyPrint()),
-//                responseFields(
-//                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-//                        .description("코드"),
-//                    fieldWithPath("status").type(JsonFieldType.STRING)
-//                        .description("상태"),
-//                    fieldWithPath("message").type(JsonFieldType.STRING)
-//                        .description("메시지"),
-//                    fieldWithPath("data").type(JsonFieldType.STRING)
-//                        .description("삭제 결과")
-//                )
-//            ));
-//    }
+    @DisplayName("채팅 조회 API")
+    @Test
+    void searchChat() throws Exception {
+
+        mockMvc.perform(
+                get("/chat-service/chat-room/{chatRoomId}", 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-chat",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                        .description("응답 데이터"),
+                    fieldWithPath("data[].chatId").type(JsonFieldType.NUMBER)
+                        .description("채팅 PK"),
+                    fieldWithPath("data[].mine").type(JsonFieldType.BOOLEAN)
+                        .description("로그인 한 유저가 보낸 채팅인지"),
+                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
+                        .description("채팅 내용"),
+                    fieldWithPath("data[].sendTime").type(JsonFieldType.STRING)
+                        .description("전송 시간")
+                )
+            ));
+    }
 
     @Override
     protected Object initController() {
