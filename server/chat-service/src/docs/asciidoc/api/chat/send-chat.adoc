@@ -1,0 +1,12 @@
+[[send-chat]]
+=== 채팅 전송 API
+
+==== HTTP Request
+
+include::request/send-chat-request.adoc[]
+include::{snippets}/send-chat/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/send-chat/http-response.adoc[]
+include::{snippets}/send-chat/response-fields.adoc[]

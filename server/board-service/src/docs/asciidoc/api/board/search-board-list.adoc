@@ -1,0 +1,12 @@
+[[search-board-list]]
+=== 교내 공지 목록 조회 API
+
+==== HTTP Request
+include::request/search-board-list-request.adoc[]
+include::{snippets}/search-board-list/http-request.adoc[]
+include::{snippets}/search-board-list/request-parameters.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-board-list/http-response.adoc[]
+include::{snippets}/search-board-list/response-fields.adoc[]
