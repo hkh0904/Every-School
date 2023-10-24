@@ -1,8 +1,10 @@
-package com.everyschool.userservice.domain.codegroup.repository;
+package com.everyschool.userservice.api.service.codegroup;
 
 import com.everyschool.userservice.IntegrationTestSupport;
 import com.everyschool.userservice.api.controller.codegroup.response.CodeGroupResponse;
 import com.everyschool.userservice.domain.codegroup.CodeGroup;
+import com.everyschool.userservice.domain.codegroup.repository.CodeGroupRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,37 +13,24 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-class CodeGroupQueryRepositoryTest extends IntegrationTestSupport {
+class CodeGroupQueryServiceTest extends IntegrationTestSupport {
 
     @Autowired
-    private CodeGroupQueryRepository codeGroupQueryRepository;
+    private CodeGroupQueryService codeGroupQueryService;
 
     @Autowired
     private CodeGroupRepository codeGroupRepository;
 
-    @DisplayName("이미 등록된 그룹 이름이 존재하면 true를 반환한다.")
+    @DisplayName("등록된 모든 코드 그룹을 조회할 수 있다.")
     @Test
-    void existGroupName() {
-        //given
-        saveCodeGroup("직책");
-
-        //when
-        boolean isExistGroupName = codeGroupQueryRepository.existGroupName("직책");
-
-        //then
-        assertThat(isExistGroupName).isTrue();
-    }
-
-    @DisplayName("등록된 모든 그룹을 조회한다.")
-    @Test
-    void findAll() {
+    void searchCodeGroups() {
         //given
         CodeGroup group1 = saveCodeGroup("직책");
         CodeGroup group2 = saveCodeGroup("회원구분");
         CodeGroup group3 = saveCodeGroup("카테고리");
 
         //when
-        List<CodeGroupResponse> responses = codeGroupQueryRepository.findAll();
+        List<CodeGroupResponse> responses = codeGroupQueryService.searchCodeGroups();
 
         //then
         assertThat(responses).hasSize(3)

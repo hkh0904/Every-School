@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class CodeDetailService {
 
     private final CodeDetailRepository codeDetailRepository;
