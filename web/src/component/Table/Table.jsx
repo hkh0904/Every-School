@@ -1,4 +1,5 @@
 import { useTable, useGlobalFilter, useSortBy } from 'react-table';
+import { useNavigate } from 'react-router-dom';
 import Search from './Search';
 import styles from './Table.module.css';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -10,6 +11,12 @@ export default function Table({ columns, data }) {
     useGlobalFilter,
     useSortBy
   );
+  
+  const navigate = useNavigate();
+  const handleClick = (data) => {
+    const detailData = data
+    navigate('/report/detail', {state: { detailData: detailData }})
+  }
 
   return (
     <>
@@ -34,7 +41,7 @@ export default function Table({ columns, data }) {
                 {row.cells.map((cell) => {
                   let cellValue = String(cell.value);
                   // 'parent' 열의 값 처리
-                  if (cell.column.id === 'parent' || cell.column.id === 'now') {
+                  if (cell.column.id === 'parent' || cell.column.id === 'status') {
                     return (
                       <td className={styles.tableEle} {...cell.getCellProps()}>
                         {cell.value ? 'O' : 'X'}
@@ -61,9 +68,9 @@ export default function Table({ columns, data }) {
                   else if (cell.column.id === 'detail') {
                     return (
                       <td className={styles.tableEle} {...cell.getCellProps()}>
-                        <div className={styles.row}>
-                          <span className={styles.detailText}>상세내역 확인</span>
-                          <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }}/>
+                        <div className={styles.row} style={{cursor: 'pointer'}} onClick={() => handleClick(cell.row.values.detail)}>
+                            <span className={styles.detailText}>상세내역 확인</span>
+                          <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
                         </div>
                       </td>
                     );
