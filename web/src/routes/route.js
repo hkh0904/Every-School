@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import MainPage from '../pages/MainPage/MainPage';
 import ManageMyclassPage from '../pages/ManageMyclass/ManageMyclassPage';
 import ManageParentsPage from '../pages/ManageParents/ManageParentsPage';
@@ -9,24 +9,27 @@ import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 import ManageClassPage from '../pages/ManageClassPage/ManageClassPage';
 import ConsultApprovePage from '../pages/ConsultApprovePage/ConsultApprovePage';
 import ConsultHistory from '../pages/ConsultHistory/ConsultHistory';
+import LoginPage from '../pages/LoginAndSignup/LoginPage';
+import SignupPage from '../pages/LoginAndSignup/SignupPage';
+import PublicRouter from './PublicRouter';
+import PrivateRouter from './PrivateRouter';
 
 function RouteLink() {
   return (
     <>
       <Routes>
-        {/* 예시 주소 */}
-
-        {/* <Route path="/recommend/festival/:id" element={<FestivalDetail />} /> */}
-
         {/* 로그인 없이 가능한 주소 */}
-        {/* <Route Component={PublicRouter}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Route> */}
+        <Route Component={PublicRouter}>
+          {/* 회원 */}
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/login' element={<SignupPage />} />
+        </Route>
 
         {/* 로그인으로 보호받는 주소 */}
+        {/* <Route Component={PrivateRouter}> */}
         <Route path='/' element={<MainPage />}>
           {/* 학급 관리 */}
+          <Route path='' element={<Navigate to='/manage/myclass' replace />} />
           <Route path='manage/parents' element={<ManageParentsPage />} />
           <Route path='manage/myclass' element={<ManageMyclassPage />} />
           <Route path='manage/class' element={<ManageClassPage />} />
@@ -40,10 +43,7 @@ function RouteLink() {
           <Route path='consult/approve' element={<ConsultApprovePage />} />
           <Route path='consult/history' element={<ConsultHistory />} />
         </Route>
-
-        {/* <Route Component={PrivateRouter}>
-          <Route path="/mypage/:id" element={<Mypage />} />
-        </Route> */}
+        {/* </Route> */}
       </Routes>
     </>
   );

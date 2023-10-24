@@ -1,0 +1,114 @@
+.ConsultTime {
+  /* background-color: white; */
+  border: 1px solid rgb(212, 212, 212);
+  margin: 0.625rem;
+  border-radius: 8px;
+  width: 60rem;
+  margin-bottom: 2rem;
+}
+
+.consultTimeMain {
+  margin: 1.5rem 2rem 0.5rem 2rem;
+}
+
+.selectTitle {
+  font-weight: 700;
+  font-size: 17px;
+  margin-bottom: 0;
+  margin-bottom: 8px;
+}
+
+.daySelectBox {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.timeSelectBox {
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.timeBtn {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+
+.setBtn {
+  background-color: #449d87;
+  width: 5rem;
+  height: 34px;
+  color: white;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  width: 5rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #15075f;
+  cursor: pointer;
+}
+
+.weekInput > input + label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #15075f;
+  width: 4rem;
+  height: 2rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.weekInput > input:checked + label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #15075f;
+  width: 4rem;
+  height: 2rem;
+  margin-right: 1rem;
+  background-color: #15075f;
+  color: white;
+  cursor: pointer;
+}
+
+.weekInput > input {
+  display: none;
+}
+
+.timeInput > input + label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #15075f;
+  width: 4rem;
+  height: 2rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.timeInput > input:checked + label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #15075f;
+  width: 4rem;
+  height: 2rem;
+  margin-right: 1rem;
+  background-color: #15075f;
+  color: white;
+  cursor: pointer;
+}
+
+.timeInput > input {
+  display: none;
+}

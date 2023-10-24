@@ -1,6 +1,7 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './MainPage.module.css';
 import AccordianMenu from './AccordianMenu';
+import { useEffect, useMemo } from 'react';
 
 export default function MainPage() {
   return (

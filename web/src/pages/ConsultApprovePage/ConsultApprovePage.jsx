@@ -2,10 +2,12 @@ import { useState } from 'react';
 import styles from './ConsultApprovePage.module.css';
 import ConsultCheckList from './ConsultCheckList';
 import RefuseModal from './RefuseModal';
+import ConsultTime from './ConsultTime';
 
 export default function ConsultApprovePage() {
   const [message, setMessage] = useState('상담 메세지를 설정하세요');
   const [isCorrect, setIsCorrect] = useState(false);
+  const [isTimeSet, setIsTimeSet] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -69,6 +71,17 @@ export default function ConsultApprovePage() {
               </p>
             </div>
           )}
+        </div>
+        <div className={styles.timeSetBox}>
+          <div className={styles.setTime}>
+            <p className={styles.timeSetTitle}>상담 가능 시간 설정하기</p>
+            {isTimeSet ? null : (
+              <p className={styles.timeSetBtn} onClick={() => setIsTimeSet(true)}>
+                설정
+              </p>
+            )}
+          </div>
+          {isTimeSet ? <ConsultTime setIsTimeSet={setIsTimeSet} /> : null}
         </div>
       </div>
       <ConsultCheckList csltList={csltList} setIsModalOpen={setIsModalOpen} />

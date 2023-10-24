@@ -59,3 +59,23 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.timeSetBox {
+  margin-left: 0.625rem;
+}
+
+.timeSetTitle {
+  margin: 0;
+}
+
+.setTime {
+  display: flex;
+}
+
+.timeSetBtn {
+  margin-top: 0;
+  border: 1px solid black;
+  padding: 0 1.2rem;
+  margin-left: 1rem;
+  cursor: pointer;
+}
