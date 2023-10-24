@@ -7,6 +7,7 @@ import RegisterNotiPage from '../pages/Notification/RegisterNotiPage';
 import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 import ManageClassPage from '../pages/ManageClassPage/ManageClassPage';
 import ConsultApprovePage from '../pages/ConsultApprovePage/ConsultApprovePage';
+import ConsultHistory from '../pages/ConsultHistory/ConsultHistory';
 
 function RouteLink() {
   return (
@@ -35,6 +36,7 @@ function RouteLink() {
           <Route path='docs/register-payment' element={<RegisterPayPage />} />
           {/* 상담 */}
           <Route path='consult/approve' element={<ConsultApprovePage />} />
+          <Route path='consult/history' element={<ConsultHistory />} />
         </Route>
 
         {/* <Route Component={PrivateRouter}>
