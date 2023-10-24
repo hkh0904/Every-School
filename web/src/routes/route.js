@@ -34,7 +34,7 @@ function RouteLink() {
           <Route path='docs/register-noti' element={<RegisterNotiPage />} />
           <Route path='docs/register-payment' element={<RegisterPayPage />} />
           {/* 상담 */}
-          <Route path='consult/approve/' element={<ConsultApprovePage />} />
+          <Route path='consult/approve' element={<ConsultApprovePage />} />
         </Route>
 
         {/* <Route Component={PrivateRouter}>

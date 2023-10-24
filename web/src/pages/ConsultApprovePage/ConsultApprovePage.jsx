@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import styles from './ConsultApprovePage.module.css';
 import ConsultCheckList from './ConsultCheckList';
+import RefuseModal from './RefuseModal';
 
 export default function ConsultApprovePage() {
   const [message, setMessage] = useState('상담 메세지를 설정하세요');
   const [isCorrect, setIsCorrect] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const csltList = [
     {
@@ -68,7 +71,12 @@ export default function ConsultApprovePage() {
           )}
         </div>
       </div>
-      <ConsultCheckList csltList={csltList} />
+      <ConsultCheckList csltList={csltList} setIsModalOpen={setIsModalOpen} />
+      {isModalOpen ? (
+        <div className={styles.refModal}>
+          <RefuseModal setIsModalOpen={setIsModalOpen} />
+        </div>
+      ) : null}
     </div>
   );
 }

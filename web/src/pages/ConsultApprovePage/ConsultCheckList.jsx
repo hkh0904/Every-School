@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import styles from './ConsultCheckList.module.css';
 import { useEffect } from 'react';
+import RefuseModal from './RefuseModal';
 
-export default function ConsultCheckList({ csltList }) {
+export default function ConsultCheckList({ csltList, setIsModalOpen }) {
   const [groupCslt, setGroupCslt] = useState([]);
 
   function groupByYearMonth(list) {
@@ -45,7 +46,7 @@ export default function ConsultCheckList({ csltList }) {
                         <div>
                           <img
                             className={styles.cardImage}
-                            src={process.env.PUBLIC_URL + 'assets/consult/consultcheck.png'}
+                            src={process.env.PUBLIC_URL + '/assets/consult/consultcheck.png'}
                             alt=''
                           />
                           <p className={styles.childName}>{item.studentName} 학생</p>
@@ -65,7 +66,7 @@ export default function ConsultCheckList({ csltList }) {
                       </div>
                       <div className={styles.checkBtn}>
                         <p>승인</p>
-                        <p>거절</p>
+                        <p onClick={() => setIsModalOpen(true)}>거절</p>
                       </div>
                     </div>
                   ))}

@@ -4,6 +4,7 @@
   min-height: 78vh;
   padding: 2rem 5rem 2rem 5rem;
   min-width: 768px;
+  border-radius: 5px;
 }
 
 .checkList {
@@ -52,6 +53,7 @@
   margin-bottom: 3rem;
   justify-content: space-between;
   position: relative;
+  height: 10rem;
 }
 
 .csltCard::before {
@@ -133,7 +135,7 @@
 }
 
 .reasonBoxP1 {
-  font-size: 21px;
+  font-size: 18px;
   margin: 0;
 }
 
@@ -144,7 +146,7 @@
 }
 
 .reasonBoxP3 {
-  font-size: 21px;
+  font-size: 18px;
   margin: 0;
 }
 
