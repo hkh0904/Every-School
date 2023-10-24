@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './ManageClass.module.css';
+import styles from './ManageClassPage.module.css';
 import ApproveModal from './ApproveModal';
 
 //axios 요청하기
