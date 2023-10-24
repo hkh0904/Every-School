@@ -7,6 +7,8 @@ import RegisterNotiPage from '../pages/Notification/RegisterNotiPage';
 import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 import ManageClassPage from '../pages/ManageClassPage/ManageClassPage';
 import ConsultApprovePage from '../pages/ConsultApprovePage/ConsultApprovePage';
+import LoginPage from '../pages/LoginAndSignup/LoginPage';
+import SignupPage from '../pages/LoginAndSignup/SignupPage';
 
 function RouteLink() {
   return (
@@ -17,6 +19,9 @@ function RouteLink() {
         {/* <Route path="/recommend/festival/:id" element={<FestivalDetail />} /> */}
 
         {/* 로그인 없이 가능한 주소 */}
+        {/* 회원 */}
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/signup' element={<SignupPage />} />
         {/* <Route Component={PublicRouter}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
