@@ -63,6 +63,13 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        # school-service
+        - id: school-service
+          uri: lb://SCHOOL-SERVICE
+          predicates:
+            - Path=/school-service/api/**
+
+
 
 management:
   endpoints:

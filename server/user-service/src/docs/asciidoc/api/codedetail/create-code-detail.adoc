@@ -1,0 +1,11 @@
+[[create-code-detail]]
+=== 공통 상세 코드 등록 API
+
+==== HTTP Request
+include::{snippets}/create-code-detail/http-request.adoc[]
+include::{snippets}/create-code-detail/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-code-detail/http-response.adoc[]
+include::{snippets}/create-code-detail/response-fields.adoc[]

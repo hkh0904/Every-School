@@ -11,6 +11,20 @@ endif::[]
 
 include::overview.adoc[]
 
+[[Code-Group-API]]
+== Code Group API
+include::api/codegroup/create-code-group.adoc[]
+include::api/codegroup/search-code-group.adoc[]
+include::api/codegroup/remove-code-group.adoc[]
+
+
+[[Code-Detail-API]]
+== Code Detail API
+include::api/codedetail/create-code-detail.adoc[]
+include::api/codedetail/search-code-detail.adoc[]
+include::api/codedetail/remove-code-detail.adoc[]
+
+
 [[User-API]]
 == User API
 
@@ -21,6 +35,7 @@ include::api/user/forgot-email.adoc[]
 include::api/user/forgot-pwd.adoc[]
 include::api/user/edit-pwd.adoc[]
 include::api/user/delete-user.adoc[]
+
 
 [[Auth-API]]
 == Auth API

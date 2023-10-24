@@ -12,11 +12,14 @@ remove: 파일을 삭제하는 작업만 수행한 경우
 backup: 코드 백업하는 경우
 
 ---
+
 feat(user): 회원 가입 기능 구현
 SNS 회원가입 연동
+Adds #S09P31C108-158
 Closes #S09P31C108-001
 
 ---
+
 git fetch upstream
 git merge upstream/develop
 git push origin develop

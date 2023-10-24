@@ -1,0 +1,12 @@
+[[delete-board]]
+=== 교내 공지 삭제 API
+
+==== HTTP Request
+
+include::request/delete-board-request.adoc[]
+include::{snippets}/delete-board/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/delete-board/http-response.adoc[]
+include::{snippets}/delete-board/response-fields.adoc[]

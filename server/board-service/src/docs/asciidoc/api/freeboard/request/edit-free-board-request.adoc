@@ -1,0 +1,13 @@
+[source,http,options="nowrap"]
+----
+PATCH /board-service/free-boards/{schoolId}/{userKey}/{boardId} HTTP/1.1
+Content-Type: multipart/form-data
+Content-Length: 115
+Host: localhost:8080
+
+{
+  "title" : "게시글 수정 제목",
+  "content" : "착한사람만 수정 가능",
+  "uploadFiles" : [ ]
+}
+----

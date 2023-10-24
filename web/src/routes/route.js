@@ -6,6 +6,7 @@ import ReportHistoryPage from '../pages/ReportHistory/ReportHistoryPage';
 import RegisterNotiPage from '../pages/Notification/RegisterNotiPage';
 import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 import ManageClassPage from '../pages/ManageClassPage/ManageClassPage';
+import ConsultApprovePage from '../pages/ConsultApprovePage/ConsultApprovePage';
 
 function RouteLink() {
   return (
@@ -32,6 +33,8 @@ function RouteLink() {
           {/* 고지서 등록 */}
           <Route path='docs/register-noti' element={<RegisterNotiPage />} />
           <Route path='docs/register-payment' element={<RegisterPayPage />} />
+          {/* 상담 */}
+          <Route path='consult/approve' element={<ConsultApprovePage />} />
         </Route>
 
         {/* <Route Component={PrivateRouter}>
