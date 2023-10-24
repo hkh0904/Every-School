@@ -2,6 +2,7 @@ package com.everyschool.consultservice.docs.consult;
 
 import com.everyschool.consultservice.api.controller.consult.ConsultController;
 import com.everyschool.consultservice.api.controller.consult.request.CreateConsultRequest;
+import com.everyschool.consultservice.api.controller.consult.request.CreateConsultScheduleRequest;
 import com.everyschool.consultservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -62,9 +64,48 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-//    @DisplayName("교내 공지 목록 조회 API")
+    @DisplayName("(교사용) 상담 가능 시간 등록 API")
+    @Test
+    void createConsultSchedule() throws Exception {
+        CreateConsultScheduleRequest request = CreateConsultScheduleRequest.builder()
+            .startTime(LocalTime.NOON)
+            .endTime(LocalTime.MIDNIGHT)
+            .build();
+
+        mockMvc.perform(
+                post("/consult-service/consult/schedule")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isCreated())
+            .andDo(document("create-consult-schedule",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("startTime").type(JsonFieldType.ARRAY)
+                        .optional()
+                        .description("상담 가능 시작 시간"),
+                    fieldWithPath("endTime").type(JsonFieldType.ARRAY)
+                        .optional()
+                        .description("상담 가능 종료 시간")
+                ),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.NUMBER)
+                        .description("응답 데이터(상담 일정 PK)")
+                )
+            ));
+    }
+
+//    @DisplayName("(교사용) API")
 //    @Test
-//    void searchBoards() throws Exception {
+//    void createConsultSchedule() throws Exception {
 //
 //        mockMvc.perform(
 //                get("/consult-service/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())

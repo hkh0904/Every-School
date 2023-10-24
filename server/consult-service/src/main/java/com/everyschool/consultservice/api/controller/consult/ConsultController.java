@@ -2,6 +2,7 @@ package com.everyschool.consultservice.api.controller.consult;
 
 import com.everyschool.consultservice.api.ApiResponse;
 import com.everyschool.consultservice.api.controller.consult.request.CreateConsultRequest;
+import com.everyschool.consultservice.api.controller.consult.request.CreateConsultScheduleRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,13 @@ public class ConsultController {
         return ApiResponse.created(1L);
     }
 
-    // TODO: 2023-10-24 상담 일정 등록
+    @PostMapping("/consult/schedule")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<Long> createConsultSchedule(@RequestBody @Valid CreateConsultScheduleRequest request){
+
+        // TODO: 2023-10-24 상담 일정 등록
+        return ApiResponse.created(1L);
+    }
 
     // TODO: 2023-10-24 상담 가능 일정 조회
 
