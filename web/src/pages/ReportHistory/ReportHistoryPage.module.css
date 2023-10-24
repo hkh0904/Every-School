@@ -7,7 +7,7 @@
 .row {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* 이 부분은 텍스트와 버튼을 수직으로 중앙 정렬하려는 경우 추가 */
+  align-items: center;
 }
 
 .headText {

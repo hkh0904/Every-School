@@ -13,6 +13,20 @@ backup: 코드 백업하는 경우
 
 ---
 
+Branch Naming
+- `master`
+    - default 브랜치
+- `develop`
+    - 개발 브랜치
+- `feature`
+- `release`
+- `hotfixs`
+
+Branch Naming 예시
+feature/S09P31C108-112-login_form
+
+---
+
 feat(user): 회원 가입 기능 구현
 SNS 회원가입 연동
 Adds #S09P31C108-158
