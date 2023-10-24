@@ -75,11 +75,13 @@ export default function ConsultApprovePage() {
         <div className={styles.timeSetBox}>
           <div className={styles.setTime}>
             <p className={styles.timeSetTitle}>상담 가능 시간 설정하기</p>
-            <p className={styles.msgBtn} onClick={() => setIsTimeSet(true)}>
-              설정
-            </p>
+            {isTimeSet ? null : (
+              <p className={styles.timeSetBtn} onClick={() => setIsTimeSet(true)}>
+                설정
+              </p>
+            )}
           </div>
-          {isTimeSet ? <ConsultTime /> : null}
+          {isTimeSet ? <ConsultTime setIsTimeSet={setIsTimeSet} /> : null}
         </div>
       </div>
       <ConsultCheckList csltList={csltList} setIsModalOpen={setIsModalOpen} />
