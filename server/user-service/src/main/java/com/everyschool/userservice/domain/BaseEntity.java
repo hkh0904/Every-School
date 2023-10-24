@@ -13,4 +13,8 @@ public class BaseEntity extends TimeBaseEntity{
     protected BaseEntity() {
         this.isDeleted = false;
     }
+
+    public void remove() {
+        this.isDeleted = true;
+    }
 }

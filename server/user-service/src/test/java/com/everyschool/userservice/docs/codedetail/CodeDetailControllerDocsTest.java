@@ -3,6 +3,7 @@ package com.everyschool.userservice.docs.codedetail;
 import com.everyschool.userservice.api.controller.codedetail.CodeDetailController;
 import com.everyschool.userservice.api.controller.codedetail.request.CreateCodeDetailRequest;
 import com.everyschool.userservice.api.controller.codedetail.respnse.CreateCodeDetailResponse;
+import com.everyschool.userservice.api.controller.codedetail.respnse.RemoveCodeDetailResponse;
 import com.everyschool.userservice.api.service.codedetail.CodeDetailService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -88,5 +90,50 @@ public class CodeDetailControllerDocsTest extends RestDocsSupport {
                         .description("등록 일시")
                 )
             ));
+    }
+
+    @DisplayName("공통 상세 코드 삭제 API")
+    @Test
+    void removeCodeDetail() throws Exception {
+        RemoveCodeDetailResponse response = RemoveCodeDetailResponse.builder()
+            .groupId(1)
+            .groupName("직책")
+            .codeId(1)
+            .codeName("교장")
+            .removedDate(LocalDateTime.now())
+            .build();
+
+        given(codeDetailService.removeCodeDetail(anyInt()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                delete("/code-groups/{groupId}/code-details/{codeId}", 1, 1)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("remove-code-detail",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.groupId").type(JsonFieldType.NUMBER)
+                        .description("코드 그룹 PK"),
+                    fieldWithPath("data.groupName").type(JsonFieldType.STRING)
+                        .description("코드 그룹 이름"),
+                    fieldWithPath("data.codeId").type(JsonFieldType.NUMBER)
+                        .description("상세 코드 PK"),
+                    fieldWithPath("data.codeName").type(JsonFieldType.STRING)
+                        .description("상세 코드 이름"),
+                    fieldWithPath("data.removedDate").type(JsonFieldType.ARRAY)
+                        .description("삭제 일시")
+                )
+            ));
+
     }
 }
