@@ -57,7 +57,7 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/api/**
+            - Path=/user-service/v1/**
             - Method=GET, POST, PATCH, DELETE
           filters:
             - RemoveRequestHeader=Cookie
@@ -68,6 +68,48 @@ spring:
           uri: lb://SCHOOL-SERVICE
           predicates:
             - Path=/school-service/api/**
+        # board-service
+        - id: board-service
+          uri: lb://BOARD-SERVICE
+          predicates:
+            - Path=/board-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: board-service
+          uri: lb://BOARD-SERVICE
+          predicates:
+            - Path=/board-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/board-service/(?<segment>.*), /$\{segment}
+        # chat-service
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/chat-service/(?<segment>.*), /$\{segment}
+        # consult-service
+        - id: consult-service
+          uri: lb://CONSULT-SERVICE
+          predicates:
+            - Path=/consult-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: consult-service
+          uri: lb://CONSULT-SERVICE
+          predicates:
+            - Path=/consult-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/consult-service/(?<segment>.*), /$\{segment}
 
 
 
