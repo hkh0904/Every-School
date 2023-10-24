@@ -1,4 +1,4 @@
-package com.everyschool.reportservice.api.controller.school.request;
+package com.everyschool.reportservice.api.controller.report.request;
 
 import lombok.Builder;
 import lombok.Data;

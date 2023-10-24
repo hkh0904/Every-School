@@ -1,8 +1,8 @@
 package com.everyschool.reportservice.docs.report;
 
-import com.everyschool.reportservice.api.controller.school.ReportController;
-import com.everyschool.reportservice.api.controller.school.request.FileRequest;
-import com.everyschool.reportservice.api.controller.school.request.ReportRequest;
+import com.everyschool.reportservice.api.controller.report.ReportController;
+import com.everyschool.reportservice.api.controller.report.request.FileRequest;
+import com.everyschool.reportservice.api.controller.report.request.ReportRequest;
 import com.everyschool.reportservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;

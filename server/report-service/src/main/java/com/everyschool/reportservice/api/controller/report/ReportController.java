@@ -1,13 +1,12 @@
-package com.everyschool.reportservice.api.controller.school;
+package com.everyschool.reportservice.api.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
-import com.everyschool.reportservice.api.controller.school.request.ReportRequest;
-import com.everyschool.reportservice.api.controller.school.response.FileResponse;
-import com.everyschool.reportservice.api.controller.school.response.ReportResponse;
-import com.everyschool.reportservice.api.controller.school.response.UserResponse;
+import com.everyschool.reportservice.api.controller.report.request.ReportRequest;
+import com.everyschool.reportservice.api.controller.report.response.FileResponse;
+import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
+import com.everyschool.reportservice.api.controller.report.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jdt.internal.compiler.env.IModule;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
