@@ -28,7 +28,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-                post("/chat-service/chat-room")
+                post("/chat-service/v1/chat-room")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -67,7 +67,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
     void searchChatRoomList() throws Exception {
 
         mockMvc.perform(
-                get("/chat-service/chat-room/{userKey}", UUID.randomUUID().toString())
+                get("/chat-service/v1/chat-room")
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -101,7 +101,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
     void sendMessage() throws Exception {
 
         mockMvc.perform(
-                post("/chat-service/chat-room/{chatRoomId}", 1L)
+                post("/chat-service/v1/chat-room/{chatRoomId}", 1L)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -125,7 +125,7 @@ public class ChatControllerDocsTest extends RestDocsSupport {
     void searchChat() throws Exception {
 
         mockMvc.perform(
-                get("/chat-service/chat-room/{chatRoomId}", 1L)
+                get("/chat-service/v1/chat-room/{chatRoomId}", 1L)
             )
             .andDo(print())
             .andExpect(status().isOk())
