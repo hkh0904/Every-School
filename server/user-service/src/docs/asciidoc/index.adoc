@@ -15,6 +15,14 @@ include::overview.adoc[]
 == Code Group API
 include::api/codegroup/create-code-group.adoc[]
 include::api/codegroup/search-code-group.adoc[]
+include::api/codegroup/remove-code-group.adoc[]
+
+
+[[Code-Detail-API]]
+== Code Detail API
+include::api/codedetail/create-code-detail.adoc[]
+include::api/codedetail/search-code-detail.adoc[]
+include::api/codedetail/remove-code-detail.adoc[]
 
 
 [[User-API]]

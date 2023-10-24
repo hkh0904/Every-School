@@ -1,0 +1,10 @@
+[[remove-code-group]]
+=== 공통 코드 그룹 삭제 API
+
+==== HTTP Request
+include::{snippets}/remove-code-group/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/remove-code-group/http-response.adoc[]
+include::{snippets}/remove-code-group/response-fields.adoc[]
