@@ -1,4 +1,4 @@
-import 'package:everyschool/home/homebody.dart';
+import 'package:everyschool/pages/home/homebody.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
