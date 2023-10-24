@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './ManageClass.module.css';
+import ApproveModal from './ApproveModal';
 
 //axios 요청하기
 export default function ManageClassPage() {
@@ -13,8 +14,11 @@ export default function ManageClassPage() {
     { id: 6, type: 1, grade: 3, calss: 3, number: 16, gender: 'F', name: '이예리' },
     { id: 7, type: 1, grade: 1, calss: 3, number: 16, gender: 'M', name: '홍경환' }
   ];
+  //SPA
   const [pageIdx, setPageIdx] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  //.모달
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const mode = [
     {
@@ -62,7 +66,14 @@ export default function ManageClassPage() {
                   <div>학년 반 이름</div>
                   <div>승인 날짜</div>
                 </div>
-                <div className={styles.confirm}>확인하기 {'>'}</div>
+                <div
+                  className={styles.confirm}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                  }}
+                >
+                  확인하기 {'>'}
+                </div>
               </div>
             );
           })}
@@ -97,6 +108,11 @@ export default function ManageClassPage() {
         </div>
         <div className={styles.approveCardBox}>{mode[pageIdx].component}</div>
       </div>
+      {isModalOpen ? (
+        <div className={styles.refModal}>
+          <ApproveModal setIsModalOpen={setIsModalOpen} />
+        </div>
+      ) : null}
     </div>
   );
 }
