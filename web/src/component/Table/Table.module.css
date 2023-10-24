@@ -15,6 +15,16 @@
   background-color: #F6F5F9;
 }
 
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detailText {
+  margin-right: 3px;
+  color: #449D87;
+}
 
 .formContainer {
   display: flex;

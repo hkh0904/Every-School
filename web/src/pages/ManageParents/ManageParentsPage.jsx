@@ -91,7 +91,7 @@ export default function ManageParentsPage() {
     <div className={styles.container}>
       <div className={styles.row}>
         <div>
-          <div className={styles.headText}>학부모 보기</div>
+          <div className={styles.headText}>학부모 관리</div>
           <div className={styles.underText}>등록 인원 수 : OO명</div>
         </div>
         <div className={styles.plusButton}>
