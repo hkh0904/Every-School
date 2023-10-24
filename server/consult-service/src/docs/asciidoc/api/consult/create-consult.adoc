@@ -1,0 +1,11 @@
+[[create-consult]]
+=== 상담 예약 API
+
+==== HTTP Request
+
+include::{snippets}/create-consult/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/create-consult/http-response.adoc[]
+include::{snippets}/create-consult/response-fields.adoc[]

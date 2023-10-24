@@ -139,7 +139,7 @@ export default function ManageMyclassPage () {
     <div className={styles.container}>
       <div className={styles.row}>
         <div>
-          <div className={styles.headText}>우리반 보기</div>
+          <div className={styles.headText}>우리반 관리</div>
           <div className={styles.underText}>총원 : OO명</div>
         </div>
         <div className={styles.plusButton}>

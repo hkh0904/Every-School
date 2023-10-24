@@ -1,0 +1,20 @@
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+= Every School(chat-service) REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+include::overview.adoc[]
+
+[[chat-API]]
+== Chat API
+
+include::api/chat/create-chat-room.adoc[]
+include::api/chat/search-chat-room-list.adoc[]
+include::api/chat/send-chat.adoc[]
+include::api/chat/search-chat.adoc[]

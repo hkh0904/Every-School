@@ -31,7 +31,6 @@ export default function Search({ onSubmit }) {
         name="filter"
         className={styles.input}
         placeholder="검색"
-        required
         type="text"
       />
       <button className={styles.reset} type="reset">

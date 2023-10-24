@@ -1,0 +1,55 @@
+.container {
+  background-color: #F6F5F9;
+  height: 90vh;
+  padding: 5vw;
+  padding-top: 3vw;
+}
+
+.row {
+  margin-bottom: 2rem;
+}
+
+.inrow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.headText {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.selectItem {
+  border: none !important;
+  background-color: transparent !important;
+  width: 100%;
+}
+
+.selectItem:focus {
+  outline: none;
+}
+
+.whiteBox {
+  display: flex;
+  background-color: white;
+  width: 70%;
+  height: 10px;
+  border-radius: 8px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.contentBox {
+  background-color: white;
+  width: 85%;
+  height: 20rem;
+  border-radius: 8px;
+  padding: 20px;
+  /* font-weight: bold; */
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
