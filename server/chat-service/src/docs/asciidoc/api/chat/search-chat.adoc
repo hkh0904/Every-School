@@ -1,0 +1,12 @@
+[[search-chat]]
+=== 채팅 조회 API
+
+==== HTTP Request
+
+include::request/search-chat-request.adoc[]
+include::{snippets}/search-chat/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/search-chat/http-response.adoc[]
+include::{snippets}/search-chat/response-fields.adoc[]

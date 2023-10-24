@@ -1,0 +1,12 @@
+[[delete-free-board]]
+=== 게시글 삭제 API
+
+==== HTTP Request
+
+include::request/delete-free-board-request.adoc[]
+include::{snippets}/delete-free-board/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/delete-free-board/http-response.adoc[]
+include::{snippets}/delete-free-board/response-fields.adoc[]

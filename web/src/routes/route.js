@@ -1,21 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import MainPage from '../pages/MainPage/MainPage';
 import ManageMyclassPage from '../pages/ManageMyclass/ManageMyclassPage';
-import ManageParentsPage from '../pages/ManageParents/ManageParentsPage'
+import ManageParentsPage from '../pages/ManageParents/ManageParentsPage';
 import ReportHistoryPage from '../pages/ReportHistory/ReportHistoryPage';
 import RegisterNotiPage from '../pages/Notification/RegisterNotiPage';
 import RegisterPayPage from '../pages/Notification/RegisterPayPage';
+import ManageClassPage from '../pages/ManageClassPage/ManageClassPage';
+import ConsultApprovePage from '../pages/ConsultApprovePage/ConsultApprovePage';
 
 function RouteLink() {
-  // const { currentUser } = useContext(AuthContext);
-
-  // const ProtectedRoute = ({ children }) => {
-  //   if (!currentUser) {
-  //     return <Navigate to="/login" />;
-  //   }
-
-  //   return children;
-  // };
   return (
     <>
       <Routes>
@@ -30,30 +23,24 @@ function RouteLink() {
         </Route> */}
 
         {/* 로그인으로 보호받는 주소 */}
-      <Route path="/" element={<MainPage />}>
-        <Route path='manage/parents' element={<ManageParentsPage />} />
-        <Route path='manage/myclass' element={<ManageMyclassPage />} />
-        <Route path='report/history' element={<ReportHistoryPage />} />
-        <Route path='docs/register-noti' element={<RegisterNotiPage />} />
-        <Route path='docs/register-payment' element={<RegisterPayPage />} />
-      </Route>
-      {/* <Route Component={PrivateRouter}>
-        <Route path="/" element={<MainPage />}>
-          <Route path='manage/myclass' element={<ManageMyclassPage/>}/>
+        <Route path='/' element={<MainPage />}>
+          {/* 학급 관리 */}
+          <Route path='manage/parents' element={<ManageParentsPage />} />
+          <Route path='manage/myclass' element={<ManageMyclassPage />} />
+          <Route path='manage/class' element={<ManageClassPage />} />
+          {/* 신고페이지 */}
+          <Route path='report/history' element={<ReportHistoryPage />} />
+          {/* 고지서 등록 */}
+          <Route path='docs/register-noti' element={<RegisterNotiPage />} />
+          <Route path='docs/register-payment' element={<RegisterPayPage />} />
+          {/* 상담 */}
+          <Route path='consult/approve' element={<ConsultApprovePage />} />
         </Route>
-        <Route path="/" element={<MainPage />}>
-          <Route path='manage/parents' element={<ManageParentsPage/>}/>
-        </Route>
-        <Route path="/" element={<MainPage />}>
-          <Route path='report/history' element={<ReportHistoryPage/>}/>
-        </Route>
-        <Route path="/" element={<MainPage />}>
-          <Route path='docs/register-noti' element={<RegisterNoti/>}/>
-        </Route>
+
         {/* <Route Component={PrivateRouter}>
           <Route path="/mypage/:id" element={<Mypage />} />
         </Route> */}
-    </Routes >
+      </Routes>
     </>
   );
 }

@@ -1,0 +1,6 @@
+[source,http,options="nowrap"]
+----
+GET /board-service/free-boards/{학교 코드 Id}/{로그인 유저 키}/{게시글 Id} HTTP/1.1
+Host: localhost:8080
+
+----
