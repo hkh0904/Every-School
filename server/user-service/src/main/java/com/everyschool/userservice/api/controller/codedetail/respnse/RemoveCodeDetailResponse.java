@@ -13,15 +13,15 @@ public class RemoveCodeDetailResponse {
     private String groupName;
     private Integer codeId;
     private String codeName;
-    private LocalDateTime createdDate;
+    private LocalDateTime removedDate;
 
     @Builder
-    public RemoveCodeDetailResponse(Integer groupId, String groupName, Integer codeId, String codeName, LocalDateTime createdDate) {
+    public RemoveCodeDetailResponse(Integer groupId, String groupName, Integer codeId, String codeName, LocalDateTime removedDate) {
         this.groupId = groupId;
         this.groupName = groupName;
         this.codeId = codeId;
         this.codeName = codeName;
-        this.createdDate = createdDate;
+        this.removedDate = removedDate;
     }
 
     public static RemoveCodeDetailResponse of(CodeDetail codeDetail) {
@@ -30,7 +30,7 @@ public class RemoveCodeDetailResponse {
             .groupName(codeDetail.getGroup().getGroupName())
             .codeId(codeDetail.getId())
             .codeName(codeDetail.getCodeName())
-            .createdDate(codeDetail.getCreatedDate())
+            .removedDate(codeDetail.getLastModifiedDate())
             .build();
     }
 }
