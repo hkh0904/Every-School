@@ -37,7 +37,7 @@ public class BoardControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-                post("/board-service/boards/{userKey}", UUID.randomUUID().toString())
+                post("/board-service/v1/boards/{userKey}", UUID.randomUUID().toString())
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
@@ -101,7 +101,7 @@ public class BoardControllerDocsTest extends RestDocsSupport {
     void searchBoards() throws Exception {
 
         mockMvc.perform(
-                get("/board-service/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
+                get("/board-service/v1/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
                     .param("limit", "4")
                     .param("categoryId", "1")
             )
@@ -139,7 +139,7 @@ public class BoardControllerDocsTest extends RestDocsSupport {
     void searchBoard() throws Exception {
 
         mockMvc.perform(
-                get("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+                get("/board-service/v1/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -181,7 +181,7 @@ public class BoardControllerDocsTest extends RestDocsSupport {
             .uploadFiles(new ArrayList<>())
             .build();
         mockMvc.perform(
-                patch("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+                patch("/board-service/v1/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
@@ -233,7 +233,7 @@ public class BoardControllerDocsTest extends RestDocsSupport {
     void deleteBoard() throws Exception {
 
         mockMvc.perform(
-                delete("/board-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+                delete("/board-service/v1/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
             )
             .andDo(print())
             .andExpect(status().isOk())
