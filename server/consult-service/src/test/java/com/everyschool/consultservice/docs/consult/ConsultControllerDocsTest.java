@@ -31,7 +31,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-                post("/consult-service/consult")
+                post("/consult-service/v1/consult")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -73,7 +73,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-                post("/consult-service/consult/schedule")
+                post("/consult-service/v1/consult/schedule")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -108,7 +108,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
 //    void createConsultSchedule() throws Exception {
 //
 //        mockMvc.perform(
-//                get("/consult-service/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
+//                get("/consult-service/v1/boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
 //                    .param("limit", "4")
 //                    .param("categoryId", "1")
 //            )
@@ -146,7 +146,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
 //    void searchBoard() throws Exception {
 //
 //        mockMvc.perform(
-//                get("/consult-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+//                get("/consult-service/v1/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
 //            )
 //            .andDo(print())
 //            .andExpect(status().isOk())
@@ -188,7 +188,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
 //            .uploadFiles(new ArrayList<>())
 //            .build();
 //        mockMvc.perform(
-//                patch("/consult-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+//                patch("/consult-service/v1/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
 //                    .content(objectMapper.writeValueAsString(request))
 //                    .contentType(MediaType.MULTIPART_FORM_DATA)
 //            )
@@ -240,7 +240,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
 //    void deleteBoard() throws Exception {
 //
 //        mockMvc.perform(
-//                delete("/consult-service/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+//                delete("/consult-service/v1/boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
 //            )
 //            .andDo(print())
 //            .andExpect(status().isOk())
