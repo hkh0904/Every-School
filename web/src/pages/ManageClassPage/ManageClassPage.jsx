@@ -14,6 +14,7 @@ export default function ManageClassPage() {
     { id: 7, type: 1, grade: 1, calss: 3, number: 16, gender: 'M', name: '홍경환' }
   ];
   const [pageIdx, setPageIdx] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
   const mode = [
     {
@@ -21,7 +22,23 @@ export default function ManageClassPage() {
       component: (
         <>
           {dummyData.map((data) => {
-            return <div>{data.name}</div>;
+            return (
+              <div className={styles.approveCard}>
+                <img
+                  className={styles.preApproveImg}
+                  src={`${process.env.PUBLIC_URL}/assets/approve/pre_approve.png`}
+                  alt=''
+                />
+                <div className={styles.information}>
+                  <div>학부모 신청</div>
+                  <div>{data.name}</div>
+                  <div>관계</div>
+                  <div>학년 반 이름</div>
+                  <div>신청 날짜</div>
+                </div>
+                <div className={styles.confirm}>확인하기 {'>'}</div>
+              </div>
+            );
           })}
         </>
       )
@@ -31,7 +48,23 @@ export default function ManageClassPage() {
       component: (
         <>
           {dummyData.map((data) => {
-            return <div>{data.gender}</div>;
+            return (
+              <div className={styles.approveCard}>
+                <img
+                  className={styles.preApproveImg}
+                  src={`${process.env.PUBLIC_URL}/assets/approve/pre_approve.png`}
+                  alt=''
+                />
+                <div className={styles.information}>
+                  <div>학부모 신청</div>
+                  <div>{data.name}</div>
+                  <div>관계</div>
+                  <div>학년 반 이름</div>
+                  <div>승인 날짜</div>
+                </div>
+                <div className={styles.confirm}>확인하기 {'>'}</div>
+              </div>
+            );
           })}
         </>
       )
@@ -45,22 +78,24 @@ export default function ManageClassPage() {
       </div>
       <div className={styles.approveClass}>
         <div className={styles.approveTab}>
-          <button
+          <div
             onClick={() => {
               setPageIdx(0);
+              setIsActive(true);
             }}
           >
-            승인 대기
-          </button>
-          <button
+            <p style={isActive ? { backgroundColor: 'white' } : null}>승인 대기</p>
+          </div>
+          <div
             onClick={() => {
               setPageIdx(1);
+              setIsActive(false);
             }}
           >
-            승인 내역
-          </button>
-          <div>{mode[pageIdx].component}</div>
+            <p style={!isActive ? { backgroundColor: 'white' } : null}>상담 내역</p>
+          </div>
         </div>
+        <div className={styles.approveCardBox}>{mode[pageIdx].component}</div>
       </div>
     </div>
   );
