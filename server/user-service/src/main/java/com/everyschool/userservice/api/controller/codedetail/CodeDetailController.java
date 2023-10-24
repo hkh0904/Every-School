@@ -34,7 +34,7 @@ public class CodeDetailController {
         return ApiResponse.created(response);
     }
 
-    @DeleteMapping("{codeId}")
+    @DeleteMapping("/{codeId}")
     public ApiResponse<RemoveCodeDetailResponse> removeCodeDetail(@PathVariable Integer groupId, @PathVariable Integer codeId) {
         log.debug("call CodeDetailController#createCodeDetail");
         log.debug("groupId={}", groupId);

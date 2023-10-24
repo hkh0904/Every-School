@@ -30,7 +30,7 @@ public class CodeGroupController {
         return ApiResponse.created(response);
     }
 
-    @DeleteMapping("{groupId}")
+    @DeleteMapping("/{groupId}")
     public ApiResponse<RemoveCodeGroupResponse> removeCodeGroup(@PathVariable Integer groupId) {
         log.debug("call CodeGroupController#removeCodeGroup");
         log.debug("remove groupId={}", groupId);
