@@ -14,8 +14,8 @@ include::overview.adoc[]
 [[consult-API]]
 == Consult API
 
-// include::api/chat/create-board.adoc[]
-// include::api/chat/search-board-list.adoc[]
-// include::api/chat/search-board.adoc[]
-// include::api/chat/edit-board.adoc[]
-// include::api/chat/delete-board.adoc[]
+include::api/consult/create-consult.adoc[]
+// include::api/consult/search-board-list.adoc[]
+// include::api/consult/search-board.adoc[]
+// include::api/consult/edit-board.adoc[]
+// include::api/consult/delete-board.adoc[]
