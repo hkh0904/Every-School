@@ -1,0 +1,157 @@
+.ConsultCheckList {
+  background-color: white;
+  margin: 1rem 1rem 0 1rem;
+  min-height: 78vh;
+  padding: 2rem 5rem 2rem 5rem;
+  min-width: 768px;
+  border-radius: 5px;
+}
+
+.checkList {
+  position: relative;
+}
+
+.checkList::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 1px;
+  height: 100%;
+  background-color: #15075f;
+}
+
+.listMonth {
+  margin-left: 2rem;
+}
+
+.yearNmonth {
+  font-size: 21px;
+  font-weight: 700;
+  position: relative;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+}
+
+.yearNmonth::before {
+  content: '';
+  position: absolute;
+  left: -2.35rem;
+  top: 50%;
+  height: 0.8rem;
+  width: 0.8rem;
+  border-radius: 50%;
+  background-color: #15075f;
+  transform: translateY(-50%);
+}
+
+.csltCard {
+  border: 1px solid #15075f;
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+  margin-bottom: 3rem;
+  justify-content: space-between;
+  position: relative;
+  height: 10rem;
+}
+
+.csltCard::before {
+  content: '';
+  position: absolute;
+  left: -4rem;
+  top: -0.08rem;
+  height: 1px;
+  width: 4rem;
+  background-color: #15075f;
+}
+
+.csltCard::after {
+  content: '';
+  position: absolute;
+  left: -4.45rem;
+  top: -0.4rem;
+  height: 0.8rem;
+  width: 0.8rem;
+  border-radius: 50%;
+  background-color: #15075f;
+}
+
+.cardInfo {
+  display: flex;
+  align-items: center;
+  margin-left: 2rem;
+}
+
+.cardImage {
+  width: 4rem;
+  height: 4rem;
+}
+
+.childName {
+  font-size: 16px;
+}
+
+.parentName {
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.cardInfo > div:nth-child(1) {
+  margin: 1rem 2rem 1rem 2rem;
+  text-align: center;
+}
+
+.cardInfo > div:nth-child(1) > p {
+  margin: 0;
+}
+
+.checkBtn {
+  margin: 1rem 4rem 1rem 2rem;
+}
+
+.checkBtn > p:nth-child(1) {
+  background-color: #15075f;
+  color: white;
+  padding: 8px 30px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.checkBtn > p:nth-child(2) {
+  background-color: #f43f5e;
+  color: white;
+  padding: 8px 30px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.reasonBox {
+  margin-left: 2rem;
+}
+
+.reasonBoxP1 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.reasonBoxP2 {
+  font-size: 21px;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+.reasonBoxP3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.reasonBoxP4 {
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0;
+}
