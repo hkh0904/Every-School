@@ -1,6 +1,7 @@
 package com.everyschool.userservice.api.service.codedetail;
 
 import com.everyschool.userservice.api.controller.codedetail.respnse.CreateCodeDetailResponse;
+import com.everyschool.userservice.api.controller.codedetail.respnse.RemoveCodeDetailResponse;
 import com.everyschool.userservice.api.service.user.exception.DuplicateException;
 import com.everyschool.userservice.domain.codedetail.CodeDetail;
 import com.everyschool.userservice.domain.codedetail.repository.CodeDetailQueryRepository;
@@ -42,5 +43,17 @@ public class CodeDetailService {
         CodeDetail savedCodeDetail = codeDetailRepository.save(codeDetail);
 
         return CreateCodeDetailResponse.of(savedCodeDetail);
+    }
+
+    public RemoveCodeDetailResponse removeCodeDetail(int codeId) {
+        Optional<CodeDetail> findCode = codeDetailRepository.findWithCodeGroupById(codeId);
+        if (findCode.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        CodeDetail code = findCode.get();
+
+        code.remove();
+
+        return RemoveCodeDetailResponse.of(code);
     }
 }
