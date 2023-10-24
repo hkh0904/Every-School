@@ -40,7 +40,14 @@ export default function ManageClassPage() {
                   <div>학년 반 이름</div>
                   <div>신청 날짜</div>
                 </div>
-                <div className={styles.confirm}>확인하기 {'>'}</div>
+                <div
+                  className={styles.confirm}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                  }}
+                >
+                  확인하기 {'>'}
+                </div>
               </div>
             );
           })}
@@ -95,7 +102,9 @@ export default function ManageClassPage() {
               setIsActive(true);
             }}
           >
-            <p style={isActive ? { backgroundColor: 'white' } : null}>승인 대기</p>
+            <p style={isActive ? { backgroundColor: 'white' } : null}>
+              <b>승인 대기</b>
+            </p>
           </div>
           <div
             onClick={() => {
@@ -103,15 +112,17 @@ export default function ManageClassPage() {
               setIsActive(false);
             }}
           >
-            <p style={!isActive ? { backgroundColor: 'white' } : null}>상담 내역</p>
+            <p style={!isActive ? { backgroundColor: 'white' } : null}>
+              <b>승인 내역</b>
+            </p>
           </div>
         </div>
         <div className={styles.approveCardBox}>{mode[pageIdx].component}</div>
       </div>
       {isModalOpen ? (
-        <div className={styles.refModal}>
+        <>
           <ApproveModal setIsModalOpen={setIsModalOpen} />
-        </div>
+        </>
       ) : null}
     </div>
   );
