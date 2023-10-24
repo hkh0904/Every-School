@@ -59,3 +59,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.timeSetBox {
+  margin-left: 0.625rem;
+}
+
+.timeSetTitle {
+  margin-top: 0;
+}
+
+.setTime {
+  display: flex;
+}

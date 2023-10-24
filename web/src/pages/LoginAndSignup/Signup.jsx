@@ -144,7 +144,7 @@ function Signup() {
               </>
             )}
           </div>
-          <div>
+          {/* <div>
             <label className={styles.label} htmlFor='phoneNumber'>
               핸드폰번호{' '}
             </label>
@@ -157,7 +157,7 @@ function Signup() {
               onChange={(e) => onChangePhoneNumber(e, setphoneNumber, setPhoneNumberMessage)}
             />
             <p className={styles.message}> {phoneNumberMessage} </p>
-          </div>
+          </div> */}
           <div>
             <label className={styles.label} htmlFor='userName'>
               이름{' '}
