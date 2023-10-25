@@ -18,12 +18,8 @@ public class ChatRoom extends BaseEntity {
     @Column(name = "chat_room_id")
     private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String title;
-
     @Builder
-    private ChatRoom(Long id, String title) {
+    private ChatRoom(Long id) {
         this.id = id;
-        this.title = title;
     }
 }
