@@ -1,11 +1,9 @@
 package com.everyschool.userservice.docs.user;
 
 import com.everyschool.userservice.api.controller.user.UserController;
-import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
-import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
-import com.everyschool.userservice.api.controller.user.request.ForgotPwdRequest;
-import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
+import com.everyschool.userservice.api.controller.user.request.*;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
+import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
 import com.everyschool.userservice.api.service.user.UserService;
 import com.everyschool.userservice.api.service.user.dto.CreateUserDto;
 import com.everyschool.userservice.docs.RestDocsSupport;
@@ -234,16 +232,36 @@ public class UserControllerDocsTest extends RestDocsSupport {
     @DisplayName("회원 탈퇴 API")
     @Test
     void withdrawal() throws Exception {
-        String userKey = UUID.randomUUID().toString();
+        WithdrawalRequest request = WithdrawalRequest.builder()
+            .pwd("ssafy1234@")
+            .build();
+
+        WithdrawalResponse response = WithdrawalResponse.builder()
+            .email("ssafy@gmail.com")
+            .name("김싸피")
+            .type("학생")
+            .withdrawalDate(LocalDateTime.now())
+            .build();
+
+        given(userService.withdrawal(anyString(), anyString()))
+            .willReturn(response);
 
         mockMvc.perform(
-                delete("/{userKey}/withdrawal", userKey)
-                    .header("Authorization", "Bearer Token")
+                post("/v1/withdrawal")
+                    .header("Authorization", "Bearer Access Token")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("delete-user",
+                preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("pwd").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("비밀번호")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),

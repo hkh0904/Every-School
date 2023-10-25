@@ -1,10 +1,7 @@
 package com.everyschool.userservice.api.controller.user;
 
 import com.everyschool.userservice.api.ApiResponse;
-import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
-import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
-import com.everyschool.userservice.api.controller.user.request.ForgotPwdRequest;
-import com.everyschool.userservice.api.controller.user.request.JoinUserRequest;
+import com.everyschool.userservice.api.controller.user.request.*;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
@@ -58,6 +55,16 @@ public class UserController {
         return ApiResponse.of(HttpStatus.OK, "비밀번호가 변경되었습니다.", null);
     }
 
+    @PostMapping("/v1/withdrawal")
+    public ApiResponse<WithdrawalResponse> withdrawal(@RequestBody WithdrawalRequest request) {
+        // TODO: 2023-10-25 임우택 JWT 복호화 기능 구현
+        String email = "ssafy@gmail.com";
+
+        WithdrawalResponse response = userService.withdrawal(email, request.getPwd());
+
+        return ApiResponse.of(HttpStatus.OK, "회원 탈퇴가 되었습니다.", response);
+    }
+
     @PostMapping("/forgot")
     public ApiResponse<String> forgotEmail(@RequestBody ForgotEmailRequest request) {
         String response = "ssa**@ssafy.com";
@@ -68,19 +75,5 @@ public class UserController {
     @PostMapping("/forgot/pwd")
     public ApiResponse<String> forgotPwd(@RequestBody ForgotPwdRequest request) {
         return ApiResponse.ok(null);
-    }
-
-
-
-    @DeleteMapping("/{userKey}/withdrawal")
-    public ApiResponse<WithdrawalResponse> withdrawal(@PathVariable String userKey) {
-        WithdrawalResponse response = WithdrawalResponse.builder()
-            .email("ssafy@ssafy.com")
-            .name("김싸피")
-            .type("학생")
-            .withdrawalDate(LocalDateTime.now())
-            .build();
-
-        return ApiResponse.ok(response);
     }
 }
