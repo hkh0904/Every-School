@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/")
+@RequestMapping("/report-service/v1")
 public class ReportController {
 
     /**

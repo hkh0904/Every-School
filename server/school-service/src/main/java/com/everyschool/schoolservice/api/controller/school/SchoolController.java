@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/")
+@RequestMapping("/school-service/v1")
 public class SchoolController {
 
     /**

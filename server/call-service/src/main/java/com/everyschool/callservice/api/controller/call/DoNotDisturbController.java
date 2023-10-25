@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/")
+@RequestMapping("/call-service/v1")
 public class DoNotDisturbController {
 
     /**
