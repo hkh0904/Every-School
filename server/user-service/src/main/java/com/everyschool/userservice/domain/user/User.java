@@ -1,12 +1,9 @@
 package com.everyschool.userservice.domain.user;
 
-
 import com.everyschool.userservice.domain.BaseEntity;
-import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 /**
  * 회원 엔티티 클래스
@@ -16,6 +13,8 @@ import java.util.UUID;
 @Entity
 @Getter
 @Table(name = "`user`")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(length = 1)
 public class User extends BaseEntity {
 
     @Id
@@ -45,8 +44,7 @@ public class User extends BaseEntity {
         super();
     }
 
-    @Builder
-    private User(String email, String pwd, String name, String birth, String userKey, int userCodeId) {
+    protected User(String email, String pwd, String name, String birth, String userKey, int userCodeId) {
         this();
         this.email = email;
         this.pwd = pwd;
