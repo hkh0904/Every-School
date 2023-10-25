@@ -1,5 +1,5 @@
+import 'package:everyschool/page/home/school_info.dart';
 import 'package:flutter/material.dart';
-
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -15,6 +15,9 @@ class _HomeBodyState extends State<HomeBody> {
       slivers: [
         SliverToBoxAdapter(
           child: Image.asset('assets/images/home/banner.png'),
+        ),
+        SliverToBoxAdapter(
+          child: SchoolInfo(),
         )
       ],
     );
