@@ -65,6 +65,12 @@ public class UserController {
         return ApiResponse.created(response);
     }
 
+    /**
+     * 회원 비밀번호 수정 API
+     *
+     * @param request 수정할 비밀번호 정보
+     * @return 변경 성공 메세지
+     */
     @PatchMapping("/v1/pwd")
     public ApiResponse<String> editPwd(@RequestBody EditPwdRequest request) {
         // TODO: 2023-10-25 임우택 JWT 복호화 기능 구현
@@ -75,6 +81,12 @@ public class UserController {
         return ApiResponse.of(HttpStatus.OK, "비밀번호가 변경되었습니다.", null);
     }
 
+    /**
+     * 회원 탈퇴 API
+     *
+     * @param request 탈퇴할 회원의 정보
+     * @return 탈퇴 성공 메세지
+     */
     @PostMapping("/v1/withdrawal")
     public ApiResponse<WithdrawalResponse> withdrawal(@RequestBody WithdrawalRequest request) {
         // TODO: 2023-10-25 임우택 JWT 복호화 기능 구현
