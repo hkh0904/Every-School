@@ -88,7 +88,8 @@ public class UserService {
         }
 
         String randomPwd = createRandomPwd();
-        user.editPwd(randomPwd);
+        String encodedPwd = passwordEncoder.encode(randomPwd);
+        user.editPwd(encodedPwd);
 
         return randomPwd;
     }
