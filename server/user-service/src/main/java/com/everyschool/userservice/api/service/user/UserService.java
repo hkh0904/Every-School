@@ -33,6 +33,10 @@ public class UserService {
         return UserResponse.of(savedUser);
     }
 
+    public UserResponse editPwd(String email, String currentPwd, String newPwd) {
+        return null;
+    }
+
     private User insertUser(CreateUserDto dto, String encodedPwd, String userKey) {
         User user = User.builder()
             .email(dto.getEmail())

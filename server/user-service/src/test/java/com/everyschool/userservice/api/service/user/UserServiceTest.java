@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -61,6 +62,42 @@ class UserServiceTest extends IntegrationTestSupport {
 
         //when
         UserResponse response = userService.createUser(dto);
+
+        //then
+        assertThat(response.getEmail()).isEqualTo("ssafy@gmail.com");
+    }
+
+    @DisplayName("입력 받은 이메일을 사용하는 회원이 존재하지 않으면 예외가 발생한다.")
+    @Test
+    void editPwdWithoutUser() {
+        //given
+
+        //when //then
+        assertThatThrownBy(() -> userService.editPwd("ssafy@gmail.com", "ssafy1234@", "ssafy1111@"))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("이메일을 확인해주세요.");
+    }
+
+    @DisplayName("입력 받은 현재 비밀번호가 일치하지 않으면 예외가 발생한다.")
+    @Test
+    void editPwdNotEqualCurrentPwd() {
+        //given
+        User user = saveUser();
+
+        //when //then
+        assertThatThrownBy(() -> userService.editPwd("ssafy@gmail.com", "ssafy5678@", "ssafy1111@"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("현재 비밀번호가 일치하지 않습니다.");
+    }
+
+    @DisplayName("이메일, 현재 비밀번호, 새로운 비밀번호를 입력 받아 계정 비밀번호를 수정한다.")
+    @Test
+    void editPwd() {
+        //given
+        User user = saveUser();
+
+        //when
+        UserResponse response = userService.editPwd("ssafy@gmail.com", "ssafy1234@", "ssafy1111@");
 
         //then
         assertThat(response.getEmail()).isEqualTo("ssafy@gmail.com");
