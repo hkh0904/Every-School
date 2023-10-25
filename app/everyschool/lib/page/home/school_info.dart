@@ -20,7 +20,13 @@ class _SchoolInfoState extends State<SchoolInfo> {
   //   }
   // }
 
-  var info = {'user_num': 1, 'school': '수완초등학교', 'grade': 1, 'class': 3};
+  var info = {
+    'user_num': 1,
+    'school': '수완초등학교',
+    'grade': 1,
+    'class': 3,
+    'name': '이지혁'
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -58,25 +64,27 @@ class _SchoolInfoState extends State<SchoolInfo> {
     // );
     if (info.isNotEmpty) {
       if (info['user_num'] == 1) {
-        return Row(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                Text(info['school'] as String),
-                Text('${info['grade']}학년 ${info['class']}반'),
-              ],
-            )
+            Text(info['school'] as String,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text('학생'),
+            Text('${info['grade']}학년 ${info['class']}반'),
           ],
         );
       } else if (info['user_num'] == 2) {
         return Row(
           children: [
-            Text(info['school'] as String),
-            Text('${info['grade']}학년 ${info['class']}반 담임'),
+            Text(info['school'] as String,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text('학부모'),
+            Text('${info['grade']}학년 ${info['class']}반'),
           ],
         );
       } else {
-        return Row(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(info['school'] as String),
             Text('${info['grade']}학년 ${info['class']}반 담임'),
