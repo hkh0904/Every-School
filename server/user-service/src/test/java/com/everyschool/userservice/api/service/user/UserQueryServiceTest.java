@@ -67,6 +67,7 @@ class UserQueryServiceTest extends IntegrationTestSupport {
     void searchEmailWithdrawal() {
         //given
         User user = saveUser();
+        user.remove();
 
         //when //then
         assertThatThrownBy(() -> userQueryService.searchEmail("김싸피", "2001-01-01"))

@@ -2,6 +2,7 @@ package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.IntegrationTestSupport;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
+import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.everyschool.userservice.domain.user.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -58,11 +59,11 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        Optional<String> findEmail = userQueryRepository.findEmailByNameAndBirth("김싸피", "2001-01-01");
+        Optional<SearchEmailDto> findSearchEmail = userQueryRepository.findEmailByNameAndBirth("김싸피", "2001-01-01");
 
         //then
-        assertThat(findEmail).isPresent();
-        assertThat(findEmail.get()).isEqualTo("ssafy@gmail.com");
+        assertThat(findSearchEmail).isPresent();
+        assertThat(findSearchEmail.get().getEmail()).isEqualTo("ssafy@gmail.com");
     }
 
     private User saveUser() {
