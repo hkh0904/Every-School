@@ -33,7 +33,7 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xffFEFFFF),
+        color: Colors.grey[50],
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         margin: EdgeInsets.fromLTRB(0, 0, 0, 35),

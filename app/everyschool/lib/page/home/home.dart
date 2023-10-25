@@ -1,4 +1,4 @@
-import 'package:everyschool/pages/home/homebody.dart';
+import 'package:everyschool/page/home/homebody.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -16,8 +16,7 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.grey[50],
         elevation: 0,
         centerTitle: true,
-        title: Image.asset('assets/images/home/title.png',
-          height: 50),
+        title: Image.asset('assets/images/home/title.png', height: 50),
         actions: const [
           Padding(
             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
