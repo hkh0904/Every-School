@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/board-service/free-boards")
+@RequestMapping("/board-service/v1/free-boards")
 public class FreeBoardController {
 
     @PostMapping("/{userKey}")
