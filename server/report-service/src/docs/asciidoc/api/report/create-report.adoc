@@ -1,0 +1,11 @@
+[[create-report]]
+=== 신고 요청 API
+
+==== HTTP Request
+include::{snippets}/create-report/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-report/http-response.adoc[]
+include::{snippets}/create-report/response-fields.adoc[]
+
