@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
-public class JoinUserRequest {
+public class JoinParentRequest {
 
     @NotNull
     private Integer userCode;
@@ -34,13 +34,17 @@ public class JoinUserRequest {
     @Size(min = 10, max = 10)
     private String birth;
 
+    @NotEmpty
+    private String parentType;
+
     @Builder
-    private JoinUserRequest(Integer userCode, String email, String password, String name, String birth) {
+    private JoinParentRequest(Integer userCode, String email, String password, String name, String birth, String parentType) {
         this.userCode = userCode;
         this.email = email;
         this.password = password;
         this.name = name;
         this.birth = birth;
+        this.parentType = parentType;
     }
 
     public CreateUserDto toDto() {

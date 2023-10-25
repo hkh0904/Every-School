@@ -2,9 +2,9 @@ package com.everyschool.userservice.api.controller.user;
 
 import com.everyschool.userservice.api.ApiResponse;
 import com.everyschool.userservice.api.controller.user.request.*;
-import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
+import com.everyschool.userservice.api.service.user.ParentService;
 import com.everyschool.userservice.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 /**
  * 회원 API
@@ -26,20 +25,21 @@ import java.time.LocalDateTime;
 public class UserController {
 
     private final UserService userService;
+    private final ParentService parentService;
 
     /**
-     * 회원 가입 API
+     * 학부모 회원 가입 API
      *
      * @param request 회원 가입시 필요한 회원 정보
      * @return 가입에 성공한 회원의 기본 정보
      */
-    @PostMapping("/join")
+    @PostMapping("/join/parent")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserResponse> join(@Valid @RequestBody JoinUserRequest request) {
-        log.debug("call UserController#join");
-        log.debug("JoinUserRequest={}", request);
+    public ApiResponse<UserResponse> joinParent(@Valid @RequestBody JoinParentRequest request) {
+        log.debug("call UserController#joinParent");
+        log.debug("JoinParentRequest={}", request);
 
-        UserResponse response = userService.createUser(request.toDto());
+        UserResponse response = parentService.createParent(request.toDto(), request.getParentType());
         log.debug("UserResponse={}", response);
 
         return ApiResponse.created(response);
