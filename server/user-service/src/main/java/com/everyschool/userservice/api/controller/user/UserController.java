@@ -53,7 +53,7 @@ public class UserController {
      * @param request 회원 가입시 필요한 회원 정보
      * @return 가입에 성공한 회원의 기본 정보
      */
-    @PostMapping("/join/parent")
+    @PostMapping("/join/student")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<UserResponse> joinStudent(@Valid @RequestBody JoinStudentRequest request) {
         log.debug("call UserController#joinStudent");
