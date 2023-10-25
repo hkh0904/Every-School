@@ -45,4 +45,8 @@ public class UserQueryRepository {
             .fetchOne();
         return Optional.ofNullable(content);
     }
+
+    public Optional<String> findEmailByNameAndBirth(String name, String birth) {
+        return null;
+    }
 }

@@ -51,6 +51,20 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(response).isPresent();
     }
 
+    @DisplayName("이름과 생년월일로 회원 이메일을 조회한다.")
+    @Test
+    void findEmailByNameAndBirth() {
+        //given
+        User user = saveUser();
+
+        //when
+        Optional<String> findEmail = userQueryRepository.findEmailByNameAndBirth("김싸피", "2001-01-01");
+
+        //then
+        assertThat(findEmail).isPresent();
+        assertThat(findEmail.get()).isEqualTo("ssafy@gmail.com");
+    }
+
     private User saveUser() {
         User user = User.builder()
             .email("ssafy@gmail.com")
