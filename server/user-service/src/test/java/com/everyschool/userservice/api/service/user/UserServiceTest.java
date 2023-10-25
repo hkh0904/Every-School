@@ -114,7 +114,7 @@ class UserServiceTest extends IntegrationTestSupport {
         //when //then
         assertThatThrownBy(() -> userService.editRandomPwd("ssafy@gmail.com", "김싸피", "2001-01-01"))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("일치하는 회원 정보가 존재하지 않습니다.");
+            .hasMessage("이메일을 확인해주세요.");
     }
 
     @DisplayName("비밀번호 초기화 시 입력 받은 이름과 생년월일이 계정 정보와 불일치한다면 예외가 발생한다.")
