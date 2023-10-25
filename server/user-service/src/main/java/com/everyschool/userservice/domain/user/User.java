@@ -50,4 +50,9 @@ public class User extends BaseEntity {
         this.userKey = userKey;
         this.userCodeId = userCodeId;
     }
+
+    //== 비즈니스 로직 ==//
+    public void editPwd(String newPwd) {
+        this.pwd = newPwd;
+    }
 }
