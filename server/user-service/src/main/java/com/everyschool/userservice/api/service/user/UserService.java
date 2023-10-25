@@ -1,6 +1,7 @@
 package com.everyschool.userservice.api.service.user;
 
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
+import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
 import com.everyschool.userservice.api.service.user.dto.CreateUserDto;
 import com.everyschool.userservice.api.service.user.exception.DuplicateException;
 import com.everyschool.userservice.domain.user.User;
@@ -51,6 +52,10 @@ public class UserService {
         user.editPwd(encodedPwd);
 
         return UserResponse.of(user);
+    }
+
+    public WithdrawalResponse withdrawal(String email, String pwd) {
+        return null;
     }
 
     private User insertUser(CreateUserDto dto, String encodedPwd, String userKey) {
