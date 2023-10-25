@@ -1,5 +1,6 @@
 import 'package:everyschool/pages/home/home.dart';
 import 'package:everyschool/pages/main/btmnav.dart';
+import 'package:everyschool/pages/main/splash.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
@@ -12,7 +13,7 @@ void main() {
       theme: ThemeData(
         fontFamily: "Pretendard"
       ),
-      home : Main())
+      home : Splash())
   );
 }
 

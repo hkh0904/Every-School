@@ -39,7 +39,7 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-                post("/board-service/free-boards/{userKey}", UUID.randomUUID().toString())
+                post("/board-service/v1/free-boards/{userKey}", UUID.randomUUID().toString())
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
@@ -97,7 +97,7 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
     void searchFreeBoards() throws Exception {
 
         mockMvc.perform(
-                get("/board-service/free-boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
+                get("/board-service/v1/free-boards/{schoolId}/{userKey}", 1L, UUID.randomUUID().toString())
                     .param("limit", "4")
                     .param("categoryId", "1")
             )
@@ -137,7 +137,7 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
     void searchFreeBoard() throws Exception {
 
         mockMvc.perform(
-                get("/board-service/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+                get("/board-service/v1/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -196,7 +196,7 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
             .uploadFiles(new ArrayList<>())
             .build();
         mockMvc.perform(
-                patch("/board-service/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+                patch("/board-service/v1/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
@@ -263,7 +263,7 @@ public class FreeBoardControllerDocsTest extends RestDocsSupport {
     void deleteFreeBoard() throws Exception {
 
         mockMvc.perform(
-                delete("/board-service/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
+                delete("/board-service/v1/free-boards/{schoolId}/{userKey}/{boardId}", 1L, UUID.randomUUID().toString(), 2L)
             )
             .andDo(print())
             .andExpect(status().isOk())

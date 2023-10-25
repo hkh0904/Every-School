@@ -13,7 +13,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/consult-service")
+@RequestMapping("/consult-service/v1")
 public class ConsultController {
 
     @PostMapping("/consult")
@@ -25,7 +25,7 @@ public class ConsultController {
 
     @PostMapping("/consult/schedule")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<Long> createConsultSchedule(@RequestBody @Valid CreateConsultScheduleRequest request){
+    public ApiResponse<Long> createConsultSchedule(@RequestBody @Valid CreateConsultScheduleRequest request) {
 
         // TODO: 2023-10-24 상담 일정 등록
         return ApiResponse.created(1L);
