@@ -34,7 +34,7 @@ export default function AccordianMenu() {
       address: '/report/history'
     },
     {
-      title: '개인정보 수정',
+      title: '마이페이지',
       list: [],
       icon: IoMdSettings,
       address: '/mypage'
