@@ -1,3 +1,4 @@
+import 'package:everyschool/page/home/menu_buttons.dart';
 import 'package:everyschool/page/home/school_info.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,9 @@ class _HomeBodyState extends State<HomeBody> {
         SliverToBoxAdapter(
           child: Container(
               margin: EdgeInsets.fromLTRB(15, 15, 15, 10), child: SchoolInfo()),
+        ),
+        SliverToBoxAdapter(
+          child: MenuButtons(),
         )
       ],
     );
