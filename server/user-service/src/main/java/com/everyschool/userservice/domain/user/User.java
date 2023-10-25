@@ -8,6 +8,11 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.UUID;
 
+/**
+ * 회원 엔티티 클래스
+ *
+ * @author 임우택
+ */
 @Entity
 @Getter
 @Table(name = "`user`")
@@ -52,6 +57,11 @@ public class User extends BaseEntity {
     }
 
     //== 비즈니스 로직 ==//
+    /**
+     * 비밀번호 변경 로직
+     *
+     * @param newPwd 변경할 암호화 된 비밀번호
+     */
     public void editPwd(String newPwd) {
         this.pwd = newPwd;
     }
