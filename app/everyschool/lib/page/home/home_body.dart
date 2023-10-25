@@ -17,7 +17,8 @@ class _HomeBodyState extends State<HomeBody> {
           child: Image.asset('assets/images/home/banner.png'),
         ),
         SliverToBoxAdapter(
-          child: SchoolInfo(),
+          child: Container(
+              margin: EdgeInsets.fromLTRB(15, 15, 15, 10), child: SchoolInfo()),
         )
       ],
     );
