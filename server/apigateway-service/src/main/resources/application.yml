@@ -67,7 +67,44 @@ spring:
         - id: school-service
           uri: lb://SCHOOL-SERVICE
           predicates:
-            - Path=/school-service/api/**
+            - Path=/school-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: school-service
+          uri: lb://SCHOOL-SERVICE
+          predicates:
+            - Path=/school-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/school-service/(?<segment>.*), /$\{segment}
+        # report-service
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/report-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/report-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/report-service/(?<segment>.*), /$\{segment}
+        # call-service
+        - id: call-service
+          uri: lb://CALL-SERVICE
+          predicates:
+            - Path=/call-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: call-service
+          uri: lb://CALL-SERVICE
+          predicates:
+            - Path=/call-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/call-service/(?<segment>.*), /$\{segment}
         # board-service
         - id: board-service
           uri: lb://BOARD-SERVICE
