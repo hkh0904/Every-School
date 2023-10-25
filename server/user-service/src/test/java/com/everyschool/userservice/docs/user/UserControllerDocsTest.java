@@ -107,10 +107,6 @@ public class UserControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-
-
-
-
     @DisplayName("비밀번호 변경 API")
     @Test
     void editPwd() throws Exception {
