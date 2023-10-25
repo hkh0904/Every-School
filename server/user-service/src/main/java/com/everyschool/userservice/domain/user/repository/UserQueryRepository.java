@@ -1,10 +1,14 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+
+import java.util.Optional;
 
 import static com.everyschool.userservice.domain.user.QUser.user;
 
@@ -26,7 +30,19 @@ public class UserQueryRepository {
         return result != null;
     }
 
-    public UserInfoResponse findByEmail(String email) {
-        return null;
+    public Optional<UserInfoResponse> findByEmail(String email) {
+        UserInfoResponse content = queryFactory
+            .select(Projections.constructor(
+                UserInfoResponse.class,
+                user.name,
+                Expressions.asString(email),
+                user.name,
+                user.birth,
+                user.createdDate
+            ))
+            .from(user)
+            .where(user.email.eq(email))
+            .fetchOne();
+        return Optional.ofNullable(content);
     }
 }

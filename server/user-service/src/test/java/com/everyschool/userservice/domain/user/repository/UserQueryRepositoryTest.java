@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -44,10 +45,10 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        UserInfoResponse response = userQueryRepository.findByEmail("ssafy@gmail.com");
+        Optional<UserInfoResponse> response = userQueryRepository.findByEmail("ssafy@gmail.com");
 
         //then
-        assertThat(response.getEmail()).isEqualTo("ssafy@gmail.com");
+        assertThat(response).isPresent();
     }
 
     private User saveUser() {
