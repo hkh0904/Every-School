@@ -1,6 +1,7 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
+import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -42,6 +43,23 @@ public class UserQueryRepository {
             ))
             .from(user)
             .where(user.email.eq(email))
+            .fetchOne();
+        return Optional.ofNullable(content);
+    }
+
+    public Optional<SearchEmailDto> findEmailByNameAndBirth(String name, String birth) {
+        SearchEmailDto content = queryFactory
+            .select(
+                Projections.constructor(SearchEmailDto.class,
+                    user.email,
+                    user.isDeleted
+                )
+            )
+            .from(user)
+            .where(
+                user.name.eq(name),
+                user.birth.eq(birth)
+            )
             .fetchOne();
         return Optional.ofNullable(content);
     }
