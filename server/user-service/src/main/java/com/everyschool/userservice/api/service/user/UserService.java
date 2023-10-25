@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -34,7 +36,21 @@ public class UserService {
     }
 
     public UserResponse editPwd(String email, String currentPwd, String newPwd) {
-        return null;
+        Optional<User> findUser = userRepository.findByEmail(email);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException("이메일을 확인해주세요.");
+        }
+        User user = findUser.get();
+
+        boolean isMatch = passwordEncoder.matches(currentPwd, user.getPwd());
+        if (!isMatch) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        String encodedPwd = passwordEncoder.encode(newPwd);
+        user.editPwd(encodedPwd);
+
+        return UserResponse.of(user);
     }
 
     private User insertUser(CreateUserDto dto, String encodedPwd, String userKey) {
