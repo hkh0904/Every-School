@@ -4,11 +4,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 @NoArgsConstructor
 public class ForgotEmailRequest {
 
+    @NotEmpty(message = "이름은 필수입니다.")
     private String name;
+
+    @NotEmpty(message = "생년월일은 필수입니다.")
     private String birth;
 
     @Builder
