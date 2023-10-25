@@ -55,7 +55,20 @@ public class UserService {
     }
 
     public WithdrawalResponse withdrawal(String email, String pwd) {
-        return null;
+        Optional<User> findUser = userRepository.findByEmail(email);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException("이메일을 확인해주세요.");
+        }
+        User user = findUser.get();
+
+        boolean isMatch = passwordEncoder.matches(pwd, user.getPwd());
+        if (!isMatch) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        user.remove();
+
+        return WithdrawalResponse.of(user);
     }
 
     private User insertUser(CreateUserDto dto, String encodedPwd, String userKey) {
