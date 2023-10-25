@@ -1,0 +1,11 @@
+[[create-parent]]
+=== 학부모 회원 가입 API
+
+==== HTTP Request
+include::{snippets}/create-parent/http-request.adoc[]
+include::{snippets}/create-parent/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-parent/http-response.adoc[]
+include::{snippets}/create-parent/response-fields.adoc[]
