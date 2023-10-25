@@ -5,6 +5,7 @@ import com.everyschool.userservice.api.controller.user.request.*;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
 import com.everyschool.userservice.api.service.user.ParentService;
+import com.everyschool.userservice.api.service.user.StudentService;
 import com.everyschool.userservice.api.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class UserController {
 
     private final UserService userService;
     private final ParentService parentService;
+    private final StudentService studentService;
 
     /**
      * 학부모 회원 가입 API
@@ -40,6 +42,24 @@ public class UserController {
         log.debug("JoinParentRequest={}", request);
 
         UserResponse response = parentService.createParent(request.toDto(), request.getParentType());
+        log.debug("UserResponse={}", response);
+
+        return ApiResponse.created(response);
+    }
+
+    /**
+     * 학생 회원 가입 API
+     *
+     * @param request 회원 가입시 필요한 회원 정보
+     * @return 가입에 성공한 회원의 기본 정보
+     */
+    @PostMapping("/join/parent")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<UserResponse> joinStudent(@Valid @RequestBody JoinStudentRequest request) {
+        log.debug("call UserController#joinStudent");
+        log.debug("JoinStudentRequest={}", request);
+
+        UserResponse response = studentService.createStudent(request.toDto());
         log.debug("UserResponse={}", response);
 
         return ApiResponse.created(response);
