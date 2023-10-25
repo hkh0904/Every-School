@@ -1,6 +1,7 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.IntegrationTestSupport;
+import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.domain.user.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -34,6 +35,19 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
 
         //then
         assertThat(isExistEmail).isTrue();
+    }
+
+    @DisplayName("이메일로 회원 정보를 조회한다.")
+    @Test
+    void findByEmail() {
+        //given
+        User user = saveUser();
+
+        //when
+        UserInfoResponse response = userQueryRepository.findByEmail("ssafy@gmail.com");
+
+        //then
+        assertThat(response.getEmail()).isEqualTo("ssafy@gmail.com");
     }
 
     private User saveUser() {
