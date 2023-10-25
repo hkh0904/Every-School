@@ -1,0 +1,11 @@
+[[search-donotdisturbs]]
+=== 방해 금지 타임 조회 API
+
+==== HTTP Request
+include::{snippets}/search-donotdisturbs/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-donotdisturbs/http-response.adoc[]
+include::{snippets}/search-donotdisturbs/response-fields.adoc[]
+
