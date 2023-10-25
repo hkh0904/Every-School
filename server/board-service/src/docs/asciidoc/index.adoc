@@ -1,0 +1,30 @@
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+= Every School(board-service) REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+include::overview.adoc[]
+
+[[Board-API]]
+== Board API
+
+include::api/board/create-board.adoc[]
+include::api/board/search-board-list.adoc[]
+include::api/board/search-board.adoc[]
+include::api/board/edit-board.adoc[]
+include::api/board/delete-board.adoc[]
+
+[[Free-Board-API]]
+== Free Board API
+
+include::api/freeboard/create-free-board.adoc[]
+include::api/freeboard/delete-free-board.adoc[]
+include::api/freeboard/edit-free-board.adoc[]
+include::api/freeboard/search-free-board-list.adoc[]
+include::api/freeboard/search-free-board.adoc[]
