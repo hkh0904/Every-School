@@ -48,17 +48,14 @@ public class UserController {
         return ApiResponse.created(response);
     }
 
-    @GetMapping("/{userKey}/info")
-    public ApiResponse<UserInfoResponse> searchUserInfo(@PathVariable String userKey) {
-        UserInfoResponse response = UserInfoResponse.builder()
-            .type("학생")
-            .email("ssafy@ssafy.com")
-            .name("김싸피")
-            .birth("010101")
-            .joinDate(LocalDateTime.now())
-            .build();
+    @PatchMapping("/v1/pwd")
+    public ApiResponse<String> editPwd(@RequestBody EditPwdRequest request) {
+        // TODO: 2023-10-25 임우택 JWT 복호화 기능 구현
+        String email = "ssafy@gmail.com";
 
-        return ApiResponse.ok(response);
+        UserResponse response = userService.editPwd(email, request.getCurrentPwd(), request.getNewPwd());
+
+        return ApiResponse.of(HttpStatus.OK, "비밀번호가 변경되었습니다.", null);
     }
 
     @PostMapping("/forgot")
@@ -73,10 +70,7 @@ public class UserController {
         return ApiResponse.ok(null);
     }
 
-    @PutMapping("/{userKey}/pwd")
-    public ApiResponse<String> editPwd(@PathVariable String userKey, @RequestBody EditPwdRequest request) {
-        return ApiResponse.ok(null);
-    }
+
 
     @DeleteMapping("/{userKey}/withdrawal")
     public ApiResponse<WithdrawalResponse> withdrawal(@PathVariable String userKey) {
