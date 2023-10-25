@@ -23,4 +23,8 @@ public class UserQueryService {
         }
         return response.get();
     }
+
+    public String searchEmail(String name, String birth) {
+        return null;
+    }
 }
