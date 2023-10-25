@@ -1,6 +1,7 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.IntegrationTestSupport;
+import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,9 @@ class UserRepositoryTest extends IntegrationTestSupport {
     private UserRepository userRepository;
 
     @Autowired
+    private ParentRepository parentRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @DisplayName("이메일로 회원 엔티티를 조회한다.")
@@ -35,14 +39,15 @@ class UserRepositoryTest extends IntegrationTestSupport {
     }
 
     private User saveUser() {
-        User user = User.builder()
+        Parent parent = Parent.builder()
             .email("ssafy@gmail.com")
             .pwd(passwordEncoder.encode("ssafy1234@"))
             .name("김싸피")
             .birth("2001-01-01")
             .userKey(UUID.randomUUID().toString())
             .userCodeId(1)
+            .parentType("M")
             .build();
-        return userRepository.save(user);
+        return parentRepository.save(parent);
     }
 }

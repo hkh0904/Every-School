@@ -2,7 +2,9 @@ package com.everyschool.userservice.api.service.user;
 
 import com.everyschool.userservice.IntegrationTestSupport;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
+import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.User;
+import com.everyschool.userservice.domain.user.repository.ParentRepository;
 import com.everyschool.userservice.domain.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +23,7 @@ class UserQueryServiceTest extends IntegrationTestSupport {
     private UserQueryService userQueryService;
 
     @Autowired
-    private UserRepository userRepository;
+    private ParentRepository parentRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -89,14 +91,15 @@ class UserQueryServiceTest extends IntegrationTestSupport {
     }
 
     private User saveUser() {
-        User user = User.builder()
+        Parent parent = Parent.builder()
             .email("ssafy@gmail.com")
             .pwd(passwordEncoder.encode("ssafy1234@"))
             .name("김싸피")
             .birth("2001-01-01")
             .userKey(UUID.randomUUID().toString())
             .userCodeId(1)
+            .parentType("M")
             .build();
-        return userRepository.save(user);
+        return parentRepository.save(parent);
     }
 }
