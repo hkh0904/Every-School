@@ -13,6 +13,7 @@ import LoginPage from '../pages/LoginAndSignup/LoginPage';
 import SignupPage from '../pages/LoginAndSignup/SignupPage';
 import PublicRouter from './PublicRouter';
 import PrivateRouter from './PrivateRouter';
+import MyPage from '../pages/MyPage/MyPage';
 
 function RouteLink() {
   return (
@@ -42,6 +43,8 @@ function RouteLink() {
           {/* 상담 */}
           <Route path='consult/approve' element={<ConsultApprovePage />} />
           <Route path='consult/history' element={<ConsultHistory />} />
+          {/* 개인정보 수정 */}
+          <Route path='mypage' element={<MyPage />} />
         </Route>
         {/* </Route> */}
       </Routes>
