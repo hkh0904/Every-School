@@ -107,44 +107,7 @@ public class UserControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-    @DisplayName("이메일 찾기 API")
-    @Test
-    void forgotEmail() throws Exception {
-        ForgotEmailRequest request = ForgotEmailRequest.builder()
-            .name("김싸피")
-            .birth("010101")
-            .build();
 
-        mockMvc.perform(
-                post("/forgot")
-                    .content(objectMapper.writeValueAsString(request))
-                    .contentType(MediaType.APPLICATION_JSON)
-            )
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document("forgot-email",
-                preprocessRequest(prettyPrint()),
-                preprocessResponse(prettyPrint()),
-                requestFields(
-                    fieldWithPath("name").type(JsonFieldType.STRING)
-                        .optional()
-                        .description("이름"),
-                    fieldWithPath("birth").type(JsonFieldType.STRING)
-                        .optional()
-                        .description("생년월일")
-                ),
-                responseFields(
-                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-                        .description("코드"),
-                    fieldWithPath("status").type(JsonFieldType.STRING)
-                        .description("상태"),
-                    fieldWithPath("message").type(JsonFieldType.STRING)
-                        .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.STRING)
-                        .description("응답 데이터")
-                )
-            ));
-    }
 
     @DisplayName("비밀번호 초기화 API")
     @Test

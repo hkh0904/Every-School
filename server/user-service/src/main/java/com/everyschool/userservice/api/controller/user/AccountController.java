@@ -5,10 +5,7 @@ import com.everyschool.userservice.api.controller.user.request.ForgotEmailReques
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -20,7 +17,7 @@ public class AccountController {
 
     private final UserQueryService userQueryService;
 
-    @GetMapping("/email")
+    @PostMapping("/email")
     public ApiResponse<String> forgotEmail(@Valid @RequestBody ForgotEmailRequest request) {
         log.debug("call AccountController#forgotEmail");
         log.debug("ForgotEmailRequest={}", request);
