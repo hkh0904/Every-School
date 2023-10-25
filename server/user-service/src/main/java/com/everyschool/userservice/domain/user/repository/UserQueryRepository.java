@@ -47,6 +47,14 @@ public class UserQueryRepository {
     }
 
     public Optional<String> findEmailByNameAndBirth(String name, String birth) {
-        return null;
+        String content = queryFactory
+            .select(user.email)
+            .from(user)
+            .where(
+                user.name.eq(name),
+                user.birth.eq(birth)
+            )
+            .fetchOne();
+        return Optional.ofNullable(content);
     }
 }
