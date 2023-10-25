@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -14,6 +17,10 @@ public class UserQueryService {
     private final UserQueryRepository userQueryRepository;
 
     public UserInfoResponse searchUser(String email) {
-        return null;
+        Optional<UserInfoResponse> response = userQueryRepository.findByEmail(email);
+        if (response.isEmpty()) {
+            throw new NoSuchElementException("이메일을 확인해주세요.");
+        }
+        return response.get();
     }
 }
