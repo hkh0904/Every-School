@@ -3,6 +3,7 @@ package com.everyschool.userservice.docs.user;
 import com.everyschool.userservice.api.controller.user.AccountController;
 import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
 import com.everyschool.userservice.api.service.user.UserQueryService;
+import com.everyschool.userservice.api.service.user.UserService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,11 +25,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class AccountControllerDocsTest extends RestDocsSupport {
 
+    private final UserService userService = mock(UserService.class);
     private final UserQueryService userQueryService = mock(UserQueryService.class);
 
     @Override
     protected Object initController() {
-        return new AccountController(userQueryService);
+        return new AccountController(userService, userQueryService);
     }
 
     @DisplayName("이메일 찾기 API")

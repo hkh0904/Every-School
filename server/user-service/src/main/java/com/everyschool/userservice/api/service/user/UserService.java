@@ -71,6 +71,10 @@ public class UserService {
         return WithdrawalResponse.of(user);
     }
 
+    public String editRandomPwd(String email, String name, String birth) {
+        return null;
+    }
+
     private User insertUser(CreateUserDto dto, String encodedPwd, String userKey) {
         User user = User.builder()
             .email(dto.getEmail())

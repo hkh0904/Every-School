@@ -143,6 +143,59 @@ class UserServiceTest extends IntegrationTestSupport {
         assertThat(findUser.get().isDeleted()).isTrue();
     }
 
+    @DisplayName("비밀번호 초기화 시 입력 받은 이메일을 사용하는 회원 정보가 존재하지 않으면 예외가 발생한다.")
+    @Test
+    void editRandomPwdWithoutEmail() {
+        //given
+
+        //when //then
+        assertThatThrownBy(() -> userService.editRandomPwd("ssafy@gmail.com", "김싸피", "2001-01-01"))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("일치하는 회원 정보가 존재하지 않습니다.");
+    }
+
+    @DisplayName("비밀번호 초기화 시 입력 받은 이름과 생년월일이 계정 정보와 불일치한다면 예외가 발생한다.")
+    @Test
+    void editRandomPwdNotMatchNameAndBirth() {
+        //given
+        User user = saveUser();
+
+        //when //then
+        assertThatThrownBy(() -> userService.editRandomPwd("ssafy@gmail.com", "김싸피", "2001-01-10"))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("일치하는 회원 정보가 존재하지 않습니다.");
+    }
+
+    @DisplayName("비밀번호 초기화 시 탈퇴한 회원이라면 예외가 발생한다.")
+    @Test
+    void editRandomPwdWithdrawal() {
+        //given
+        User user = saveUser();
+        user.remove();
+
+        //when //then
+        assertThatThrownBy(() -> userService.editRandomPwd("ssafy@gmail.com", "김싸피", "2001-01-01"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("이미 탈퇴한 회원입니다.");
+    }
+
+    @DisplayName("이메일, 이름, 생년월일을 입력 받아 비밀번호를 랜덤한 10자로 수정한다.")
+    @Test
+    void editRandomPwd() {
+        //given
+        User user = saveUser();
+
+        //when
+        String randomPwd = userService.editRandomPwd("ssafy@gmail.com", "김싸피", "2001-01-01");
+
+        //then
+        Optional<User> findUser = userRepository.findById(user.getId());
+        assertThat(findUser).isPresent();
+
+        boolean isMatch = passwordEncoder.matches(randomPwd, findUser.get().getPwd());
+        assertThat(isMatch).isTrue();
+    }
+
     private User saveUser() {
         User user = User.builder()
             .email("ssafy@gmail.com")

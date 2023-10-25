@@ -64,16 +64,4 @@ public class UserController {
 
         return ApiResponse.of(HttpStatus.OK, "회원 탈퇴가 되었습니다.", response);
     }
-
-    @PostMapping("/forgot")
-    public ApiResponse<String> forgotEmail(@RequestBody ForgotEmailRequest request) {
-        String response = "ssa**@ssafy.com";
-
-        return ApiResponse.ok(response);
-    }
-
-    @PostMapping("/forgot/pwd")
-    public ApiResponse<String> forgotPwd(@RequestBody ForgotPwdRequest request) {
-        return ApiResponse.ok(null);
-    }
 }
