@@ -68,7 +68,11 @@ spring:
           uri: lb://SCHOOL-SERVICE
           predicates:
             - Path=/school-service/api/**
-
+        # report-service
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/report-service/api/**
 
 
 management:
