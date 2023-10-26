@@ -10,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/code-groups/{groupId}/code-details")
+@RequestMapping("/v1/code-groups/{groupId}/code-details")
 public class CodeDetailController {
 
     private final CodeDetailService codeDetailService;
@@ -22,7 +24,7 @@ public class CodeDetailController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateCodeDetailResponse> createCodeDetail(
         @PathVariable Integer groupId,
-        @RequestBody CreateCodeDetailRequest request
+        @Valid @RequestBody CreateCodeDetailRequest request
     ) {
         log.debug("call CodeDetailController#createCodeDetail");
         log.debug("groupId={}", groupId);

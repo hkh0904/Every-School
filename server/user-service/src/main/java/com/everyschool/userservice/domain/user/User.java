@@ -1,17 +1,21 @@
 package com.everyschool.userservice.domain.user;
 
-
 import com.everyschool.userservice.domain.BaseEntity;
-import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.UUID;
 
+/**
+ * 회원 엔티티 클래스
+ *
+ * @author 임우택
+ */
 @Entity
 @Getter
 @Table(name = "`user`")
-public class User extends BaseEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(length = 1)
+public abstract class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,8 +44,7 @@ public class User extends BaseEntity {
         super();
     }
 
-    @Builder
-    private User(String email, String pwd, String name, String birth, String userKey, int userCodeId) {
+    protected User(String email, String pwd, String name, String birth, String userKey, int userCodeId) {
         this();
         this.email = email;
         this.pwd = pwd;
@@ -52,6 +55,11 @@ public class User extends BaseEntity {
     }
 
     //== 비즈니스 로직 ==//
+    /**
+     * 비밀번호 변경 로직
+     *
+     * @param newPwd 변경할 암호화 된 비밀번호
+     */
     public void editPwd(String newPwd) {
         this.pwd = newPwd;
     }

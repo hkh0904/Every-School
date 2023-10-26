@@ -1,5 +1,6 @@
 package com.everyschool.userservice.api;
 
+import com.everyschool.userservice.api.service.user.exception.DuplicateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,6 +55,21 @@ public class ApiControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoSuchElementException.class)
     public ApiResponse<Object> noSuchElementException(NoSuchElementException e) {
+        return ApiResponse.of(
+            HttpStatus.BAD_REQUEST,
+            e.getMessage(),
+            null
+        );
+    }
+
+    /**
+     * DuplicateException 공통 처리 메서드
+     * @param e DuplicateException
+     * @return 400 오류 메세지
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateException.class)
+    public ApiResponse<Object> duplicateException(DuplicateException e) {
         return ApiResponse.of(
             HttpStatus.BAD_REQUEST,
             e.getMessage(),

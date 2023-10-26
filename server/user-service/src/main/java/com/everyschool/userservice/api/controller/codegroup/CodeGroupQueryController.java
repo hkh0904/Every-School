@@ -11,17 +11,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 코드 그룹 Query API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/code-groups")
+@RequestMapping("/v1/code-groups")
 public class CodeGroupQueryController {
 
     private final CodeGroupQueryService codeGroupQueryService;
 
+    /**
+     * 코드 그룹 목록 조회 APi
+     *
+     * @return 코드 그룹 전체 목록
+     */
     @GetMapping
     public ApiResponse<List<CodeGroupResponse>> searchCodeGroups() {
+        log.debug("call CodeGroupQueryController#searchCodeGroups");
+
         List<CodeGroupResponse> responses = codeGroupQueryService.searchCodeGroups();
+        log.debug("responses={}", responses);
+
         return ApiResponse.ok(responses);
     }
 }

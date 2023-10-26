@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/code-groups/{groupId}/code-details")
+@RequestMapping("/v1/code-groups/{groupId}/code-details")
 public class CodeDetailQueryController {
 
     private final CodeDetailQueryService codeDetailQueryService;
 
     @GetMapping
     public ApiResponse<CodeResponse> searchCodeDetails(@PathVariable Integer groupId) {
+        log.debug("call CodeDetailQueryController#searchCodeDetails");
+
         CodeResponse response = codeDetailQueryService.searchCodeDetails(groupId);
+        log.debug("response={}", response);
+
         return ApiResponse.ok(response);
     }
 }

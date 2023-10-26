@@ -13,6 +13,11 @@ import java.util.Optional;
 
 import static com.everyschool.userservice.domain.user.QUser.user;
 
+/**
+ * 회원 Querydsl 클래스
+ *
+ * @author 임우택
+ */
 @Repository
 public class UserQueryRepository {
 
@@ -22,6 +27,12 @@ public class UserQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    /**
+     * 이메일 사용 여부 조회
+     *
+     * @param email 조회할 이메일
+     * @return 이미 사용중이라면 true
+     */
     public boolean existEmail(String email) {
         Long result = queryFactory
             .select(user.id)
@@ -31,6 +42,12 @@ public class UserQueryRepository {
         return result != null;
     }
 
+    /**
+     * 이메일로 회원 기본 정보 조회
+     *
+     * @param email 조회할 이메일
+     * @return 회원 기본 정보
+     */
     public Optional<UserInfoResponse> findByEmail(String email) {
         UserInfoResponse content = queryFactory
             .select(Projections.constructor(
@@ -47,6 +64,13 @@ public class UserQueryRepository {
         return Optional.ofNullable(content);
     }
 
+    /**
+     * 이메일 정보 조회
+     *
+     * @param name 조회할 회원의 이름
+     * @param birth 조회할 회원의 생년월일
+     * @return 이메일 정보
+     */
     public Optional<SearchEmailDto> findEmailByNameAndBirth(String name, String birth) {
         SearchEmailDto content = queryFactory
             .select(

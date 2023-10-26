@@ -49,7 +49,7 @@ public class CodeDetailQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/code-groups/{groupId}/code-details", 1)
+                get("/v1/code-groups/{groupId}/code-details", 1)
             )
             .andDo(print())
             .andExpect(status().isOk())

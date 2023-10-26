@@ -1,0 +1,11 @@
+[[create-student]]
+=== 학생 회원 가입 API
+
+==== HTTP Request
+include::{snippets}/create-student/http-request.adoc[]
+include::{snippets}/create-student/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-student/http-response.adoc[]
+include::{snippets}/create-student/response-fields.adoc[]

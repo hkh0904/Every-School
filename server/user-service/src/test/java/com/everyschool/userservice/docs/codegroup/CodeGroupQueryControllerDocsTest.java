@@ -41,7 +41,7 @@ public class CodeGroupQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response1, response2, response3));
 
         mockMvc.perform(
-            get("/code-groups")
+            get("/v1/code-groups")
         )
             .andDo(print())
             .andExpect(status().isOk())

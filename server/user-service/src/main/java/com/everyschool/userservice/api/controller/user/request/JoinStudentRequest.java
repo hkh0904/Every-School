@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
-public class JoinUserRequest {
+public class JoinStudentRequest {
 
     @NotNull
     private Integer userCode;
@@ -35,7 +35,7 @@ public class JoinUserRequest {
     private String birth;
 
     @Builder
-    private JoinUserRequest(Integer userCode, String email, String password, String name, String birth) {
+    private JoinStudentRequest(Integer userCode, String email, String password, String name, String birth) {
         this.userCode = userCode;
         this.email = email;
         this.password = password;

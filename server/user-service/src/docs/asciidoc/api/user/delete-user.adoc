@@ -3,6 +3,7 @@
 
 ==== HTTP Request
 include::{snippets}/delete-user/http-request.adoc[]
+include::{snippets}/delete-user/request-fields.adoc[]
 
 
 ==== HTTP Response

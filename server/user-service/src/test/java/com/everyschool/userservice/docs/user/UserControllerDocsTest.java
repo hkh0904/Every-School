@@ -4,18 +4,17 @@ import com.everyschool.userservice.api.controller.user.UserController;
 import com.everyschool.userservice.api.controller.user.request.*;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
+import com.everyschool.userservice.api.service.user.ParentService;
+import com.everyschool.userservice.api.service.user.StudentService;
 import com.everyschool.userservice.api.service.user.UserService;
 import com.everyschool.userservice.api.service.user.dto.CreateUserDto;
 import com.everyschool.userservice.docs.RestDocsSupport;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
@@ -32,16 +31,91 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerDocsTest extends RestDocsSupport {
 
     private final UserService userService = mock(UserService.class);
+    private final ParentService parentService = mock(ParentService.class);
+    private final StudentService studentService = mock(StudentService.class);
 
     @Override
     protected Object initController() {
-        return new UserController(userService);
+        return new UserController(userService, parentService, studentService);
     }
 
-    @DisplayName("회원 가입 API")
+    @DisplayName("학부모 회원 가입 API")
     @Test
-    void join() throws Exception {
-        JoinUserRequest request = JoinUserRequest.builder()
+    void joinParent() throws Exception {
+        JoinParentRequest request = JoinParentRequest.builder()
+            .userCode(2)
+            .email("ssafy@ssafy.com")
+            .password("ssafy1234@")
+            .name("김싸피")
+            .birth("1970-01-01")
+            .parentType("M")
+            .build();
+
+        UserResponse response = UserResponse.builder()
+            .email("ssafy@ssafy.com")
+            .name("김싸피")
+            .type("학부모")
+            .createdDate(LocalDateTime.now())
+            .build();
+
+        given(parentService.createParent(any(CreateUserDto.class), anyString()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                post("/join/parent")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isCreated())
+            .andDo(document("create-parent",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("userCode").type(JsonFieldType.NUMBER)
+                        .optional()
+                        .description("계정 이메일"),
+                    fieldWithPath("email").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("계정 이메일"),
+                    fieldWithPath("password").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("계정 비밀번호"),
+                    fieldWithPath("name").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("이름"),
+                    fieldWithPath("birth").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("생년월일"),
+                    fieldWithPath("parentType").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("부모타입")
+                ),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.email").type(JsonFieldType.STRING)
+                        .description("계정 이메일"),
+                    fieldWithPath("data.name").type(JsonFieldType.STRING)
+                        .description("이름"),
+                    fieldWithPath("data.type").type(JsonFieldType.STRING)
+                        .description("회원 유형"),
+                    fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
+                        .description("가입 일시")
+                )
+            ));
+    }
+
+    @DisplayName("학생 회원 가입 API")
+    @Test
+    void joinStudent() throws Exception {
+        JoinStudentRequest request = JoinStudentRequest.builder()
             .userCode(2)
             .email("ssafy@ssafy.com")
             .password("ssafy1234@")
@@ -56,17 +130,17 @@ public class UserControllerDocsTest extends RestDocsSupport {
             .createdDate(LocalDateTime.now())
             .build();
 
-        given(userService.createUser(any(CreateUserDto.class)))
+        given(studentService.createStudent(any(CreateUserDto.class)))
             .willReturn(response);
 
         mockMvc.perform(
-                post("/join")
+                post("/join/student")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isCreated())
-            .andDo(document("create-user",
+            .andDo(document("create-student",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 requestFields(
