@@ -1,9 +1,11 @@
 package com.everyschool.chatservice.api.service.chatroom;
 
 import com.everyschool.chatservice.IntegrationTestSupport;
+import com.everyschool.chatservice.api.client.SchoolServiceClient;
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
+import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,35 +25,50 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
 
     @MockBean
     private UserServiceClient userServiceClient;
+    @MockBean
+    private SchoolServiceClient schoolServiceClient;
 
     @DisplayName("채팅방 생성")
     @Test
     void createChatRoom() {
         //given
         UserInfo parent = UserInfo.builder()
-            .userId(1L)
-            .userType('M')
-            .userName("신성주")
-            .schoolClassId(1L)
-            .build();
+                .userId(1L)
+                .userType('M')
+                .userName("신성주")
+                .schoolClassId(1L)
+                .build();
 
         UserInfo teacher = UserInfo.builder()
-            .userId(2L)
-            .userType('T')
-            .userName("오연주")
-            .schoolClassId(1L)
-            .build();
+                .userId(2L)
+                .userType('T')
+                .userName("오연주")
+                .schoolClassId(1L)
+                .build();
 
         given(userServiceClient.searchUserInfo("jwt"))
-            .willReturn(parent);
-        given(userServiceClient.searchUserInfoByUserKey("userKey"))
-            .willReturn(teacher);
+                .willReturn(parent);
+        given(userServiceClient.searchUserInfoByUserKey("opponentUserKey"))
+                .willReturn(teacher);
+        given(userServiceClient.searchChildName(1L, 1L))
+                .willReturn("임우택");
+        given(schoolServiceClient.searchClassName(1L))
+                .willReturn("1학년 2반");
+
+        CreateChatRoomDto dto = CreateChatRoomDto.builder()
+                .loginUserToken("jwt")
+                .opponentUserKey("opponentUserKey")
+                .relation("1학년 2반 오연주 선생님")
+                .schoolClassId(1L)
+                .build();
+
         //when
-        CreateChatRoomResponse response = chatRoomService.createChatRoom();
+        CreateChatRoomResponse response = chatRoomService.createChatRoom(dto);
 
         //then
         assertThat(response.getRoomId()).isPositive();
-        assertThat(response.getRoomTitle()).isEqualTo("오연주 선생님");
+        assertThat(response.getRoomTitle()).isEqualTo("1학년 2반 오연주 선생님");
+        assertThat(response.getUserName()).isEqualTo("신성주");
 
     }
 }
