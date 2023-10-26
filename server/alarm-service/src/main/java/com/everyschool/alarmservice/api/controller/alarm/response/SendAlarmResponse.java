@@ -1,5 +1,6 @@
-package com.everyschool.alarmservice.api.alarm.response;
+package com.everyschool.alarmservice.api.controller.alarm.response;
 
+import com.everyschool.alarmservice.domain.alarm.AlarmMaster;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,5 +22,15 @@ public class SendAlarmResponse {
         this.content = content;
         this.successSendCount = successSendCount;
         this.sendDate = sendDate;
+    }
+
+    public static SendAlarmResponse of(AlarmMaster alarmMaster) {
+        return SendAlarmResponse.builder()
+            .alarmId(alarmMaster.getId())
+            .title(alarmMaster.getTitle())
+            .content(alarmMaster.getContent())
+            .successSendCount(alarmMaster.getAlarms().size())
+            .sendDate(alarmMaster.getCreatedDate())
+            .build();
     }
 }

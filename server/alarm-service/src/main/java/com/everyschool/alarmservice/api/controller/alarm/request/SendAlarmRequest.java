@@ -1,4 +1,4 @@
-package com.everyschool.alarmservice.api.alarm.request;
+package com.everyschool.alarmservice.api.controller.alarm.request;
 
 import lombok.Builder;
 import lombok.Data;
