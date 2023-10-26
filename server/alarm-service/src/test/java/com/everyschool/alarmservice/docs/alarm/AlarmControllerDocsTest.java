@@ -1,9 +1,8 @@
 package com.everyschool.alarmservice.docs.alarm;
 
-import com.everyschool.alarmservice.api.alarm.AlarmController;
-import com.everyschool.alarmservice.api.alarm.request.SendAlarmRequest;
+import com.everyschool.alarmservice.api.controller.alarm.AlarmController;
+import com.everyschool.alarmservice.api.controller.alarm.request.SendAlarmRequest;
 import com.everyschool.alarmservice.docs.RestDocsSupport;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

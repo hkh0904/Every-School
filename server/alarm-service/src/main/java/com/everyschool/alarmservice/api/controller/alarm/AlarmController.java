@@ -1,8 +1,8 @@
-package com.everyschool.alarmservice.api.alarm;
+package com.everyschool.alarmservice.api.controller.alarm;
 
 import com.everyschool.alarmservice.api.ApiResponse;
-import com.everyschool.alarmservice.api.alarm.request.SendAlarmRequest;
-import com.everyschool.alarmservice.api.alarm.response.SendAlarmResponse;
+import com.everyschool.alarmservice.api.controller.alarm.request.SendAlarmRequest;
+import com.everyschool.alarmservice.api.controller.alarm.response.SendAlarmResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
