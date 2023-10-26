@@ -16,3 +16,4 @@ include::overview.adoc[]
 
 include::api/alarm/send-alarm.adoc[]
 include::api/alarm/remove-alarm-master.adoc[]
+include::api/alarm/remove-alarm.adoc[]
