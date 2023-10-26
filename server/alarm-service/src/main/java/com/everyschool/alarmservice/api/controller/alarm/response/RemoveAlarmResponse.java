@@ -1,5 +1,6 @@
 package com.everyschool.alarmservice.api.controller.alarm.response;
 
+import com.everyschool.alarmservice.domain.alarm.Alarm;
 import com.everyschool.alarmservice.domain.alarm.AlarmMaster;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,15 @@ public class RemoveAlarmResponse {
             .content(alarmMaster.getContent())
             .schoolYear(alarmMaster.getSchoolYear())
             .removedDate(alarmMaster.getLastModifiedDate())
+            .build();
+    }
+
+    public static RemoveAlarmResponse of(Alarm alarm) {
+        return RemoveAlarmResponse.builder()
+            .title(alarm.getAlarmMaster().getTitle())
+            .content(alarm.getAlarmMaster().getContent())
+            .schoolYear(alarm.getAlarmMaster().getSchoolYear())
+            .removedDate(alarm.getLastModifiedDate())
             .build();
     }
 }
