@@ -15,3 +15,4 @@ include::overview.adoc[]
 == Alarm API
 
 include::api/alarm/send-alarm.adoc[]
+include::api/alarm/remove-alarm-master.adoc[]
