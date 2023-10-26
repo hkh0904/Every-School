@@ -5,6 +5,7 @@ import com.everyschool.alarmservice.api.controller.alarm.request.SendAlarmReques
 import com.everyschool.alarmservice.api.controller.alarm.response.RemoveAlarmResponse;
 import com.everyschool.alarmservice.api.controller.alarm.response.SendAlarmResponse;
 import com.everyschool.alarmservice.api.service.alarm.AlarmMasterService;
+import com.everyschool.alarmservice.api.service.alarm.AlarmService;
 import com.everyschool.alarmservice.api.service.alarm.dto.CreateAlarmDto;
 import com.everyschool.alarmservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -29,11 +30,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class AlarmControllerDocsTest extends RestDocsSupport {
 
+    private final AlarmService alarmService = mock(AlarmService.class);
     private final AlarmMasterService alarmMasterService = mock(AlarmMasterService.class);
 
     @Override
     protected Object initController() {
-        return new AlarmController(alarmMasterService);
+        return new AlarmController(alarmService, alarmMasterService);
     }
 
     @DisplayName("사용자 알림 전송 API")
@@ -118,11 +120,52 @@ public class AlarmControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                delete("/alarm-service/v1/alarms/{alarmMasterId}", 1L)
+                delete("/alarm-service/v1/alarms/{alarmMasterId}/master", 1L)
             )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("remove-alarm-master",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.title").type(JsonFieldType.STRING)
+                        .description("알림 제목"),
+                    fieldWithPath("data.content").type(JsonFieldType.STRING)
+                        .description("알림 내용"),
+                    fieldWithPath("data.schoolYear").type(JsonFieldType.NUMBER)
+                        .description("학년도"),
+                    fieldWithPath("data.removedDate").type(JsonFieldType.ARRAY)
+                        .description("삭제 일시")
+                )
+            ));
+    }
+
+    @DisplayName("알림 삭제 API")
+    @Test
+    void removeAlarm() throws Exception {
+        RemoveAlarmResponse response = RemoveAlarmResponse.builder()
+            .title("가정통신문")
+            .content("가정통신문입니다.")
+            .schoolYear(2023)
+            .removedDate(LocalDateTime.now())
+            .build();
+
+        given(alarmService.removeAlarm(anyLong()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                delete("/alarm-service/v1/alarms/{alarmMasterId}", 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("remove-alarm",
                 preprocessResponse(prettyPrint()),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
