@@ -3,6 +3,7 @@
 
 ==== HTTP Request
 include::{snippets}/create-parent/http-request.adoc[]
+include::code/parent-type.adoc[]
 include::{snippets}/create-parent/request-fields.adoc[]
 
 
