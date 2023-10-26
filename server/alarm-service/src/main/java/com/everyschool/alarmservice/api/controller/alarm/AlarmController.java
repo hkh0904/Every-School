@@ -5,6 +5,7 @@ import com.everyschool.alarmservice.api.controller.alarm.request.SendAlarmReques
 import com.everyschool.alarmservice.api.controller.alarm.response.RemoveAlarmResponse;
 import com.everyschool.alarmservice.api.controller.alarm.response.SendAlarmResponse;
 import com.everyschool.alarmservice.api.service.alarm.AlarmMasterService;
+import com.everyschool.alarmservice.api.service.alarm.AlarmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RequestMapping("/alarm-service/v1/alarms")
 public class AlarmController {
 
+    private final AlarmService alarmService;
     private final AlarmMasterService alarmMasterService;
 
     @PostMapping
@@ -37,12 +39,23 @@ public class AlarmController {
         return ApiResponse.created(response);
     }
 
-    @DeleteMapping("/{alarmMasterId}")
+    @DeleteMapping("/{alarmMasterId}/master")
     public ApiResponse<RemoveAlarmResponse> removeAlarmMaster(@PathVariable Long alarmMasterId) {
         log.debug("call senderUserKey#removeAlarmMaster");
         log.debug("alarmMasterId={}", alarmMasterId);
 
         RemoveAlarmResponse response = alarmMasterService.removeAlarmMaster(alarmMasterId);
+        log.debug("RemoveAlarmResponse={}", response);
+
+        return ApiResponse.ok(response);
+    }
+
+    @DeleteMapping("/{alarmId}")
+    public ApiResponse<RemoveAlarmResponse> removeAlarm(@PathVariable Long alarmId) {
+        log.debug("call senderUserKey#removeAlarm");
+        log.debug("alarmId={}", alarmId);
+
+        RemoveAlarmResponse response = alarmService.removeAlarm(alarmId);
         log.debug("RemoveAlarmResponse={}", response);
 
         return ApiResponse.ok(response);
