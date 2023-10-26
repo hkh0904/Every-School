@@ -107,7 +107,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
         );
       } else {
         return SizedBox(
-          height: 60,
+          height: 70,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

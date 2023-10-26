@@ -22,7 +22,10 @@ class _HomeBodyState extends State<HomeBody> {
               margin: EdgeInsets.fromLTRB(15, 15, 15, 10), child: SchoolInfo()),
         ),
         SliverToBoxAdapter(
-          child: MenuButtons(),
+          child: Container(
+              // height: 60,
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+              child: MenuButtons()),
         )
       ],
     );
