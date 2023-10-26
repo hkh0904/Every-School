@@ -20,14 +20,23 @@ public class Alarm extends BaseEntity {
     @Column(nullable = false)
     private Boolean isOpen;
 
+    @Column(nullable = false, updatable = false)
+    private Long recipientId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "alarm_master_id")
+    private AlarmMaster alarmMaster;
+
     protected Alarm() {
         super();
+        this.isOpen = false;
     }
 
     @Builder
-    private Alarm(String fcmToken, Boolean isOpen) {
+    private Alarm(String fcmToken, Long recipientId, AlarmMaster alarmMaster) {
         this();
         this.fcmToken = fcmToken;
-        this.isOpen = isOpen;
+        this.recipientId = recipientId;
+        this.alarmMaster = alarmMaster;
     }
 }
