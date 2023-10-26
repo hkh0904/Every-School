@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -69,5 +70,55 @@ class SchoolQueryRepositoryTest extends IntegrationTestSupport {
         // then
         assertThat(responses.size()).isEqualTo(3);
         assertThat(responses.get(0).getName()).isEqualTo("경기수완중학교");
+    }
+
+    @DisplayName("DB로부터 학교 코드를 통해 학교 정보 가져오기.")
+    @Test
+    void searchOneSchool() {
+        // given
+        School school1 = School.builder()
+                .name("경기수완중학교")
+                .zipcode("12345")
+                .address("경기도")
+                .url("https://www.asdf.com")
+                .openDate(LocalDateTime.now().minusDays(10))
+                .codeId(1)
+                .build();
+        School school2 = School.builder()
+                .name("인천수완중학교")
+                .zipcode("12345")
+                .address("경기도")
+                .url("https://www.asdf.com")
+                .openDate(LocalDateTime.now().minusDays(10))
+                .codeId(1)
+                .build();
+        School school3 = School.builder()
+                .name("광주수완중학교")
+                .zipcode("12345")
+                .address("경기도")
+                .url("https://www.asdf.com")
+                .openDate(LocalDateTime.now().minusDays(10))
+                .codeId(1)
+                .build();
+        School school4 = School.builder()
+                .name("청량중학교")
+                .zipcode("12345")
+                .address("경기도")
+                .url("https://www.asdf.com")
+                .openDate(LocalDateTime.now().minusDays(10))
+                .codeId(1)
+                .build();
+
+        School save = schoolRepository.save(school1);
+        schoolRepository.save(school2);
+        schoolRepository.save(school3);
+        schoolRepository.save(school4);
+
+        // when
+        Optional<SchoolResponse> response = schoolQueryRepository.findById(save.getId());
+
+        // then
+        assertThat(response).isPresent();
+        assertThat(response.get().getName()).isEqualTo("경기수완중학교");
     }
 }
