@@ -78,9 +78,6 @@ class SchoolQueryServiceTest extends IntegrationTestSupport {
     @Test
     void searchOneSchoolError() {
 
-        // when
-//        SchoolResponse response = schoolQueryService.searchOneSchool(1L);
-
         // then
         assertThatThrownBy(() -> schoolQueryService.searchOneSchool(1L))
                 .isInstanceOf(NoSuchElementException.class)
