@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static com.everyschool.schoolservice.domain.school.QSchool.school;
 
@@ -33,5 +34,21 @@ public class SchoolQueryRepository {
                 .where(school.name.like("%" + search + "%"))
                 .fetch();
 
+    }
+
+    public Optional<SchoolResponse> findById(Long schoolId) {
+        SchoolResponse content = queryFactory
+                .select(Projections.constructor(
+                        SchoolResponse.class,
+                        school.name,
+                        school.address,
+                        school.url,
+                        school.tel
+                ))
+                .from(school)
+                .where(school.id.eq(schoolId))
+                .fetchOne();
+
+        return Optional.ofNullable(content);
     }
 }
