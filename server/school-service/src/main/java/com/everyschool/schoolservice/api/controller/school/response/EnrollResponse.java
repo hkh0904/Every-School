@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EnrollResponse {
 
-    private int year;
+    private int schoolYear;
     private String schoolName;
     private int grade;
     private int classNum;
@@ -20,9 +20,8 @@ public class EnrollResponse {
     private String rejectedReason;
 
     @Builder
-
-    public EnrollResponse(int year, String schoolName, int grade, int classNum, String name, Boolean isApproved, String rejectedReason) {
-        this.year = year;
+    private EnrollResponse(int schoolYear, String schoolName, int grade, int classNum, String name, Boolean isApproved, String rejectedReason) {
+        this.schoolYear = schoolYear;
         this.schoolName = schoolName;
         this.grade = grade;
         this.classNum = classNum;

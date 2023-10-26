@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SchoolResponse {
-
+    private Long id;
     private String name;
     private String address;
     private String url;
     private String tel;
 
     @Builder
-    public SchoolResponse(String name, String address, String url, String tel) {
+    public SchoolResponse(Long id, String name, String address, String url, String tel) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.url = url;

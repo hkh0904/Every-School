@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 public class ClassroomResponse {
 
     private String teacherName;
-    private int year;
+    private int schoolYear;
     private int grade;
     private String name;
 
     @Builder
-    public ClassroomResponse(String teacherName, int year, int grade, String name) {
+    private ClassroomResponse(String teacherName, int schoolYear, int grade, String name) {
         this.teacherName = teacherName;
-        this.year = year;
+        this.schoolYear = schoolYear;
         this.grade = grade;
         this.name = name;
     }
