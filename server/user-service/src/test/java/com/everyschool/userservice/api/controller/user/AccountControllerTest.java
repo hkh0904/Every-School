@@ -23,18 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 class AccountControllerTest extends ControllerTestSupport {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @MockBean
-    private UserService userService;
-
-    @MockBean
-    private UserQueryService userQueryService;
-
     @DisplayName("계정 이메일을 찾을 때 이름은 필수값이다.")
     @Test
     void forgotEmailWithoutName() throws Exception {
