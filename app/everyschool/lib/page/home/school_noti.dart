@@ -23,6 +23,7 @@ class _SchoolNotiState extends State<SchoolNoti> {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       child: Container(
+        // padding: EdgeInsets.all(0),
         margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
@@ -49,7 +50,7 @@ class _SchoolNotiState extends State<SchoolNoti> {
                   itemCount: notiList.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      height: 50,
+                      height: 49,
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       decoration: BoxDecoration(

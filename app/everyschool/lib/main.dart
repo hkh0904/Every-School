@@ -1,13 +1,17 @@
+import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent,
-  // ));
+void main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+  await initializeDateFormatting();
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "Pretendard"),
@@ -30,7 +34,7 @@ class _MainState extends State<Main> {
   }
 
   final List<Widget> pages = [
-    Center(child: Text('신고')),
+    ConsultingReservation(),
     Center(child: Text('연락처')),
     HomePage(),
     Center(child: Text('메세지')),
