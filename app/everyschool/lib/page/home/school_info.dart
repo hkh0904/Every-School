@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:everyschool/page/home/select_child.dart';
 import 'package:flutter/material.dart';
 
 class SchoolInfo extends StatefulWidget {
@@ -93,7 +94,12 @@ class _SchoolInfoState extends State<SchoolInfo> {
                 ],
               ),
               OutlinedButton(
-                onPressed: () => {},
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SelectChild()),
+                  )
+                },
                 child: Text('변경', style: TextStyle(color: Colors.black)),
                 style: OutlinedButton.styleFrom(
                     minimumSize: Size.zero,
