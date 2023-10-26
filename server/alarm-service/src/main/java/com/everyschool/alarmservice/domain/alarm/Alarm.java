@@ -38,5 +38,6 @@ public class Alarm extends BaseEntity {
         this.fcmToken = fcmToken;
         this.recipientId = recipientId;
         this.alarmMaster = alarmMaster;
+        this.alarmMaster.getAlarms().add(this);
     }
 }

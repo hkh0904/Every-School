@@ -44,4 +44,24 @@ public class AlarmMaster extends BaseEntity {
         this.senderId = senderId;
         this.alarms = alarms;
     }
+
+    public static AlarmMaster createAlarmMaster(String title, String content, Integer schoolYear, Long senderId, List<Long> recipientUserIds) {
+        AlarmMaster alarmMaster = AlarmMaster.builder()
+            .title(title)
+            .content(content)
+            .schoolYear(schoolYear)
+            .senderId(senderId)
+            .alarms(new ArrayList<>())
+            .build();
+
+        for (Long recipientUserId : recipientUserIds) {
+            Alarm.builder()
+                .fcmToken("test")
+                .recipientId(recipientUserId)
+                .alarmMaster(alarmMaster)
+                .build();
+        }
+
+        return alarmMaster;
+    }
 }
