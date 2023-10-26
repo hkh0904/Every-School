@@ -21,11 +21,12 @@ class _SchoolInfoState extends State<SchoolInfo> {
   // }
 
   var info = {
-    // 'user_num': 2,
-    // 'school': '수완초등학교',
-    // 'grade': 1,
-    // 'class': 3,
-    // 'name': '이지혁'
+    'user_num': 2,
+    'school': '수완초등학교',
+    'grade': 1,
+    'class': 3,
+    'name': '이지혁',
+    'childName': '이OO'
   };
 
   @override
@@ -141,6 +142,5 @@ class _SchoolInfoState extends State<SchoolInfo> {
         ),
       );
     }
-    ;
   }
 }
