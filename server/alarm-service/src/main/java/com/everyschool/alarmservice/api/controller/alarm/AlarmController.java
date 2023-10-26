@@ -2,6 +2,7 @@ package com.everyschool.alarmservice.api.controller.alarm;
 
 import com.everyschool.alarmservice.api.ApiResponse;
 import com.everyschool.alarmservice.api.controller.alarm.request.SendAlarmRequest;
+import com.everyschool.alarmservice.api.controller.alarm.response.RemoveAlarmResponse;
 import com.everyschool.alarmservice.api.controller.alarm.response.SendAlarmResponse;
 import com.everyschool.alarmservice.api.service.alarm.AlarmMasterService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,17 @@ public class AlarmController {
         return ApiResponse.created(response);
     }
 
+    @DeleteMapping("/{alarmMasterId}")
+    public ApiResponse<RemoveAlarmResponse> removeAlarmMaster(@PathVariable Long alarmMasterId) {
+        log.debug("call senderUserKey#removeAlarmMaster");
+        log.debug("alarmMasterId={}", alarmMasterId);
+
+        RemoveAlarmResponse response = alarmMasterService.removeAlarmMaster(alarmMasterId);
+        log.debug("RemoveAlarmResponse={}", response);
+
+        return ApiResponse.ok(response);
+    }
+
     public ApiResponse<?> searchAlarm() {
         return null;
     }
@@ -44,9 +56,7 @@ public class AlarmController {
         return null;
     }
 
-    public ApiResponse<?> removeAlarm() {
-        return null;
-    }
+
 
     public ApiResponse<?> readAlarm() {
         return null;
