@@ -1,5 +1,5 @@
 [[send-alarm]]
-=== 사용자 알림 전송 API
+=== 알림 전송 API
 
 ==== HTTP Request
 include::{snippets}/send-alarm/http-request.adoc[]
