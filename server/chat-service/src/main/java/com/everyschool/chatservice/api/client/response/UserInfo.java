@@ -7,9 +7,9 @@ import lombok.Data;
 public class UserInfo {
 
     private Long userId;
-    private char userType;  //S:학생, T:교사, M:마더, F:파더
+    private char userType;      //S:학생, T:교사, M:마더, F:파더
     private String userName;
-    private Long schoolClassId;
+    private Long schoolClassId; //학급 키(학생, 교사일 경우만)
 
     @Builder
     private UserInfo(Long userId, char userType, String userName, Long schoolClassId) {
