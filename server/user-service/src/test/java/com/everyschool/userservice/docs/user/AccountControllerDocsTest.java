@@ -36,7 +36,7 @@ public class AccountControllerDocsTest extends RestDocsSupport {
     void forgotEmail() throws Exception {
         ForgotEmailRequest request = ForgotEmailRequest.builder()
             .name("김싸피")
-            .birth("010101")
+            .birth("2001-01-01")
             .build();
 
         given(userQueryService.searchEmail(anyString(), anyString()))
@@ -79,7 +79,7 @@ public class AccountControllerDocsTest extends RestDocsSupport {
         ForgotPwdRequest request = ForgotPwdRequest.builder()
             .email("ssafy@ssafy.com")
             .name("김싸피")
-            .birth("010101")
+            .birth("2001-01-01")
             .build();
 
         given(userService.editRandomPwd(anyString(), anyString(), anyString()))
