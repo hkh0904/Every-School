@@ -5,19 +5,17 @@ import com.everyschool.alarmservice.api.client.user.UserServiceClient;
 import com.everyschool.alarmservice.api.client.user.resquest.UserIdRequest;
 import com.everyschool.alarmservice.api.controller.alarm.response.SendAlarmResponse;
 import com.everyschool.alarmservice.api.service.alarm.dto.CreateAlarmDto;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
 
 class AlarmMasterServiceTest extends IntegrationTestSupport {
 
