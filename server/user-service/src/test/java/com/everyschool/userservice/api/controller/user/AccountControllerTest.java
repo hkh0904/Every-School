@@ -3,16 +3,9 @@ package com.everyschool.userservice.api.controller.user;
 import com.everyschool.userservice.ControllerTestSupport;
 import com.everyschool.userservice.api.controller.user.request.ForgotEmailRequest;
 import com.everyschool.userservice.api.controller.user.request.ForgotPwdRequest;
-import com.everyschool.userservice.api.service.user.UserQueryService;
-import com.everyschool.userservice.api.service.user.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -20,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WithMockUser
 class AccountControllerTest extends ControllerTestSupport {
 
     @DisplayName("계정 이메일을 찾을 때 이름은 필수값이다.")

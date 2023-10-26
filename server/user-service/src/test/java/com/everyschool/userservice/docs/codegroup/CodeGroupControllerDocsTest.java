@@ -52,7 +52,7 @@ public class CodeGroupControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                post("/code-groups")
+                post("/v1/code-groups")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -98,7 +98,7 @@ public class CodeGroupControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                delete("/code-groups/{groupId}", 1)
+                delete("/v1/code-groups/{groupId}", 1)
             )
             .andDo(print())
             .andExpect(status().isOk())
