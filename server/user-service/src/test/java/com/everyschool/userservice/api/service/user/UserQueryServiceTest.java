@@ -51,6 +51,43 @@ class UserQueryServiceTest extends IntegrationTestSupport {
         assertThat(response.getEmail()).isEqualTo("ssafy@gmail.com");
     }
 
+    @DisplayName("입력 받은 이름과 생년월일이 일치하는 회원 정보가 존재하지 않으면 예외가 발생한다.")
+    @Test
+    void searchEmailWithoutNameAndBirth() {
+        //given
+
+        //when //then
+        assertThatThrownBy(() -> userQueryService.searchEmail("김싸피", "2001-01-01"))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("일치하는 회원 정보가 존재하지 않습니다.");
+    }
+
+    @DisplayName("탈퇴한 회원의 이메일을 찾는 경우 예외가 발생한다.")
+    @Test
+    void searchEmailWithdrawal() {
+        //given
+        User user = saveUser();
+        user.remove();
+
+        //when //then
+        assertThatThrownBy(() -> userQueryService.searchEmail("김싸피", "2001-01-01"))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("이미 탈퇴한 회원입니다.");
+    }
+
+    @DisplayName("회원의 이름과 생년월일을 입력 받아 이메일을 조회할 수 있다.")
+    @Test
+    void searchEmail() {
+        //given
+        User user = saveUser();
+
+        //when
+        String maskingEmail = userQueryService.searchEmail("김싸피", "2001-01-01");
+
+        //then
+        assertThat(maskingEmail).isEqualTo("ssa**@gmail.com");
+    }
+
     private User saveUser() {
         User user = User.builder()
             .email("ssafy@gmail.com")

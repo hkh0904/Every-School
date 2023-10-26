@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -71,6 +72,28 @@ public class UserService {
         return WithdrawalResponse.of(user);
     }
 
+    public String editRandomPwd(String email, String name, String birth) {
+        Optional<User> findUser = userRepository.findByEmail(email);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException("일치하는 회원 정보가 존재하지 않습니다.");
+        }
+        User user = findUser.get();
+
+        if (!user.getName().equals(name) || !user.getBirth().equals(birth)) {
+            throw new NoSuchElementException("일치하는 회원 정보가 존재하지 않습니다.");
+        }
+
+        if (user.isDeleted()) {
+            throw new IllegalArgumentException("이미 탈퇴한 회원입니다.");
+        }
+
+        String randomPwd = createRandomPwd();
+        String encodedPwd = passwordEncoder.encode(randomPwd);
+        user.editPwd(encodedPwd);
+
+        return randomPwd;
+    }
+
     private User insertUser(CreateUserDto dto, String encodedPwd, String userKey) {
         User user = User.builder()
             .email(dto.getEmail())
@@ -90,4 +113,21 @@ public class UserService {
             throw new DuplicateException("이미 사용 중인 이메일 입니다.");
         }
     }
+
+    public String createRandomPwd() {
+        Random random = new Random();
+        StringBuffer key = new StringBuffer();
+
+        for (int i = 0; i < 10; i++) {
+            int index = random.nextInt(4);
+
+            switch (index) {
+                case 0: key.append((char) ((int) random.nextInt(26) + 97)); break;
+                case 1: key.append((char) ((int) random.nextInt(26) + 65)); break;
+                default: key.append(random.nextInt(9));
+            }
+        }
+        return key.toString();
+    }
+
 }
