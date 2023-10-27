@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.domain.school.repository;
 
 import com.everyschool.schoolservice.IntegrationTestSupport;
+import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.everyschool.schoolservice.domain.school.School;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -45,6 +47,33 @@ class SchoolQueryRepositoryTest extends IntegrationTestSupport {
                 tuple("수완중학교", "광주광역시 광산구 수완로 19"),
                 tuple("수완초등학교", "광주광역시 광산구 장덕로 143")
             );
+    }
+
+    @DisplayName("학교 PK로 학교 정보를 상세 조회한다.")
+    @Test
+    void findById() {
+        //given
+        School school = saveSchool("수완고등학교", "62246", "광주광역시 광산구 장덕로 155", "http://suwan.gen.hs.kr", "062-961-5746", LocalDate.of(2009, 3, 1), 7);
+
+        //when
+        Optional<SchoolDetailResponse> response = schoolQueryRepository.findById(school.getId());
+
+        //then
+        assertThat(response).isPresent();
+    }
+
+    @DisplayName("삭제된 학교는 조회되지 않는다.")
+    @Test
+    void findByIdWithoutSchool() {
+        //given
+        School school = saveSchool("수완고등학교", "62246", "광주광역시 광산구 장덕로 155", "http://suwan.gen.hs.kr", "062-961-5746", LocalDate.of(2009, 3, 1), 7);
+        school.remove();
+
+        //when
+        Optional<SchoolDetailResponse> response = schoolQueryRepository.findById(school.getId());
+
+        //then
+        assertThat(response).isEmpty();
     }
 
     private School saveSchool(String name, String zipcode, String address, String url, String tel, LocalDate localDate, int schoolTypeCodeId) {
