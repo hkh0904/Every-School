@@ -1,8 +1,8 @@
-package com.everyschool.callservice.api.controller.call;
+package com.everyschool.callservice.api.controller.donotdisturb;
 
 import com.everyschool.callservice.api.ApiResponse;
-import com.everyschool.callservice.api.controller.call.request.DoNotDisturbRequest;
-import com.everyschool.callservice.api.controller.call.response.DoNotDisturbResponse;
+import com.everyschool.callservice.api.controller.donotdisturb.request.DoNotDisturbRequest;
+import com.everyschool.callservice.api.controller.donotdisturb.response.DoNotDisturbResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/call-service/v1")
+@RequestMapping("/call-service/v1/donotdisturbs")
 public class DoNotDisturbController {
 
     /**
@@ -23,7 +23,7 @@ public class DoNotDisturbController {
      *
      * @return 요청 정보 리스트
      */
-    @GetMapping("/donotdisturb")
+    @GetMapping("/")
     public ApiResponse<List<DoNotDisturbResponse>> searchDoNotDisturbs() {
         DoNotDisturbResponse res1 = DoNotDisturbResponse.builder()
                 .startTime(LocalDateTime.now())
@@ -43,7 +43,7 @@ public class DoNotDisturbController {
         return ApiResponse.ok(l);
     }
 
-    @PostMapping("/donotdisturb")
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<String> createDoNotDisturb(@RequestBody DoNotDisturbRequest request) {
         return ApiResponse.ok("등록 완료");

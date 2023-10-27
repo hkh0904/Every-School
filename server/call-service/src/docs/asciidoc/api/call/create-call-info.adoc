@@ -1,0 +1,11 @@
+[[create-call-info]]
+=== 통화 내역 등록 API
+
+==== HTTP Request
+include::{snippets}/create-call-info/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-call-info/http-response.adoc[]
+include::{snippets}/create-call-info/response-fields.adoc[]
+
