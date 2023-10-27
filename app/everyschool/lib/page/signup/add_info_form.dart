@@ -1,15 +1,6 @@
 import 'package:everyschool/component/CustomDropdown/CutomDropdown.dart';
 import 'package:flutter/material.dart';
 
-enum GenderLabel {
-  male('남자', 'M'),
-  female('여자', 'F');
-
-  const GenderLabel(this.label, this.gender);
-  final String label;
-  final String gender;
-}
-
 class AddInfoForm extends StatefulWidget {
   const AddInfoForm({super.key});
 
@@ -22,7 +13,6 @@ class _AddInfoFormState extends State<AddInfoForm> {
   TextEditingController birthday = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   GenderLabel? selectedGender;
-
   String? finalGender;
 
   @override
@@ -37,7 +27,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '',
+          '회원가입',
           style: TextStyle(
               fontSize: 25, color: Colors.black, fontWeight: FontWeight.w700),
         ),
@@ -83,13 +73,11 @@ class _AddInfoFormState extends State<AddInfoForm> {
                 child: TextField(
                   controller: name,
                   decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Color(0xff15075F))),
+                      counterText: '',
                       border: UnderlineInputBorder(),
                       isDense: true,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 10.0),
                       focusColor: Color(0xff15075F)),
 
                   keyboardType: TextInputType.text,
@@ -132,8 +120,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               //         borderSide: BorderSide(
                               //             width: 1.5, color: Colors.black),
                               //       )
-                              //     : OutlineInputBorder(
-                              //         borderSide: BorderSide(
+                              //     : UnderlineInputBorder()                              //         borderSide: BorderSide(
                               //             width: 2, color: Colors.red)),
                               // focusedBorder: UnderlineInputBorder(
                               //   borderSide: BorderSide(
@@ -142,10 +129,11 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               //           ? Color(0xffA1CBA1)
                               //           : Colors.red),
                               // ),
-                              isDense: true,
                               counterText: '',
+                              border: UnderlineInputBorder(),
+                              isDense: true,
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 10.0),
+                                  vertical: 14.0, horizontal: 10.0),
                               focusColor: Color(0xffA1CBA1)),
                           keyboardType: TextInputType.datetime,
                         )),
@@ -179,8 +167,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               //         borderSide: BorderSide(
                               //             width: 1.5, color: Colors.black),
                               //       )
-                              //     : OutlineInputBorder(
-                              //         borderSide: BorderSide(
+                              //     : UnderlineInputBorder()                              //         borderSide: BorderSide(
                               //             width: 2, color: Colors.red)),
                               // focusedBorder: UnderlineInputBorder(
                               //   borderSide: BorderSide(
@@ -189,10 +176,11 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               //           ? Color(0xffA1CBA1)
                               //           : Colors.red),
                               // ),
-                              isDense: true,
                               counterText: '',
+                              border: UnderlineInputBorder(),
+                              isDense: true,
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 10.0),
+                                  vertical: 14.0, horizontal: 10.0),
                               focusColor: Color(0xffA1CBA1)),
                           keyboardType: TextInputType.datetime,
                         )),
@@ -227,8 +215,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               //         borderSide: BorderSide(
                               //             width: 1.5, color: Colors.black),
                               //       )
-                              //     : OutlineInputBorder(
-                              //         borderSide: BorderSide(
+                              //     : UnderlineInputBorder()                              //         borderSide: BorderSide(
                               //             width: 2, color: Colors.red)),
                               // focusedBorder: UnderlineInputBorder(
                               //   borderSide: BorderSide(
@@ -237,10 +224,11 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               //           ? Color(0xffA1CBA1)
                               //           : Colors.red),
                               // ),
-                              isDense: true,
                               counterText: '',
+                              border: UnderlineInputBorder(),
+                              isDense: true,
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 10.0),
+                                  vertical: 14.0, horizontal: 10.0),
                               focusColor: Color(0xffA1CBA1)),
                           keyboardType: TextInputType.datetime,
                         )),
@@ -265,69 +253,30 @@ class _AddInfoFormState extends State<AddInfoForm> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: DropdownMenu<GenderLabel>(
-                            inputDecorationTheme: InputDecorationTheme(
-                                border: UnderlineInputBorder()),
-                            menuStyle: MenuStyle(
-                                shadowColor:
-                                    MaterialStatePropertyAll(Colors.amber)),
-                            initialSelection: GenderLabel.male,
-                            controller: genderController,
-                            dropdownMenuEntries: genderList,
-                            onSelected: (GenderLabel? gender) {
-                              setState(() {
-                                selectedGender = gender;
-                                finalGender = selectedGender!.gender;
-                              });
-                            },
-                          ),
+                    Center(
+                      child: DropdownMenu<GenderLabel>(
+                        width: MediaQuery.of(context).size.width - 60,
+                        inputDecorationTheme: InputDecorationTheme(
+                          constraints: BoxConstraints(maxHeight: 50),
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 14.0, horizontal: 16.0),
+                          border: UnderlineInputBorder(),
                         ),
-                      ],
+                        menuStyle: MenuStyle(
+                            shadowColor:
+                                MaterialStatePropertyAll(Colors.green)),
+                        initialSelection: GenderLabel.male,
+                        controller: genderController,
+                        dropdownMenuEntries: genderList,
+                        onSelected: (GenderLabel? gender) {
+                          setState(() {
+                            selectedGender = gender;
+                            finalGender = selectedGender!.gender;
+                          });
+                        },
+                      ),
                     ),
-                    // DropdownMenuTheme(
-                    //     data: DropdownMenuThemeData(
-                    //         // 드롭다운 버튼 및 항목의 스타일 및 속성 설정
-                    //         inputDecorationTheme: InputDecorationTheme(
-                    //             fillColor: Colors.amber,
-                    //             border: OutlineInputBorder(
-                    //                 borderSide:
-                    //                     BorderSide(color: Colors.amber))),
-                    //         menuStyle: MenuStyle(
-                    //             shadowColor:
-                    //                 MaterialStatePropertyAll(Colors.amber),
-                    //             fixedSize:
-                    //                 MaterialStatePropertyAll(Size(300, 300)))),
-                    //     child: DropdownButton<String>(
-                    //       icon: Icon(Icons.arrow_back), // 드롭다운 아이콘 추가
-                    //       iconSize: 24, // 아이콘 크기 설정
-                    //       isExpanded: true,
-                    //       value: selectedGender,
-                    //       items: genderList.map((String item) {
-                    //         return DropdownMenuItem<String>(
-                    //           value: item,
-                    //           child: Text(
-                    //             item,
-                    //             style: TextStyle(
-                    //               color: Colors.blue, // 항목 텍스트 색상 변경
-                    //               fontSize: 16, // 항목 폰트 크기 변경
-                    //               fontWeight: FontWeight.bold, // 폰트 스타일 변경
-                    //             ),
-                    //           ),
-                    //         );
-                    //       }).toList(),
-                    //       onChanged: (value) {
-                    //         setState(() {
-                    //           selectedGender = value;
-                    //         });
-                    //       },
-                    //       style: TextStyle(
-                    //         color: Colors.red, // 버튼 텍스트 색상 변경
-                    //         fontSize: 18, // 폰트 크기 변경
-                    //       ),
-                    //     ))
                   ],
                 ),
               ),
@@ -457,6 +406,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                           //             context.watch<UserStore>().policycheck
                           //         ? MaterialStatePropertyAll(Color(0xffA1CBA1))
                           //         : MaterialStatePropertyAll(Colors.grey)),
+                          style: ButtonStyle(),
                           child: SizedBox(
                             height: 30,
                             child: Row(
@@ -481,4 +431,13 @@ class _AddInfoFormState extends State<AddInfoForm> {
       ),
     );
   }
+}
+
+enum GenderLabel {
+  male('남자', 'M'),
+  female('여자', 'F');
+
+  const GenderLabel(this.label, this.gender);
+  final String label;
+  final String gender;
 }
