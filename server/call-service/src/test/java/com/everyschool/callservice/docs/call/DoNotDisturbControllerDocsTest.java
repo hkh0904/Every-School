@@ -1,7 +1,7 @@
 package com.everyschool.callservice.docs.call;
 
-import com.everyschool.callservice.api.controller.call.DoNotDisturbController;
-import com.everyschool.callservice.api.controller.call.request.DoNotDisturbRequest;
+import com.everyschool.callservice.api.controller.donotdisturb.DoNotDisturbController;
+import com.everyschool.callservice.api.controller.donotdisturb.request.DoNotDisturbRequest;
 import com.everyschool.callservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -29,7 +28,7 @@ public class DoNotDisturbControllerDocsTest extends RestDocsSupport {
     @Test
     void searchDoNotDisturbs() throws Exception {
         mockMvc.perform(
-            get("/donotdisturb")
+            get("/call-service/v1/donotdisturbs/")
         )
         .andDo(print())
         .andExpect(status().isOk())
@@ -56,7 +55,7 @@ public class DoNotDisturbControllerDocsTest extends RestDocsSupport {
 
     @DisplayName("방해 금지 등록 API")
     @Test
-    void createClassroom() throws Exception {
+    void createDoNotDisturb() throws Exception {
         DoNotDisturbRequest request = DoNotDisturbRequest.builder()
             .startTime(LocalDateTime.now())
             .endTime(LocalDateTime.now().plusDays(1))
@@ -64,7 +63,7 @@ public class DoNotDisturbControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-            post("/donotdisturb")
+            post("/call-service/v1/donotdisturb/")
                 .header("Authorization", "Bearer Token")
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
