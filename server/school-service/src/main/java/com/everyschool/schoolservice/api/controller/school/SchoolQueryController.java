@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.api.controller.school;
 
 import com.everyschool.schoolservice.api.ApiResponse;
+import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.everyschool.schoolservice.api.service.school.SchoolQueryService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,13 @@ public class SchoolQueryController {
      * @return 학교 정보
      */
     @GetMapping("/{schoolId}")
-    public ApiResponse<SchoolResponse> searchSchool(@PathVariable Long schoolId) {
-        return ApiResponse.ok(schoolQueryService.searchOneSchool(schoolId));
+    public ApiResponse<SchoolDetailResponse> searchSchool(@PathVariable Long schoolId) {
+        log.debug("call SchoolQueryController#searchSchool");
+        log.debug("schoolId={}", schoolId);
+
+        SchoolDetailResponse response = schoolQueryService.searchSchoolInfo(schoolId);
+        log.debug("result={}", response);
+
+        return ApiResponse.ok(response);
     }
 }
