@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/school-service/v1")
+@RequestMapping("/school-service/v1/schools")
 public class SchoolController {
 
     /**
@@ -26,7 +26,7 @@ public class SchoolController {
      *
      * @return 생성한 학급 정보
      */
-    @PostMapping("/school/{schoolId}/classroom")
+    @PostMapping("/{schoolId}/classrooms")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<ClassroomResponse> createClassroom(@PathVariable String schoolId,
                                                        @RequestBody ClassroomRequest request) {

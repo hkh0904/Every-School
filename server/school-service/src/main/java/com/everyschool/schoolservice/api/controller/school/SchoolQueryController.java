@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.api.controller.school;
 
 import com.everyschool.schoolservice.api.ApiResponse;
+import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.everyschool.schoolservice.api.service.school.SchoolQueryService;
 import lombok.RequiredArgsConstructor;
@@ -12,19 +13,25 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/school-service/v1")
+@RequestMapping("/school-service/v1/schools")
 public class SchoolQueryController {
 
     private final SchoolQueryService schoolQueryService;
 
     /**
-     * 학교 조회 API
+     * 학교 목록 조회 API
      *
      * @return 학교 리스트
      */
-    @GetMapping("/school")
-    public ApiResponse<List<SchoolResponse>> searchSchools(@RequestParam String search) {
-        return ApiResponse.ok(schoolQueryService.searchSchools(search));
+    @GetMapping
+    public ApiResponse<List<SchoolResponse>> searchSchools(@RequestParam String query) {
+        log.debug("call SchoolQueryController#searchSchools");
+        log.debug("query={}", query);
+
+        List<SchoolResponse> responses = schoolQueryService.searchSchools(query);
+         log.debug("search results={}", responses);
+
+        return ApiResponse.ok(responses);
     }
 
     /**
@@ -32,8 +39,14 @@ public class SchoolQueryController {
      *
      * @return 학교 정보
      */
-    @GetMapping("/school/{schoolId}")
-    public ApiResponse<SchoolResponse> searchSchool(@PathVariable Long schoolId) {
-        return ApiResponse.ok(schoolQueryService.searchOneSchool(schoolId));
+    @GetMapping("/{schoolId}")
+    public ApiResponse<SchoolDetailResponse> searchSchool(@PathVariable Long schoolId) {
+        log.debug("call SchoolQueryController#searchSchool");
+        log.debug("schoolId={}", schoolId);
+
+        SchoolDetailResponse response = schoolQueryService.searchSchoolInfo(schoolId);
+        log.debug("result={}", response);
+
+        return ApiResponse.ok(response);
     }
 }

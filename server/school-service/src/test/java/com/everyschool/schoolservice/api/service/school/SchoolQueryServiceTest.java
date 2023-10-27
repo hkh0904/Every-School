@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.api.service.school;
 
 import com.everyschool.schoolservice.IntegrationTestSupport;
+import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.everyschool.schoolservice.domain.school.School;
 import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,115 +24,79 @@ class SchoolQueryServiceTest extends IntegrationTestSupport {
     @Autowired
     private SchoolRepository schoolRepository;
 
-    @DisplayName("학교 일부 이름을 통해 학교 목록 가져오기.")
+    @DisplayName("학교명이 포함된 모든 학교 목록을 조회할 수 있다.")
     @Test
     void searchSchools() {
-        // given
-        String search = "수완중";
-        School school1 = School.builder()
-                .name("경기수완중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
-        School school2 = School.builder()
-                .name("인천수완중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
-        School school3 = School.builder()
-                .name("광주수완중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
-        School school4 = School.builder()
-                .name("청량중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
+        //given
+        String query = "수완";
 
-        schoolRepository.save(school1);
-        schoolRepository.save(school2);
-        schoolRepository.save(school3);
-        schoolRepository.save(school4);
+        School school1 = saveSchool("수완고등학교", "62246", "광주광역시 광산구 장덕로 155", "http://suwan.gen.hs.kr", "062-961-5746", LocalDate.of(2009, 3, 1), 7);
+        School school2 = saveSchool("수완중학교", "62308", "광주광역시 광산구 수완로 19", "http://suwan.gen.ms.kr", "062-975-2206", LocalDate.of(2009, 3, 1), 6);
+        School school3 = saveSchool("수완초등학교", "62246", "광주광역시 광산구 장덕로 143", " http://suwan.gen.es.kr", "062-960-9000", LocalDate.of(2008, 9, 1), 5);
+        School school4 = saveSchool("수완하나중학교", "62247", "광주광역시 광산구 수완로105번길 47", "http://suwanhana.gen.ms.kr", "062-720-2641", LocalDate.of(2015, 3, 1), 6);
+        school4.remove();
 
-        // when
-        List<SchoolResponse> responses = schoolQueryService.searchSchools(search);
+        //when
+        List<SchoolResponse> responses = schoolQueryService.searchSchools(query);
 
-        // then
-        assertThat(responses.size()).isEqualTo(3);
-        assertThat(responses.get(0).getName()).isEqualTo("경기수완중학교");
+        //then
+        assertThat(responses).hasSize(3);
+        assertThat(responses)
+            .extracting("name", "address")
+            .containsExactlyInAnyOrder(
+                tuple("수완고등학교", "광주광역시 광산구 장덕로 155"),
+                tuple("수완중학교", "광주광역시 광산구 수완로 19"),
+                tuple("수완초등학교", "광주광역시 광산구 장덕로 143")
+            );
     }
 
-    @DisplayName("[예외] 학교 코드 정보가 없을때.")
+    @DisplayName("학교 정보가 존재하지 않으면 예외가 발생한다.")
     @Test
-    void searchOneSchoolError() {
+    void searchOneSchoolWithoutSchool() {
+        //given
 
-        // then
-        assertThatThrownBy(() -> schoolQueryService.searchOneSchool(1L))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("해당 학교는 없습니다.");
-
+        //when //then
+        assertThatThrownBy(() -> schoolQueryService.searchSchoolInfo(1L))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("학교 정보가 존재하지 않습니다.");
     }
 
-    @DisplayName("학교 코드를 통해 학교 정보 가져오기.")
+    @DisplayName("조회된 학교가 삭제된 학교라면 예외가 발생한다.")
+    @Test
+    void searchOneSchoolRemovedSchool() {
+        //given
+        School school = saveSchool("수완고등학교", "62246", "광주광역시 광산구 장덕로 155", "http://suwan.gen.hs.kr", "062-961-5746", LocalDate.of(2009, 3, 1), 7);
+        school.remove();
+
+        //when //then
+        assertThatThrownBy(() -> schoolQueryService.searchSchoolInfo(school.getId()))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("학교 정보가 존재하지 않습니다.");
+    }
+
+    @DisplayName("학교 PK로 학교 정보를 조회할 수 있다.")
     @Test
     void searchOneSchool() {
-        // given
-        School school1 = School.builder()
-                .name("경기수완중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
-        School school2 = School.builder()
-                .name("인천수완중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
-        School school3 = School.builder()
-                .name("광주수완중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
-        School school4 = School.builder()
-                .name("청량중학교")
-                .zipcode("12345")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .openDate(LocalDateTime.now().minusDays(10))
-                .codeId(1)
-                .build();
+        //given
+        School school = saveSchool("수완고등학교", "62246", "광주광역시 광산구 장덕로 155", "http://suwan.gen.hs.kr", "062-961-5746", LocalDate.of(2009, 3, 1), 7);
 
-        School save = schoolRepository.save(school1);
-        schoolRepository.save(school2);
-        schoolRepository.save(school3);
-        schoolRepository.save(school4);
+        //when
+        SchoolDetailResponse response = schoolQueryService.searchSchoolInfo(school.getId());
 
-        // when
-        SchoolResponse response = schoolQueryService.searchOneSchool(save.getId());
+        //then
+        assertThat(response.getUrl()).isEqualTo("http://suwan.gen.hs.kr");
+    }
 
-        // then
-        assertThat(response).isNotNull();
-        assertThat(response.getName()).isEqualTo("경기수완중학교");
+    private School saveSchool(String name, String zipcode, String address, String url, String tel, LocalDate localDate, int schoolTypeCodeId) {
+        School school = School.builder()
+            .name(name)
+            .zipcode(zipcode)
+            .address(address)
+            .url(url)
+            .tel(tel)
+            .openDate(localDate.atStartOfDay())
+            .schoolTypeCodeId(schoolTypeCodeId)
+            .build();
+        return schoolRepository.save(school);
     }
 }

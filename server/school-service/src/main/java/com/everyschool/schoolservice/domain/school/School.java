@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "`school`")
 public class School extends BaseEntity {
 
     @Id
@@ -35,15 +34,14 @@ public class School extends BaseEntity {
     private LocalDateTime openDate;
 
     @Column(nullable = false)
-    private Integer codeId;
+    private Integer schoolTypeCodeId;
 
     protected School() {
         super();
     }
 
     @Builder
-    public School(String name, String zipcode, String address, String url, String tel, LocalDateTime openDate,
-                  Integer codeId) {
+    private School(String name, String zipcode, String address, String url, String tel, LocalDateTime openDate, Integer schoolTypeCodeId) {
         this();
         this.name = name;
         this.zipcode = zipcode;
@@ -51,6 +49,6 @@ public class School extends BaseEntity {
         this.url = url;
         this.tel = tel;
         this.openDate = openDate;
-        this.codeId = codeId;
+        this.schoolTypeCodeId = schoolTypeCodeId;
     }
 }
