@@ -1,5 +1,6 @@
 package com.everyschool.schoolservice.api.service.school;
 
+import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.everyschool.schoolservice.domain.school.repository.SchoolQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,11 @@ public class SchoolQueryService {
         return schoolQueryRepository.findByName(query);
     }
 
-    public SchoolResponse searchOneSchool(Long schoolId) {
-        Optional<SchoolResponse> response = schoolQueryRepository.findById(schoolId);
+    public SchoolDetailResponse searchOneSchool(Long schoolId) {
+        Optional<SchoolDetailResponse> response = schoolQueryRepository.findById(schoolId);
 
         if(response.isEmpty()) {
-            throw new NoSuchElementException("해당 학교는 없습니다.");
+            throw new NoSuchElementException("학교 정보가 존재하지 않습니다.");
         }
 
         return response.get();
