@@ -28,7 +28,7 @@ public class SchoolQueryService {
         return schoolQueryRepository.findByName(query);
     }
 
-    public SchoolDetailResponse searchOneSchool(Long schoolId) {
+    public SchoolDetailResponse searchSchoolInfo(Long schoolId) {
         Optional<SchoolDetailResponse> response = schoolQueryRepository.findById(schoolId);
 
         if(response.isEmpty()) {

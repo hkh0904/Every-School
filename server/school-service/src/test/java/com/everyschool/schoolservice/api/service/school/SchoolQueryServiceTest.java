@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.api.service.school;
 
 import com.everyschool.schoolservice.IntegrationTestSupport;
+import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.everyschool.schoolservice.domain.school.School;
 import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -48,6 +48,43 @@ class SchoolQueryServiceTest extends IntegrationTestSupport {
                 tuple("수완중학교", "광주광역시 광산구 수완로 19"),
                 tuple("수완초등학교", "광주광역시 광산구 장덕로 143")
             );
+    }
+
+    @DisplayName("학교 정보가 존재하지 않으면 예외가 발생한다.")
+    @Test
+    void searchOneSchoolWithoutSchool() {
+        //given
+
+        //when //then
+        assertThatThrownBy(() -> schoolQueryService.searchSchoolInfo(1L))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("학교 정보가 존재하지 않습니다.");
+    }
+
+    @DisplayName("조회된 학교가 삭제된 학교라면 예외가 발생한다.")
+    @Test
+    void searchOneSchoolRemovedSchool() {
+        //given
+        School school = saveSchool("수완고등학교", "62246", "광주광역시 광산구 장덕로 155", "http://suwan.gen.hs.kr", "062-961-5746", LocalDate.of(2009, 3, 1), 7);
+        school.remove();
+
+        //when //then
+        assertThatThrownBy(() -> schoolQueryService.searchSchoolInfo(school.getId()))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("학교 정보가 존재하지 않습니다.");
+    }
+
+    @DisplayName("학교 PK로 학교 정보를 조회할 수 있다.")
+    @Test
+    void searchOneSchool() {
+        //given
+        School school = saveSchool("수완고등학교", "62246", "광주광역시 광산구 장덕로 155", "http://suwan.gen.hs.kr", "062-961-5746", LocalDate.of(2009, 3, 1), 7);
+
+        //when
+        SchoolDetailResponse response = schoolQueryService.searchSchoolInfo(school.getId());
+
+        //then
+        assertThat(response.getUrl()).isEqualTo("http://suwan.gen.hs.kr");
     }
 
     private School saveSchool(String name, String zipcode, String address, String url, String tel, LocalDate localDate, int schoolTypeCodeId) {
