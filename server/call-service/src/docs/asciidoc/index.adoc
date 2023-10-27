@@ -16,4 +16,5 @@ include::overview.adoc[]
 
 include::api/call/create-donotdisturb.adoc[]
 include::api/call/search-donotdisturbs.adoc[]
+include::api/call/create-call-info.adoc[]
 

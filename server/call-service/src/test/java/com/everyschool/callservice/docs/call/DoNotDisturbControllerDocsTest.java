@@ -63,7 +63,7 @@ public class DoNotDisturbControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-            post("/call-service/v1/donotdisturb/")
+            post("/call-service/v1/donotdisturbs/")
                 .header("Authorization", "Bearer Token")
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
