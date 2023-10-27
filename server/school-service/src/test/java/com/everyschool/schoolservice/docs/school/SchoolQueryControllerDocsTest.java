@@ -34,35 +34,41 @@ public class SchoolQueryControllerDocsTest extends RestDocsSupport {
     @Test
     void searchSchools() throws Exception {
         SchoolResponse response1 = SchoolResponse.builder()
-                .id(Long.parseLong("12345"))
-                .name("경기수완중학교")
-                .address("경기도")
-                .url("https://www.asdf.com")
-                .tel("010-1111-2222")
-                .build();
+            .schoolId(1L)
+            .name("수완고등학교")
+            .address("광주광역시 광산구 장덕로 155")
+            .build();
 
         SchoolResponse response2 = SchoolResponse.builder()
-                .id(Long.parseLong("12346"))
-                .name("광주수완중학교")
-                .address("광주")
-                .url("https://www.qwer.com")
-                .tel("010-3333-4444")
-                .build();
+            .schoolId(2L)
+            .name("수완중학교")
+            .address("광주광역시 광산구 수완로 19")
+            .build();
 
-        List<SchoolResponse> res = new ArrayList<>();
-        res.add(response1);
-        res.add(response2);
+        SchoolResponse response3 = SchoolResponse.builder()
+            .schoolId(3L)
+            .name("수완초등학교")
+            .address("광주광역시 광산구 장덕로 143")
+            .build();
 
-        given(schoolQueryService.searchSchools("수완중"))
-                .willReturn(res);
+        SchoolResponse response4 = SchoolResponse.builder()
+            .schoolId(4L)
+            .name("수완하나중학교")
+            .address("광주광역시 광산구 수완로105번길 47")
+            .build();
+
+        List<SchoolResponse> responses = List.of(response1, response2, response3, response4);
+
+        given(schoolQueryService.searchSchools("수완"))
+                .willReturn(responses);
 
         mockMvc.perform(
-                        get("/school-service/v1/school")
-                                .param("search", "수완중")
+                        get("/school-service/v1/schools")
+                                .param("query", "수완")
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("search-schools",
+                .andDo(document("search-list-school",
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -73,16 +79,12 @@ public class SchoolQueryControllerDocsTest extends RestDocsSupport {
                                         .description("메시지"),
                                 fieldWithPath("data").type(JsonFieldType.ARRAY)
                                         .description("응답 데이터"),
-                                fieldWithPath("data[].id").type(JsonFieldType.NUMBER)
-                                        .description("학교 ID"),
+                                fieldWithPath("data[].schoolId").type(JsonFieldType.NUMBER)
+                                        .description("학교 Id"),
                                 fieldWithPath("data[].name").type(JsonFieldType.STRING)
-                                        .description("학교 이름"),
+                                        .description("학교명"),
                                 fieldWithPath("data[].address").type(JsonFieldType.STRING)
-                                        .description("학교 주소"),
-                                fieldWithPath("data[].url").type(JsonFieldType.STRING)
-                                        .description("학교 홈페이지 주소"),
-                                fieldWithPath("data[].tel").type(JsonFieldType.STRING)
-                                        .description("확교 전화번호")
+                                        .description("학교 주소")
                         )
                 ));
     }
@@ -92,11 +94,9 @@ public class SchoolQueryControllerDocsTest extends RestDocsSupport {
     void searchOneSchool() throws Exception {
 
         SchoolResponse response = SchoolResponse.builder()
-                .id(Long.parseLong("12345"))
+                .schoolId(Long.parseLong("12345"))
                 .name("경기수완중학교")
                 .address("경기도")
-                .url("https://www.asdf.com")
-                .tel("010-1111-2222")
                 .build();
 
         given(schoolQueryService.searchOneSchool(Long.parseLong("12345")))
