@@ -36,11 +36,11 @@ class _MainState extends State<Main> {
   }
 
   final List<Widget> pages = [
-    ConsultingListPage(),
-    Center(child: Text('연락처')),
     HomePage(),
-    Center(child: Text('메세지')),
+    ConsultingListPage(),
+    Center(child: Text('채팅')),
     Center(child: Text('커뮤니티')),
+    Center(child: Text('전체보기')),
   ];
 
   @override

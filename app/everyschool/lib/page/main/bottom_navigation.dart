@@ -16,36 +16,36 @@ class _BtmNavState extends State<BtmNav> {
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.report_outlined),
-          activeIcon: Icon(Icons.report),
-          label: '신고 및 상담',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outlined),
-          activeIcon: Icon(Icons.person),
-          label: '연락처',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
           activeIcon: Icon(Icons.home),
           label: '홈',
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.report_outlined),
+          activeIcon: Icon(Icons.report),
+          label: '신고 및 상담',
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.mail_outlined),
           activeIcon: Icon(Icons.mail),
-          label: '메세지',
+          label: '채팅',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.dashboard_outlined),
           activeIcon: Icon(Icons.dashboard),
           label: '커뮤니티',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.menu),
+          activeIcon: Icon(Icons.menu),
+          label: '전체보기',
+        ),
       ],
       currentIndex: widget.selectedIndex,
       onTap: widget.onItemTapped,
       selectedItemColor: Color(0xff15075F),
       selectedFontSize: 12,
-      iconSize: 26,
+      iconSize: 28,
       unselectedItemColor: Color(0xff94A3B8),
       unselectedFontSize: 12,
       showUnselectedLabels: true,
