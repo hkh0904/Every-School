@@ -36,6 +36,8 @@ public class ChatRoomService {
         // 상대 유저키로 정보 요청
         UserInfo opponentUser = userServiceClient.searchUserInfoByUserKey(dto.getOpponentUserKey());
 
+        // TODO: 2023-10-27 두 아이디로 생성된 방 있으면 그냥 열기 
+
         // 채팅방 생성
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder().build());
 
