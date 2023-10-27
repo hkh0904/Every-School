@@ -1,5 +1,6 @@
 package com.everyschool.schoolservice.domain.school.repository;
 
+import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -36,17 +37,22 @@ public class SchoolQueryRepository {
             .fetch();
     }
 
-    public Optional<SchoolResponse> findById(Long schoolId) {
-        SchoolResponse content = queryFactory
+    public Optional<SchoolDetailResponse> findById(Long schoolId) {
+        SchoolDetailResponse content = queryFactory
             .select(Projections.constructor(
-                SchoolResponse.class,
+                SchoolDetailResponse.class,
+                school.id,
                 school.name,
                 school.address,
                 school.url,
-                school.tel
+                school.tel,
+                school.openDate
             ))
             .from(school)
-            .where(school.id.eq(schoolId))
+            .where(
+                school.id.eq(schoolId),
+                school.isDeleted.isFalse()
+            )
             .fetchOne();
 
         return Optional.ofNullable(content);
