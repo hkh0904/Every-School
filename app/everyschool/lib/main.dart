@@ -1,13 +1,19 @@
+import 'package:everyschool/page/consulting/consulting_list_page.dart';
+import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
-  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent,
-  // ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+  await initializeDateFormatting();
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "Pretendard"),
@@ -30,11 +36,11 @@ class _MainState extends State<Main> {
   }
 
   final List<Widget> pages = [
-    Center(child: Text('신고')),
-    Center(child: Text('연락처')),
     HomePage(),
-    Center(child: Text('메세지')),
+    ConsultingListPage(),
+    Center(child: Text('채팅')),
     Center(child: Text('커뮤니티')),
+    Center(child: Text('전체보기')),
   ];
 
   @override
