@@ -1,3 +1,4 @@
+import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
@@ -35,7 +36,7 @@ class _MainState extends State<Main> {
   }
 
   final List<Widget> pages = [
-    ConsultingReservation(),
+    ConsultingListPage(),
     Center(child: Text('연락처')),
     HomePage(),
     Center(child: Text('메세지')),

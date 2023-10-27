@@ -1,7 +1,6 @@
 import 'package:everyschool/page/consulting/consulting_reason.dart';
 import 'package:everyschool/page/consulting/consulting_teacher_info.dart';
 import 'package:everyschool/page/consulting/select_date.dart';
-import 'package:everyschool/page/consulting/select_time.dart';
 import 'package:flutter/material.dart';
 
 class ConsultingReservation extends StatefulWidget {
@@ -145,7 +144,6 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
                 });
               },
             ),
-            // SelectTime(),
             ConsultingReason(onReasonSelected: (reason) {
               setState(() {
                 selReason = reason;
