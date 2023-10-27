@@ -61,9 +61,7 @@ public class AlarmController {
         return ApiResponse.ok(response);
     }
 
-    public ApiResponse<?> searchAlarm() {
-        return null;
-    }
+
 
     public ApiResponse<?> searchAlarmMaster() {
         return null;
