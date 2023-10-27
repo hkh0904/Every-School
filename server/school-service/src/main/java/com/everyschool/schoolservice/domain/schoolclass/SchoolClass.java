@@ -9,13 +9,23 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name = "`school_class`")
 public class SchoolClass extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "school_class_id")
     private Long id;
+
+    @Column(nullable = false, updatable = false)
+    private Integer schoolYear;
+
+    @Column(nullable = false, updatable = false)
+    private Integer grade;
+
+    @Column(nullable = false, updatable = false)
+    private Integer classNum;
+
+    @Column(updatable = false, length = 10)
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
@@ -24,30 +34,18 @@ public class SchoolClass extends BaseEntity {
     @Column(nullable = false, length = 6)
     private Long teacherId;
 
-    @Column(nullable = false)
-    private int schoolYear;
-
-    @Column(nullable = false)
-    private int grade;
-
-    @Column(nullable = false)
-    private int classNum;
-
-    @Column(length = 10)
-    private String name;
-
     protected SchoolClass() {
         super();
     }
 
     @Builder
-    public SchoolClass(School school, Long teacherId, int schoolYear, int grade, int classNum, String name) {
+    private SchoolClass(Integer schoolYear, Integer grade, Integer classNum, String name, School school, Long teacherId) {
         this();
-        this.school = school;
-        this.teacherId = teacherId;
         this.schoolYear = schoolYear;
         this.grade = grade;
         this.classNum = classNum;
         this.name = name;
+        this.school = school;
+        this.teacherId = teacherId;
     }
 }
