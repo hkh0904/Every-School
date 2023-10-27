@@ -17,8 +17,14 @@ public class SchoolQueryService {
 
     private final SchoolQueryRepository schoolQueryRepository;
 
-    public List<SchoolResponse> searchSchools(String search) {
-        return schoolQueryRepository.findByName(search);
+    /**
+     * 쿼리가 포함된 학교 목록 조회
+     *
+     * @param query 조회할 학교 쿼리
+     * @return 조회된 학교 목록
+     */
+    public List<SchoolResponse> searchSchools(String query) {
+        return schoolQueryRepository.findByName(query);
     }
 
     public SchoolResponse searchOneSchool(Long schoolId) {
