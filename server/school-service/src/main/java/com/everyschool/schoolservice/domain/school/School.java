@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "`school`")
 public class School extends BaseEntity {
 
     @Id
@@ -42,8 +41,7 @@ public class School extends BaseEntity {
     }
 
     @Builder
-    public School(String name, String zipcode, String address, String url, String tel, LocalDateTime openDate,
-                  Integer codeId) {
+    private School(String name, String zipcode, String address, String url, String tel, LocalDateTime openDate, Integer codeId) {
         this();
         this.name = name;
         this.zipcode = zipcode;
