@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UserServiceClient {
 
     @GetMapping
-    UserInfo searchUserInfo(@RequestHeader(name = "Authorization") String token);
+    UserInfo searchUserInfo(@RequestHeader("Authorization") String token);
 
     @GetMapping
-    UserInfo searchUserInfoByUserKey(@RequestParam(name = "otherUserKey") String otherUserKey);
+    UserInfo searchUserInfoByUserKey(@RequestParam String otherUserKey);
 
 }

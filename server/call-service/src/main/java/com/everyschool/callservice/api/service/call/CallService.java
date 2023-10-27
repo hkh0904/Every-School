@@ -23,28 +23,14 @@ public class CallService {
         // TODO: 로그인 사용자의 토큰으로 user-service에 pk 요청
         //       otherUserKey를 user-service에 pk 요청
 
-//        UserInfo otherUser = userServiceClient.searchUserInfoByUserKey(otherUserKey);
-//        UserInfo teacher = userServiceClient.searchUserInfo(token);
+        UserInfo otherUser = userServiceClient.searchUserInfoByUserKey(otherUserKey);
+        UserInfo teacher = userServiceClient.searchUserInfo(token);
 
-        UserInfo teacher = UserInfo.builder()
-                .userId(1L)
-                .userType('T')
-                .userName("신성주")
-                .schoolClassId(1L)
-                .build();
-
-        UserInfo parent = UserInfo.builder()
-                .userId(2L)
-                .userType('M')
-                .userName("홍경환")
-                .schoolClassId(1L)
-                .build();
-
-        Call savedCall = insertCall(dto, teacher.getUserId(), parent.getUserId());
+        Call savedCall = insertCall(dto, teacher.getUserId(), otherUser.getUserId());
 
         CallResponse response = CallResponse.of(savedCall);
         response.setTeacherName(teacher.getUserName());
-        response.setOtherUserName(parent.getUserName());
+        response.setOtherUserName(otherUser.getUserName());
 
         return response;
     }

@@ -10,10 +10,12 @@ import com.everyschool.callservice.domain.call.repository.CallRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 class CallServiceTest extends IntegrationTestSupport {
 
@@ -23,7 +25,7 @@ class CallServiceTest extends IntegrationTestSupport {
     @Autowired
     private CallRepository callRepository;
 
-    @Autowired
+    @MockBean
     private UserServiceClient userServiceClient;
 
     @DisplayName("통화 종료후 DB에 저장")
@@ -45,10 +47,10 @@ class CallServiceTest extends IntegrationTestSupport {
                 .schoolClassId(1L)
                 .build();
 
-//        given(userServiceClient.searchUserInfo("jwt"))
-//                .willReturn(teacher);
-//        given(userServiceClient.searchUserInfoByUserKey("otheruserkey"))
-//                .willReturn(parent);
+        given(userServiceClient.searchUserInfo("jwt"))
+                .willReturn(teacher);
+        given(userServiceClient.searchUserInfoByUserKey("otheruserkey"))
+                .willReturn(parent);
 
         CreateCallDto dto = CreateCallDto.builder()
                 .sender("O")
