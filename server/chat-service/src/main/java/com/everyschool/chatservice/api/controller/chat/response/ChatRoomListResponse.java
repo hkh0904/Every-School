@@ -15,7 +15,7 @@ public class ChatRoomListResponse {
     private int unreadMessageNum;
 
     @Builder
-    private ChatRoomListResponse(Long roomId, String roomTitle, String lastMessage, LocalDateTime updateTime, int unreadMessageNum) {
+    public ChatRoomListResponse(Long roomId, String roomTitle, String lastMessage, LocalDateTime updateTime, int unreadMessageNum) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
         this.lastMessage = lastMessage;
