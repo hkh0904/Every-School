@@ -4,11 +4,13 @@ import com.everyschool.userservice.api.controller.user.UserQueryController;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.docs.RestDocsSupport;
+import com.everyschool.userservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -25,10 +27,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserQueryControllerDocsTest extends RestDocsSupport {
 
     private final UserQueryService userQueryService = mock(UserQueryService.class);
+    private final TokenUtils tokenUtils = mock(TokenUtils.class);
 
     @Override
     protected Object initController() {
-        return new UserQueryController(userQueryService);
+        return new UserQueryController(userQueryService, tokenUtils);
     }
 
     @DisplayName("회원 정보 조회 API")
@@ -41,6 +44,9 @@ public class UserQueryControllerDocsTest extends RestDocsSupport {
             .birth("2001-01-01")
             .joinDate(LocalDateTime.now())
             .build();
+
+        given(tokenUtils.getUserKey())
+            .willReturn(UUID.randomUUID().toString());
 
         given(userQueryService.searchUser(anyString()))
             .willReturn(response);
