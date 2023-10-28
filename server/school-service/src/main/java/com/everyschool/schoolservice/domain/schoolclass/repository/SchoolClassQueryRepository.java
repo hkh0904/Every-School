@@ -30,6 +30,16 @@ public class SchoolClassQueryRepository {
     }
 
     public boolean existSchoolClass(Long schoolId, int schoolYear, int grade, int classNum) {
-        return false;
+        Long result = queryFactory
+            .select(schoolClass.id)
+            .from(schoolClass)
+            .where(
+                schoolClass.school.id.eq(schoolId),
+                schoolClass.schoolYear.eq(schoolYear),
+                schoolClass.grade.eq(grade),
+                schoolClass.classNum.eq(classNum)
+            )
+            .fetchFirst();
+        return result != null;
     }
 }
