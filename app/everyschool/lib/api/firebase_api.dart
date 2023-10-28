@@ -1,6 +1,8 @@
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class FirebaseApi {
@@ -43,5 +45,60 @@ class FirebaseApi {
   void _handleMessage(initialMessage, context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const ConsultingListPage()));
+  }
+
+// 포그라운드 메세지 처리
+  void foregroundMessage(RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+
+    if (notification != null) {
+      FlutterLocalNotificationsPlugin().show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'high_importance_channel',
+              'high_importance_notification',
+              importance: Importance.max,
+            ),
+          ),
+          // 메세지 전달은 이렇게하는거라는데...
+          payload: message.data['id']);
+    }
+  }
+
+  void initializeNotifications(context) async {
+    final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(const AndroidNotificationChannel(
+            'high_importance_channel', 'high_importance_notification',
+            importance: Importance.max));
+
+    await flutterLocalNotificationsPlugin.initialize(
+        const InitializationSettings(
+          android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+        ),
+        // foreground일때 알림 눌렀을때(detail에 상담 payload값이 들어있음 details.payload 이렇게 받음)
+        onDidReceiveNotificationResponse: (NotificationResponse details) async {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ConsultingListPage()));
+    });
+
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    RemoteMessage? message =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ConsultingListPage()));
+    }
   }
 }
