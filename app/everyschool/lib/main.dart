@@ -1,3 +1,4 @@
+import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/home/home_page.dart';
@@ -7,9 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+// fcm
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
@@ -28,7 +35,15 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  int selectedIndex = 2;
+  @override
+  void initState() {
+    super.initState();
+    FirebaseApi().getMyDeviceToken();
+    FirebaseApi().setupInteractedMessage(context);
+  }
+
+  FirebaseApi firebaseApi = FirebaseApi();
+  int selectedIndex = 0;
   void onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
