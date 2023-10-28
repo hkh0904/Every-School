@@ -28,4 +28,8 @@ public class SchoolClassQueryRepository {
             .fetchFirst();
         return result != null;
     }
+
+    public boolean existSchoolClass(Long schoolId, int schoolYear, int grade, int classNum) {
+        return false;
+    }
 }

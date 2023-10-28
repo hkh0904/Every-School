@@ -29,6 +29,19 @@ class SchoolClassQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(isExist).isTrue();
     }
 
+    @DisplayName("학교, 학년도, 학년, 반 정보가 모두 일치하는 학급이 존재하면 true를 반환한다.")
+    @Test
+    void existSchoolClass() {
+        //given
+        SchoolClass schoolClass = saveSchoolClass();
+
+        //when
+        boolean isExist = schoolClassQueryRepository.existSchoolClass(1L, 2023, 1, 3);
+
+        //then
+        assertThat(isExist).isTrue();
+    }
+
     private SchoolClass saveSchoolClass() {
         SchoolClass schoolClass = SchoolClass.builder()
             .schoolYear(2023)
