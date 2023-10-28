@@ -25,7 +25,7 @@ public class SchoolClassService {
     private final SchoolRepository schoolRepository;
     private final UserServiceClient userServiceClient;
 
-    public CreateSchoolClassResponse createSchoolClass(CreateSchoolClassDto dto) {
+    public CreateSchoolClassResponse createSchoolClass(Long schoolId, CreateSchoolClassDto dto) {
         Long teacherId = userServiceClient.searchByUserKey(dto.getUserKey());
 
         boolean isExistTeacher = schoolClassQueryRepository.existByTeacherIdAndSchoolYear(teacherId, dto.getSchoolYear());
@@ -33,12 +33,12 @@ public class SchoolClassService {
             throw new IllegalArgumentException("이미 담임으로 등록된 교사입니다.");
         }
 
-        boolean isExistSchoolClass = schoolClassQueryRepository.existSchoolClass(dto.getSchoolId(), dto.getSchoolYear(), dto.getGrade(), dto.getClassNum());
+        boolean isExistSchoolClass = schoolClassQueryRepository.existSchoolClass(schoolId, dto.getSchoolYear(), dto.getGrade(), dto.getClassNum());
         if (isExistSchoolClass) {
             throw new IllegalArgumentException("해당 학급이 존재합니다.");
         }
 
-        Optional<School> findSchool = schoolRepository.findById(dto.getSchoolId());
+        Optional<School> findSchool = schoolRepository.findById(schoolId);
         if (findSchool.isEmpty()) {
             throw new NoSuchElementException("등록되지 않은 학교입니다.");
         }

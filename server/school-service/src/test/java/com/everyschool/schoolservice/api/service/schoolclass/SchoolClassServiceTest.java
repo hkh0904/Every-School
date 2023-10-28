@@ -45,7 +45,6 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .willReturn(1L);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
-            .schoolId(1L)
             .userKey(userKey)
             .schoolYear(2023)
             .grade(2)
@@ -53,7 +52,7 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .build();
 
         //when //then
-        assertThatThrownBy(() -> schoolClassService.createSchoolClass(dto))
+        assertThatThrownBy(() -> schoolClassService.createSchoolClass(null, dto))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이미 담임으로 등록된 교사입니다.");
     }
@@ -70,7 +69,6 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .willReturn(2L);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
-            .schoolId(school.getId())
             .userKey(userKey)
             .schoolYear(2023)
             .grade(1)
@@ -78,7 +76,7 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .build();
 
         //when //then
-        assertThatThrownBy(() -> schoolClassService.createSchoolClass(dto))
+        assertThatThrownBy(() -> schoolClassService.createSchoolClass(school.getId(), dto))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("해당 학급이 존재합니다.");
     }
@@ -94,7 +92,6 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .willReturn(1L);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
-            .schoolId(school.getId())
             .userKey(userKey)
             .schoolYear(2023)
             .grade(4)
@@ -102,7 +99,7 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .build();
 
         //when //then
-        assertThatThrownBy(() -> schoolClassService.createSchoolClass(dto))
+        assertThatThrownBy(() -> schoolClassService.createSchoolClass(school.getId(), dto))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("1 ~ 3학년만 등록할 수 있습니다.");
     }
@@ -118,7 +115,6 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .willReturn(1L);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
-            .schoolId(school.getId())
             .userKey(userKey)
             .schoolYear(2023)
             .grade(4)
@@ -126,7 +122,7 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .build();
 
         //when //then
-        assertThatThrownBy(() -> schoolClassService.createSchoolClass(dto))
+        assertThatThrownBy(() -> schoolClassService.createSchoolClass(school.getId(), dto))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("1 ~ 3학년만 등록할 수 있습니다.");
     }
@@ -142,7 +138,6 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .willReturn(1L);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
-            .schoolId(school.getId())
             .userKey(userKey)
             .schoolYear(2023)
             .grade(7)
@@ -150,7 +145,7 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .build();
 
         //when //then
-        assertThatThrownBy(() -> schoolClassService.createSchoolClass(dto))
+        assertThatThrownBy(() -> schoolClassService.createSchoolClass(school.getId(), dto))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("1 ~ 6학년만 등록할 수 있습니다.");
     }
@@ -166,7 +161,6 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .willReturn(1L);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
-            .schoolId(school.getId())
             .userKey(userKey)
             .schoolYear(2023)
             .grade(1)
@@ -174,7 +168,7 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .build();
 
         //when
-        CreateSchoolClassResponse response = schoolClassService.createSchoolClass(dto);
+        CreateSchoolClassResponse response = schoolClassService.createSchoolClass(school.getId(), dto);
 
         //then
         Optional<SchoolClass> schoolClass = schoolClassRepository.findById(response.getSchoolClassId());
