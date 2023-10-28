@@ -16,3 +16,8 @@ include::overview.adoc[]
 
 include::api/school/search-list-school.adoc[]
 include::api/school/search-detail-school.adoc[]
+
+[[School-Class-API]]
+== School Class API
+
+include::api/schoolclass/create-school-class.adoc[]
