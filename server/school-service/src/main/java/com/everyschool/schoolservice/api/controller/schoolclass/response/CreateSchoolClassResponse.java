@@ -12,7 +12,6 @@ public class CreateSchoolClassResponse {
     private Integer schoolYear;
     private Integer grade;
     private Integer classNum;
-    private String name;
     private String teacherName;
     private LocalDateTime createdDate;
 }
