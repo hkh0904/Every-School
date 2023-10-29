@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -48,6 +49,20 @@ class SchoolClassQueryRepositoryTest extends IntegrationTestSupport {
 
         //then
         assertThat(isExist).isTrue();
+    }
+
+    @DisplayName("학교, 학년도, 학년, 반 정보가 모두 일치하는 학급을 조회한다.")
+    @Test
+    void findByInfo() {
+        //given
+        School school = saveSchool();
+        SchoolClass schoolClass = saveSchoolClass(school);
+
+        //when
+        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(school.getId(), 2023, 1, 3);
+
+        //then
+        assertThat(findSchoolClass).isPresent();
     }
 
     private School saveSchool() {
