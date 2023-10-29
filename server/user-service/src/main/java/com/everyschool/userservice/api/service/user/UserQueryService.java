@@ -56,6 +56,10 @@ public class UserQueryService {
     }
 
     public Long searchUserId(String userKey) {
-        return null;
+        Optional<Long> findUserId = userQueryRepository.findIdByUserKey(userKey);
+        if (findUserId.isEmpty()) {
+            throw new NoSuchElementException("일치하는 회원 정보가 존재하지 않습니다.");
+        }
+        return findUserId.get();
     }
 }
