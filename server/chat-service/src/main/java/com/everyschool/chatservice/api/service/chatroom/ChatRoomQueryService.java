@@ -27,6 +27,6 @@ public class ChatRoomQueryService {
     public List<ChatRoomListResponse> searchChatRooms(String token) {
 
         UserInfo loginUser = userServiceClient.searchUserInfo(token);
-        return null;
+        return chatRoomQueryRepository.findChatRooms(loginUser.getUserId());
     }
 }
