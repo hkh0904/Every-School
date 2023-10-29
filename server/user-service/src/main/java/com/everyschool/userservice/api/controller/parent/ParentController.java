@@ -1,8 +1,8 @@
-package com.everyschool.userservice.api.controller.user;
+package com.everyschool.userservice.api.controller.parent;
 
 import com.everyschool.userservice.api.ApiResponse;
-import com.everyschool.userservice.api.controller.user.request.ConnectStudentParentRequest;
-import com.everyschool.userservice.api.controller.user.response.CreateStudentParentResponse;
+import com.everyschool.userservice.api.controller.parent.request.ConnectStudentParentRequest;
+import com.everyschool.userservice.api.controller.parent.response.CreateStudentParentResponse;
 import com.everyschool.userservice.api.service.user.StudentParentService;
 import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;

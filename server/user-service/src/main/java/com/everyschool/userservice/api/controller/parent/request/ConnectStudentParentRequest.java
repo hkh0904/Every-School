@@ -1,4 +1,4 @@
-package com.everyschool.userservice.api.controller.user.request;
+package com.everyschool.userservice.api.controller.parent.request;
 
 import lombok.Builder;
 import lombok.Data;

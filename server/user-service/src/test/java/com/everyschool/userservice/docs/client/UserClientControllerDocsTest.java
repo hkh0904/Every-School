@@ -1,13 +1,12 @@
-package com.everyschool.userservice.docs.user;
+package com.everyschool.userservice.docs.client;
 
-import com.everyschool.userservice.api.controller.user.UserClientController;
+import com.everyschool.userservice.api.controller.client.UserClientController;
 import com.everyschool.userservice.api.controller.user.request.UserIdRequest;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 

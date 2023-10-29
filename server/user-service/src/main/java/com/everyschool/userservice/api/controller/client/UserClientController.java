@@ -1,4 +1,4 @@
-package com.everyschool.userservice.api.controller.user;
+package com.everyschool.userservice.api.controller.client;
 
 import com.everyschool.userservice.api.controller.user.request.UserIdRequest;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;

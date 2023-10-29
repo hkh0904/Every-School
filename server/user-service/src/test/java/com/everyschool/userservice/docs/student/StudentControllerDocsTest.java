@@ -1,12 +1,11 @@
-package com.everyschool.userservice.docs.user;
+package com.everyschool.userservice.docs.student;
 
-import com.everyschool.userservice.api.controller.user.StudentController;
+import com.everyschool.userservice.api.controller.student.StudentController;
 import com.everyschool.userservice.api.service.user.StudentService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import com.everyschool.userservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.util.UUID;
@@ -42,7 +41,7 @@ public class StudentControllerDocsTest extends RestDocsSupport {
 
         given(studentService.generateConnectCode(anyString()))
             .willReturn("d2gHsd34");
-        
+
         mockMvc.perform(
             get("/v1/connection")
         )

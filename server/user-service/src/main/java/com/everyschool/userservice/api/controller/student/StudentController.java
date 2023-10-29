@@ -1,4 +1,4 @@
-package com.everyschool.userservice.api.controller.user;
+package com.everyschool.userservice.api.controller.student;
 
 import com.everyschool.userservice.api.ApiResponse;
 import com.everyschool.userservice.api.service.user.StudentService;

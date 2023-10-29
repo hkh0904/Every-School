@@ -1,14 +1,13 @@
-package com.everyschool.userservice.docs.user;
+package com.everyschool.userservice.docs.parent;
 
-import com.everyschool.userservice.api.controller.user.ParentController;
-import com.everyschool.userservice.api.controller.user.request.ConnectStudentParentRequest;
-import com.everyschool.userservice.api.controller.user.response.CreateStudentParentResponse;
+import com.everyschool.userservice.api.controller.parent.ParentController;
+import com.everyschool.userservice.api.controller.parent.request.ConnectStudentParentRequest;
+import com.everyschool.userservice.api.controller.parent.response.CreateStudentParentResponse;
 import com.everyschool.userservice.api.service.user.StudentParentService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import com.everyschool.userservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 

@@ -1,6 +1,6 @@
 package com.everyschool.userservice.api.service.user;
 
-import com.everyschool.userservice.api.controller.user.response.CreateStudentParentResponse;
+import com.everyschool.userservice.api.controller.parent.response.CreateStudentParentResponse;
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.Student;
 import com.everyschool.userservice.domain.user.StudentParent;
