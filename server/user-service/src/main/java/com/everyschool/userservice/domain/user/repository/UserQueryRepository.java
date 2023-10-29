@@ -43,23 +43,23 @@ public class UserQueryRepository {
     }
 
     /**
-     * 이메일로 회원 기본 정보 조회
+     * 회원 고유키로 회원 기본 정보 조회
      *
-     * @param email 조회할 이메일
+     * @param userKey 조회할 회원 고유키
      * @return 회원 기본 정보
      */
-    public Optional<UserInfoResponse> findByEmail(String email) {
+    public Optional<UserInfoResponse> findByUserKey(String userKey) {
         UserInfoResponse content = queryFactory
             .select(Projections.constructor(
                 UserInfoResponse.class,
                 user.name,
-                Expressions.asString(email),
+                user.email,
                 user.name,
                 user.birth,
                 user.createdDate
             ))
             .from(user)
-            .where(user.email.eq(email))
+            .where(user.userKey.eq(userKey))
             .fetchOne();
         return Optional.ofNullable(content);
     }
