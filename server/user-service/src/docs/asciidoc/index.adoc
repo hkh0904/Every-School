@@ -36,6 +36,7 @@ include::api/user/forgot-email.adoc[]
 include::api/user/forgot-pwd.adoc[]
 include::api/user/edit-pwd.adoc[]
 include::api/user/delete-user.adoc[]
+include::api/user/generate-connect-code.adoc[]
 
 
 [[Auth-API]]

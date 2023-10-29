@@ -1,0 +1,10 @@
+[[generate-connect-code]]
+=== 학부모 연결 코드 생성 API
+
+==== HTTP Request
+include::{snippets}/generate-connect-code/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/generate-connect-code/http-response.adoc[]
+include::{snippets}/generate-connect-code/response-fields.adoc[]
