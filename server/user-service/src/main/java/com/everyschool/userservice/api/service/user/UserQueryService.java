@@ -17,10 +17,10 @@ public class UserQueryService {
 
     private final UserQueryRepository userQueryRepository;
 
-    public UserInfoResponse searchUser(String email) {
-        Optional<UserInfoResponse> response = userQueryRepository.findByEmail(email);
+    public UserInfoResponse searchUser(String userKey) {
+        Optional<UserInfoResponse> response = userQueryRepository.findByUserKey(userKey);
         if (response.isEmpty()) {
-            throw new NoSuchElementException("이메일을 확인해주세요.");
+            throw new NoSuchElementException("존재하지 않는 회원입니다.");
         }
         return response.get();
     }
