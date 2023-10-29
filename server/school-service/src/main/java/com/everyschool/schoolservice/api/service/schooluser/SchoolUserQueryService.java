@@ -23,7 +23,7 @@ public class SchoolUserQueryService {
     private final SchoolClassRepository schoolClassRepository;
     private final UserServiceClient userServiceClient;
 
-    public List<MyClassStudentResponse> searchMyClassStudent(String userKey, Integer schoolYear) {
+    public List<MyClassStudentResponse> searchMyClassStudents(String userKey, Integer schoolYear) {
         Long teacherId = userServiceClient.searchByUserKey(userKey);
 
         Optional<SchoolClass> findSchoolClass = schoolClassRepository.findByTeacherIdAndSchoolYear(teacherId, schoolYear);
