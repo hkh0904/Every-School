@@ -9,12 +9,14 @@ import com.everyschool.userservice.api.service.user.StudentService;
 import com.everyschool.userservice.api.service.user.UserService;
 import com.everyschool.userservice.api.service.user.dto.CreateUserDto;
 import com.everyschool.userservice.docs.RestDocsSupport;
+import com.everyschool.userservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
@@ -33,10 +35,11 @@ public class UserControllerDocsTest extends RestDocsSupport {
     private final UserService userService = mock(UserService.class);
     private final ParentService parentService = mock(ParentService.class);
     private final StudentService studentService = mock(StudentService.class);
+    private final TokenUtils tokenUtils = mock(TokenUtils.class);
 
     @Override
     protected Object initController() {
-        return new UserController(userService, parentService, studentService);
+        return new UserController(userService, parentService, studentService, tokenUtils);
     }
 
     @DisplayName("학부모 회원 가입 API")
@@ -234,6 +237,9 @@ public class UserControllerDocsTest extends RestDocsSupport {
             .type("학생")
             .withdrawalDate(LocalDateTime.now())
             .build();
+
+        given(tokenUtils.getUserKey())
+            .willReturn(UUID.randomUUID().toString());
 
         given(userService.withdrawal(anyString(), anyString()))
             .willReturn(response);

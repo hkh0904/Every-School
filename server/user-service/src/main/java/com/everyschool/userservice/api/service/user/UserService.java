@@ -29,8 +29,12 @@ public class UserService {
      * @param newPwd 변경할 비밀번호
      * @return 변경된 회원 정보
      */
-    public UserResponse editPwd(String email, String currentPwd, String newPwd) {
-        User user = getUserEntity(email);
+    public UserResponse editPwd(String userKey, String currentPwd, String newPwd) {
+        Optional<User> findUser = userRepository.findByUserKey(userKey);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException("존재하지 않는 회원입니다.");
+        }
+        User user = findUser.get();
 
         equalPwd(currentPwd, user.getPwd());
 
@@ -47,8 +51,12 @@ public class UserService {
      * @param pwd 계정 비밀번호
      * @return 탈퇴한 회원 정보
      */
-    public WithdrawalResponse withdrawal(String email, String pwd) {
-        User user = getUserEntity(email);
+    public WithdrawalResponse withdrawal(String userKey, String pwd) {
+        Optional<User> findUser = userRepository.findByUserKey(userKey);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException("존재하지 않는 회원입니다.");
+        }
+        User user = findUser.get();
 
         equalPwd(pwd, user.getPwd());
 
