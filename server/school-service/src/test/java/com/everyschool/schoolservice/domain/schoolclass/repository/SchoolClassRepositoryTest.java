@@ -4,6 +4,7 @@ import com.everyschool.schoolservice.IntegrationTestSupport;
 import com.everyschool.schoolservice.domain.school.School;
 import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-class SchoolClassQueryRepositoryTest extends IntegrationTestSupport {
-
-    @Autowired
-    private SchoolClassQueryRepository schoolClassQueryRepository;
+class SchoolClassRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private SchoolClassRepository schoolClassRepository;
@@ -24,42 +22,15 @@ class SchoolClassQueryRepositoryTest extends IntegrationTestSupport {
     @Autowired
     private SchoolRepository schoolRepository;
 
-    @DisplayName("담임 id와 학년도가 모두 일치하는 학급이 존재하면 true를 반환한다.")
+    @DisplayName("담임 id와 학년도로 학급을 조회한다.")
     @Test
-    void existByTeacherIdAndSchoolYear() {
-        //given
-        SchoolClass schoolClass = saveSchoolClass(null);
-
-        //when
-        boolean isExist = schoolClassQueryRepository.existByTeacherIdAndSchoolYear(1L, 2023);
-
-        //then
-        assertThat(isExist).isTrue();
-    }
-
-    @DisplayName("학교, 학년도, 학년, 반 정보가 모두 일치하는 학급이 존재하면 true를 반환한다.")
-    @Test
-    void existSchoolClass() {
+    void findByTeacherIdAndSchoolYear() {
         //given
         School school = saveSchool();
         SchoolClass schoolClass = saveSchoolClass(school);
 
         //when
-        boolean isExist = schoolClassQueryRepository.existSchoolClass(school.getId(), 2023, 1, 3);
-
-        //then
-        assertThat(isExist).isTrue();
-    }
-
-    @DisplayName("학교, 학년도, 학년, 반 정보가 모두 일치하는 학급을 조회한다.")
-    @Test
-    void findByInfo() {
-        //given
-        School school = saveSchool();
-        SchoolClass schoolClass = saveSchoolClass(school);
-
-        //when
-        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(school.getId(), 2023, 1, 3);
+        Optional<SchoolClass> findSchoolClass = schoolClassRepository.findByTeacherIdAndSchoolYear(1L, 2023);
 
         //then
         assertThat(findSchoolClass).isPresent();
