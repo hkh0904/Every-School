@@ -65,7 +65,7 @@ class SchoolUserQueryServiceTest extends IntegrationTestSupport {
             .willReturn(List.of(response1, response2));
 
         //when
-        List<MyClassStudentResponse> responses = schoolUserQueryService.searchMyClassStudent(UUID.randomUUID().toString(), 2023);
+        List<MyClassStudentResponse> responses = schoolUserQueryService.searchMyClassStudents(UUID.randomUUID().toString(), 2023);
 
         //then
         assertThat(responses).hasSize(2)
