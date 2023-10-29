@@ -3,7 +3,6 @@ package com.everyschool.chatservice.api.controller.chat;
 import com.everyschool.chatservice.api.ApiResponse;
 import com.everyschool.chatservice.api.controller.chat.request.CreateChatRoomRequest;
 import com.everyschool.chatservice.api.controller.chat.response.ChatResponse;
-import com.everyschool.chatservice.api.controller.chat.response.ChatRoomListResponse;
 import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.ChatRoomService;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
@@ -24,6 +23,7 @@ public class ChatController {
 
     private final ChatRoomService chatRoomService;
 
+
     /**
      * 채팅방 생성
      *
@@ -41,38 +41,6 @@ public class ChatController {
         return ApiResponse.created(response);
     }
 
-    @GetMapping("/chat-room")
-    public ApiResponse<List<ChatRoomListResponse>> searchChatRoomList() {
-
-
-        // TODO: 2023-10-23 채팅방 목록 조회
-        ChatRoomListResponse response1 = ChatRoomListResponse.builder()
-                .roomId(1L)
-                .roomTitle("신성주 1학년 3반 임우택(부)")
-                .lastMessage("점심 맛있게 드세요~")
-                .updateTime(LocalDateTime.of(2023, 10, 20, 11, 30))
-                .unreadMessageNum(3)
-                .build();
-
-        ChatRoomListResponse response2 = ChatRoomListResponse.builder()
-                .roomId(2L)
-                .roomTitle("손흥민 1학년 3반 (학생)")
-                .lastMessage("축구선수가 되고싶어요")
-                .updateTime(LocalDateTime.of(2023, 10, 20, 11, 34))
-                .unreadMessageNum(8)
-                .build();
-
-        ChatRoomListResponse response3 = ChatRoomListResponse.builder()
-                .roomId(3L)
-                .roomTitle("짱구 1학년 3반 곰돌이(부)")
-                .lastMessage("선풍기 부러졌어요")
-                .updateTime(LocalDateTime.of(2023, 10, 21, 11, 30))
-                .unreadMessageNum(3)
-                .build();
-
-        List<ChatRoomListResponse> responses = List.of(response1, response2, response3);
-        return ApiResponse.ok(responses);
-    }
 
     @PostMapping("/chat-room/{chatRoomId}")
     public ApiResponse<Long> sendMessage(@PathVariable String chatRoomId) {

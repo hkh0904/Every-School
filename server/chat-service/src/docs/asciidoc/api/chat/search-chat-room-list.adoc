@@ -3,7 +3,6 @@
 
 ==== HTTP Request
 
-include::request/search-chat-room-list-request.adoc[]
 include::{snippets}/search-chat-room-list/http-request.adoc[]
 
 ==== HTTP Response
