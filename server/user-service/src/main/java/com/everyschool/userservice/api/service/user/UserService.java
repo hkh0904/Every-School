@@ -24,7 +24,7 @@ public class UserService {
     /**
      * 비밀번호 변경
      *
-     * @param email 변경할 계정의 이메일
+     * @param userKey 변경할 계정의 고유키
      * @param currentPwd 현재 비밀번호
      * @param newPwd 변경할 비밀번호
      * @return 변경된 회원 정보
@@ -47,7 +47,7 @@ public class UserService {
     /**
      * 회원 탈퇴
      *
-     * @param email 탈퇴할 계정의 이메일
+     * @param userKey 탈퇴할 계정의 고유키
      * @param pwd 계정 비밀번호
      * @return 탈퇴한 회원 정보
      */
