@@ -35,9 +35,9 @@ class UserQueryServiceTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when //then
-        assertThatThrownBy(() -> userQueryService.searchUser("ssafy@naver.com"))
+        assertThatThrownBy(() -> userQueryService.searchUser(UUID.randomUUID().toString()))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("이메일을 확인해주세요.");
+            .hasMessage("존재하지 않는 회원입니다.");
     }
 
     @DisplayName("이메일을 입력 받아 회원 정보를 조회할 수 있다.")
@@ -47,7 +47,7 @@ class UserQueryServiceTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        UserInfoResponse response = userQueryService.searchUser("ssafy@gmail.com");
+        UserInfoResponse response = userQueryService.searchUser(user.getUserKey());
 
         //then
         assertThat(response.getEmail()).isEqualTo("ssafy@gmail.com");
