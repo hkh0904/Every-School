@@ -40,9 +40,9 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(isExistEmail).isTrue();
     }
 
-    @DisplayName("이메일로 회원 정보를 조회한다.")
+    @DisplayName("회원 고유키로 회원 정보를 조회한다.")
     @Test
-    void findByEmail() {
+    void findByUserKey() {
         //given
         User user = saveUser();
 
@@ -65,6 +65,19 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         //then
         assertThat(findSearchEmail).isPresent();
         assertThat(findSearchEmail.get().getEmail()).isEqualTo("ssafy@gmail.com");
+    }
+
+    @DisplayName("회원 고유키로 회원 id를 조회한다.")
+    @Test
+    void findIdByUserKey() {
+        //given
+        User user = saveUser();
+
+        //when
+        Optional<Long> findUserId = userQueryRepository.findIdByUserKey(user.getUserKey());
+
+        //then
+        assertThat(findUserId).isPresent();
     }
 
     private User saveUser() {
