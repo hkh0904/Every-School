@@ -3,7 +3,6 @@ package com.everyschool.userservice.domain.user.repository;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -84,6 +83,21 @@ public class UserQueryRepository {
                 user.name.eq(name),
                 user.birth.eq(birth)
             )
+            .fetchOne();
+        return Optional.ofNullable(content);
+    }
+
+    /**
+     * 회원 PK 조회
+     *
+     * @param userKey 회원 고유키
+     * @return 회원 PK
+     */
+    public Optional<Long> findIdByUserKey(String userKey) {
+        Long content = queryFactory
+            .select(user.id)
+            .from(user)
+            .where(user.userKey.eq(userKey))
             .fetchOne();
         return Optional.ofNullable(content);
     }
