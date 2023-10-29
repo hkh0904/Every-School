@@ -54,4 +54,8 @@ public class UserQueryService {
 
         return String.valueOf(builder);
     }
+
+    public Long searchUserId(String userKey) {
+        return null;
+    }
 }

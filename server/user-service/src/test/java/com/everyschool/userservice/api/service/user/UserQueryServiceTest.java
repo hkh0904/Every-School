@@ -90,6 +90,30 @@ class UserQueryServiceTest extends IntegrationTestSupport {
         assertThat(maskingEmail).isEqualTo("ssa**@gmail.com");
     }
 
+    @DisplayName("회원 고유키가 일치하는 회원이 존재하지 않으면 예외가 발생한다.")
+    @Test
+    void searchUserIdWithoutUser() {
+        //given
+
+        //when //then
+        assertThatThrownBy(() -> userQueryService.searchUserId(UUID.randomUUID().toString()))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("일치하는 회원 정보가 존재하지 않습니다.");
+    }
+
+    @DisplayName("회원 고유키를 입력 받아 회원 PK를 조회할 수 있다.")
+    @Test
+    void searchUserId() {
+        //given
+        User user = saveUser();
+
+        //when
+        Long userId = userQueryService.searchUserId(user.getUserKey());
+
+        //then
+        assertThat(userId).isEqualTo(user.getId());
+    }
+
     private User saveUser() {
         Parent parent = Parent.builder()
             .email("ssafy@gmail.com")
