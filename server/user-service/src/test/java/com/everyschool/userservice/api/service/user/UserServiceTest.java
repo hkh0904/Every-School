@@ -38,9 +38,9 @@ class UserServiceTest extends IntegrationTestSupport {
         //given
 
         //when //then
-        assertThatThrownBy(() -> userService.editPwd("ssafy@gmail.com", "ssafy1234@", "ssafy1111@"))
+        assertThatThrownBy(() -> userService.editPwd(UUID.randomUUID().toString(), "ssafy1234@", "ssafy1111@"))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("이메일을 확인해주세요.");
+            .hasMessage("존재하지 않는 회원입니다.");
     }
 
     @DisplayName("비밀번호 변경 시 입력 받은 현재 비밀번호가 일치하지 않으면 예외가 발생한다.")
@@ -50,7 +50,7 @@ class UserServiceTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when //then
-        assertThatThrownBy(() -> userService.editPwd("ssafy@gmail.com", "ssafy5678@", "ssafy1111@"))
+        assertThatThrownBy(() -> userService.editPwd(user.getUserKey(), "ssafy5678@", "ssafy1111@"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("현재 비밀번호가 일치하지 않습니다.");
     }
@@ -62,7 +62,7 @@ class UserServiceTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        UserResponse response = userService.editPwd("ssafy@gmail.com", "ssafy1234@", "ssafy1111@");
+        UserResponse response = userService.editPwd(user.getUserKey(), "ssafy1234@", "ssafy1111@");
 
         //then
         assertThat(response.getEmail()).isEqualTo("ssafy@gmail.com");
@@ -74,9 +74,9 @@ class UserServiceTest extends IntegrationTestSupport {
         //given
 
         //when //then
-        assertThatThrownBy(() -> userService.withdrawal("ssafy@gmail.com", "ssafy1234@"))
+        assertThatThrownBy(() -> userService.withdrawal(UUID.randomUUID().toString(), "ssafy1234@"))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("이메일을 확인해주세요.");
+            .hasMessage("존재하지 않는 회원입니다.");
     }
 
     @DisplayName("회원 탈퇴 시 입력 받은 비밀번호가 일치하지 않으면 예외가 발생한다.")
@@ -86,7 +86,7 @@ class UserServiceTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when //then
-        assertThatThrownBy(() -> userService.withdrawal("ssafy@gmail.com", "ssafy5678@"))
+        assertThatThrownBy(() -> userService.withdrawal(user.getUserKey(), "ssafy5678@"))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("현재 비밀번호가 일치하지 않습니다.");
     }
@@ -98,7 +98,7 @@ class UserServiceTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        WithdrawalResponse response = userService.withdrawal("ssafy@gmail.com", "ssafy1234@");
+        WithdrawalResponse response = userService.withdrawal(user.getUserKey(), "ssafy1234@");
 
         //then
         Optional<User> findUser = userRepository.findById(user.getId());

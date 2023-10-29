@@ -7,11 +7,15 @@ import com.everyschool.userservice.domain.user.Student;
 import com.everyschool.userservice.domain.user.repository.StudentRepository;
 import com.everyschool.userservice.domain.user.repository.UserQueryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +25,7 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final UserQueryRepository userQueryRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RedisTemplate<String, String> redisTemplate;
 
     public UserResponse createStudent(CreateUserDto dto) {
         emailDuplicateValidation(dto.getEmail());
@@ -32,6 +37,34 @@ public class StudentService {
 
         return UserResponse.of(savedStudent);
     }
+
+    public String generateConnectCode(String userKey) {
+        String code = createCode();
+
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+
+        operations.set(code, userKey, 3, TimeUnit.MINUTES);
+
+        return code;
+    }
+
+    public String createCode() {
+        Random random = new Random();
+        StringBuilder key = new StringBuilder();
+
+        for (int i = 0; i < 8; i++) {
+            int index = random.nextInt(4);
+
+            switch (index) {
+                case 0: key.append((char) (random.nextInt(26) + 97)); break;
+                case 1: key.append((char) (random.nextInt(26) + 65)); break;
+                default: key.append(random.nextInt(9));
+            }
+        }
+        return key.toString();
+    }
+
+
     private void emailDuplicateValidation(String email) {
         boolean isExistEmail = userQueryRepository.existEmail(email);
         if (isExistEmail) {

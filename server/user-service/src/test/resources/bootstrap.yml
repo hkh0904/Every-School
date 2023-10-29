@@ -4,4 +4,4 @@ spring:
       uri: http://every-school.com:8888
       name: user-service
   profiles:
-    active: release
+    active: dev

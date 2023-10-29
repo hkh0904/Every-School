@@ -24,13 +24,17 @@ public class UserService {
     /**
      * 비밀번호 변경
      *
-     * @param email 변경할 계정의 이메일
+     * @param userKey 변경할 계정의 고유키
      * @param currentPwd 현재 비밀번호
      * @param newPwd 변경할 비밀번호
      * @return 변경된 회원 정보
      */
-    public UserResponse editPwd(String email, String currentPwd, String newPwd) {
-        User user = getUserEntity(email);
+    public UserResponse editPwd(String userKey, String currentPwd, String newPwd) {
+        Optional<User> findUser = userRepository.findByUserKey(userKey);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException("존재하지 않는 회원입니다.");
+        }
+        User user = findUser.get();
 
         equalPwd(currentPwd, user.getPwd());
 
@@ -43,12 +47,16 @@ public class UserService {
     /**
      * 회원 탈퇴
      *
-     * @param email 탈퇴할 계정의 이메일
+     * @param userKey 탈퇴할 계정의 고유키
      * @param pwd 계정 비밀번호
      * @return 탈퇴한 회원 정보
      */
-    public WithdrawalResponse withdrawal(String email, String pwd) {
-        User user = getUserEntity(email);
+    public WithdrawalResponse withdrawal(String userKey, String pwd) {
+        Optional<User> findUser = userRepository.findByUserKey(userKey);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException("존재하지 않는 회원입니다.");
+        }
+        User user = findUser.get();
 
         equalPwd(pwd, user.getPwd());
 

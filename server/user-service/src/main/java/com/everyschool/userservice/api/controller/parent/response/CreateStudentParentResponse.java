@@ -1,4 +1,4 @@
-package com.everyschool.userservice.api.controller.user.response;
+package com.everyschool.userservice.api.controller.parent.response;
 
 import com.everyschool.userservice.domain.user.StudentParent;
 import lombok.Builder;

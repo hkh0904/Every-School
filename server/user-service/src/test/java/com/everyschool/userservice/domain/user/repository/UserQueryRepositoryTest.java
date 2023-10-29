@@ -1,6 +1,7 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.IntegrationTestSupport;
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.everyschool.userservice.domain.user.Parent;
@@ -40,14 +41,14 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(isExistEmail).isTrue();
     }
 
-    @DisplayName("이메일로 회원 정보를 조회한다.")
+    @DisplayName("회원 고유키로 회원 정보를 조회한다.")
     @Test
-    void findByEmail() {
+    void findByUserKey() {
         //given
         User user = saveUser();
 
         //when
-        Optional<UserInfoResponse> response = userQueryRepository.findByEmail("ssafy@gmail.com");
+        Optional<UserInfoResponse> response = userQueryRepository.findByUserKey(user.getUserKey());
 
         //then
         assertThat(response).isPresent();
@@ -65,6 +66,19 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         //then
         assertThat(findSearchEmail).isPresent();
         assertThat(findSearchEmail.get().getEmail()).isEqualTo("ssafy@gmail.com");
+    }
+
+    @DisplayName("회원 고유키로 회원 id를 조회한다.")
+    @Test
+    void findIdByUserKey() {
+        //given
+        User user = saveUser();
+
+        //when
+        Optional<UserClientResponse> response = userQueryRepository.findIdByUserKey(user.getUserKey());
+
+        //then
+        assertThat(response).isPresent();
     }
 
     private User saveUser() {

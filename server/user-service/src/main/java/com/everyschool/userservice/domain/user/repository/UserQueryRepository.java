@@ -1,9 +1,9 @@
 package com.everyschool.userservice.domain.user.repository;
 
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -43,23 +43,23 @@ public class UserQueryRepository {
     }
 
     /**
-     * 이메일로 회원 기본 정보 조회
+     * 회원 고유키로 회원 기본 정보 조회
      *
-     * @param email 조회할 이메일
+     * @param userKey 조회할 회원 고유키
      * @return 회원 기본 정보
      */
-    public Optional<UserInfoResponse> findByEmail(String email) {
+    public Optional<UserInfoResponse> findByUserKey(String userKey) {
         UserInfoResponse content = queryFactory
             .select(Projections.constructor(
                 UserInfoResponse.class,
                 user.name,
-                Expressions.asString(email),
+                user.email,
                 user.name,
                 user.birth,
                 user.createdDate
             ))
             .from(user)
-            .where(user.email.eq(email))
+            .where(user.userKey.eq(userKey))
             .fetchOne();
         return Optional.ofNullable(content);
     }
@@ -84,6 +84,24 @@ public class UserQueryRepository {
                 user.name.eq(name),
                 user.birth.eq(birth)
             )
+            .fetchOne();
+        return Optional.ofNullable(content);
+    }
+
+    /**
+     * 회원 PK 조회
+     *
+     * @param userKey 회원 고유키
+     * @return 회원 PK
+     */
+    public Optional<UserClientResponse> findIdByUserKey(String userKey) {
+        UserClientResponse content = queryFactory
+            .select(Projections.constructor(
+                UserClientResponse.class,
+                user.id
+            ))
+            .from(user)
+            .where(user.userKey.eq(userKey))
             .fetchOne();
         return Optional.ofNullable(content);
     }

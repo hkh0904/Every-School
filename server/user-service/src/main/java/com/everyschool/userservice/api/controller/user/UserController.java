@@ -7,6 +7,7 @@ import com.everyschool.userservice.api.controller.user.response.WithdrawalRespon
 import com.everyschool.userservice.api.service.user.ParentService;
 import com.everyschool.userservice.api.service.user.StudentService;
 import com.everyschool.userservice.api.service.user.UserService;
+import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class UserController {
     private final UserService userService;
     private final ParentService parentService;
     private final StudentService studentService;
+    private final TokenUtils tokenUtils;
 
     /**
      * 학부모 회원 가입 API
@@ -73,10 +75,9 @@ public class UserController {
      */
     @PatchMapping("/v1/pwd")
     public ApiResponse<String> editPwd(@RequestBody EditPwdRequest request) {
-        // TODO: 2023-10-25 임우택 JWT 복호화 기능 구현
-        String email = "ssafy@gmail.com";
+        String userKey = tokenUtils.getUserKey();
 
-        UserResponse response = userService.editPwd(email, request.getCurrentPwd(), request.getNewPwd());
+        UserResponse response = userService.editPwd(userKey, request.getCurrentPwd(), request.getNewPwd());
 
         return ApiResponse.of(HttpStatus.OK, "비밀번호가 변경되었습니다.", null);
     }
@@ -89,10 +90,9 @@ public class UserController {
      */
     @PostMapping("/v1/withdrawal")
     public ApiResponse<WithdrawalResponse> withdrawal(@RequestBody WithdrawalRequest request) {
-        // TODO: 2023-10-25 임우택 JWT 복호화 기능 구현
-        String email = "ssafy@gmail.com";
+        String userKey = tokenUtils.getUserKey();
 
-        WithdrawalResponse response = userService.withdrawal(email, request.getPwd());
+        WithdrawalResponse response = userService.withdrawal(userKey, request.getPwd());
 
         return ApiResponse.of(HttpStatus.OK, "회원 탈퇴가 되었습니다.", response);
     }

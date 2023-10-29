@@ -21,4 +21,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return 조회된 회원 엔티티
      */
     Optional<User> findByEmail(String email);
+
+    /**
+     * 회원 고유키로 회원 엔티티 조회
+     *
+     * @param userKey 조회할 회원 고유키
+     * @return 조회된 회원 엔티티
+     */
+    Optional<User> findByUserKey(String userKey);
 }

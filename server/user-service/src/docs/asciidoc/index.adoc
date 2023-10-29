@@ -36,6 +36,8 @@ include::api/user/forgot-email.adoc[]
 include::api/user/forgot-pwd.adoc[]
 include::api/user/edit-pwd.adoc[]
 include::api/user/delete-user.adoc[]
+include::api/user/generate-connect-code.adoc[]
+include::api/user/create-student-parent.adoc[]
 
 
 [[Auth-API]]
@@ -43,3 +45,9 @@ include::api/user/delete-user.adoc[]
 
 include::api/auth/auth-email.adoc[]
 include::api/auth/auth-email-check.adoc[]
+
+
+[[Client-API]]
+== Client API
+
+include::api/client/client-search-user-id.adoc[]
