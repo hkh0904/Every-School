@@ -47,7 +47,7 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        Optional<UserInfoResponse> response = userQueryRepository.findByEmail("ssafy@gmail.com");
+        Optional<UserInfoResponse> response = userQueryRepository.findByUserKey(user.getUserKey());
 
         //then
         assertThat(response).isPresent();
