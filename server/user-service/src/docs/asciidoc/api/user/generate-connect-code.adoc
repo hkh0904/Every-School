@@ -1,5 +1,5 @@
 [[generate-connect-code]]
-=== 학부모 연결 코드 생성 API
+=== 자녀 연결 코드 생성 API
 
 ==== HTTP Request
 include::{snippets}/generate-connect-code/http-request.adoc[]
