@@ -21,6 +21,9 @@ public class SchoolUser extends BaseEntity {
     private Integer schoolUserCodeId;
 
     @Column(nullable = false)
+    private Integer studentNum;
+
+    @Column(nullable = false)
     private Integer schoolYear;
 
     @Column(nullable = false)
@@ -39,8 +42,9 @@ public class SchoolUser extends BaseEntity {
     }
 
     @Builder
-    private SchoolUser(Integer schoolUserCodeId, Integer schoolYear, Long userId, School school, SchoolClass schoolClass) {
+    private SchoolUser(Integer schoolUserCodeId, Integer studentNum, Integer schoolYear, Long userId, School school, SchoolClass schoolClass) {
         this.schoolUserCodeId = schoolUserCodeId;
+        this.studentNum = studentNum;
         this.schoolYear = schoolYear;
         this.userId = userId;
         this.school = school;
