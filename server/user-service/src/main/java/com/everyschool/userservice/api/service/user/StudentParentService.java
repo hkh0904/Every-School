@@ -8,6 +8,8 @@ import com.everyschool.userservice.domain.user.User;
 import com.everyschool.userservice.domain.user.repository.StudentParentRepository;
 import com.everyschool.userservice.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +23,33 @@ public class StudentParentService {
 
     private final StudentParentRepository studentParentRepository;
     private final UserRepository userRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
-    public CreateStudentParentResponse createStudentParent(String studentEmail, String parentEmail) {
-        Student student = (Student) getUserEntity(studentEmail);
+    public CreateStudentParentResponse createStudentParent(String parentUserKey, String connectCode) {
+        Optional<User> findParent = userRepository.findByUserKey(parentUserKey);
+        if (findParent.isEmpty()) {
+            throw new NoSuchElementException();
+        }
 
-        Parent parent = (Parent) getUserEntity(parentEmail);
+        if (!(findParent.get() instanceof Parent)) {
+            throw new IllegalArgumentException();
+        }
+
+        Parent parent = (Parent) findParent.get();
+
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+        String studentUseKey = operations.get(connectCode);
+
+        Optional<User> findStudent = userRepository.findByUserKey(studentUseKey);
+        if (findStudent.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+
+        if (!(findStudent.get() instanceof Student)) {
+            throw new IllegalArgumentException();
+        }
+
+        Student student = (Student) findStudent.get();
 
         StudentParent studentParent = StudentParent.builder()
             .student(student)
@@ -35,13 +59,5 @@ public class StudentParentService {
         StudentParent savedStudentParent = studentParentRepository.save(studentParent);
 
         return CreateStudentParentResponse.of(savedStudentParent);
-    }
-
-    private User getUserEntity(String email) {
-        Optional<User> findUser = userRepository.findByEmail(email);
-        if (findUser.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return findUser.get();
     }
 }
