@@ -43,3 +43,8 @@ include::api/user/delete-user.adoc[]
 
 include::api/auth/auth-email.adoc[]
 include::api/auth/auth-email-check.adoc[]
+
+[[Client-API]]
+== Client API
+
+include::api/client/client-search-user-id.adoc[]
