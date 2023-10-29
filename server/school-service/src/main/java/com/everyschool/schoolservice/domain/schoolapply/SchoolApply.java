@@ -1,4 +1,4 @@
-package com.everyschool.schoolservice.domain.application;
+package com.everyschool.schoolservice.domain.schoolapply;
 
 import com.everyschool.schoolservice.domain.BaseEntity;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
