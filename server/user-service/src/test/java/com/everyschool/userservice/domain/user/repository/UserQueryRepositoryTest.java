@@ -1,6 +1,7 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.IntegrationTestSupport;
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.everyschool.userservice.domain.user.Parent;
@@ -74,10 +75,10 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        Optional<Long> findUserId = userQueryRepository.findIdByUserKey(user.getUserKey());
+        Optional<UserClientResponse> response = userQueryRepository.findIdByUserKey(user.getUserKey());
 
         //then
-        assertThat(findUserId).isPresent();
+        assertThat(response).isPresent();
     }
 
     private User saveUser() {

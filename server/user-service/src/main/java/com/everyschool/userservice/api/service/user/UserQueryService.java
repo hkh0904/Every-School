@@ -1,5 +1,6 @@
 package com.everyschool.userservice.api.service.user;
 
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.everyschool.userservice.domain.user.repository.UserQueryRepository;
@@ -55,8 +56,8 @@ public class UserQueryService {
         return String.valueOf(builder);
     }
 
-    public Long searchUserId(String userKey) {
-        Optional<Long> findUserId = userQueryRepository.findIdByUserKey(userKey);
+    public UserClientResponse searchUserId(String userKey) {
+        Optional<UserClientResponse> findUserId = userQueryRepository.findIdByUserKey(userKey);
         if (findUserId.isEmpty()) {
             throw new NoSuchElementException("일치하는 회원 정보가 존재하지 않습니다.");
         }

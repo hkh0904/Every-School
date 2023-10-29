@@ -1,6 +1,7 @@
 package com.everyschool.userservice.api.service.user;
 
 import com.everyschool.userservice.IntegrationTestSupport;
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.User;
@@ -108,10 +109,10 @@ class UserQueryServiceTest extends IntegrationTestSupport {
         User user = saveUser();
 
         //when
-        Long userId = userQueryService.searchUserId(user.getUserKey());
+        UserClientResponse response = userQueryService.searchUserId(user.getUserKey());
 
         //then
-        assertThat(userId).isEqualTo(user.getId());
+        assertThat(response.getUserId()).isEqualTo(user.getId());
     }
 
     private User saveUser() {

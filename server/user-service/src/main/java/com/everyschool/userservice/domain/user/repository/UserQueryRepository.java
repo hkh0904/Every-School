@@ -1,5 +1,6 @@
 package com.everyschool.userservice.domain.user.repository;
 
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.querydsl.core.types.Projections;
@@ -93,9 +94,12 @@ public class UserQueryRepository {
      * @param userKey 회원 고유키
      * @return 회원 PK
      */
-    public Optional<Long> findIdByUserKey(String userKey) {
-        Long content = queryFactory
-            .select(user.id)
+    public Optional<UserClientResponse> findIdByUserKey(String userKey) {
+        UserClientResponse content = queryFactory
+            .select(Projections.constructor(
+                UserClientResponse.class,
+                user.id
+            ))
             .from(user)
             .where(user.userKey.eq(userKey))
             .fetchOne();
