@@ -68,7 +68,7 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
         //then
         assertThat(response.getRoomId()).isPositive();
         assertThat(response.getRoomTitle()).isEqualTo("1학년 2반 오연주 선생님");
-        assertThat(response.getUserName()).isEqualTo("신성주");
+        assertThat(response.getUserName()).isEqualTo("오연주");
 
     }
 }
