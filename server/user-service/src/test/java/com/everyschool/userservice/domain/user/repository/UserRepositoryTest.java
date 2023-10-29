@@ -38,6 +38,19 @@ class UserRepositoryTest extends IntegrationTestSupport {
         assertThat(findUser).isPresent();
     }
 
+    @DisplayName("회원 고유키로 회원 엔티티를 조회한다.")
+    @Test
+    void findByUserKey() {
+        //given
+        User user = saveUser();
+
+        //when
+        Optional<User> findUser = userRepository.findByUserKey(user.getUserKey());
+
+        //then
+        assertThat(findUser).isPresent();
+    }
+
     private User saveUser() {
         Parent parent = Parent.builder()
             .email("ssafy@gmail.com")
