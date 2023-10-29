@@ -6,8 +6,6 @@ import com.everyschool.userservice.api.controller.user.response.UserInfoResponse
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.User;
 import com.everyschool.userservice.domain.user.repository.ParentRepository;
-import com.everyschool.userservice.domain.user.repository.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
