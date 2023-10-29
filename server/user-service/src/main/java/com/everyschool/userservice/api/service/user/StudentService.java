@@ -43,7 +43,7 @@ public class StudentService {
 
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
 
-        operations.set(userKey, code, 3, TimeUnit.MINUTES);
+        operations.set(code, userKey, 3, TimeUnit.MINUTES);
 
         return code;
     }
