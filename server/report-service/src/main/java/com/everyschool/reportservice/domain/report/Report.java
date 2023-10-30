@@ -45,6 +45,7 @@ public class Report extends BaseEntity {
 
     @Builder
     private Report(String title, ReportContent content, Integer schoolYear, Integer codeId, Long schoolId, Long userId) {
+        this();
         this.title = title;
         this.content = content;
         this.schoolYear = schoolYear;
