@@ -29,6 +29,9 @@ public class Consult extends BaseEntity {
     @Column(insertable = false, length = 50)
     private String rejectedReason;
 
+    @Embedded
+    private Title title;
+
     @Column(nullable = false, updatable = false)
     private Integer schoolYear;
 
@@ -55,10 +58,11 @@ public class Consult extends BaseEntity {
     }
 
     @Builder
-    private Consult(LocalDateTime consultDateTime, String message, Integer schoolYear, Integer progressStatusId, Integer typeId, Long schoolId, Long parentId, Long studentId, Long teacherId) {
+    private Consult(LocalDateTime consultDateTime, String message, Title title, Integer schoolYear, Integer progressStatusId, Integer typeId, Long schoolId, Long parentId, Long studentId, Long teacherId) {
         this();
         this.consultDateTime = consultDateTime;
         this.message = message;
+        this.title = title;
         this.schoolYear = schoolYear;
         this.progressStatusId = progressStatusId;
         this.typeId = typeId;
