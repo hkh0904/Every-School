@@ -30,7 +30,7 @@ public class SchoolApplyResponse {
             .schoolApplyId(schoolApply.getId())
             .childInfo(String.format("%d학년 %d반 %s", schoolApply.getSchoolClass().getGrade(), schoolApply.getSchoolClass().getClassNum(), info.getName()))
             .parentId(schoolApply.getParentId())
-            .appliedDate(schoolApply.getCreatedDate())
+            .appliedDate(schoolApply.getLastModifiedDate())
             .build();
     }
 }
