@@ -1,4 +1,5 @@
 import 'package:everyschool/api/firebase_api.dart';
+import 'package:everyschool/page/chat/chat_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/home/home_page.dart';
@@ -6,6 +7,7 @@ import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
 import 'package:everyschool/page/report/report_list_page.dart';
 import 'package:everyschool/page/community/community_page.dart';
+import 'package:everyschool/store/chat_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/date_symbol_data_local.dart';
 // fcm
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
@@ -31,10 +34,15 @@ void main() async {
     statusBarColor: Colors.transparent,
   ));
   await initializeDateFormatting();
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: "Pretendard"),
-      home: Splash()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (c) => ChatStore()),
+    ],
+    child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: "Pretendard"),
+        home: Splash()),
+  ));
 }
 
 class Main extends StatefulWidget {
@@ -67,7 +75,7 @@ class _MainState extends State<Main> {
   final List<Widget> pages = [
     HomePage(),
     ReportListPage(),
-    Center(child: Text('채팅')),
+    ChatPage(),
     CommunityPage(),
     Center(child: Text('전체보기')),
   ];
