@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -18,15 +20,16 @@ public class SchoolApplyQueryController {
     private final TokenUtils tokenUtils;
 
     @GetMapping
-    public ApiResponse<SchoolApplyResponse> searchSchoolApplies(@PathVariable Long schoolId, @RequestParam(defaultValue = "wait") String status) {
+    public ApiResponse<List<SchoolApplyResponse>> searchSchoolApplies(@PathVariable Long schoolId, @RequestParam(defaultValue = "wait") String status) {
+        log.debug("call SchoolApplyQueryController#searchSchoolApplies");
 
         String userKey = tokenUtils.getUserKey();
+        log.debug("userKey={}", userKey);
 
+        List<SchoolApplyResponse> responses = schoolApplyQueryService.searchSchoolApplies(userKey, status);
+        log.debug("result={}", responses);
 
-
-
-
-        return null;
+        return ApiResponse.ok(responses);
     }
 
     @GetMapping("/{schoolApplyId}")
