@@ -4,9 +4,11 @@ import com.everyschool.consultservice.api.client.SchoolServiceClient;
 import com.everyschool.consultservice.api.client.UserServiceClient;
 import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
 import com.everyschool.consultservice.api.client.response.TeacherInfo;
+import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
 import com.everyschool.consultservice.api.service.consult.dto.CreateConsultDto;
 import com.everyschool.consultservice.domain.consult.Consult;
+import com.everyschool.consultservice.domain.consult.Title;
 import com.everyschool.consultservice.domain.consult.repository.ConsultRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,23 +24,30 @@ public class ConsultService {
     private final SchoolServiceClient schoolServiceClient;
 
     public CreateConsultResponse createConsult(String userKey, Long schoolId, CreateConsultDto dto) {
-        Long parentId = userServiceClient.searchByUserKey(userKey);
-        Long studentId = userServiceClient.searchByUserKey(dto.getStudentKey());
-        TeacherInfo teacherInfo = userServiceClient.searchTeacherByUserKey(dto.getTeacherKey());
+        UserInfo parentInfo = userServiceClient.searchByUserKey(userKey);
+        UserInfo studentInfo = userServiceClient.searchByUserKey(dto.getStudentKey());
+        UserInfo teacherInfo = userServiceClient.searchByUserKey(dto.getTeacherKey());
 
         SchoolClassInfo schoolClassInfo = schoolServiceClient.searchSchoolClassByTeacherId(teacherInfo.getUserId());
+
+        Title title = Title.builder()
+            .parentTitle(String.format("%d학년 %d반 %s 선생님", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(), teacherInfo.getUserName()))
+            .teacherTitle(String.format("%d학년 %d반 %s(모) %s", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(), studentInfo.getUserName(), parentInfo.getUserName()))
+            .build();
 
         Consult consult = Consult.builder()
             .consultDateTime(dto.getConsultDateTime())
             .message(dto.getMessage())
+            .title(title)
             .schoolYear(dto.getSchoolYear())
             .progressStatusId(3001)
             .typeId(dto.getTypeId())
             .schoolId(schoolId)
-            .parentId(parentId)
-            .studentId(studentId)
+            .parentId(parentInfo.getUserId())
+            .studentId(studentInfo.getUserId())
             .teacherId(teacherInfo.getUserId())
             .build();
+
         Consult savedConsult = consultRepository.save(consult);
 
         return CreateConsultResponse.of(savedConsult, teacherInfo, schoolClassInfo);
