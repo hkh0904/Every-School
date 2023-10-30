@@ -1,7 +1,5 @@
 package com.everyschool.consultservice.api.controller.consult.response;
 
-import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
-import com.everyschool.consultservice.api.client.response.TeacherInfo;
 import com.everyschool.consultservice.domain.consult.Consult;
 import com.everyschool.consultservice.domain.consult.ConsultType;
 import com.everyschool.consultservice.domain.consult.ProgressStatus;
@@ -28,14 +26,13 @@ public class ConsultResponse {
         this.consultDate = consultDate;
     }
 
-    public static ConsultResponse of(Consult consult, TeacherInfo teacherInfo, SchoolClassInfo schoolClassInfo) {
+    public static ConsultResponse of(Consult consult) {
         return ConsultResponse.builder()
             .consultId(consult.getId())
             .typeId(consult.getTypeId())
             .progressStatusId(consult.getProgressStatusId())
-            .title(String.format("%d학년 %d반 %s선생님", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(), teacherInfo.getName()))
+            .title(consult.getTitle().getParentTitle())
             .consultDate(consult.getConsultDateTime())
             .build();
-
     }
 }
