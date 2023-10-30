@@ -94,6 +94,7 @@ tasks.named('test') {
 def querydslDir = "$buildDir/generated/querydsl"
 querydsl {
 	jpa = true
+	springDataMongo = true
 	querydslSourcesDir = querydslDir
 }
 sourceSets {
