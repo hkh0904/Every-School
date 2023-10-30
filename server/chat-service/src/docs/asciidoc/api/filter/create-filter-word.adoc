@@ -1,0 +1,11 @@
+[[create-filter-word]]
+=== 필터링 단어 추가(관리자) API
+
+==== HTTP Request
+
+include::{snippets}/create-filter-word/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/create-filter-word/http-response.adoc[]
+include::{snippets}/create-filter-word/response-fields.adoc[]
