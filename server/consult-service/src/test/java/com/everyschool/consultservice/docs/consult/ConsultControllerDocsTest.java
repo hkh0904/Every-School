@@ -37,7 +37,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
         return new ConsultController(consultService, tokenUtils);
     }
 
-    @DisplayName("상담 예약 API")
+    @DisplayName("상담 등록 API")
     @Test
     void createConsult() throws Exception {
         CreateConsultRequest request = CreateConsultRequest.builder()

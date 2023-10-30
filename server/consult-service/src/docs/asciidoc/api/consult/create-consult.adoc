@@ -1,5 +1,5 @@
 [[create-consult]]
-=== 상담 예약 API
+=== 상담 등록 API
 
 ==== HTTP Request
 
