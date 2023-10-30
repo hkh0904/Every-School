@@ -95,4 +95,15 @@ public class SchoolApplyQueryControllerDocsTest extends RestDocsSupport {
                 )
             ));
     }
+
+    @DisplayName("학급 승인 상세 조회 API")
+    @Test
+    void searchSchoolApply() {
+        //given
+
+        //when
+
+        //then
+
+    }
 }

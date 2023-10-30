@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -40,5 +42,17 @@ public class SchoolApplyQueryService {
             .collect(Collectors.toList());
 
         return responses;
+    }
+
+    public SchoolApplyResponse searchSchoolApply(Long schoolApplyId) {
+        Optional<SchoolApply> findSchoolApply = schoolApplyQueryRepository.findById(schoolApplyId);
+        if (findSchoolApply.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        SchoolApply schoolApply = findSchoolApply.get();
+
+        List<StudentResponse> studentInfos = userServiceClient.searchByStudentIdIn(List.of(schoolApply.getStudentId()));
+
+        return SchoolApplyResponse.of(schoolApply, studentInfos.get(0));
     }
 }

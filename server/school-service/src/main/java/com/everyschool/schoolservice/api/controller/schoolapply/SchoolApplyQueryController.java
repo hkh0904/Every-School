@@ -33,7 +33,12 @@ public class SchoolApplyQueryController {
     }
 
     @GetMapping("/{schoolApplyId}")
-    public ApiResponse<?> searchSchoolApply(@PathVariable Long schoolId, @PathVariable Long schoolApplyId) {
-        return null;
+    public ApiResponse<SchoolApplyResponse> searchSchoolApply(@PathVariable Long schoolId, @PathVariable Long schoolApplyId) {
+        log.debug("call SchoolApplyQueryController#searchSchoolApply");
+
+        SchoolApplyResponse response = schoolApplyQueryService.searchSchoolApply(schoolApplyId);
+        log.debug("result={}", response);
+
+        return ApiResponse.ok(response);
     }
 }

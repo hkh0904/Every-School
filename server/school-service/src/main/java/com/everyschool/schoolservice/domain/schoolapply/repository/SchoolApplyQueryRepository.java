@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static com.everyschool.schoolservice.domain.schoolapply.QSchoolApply.schoolApply;
 import static com.everyschool.schoolservice.domain.schoolclass.QSchoolClass.schoolClass;
@@ -31,6 +32,16 @@ public class SchoolApplyQueryRepository {
             )
             .orderBy(schoolApply.createdDate.desc())
             .fetch();
+    }
+
+    public Optional<SchoolApply> findById(Long schoolApplyId) {
+        SchoolApply content = queryFactory
+            .select(schoolApply)
+            .from(schoolApply)
+            .join(schoolApply.schoolClass, schoolClass).fetchJoin()
+            .where(schoolApply.id.eq(schoolApplyId))
+            .fetchOne();
+        return Optional.ofNullable(content);
     }
 
     private BooleanExpression statusCond(String status) {
