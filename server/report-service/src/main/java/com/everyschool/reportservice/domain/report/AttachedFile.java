@@ -14,11 +14,8 @@ public class AttachedFile extends BaseEntity {
     @Column(name = "attached_file_id")
     private Long id;
 
-    @Column(nullable = false, updatable = false)
-    private String uploadFileName;
-
-    @Column(nullable = false, updatable = false)
-    private String storeFileName;
+    @Embedded
+    private UploadFile uploadFile;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "report_id")
@@ -29,10 +26,9 @@ public class AttachedFile extends BaseEntity {
     }
 
     @Builder
-    private AttachedFile(String uploadFileName, String storeFileName, Report report) {
+    private AttachedFile(UploadFile uploadFile, Report report) {
         this();
-        this.uploadFileName = uploadFileName;
-        this.storeFileName = storeFileName;
+        this.uploadFile = uploadFile;
         this.report = report;
     }
 }
