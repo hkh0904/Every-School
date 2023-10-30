@@ -53,4 +53,12 @@ public class ChatRoomUser extends BaseEntity {
         this.lastContent = lastContent;
         this.chatRoom = chatRoom;
     }
+
+    public void updateUpdateChat(String lastContent) {
+        if (lastContent.length() >= 50) {
+            lastContent = lastContent.substring(0, 49);
+        }
+        this.lastContent = lastContent;
+        this.unreadCount++;
+    }
 }
