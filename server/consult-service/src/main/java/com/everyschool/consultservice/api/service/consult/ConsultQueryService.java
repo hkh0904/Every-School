@@ -26,7 +26,7 @@ public class ConsultQueryService {
     public List<ConsultResponse> searchConsults(String userKey) {
         UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
 
-        List<Consult> findConsults = consultQueryRepository.findByParentId(userInfo.getUserId());
+        List<Consult> findConsults = consultQueryRepository.findByParentId(userInfo.getUserId(), userInfo.getUserType());
 
         return findConsults.stream()
             .map(consult -> ConsultResponse.of(consult, userInfo.getUserType()))
