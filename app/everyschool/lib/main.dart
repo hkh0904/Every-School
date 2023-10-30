@@ -5,6 +5,7 @@ import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
 import 'package:everyschool/page/community/community_page.dart';
+import 'package:everyschool/page/report/report_list_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -66,7 +66,7 @@ class _MainState extends State<Main> {
 
   final List<Widget> pages = [
     HomePage(),
-    ConsultingListPage(),
+    ReportListPage(),
     Center(child: Text('채팅')),
     CommunityPage(),
     Center(child: Text('전체보기')),

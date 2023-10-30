@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Service
+//@Service
 @Slf4j
 @Transactional
 public class KafkaConsumer {

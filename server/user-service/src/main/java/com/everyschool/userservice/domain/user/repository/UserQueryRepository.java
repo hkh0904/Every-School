@@ -3,6 +3,7 @@ package com.everyschool.userservice.domain.user.repository;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
+import com.everyschool.userservice.domain.user.User;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -103,6 +104,15 @@ public class UserQueryRepository {
             .from(user)
             .where(user.userKey.eq(userKey))
             .fetchOne();
+        return Optional.ofNullable(content);
+    }
+
+    public Optional<User> findUserInfoByUserKey(String userKey) {
+        User content = queryFactory
+            .select(user)
+            .from(user)
+            .where(user.userKey.eq(userKey))
+            .fetchFirst();
         return Optional.ofNullable(content);
     }
 }

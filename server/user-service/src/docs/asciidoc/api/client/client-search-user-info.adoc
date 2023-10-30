@@ -1,0 +1,11 @@
+[[client-search-user-info]]
+=== 회원 정보 조회 API
+
+==== HTTP Request
+include::{snippets}/client-search-user-info/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/client-search-user-info/http-response.adoc[]
+include::{snippets}/client-search-user-info/response-fields.adoc[]
+include::sub/user-type.adoc[]

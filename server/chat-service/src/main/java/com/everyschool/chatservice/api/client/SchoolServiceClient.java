@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SchoolServiceClient {
 
     @GetMapping
-    String searchClassName(@RequestParam Long schoolClassId);
+    String searchClassName(@RequestParam(name = "schoolClassId") Long schoolClassId);
 }

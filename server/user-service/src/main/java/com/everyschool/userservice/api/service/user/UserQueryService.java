@@ -1,8 +1,12 @@
 package com.everyschool.userservice.api.service.user;
 
+import com.everyschool.userservice.api.controller.client.response.UserInfo;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
+import com.everyschool.userservice.domain.user.Parent;
+import com.everyschool.userservice.domain.user.Student;
+import com.everyschool.userservice.domain.user.User;
 import com.everyschool.userservice.domain.user.repository.UserQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -62,5 +66,21 @@ public class UserQueryService {
             throw new NoSuchElementException("일치하는 회원 정보가 존재하지 않습니다.");
         }
         return findUserId.get();
+    }
+
+    public UserInfo searchUserInfo(String userKey) {
+        Optional<User> findUser = userQueryRepository.findUserInfoByUserKey(userKey);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        User user = findUser.get();
+
+        if (user instanceof Student) {
+            Student student = (Student) user;
+            return UserInfo.of(student);
+        }
+
+        Parent parent = (Parent) user;
+        return UserInfo.of(parent);
     }
 }
