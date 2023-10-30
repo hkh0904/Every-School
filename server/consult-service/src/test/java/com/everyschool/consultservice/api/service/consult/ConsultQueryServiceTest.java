@@ -1,13 +1,11 @@
 package com.everyschool.consultservice.api.service.consult;
 
 import com.everyschool.consultservice.IntegrationTestSupport;
-import com.everyschool.consultservice.api.client.SchoolServiceClient;
 import com.everyschool.consultservice.api.client.UserServiceClient;
-import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
-import com.everyschool.consultservice.api.client.response.TeacherInfo;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultResponse;
 import com.everyschool.consultservice.domain.consult.Consult;
+import com.everyschool.consultservice.domain.consult.Title;
 import com.everyschool.consultservice.domain.consult.repository.ConsultRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.anyList;
 import static org.mockito.BDDMockito.given;
 
 class ConsultQueryServiceTest extends IntegrationTestSupport {
@@ -35,9 +31,6 @@ class ConsultQueryServiceTest extends IntegrationTestSupport {
     @MockBean
     private UserServiceClient userServiceClient;
 
-    @MockBean
-    private SchoolServiceClient schoolServiceClient;
-
     @DisplayName("학부모는 등록한 상담 내역을 조회할 수 있다.")
     @Test
     void searchConsults() {
@@ -48,25 +41,6 @@ class ConsultQueryServiceTest extends IntegrationTestSupport {
 
         given(userServiceClient.searchByUserKey(anyString()))
             .willReturn(10L);
-
-        TeacherInfo teacherInfo = TeacherInfo.builder()
-            .userId(100L)
-            .name("이예리")
-            .schoolClassId(1000L)
-            .userKey(UUID.randomUUID().toString())
-            .build();
-
-        given(userServiceClient.searchTeacherByIdIn(anyList()))
-            .willReturn(List.of(teacherInfo));
-
-        SchoolClassInfo schoolClassInfo = SchoolClassInfo.builder()
-            .teacherId(100L)
-            .grade(1)
-            .classNum(3)
-            .build();
-
-        given(schoolServiceClient.searchSchoolClassByTeacherIdIn(anyList()))
-            .willReturn(List.of(schoolClassInfo));
 
         //when
         List<ConsultResponse> responses = consultQueryService.searchConsults(UUID.randomUUID().toString());
@@ -81,25 +55,6 @@ class ConsultQueryServiceTest extends IntegrationTestSupport {
         //given
         Consult consult = saveConsult("우리집 고양이 이름은 리온이에요!", 3003, 2001);
 
-        TeacherInfo teacherInfo = TeacherInfo.builder()
-            .userId(100L)
-            .name("이예리")
-            .schoolClassId(1000L)
-            .userKey(UUID.randomUUID().toString())
-            .build();
-
-        given(userServiceClient.searchTeacherById(anyLong()))
-            .willReturn(teacherInfo);
-
-        SchoolClassInfo schoolClassInfo = SchoolClassInfo.builder()
-            .teacherId(100L)
-            .grade(1)
-            .classNum(3)
-            .build();
-
-        given(schoolServiceClient.searchSchoolClassByTeacherId(anyLong()))
-            .willReturn(schoolClassInfo);
-
         //when
         ConsultDetailResponse response = consultQueryService.searchConsult(consult.getId());
 
@@ -108,9 +63,15 @@ class ConsultQueryServiceTest extends IntegrationTestSupport {
     }
 
     public Consult saveConsult(String message, int progressStatusId, int typeId) {
+        Title title = Title.builder()
+            .parentTitle("1학년 3반 강형욱 선생님")
+            .teacherTitle("1학년 3반 이리온(모) 이예리")
+            .build();
+
         Consult consult = Consult.builder()
             .consultDateTime(LocalDateTime.now())
             .message(message)
+            .title(title)
             .schoolYear(2023)
             .progressStatusId(progressStatusId)
             .typeId(typeId)
