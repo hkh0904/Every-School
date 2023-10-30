@@ -4,6 +4,7 @@ import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.ChatRoomListResponse;
+import com.everyschool.chatservice.domain.MongoSeq;
 import com.everyschool.chatservice.domain.chat.Chat;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
@@ -42,14 +43,14 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
         ChatRoom savedChatRoom1 = chatRoomRepository.save(ChatRoom.builder().build());
         ChatRoomUser user1 = createChatRoomUser(savedChatRoom1, 1L, "1학년 2반 임우택(부)", 2);
         ChatRoomUser opponent1 = createChatRoomUser(savedChatRoom1, 2L, "선생님", 2);
-        Chat user1SentMessage = createSentMessage(savedChatRoom1, user1, "user1 sent message");
-        Chat opponent1SentMessage = createSentMessage(savedChatRoom1, opponent1, "opponent1 sent message");
+        Chat user1SentMessage = createSentMessage(savedChatRoom1, user1, opponent1, "user1 sent message");
+        Chat opponent1SentMessage = createSentMessage(savedChatRoom1, opponent1, user1, "opponent1 sent message");
 
         ChatRoom savedChatRoom2 = chatRoomRepository.save(ChatRoom.builder().build());
         ChatRoomUser user2 = createChatRoomUser(savedChatRoom2, 1L, "1학년 2반 신성주(부)", 2);
         ChatRoomUser opponent2 = createChatRoomUser(savedChatRoom2, 3L, "선생님", 2);
-        Chat opponent2SentMessage = createSentMessage(savedChatRoom2, opponent2, "opponent2 sent message");
-        Chat user2SentMessage = createSentMessage(savedChatRoom2, user2, "user2 sent message");
+        Chat opponent2SentMessage = createSentMessage(savedChatRoom2, opponent2, user2, "opponent2 sent message");
+        Chat user2SentMessage = createSentMessage(savedChatRoom2, user2, opponent2, "user2 sent message");
 
         UserInfo teacher = UserInfo.builder()
                 .userId(1L)
@@ -79,12 +80,15 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
 
     }
 
-    private Chat createSentMessage(ChatRoom savedChatRoom, ChatRoomUser user, String massage) {
+    private Chat createSentMessage(ChatRoom savedChatRoom, ChatRoomUser sender, ChatRoomUser receiver, String message) {
+        sender.updateUpdateChat(message);
+        receiver.updateUpdateChat(message);
         return chatRepository.save(Chat.builder()
-                .userId(user.getUserId())
-                .content(massage)
+                .id(MongoSeq.getSeq())
+                .userId(sender.getUserId())
+                .content(message)
                 .isBad(false)
-                .chatRoom(savedChatRoom)
+                .chatRoomId(savedChatRoom.getId())
                 .build());
     }
 
