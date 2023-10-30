@@ -16,13 +16,5 @@ public interface UserServiceClient {
 
     // TODO: 2023-10-30 상대 구현
     @PostMapping
-    List<TeacherInfo> searchTeacherByIdIn(@RequestBody List<Long> teacherIds);
-
-    // TODO: 2023-10-30 상대 구현
-    @PostMapping
-    TeacherInfo searchTeacherById(@RequestBody Long teacherId);
-
-    // TODO: 2023-10-30 상대 구현
-    @PostMapping
     TeacherInfo searchTeacherByUserKey(@RequestBody String userKey);
 }

@@ -12,9 +12,5 @@ public interface SchoolServiceClient {
 
     // TODO: 2023-10-30 상대 구현
     @PostMapping
-    List<SchoolClassInfo> searchSchoolClassByTeacherIdIn(@RequestBody List<Long> teacherIds);
-
-    // TODO: 2023-10-30 상대 구현
-    @PostMapping
     SchoolClassInfo searchSchoolClassByTeacherId(@RequestBody Long teacherId);
 }
