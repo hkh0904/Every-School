@@ -13,7 +13,6 @@ public class CreateConsultRequest {
 
     private LocalDateTime consultDateTime;
     private String message;
-    private Integer schoolYear;
     private Integer typeId;
     private String teacherKey;
     private String studentKey;
@@ -22,7 +21,6 @@ public class CreateConsultRequest {
     private CreateConsultRequest(LocalDateTime consultDateTime, String message, Integer schoolYear, Integer typeId, String teacherKey, String studentKey) {
         this.consultDateTime = consultDateTime;
         this.message = message;
-        this.schoolYear = schoolYear;
         this.typeId = typeId;
         this.teacherKey = teacherKey;
         this.studentKey = studentKey;
@@ -32,7 +30,8 @@ public class CreateConsultRequest {
         return CreateConsultDto.builder()
             .consultDateTime(this.consultDateTime)
             .message(this.message)
-            .schoolYear(this.schoolYear)
+            // TODO: 10/30/23 수정이 필요
+            .schoolYear(LocalDateTime.now().getYear())
             .typeId(this.typeId)
             .teacherKey(this.teacherKey)
             .studentKey(this.studentKey)
