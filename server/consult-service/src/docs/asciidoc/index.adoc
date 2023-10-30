@@ -11,7 +11,7 @@ endif::[]
 
 include::overview.adoc[]
 
-[[consult-API]]
+[[Consult-API]]
 == Consult API
 
 include::api/consult/create-consult.adoc[]

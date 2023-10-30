@@ -1,4 +1,4 @@
-[[search-consults]]
+[[search-consult]]
 === 상담 내역 상세 조회 API
 
 ==== HTTP Request
