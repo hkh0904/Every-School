@@ -4,7 +4,7 @@ import com.everyschool.consultservice.IntegrationTestSupport;
 import com.everyschool.consultservice.api.client.SchoolServiceClient;
 import com.everyschool.consultservice.api.client.UserServiceClient;
 import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
-import com.everyschool.consultservice.api.client.response.TeacherInfo;
+import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
 import com.everyschool.consultservice.api.service.consult.dto.CreateConsultDto;
 import org.junit.jupiter.api.DisplayName;
@@ -34,21 +34,15 @@ class ConsultServiceTest extends IntegrationTestSupport {
     @Test
     void createConsult() {
         //given
-        given(userServiceClient.searchByUserKey(anyString()))
-            .willReturn(10L);
-
-        given(userServiceClient.searchByUserKey(anyString()))
-            .willReturn(1L);
-
-        TeacherInfo teacherInfo = TeacherInfo.builder()
-            .userId(100L)
-            .name("이예리")
-            .schoolClassId(1000L)
-            .userKey(UUID.randomUUID().toString())
+        UserInfo userInfo = UserInfo.builder()
+            .userId(10L)
+            .userType('F')
+            .userName("이예리")
+            .schoolClassId(null)
             .build();
 
-        given(userServiceClient.searchTeacherByUserKey(anyString()))
-            .willReturn(teacherInfo);
+        given(userServiceClient.searchByUserKey(anyString()))
+            .willReturn(userInfo);
 
         SchoolClassInfo schoolClassInfo = SchoolClassInfo.builder()
             .teacherId(100L)
