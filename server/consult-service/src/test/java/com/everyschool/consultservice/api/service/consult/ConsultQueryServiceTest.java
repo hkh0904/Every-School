@@ -2,6 +2,7 @@ package com.everyschool.consultservice.api.service.consult;
 
 import com.everyschool.consultservice.IntegrationTestSupport;
 import com.everyschool.consultservice.api.client.UserServiceClient;
+import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultResponse;
 import com.everyschool.consultservice.domain.consult.Consult;
@@ -39,8 +40,15 @@ class ConsultQueryServiceTest extends IntegrationTestSupport {
         Consult consult2 = saveConsult("우리집 강아지 이름은 코코에요!", 3002, 2002);
         Consult consult3 = saveConsult("우리집 고양이 이름은 리온이에요!", 3001, 2001);
 
+        UserInfo userInfo = UserInfo.builder()
+            .userId(10L)
+            .userType('F')
+            .userName("이예리")
+            .schoolClassId(null)
+            .build();
+
         given(userServiceClient.searchByUserKey(anyString()))
-            .willReturn(10L);
+            .willReturn(userInfo);
 
         //when
         List<ConsultResponse> responses = consultQueryService.searchConsults(UUID.randomUUID().toString());

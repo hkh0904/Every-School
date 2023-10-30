@@ -1,7 +1,7 @@
 package com.everyschool.consultservice.api.controller.consult.response;
 
 import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
-import com.everyschool.consultservice.api.client.response.TeacherInfo;
+import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.domain.consult.Consult;
 import com.everyschool.consultservice.domain.consult.ConsultType;
 import lombok.Builder;
@@ -29,11 +29,11 @@ public class CreateConsultResponse {
         this.message = message;
     }
 
-    public static CreateConsultResponse of(Consult consult, TeacherInfo teacherInfo, SchoolClassInfo schoolClassInfo) {
+    public static CreateConsultResponse of(Consult consult, UserInfo userInfo, SchoolClassInfo schoolClassInfo) {
         return CreateConsultResponse.builder()
             .consultId(consult.getId())
             .typeId(consult.getTypeId())
-            .teacher(String.format("%d학년 %d반 %s 선생님", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(), teacherInfo.getName()))
+            .teacher(String.format("%d학년 %d반 %s 선생님", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(), userInfo.getUserName()))
             .applicant("none")
             .consultDateTime(consult.getConsultDateTime())
             .message(consult.getMessage())

@@ -1,6 +1,7 @@
 package com.everyschool.consultservice.api.service.consult;
 
 import com.everyschool.consultservice.api.client.UserServiceClient;
+import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultResponse;
 import com.everyschool.consultservice.domain.consult.Consult;
@@ -23,9 +24,9 @@ public class ConsultQueryService {
     private final UserServiceClient userServiceClient;
 
     public List<ConsultResponse> searchConsults(String userKey) {
-        Long parentId = userServiceClient.searchByUserKey(userKey);
+        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
 
-        List<Consult> findConsults = consultQueryRepository.findByParentId(parentId);
+        List<Consult> findConsults = consultQueryRepository.findByParentId(userInfo.getUserId());
 
         return findConsults.stream()
             .map(ConsultResponse::of)
