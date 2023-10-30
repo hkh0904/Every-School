@@ -51,3 +51,4 @@ include::api/auth/auth-email-check.adoc[]
 == Client API
 
 include::api/client/client-search-user-id.adoc[]
+include::api/client/client-search-user-info.adoc[]

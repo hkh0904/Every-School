@@ -42,6 +42,7 @@ public class SchoolApply extends BaseEntity {
 
     @Builder
     private SchoolApply(Integer schoolYear, Integer codeId, Long studentId, Long parentId, SchoolClass schoolClass) {
+        this();
         this.schoolYear = schoolYear;
         this.codeId = codeId;
         this.studentId = studentId;
