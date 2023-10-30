@@ -1,4 +1,4 @@
-package com.everyschool.chatservice.domain.filterword;
+package com.everyschool.chatservice.domain;
 
 public class MongoSeq {
 

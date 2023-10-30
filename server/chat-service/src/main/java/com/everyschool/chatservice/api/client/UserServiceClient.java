@@ -13,8 +13,8 @@ public interface UserServiceClient {
     UserInfo searchUserInfo(@RequestHeader("Authorization") String accessToken);
 
     @GetMapping
-    UserInfo searchUserInfoByUserKey(@RequestParam String userKey);
+    UserInfo searchUserInfoByUserKey(@RequestParam(name = "userKey") String userKey);
 
     @GetMapping
-    String searchChildName(Long userId, Long schoolClassId);
+    String searchChildName(@RequestParam(name = "userId") Long userId, @RequestParam(name = "schoolClassId") Long schoolClassId);
 }
