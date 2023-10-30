@@ -12,10 +12,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: const HomeBody(),
-      ),
+    return Scaffold(
+        body: const HomeBody()
     );
   }
 }

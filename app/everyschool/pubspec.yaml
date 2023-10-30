@@ -70,6 +70,7 @@ flutter:
     - assets/images/
     - assets/images/home/
     - assets/images/splash/
+    - assets/images/login/
     - assets/images/consulting/
     - assets/images/community/
 

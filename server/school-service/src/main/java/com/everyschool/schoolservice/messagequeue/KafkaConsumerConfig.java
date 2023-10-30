@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @EnableKafka
-@Configuration
+//@Configuration
 public class KafkaConsumerConfig {
 
     private final Environment env;
