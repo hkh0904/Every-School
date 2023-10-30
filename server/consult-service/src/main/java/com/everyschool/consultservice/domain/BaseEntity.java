@@ -1,6 +1,5 @@
 package com.everyschool.consultservice.domain;
 
-import com.everyschool.consultservice.domain.consult.TimeBaseEntity;
 import lombok.Getter;
 
 import javax.persistence.MappedSuperclass;
