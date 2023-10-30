@@ -1,21 +1,22 @@
 package com.everyschool.chatservice.domain.chat;
 
-import com.everyschool.chatservice.domain.BaseEntity;
-import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Document(collection = "chat")
 @Getter
-public class Chat extends BaseEntity {
+@Setter
+public class Chat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "chat_id")
+    @Field("chat_id")
     private Long id;
 
     @NotNull
@@ -24,21 +25,15 @@ public class Chat extends BaseEntity {
     private String content;
     private Boolean isBad;
 
-    @ManyToOne
-    @JoinColumn(name = "chat_room_id")
-    private ChatRoom chatRoom;
-
-    protected Chat() {
-        super();
-    }
+    @Field("chat_room_id")
+    private Long chatRoomId;
 
     @Builder
-    private Chat(Long id, Long userId, String content, Boolean isBad, ChatRoom chatRoom) {
-        this();
+    private Chat(Long id, Long userId, String content, Boolean isBad, Long chatRoomId) {
         this.id = id;
         this.userId = userId;
         this.content = content;
         this.isBad = isBad;
-        this.chatRoom = chatRoom;
+        this.chatRoomId = chatRoomId;
     }
 }
