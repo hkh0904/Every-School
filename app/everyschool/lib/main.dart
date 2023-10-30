@@ -74,7 +74,6 @@ class _MainState extends State<Main> {
   final List<Widget> pages = [
     HomePage(),
     TeacherReportGetPage(),
-    Center(child: Text('채팅')),
     ChatPage(),
     CommunityPage(),
     Center(child: Text('전체보기')),
