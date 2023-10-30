@@ -1,0 +1,11 @@
+[[search-school-applies]]
+=== 학급 승인 목록 조회 API
+
+==== HTTP Request
+include::{snippets}/search-school-applies/http-request.adoc[]
+include::{snippets}/search-school-applies/request-parameters.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-school-applies/http-response.adoc[]
+include::{snippets}/search-school-applies/response-fields.adoc[]
