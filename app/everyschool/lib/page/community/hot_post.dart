@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class PopularPost extends StatefulWidget {
-  const PopularPost({super.key});
+class HotPost extends StatefulWidget {
+  const HotPost({super.key});
 
   @override
-  State<PopularPost> createState() => _PopularPostState();
+  State<HotPost> createState() => _HotPostState();
 }
 
-class _PopularPostState extends State<PopularPost> {
-  var popPost = [
+class _HotPostState extends State<HotPost> {
+  var hotPost = [
     {
       'title': '선생님께 사과받고 싶습니다.',
       'content': '아니 진짜 살다살다 제가 잘못한건가요 아니 진짜 살다살다 제가 잘못한건가요',
@@ -50,7 +50,7 @@ class _PopularPostState extends State<PopularPost> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '실시간 인기글 ✨',
+              'HOT 게시글🔥🔥🔥',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
             ),
             Container(
@@ -65,7 +65,7 @@ class _PopularPostState extends State<PopularPost> {
               ),
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: popPost.length,
+                itemCount: hotPost.length,
                 itemBuilder: (context, index) {
                   return Container(
                     height: 130,
@@ -115,9 +115,9 @@ class _PopularPostState extends State<PopularPost> {
                           children: [
                             Expanded(
                               child: Text(
-                                (popPost[index]['title'] as String).length > 15
-                                    ? '${(popPost[index]['title'] as String).substring(0, 15)}...'
-                                    : popPost[index]['title'] as String,
+                                (hotPost[index]['title'] as String).length > 15
+                                    ? '${(hotPost[index]['title'] as String).substring(0, 15)}...'
+                                    : hotPost[index]['title'] as String,
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w700,
@@ -134,7 +134,7 @@ class _PopularPostState extends State<PopularPost> {
                           children: [
                             Expanded(
                               child: Text(
-                                formatText(popPost[index]['content'] as String),
+                                formatText(hotPost[index]['content'] as String),
                                 style: TextStyle(fontSize: 15),
                               ),
                             ),
@@ -146,7 +146,7 @@ class _PopularPostState extends State<PopularPost> {
                                   height: 25,
                                 ),
                                 Text(
-                                  popPost[index]['comments'] as String,
+                                  hotPost[index]['comments'] as String,
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ],
