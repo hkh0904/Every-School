@@ -1,0 +1,11 @@
+[[search-consults]]
+=== 상담 내역 상세 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-consult/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/search-consult/http-response.adoc[]
+include::{snippets}/search-consult/response-fields.adoc[]

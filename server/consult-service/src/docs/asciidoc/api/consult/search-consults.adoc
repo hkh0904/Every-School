@@ -1,5 +1,5 @@
 [[search-consults]]
-=== 상담 내역 조회 API
+=== 상담 내역 목록 조회 API
 
 ==== HTTP Request
 
