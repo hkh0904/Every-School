@@ -7,10 +7,8 @@ import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
 import com.everyschool.consultservice.api.client.response.TeacherInfo;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
 import com.everyschool.consultservice.api.service.consult.dto.CreateConsultDto;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
