@@ -31,7 +31,8 @@ public class ConsultService {
 
         Title title = Title.builder()
             .parentTitle(String.format("%d학년 %d반 %s 선생님", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(), teacherInfo.getUserName()))
-            .teacherTitle(String.format("%d학년 %d반 %s(모) %s", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(), studentInfo.getUserName(), parentInfo.getUserName()))
+            .teacherTitle(String.format("%d학년 %d반 %s(%s) %s", schoolClassInfo.getGrade(), schoolClassInfo.getClassNum(),
+                studentInfo.getUserName(), parentInfo.getUserType() == 'M' ? "부" : "모", parentInfo.getUserName()))
             .build();
 
         Consult consult = Consult.builder()
