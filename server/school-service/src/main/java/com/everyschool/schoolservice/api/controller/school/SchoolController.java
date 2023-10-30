@@ -5,7 +5,6 @@ import com.everyschool.schoolservice.api.controller.school.request.EnrollRequest
 import com.everyschool.schoolservice.api.controller.school.response.EnrollResponse;
 import com.everyschool.schoolservice.api.controller.school.request.ClassroomRequest;
 import com.everyschool.schoolservice.api.controller.school.response.ClassroomResponse;
-import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
 import com.everyschool.schoolservice.api.controller.school.response.UserEnrollResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,67 +18,22 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/school-service/v1")
+@RequestMapping("/school-service/v1/schools")
 public class SchoolController {
-
-    /**
-     * 학교 조회 API
-     *
-     * @return 학교 리스트
-     */
-    @GetMapping("/school")
-    public ApiResponse<List<SchoolResponse>> searchSchools() {
-        SchoolResponse response1 = SchoolResponse.builder()
-                .name("광주싸피초등학교")
-                .address("광주광역시 광산구 하남삼단로")
-                .tel("062-1111-2222")
-                .url("https://www.ssafy.com/")
-                .build();
-
-        SchoolResponse response2 = SchoolResponse.builder()
-                .name("서울싸피초등학교")
-                .address("서울특별시 역삼")
-                .tel("02)-1234-1234")
-                .url("https://www.ssafy.com/")
-                .build();
-
-        List<SchoolResponse> schools = new ArrayList<>();
-        schools.add(response1);
-        schools.add(response2);
-
-        return ApiResponse.ok(schools);
-    }
-
-    /**
-     * 학교 단건 조회 API
-     *
-     * @return 학교 정보
-     */
-    @GetMapping("/school/{schoolId}")
-    public ApiResponse<SchoolResponse> searchSchool(@PathVariable String schoolId) {
-        SchoolResponse response = SchoolResponse.builder()
-                .name("광주싸피초등학교")
-                .address("광주광역시 광산구 하남삼단로")
-                .tel("062-1111-2222")
-                .url("https://www.ssafy.com/")
-                .build();
-        
-        return ApiResponse.ok(response);
-    }
 
     /**
      * 학급 생성 API
      *
      * @return 생성한 학급 정보
      */
-    @PostMapping("/school/{schoolId}/classroom")
+    @PostMapping("/{schoolId}/classrooms")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<ClassroomResponse> createClassroom(@PathVariable String schoolId,
                                                        @RequestBody ClassroomRequest request) {
 
         ClassroomResponse res = ClassroomResponse.builder()
                 .teacherName("임우택")
-                .year(2023)
+                .schoolYear(2023)
                 .grade(1)
                 .name("동팔이")
                 .build();
@@ -134,7 +88,7 @@ public class SchoolController {
     @GetMapping("/enroll/{userKey}")
     public ApiResponse<EnrollResponse> searchMyEnroll(@PathVariable String userKey) {
         EnrollResponse response = EnrollResponse.builder()
-                .year(2023)
+                .schoolYear(2023)
                 .schoolName("싸피초등학교")
                 .grade(1)
                 .classNum(6)
@@ -154,7 +108,7 @@ public class SchoolController {
     public ApiResponse<ClassroomResponse> searchMyClassroom(@PathVariable String userKey) {
         ClassroomResponse response = ClassroomResponse.builder()
                 .teacherName("임우택")
-                .year(2023)
+                .schoolYear(2023)
                 .grade(1)
                 .name("동팔이")
                 .build();

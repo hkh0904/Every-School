@@ -1,5 +1,6 @@
 package com.everyschool.userservice.api.service.user;
 
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.everyschool.userservice.domain.user.repository.UserQueryRepository;
@@ -17,10 +18,10 @@ public class UserQueryService {
 
     private final UserQueryRepository userQueryRepository;
 
-    public UserInfoResponse searchUser(String email) {
-        Optional<UserInfoResponse> response = userQueryRepository.findByEmail(email);
+    public UserInfoResponse searchUser(String userKey) {
+        Optional<UserInfoResponse> response = userQueryRepository.findByUserKey(userKey);
         if (response.isEmpty()) {
-            throw new NoSuchElementException("이메일을 확인해주세요.");
+            throw new NoSuchElementException("존재하지 않는 회원입니다.");
         }
         return response.get();
     }
@@ -53,5 +54,13 @@ public class UserQueryService {
         builder.append(emailPart[1]);
 
         return String.valueOf(builder);
+    }
+
+    public UserClientResponse searchUserId(String userKey) {
+        Optional<UserClientResponse> findUserId = userQueryRepository.findIdByUserKey(userKey);
+        if (findUserId.isEmpty()) {
+            throw new NoSuchElementException("일치하는 회원 정보가 존재하지 않습니다.");
+        }
+        return findUserId.get();
     }
 }

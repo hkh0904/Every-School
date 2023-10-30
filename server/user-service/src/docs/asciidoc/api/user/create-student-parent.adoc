@@ -1,0 +1,11 @@
+[[create-student-parent]]
+=== 자녀 연결 코드 입력 API
+
+==== HTTP Request
+include::{snippets}/create-student-parent/http-request.adoc[]
+include::{snippets}/create-student-parent/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-student-parent/http-response.adoc[]
+include::{snippets}/create-student-parent/response-fields.adoc[]

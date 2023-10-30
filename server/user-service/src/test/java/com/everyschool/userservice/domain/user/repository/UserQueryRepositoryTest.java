@@ -1,8 +1,10 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.IntegrationTestSupport;
+import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
+import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +23,7 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
     private UserQueryRepository userQueryRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ParentRepository parentRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -39,14 +41,14 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(isExistEmail).isTrue();
     }
 
-    @DisplayName("이메일로 회원 정보를 조회한다.")
+    @DisplayName("회원 고유키로 회원 정보를 조회한다.")
     @Test
-    void findByEmail() {
+    void findByUserKey() {
         //given
         User user = saveUser();
 
         //when
-        Optional<UserInfoResponse> response = userQueryRepository.findByEmail("ssafy@gmail.com");
+        Optional<UserInfoResponse> response = userQueryRepository.findByUserKey(user.getUserKey());
 
         //then
         assertThat(response).isPresent();
@@ -66,15 +68,29 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(findSearchEmail.get().getEmail()).isEqualTo("ssafy@gmail.com");
     }
 
+    @DisplayName("회원 고유키로 회원 id를 조회한다.")
+    @Test
+    void findIdByUserKey() {
+        //given
+        User user = saveUser();
+
+        //when
+        Optional<UserClientResponse> response = userQueryRepository.findIdByUserKey(user.getUserKey());
+
+        //then
+        assertThat(response).isPresent();
+    }
+
     private User saveUser() {
-        User user = User.builder()
+        Parent parent = Parent.builder()
             .email("ssafy@gmail.com")
             .pwd(passwordEncoder.encode("ssafy1234@"))
             .name("김싸피")
             .birth("2001-01-01")
             .userKey(UUID.randomUUID().toString())
             .userCodeId(1)
+            .parentType("M")
             .build();
-        return userRepository.save(user);
+        return parentRepository.save(parent);
     }
 }

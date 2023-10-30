@@ -11,13 +11,26 @@ endif::[]
 
 include::overview.adoc[]
 
+
 [[School-API]]
 == School API
 
-include::api/school/search-schools.adoc[]
-include::api/school/search-one-school.adoc[]
-include::api/school/create-classroom.adoc[]
-include::api/school/enroll-class.adoc[]
-include::api/school/search-my-enroll.adoc[]
-include::api/school/search-enroll-list.adoc[]
+include::api/school/search-list-school.adoc[]
+include::api/school/search-detail-school.adoc[]
 
+
+[[School-Class-API]]
+== School Class API
+
+include::api/schoolclass/create-school-class.adoc[]
+
+
+[[School-User-API]]
+== School User API
+
+include::api/schooluser/search-my-class-students.adoc[]
+
+[[School-Apply-API]]
+== School Apply API
+
+include::api/schoolapply/create-school-apply.adoc[]

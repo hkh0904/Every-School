@@ -1,0 +1,10 @@
+[[search-my-class-students]]
+=== [교직원] 학급 학생 조회 API
+
+==== HTTP Request
+include::{snippets}/search-my-class-students/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-my-class-students/http-response.adoc[]
+include::{snippets}/search-my-class-students/response-fields.adoc[]

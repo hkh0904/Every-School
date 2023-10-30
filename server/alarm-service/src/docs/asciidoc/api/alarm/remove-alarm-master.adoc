@@ -1,0 +1,10 @@
+[[remove-alarm-master]]
+=== 알림 마스터 삭제 API
+
+==== HTTP Request
+include::{snippets}/remove-alarm-master/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/remove-alarm-master/http-response.adoc[]
+include::{snippets}/remove-alarm-master/response-fields.adoc[]

@@ -1,0 +1,10 @@
+[[remove-alarm]]
+=== 알림 삭제 API
+
+==== HTTP Request
+include::{snippets}/remove-alarm/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/remove-alarm/http-response.adoc[]
+include::{snippets}/remove-alarm/response-fields.adoc[]

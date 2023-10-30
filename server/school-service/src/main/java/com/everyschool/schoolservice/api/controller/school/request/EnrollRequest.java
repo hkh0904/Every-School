@@ -13,17 +13,15 @@ public class EnrollRequest {
     private String name;
     private int grade;
     private int classNum;
-    private int year;
-
-
+    private int schoolYear;
 
     @Builder
-    public EnrollRequest(String schoolName, String name, int grade, int classNum, int year, char type) {
+    private EnrollRequest(String schoolName, String name, int grade, int classNum, int schoolYear, char type) {
         this.schoolName = schoolName;
         this.name = name;
         this.grade = grade;
         this.classNum = classNum;
-        this.year = year;
+        this.schoolYear = schoolYear;
         this.type = type;
     }
 }
