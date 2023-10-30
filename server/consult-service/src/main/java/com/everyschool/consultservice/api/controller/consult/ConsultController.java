@@ -36,20 +36,4 @@ public class ConsultController {
 
         return ApiResponse.created(response);
     }
-
-    @PostMapping("/consult/schedule")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<Long> createConsultSchedule(@RequestBody @Valid CreateConsultScheduleRequest request) {
-
-        // TODO: 2023-10-24 상담 일정 등록
-        return ApiResponse.created(1L);
-    }
-
-    // TODO: 2023-10-24 상담 가능 일정 조회
-
-    // TODO: 2023-10-24 상담 상태 변경
-
-    // TODO: 2023-10-24 상담 삭제
-
-    // TODO: 2023-10-24 상담 결과 기록
 }
