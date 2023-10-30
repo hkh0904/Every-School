@@ -1,7 +1,8 @@
 package com.everyschool.chatservice.docs.chat;
 
 import com.everyschool.chatservice.api.controller.chat.ChatController;
-import com.everyschool.chatservice.api.controller.chat.request.CreateChatRoomRequest;
+import com.everyschool.chatservice.api.controller.chatroom.ChatRoomController;
+import com.everyschool.chatservice.api.controller.chatroom.request.CreateChatRoomRequest;
 import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.ChatRoomService;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
@@ -148,6 +149,6 @@ public class ChatControllerDocsTest extends RestDocsSupport {
 
     @Override
     protected Object initController() {
-        return new ChatController(chatRoomService);
+        return new ChatRoomController(chatRoomService);
     }
 }
