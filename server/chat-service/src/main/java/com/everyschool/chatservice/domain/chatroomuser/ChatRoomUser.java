@@ -34,19 +34,31 @@ public class ChatRoomUser extends BaseEntity {
     private Long userId;
     private boolean isAlarm;
     private int unreadCount;
+    @Column(length = 50)
+    @Size(max = 50)
+    private String lastContent;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
     @Builder
-    private ChatRoomUser(Long id, String chatRoomTitle, String socketTopic, Long userId, boolean isAlarm, int unreadCount, ChatRoom chatRoom) {
+    private ChatRoomUser(Long id, String chatRoomTitle, String socketTopic, Long userId, boolean isAlarm, int unreadCount, String lastContent, ChatRoom chatRoom) {
         this.id = id;
         this.chatRoomTitle = chatRoomTitle;
         this.socketTopic = socketTopic;
         this.userId = userId;
         this.isAlarm = isAlarm;
         this.unreadCount = unreadCount;
+        this.lastContent = lastContent;
         this.chatRoom = chatRoom;
+    }
+
+    public void updateUpdateChat(String lastContent) {
+        if (lastContent.length() >= 50) {
+            lastContent = lastContent.substring(0, 49);
+        }
+        this.lastContent = lastContent;
+        this.unreadCount++;
     }
 }
