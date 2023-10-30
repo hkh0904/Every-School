@@ -24,13 +24,13 @@ public class Report extends BaseEntity {
     private String result;
 
     @Column(nullable = false)
-    private Integer statusCodeId;
+    private Integer progressStatusId;
 
     @Column(nullable = false, updatable = false)
     private Integer schoolYear;
 
     @Column(nullable = false, updatable = false)
-    private Integer codeId;
+    private Integer typeId;
 
     @Column(nullable = false, updatable = false)
     private Long schoolId;
@@ -40,16 +40,16 @@ public class Report extends BaseEntity {
 
     protected Report() {
         super();
-        this.statusCodeId = 1;
+        this.progressStatusId = 1;
     }
 
     @Builder
-    private Report(String title, ReportContent content, Integer schoolYear, Integer codeId, Long schoolId, Long userId) {
+    private Report(String title, ReportContent content, Integer schoolYear, Integer typeId, Long schoolId, Long userId) {
         this();
         this.title = title;
         this.content = content;
         this.schoolYear = schoolYear;
-        this.codeId = codeId;
+        this.typeId = typeId;
         this.schoolId = schoolId;
         this.userId = userId;
     }
