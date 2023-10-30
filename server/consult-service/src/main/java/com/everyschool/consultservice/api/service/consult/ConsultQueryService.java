@@ -29,7 +29,7 @@ public class ConsultQueryService {
         List<Consult> findConsults = consultQueryRepository.findByParentId(userInfo.getUserId());
 
         return findConsults.stream()
-            .map(ConsultResponse::of)
+            .map(consult -> ConsultResponse.of(consult, userInfo.getUserType()))
             .collect(Collectors.toList());
     }
 

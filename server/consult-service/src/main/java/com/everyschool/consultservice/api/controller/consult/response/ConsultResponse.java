@@ -26,12 +26,12 @@ public class ConsultResponse {
         this.consultDate = consultDate;
     }
 
-    public static ConsultResponse of(Consult consult) {
+    public static ConsultResponse of(Consult consult, char userType) {
         return ConsultResponse.builder()
             .consultId(consult.getId())
             .typeId(consult.getTypeId())
             .progressStatusId(consult.getProgressStatusId())
-            .title(consult.getTitle().getParentTitle())
+            .title(userType == 'T' ? consult.getTitle().getTeacherTitle() : consult.getTitle().getParentTitle())
             .consultDate(consult.getConsultDateTime())
             .build();
     }
