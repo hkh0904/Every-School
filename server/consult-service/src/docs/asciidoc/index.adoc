@@ -16,6 +16,4 @@ include::overview.adoc[]
 
 include::api/consult/create-consult.adoc[]
 include::api/consult/create-consult-schedule.adoc[]
-// include::api/consult/search-board.adoc[]
-// include::api/consult/edit-board.adoc[]
-// include::api/consult/delete-board.adoc[]
+include::api/consult/search-consults.adoc[]
