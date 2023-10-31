@@ -1,5 +1,8 @@
 package com.everyschool.reportservice.domain.report;
 
+import lombok.Getter;
+
+@Getter
 public enum ReportType {
 
     ETC(5000, "기타");
