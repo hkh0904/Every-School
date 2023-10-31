@@ -44,6 +44,8 @@ dependencies:
   flutter_chat_bubble: ^2.0.2
   provider: ^6.0.5
   file_picker: ^6.0.0
+  agora_rtc_engine: ^6.2.4
+  permission_handler: ^9.2.0
 
 dev_dependencies:
   flutter_test:
