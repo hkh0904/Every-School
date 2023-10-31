@@ -6,6 +6,11 @@ class ChatStore extends ChangeNotifier {
 
   List<Message> get messages => _messages;
 
+  void clearMessages() {
+    _messages.clear();
+    notifyListeners();
+  }
+
   addNewMessage(Message message) {
     _messages.add(message);
     notifyListeners();

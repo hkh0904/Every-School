@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:everyschool/page/community/postlist_page.dart';
 
 class CommunityBoard extends StatefulWidget {
   const CommunityBoard({super.key});
@@ -29,17 +30,32 @@ class _CommunityBoardState extends State<CommunityBoard> {
         // padding: EdgeInsets.all(0),
         margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            '학교 공지사항',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PostlistPage()),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: const [
+                Text(
+                  '자유 게시판 새글',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                ),
+                Text('더보기', style: TextStyle(fontSize: 15, color: Colors.grey)),
+              ],
+            ),
           ),
           Container(
               height: 200,
               margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.grey.shade400, // 테두리 색상
-                  width: 1, // 테두리 두께
+                  color: Colors.grey.shade400,
+                  width: 1,
                 ),
                 borderRadius: BorderRadius.circular(8),
               ),

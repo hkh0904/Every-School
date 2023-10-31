@@ -17,14 +17,14 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/consult-service/v1/consults")
+@RequestMapping("/consult-service/v1/schools/{schoolId}/consults")
 public class ConsultQueryController {
 
     private final ConsultQueryService consultQueryService;
     private final TokenUtils tokenUtils;
 
     @GetMapping
-    public ApiResponse<List<ConsultResponse>> searchConsults() {
+    public ApiResponse<List<ConsultResponse>> searchConsults(@PathVariable String schoolId) {
         log.debug("call ConsultQueryController#searchConsults");
 
         String userKey = tokenUtils.getUserKey();
@@ -37,7 +37,7 @@ public class ConsultQueryController {
     }
 
     @GetMapping("/{consultId}")
-    public ApiResponse<ConsultDetailResponse> searchConsult(@PathVariable Long consultId) {
+    public ApiResponse<ConsultDetailResponse> searchConsult(@PathVariable String schoolId, @PathVariable Long consultId) {
         log.debug("call ConsultQueryController#searchConsult");
         log.debug("consultId={}", consultId);
 
