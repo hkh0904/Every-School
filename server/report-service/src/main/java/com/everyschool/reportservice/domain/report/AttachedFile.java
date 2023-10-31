@@ -30,5 +30,6 @@ public class AttachedFile extends BaseEntity {
         this();
         this.uploadFile = uploadFile;
         this.report = report;
+        this.report.getFiles().add(this);
     }
 }

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,6 +40,9 @@ public class Report extends BaseEntity {
     @Column(nullable = false, updatable = false)
     private Long userId;
 
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttachedFile> files = new ArrayList<>();
+
     protected Report() {
         super();
         this.progressStatusId = 1;
@@ -52,5 +57,26 @@ public class Report extends BaseEntity {
         this.typeId = typeId;
         this.schoolId = schoolId;
         this.userId = userId;
+    }
+
+    //== 연관관계 편의 메서드 ==//
+    public static Report createReport(String title, ReportContent content, int schoolYear, int typeId, Long schoolId, Long userId, List<UploadFile> uploadFiles) {
+        Report report = Report.builder()
+            .title(title)
+            .content(content)
+            .schoolYear(schoolYear)
+            .typeId(typeId)
+            .schoolId(schoolId)
+            .userId(userId)
+            .build();
+
+        for (UploadFile uploadFile : uploadFiles) {
+            AttachedFile.builder()
+                .uploadFile(uploadFile)
+                .report(report)
+                .build();
+        }
+
+        return report;
     }
 }
