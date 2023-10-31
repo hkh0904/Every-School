@@ -31,7 +31,6 @@ class _ReportListPageState extends State<ReportListPage> {
             '나의 신고내역',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
           ),
