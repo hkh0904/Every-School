@@ -8,7 +8,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
-  final username = '김휘낭';
+  final username = '하하';
 
   @override
   State<ChatPage> createState() => _ChatPageState();
