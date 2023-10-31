@@ -6,7 +6,6 @@ import com.everyschool.reportservice.api.client.response.UserInfo;
 import com.everyschool.reportservice.api.controller.report.response.CreateReportResponse;
 import com.everyschool.reportservice.api.service.report.dto.CreateReportDto;
 import com.everyschool.reportservice.domain.report.ReportType;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +63,4 @@ class ReportServiceTest extends IntegrationTestSupport {
     private String getUUID() {
         return UUID.randomUUID().toString();
     }
-
 }
