@@ -1,3 +1,4 @@
+import 'package:everyschool/page/report/report_detail.dart';
 import 'package:flutter/material.dart';
 
 class ReportCard extends StatefulWidget {
@@ -41,9 +42,12 @@ class _ReportCardState extends State<ReportCard> {
         child: Column(
           children: List<dynamic>.from(widget.reportingList).map((item) {
             return GestureDetector(
-              // onTap: () {
-              //   ConsultingCardDetail(item).cardDetail(context);
-              // },
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ReportDetail()));
+              },
               child: Container(
                 height: 100,
                 margin: EdgeInsets.fromLTRB(0, 0, 0, 25),

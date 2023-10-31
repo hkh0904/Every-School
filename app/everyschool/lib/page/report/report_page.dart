@@ -93,9 +93,9 @@ class _ReportPageState extends State<ReportPage> {
       appBar: AppBar(
         title: Text('신고하기',
             style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w700,
-                fontSize: 18)),
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+            )),
         centerTitle: true,
         backgroundColor: Colors.grey[50],
         elevation: 0,
