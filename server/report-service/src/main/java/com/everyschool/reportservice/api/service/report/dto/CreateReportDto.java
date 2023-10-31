@@ -1,5 +1,6 @@
 package com.everyschool.reportservice.api.service.report.dto;
 
+import com.everyschool.reportservice.domain.report.ReportContent;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,5 +26,16 @@ public class CreateReportDto {
         this.what = what;
         this.how = how;
         this.why = why;
+    }
+
+    public ReportContent toContent() {
+        return ReportContent.builder()
+            .reportWho(this.who)
+            .reportWhen(this.when)
+            .reportWhere(this.where)
+            .reportWhat(this.what)
+            .reportHow(this.how)
+            .reportWhy(this.why)
+            .build();
     }
 }
