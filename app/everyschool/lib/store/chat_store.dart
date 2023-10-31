@@ -1,15 +1,8 @@
-import 'package:everyschool/page/chat/message_model.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class ChatStore extends ChangeNotifier {
   final List<Message> _messages = [];
-
-  List<Message> get messages => _messages;
-
-  void clearMessages() {
-    _messages.clear();
-    notifyListeners();
-  }
 
   addNewMessage(Message message) {
     _messages.add(message);
