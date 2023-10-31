@@ -37,6 +37,7 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
     @Test
     void searchMyCalls() throws Exception {
         CallResponse r1 = CallResponse.builder()
+                .callId(1L)
                 .senderName("신성주")
                 .receiverName("임우택 선생님")
                 .sender("O")
@@ -48,6 +49,7 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                 .build();
 
         CallResponse r2 = CallResponse.builder()
+                .callId(2L)
                 .senderName("신성주")
                 .receiverName("임우택 선생님")
                 .sender("O")
@@ -82,6 +84,8 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                                         .description("메시지"),
                                 fieldWithPath("data").type(JsonFieldType.ARRAY)
                                         .description("응답 데이터"),
+                                fieldWithPath("data[].callId").type(JsonFieldType.NUMBER)
+                                        .description("통화 ID"),
                                 fieldWithPath("data[].senderName").type(JsonFieldType.STRING)
                                         .description("발신자"),
                                 fieldWithPath("data[].receiverName").type(JsonFieldType.STRING)
