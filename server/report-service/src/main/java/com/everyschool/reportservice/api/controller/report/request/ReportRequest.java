@@ -1,48 +1,54 @@
 package com.everyschool.reportservice.api.controller.report.request;
 
+import com.everyschool.reportservice.api.service.report.dto.CreateReportDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class ReportRequest {
-    private int codeId;
-    private int schoolId;
-//    private int userId;
 
-    private int year;
-
-    private String reportTitle;
-    private String reportWho;
-    private String reportWhen;
-    private String reportWhere;
-    private String reportWhat;
-    private String reportHow;
-    private String reportWhy;
-
-    private List<FileRequest> uploadFiles;
+    private Integer typeId;
+    private String title;
+    private String description;
+    private String who;
+    private String when;
+    private String where;
+    private String what;
+    private String how;
+    private String why;
+    private List<MultipartFile> files = new ArrayList<>();
 
     @Builder
-    public ReportRequest(int codeId, int schoolId, int year, String reportTitle, String reportWho,
-                         String reportWhen, String reportWhere, String reportWhat, String reportHow, String reportWhy,
-                         List<FileRequest> uploadFiles) {
-        this.codeId = codeId;
-        this.schoolId = schoolId;
-        this.year = year;
-        this.reportTitle = reportTitle;
-        this.reportWho = reportWho;
-        this.reportWhen = reportWhen;
-        this.reportWhere = reportWhere;
-        this.reportWhat = reportWhat;
-        this.reportHow = reportHow;
-        this.reportWhy = reportWhy;
-        this.uploadFiles = uploadFiles;
+    private ReportRequest(Integer typeId, String title, String description, String who, String when, String where, String what, String how, String why, List<MultipartFile> files) {
+        this.typeId = typeId;
+        this.title = title;
+        this.description = description;
+        this.who = who;
+        this.when = when;
+        this.where = where;
+        this.what = what;
+        this.how = how;
+        this.why = why;
+        this.files = files;
     }
 
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
+    public CreateReportDto toDto() {
+        return CreateReportDto.builder()
+            .typeId(this.typeId)
+            .title(this.title)
+            .description(this.description)
+            .who(this.who)
+            .when(this.when)
+            .where(this.where)
+            .what(this.what)
+            .how(this.how)
+            .why(this.why)
+            .build();
+    }
 }
