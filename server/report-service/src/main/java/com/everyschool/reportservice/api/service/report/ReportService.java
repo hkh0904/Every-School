@@ -27,7 +27,7 @@ public class ReportService {
 
         ReportContent content = dto.toContent();
 
-        Report report = Report.createReport(dto.getTitle(), content, 2023, dto.getTypeId(), schoolId, userInfo.getUserId(), uploadFiles);
+        Report report = Report.createReport(dto.getTitle(), dto.getDescription(), content, 2023, dto.getTypeId(), schoolId, userInfo.getUserId(), uploadFiles);
 
         Report savedReport = reportRepository.save(report);
 

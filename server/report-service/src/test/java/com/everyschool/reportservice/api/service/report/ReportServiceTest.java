@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.*;
 
@@ -44,6 +45,7 @@ class ReportServiceTest extends IntegrationTestSupport {
         CreateReportDto dto = CreateReportDto.builder()
             .typeId(ReportType.ETC.getCode())
             .title("리온이가 너무 귀여워요!")
+            .description("치명적이에요!")
             .who("이리온")
             .when("2023-10-31 10:30")
             .where("우리집")
@@ -56,7 +58,7 @@ class ReportServiceTest extends IntegrationTestSupport {
         CreateReportResponse response = reportService.createReport(getUUID(), 10000L, dto, new ArrayList<>());
 
         //then
-        Assertions.assertThat(response.getTitle()).isEqualTo("리온이가 너무 귀여워요!");
+        assertThat(response.getTitle()).isEqualTo("리온이가 너무 귀여워요!");
     }
 
     private String getUUID() {

@@ -19,6 +19,9 @@ public class Report extends BaseEntity {
     @Column(nullable = false, updatable = false, length = 100)
     private String title;
 
+    @Column(nullable = false, updatable = false, length = 500)
+    private String description;
+
     @Embedded
     private ReportContent content;
 
@@ -49,9 +52,10 @@ public class Report extends BaseEntity {
     }
 
     @Builder
-    private Report(String title, ReportContent content, Integer schoolYear, Integer typeId, Long schoolId, Long userId) {
+    private Report(String title, String description, ReportContent content, Integer schoolYear, Integer typeId, Long schoolId, Long userId) {
         this();
         this.title = title;
+        this.description = description;
         this.content = content;
         this.schoolYear = schoolYear;
         this.typeId = typeId;
@@ -60,9 +64,11 @@ public class Report extends BaseEntity {
     }
 
     //== 연관관계 편의 메서드 ==//
-    public static Report createReport(String title, ReportContent content, int schoolYear, int typeId, Long schoolId, Long userId, List<UploadFile> uploadFiles) {
+
+    public static Report createReport(String title, String description, ReportContent content, int schoolYear, int typeId, Long schoolId, Long userId, List<UploadFile> uploadFiles) {
         Report report = Report.builder()
             .title(title)
+            .description(description)
             .content(content)
             .schoolYear(schoolYear)
             .typeId(typeId)
