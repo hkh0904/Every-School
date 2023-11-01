@@ -5,9 +5,9 @@ import com.everyschool.reportservice.api.client.UserServiceClient;
 import com.everyschool.reportservice.api.client.response.StudentInfo;
 import com.everyschool.reportservice.api.client.response.UserInfo;
 import com.everyschool.reportservice.api.controller.FileStore;
+import com.everyschool.reportservice.api.controller.report.response.MyReportResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
-import com.everyschool.reportservice.domain.report.AttachedFile;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.everyschool.reportservice.domain.report.Report;
 import com.everyschool.reportservice.domain.report.repository.ReportQueryRepository;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -58,6 +57,14 @@ public class ReportQueryService {
             .count(count)
             .reports(reports)
             .build();
+    }
+
+    public List<MyReportResponse> searchReports(String userKey) {
+        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
+
+        List<MyReportResponse> responses = reportQueryRepository.findByUserId(userInfo.getUserId());
+
+        return responses;
     }
 
     public ReportDetailResponse searchReport(Long reportId) {
