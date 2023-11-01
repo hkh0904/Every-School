@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Chat {
+    @Transient
+    public static final String SEQUENCE_NAME = "chat_sequence";
 
     @Id
     @Field("chat_id")

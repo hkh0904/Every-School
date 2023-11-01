@@ -2,7 +2,7 @@ package com.everyschool.chatservice.domain.chatroom.repository;
 
 import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.api.controller.chat.response.ChatRoomListResponse;
-import com.everyschool.chatservice.domain.MongoSeq;
+import com.everyschool.chatservice.domain.mongo.MongoSeq;
 import com.everyschool.chatservice.domain.chat.Chat;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
