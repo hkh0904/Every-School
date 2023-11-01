@@ -23,3 +23,5 @@ include::api/board/search-notice-boards.adoc[]
 include::api/board/search-communication-boards.adoc[]
 
 include::api/board/search-free-board.adoc[]
+include::api/board/search-notice-board.adoc[]
+include::api/board/search-communication-board.adoc[]
