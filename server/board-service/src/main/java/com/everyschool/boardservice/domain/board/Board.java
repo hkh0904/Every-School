@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -44,10 +46,14 @@ public class Board extends BaseEntity {
     @Column(nullable = false)
     private Integer commentPeopleNum;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AttachedFile> files;
+
     protected Board() {
         super();
         this.hit = 0;
         this.commentPeopleNum = 0;
+        this.files = new ArrayList<>();
     }
 
     @Builder
