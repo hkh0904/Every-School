@@ -1,11 +1,14 @@
 package com.everyschool.boardservice.docs.board;
 
+import com.everyschool.boardservice.api.SliceResponse;
 import com.everyschool.boardservice.api.controller.board.BoardQueryController;
 import com.everyschool.boardservice.api.controller.board.response.*;
 import com.everyschool.boardservice.api.service.board.BoardQueryService;
 import com.everyschool.boardservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
@@ -144,12 +147,15 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
     @DisplayName("자유 게시판 목록 조회 API")
     @Test
     void searchFreeBoards() throws Exception {
-        FreeBoardResponse response3 = createFreeBoardResponse(3L, "자유 게시판 제목 3", "자유 게시판 내용 3", 10, "s3ImageUrl");
-        FreeBoardResponse response2 = createFreeBoardResponse(2L, "자유 게시판 제목 2", "자유 게시판 내용 2", 0, "s3ImageUrl");
-        FreeBoardResponse response1 = createFreeBoardResponse(1L, "자유 게시판 제목 1", "자유 게시판 내용 1", 3, "");
+        BoardResponse response3 = createBoardResponse(3L, "자유 게시판 제목 3", "자유 게시판 내용 3", 10);
+        BoardResponse response2 = createBoardResponse(2L, "자유 게시판 제목 2", "자유 게시판 내용 2", 0);
+        BoardResponse response1 = createBoardResponse(1L, "자유 게시판 제목 1", "자유 게시판 내용 1", 3);
 
-        given(boardQueryService.searchFreeBoards(anyLong()))
-            .willReturn(List.of(response1, response2, response3));
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        SliceImpl<BoardResponse> responses = new SliceImpl<>(List.of(response1, response2, response3), pageRequest, false);
+        SliceResponse<BoardResponse> response = new SliceResponse<>(responses);
+        given(boardQueryService.searchFreeBoards(anyLong(), any()))
+            .willReturn(response);
 
         mockMvc.perform(
                 get("/board-service/v1/schools/{schoolId}/boards/frees", 1L)
@@ -165,20 +171,26 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("상태"),
                     fieldWithPath("message").type(JsonFieldType.STRING)
                         .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
-                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
-                        .description("게시물 id"),
-                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
-                        .description("게시물 제목"),
-                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
-                        .description("게시물 내용"),
-                    fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
-                        .description("게시물 댓글수"),
-                    fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
-                        .description("게시물 작성일"),
-                    fieldWithPath("data[].imageUrl").type(JsonFieldType.STRING)
-                        .description("게시물 대표 이미지 url")
+                    fieldWithPath("data.content[].boardId").type(JsonFieldType.NUMBER)
+                        .description("게시글 id"),
+                    fieldWithPath("data.content[].title").type(JsonFieldType.STRING)
+                        .description("게시글 제목"),
+                    fieldWithPath("data.content[].content").type(JsonFieldType.STRING)
+                        .description("게시글 내용"),
+                    fieldWithPath("data.content[].commentCount").type(JsonFieldType.NUMBER)
+                        .description("게시글에 달린 댓글수"),
+                    fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("게시글 작성일"),
+                    fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
+                        .description("현재 페이지 번호"),
+                    fieldWithPath("data.size").type(JsonFieldType.NUMBER)
+                        .description("데이터 요청 갯수"),
+                    fieldWithPath("data.isFirst").type(JsonFieldType.BOOLEAN)
+                        .description("첫 페이지 여부"),
+                    fieldWithPath("data.isLast").type(JsonFieldType.BOOLEAN)
+                        .description("마지막 페이지 여부")
                 )
             ));
     }
@@ -186,11 +198,14 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
     @DisplayName("공지사항 목록 조회 API")
     @Test
     void searchNoticeBoards() throws Exception {
-        NoticeResponse response2 = createNoticeResponse(2L, "공지사항 제목 2", "공지사항 내용 2", 10);
-        NoticeResponse response1 = createNoticeResponse(1L, "공지사항 제목 1", "공지사항 내용 1", 0);
+        BoardResponse response2 = createBoardResponse(2L, "공지사항 제목 2", "공지사항 내용 2", 10);
+        BoardResponse response1 = createBoardResponse(1L, "공지사항 제목 1", "공지사항 내용 1", 0);
 
-        given(boardQueryService.searchNoticeBoards(anyLong()))
-            .willReturn(List.of(response1, response2));
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        SliceImpl<BoardResponse> responses = new SliceImpl<>(List.of(response1, response2), pageRequest, false);
+        SliceResponse<BoardResponse> response = new SliceResponse<>(responses);
+        given(boardQueryService.searchNoticeBoards(anyLong(), any()))
+            .willReturn(response);
 
         mockMvc.perform(
                 get("/board-service/v1/schools/{schoolId}/boards/notices", 1L)
@@ -206,18 +221,26 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("상태"),
                     fieldWithPath("message").type(JsonFieldType.STRING)
                         .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
-                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
-                        .description("게시물 id"),
-                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
-                        .description("게시물 제목"),
-                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
-                        .description("게시물 내용"),
-                    fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
-                        .description("게시물 댓글수"),
-                    fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
-                        .description("게시물 작성일")
+                    fieldWithPath("data.content[].boardId").type(JsonFieldType.NUMBER)
+                        .description("게시글 id"),
+                    fieldWithPath("data.content[].title").type(JsonFieldType.STRING)
+                        .description("게시글 제목"),
+                    fieldWithPath("data.content[].content").type(JsonFieldType.STRING)
+                        .description("게시글 내용"),
+                    fieldWithPath("data.content[].commentCount").type(JsonFieldType.NUMBER)
+                        .description("게시글에 달린 댓글수"),
+                    fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("게시글 작성일"),
+                    fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
+                        .description("현재 페이지 번호"),
+                    fieldWithPath("data.size").type(JsonFieldType.NUMBER)
+                        .description("데이터 요청 갯수"),
+                    fieldWithPath("data.isFirst").type(JsonFieldType.BOOLEAN)
+                        .description("첫 페이지 여부"),
+                    fieldWithPath("data.isLast").type(JsonFieldType.BOOLEAN)
+                        .description("마지막 페이지 여부")
                 )
             ));
     }
@@ -225,11 +248,14 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
     @DisplayName("가정통신문 목록 조회 API")
     @Test
     void searchCommunicationBoards() throws Exception {
-        CommunicationResponse response2 = createCommunicationResponse(2L, "가정통신문 제목 2", "가정통신문 내용 2", 10);
-        CommunicationResponse response1 = createCommunicationResponse(1L, "가정통신문 제목 1", "가정통신문 내용 1", 0);
+        BoardResponse response2 = createBoardResponse(2L, "가정통신문 제목 2", "가정통신문 내용 2", 10);
+        BoardResponse response1 = createBoardResponse(1L, "가정통신문 제목 1", "가정통신문 내용 1", 0);
 
-        given(boardQueryService.searchCommunicationBoards(anyLong()))
-            .willReturn(List.of(response1, response2));
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        SliceImpl<BoardResponse> responses = new SliceImpl<>(List.of(response1, response2), pageRequest, false);
+        SliceResponse<BoardResponse> response = new SliceResponse<>(responses);
+        given(boardQueryService.searchCommunicationBoards(anyLong(), any()))
+            .willReturn(response);
 
         mockMvc.perform(
                 get("/board-service/v1/schools/{schoolId}/boards/communications", 1L)
@@ -245,50 +271,37 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("상태"),
                     fieldWithPath("message").type(JsonFieldType.STRING)
                         .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
-                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
-                        .description("게시물 id"),
-                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
-                        .description("게시물 제목"),
-                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
-                        .description("게시물 내용"),
-                    fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
-                        .description("게시물 댓글수"),
-                    fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
-                        .description("게시물 작성일")
+                    fieldWithPath("data.content[].boardId").type(JsonFieldType.NUMBER)
+                        .description("게시글 id"),
+                    fieldWithPath("data.content[].title").type(JsonFieldType.STRING)
+                        .description("게시글 제목"),
+                    fieldWithPath("data.content[].content").type(JsonFieldType.STRING)
+                        .description("게시글 내용"),
+                    fieldWithPath("data.content[].commentCount").type(JsonFieldType.NUMBER)
+                        .description("게시글에 달린 댓글수"),
+                    fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("게시글 작성일"),
+                    fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
+                        .description("현재 페이지 번호"),
+                    fieldWithPath("data.size").type(JsonFieldType.NUMBER)
+                        .description("데이터 요청 갯수"),
+                    fieldWithPath("data.isFirst").type(JsonFieldType.BOOLEAN)
+                        .description("첫 페이지 여부"),
+                    fieldWithPath("data.isLast").type(JsonFieldType.BOOLEAN)
+                        .description("마지막 페이지 여부")
                 )
             ));
     }
 
-    private CommunicationResponse createCommunicationResponse(Long boardId, String title, String content, int commentCount) {
-        return CommunicationResponse.builder()
+    private BoardResponse createBoardResponse(Long boardId, String title, String content, int commentCount) {
+        return BoardResponse.builder()
             .boardId(boardId)
             .title(title)
             .content(content)
             .commentCount(commentCount)
             .createdDate(LocalDateTime.now())
-            .build();
-    }
-
-    private NoticeResponse createNoticeResponse(Long boardId, String title, String content, int commentCount) {
-        return NoticeResponse.builder()
-            .boardId(boardId)
-            .title(title)
-            .content(content)
-            .commentCount(commentCount)
-            .createdDate(LocalDateTime.now())
-            .build();
-    }
-
-    private FreeBoardResponse createFreeBoardResponse(Long boardId, String title, String content, int commentCount, String imageUrl) {
-        return FreeBoardResponse.builder()
-            .boardId(boardId)
-            .title(title)
-            .content(content)
-            .commentCount(commentCount)
-            .createdDate(LocalDateTime.now())
-            .imageUrl(imageUrl)
             .build();
     }
 
