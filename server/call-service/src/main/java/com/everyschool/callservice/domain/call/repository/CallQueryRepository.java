@@ -23,6 +23,7 @@ public class CallQueryRepository {
         return queryFactory
                 .select(Projections.constructor(
                         CallResponse.class,
+                        call.id,
                         call.senderName,
                         call.receiverName,
                         call.sender,
@@ -43,6 +44,7 @@ public class CallQueryRepository {
         return queryFactory
                 .select(Projections.constructor(
                         CallResponse.class,
+                        call.id,
                         call.senderName,
                         call.receiverName,
                         call.sender,
@@ -57,5 +59,26 @@ public class CallQueryRepository {
                         call.otherUserId.eq(userId)
                 )
                 .fetch();
+    }
+
+    public CallResponse findById(Long userId) {
+        return queryFactory
+                .select(Projections.constructor(
+                        CallResponse.class,
+                        call.id,
+                        call.senderName,
+                        call.receiverName,
+                        call.sender,
+                        call.startDateTime,
+                        call.endDateTime,
+                        call.uploadFileName,
+                        call.storeFileName,
+                        call.isBad
+                ))
+                .from(call)
+                .where(
+                        call.otherUserId.eq(userId)
+                )
+                .fetchOne();
     }
 }

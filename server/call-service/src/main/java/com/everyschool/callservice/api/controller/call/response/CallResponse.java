@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 public class CallResponse {
 
+    private Long callId;
     private String senderName;
     private String receiverName;
     private String sender;
@@ -19,8 +20,9 @@ public class CallResponse {
     private Boolean isBad;
 
     @Builder
-    public CallResponse(String senderName, String receiverName, String sender, LocalDateTime startDateTime,
+    public CallResponse(Long callId, String senderName, String receiverName, String sender, LocalDateTime startDateTime,
                         LocalDateTime endDateTime, String uploadFileName, String storeFileName, Boolean isBad) {
+        this.callId = callId;
         this.senderName = senderName;
         this.receiverName = receiverName;
         this.sender = sender;
@@ -33,6 +35,7 @@ public class CallResponse {
 
     public static CallResponse of(Call call) {
         return CallResponse.builder()
+                .callId(call.getId())
                 .senderName(call.getSenderName())
                 .receiverName(call.getReceiverName())
                 .sender(call.getSender())
