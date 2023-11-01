@@ -21,6 +21,9 @@ public class Comment extends BaseEntity {
     @Column(nullable = false, updatable = false)
     private String content;
 
+    @Column(updatable = false)
+    private Integer anonymousNum;
+
     @Column(nullable = false, updatable = false)
     private Integer depth;
 
@@ -36,9 +39,10 @@ public class Comment extends BaseEntity {
     private Comment parent;
 
     @Builder
-    private Comment(String content, Integer depth, Long userId, Board board, Comment parent) {
+    private Comment(String content, Integer anonymousNum, Integer depth, Long userId, Board board, Comment parent) {
         super();
         this.content = content;
+        this.anonymousNum = anonymousNum;
         this.depth = depth;
         this.userId = userId;
         this.board = board;
