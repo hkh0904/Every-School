@@ -63,6 +63,7 @@ public class FilterWordService {
 
         ChatFilterResponse response = ChatFilterResponse.builder()
                 .isBad(false)
+                .reason("")
                 .build();
         getFilterResultResponse(reasons, isBad, chat, response);
         return response;
@@ -115,3 +116,6 @@ public class FilterWordService {
         return filterWordRepository.save(filterWord);
     }
 }
+
+
+// TODO: 2023-11-01 이거 임시 커밋함 해야함

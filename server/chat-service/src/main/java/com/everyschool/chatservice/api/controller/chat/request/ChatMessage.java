@@ -8,17 +8,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChatMessage {
     private Long chatRoomId;
-    private Long senderUserKey;
+    private String senderUserKey;
     private String message;
 
     @Builder
-    private ChatMessage(Long chatRoomId, Long senderUserKey, String message) {
+    private ChatMessage(Long chatRoomId, String senderUserKey, String message) {
         this.chatRoomId = chatRoomId;
         this.senderUserKey = senderUserKey;
         this.message = message;
     }
-
-    public String getRoomTopic() {
-        return "CHATROOM_TOPIC_" + this.chatRoomId;
-    }
 }
+
+
+// TODO: 2023-11-01 이거 임시 커밋함 해야함

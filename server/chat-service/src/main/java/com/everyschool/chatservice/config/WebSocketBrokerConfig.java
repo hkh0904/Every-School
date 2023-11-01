@@ -1,6 +1,8 @@
 package com.everyschool.chatservice.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -9,7 +11,10 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 
 @Configuration
 @EnableWebSocketMessageBroker
+@RequiredArgsConstructor
 public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer  {
+
+    private final StompHandler stompHandler;
 
     /**
      *
@@ -27,9 +32,17 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer  
     }
 
     @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        registration.interceptors(stompHandler);
+    }
+
+    @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
         registry.setMessageSizeLimit(160 * 64 * 1024);
         registry.setSendTimeLimit(100 * 10000);
         registry.setSendBufferSizeLimit(3 * 512 * 1024);
     }
 }
+
+
+// TODO: 2023-11-01 이거 임시 커밋함 해야함

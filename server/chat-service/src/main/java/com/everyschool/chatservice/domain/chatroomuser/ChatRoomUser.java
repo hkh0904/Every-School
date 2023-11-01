@@ -61,4 +61,11 @@ public class ChatRoomUser extends BaseEntity {
         this.lastContent = lastContent;
         this.unreadCount++;
     }
+
+    public void read() {
+        this.unreadCount = 0;
+    }
 }
+
+
+// TODO: 2023-11-01 이거 임시 커밋함 해야함

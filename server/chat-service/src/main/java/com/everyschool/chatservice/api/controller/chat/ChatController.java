@@ -25,17 +25,17 @@ public class ChatController {
      * 채팅 전송
      *
      * @param message
-     * @param roomTopic
      * @return
      */
-    @MessageMapping("/chat/message")
-    @SendTo("/topic/{roomTopic}")
-    public void sendMessage(ChatMessage message,
-                            @DestinationVariable(value = "roomTopic") String roomTopic) {
+    @MessageMapping("/chat.send")
+//    @SendTo("/sub/{roomTopic}")
+    public void sendMessage(ChatMessage message) {
 
-        roomTopic = message.getRoomTopic();
-        template.convertAndSend("/sub/chat/room" + roomTopic, message);
-        // TODO: 2023-10-23 메세지 전송
-        // TODO: 2023-10-23 회원 정보 요청하기
+        Long roomTopic = message.getChatRoomId();
+        // TODO: 2023-10-31 메세지 전송 전 가공하기
+        template.convertAndSend("/sub/" + roomTopic, message);
     }
 }
+
+
+// TODO: 2023-11-01 이거 임시 커밋함 해야함
