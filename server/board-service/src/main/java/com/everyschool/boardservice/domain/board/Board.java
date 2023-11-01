@@ -46,6 +46,9 @@ public class Board extends BaseEntity {
     @Column(nullable = false)
     private Integer commentPeopleNum;
 
+    @Column(nullable = false)
+    private Integer commentCount;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AttachedFile> files;
 
@@ -53,6 +56,7 @@ public class Board extends BaseEntity {
         super();
         this.hit = 0;
         this.commentPeopleNum = 0;
+        this.commentCount = 0;
         this.files = new ArrayList<>();
     }
 
