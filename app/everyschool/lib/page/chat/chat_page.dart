@@ -1,8 +1,8 @@
 import 'package:everyschool/api/stomp_client.dart';
-import 'package:everyschool/page/chat/chat_list_student.dart';
-import 'package:everyschool/page/chat/chat_list_teacher.dart';
+import 'package:everyschool/page/chat/chat_controller.dart';
+import 'package:everyschool/page/chat/chat_room.dart';
 import 'package:flutter/material.dart';
-import 'package:stomp_dart_client/stomp.dart';
+import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -14,8 +14,6 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
-    // 소켓 통신 시작
-    SocketHandler().stompClient.activate();
     super.initState();
   }
 
@@ -28,7 +26,7 @@ class _ChatPageState extends State<ChatPage> {
         child: Text('하하'),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ChatListStudent()));
+              MaterialPageRoute(builder: (context) => const ChatRoom()));
         },
       )),
     );

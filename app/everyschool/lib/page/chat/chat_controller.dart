@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 
 class ChatController extends ChangeNotifier {
-  final List<Chat> chatList = [];
+  List<Chat> chatList = [];
 
   /* Controllers */
   late final ScrollController scrollController = ScrollController();
@@ -14,11 +14,8 @@ class ChatController extends ChangeNotifier {
 
   /* Intents */
   Future<void> onFieldSubmitted() async {
+    print(1);
     if (!isTextFieldEnable) return;
-
-    SocketHandler()
-        .stompClient
-        .send(destination: '', body: textEditingController.text, headers: {});
 
     // 2. 스크롤 최적화 위치
     // 가장 위에 스크롤 된 상태에서 채팅을 입력했을 때 최근 submit한 채팅 메세지가 보이도록
@@ -28,8 +25,16 @@ class ChatController extends ChangeNotifier {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
+    print(2);
+    textEditingController.clear();
+    print(3);
 
-    textEditingController.text = '';
+    notifyListeners();
+    print(4);
+  }
+
+  void setChatList(message) {
+    chatList = [message];
     notifyListeners();
   }
 
@@ -40,6 +45,7 @@ class ChatController extends ChangeNotifier {
   void addNewMessage(Chat message) {
     chatList.add(message);
     notifyListeners();
+    print(chatList);
   }
 
   /* Getters */
