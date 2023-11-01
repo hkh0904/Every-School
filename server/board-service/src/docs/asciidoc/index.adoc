@@ -14,17 +14,14 @@ include::overview.adoc[]
 [[Board-API]]
 == Board API
 
-include::api/board/create-board.adoc[]
-include::api/board/search-board-list.adoc[]
-include::api/board/search-board.adoc[]
-include::api/board/edit-board.adoc[]
-include::api/board/delete-board.adoc[]
+include::api/board/search-new-free-boards.adoc[]
+include::api/board/search-new-notice-boards.adoc[]
+include::api/board/search-new-communication-boards.adoc[]
 
-[[Free-Board-API]]
-== Free Board API
+include::api/board/search-free-boards.adoc[]
+include::api/board/search-notice-boards.adoc[]
+include::api/board/search-communication-boards.adoc[]
 
-include::api/freeboard/create-free-board.adoc[]
-include::api/freeboard/delete-free-board.adoc[]
-include::api/freeboard/edit-free-board.adoc[]
-include::api/freeboard/search-free-board-list.adoc[]
-include::api/freeboard/search-free-board.adoc[]
+include::api/board/search-free-board.adoc[]
+include::api/board/search-notice-board.adoc[]
+include::api/board/search-communication-board.adoc[]
