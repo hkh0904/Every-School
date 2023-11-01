@@ -60,7 +60,6 @@ class _TeacherReportGetPageState extends State<TeacherReportGetPage> {
             '받은 신고 내역',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18,
               fontWeight: FontWeight.w700,
             ),
           ),

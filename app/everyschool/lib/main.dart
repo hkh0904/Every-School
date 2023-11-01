@@ -1,4 +1,5 @@
 import 'package:everyschool/api/firebase_api.dart';
+import 'package:everyschool/page/call/call_page.dart';
 import 'package:everyschool/page/chat/chat_controller.dart';
 import 'package:everyschool/page/chat/chat_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
@@ -7,6 +8,8 @@ import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
 import 'package:everyschool/page/community/community_page.dart';
+import 'package:everyschool/page/report/my%20_report_list_page.dart';
+import 'package:everyschool/page/report/report_page.dart';
 import 'package:everyschool/page/report/teacher_report_get_page.dart';
 import 'package:everyschool/store/chat_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -75,10 +78,10 @@ class _MainState extends State<Main> {
 
   final List<Widget> pages = [
     HomePage(),
-    TeacherReportGetPage(),
+    ReportListPage(),
     ChatPage(),
     CommunityPage(),
-    Center(child: Text('전체보기')),
+    CallPage(),
   ];
 
   @override

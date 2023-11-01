@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:everyschool/page/community/post_list.dart';
+import 'package:everyschool/page/community/create_post.dart';
 
 class PostlistPage extends StatefulWidget {
   const PostlistPage({Key? key}) : super(key: key);
@@ -18,52 +20,41 @@ class _PostlistPageState extends State<PostlistPage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey[50],
-          elevation: 0,
-          leading: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              BackButton(
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.pop(context); // 이전 페이지로 돌아가기
-                },
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Text(
-                  '자유 게시판',
-                  style: TextStyle(color: Colors.black, fontSize: 20),
-                ),
-              ),
-            ],
+          elevation: 1,
+          centerTitle: true,
+          leading: IconButton(
+            iconSize: 30,
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              Navigator.pop(context); // 이전 페이지로 돌아가기
+            },
           ),
-        ),
-        body: CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Container(
-                    color: Colors.grey[50],
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('자녀 선택하기',
-                              style: TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w700)),
-                          Image.asset('assets/images/home/select_deco.png'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+          title: Text(
+            '자유 게시판',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          actions: [
+            IconButton(
+              iconSize: 30,
+              icon: Icon(
+                Icons.add,
+                color: Colors.black,
               ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CreatePost()), // CreatePost 페이지로 이동
+                );
+              },
             ),
           ],
         ),
+        body: PostList(), // PostList 위젯을 직접 호출
       ),
     );
   }
