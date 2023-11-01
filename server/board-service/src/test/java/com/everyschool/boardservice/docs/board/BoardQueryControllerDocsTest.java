@@ -1,10 +1,7 @@
 package com.everyschool.boardservice.docs.board;
 
 import com.everyschool.boardservice.api.controller.board.BoardQueryController;
-import com.everyschool.boardservice.api.controller.board.response.FreeBoardResponse;
-import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
-import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
-import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
+import com.everyschool.boardservice.api.controller.board.response.*;
 import com.everyschool.boardservice.api.service.board.BoardQueryService;
 import com.everyschool.boardservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -184,6 +181,55 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시물 대표 이미지 url")
                 )
             ));
+    }
+
+    @DisplayName("공지사항 목록 조회 API")
+    @Test
+    void searchNoticeBoards() throws Exception {
+        NoticeResponse response2 = createNoticeResponse(2L, "자유 게시판 제목 2", "자유 게시판 내용 2", 10);
+        NoticeResponse response1 = createNoticeResponse(1L, "자유 게시판 제목 1", "자유 게시판 내용 1", 0);
+
+        given(boardQueryService.searchNoticeBoards(anyLong()))
+            .willReturn(List.of(response1, response2));
+
+        mockMvc.perform(
+                get("/board-service/v1/schools/{schoolId}/boards/notices", 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-notice-boards",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                        .description("응답 데이터"),
+                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
+                        .description("게시물 id"),
+                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
+                        .description("게시물 제목"),
+                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
+                        .description("게시물 내용"),
+                    fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
+                        .description("게시물 댓글수"),
+                    fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("게시물 작성일")
+                )
+            ));
+    }
+
+    private NoticeResponse createNoticeResponse(Long boardId, String title, String content, int commentCount) {
+        return NoticeResponse.builder()
+            .boardId(boardId)
+            .title(title)
+            .content(content)
+            .commentCount(commentCount)
+            .createdDate(LocalDateTime.now())
+            .build();
     }
 
     private FreeBoardResponse createFreeBoardResponse(Long boardId, String title, String content, int commentCount, String imageUrl) {
