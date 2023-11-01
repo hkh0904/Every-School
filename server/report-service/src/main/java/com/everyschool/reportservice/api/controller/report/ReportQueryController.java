@@ -1,7 +1,7 @@
 package com.everyschool.reportservice.api.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
-import com.everyschool.reportservice.api.controller.report.response.ReceivedReportResponse;
+import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.service.report.ReportQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +19,20 @@ public class ReportQueryController {
     private final ReportQueryService reportQueryService;
 
     @GetMapping("/received-reports")
-    public ApiResponse<ReceivedReportResponse> searchReceivedReport(@PathVariable Long schoolId) {
+    public ApiResponse<ReportResponse> searchReceivedReports(@PathVariable Long schoolId) {
         log.debug("call ReportQueryController#searchReceivedReport");
 
-        ReceivedReportResponse response = reportQueryService.searchReceivedReport(schoolId);
+        ReportResponse response = reportQueryService.searchReceivedReports(schoolId);
+        log.debug("result={}", response);
+
+        return ApiResponse.ok(response);
+    }
+
+    @GetMapping("/processed-reports")
+    public ApiResponse<ReportResponse> searchProcessedReports(@PathVariable Long schoolId) {
+        log.debug("call ReportQueryController#searchProcessedReport");
+
+        ReportResponse response = reportQueryService.searchProcessedReports(schoolId);
         log.debug("result={}", response);
 
         return ApiResponse.ok(response);
