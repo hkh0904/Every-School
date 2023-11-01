@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:everyschool/page/community/post_list.dart';
+import 'package:everyschool/page/community/create_post.dart';
 
 class PostlistPage extends StatefulWidget {
   const PostlistPage({Key? key}) : super(key: key);
@@ -44,7 +45,11 @@ class _PostlistPageState extends State<PostlistPage> {
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CreatePost()), // CreatePost 페이지로 이동
+                );
               },
             ),
           ],
