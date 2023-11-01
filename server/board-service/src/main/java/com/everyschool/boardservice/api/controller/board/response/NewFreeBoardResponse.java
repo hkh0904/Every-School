@@ -4,15 +4,14 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class BoardListResponse {
+public class NewFreeBoardResponse {
+
     private Long boardId;
     private String title;
-    private String createDate;
 
     @Builder
-    private BoardListResponse(Long boardId, String title, String createDate) {
+    public NewFreeBoardResponse(Long boardId, String title) {
         this.boardId = boardId;
         this.title = title;
-        this.createDate = createDate;
     }
 }
