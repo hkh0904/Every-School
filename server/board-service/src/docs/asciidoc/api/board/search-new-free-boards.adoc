@@ -1,0 +1,10 @@
+[[search-new-free-boards]]
+=== 자유 게시판 새 글 조회 API
+
+==== HTTP Request
+include::{snippets}/search-new-free-boards/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-new-free-boards/http-response.adoc[]
+include::{snippets}/search-new-free-boards/response-fields.adoc[]
