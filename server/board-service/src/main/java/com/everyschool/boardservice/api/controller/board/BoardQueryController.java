@@ -2,6 +2,7 @@ package com.everyschool.boardservice.api.controller.board;
 
 import com.everyschool.boardservice.api.ApiResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
+import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
 import com.everyschool.boardservice.api.service.board.BoardQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,16 @@ public class BoardQueryController {
         log.debug("call BoardQueryController#searchNewFreeBoards");
 
         List<NewFreeBoardResponse> responses = boardQueryService.searchNewFreeBoards(schoolId);
+        log.debug("results={}", responses);
+
+        return ApiResponse.ok(responses);
+    }
+
+    @GetMapping("/new-notice")
+    public ApiResponse<List<NewNoticeResponse>> searchNewNoticeBoards(@PathVariable Long schoolId) {
+        log.debug("call BoardQueryController#searchNewNoticeBoards");
+
+        List<NewNoticeResponse> responses = boardQueryService.searchNewNoticeBoards(schoolId);
         log.debug("results={}", responses);
 
         return ApiResponse.ok(responses);
