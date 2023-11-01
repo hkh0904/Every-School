@@ -19,7 +19,7 @@ class _CallPageState extends State<CallPage> {
   String channelName = "ok";
   String token =
       "007eJxTYJj7qvy79SdemzsHA3gWSMhK8Sy/15W58I3t7B/L/j7b/adIgSHNzDIlzcLM0DDVwtzEyMQsKdnIzNDM0tQw2TgFSJtVXnZMbQhkZJC8FcXACIUgPhNDfjYDAwCQ0yAA";
-  int uid = 1;
+  int uid = 0;
 
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission

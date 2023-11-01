@@ -1,5 +1,6 @@
 import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/page/call/call_page.dart';
+import 'package:everyschool/page/category/category_page.dart';
 import 'package:everyschool/page/chat/chat_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
@@ -79,7 +80,7 @@ class _MainState extends State<Main> {
     ReportListPage(),
     ChatPage(),
     CommunityPage(),
-    CallPage(),
+    CategoryPage(),
   ];
 
   @override
