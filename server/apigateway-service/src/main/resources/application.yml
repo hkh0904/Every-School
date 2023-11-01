@@ -179,6 +179,11 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/consult-service/(?<segment>.*), /$\{segment}
+        # voiceai-service
+        - id: voiceai-service
+          uri: lb://VOICEAI-SERVICE
+          predicates:
+            - Path=/voiceai-service/v1/**
 
 
 
