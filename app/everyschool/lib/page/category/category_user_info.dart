@@ -1,3 +1,4 @@
+import 'package:everyschool/page/mypage/mypage.dart';
 import 'package:flutter/material.dart';
 
 class CategoryUserInfo extends StatefulWidget {
@@ -30,21 +31,27 @@ class _CategoryUserInfoState extends State<CategoryUserInfo> {
           SizedBox(
             height: 15,
           ),
-          Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffd9d9d9), width: 0.5),
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xff15075F), Color(0xff594AAA)],
-                  )),
-              child: Text(
-                '개인정보 수정',
-                style:
-                    TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
-              )),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const MyPage()));
+            },
+            child: Container(
+                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xffd9d9d9), width: 0.5),
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xff15075F), Color(0xff594AAA)],
+                    )),
+                child: Text(
+                  '개인정보 수정',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600, color: Colors.white),
+                )),
+          ),
           SizedBox(
             height: 50,
           ),

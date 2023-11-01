@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
-const String appId = "f69df8611e874246bc2616951c3d1696";
+const String appId = "6efb02b249514fb98c77d77fd470660c";
 
 class CallPage extends StatefulWidget {
   const CallPage({super.key});
@@ -16,9 +16,9 @@ class CallPage extends StatefulWidget {
 }
 
 class _CallPageState extends State<CallPage> {
-  String channelName = "ok";
+  String channelName = "kkk";
   String token =
-      "007eJxTYJj7qvy79SdemzsHA3gWSMhK8Sy/15W58I3t7B/L/j7b/adIgSHNzDIlzcLM0DDVwtzEyMQsKdnIzNDM0tQw2TgFSJtVXnZMbQhkZJC8FcXACIUgPhNDfjYDAwCQ0yAA";
+      "007eJxTYLiWp+HSK8Y/9f3pc/e3GCfvm1AWqfLgp+vH3ht7nwte012hwGCWmpZkYJRkZGJpamiSlmRpkWxunmJunpZiYm5gZmaQ/PidY2pDICODyutHDIxQCOIzM2RnZzMwAADg0SHy";
   int uid = 0;
 
   Future<void> setupVoiceSDKEngine() async {

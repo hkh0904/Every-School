@@ -1,3 +1,4 @@
+import 'package:everyschool/page/mypage/mypage_userinfo.dart';
 import 'package:flutter/material.dart';
 
 class MyPage extends StatefulWidget {
@@ -11,9 +12,9 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: const Column(
         children: [
-          // CategoryUserInfo(),
+          MypageUserInfo(),
         ],
       ),
     );

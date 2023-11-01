@@ -12,13 +12,6 @@ class CategoryRepnCslt extends StatefulWidget {
 }
 
 class _CategoryRepnCsltState extends State<CategoryRepnCslt> {
-  // int userNum = 3;
-  // var categoryLists = [
-  //   ['신고하기', '신고내역'],
-  //   ['상담신청', '상담내역'],
-  //   ['상담내역', '신고하기', '신고내역', '받은 신고내역']
-  // ];
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -63,19 +56,4 @@ class _CategoryRepnCsltState extends State<CategoryRepnCslt> {
           )
         ]);
   }
-
-  // Widget _titleTxt() {
-  //   String titleTxt;
-  //   if (userNum == 1) {
-  //     titleTxt = '신고';
-  //   } else if (userNum == 2) {
-  //     titleTxt = '상담';
-  //   } else {
-  //     titleTxt = '상담 및 신고';
-  //   }
-  //   return Text(
-  //     titleTxt,
-  //     style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
-  //   );
-  // }
 }
