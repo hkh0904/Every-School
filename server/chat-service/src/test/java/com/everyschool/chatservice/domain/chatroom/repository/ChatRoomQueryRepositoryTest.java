@@ -2,7 +2,7 @@ package com.everyschool.chatservice.domain.chatroom.repository;
 
 import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.api.controller.chat.response.ChatRoomListResponse;
-import com.everyschool.chatservice.domain.mongo.MongoSeq;
+import com.everyschool.chatservice.api.service.SequenceGeneratorService;
 import com.everyschool.chatservice.domain.chat.Chat;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
@@ -27,6 +27,8 @@ class ChatRoomQueryRepositoryTest extends IntegrationTestSupport {
     private ChatRepository chatRepository;
     @Autowired
     private ChatRoomUserRepository chatRoomUserRepository;
+    @Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
 
     @DisplayName("로그인 한 유저가 속한 채팅방 목록 가져오기")
     @Test
@@ -65,7 +67,7 @@ class ChatRoomQueryRepositoryTest extends IntegrationTestSupport {
         sender.updateUpdateChat(message);
         receiver.updateUpdateChat(message);
         return chatRepository.save(Chat.builder()
-                .id(MongoSeq.getSeq())
+                .id(sequenceGeneratorService.generateSequence(Chat.SEQUENCE_NAME))
                 .userId(sender.getUserId())
                 .content(message)
                 .isBad(false)
