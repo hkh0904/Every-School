@@ -127,7 +127,7 @@ class FilterWordServiceTest extends IntegrationTestSupport {
         ChatMessage message = ChatMessage.builder()
                 .chatRoomId(1L)
                 .senderUserKey("senderUserKey")
-                .message("비속어가 아닌 대화")
+                .message("평범한 대화")
                 .build();
 
         //when

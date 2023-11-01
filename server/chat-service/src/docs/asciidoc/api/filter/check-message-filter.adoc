@@ -1,0 +1,12 @@
+[[check-message-filter]]
+=== 필터링 단어 추가(관리자) API
+
+==== HTTP Request
+
+include::{snippets}/check-message-filter/http-request.adoc[]
+include::{snippets}/check-message-filter/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/check-message-filter/http-response.adoc[]
+include::{snippets}/check-message-filter/response-fields.adoc[]
