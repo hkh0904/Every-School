@@ -1,14 +1,13 @@
 package com.everyschool.boardservice.api.controller.board;
 
 import com.everyschool.boardservice.api.ApiResponse;
+import com.everyschool.boardservice.api.SliceResponse;
 import com.everyschool.boardservice.api.controller.board.response.*;
 import com.everyschool.boardservice.api.service.board.BoardQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,13 +30,14 @@ public class BoardQueryController {
     }
 
     @GetMapping("/frees")
-    public ApiResponse<List<FreeBoardResponse>> searchFreeBoards(@PathVariable Long schoolId) {
+    public ApiResponse<SliceResponse<BoardResponse>> searchFreeBoards(@PathVariable Long schoolId, @RequestParam(defaultValue = "1") int page) {
         log.debug("call BoardQueryController#searchFreeBoards");
 
-        List<FreeBoardResponse> responses = boardQueryService.searchFreeBoards(schoolId);
-        log.debug("results={}", responses);
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        SliceResponse<BoardResponse> response = boardQueryService.searchFreeBoards(schoolId, pageRequest);
+        log.debug("results={}", response);
 
-        return ApiResponse.ok(responses);
+        return ApiResponse.ok(response);
     }
 
     @GetMapping("/frees/{boardId}")
@@ -61,13 +61,14 @@ public class BoardQueryController {
     }
 
     @GetMapping("/notices")
-    public ApiResponse<List<NoticeResponse>> searchNoticeBoards(@PathVariable Long schoolId) {
+    public ApiResponse<SliceResponse<BoardResponse>> searchNoticeBoards(@PathVariable Long schoolId, @RequestParam(defaultValue = "1") int page) {
         log.debug("call BoardQueryController#searchNoticeBoards");
 
-        List<NoticeResponse> responses = boardQueryService.searchNoticeBoards(schoolId);
-        log.debug("results={}", responses);
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        SliceResponse<BoardResponse> response = boardQueryService.searchNoticeBoards(schoolId, pageRequest);
+        log.debug("results={}", response);
 
-        return ApiResponse.ok(responses);
+        return ApiResponse.ok(response);
     }
 
     @GetMapping("/new-communication")
@@ -81,12 +82,13 @@ public class BoardQueryController {
     }
 
     @GetMapping("/communications")
-    public ApiResponse<List<CommunicationResponse>> searchCommunicationBoards(@PathVariable Long schoolId) {
+    public ApiResponse<SliceResponse<BoardResponse>> searchCommunicationBoards(@PathVariable Long schoolId, @RequestParam(defaultValue = "1") int page) {
         log.debug("call BoardQueryController#searchCommunicationBoards");
 
-        List<CommunicationResponse> responses = boardQueryService.searchCommunicationBoards(schoolId);
-        log.debug("results={}", responses);
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        SliceResponse<BoardResponse> response = boardQueryService.searchCommunicationBoards(schoolId, pageRequest);
+        log.debug("results={}", response);
 
-        return ApiResponse.ok(responses);
+        return ApiResponse.ok(response);
     }
 }
