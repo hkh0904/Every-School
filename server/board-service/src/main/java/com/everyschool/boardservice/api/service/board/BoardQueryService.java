@@ -44,7 +44,7 @@ public class BoardQueryService {
     }
 
     public List<FreeBoardResponse> searchFreeBoards(Long schoolId) {
-        List<Board> boards = boardQueryRepository.findFreeBoardBySchoolId(schoolId, FREE);
+        List<Board> boards = boardQueryRepository.findBoardBySchoolId(schoolId, FREE);
 
         List<FreeBoardResponse> responses = new ArrayList<>();
 
@@ -63,10 +63,18 @@ public class BoardQueryService {
     }
 
     public List<NoticeResponse> searchNoticeBoards(Long schoolId) {
-        List<Board> boards = boardQueryRepository.findFreeBoardBySchoolId(schoolId, NOTICE);
+        List<Board> boards = boardQueryRepository.findBoardBySchoolId(schoolId, NOTICE);
 
         return boards.stream()
             .map(NoticeResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    public List<CommunicationResponse> searchCommunicationBoards(Long schoolId) {
+        List<Board> boards = boardQueryRepository.findBoardBySchoolId(schoolId, COMMUNICATION);
+
+        return boards.stream()
+            .map(CommunicationResponse::of)
             .collect(Collectors.toList());
     }
 }
