@@ -60,11 +60,21 @@ public class BoardQueryController {
         return ApiResponse.ok(responses);
     }
 
-    @GetMapping("new-communication")
+    @GetMapping("/new-communication")
     public ApiResponse<List<NewCommunicationResponse>> searchNewCommunicationBoards(@PathVariable Long schoolId) {
         log.debug("call BoardQueryController#searchNewCommunicationBoards");
 
         List<NewCommunicationResponse> responses = boardQueryService.searchNewCommunicationBoards(schoolId);
+        log.debug("results={}", responses);
+
+        return ApiResponse.ok(responses);
+    }
+
+    @GetMapping("/communications")
+    public ApiResponse<List<CommunicationResponse>> searchCommunicationBoards(@PathVariable Long schoolId) {
+        log.debug("call BoardQueryController#searchCommunicationBoards");
+
+        List<CommunicationResponse> responses = boardQueryService.searchCommunicationBoards(schoolId);
         log.debug("results={}", responses);
 
         return ApiResponse.ok(responses);
