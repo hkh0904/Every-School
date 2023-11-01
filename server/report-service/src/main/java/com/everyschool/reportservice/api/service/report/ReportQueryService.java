@@ -1,13 +1,22 @@
 package com.everyschool.reportservice.api.service.report;
 
+import com.everyschool.reportservice.api.client.SchoolServiceClient;
+import com.everyschool.reportservice.api.client.UserServiceClient;
+import com.everyschool.reportservice.api.client.response.StudentInfo;
+import com.everyschool.reportservice.api.client.response.UserInfo;
+import com.everyschool.reportservice.api.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
+import com.everyschool.reportservice.domain.report.Report;
 import com.everyschool.reportservice.domain.report.repository.ReportQueryRepository;
+import com.everyschool.reportservice.domain.report.repository.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
@@ -15,7 +24,10 @@ import java.util.stream.IntStream;
 @Transactional(readOnly = true)
 public class ReportQueryService {
 
+    private final ReportRepository reportRepository;
     private final ReportQueryRepository reportQueryRepository;
+    private final UserServiceClient userServiceClient;
+    private final SchoolServiceClient schoolServiceClient;
 
     public ReportResponse searchReceivedReports(Long schoolId) {
         List<ReportResponse.ReportVo> reports = reportQueryRepository.searchReceivedReports(schoolId, ProgressStatus.REGISTER);
@@ -41,5 +53,19 @@ public class ReportQueryService {
             .count(count)
             .reports(reports)
             .build();
+    }
+
+    public ReportDetailResponse searchReport(Long reportId) {
+        Optional<Report> findReport = reportRepository.findById(reportId);
+        if (findReport.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Report report = findReport.get();
+
+        UserInfo userInfo = userServiceClient.searchByUserId(report.getUserId());
+
+        StudentInfo studentInfo = schoolServiceClient.searchByUserId(report.getUserId());
+
+        return ReportDetailResponse.of(report, userInfo, studentInfo);
     }
 }
