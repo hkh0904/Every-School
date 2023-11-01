@@ -13,6 +13,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -162,11 +165,16 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
 
         mockMvc.perform(
                 get("/board-service/v1/schools/{schoolId}/boards/frees", 1L)
+                    .param("page", "1")
             )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("search-free-boards",
                 preprocessResponse(prettyPrint()),
+                requestParameters(
+                    parameterWithName("page")
+                        .description("페이지 번호")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
@@ -212,11 +220,16 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
 
         mockMvc.perform(
                 get("/board-service/v1/schools/{schoolId}/boards/notices", 1L)
+                    .param("page", "1")
             )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("search-notice-boards",
                 preprocessResponse(prettyPrint()),
+                requestParameters(
+                    parameterWithName("page")
+                        .description("페이지 번호")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
@@ -262,11 +275,16 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
 
         mockMvc.perform(
                 get("/board-service/v1/schools/{schoolId}/boards/communications", 1L)
+                    .param("page", "1")
             )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("search-communication-boards",
                 preprocessResponse(prettyPrint()),
+                requestParameters(
+                    parameterWithName("page")
+                        .description("페이지 번호")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
@@ -338,7 +356,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .depth(1)
             .isMine(false)
             .createdDate(LocalDateTime.now())
-            .reComments(List.of(reComment1, reComment1))
+            .reComments(new ArrayList<>())
             .build();
 
         FreeBoardDetailResponse response = FreeBoardDetailResponse.builder()
@@ -356,11 +374,223 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards//frees/{boardId}", 1L, 1L)
+                get("/board-service/v1/schools/{schoolId}/boards/frees/{boardId}", 1L, 1L)
             )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("search-free-board",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
+                        .description("게시글 id"),
+                    fieldWithPath("data.title").type(JsonFieldType.STRING)
+                        .description("게시글 제목"),
+                    fieldWithPath("data.content").type(JsonFieldType.STRING)
+                        .description("게시글 내용"),
+                    fieldWithPath("data.commentCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 댓글수"),
+                    fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
+                        .description("게시글 본인 작성 여부"),
+                    fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
+                        .description("게시글 작성일시"),
+                    fieldWithPath("data.imageUrls").type(JsonFieldType.ARRAY)
+                        .description("게시글 이미지"),
+                    fieldWithPath("data.comments").type(JsonFieldType.ARRAY)
+                        .description("게시글 댓글"),
+                    fieldWithPath("data.comments[].commentId").type(JsonFieldType.NUMBER)
+                        .description("댓글 id"),
+                    fieldWithPath("data.comments[].sender").type(JsonFieldType.NUMBER)
+                        .description("댓글 작성자 번호"),
+                    fieldWithPath("data.comments[].content").type(JsonFieldType.STRING)
+                        .description("댓글 내용"),
+                    fieldWithPath("data.comments[].depth").type(JsonFieldType.NUMBER)
+                        .description("댓글 깊이"),
+                    fieldWithPath("data.comments[].isMine").type(JsonFieldType.BOOLEAN)
+                        .description("댓글 본인 작성 여부"),
+                    fieldWithPath("data.comments[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("댓글 작성일"),
+                    fieldWithPath("data.comments[].reComments").type(JsonFieldType.ARRAY)
+                        .description("대댓글"),
+                    fieldWithPath("data.comments[].reComments[].commentId").type(JsonFieldType.NUMBER)
+                        .description("대댓글 id"),
+                    fieldWithPath("data.comments[].reComments[].sender").type(JsonFieldType.NUMBER)
+                        .description("대댓글 작성자 번호"),
+                    fieldWithPath("data.comments[].reComments[].content").type(JsonFieldType.STRING)
+                        .description("대댓글 내용"),
+                    fieldWithPath("data.comments[].reComments[].depth").type(JsonFieldType.NUMBER)
+                        .description("대댓글 깊이"),
+                    fieldWithPath("data.comments[].reComments[].isMine").type(JsonFieldType.BOOLEAN)
+                        .description("대댓글 본인 작성 여부"),
+                    fieldWithPath("data.comments[].reComments[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("대댓글 작성일")
+                )
+            ));
+    }
+
+    @DisplayName("공지사항 상세 조회 API")
+    @Test
+    void searchNoticeBoard() throws Exception {
+        given(tokenUtils.getUserKey())
+            .willReturn(UUID.randomUUID().toString());
+
+        BoardDetailResponse.ReCommentVo reComment1 = BoardDetailResponse.ReCommentVo.builder()
+            .commentId(2L)
+            .sender(0)
+            .content("일주일 소요 예정입니다.")
+            .depth(2)
+            .isMine(false)
+            .createdDate(LocalDateTime.now())
+            .build();
+
+        BoardDetailResponse.CommentVo comment1 = BoardDetailResponse.CommentVo.builder()
+            .commentId(1L)
+            .sender(1)
+            .content("공사는 언제 끝나나요?")
+            .depth(1)
+            .isMine(true)
+            .createdDate(LocalDateTime.now())
+            .reComments(List.of(reComment1))
+            .build();
+
+        BoardDetailResponse.CommentVo comment2 = BoardDetailResponse.CommentVo.builder()
+            .commentId(3L)
+            .sender(1)
+            .content("알겠습니다.")
+            .depth(1)
+            .isMine(true)
+            .createdDate(LocalDateTime.now())
+            .reComments(new ArrayList<>())
+            .build();
+
+        BoardDetailResponse response = BoardDetailResponse.builder()
+            .boardId(1L)
+            .title("학교 시설 보수")
+            .content("11월 2일부터 교내 배수로 보수 공사에 들어갑니다.")
+            .commentCount(3)
+            .isMine(false)
+            .createdDate(LocalDateTime.now())
+            .imageUrls(List.of("imageUrl1", "imageUrl2"))
+            .comments(List.of(comment1, comment2))
+            .build();
+
+        given(boardQueryService.searchBoard(anyLong(), anyString()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                get("/board-service/v1/schools/{schoolId}/boards/notice/{boardId}", 1L, 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-notice-board",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.boardId").type(JsonFieldType.NUMBER)
+                        .description("게시글 id"),
+                    fieldWithPath("data.title").type(JsonFieldType.STRING)
+                        .description("게시글 제목"),
+                    fieldWithPath("data.content").type(JsonFieldType.STRING)
+                        .description("게시글 내용"),
+                    fieldWithPath("data.commentCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 댓글수"),
+                    fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
+                        .description("게시글 본인 작성 여부"),
+                    fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
+                        .description("게시글 작성일시"),
+                    fieldWithPath("data.imageUrls").type(JsonFieldType.ARRAY)
+                        .description("게시글 이미지"),
+                    fieldWithPath("data.comments").type(JsonFieldType.ARRAY)
+                        .description("게시글 댓글"),
+                    fieldWithPath("data.comments[].commentId").type(JsonFieldType.NUMBER)
+                        .description("댓글 id"),
+                    fieldWithPath("data.comments[].sender").type(JsonFieldType.NUMBER)
+                        .description("댓글 작성자 번호"),
+                    fieldWithPath("data.comments[].content").type(JsonFieldType.STRING)
+                        .description("댓글 내용"),
+                    fieldWithPath("data.comments[].depth").type(JsonFieldType.NUMBER)
+                        .description("댓글 깊이"),
+                    fieldWithPath("data.comments[].isMine").type(JsonFieldType.BOOLEAN)
+                        .description("댓글 본인 작성 여부"),
+                    fieldWithPath("data.comments[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("댓글 작성일"),
+                    fieldWithPath("data.comments[].reComments").type(JsonFieldType.ARRAY)
+                        .description("대댓글"),
+                    fieldWithPath("data.comments[].reComments[].commentId").type(JsonFieldType.NUMBER)
+                        .description("대댓글 id"),
+                    fieldWithPath("data.comments[].reComments[].sender").type(JsonFieldType.NUMBER)
+                        .description("대댓글 작성자 번호"),
+                    fieldWithPath("data.comments[].reComments[].content").type(JsonFieldType.STRING)
+                        .description("대댓글 내용"),
+                    fieldWithPath("data.comments[].reComments[].depth").type(JsonFieldType.NUMBER)
+                        .description("대댓글 깊이"),
+                    fieldWithPath("data.comments[].reComments[].isMine").type(JsonFieldType.BOOLEAN)
+                        .description("대댓글 본인 작성 여부"),
+                    fieldWithPath("data.comments[].reComments[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("대댓글 작성일")
+                )
+            ));
+    }
+
+    @DisplayName("가정통신문 상세 조회 API")
+    @Test
+    void searchCommunicationBoard() throws Exception {
+        given(tokenUtils.getUserKey())
+            .willReturn(UUID.randomUUID().toString());
+
+        BoardDetailResponse.ReCommentVo reComment1 = BoardDetailResponse.ReCommentVo.builder()
+            .commentId(2L)
+            .sender(0)
+            .content("알겠습니다.")
+            .depth(2)
+            .isMine(false)
+            .createdDate(LocalDateTime.now())
+            .build();
+
+        BoardDetailResponse.CommentVo comment1 = BoardDetailResponse.CommentVo.builder()
+            .commentId(1L)
+            .sender(1)
+            .content("우리 아이 사진 많이 찍어주세요.")
+            .depth(1)
+            .isMine(false)
+            .createdDate(LocalDateTime.now())
+            .reComments(List.of(reComment1))
+            .build();
+
+        BoardDetailResponse response = BoardDetailResponse.builder()
+            .boardId(1L)
+            .title("수학 여행")
+            .content("제주도로 수학 여행을 떠날 예정입니다.")
+            .commentCount(1)
+            .isMine(false)
+            .createdDate(LocalDateTime.now())
+            .imageUrls(List.of("imageUrl1", "imageUrl2"))
+            .comments(List.of(comment1))
+            .build();
+
+        given(boardQueryService.searchBoard(anyLong(), anyString()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                get("/board-service/v1/schools/{schoolId}/boards/communications/{boardId}", 1L, 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-communication-board",
                 preprocessResponse(prettyPrint()),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)

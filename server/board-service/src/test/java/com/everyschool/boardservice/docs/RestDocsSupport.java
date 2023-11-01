@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 
 @ExtendWith(RestDocumentationExtension.class)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "every-school/api")
 public abstract class RestDocsSupport {
 
     protected MockMvc mockMvc;
