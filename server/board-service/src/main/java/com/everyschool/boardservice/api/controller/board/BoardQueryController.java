@@ -4,6 +4,7 @@ import com.everyschool.boardservice.api.ApiResponse;
 import com.everyschool.boardservice.api.SliceResponse;
 import com.everyschool.boardservice.api.controller.board.response.*;
 import com.everyschool.boardservice.api.service.board.BoardQueryService;
+import com.everyschool.boardservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import java.util.List;
 public class BoardQueryController {
 
     private final BoardQueryService boardQueryService;
+    private final TokenUtils tokenUtils;
 
     @GetMapping("/new-free")
     public ApiResponse<List<NewFreeBoardResponse>> searchNewFreeBoards(@PathVariable Long schoolId) {
@@ -44,7 +46,10 @@ public class BoardQueryController {
     public ApiResponse<FreeBoardDetailResponse> searchFreeBoard(@PathVariable Long schoolId, @PathVariable Long boardId) {
         log.debug("call BoardQueryController#searchFreeBoard");
 
-        FreeBoardDetailResponse response = boardQueryService.searchFreeBoard(boardId);
+        String userKey = tokenUtils.getUserKey();
+        log.debug("userKey={}", userKey);
+
+        FreeBoardDetailResponse response = boardQueryService.searchFreeBoard(boardId, userKey);
         log.debug("results={}", response);
 
         return ApiResponse.ok(response);
