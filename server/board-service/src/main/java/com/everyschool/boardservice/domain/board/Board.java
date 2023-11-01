@@ -19,7 +19,7 @@ public class Board extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, updatable = false)
-    private Integer codeId;
+    private Integer categoryId;
 
     @Column(nullable = false, updatable = false)
     private Long schoolId;
@@ -57,9 +57,9 @@ public class Board extends BaseEntity {
     }
 
     @Builder
-    private Board(Integer codeId, Long schoolId, Long schoolClassId, Long userId, String title, String content, Boolean isUsedComment) {
+    private Board(Integer categoryId, Long schoolId, Long schoolClassId, Long userId, String title, String content, Boolean isUsedComment) {
         this();
-        this.codeId = codeId;
+        this.categoryId = categoryId;
         this.schoolId = schoolId;
         this.schoolClassId = schoolClassId;
         this.userId = userId;
