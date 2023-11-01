@@ -4,9 +4,10 @@ import com.everyschool.callservice.api.service.call.dto.CreateCallDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,28 +21,24 @@ public class CreateCallRequest {
     private String sender;
 
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startDateTime;
 
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime endDateTime;
 
     @NotNull
-    @Size(min = 10, max = 200)
-    private String uploadFileName;
-
-    @NotNull
-    @Size(min = 10, max = 200)
-    private String storeFileName;
+    private MultipartFile file;
 
     @Builder
     private CreateCallRequest(String otherUserKey, String sender, LocalDateTime startDateTime, LocalDateTime endDateTime,
-                              String uploadFileName, String storeFileName, Boolean isBad) {
+                              MultipartFile file) {
         this.otherUserKey = otherUserKey;
         this.sender = sender;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.uploadFileName = uploadFileName;
-        this.storeFileName = storeFileName;
+        this.file = file;
     }
 
     public CreateCallDto toDto() {
@@ -49,8 +46,6 @@ public class CreateCallRequest {
                 .sender(this.sender)
                 .startDateTime(this.startDateTime)
                 .endDateTime(this.endDateTime)
-                .uploadFileName(this.uploadFileName)
-                .storeFileName(this.storeFileName)
                 .build();
     }
 }

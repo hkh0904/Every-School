@@ -36,4 +36,19 @@ public class CallQueryController {
         return ApiResponse.ok(responses);
     }
 
+    /**
+     * 내 통화 단건 조회 API
+     *
+     * @return 통화
+     */
+//    @GetMapping("/detail/{callId}")
+//    public ApiResponse<List<CallResponse>> searchCallDetails(@PathVariable Long callId) {
+//        log.debug("call CallQueryController#searchMyCall");
+//
+//        CallResponse response = callQueryService.searchMyCall(callId);
+//        log.debug("search results = {}", response);
+//
+//        return ApiResponse.ok(response);
+//    }
+
 }

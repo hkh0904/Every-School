@@ -24,6 +24,7 @@ public class CallController {
     private final CallService callService;
 
     private final FileStore fileStore;
+
     /**
      * 통화 내역 등록 API
      *
@@ -37,6 +38,7 @@ public class CallController {
         log.debug("Call CallController#createCallInfo");
         log.debug("CreateCallRequest={}", request);
 
+        // 음성 파일 업로드
         UploadFile uploadFile = fileStore.storeFile(request.getFile());
         log.debug("getUploadFile={}", uploadFile);
 

@@ -19,7 +19,6 @@ public class CallService {
     private final UserServiceClient userServiceClient;
 
     public CallResponse createCallInfo(CreateCallDto dto, String otherUserKey, String token) {
-        // TODO: 선생님이 전화를 끊을때만 저장 -> token 선생일수밖에 없음
 
         UserInfo otherUser = userServiceClient.searchUserInfoByUserKey(otherUserKey);
         UserInfo teacher = userServiceClient.searchUserInfo(token);
