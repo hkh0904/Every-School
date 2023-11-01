@@ -1,5 +1,6 @@
 import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/page/call/call_page.dart';
+import 'package:everyschool/page/chat/chat_controller.dart';
 import 'package:everyschool/page/chat/chat_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
@@ -39,6 +40,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (c) => ChatStore()),
+      ChangeNotifierProvider(create: (c) => ChatController()),
     ],
     child: MaterialApp(
         debugShowCheckedModeBanner: false,
