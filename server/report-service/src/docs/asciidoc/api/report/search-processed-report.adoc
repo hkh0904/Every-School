@@ -1,0 +1,11 @@
+[[search-processed-report]]
+=== 처리 중 신고 목록 조회 API
+
+==== HTTP Request
+include::{snippets}/search-processed-report/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-processed-report/http-response.adoc[]
+include::{snippets}/search-processed-report/response-fields.adoc[]
+
