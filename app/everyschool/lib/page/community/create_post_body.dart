@@ -19,10 +19,14 @@ class _CreatePostBodyState extends State<CreatePostBody> {
     );
 
     if (result != null) {
-      attachedFileNames = result.paths
+      List<String> newAttachedFileNames = result.paths
           .map((path) => path!.split('/').last)
           .toList(); // 선택된 모든 파일의 이름을 저장합니다.
-      setState(() {});
+
+      setState(() {
+        attachedFileNames
+            .addAll(newAttachedFileNames); // 기존 파일 이름 리스트에 새로운 파일 이름들을 추가합니다.
+      });
     }
   }
 
@@ -162,6 +166,29 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 13, 0, 13),
+                  decoration: BoxDecoration(
+                    color: Color(0XFF15075F),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        '작성 완료',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           ),
