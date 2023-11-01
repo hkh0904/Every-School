@@ -1,0 +1,11 @@
+[[search-my-reports]]
+=== 나의 신고 내역 조회 API
+
+==== HTTP Request
+include::{snippets}/search-my-reports/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-my-reports/http-response.adoc[]
+include::{snippets}/search-my-reports/response-fields.adoc[]
+

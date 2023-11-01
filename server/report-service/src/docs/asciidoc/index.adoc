@@ -15,3 +15,7 @@ include::overview.adoc[]
 == Report API
 
 include::api/report/create-report.adoc[]
+include::api/report/search-received-reports.adoc[]
+include::api/report/search-processed-reports.adoc[]
+include::api/report/search-my-reports.adoc[]
+include::api/report/search-detail-report.adoc[]

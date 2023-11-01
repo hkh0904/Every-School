@@ -66,5 +66,5 @@ cloud:
     stack.auto: false
     region.static: ap-northeast-2
     credentials:
-      accessKey: ${my.accessKey}
-      secretKey: ${my.secretKey}
+      accessKey: accessKey
+      secretKey: secretKey

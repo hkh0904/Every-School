@@ -22,6 +22,10 @@ public class FileStore {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    public String getFullPath(String storeFileName) {
+        return String.valueOf(amazonS3Client.getUrl(bucket, storeFileName));
+    }
+
     public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
         List<UploadFile> storeFileResult = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {

@@ -2,7 +2,7 @@ package com.everyschool.reportservice.docs.report;
 
 import com.everyschool.reportservice.api.controller.FileStore;
 import com.everyschool.reportservice.api.controller.report.ReportController;
-import com.everyschool.reportservice.api.controller.report.request.ReportRequest;
+import com.everyschool.reportservice.api.controller.report.request.CreateReportRequest;
 import com.everyschool.reportservice.api.controller.report.response.CreateReportResponse;
 import com.everyschool.reportservice.api.service.report.ReportService;
 import com.everyschool.reportservice.api.service.report.dto.CreateReportDto;
@@ -10,7 +10,6 @@ import com.everyschool.reportservice.docs.RestDocsSupport;
 import com.everyschool.reportservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
@@ -43,7 +42,7 @@ public class ReportControllerDocsTest extends RestDocsSupport {
     @DisplayName("신고 등록 API")
     @Test
     void createReport() throws Exception {
-        ReportRequest request = ReportRequest.builder()
+        CreateReportRequest request = CreateReportRequest.builder()
             .typeId(4001)
             .title("리온이가 너무 귀여워요!")
             .description("치명적이에요!")
