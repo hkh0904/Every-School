@@ -1,5 +1,6 @@
 package com.everyschool.boardservice.domain.board.repository;
 
+import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
 import com.everyschool.boardservice.domain.board.Category;
@@ -53,6 +54,24 @@ public class BoardQueryRepository {
             )
             .orderBy(board.createdDate.desc())
             .limit(4)
+            .fetch();
+    }
+
+    public List<NewCommunicationResponse> findNewCommunicationBySchoolId(Long schoolId, Category category) {
+        return queryFactory
+            .select(Projections.constructor(
+                NewCommunicationResponse.class,
+                board.id,
+                board.title,
+                board.createdDate
+            ))
+            .from(board)
+            .where(
+                board.schoolId.eq(schoolId),
+                board.categoryId.eq(category.getCode())
+            )
+            .orderBy(board.createdDate.desc())
+            .limit(3)
             .fetch();
     }
 }
