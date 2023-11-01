@@ -37,4 +37,9 @@ public class ReportQueryController {
 
         return ApiResponse.ok(response);
     }
+
+    @GetMapping("/reports/{reportId}")
+    public ApiResponse<?> searchReport(@PathVariable Long schoolId, @PathVariable Long reportId) {
+
+    }
 }

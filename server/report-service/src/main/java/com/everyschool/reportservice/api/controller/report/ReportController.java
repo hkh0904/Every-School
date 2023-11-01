@@ -2,11 +2,8 @@ package com.everyschool.reportservice.api.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
 import com.everyschool.reportservice.api.controller.FileStore;
-import com.everyschool.reportservice.api.controller.report.request.ReportRequest;
+import com.everyschool.reportservice.api.controller.report.request.CreateReportRequest;
 import com.everyschool.reportservice.api.controller.report.response.CreateReportResponse;
-import com.everyschool.reportservice.api.controller.report.response.FileResponse;
-import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
-import com.everyschool.reportservice.api.controller.report.response.UserResponse;
 import com.everyschool.reportservice.api.service.report.ReportService;
 import com.everyschool.reportservice.domain.report.UploadFile;
 import com.everyschool.reportservice.utils.TokenUtils;
@@ -16,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,7 +32,7 @@ public class ReportController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<CreateReportResponse> createReport(@ModelAttribute ReportRequest request, @PathVariable Long schoolId) throws IOException {
+    public ApiResponse<CreateReportResponse> createReport(@ModelAttribute CreateReportRequest request, @PathVariable Long schoolId) throws IOException {
 
         String userKey = tokenUtils.getUserKey();
 

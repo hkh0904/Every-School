@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class ReportRequest {
+public class CreateReportRequest {
 
     private Integer typeId;
     private String title;
@@ -25,7 +25,7 @@ public class ReportRequest {
     private List<MultipartFile> files = new ArrayList<>();
 
     @Builder
-    private ReportRequest(Integer typeId, String title, String description, String who, String when, String where, String what, String how, String why, List<MultipartFile> files) {
+    private CreateReportRequest(Integer typeId, String title, String description, String who, String when, String where, String what, String how, String why, List<MultipartFile> files) {
         this.typeId = typeId;
         this.title = title;
         this.description = description;
