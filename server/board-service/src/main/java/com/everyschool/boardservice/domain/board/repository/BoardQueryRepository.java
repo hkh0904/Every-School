@@ -1,6 +1,5 @@
 package com.everyschool.boardservice.domain.board.repository;
 
-import com.everyschool.boardservice.api.controller.board.response.FreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
@@ -77,7 +76,7 @@ public class BoardQueryRepository {
             .fetch();
     }
 
-    public List<Board> findFreeBoardBySchoolId(Long schoolId, Category category) {
+    public List<Board> findBoardBySchoolId(Long schoolId, Category category) {
         return queryFactory
             .selectFrom(board)
             .where(
