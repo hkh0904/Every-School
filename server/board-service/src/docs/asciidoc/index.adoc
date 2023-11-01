@@ -17,3 +17,5 @@ include::overview.adoc[]
 include::api/board/search-new-free-boards.adoc[]
 include::api/board/search-new-notice-boards.adoc[]
 include::api/board/search-new-communication-boards.adoc[]
+
+include::api/board/search-free-boards.adoc[]
