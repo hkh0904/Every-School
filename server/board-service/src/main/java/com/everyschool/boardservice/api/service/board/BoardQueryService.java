@@ -3,13 +3,18 @@ package com.everyschool.boardservice.api.service.board;
 import com.everyschool.boardservice.api.controller.FileStore;
 import com.everyschool.boardservice.api.controller.board.response.*;
 import com.everyschool.boardservice.domain.board.Board;
+import com.everyschool.boardservice.domain.board.Comment;
 import com.everyschool.boardservice.domain.board.repository.BoardQueryRepository;
+import com.everyschool.boardservice.domain.board.repository.BoardRepository;
+import com.everyschool.boardservice.domain.board.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.everyschool.boardservice.domain.board.Category.*;
@@ -19,7 +24,9 @@ import static com.everyschool.boardservice.domain.board.Category.*;
 @Transactional(readOnly = true)
 public class BoardQueryService {
 
+    private final BoardRepository boardRepository;
     private final BoardQueryRepository boardQueryRepository;
+    private final CommentRepository commentRepository;
     private final FileStore fileStore;
 
     public List<NewFreeBoardResponse> searchNewFreeBoards(Long schoolId) {
@@ -76,5 +83,27 @@ public class BoardQueryService {
         return boards.stream()
             .map(CommunicationResponse::of)
             .collect(Collectors.toList());
+    }
+
+    public FreeBoardDetailResponse searchFreeBoard(Long boardId) {
+        Optional<Board> findBoard = boardRepository.findById(boardId);
+        if (findBoard.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Board board = findBoard.get();
+
+        List<String> imageUrls = board.getFiles().stream()
+            .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
+            .collect(Collectors.toList());
+
+        //게시판 pk로 모든 댓글 조회
+        List<Comment> comments = commentRepository.findByBoardId(boardId);
+
+
+
+        //부모가 존재하면 map에 key: 부모pk, value 댓글 삽입
+
+
+        return null;
     }
 }
