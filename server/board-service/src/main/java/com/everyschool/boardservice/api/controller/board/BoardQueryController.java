@@ -1,6 +1,7 @@
 package com.everyschool.boardservice.api.controller.board;
 
 import com.everyschool.boardservice.api.ApiResponse;
+import com.everyschool.boardservice.api.controller.board.response.FreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
@@ -27,6 +28,16 @@ public class BoardQueryController {
         log.debug("call BoardQueryController#searchNewFreeBoards");
 
         List<NewFreeBoardResponse> responses = boardQueryService.searchNewFreeBoards(schoolId);
+        log.debug("results={}", responses);
+
+        return ApiResponse.ok(responses);
+    }
+
+    @GetMapping("/frees")
+    public ApiResponse<List<FreeBoardResponse>> searchFreeBoards(@PathVariable Long schoolId) {
+        log.debug("call BoardQueryController#searchFreeBoards");
+
+        List<FreeBoardResponse> responses = boardQueryService.searchFreeBoards(schoolId);
         log.debug("results={}", responses);
 
         return ApiResponse.ok(responses);
