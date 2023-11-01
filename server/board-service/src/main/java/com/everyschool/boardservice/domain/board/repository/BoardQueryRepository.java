@@ -1,8 +1,10 @@
 package com.everyschool.boardservice.domain.board.repository;
 
+import com.everyschool.boardservice.api.controller.board.response.FreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
+import com.everyschool.boardservice.domain.board.Board;
 import com.everyschool.boardservice.domain.board.Category;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -72,6 +74,17 @@ public class BoardQueryRepository {
             )
             .orderBy(board.createdDate.desc())
             .limit(3)
+            .fetch();
+    }
+
+    public List<Board> findFreeBoardBySchoolId(Long schoolId, Category category) {
+        return queryFactory
+            .selectFrom(board)
+            .where(
+                board.schoolId.eq(schoolId),
+                board.categoryId.eq(category.getCode())
+            )
+            .orderBy(board.createdDate.desc())
             .fetch();
     }
 }
