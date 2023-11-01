@@ -1,12 +1,15 @@
 package com.everyschool.boardservice.domain.board.repository;
 
+import com.everyschool.boardservice.api.controller.board.response.BoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
-import com.everyschool.boardservice.domain.board.Board;
 import com.everyschool.boardservice.domain.board.Category;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -76,14 +79,32 @@ public class BoardQueryRepository {
             .fetch();
     }
 
-    public List<Board> findBoardBySchoolId(Long schoolId, Category category) {
-        return queryFactory
-            .selectFrom(board)
+    public Slice<BoardResponse> findBoardBySchoolId(Long schoolId, Category category, Pageable pageable) {
+        List<BoardResponse> content = queryFactory
+            .select(Projections.constructor(
+                BoardResponse.class,
+                board.id,
+                board.title,
+                board.content,
+                board.commentCount,
+                board.createdDate
+            ))
+            .from(board)
             .where(
                 board.schoolId.eq(schoolId),
                 board.categoryId.eq(category.getCode())
             )
             .orderBy(board.createdDate.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize() + 1)
             .fetch();
+
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 }
