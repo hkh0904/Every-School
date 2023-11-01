@@ -1,6 +1,6 @@
 package com.everyschool.reportservice.domain.report.repository;
 
-import com.everyschool.reportservice.api.controller.report.response.ReceivedReportResponse;
+import com.everyschool.reportservice.api.controller.report.response.ReceivedResponse;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,10 +20,10 @@ public class ReportQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<ReceivedReportResponse.ReportVo> searchReports(Long schoolId, ProgressStatus status) {
+    public List<ReceivedResponse.ReportVo> searchReceivedReports(Long schoolId, ProgressStatus status) {
         return queryFactory
             .select(Projections.constructor(
-                ReceivedReportResponse.ReportVo.class,
+                ReceivedResponse.ReportVo.class,
                 report.id,
                 report.typeId,
                 report.lastModifiedDate
@@ -37,13 +37,42 @@ public class ReportQueryRepository {
             .fetch();
     }
 
-    public int searchCountReports(Long schoolId, ProgressStatus status) {
+    public List<ReceivedResponse.ReportVo> searchProcessedReports(Long schoolId, ProgressStatus status) {
+        return queryFactory
+            .select(Projections.constructor(
+                ReceivedResponse.ReportVo.class,
+                report.id,
+                report.typeId,
+                report.lastModifiedDate
+            ))
+            .from(report)
+            .where(
+                report.schoolId.eq(schoolId),
+                report.progressStatusId.ne(status.getCode())
+            )
+            .orderBy(report.lastModifiedDate.desc())
+            .fetch();
+    }
+
+    public int searchCountReceviedReports(Long schoolId, ProgressStatus status) {
         return queryFactory
             .select(report.id)
             .from(report)
             .where(
                 report.schoolId.eq(schoolId),
                 report.progressStatusId.eq(status.getCode())
+            )
+            .fetch()
+            .size();
+    }
+
+    public int searchCountProcessedReports(Long schoolId, ProgressStatus status) {
+        return queryFactory
+            .select(report.id)
+            .from(report)
+            .where(
+                report.schoolId.eq(schoolId),
+                report.progressStatusId.ne(status.getCode())
             )
             .fetch()
             .size();
