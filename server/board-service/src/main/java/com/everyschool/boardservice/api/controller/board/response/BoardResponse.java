@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class NoticeResponse {
+public class BoardResponse {
 
     private Long boardId;
     private String title;
@@ -16,7 +16,7 @@ public class NoticeResponse {
     private LocalDateTime createdDate;
 
     @Builder
-    private NoticeResponse(Long boardId, String title, String content, int commentCount, LocalDateTime createdDate) {
+    private BoardResponse(Long boardId, String title, String content, int commentCount, LocalDateTime createdDate) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
@@ -24,8 +24,8 @@ public class NoticeResponse {
         this.createdDate = createdDate;
     }
 
-    public static NoticeResponse of(Board board) {
-        return NoticeResponse.builder()
+    public static BoardResponse of(Board board) {
+        return BoardResponse.builder()
             .boardId(board.getId())
             .title(board.getTitle())
             .content(board.getContent())
