@@ -4,8 +4,10 @@ import com.everyschool.reportservice.api.client.SchoolServiceClient;
 import com.everyschool.reportservice.api.client.UserServiceClient;
 import com.everyschool.reportservice.api.client.response.StudentInfo;
 import com.everyschool.reportservice.api.client.response.UserInfo;
+import com.everyschool.reportservice.api.controller.FileStore;
 import com.everyschool.reportservice.api.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
+import com.everyschool.reportservice.domain.report.AttachedFile;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.everyschool.reportservice.domain.report.Report;
 import com.everyschool.reportservice.domain.report.repository.ReportQueryRepository;
@@ -14,9 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class ReportQueryService {
     private final ReportQueryRepository reportQueryRepository;
     private final UserServiceClient userServiceClient;
     private final SchoolServiceClient schoolServiceClient;
+    private final FileStore fileStore;
 
     public ReportResponse searchReceivedReports(Long schoolId) {
         List<ReportResponse.ReportVo> reports = reportQueryRepository.searchReceivedReports(schoolId, ProgressStatus.REGISTER);
@@ -66,6 +71,10 @@ public class ReportQueryService {
 
         StudentInfo studentInfo = schoolServiceClient.searchByUserId(report.getUserId());
 
-        return ReportDetailResponse.of(report, userInfo, studentInfo);
+        List<String> filePaths = report.getFiles().stream()
+            .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
+            .collect(Collectors.toList());
+
+        return ReportDetailResponse.of(report, userInfo, studentInfo, filePaths);
     }
 }

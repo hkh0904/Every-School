@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ReportDetailResponse {
@@ -27,9 +29,10 @@ public class ReportDetailResponse {
     private String why;
     private String result;
     private LocalDateTime reportDate;
+    private List<String> filePaths;
 
     @Builder
-    private ReportDetailResponse(Long reportId, String reportUser, Integer typeId, Integer progressStatusId, String title, String description, String who, String when, String where, String what, String how, String why, String result, LocalDateTime reportDate) {
+    private ReportDetailResponse(Long reportId, String reportUser, Integer typeId, Integer progressStatusId, String title, String description, String who, String when, String where, String what, String how, String why, String result, LocalDateTime reportDate, List<String> filePaths) {
         this.reportId = reportId;
         this.reportUser = reportUser;
         this.type = ReportType.getText(typeId);
@@ -44,9 +47,10 @@ public class ReportDetailResponse {
         this.why = why;
         this.result = result;
         this.reportDate = reportDate;
+        this.filePaths = filePaths;
     }
 
-    public static ReportDetailResponse of(Report report, UserInfo userInfo, StudentInfo studentInfo) {
+    public static ReportDetailResponse of(Report report, UserInfo userInfo, StudentInfo studentInfo, List<String> filePaths) {
         return ReportDetailResponse.builder()
             .reportId(report.getId())
             .reportUser(String.format("%d학년 %d반 %d번 %s", studentInfo.getGrade(), studentInfo.getClassNum(), studentInfo.getStudentNum(), userInfo.getUserName()))
@@ -62,6 +66,7 @@ public class ReportDetailResponse {
             .why(report.getContent().getReportWhy())
             .result(report.getResult())
             .reportDate(report.getCreatedDate())
+            .filePaths(filePaths)
             .build();
     }
 }
