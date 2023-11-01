@@ -1,18 +1,22 @@
 package com.everyschool.reportservice.docs.report;
 
 import com.everyschool.reportservice.api.controller.report.ReportQueryController;
+import com.everyschool.reportservice.api.controller.report.response.MyReportResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.service.report.ReportQueryService;
 import com.everyschool.reportservice.docs.RestDocsSupport;
+import com.everyschool.reportservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -27,10 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ReportQueryControllerDocsTest extends RestDocsSupport {
 
     private final ReportQueryService reportQueryService = mock(ReportQueryService.class);
+    private final TokenUtils tokenUtils = mock(TokenUtils.class);
 
     @Override
     protected Object initController() {
-        return new ReportQueryController(reportQueryService);
+        return new ReportQueryController(reportQueryService, tokenUtils);
     }
 
     @DisplayName("접수된 신고 목록 조회 API")
@@ -57,7 +62,7 @@ public class ReportQueryControllerDocsTest extends RestDocsSupport {
         )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-received-report",
+            .andDo(document("search-received-reports",
                 preprocessResponse(prettyPrint()),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -108,7 +113,7 @@ public class ReportQueryControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-processed-report",
+            .andDo(document("search-processed-reports",
                 preprocessResponse(prettyPrint()),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -131,6 +136,57 @@ public class ReportQueryControllerDocsTest extends RestDocsSupport {
                         .description("신고 타입"),
                     fieldWithPath("data.reports[].date").type(JsonFieldType.ARRAY)
                         .description("접수 일시")
+                )
+            ));
+    }
+
+    @DisplayName("나의 신고 내역 조회 API")
+    @Test
+    void searchReports() throws Exception {
+        given(tokenUtils.getUserKey())
+            .willReturn(UUID.randomUUID().toString());
+
+        MyReportResponse response1 = MyReportResponse.builder()
+            .reportId(1L)
+            .typeId(5001)
+            .progressStatusId(4001)
+            .reportDate(LocalDateTime.now())
+            .build();
+
+        MyReportResponse response2 = MyReportResponse.builder()
+            .reportId(2L)
+            .typeId(5000)
+            .progressStatusId(4002)
+            .reportDate(LocalDateTime.now())
+            .build();
+
+        given(reportQueryService.searchReports(anyString()))
+            .willReturn(List.of(response1, response2));
+
+        mockMvc.perform(
+                get("/report-service/v1/schools/{schoolId}/reports/", 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-my-reports",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                        .description("응답 데이터"),
+                    fieldWithPath("data[].reportId").type(JsonFieldType.NUMBER)
+                        .description("신고 id"),
+                    fieldWithPath("data[].type").type(JsonFieldType.STRING)
+                        .description("신고 유형"),
+                    fieldWithPath("data[].progressStatus").type(JsonFieldType.STRING)
+                        .description("진행 상태"),
+                    fieldWithPath("data[].reportDate").type(JsonFieldType.ARRAY)
+                        .description("신고 일시")
                 )
             ));
     }
