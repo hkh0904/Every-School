@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class FreeBoardDetailResponse {
+public class BoardDetailResponse {
 
     private Long boardId;
     private String title;
@@ -20,7 +20,7 @@ public class FreeBoardDetailResponse {
     private List<CommentVo> comments;
 
     @Builder
-    private FreeBoardDetailResponse(Long boardId, String title, String content, int commentCount, Boolean isMine, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
+    private BoardDetailResponse(Long boardId, String title, String content, int commentCount, Boolean isMine, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
@@ -31,7 +31,7 @@ public class FreeBoardDetailResponse {
         this.comments = comments;
     }
 
-    public static FreeBoardDetailResponse of(Board board, List<String> imageUrls, List<CommentVo> comments) {
+    public static FreeBoardDetailResponse of(Board board, List<String> imageUrls, List<FreeBoardDetailResponse.CommentVo> comments) {
         return FreeBoardDetailResponse.builder()
             .boardId(board.getId())
             .title(board.getTitle())
@@ -47,6 +47,7 @@ public class FreeBoardDetailResponse {
     public static class CommentVo {
 
         private Long commentId;
+        // TODO: 11/2/23 공지사항과 가정통신문도 익명인가?
         private int sender; // 0: 본인, 양수: 타인
         private String content;
         private int depth; // 1: 댓글, 2: 대댓글
@@ -86,6 +87,4 @@ public class FreeBoardDetailResponse {
             this.createdDate = createdDate;
         }
     }
-
 }
-

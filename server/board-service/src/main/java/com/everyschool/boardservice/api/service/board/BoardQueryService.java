@@ -126,4 +126,8 @@ public class BoardQueryService {
 
         return FreeBoardDetailResponse.of(board, imageUrls, commentVos);
     }
+
+    public BoardDetailResponse searchBoard(Long boardId, String userKey) {
+        return null;
+    }
 }
