@@ -1,7 +1,6 @@
 package com.everyschool.reportservice.api.service.report;
 
-import com.everyschool.reportservice.api.controller.report.response.ReceivedReportResponse;
-import com.everyschool.reportservice.api.controller.report.response.vo.ReceivedReportVo;
+import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.everyschool.reportservice.domain.report.repository.ReportQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +17,27 @@ public class ReportQueryService {
 
     private final ReportQueryRepository reportQueryRepository;
 
-    public ReceivedReportResponse searchReceivedReport(Long schoolId) {
-        List<ReceivedReportResponse.ReportVo> reports = reportQueryRepository.searchReports(schoolId, ProgressStatus.REGISTER);
+    public ReportResponse searchReceivedReports(Long schoolId) {
+        List<ReportResponse.ReportVo> reports = reportQueryRepository.searchReceivedReports(schoolId, ProgressStatus.REGISTER);
         IntStream
             .range(0, reports.size())
             .forEach(i -> reports.get(i).setNo(i + 1));
-        int count = reportQueryRepository.searchCountReports(schoolId, ProgressStatus.REGISTER);
+        int count = reportQueryRepository.searchCountReceviedReports(schoolId, ProgressStatus.REGISTER);
 
-        return ReceivedReportResponse.builder()
+        return ReportResponse.builder()
+            .count(count)
+            .reports(reports)
+            .build();
+    }
+
+    public ReportResponse searchProcessedReports(Long schoolId) {
+        List<ReportResponse.ReportVo> reports = reportQueryRepository.searchProcessedReports(schoolId, ProgressStatus.REGISTER);
+        IntStream
+            .range(0, reports.size())
+            .forEach(i -> reports.get(i).setNo(i + 1));
+        int count = reportQueryRepository.searchCountProcessedReports(schoolId, ProgressStatus.REGISTER);
+
+        return ReportResponse.builder()
             .count(count)
             .reports(reports)
             .build();
