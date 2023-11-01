@@ -14,7 +14,5 @@ include::overview.adoc[]
 [[Board-API]]
 == Board API
 
-
-[[Free-Board-API]]
-== Free Board API
-
+include::api/board/search-new-free-boards.adoc[]
+include::api/board/search-new-notice-boards.adoc[]
