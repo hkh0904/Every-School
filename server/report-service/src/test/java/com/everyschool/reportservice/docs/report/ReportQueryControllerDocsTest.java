@@ -1,19 +1,25 @@
 package com.everyschool.reportservice.docs.report;
 
 import com.everyschool.reportservice.api.controller.report.ReportQueryController;
+import com.everyschool.reportservice.api.controller.report.response.ReceivedReportResponse;
 import com.everyschool.reportservice.api.service.report.ReportQueryService;
 import com.everyschool.reportservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,38 +35,29 @@ public class ReportQueryControllerDocsTest extends RestDocsSupport {
     @DisplayName("접수된 신고 목록 조회 API")
     @Test
     void searchReceivedReport() throws Exception {
+
+        ReceivedReportResponse.ReportVo vo = ReceivedReportResponse.ReportVo.builder()
+            .reportId(1L)
+            .typeId(5001)
+            .date(LocalDateTime.now())
+            .build();
+        vo.setNo(1);
+
+        ReceivedReportResponse response = ReceivedReportResponse.builder()
+            .count(1)
+            .reports(List.of(vo))
+            .build();
+
+        given(reportQueryService.searchReceivedReport(anyLong()))
+            .willReturn(response);
+
         mockMvc.perform(
             get("/report-service/v1/schools/{schoolId}/received-reports", 1L)
         )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("search-received-report",
-                preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                requestFields(
-                    fieldWithPath("typeId").type(JsonFieldType.NUMBER)
-                        .description("신고 타입"),
-                    fieldWithPath("title").type(JsonFieldType.STRING)
-                        .description("신고 제목"),
-                    fieldWithPath("description").type(JsonFieldType.STRING)
-                        .description("신고 설명"),
-                    fieldWithPath("who").type(JsonFieldType.STRING)
-                        .description("누가"),
-                    fieldWithPath("when").type(JsonFieldType.STRING)
-                        .description("언제"),
-                    fieldWithPath("where").type(JsonFieldType.STRING)
-                        .description("어디서"),
-                    fieldWithPath("what").type(JsonFieldType.STRING)
-                        .description("무엇을"),
-                    fieldWithPath("how").type(JsonFieldType.STRING)
-                        .optional()
-                        .description("어떻게"),
-                    fieldWithPath("why").type(JsonFieldType.STRING)
-                        .optional()
-                        .description("왜"),
-                    fieldWithPath("files").type(JsonFieldType.ARRAY)
-                        .description("파일")
-                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
@@ -70,12 +67,18 @@ public class ReportQueryControllerDocsTest extends RestDocsSupport {
                         .description("메시지"),
                     fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
-                    fieldWithPath("data.reportId").type(JsonFieldType.NUMBER)
-                        .description("응답 데이터"),
-                    fieldWithPath("data.title").type(JsonFieldType.STRING)
-                        .description("응답 데이터"),
-                    fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
-                        .description("응답 데이터")
+                    fieldWithPath("data.count").type(JsonFieldType.NUMBER)
+                        .description("대기 중 신고수"),
+                    fieldWithPath("data.reports").type(JsonFieldType.ARRAY)
+                        .description("신고 목록"),
+                    fieldWithPath("data.reports[].no").type(JsonFieldType.NUMBER)
+                        .description("신고 번호"),
+                    fieldWithPath("data.reports[].reportId").type(JsonFieldType.NUMBER)
+                        .description("신고 id"),
+                    fieldWithPath("data.reports[].type").type(JsonFieldType.STRING)
+                        .description("신고 타입"),
+                    fieldWithPath("data.reports[].date").type(JsonFieldType.ARRAY)
+                        .description("신고 등록 일시")
                 )
             ));
     }
