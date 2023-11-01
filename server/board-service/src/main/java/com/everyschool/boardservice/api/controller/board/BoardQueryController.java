@@ -1,6 +1,7 @@
 package com.everyschool.boardservice.api.controller.board;
 
 import com.everyschool.boardservice.api.ApiResponse;
+import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
 import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
 import com.everyschool.boardservice.api.service.board.BoardQueryService;
@@ -36,6 +37,16 @@ public class BoardQueryController {
         log.debug("call BoardQueryController#searchNewNoticeBoards");
 
         List<NewNoticeResponse> responses = boardQueryService.searchNewNoticeBoards(schoolId);
+        log.debug("results={}", responses);
+
+        return ApiResponse.ok(responses);
+    }
+
+    @GetMapping("new-communication")
+    public ApiResponse<List<NewCommunicationResponse>> searchNewCommunicationBoards(@PathVariable Long schoolId) {
+        log.debug("call BoardQueryController#searchNewCommunicationBoards");
+
+        List<NewCommunicationResponse> responses = boardQueryService.searchNewCommunicationBoards(schoolId);
         log.debug("results={}", responses);
 
         return ApiResponse.ok(responses);
