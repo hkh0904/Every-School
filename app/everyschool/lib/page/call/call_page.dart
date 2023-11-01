@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:everyschool/api/agora_config.dart';
 import 'package:everyschool/page/call/call_list.dart';
 import 'package:everyschool/page/call/get_call.dart';
 import 'package:everyschool/page/call/get_call_success.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
-const String appId = "f69df8611e874246bc2616951c3d1696";
+final AgoraConfig agoraConfig = AgoraConfig();
 
 class CallPage extends StatefulWidget {
   const CallPage({super.key});
@@ -16,9 +17,6 @@ class CallPage extends StatefulWidget {
 }
 
 class _CallPageState extends State<CallPage> {
-  String channelName = "ok";
-  String token =
-      "007eJxTYJj7qvy79SdemzsHA3gWSMhK8Sy/15W58I3t7B/L/j7b/adIgSHNzDIlzcLM0DDVwtzEyMQsKdnIzNDM0tQw2TgFSJtVXnZMbQhkZJC8FcXACIUgPhNDfjYDAwCQ0yAA";
   int uid = 1;
 
   Future<void> setupVoiceSDKEngine() async {
@@ -28,7 +26,8 @@ class _CallPageState extends State<CallPage> {
 
     //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
-    await agoraEngine.initialize(const RtcEngineContext(appId: appId));
+    await agoraEngine.initialize(RtcEngineContext(appId: agoraConfig.appId));
+    await agoraEngine.enableLocalAudio(true);
     print('아고라엔진시작');
 
     // Register the event handler
@@ -44,6 +43,15 @@ class _CallPageState extends State<CallPage> {
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           print('상대방전화받았음');
+          print('녹음 시작할겡');
+          agoraEngine.startAudioRecording(AudioRecordingConfiguration(
+            filePath: 'C:/Users/SSAFY/Desktop/noc/2.mp3',
+            encode: true,
+            sampleRate: 44100,
+            fileRecordingType: AudioFileRecordingType.audioFileRecordingMixed,
+            quality: AudioRecordingQualityType.audioRecordingQualityMedium,
+            recordingChannel: 2,
+          ));
           setState(() {
             _remoteUid = remoteUid;
           });
@@ -73,8 +81,8 @@ class _CallPageState extends State<CallPage> {
     );
 
     await agoraEngine.joinChannel(
-      token: token,
-      channelId: channelName,
+      token: agoraConfig.token,
+      channelId: agoraConfig.channelName,
       options: options,
       uid: uid,
     );
@@ -130,9 +138,9 @@ class _CallPageState extends State<CallPage> {
   Widget _status() {
     String statusText;
 
-    if (!_isJoined)
+    if (!_isJoined) {
       statusText = 'Join a channel';
-    else if (_remoteUid == null)
+    } else if (_remoteUid == null)
       statusText = 'Waiting for a remote user to join...';
     else
       statusText = 'Connected to remote user, uid:$_remoteUid';

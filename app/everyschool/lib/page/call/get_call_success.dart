@@ -10,9 +10,15 @@ class GetCallSuccess extends StatefulWidget {
 
 class _GetCallSuccessState extends State<GetCallSuccess> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+        body: SizedBox(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       // color: Colors.grey,
