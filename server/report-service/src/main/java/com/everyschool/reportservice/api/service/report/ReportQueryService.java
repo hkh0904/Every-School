@@ -19,15 +19,15 @@ public class ReportQueryService {
     private final ReportQueryRepository reportQueryRepository;
 
     public ReceivedReportResponse searchReceivedReport(Long schoolId) {
-        List<ReceivedReportVo> data = reportQueryRepository.searchReports(schoolId, ProgressStatus.REGISTER);
+        List<ReceivedReportResponse.ReportVo> reports = reportQueryRepository.searchReports(schoolId, ProgressStatus.REGISTER);
         IntStream
-            .range(0, data.size())
-            .forEach(i -> data.get(i).setNo(i + 1));
+            .range(0, reports.size())
+            .forEach(i -> reports.get(i).setNo(i + 1));
         int count = reportQueryRepository.searchCountReports(schoolId, ProgressStatus.REGISTER);
 
         return ReceivedReportResponse.builder()
             .count(count)
-            .reports(data)
+            .reports(reports)
             .build();
     }
 }
