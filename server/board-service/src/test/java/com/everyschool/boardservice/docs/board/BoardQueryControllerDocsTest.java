@@ -186,8 +186,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
     @DisplayName("공지사항 목록 조회 API")
     @Test
     void searchNoticeBoards() throws Exception {
-        NoticeResponse response2 = createNoticeResponse(2L, "자유 게시판 제목 2", "자유 게시판 내용 2", 10);
-        NoticeResponse response1 = createNoticeResponse(1L, "자유 게시판 제목 1", "자유 게시판 내용 1", 0);
+        NoticeResponse response2 = createNoticeResponse(2L, "공지사항 제목 2", "공지사항 내용 2", 10);
+        NoticeResponse response1 = createNoticeResponse(1L, "공지사항 제목 1", "공지사항 내용 1", 0);
 
         given(boardQueryService.searchNoticeBoards(anyLong()))
             .willReturn(List.of(response1, response2));
@@ -220,6 +220,55 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시물 작성일")
                 )
             ));
+    }
+
+    @DisplayName("가정통신문 목록 조회 API")
+    @Test
+    void searchCommunicationBoards() throws Exception {
+        CommunicationResponse response2 = createCommunicationResponse(2L, "가정통신문 제목 2", "가정통신문 내용 2", 10);
+        CommunicationResponse response1 = createCommunicationResponse(1L, "가정통신문 제목 1", "가정통신문 내용 1", 0);
+
+        given(boardQueryService.searchCommunicationBoards(anyLong()))
+            .willReturn(List.of(response1, response2));
+
+        mockMvc.perform(
+                get("/board-service/v1/schools/{schoolId}/boards/communications", 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-communication-boards",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                        .description("응답 데이터"),
+                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
+                        .description("게시물 id"),
+                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
+                        .description("게시물 제목"),
+                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
+                        .description("게시물 내용"),
+                    fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
+                        .description("게시물 댓글수"),
+                    fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
+                        .description("게시물 작성일")
+                )
+            ));
+    }
+
+    private CommunicationResponse createCommunicationResponse(Long boardId, String title, String content, int commentCount) {
+        return CommunicationResponse.builder()
+            .boardId(boardId)
+            .title(title)
+            .content(content)
+            .commentCount(commentCount)
+            .createdDate(LocalDateTime.now())
+            .build();
     }
 
     private NoticeResponse createNoticeResponse(Long boardId, String title, String content, int commentCount) {
