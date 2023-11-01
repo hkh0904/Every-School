@@ -1,6 +1,7 @@
 package com.everyschool.reportservice.api.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
+import com.everyschool.reportservice.api.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.service.report.ReportQueryService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,13 @@ public class ReportQueryController {
     }
 
     @GetMapping("/reports/{reportId}")
-    public ApiResponse<?> searchReport(@PathVariable Long schoolId, @PathVariable Long reportId) {
+    public ApiResponse<ReportDetailResponse> searchReport(@PathVariable Long schoolId, @PathVariable Long reportId) {
+        log.debug("call ReportQueryController#searchReport");
+        log.debug("reportId={}", reportId);
 
+        ReportDetailResponse response = reportQueryService.searchReport(reportId);
+        log.debug("result={}", response);
+
+        return ApiResponse.ok(response);
     }
 }
