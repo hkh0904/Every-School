@@ -76,6 +76,19 @@ public class BoardQueryController {
         return ApiResponse.ok(response);
     }
 
+    @GetMapping("/notice/{boardId}")
+    public ApiResponse<BoardDetailResponse> searchNoticeBoard(@PathVariable Long schoolId, @PathVariable Long boardId) {
+        log.debug("call BoardQueryController#searchNoticeBoard");
+
+        String userKey = tokenUtils.getUserKey();
+        log.debug("userKey={}", userKey);
+
+        BoardDetailResponse response = boardQueryService.searchBoard(boardId, userKey);
+        log.debug("results={}", response);
+
+        return ApiResponse.ok(response);
+    }
+
     @GetMapping("/new-communication")
     public ApiResponse<List<NewCommunicationResponse>> searchNewCommunicationBoards(@PathVariable Long schoolId) {
         log.debug("call BoardQueryController#searchNewCommunicationBoards");
@@ -92,6 +105,19 @@ public class BoardQueryController {
 
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
         SliceResponse<BoardResponse> response = boardQueryService.searchCommunicationBoards(schoolId, pageRequest);
+        log.debug("results={}", response);
+
+        return ApiResponse.ok(response);
+    }
+
+    @GetMapping("/communications/{boardId}")
+    public ApiResponse<BoardDetailResponse> searchCommunicationBoard(@PathVariable Long schoolId, @PathVariable Long boardId) {
+        log.debug("call BoardQueryController#searchCommunicationBoard");
+
+        String userKey = tokenUtils.getUserKey();
+        log.debug("userKey={}", userKey);
+
+        BoardDetailResponse response = boardQueryService.searchBoard(boardId, userKey);
         log.debug("results={}", response);
 
         return ApiResponse.ok(response);
