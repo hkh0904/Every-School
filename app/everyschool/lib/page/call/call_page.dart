@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:everyschool/page/call/call_list.dart';
+import 'package:everyschool/page/call/get_call.dart';
+import 'package:everyschool/page/call/get_call_success.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
@@ -15,7 +18,7 @@ class CallPage extends StatefulWidget {
 class _CallPageState extends State<CallPage> {
   String channelName = "ok";
   String token =
-      "007eJxTYHCyvdu+QWHXz79L9q5SuSGzTFvexr3h8tk34cyujJwl040UGNLMLFPSLMwMDVMtzE2MTMySko3MDM0sTQ2TjVOAtNnJvw6pDYGMDIKHj7EwMkAgiM/EkJ/NwAAA5PQdzw==";
+      "007eJxTYJj7qvy79SdemzsHA3gWSMhK8Sy/15W58I3t7B/L/j7b/adIgSHNzDIlzcLM0DDVwtzEyMQsKdnIzNDM0tQw2TgFSJtVXnZMbQhkZJC8FcXACIUgPhNDfjYDAwCQ0yAA";
   int uid = 1;
 
   Future<void> setupVoiceSDKEngine() async {
@@ -62,6 +65,7 @@ class _CallPageState extends State<CallPage> {
   }
 
   void join() async {
+    print('들어오다...');
     // Set channel options including the client role and channel profile
     ChannelMediaOptions options = const ChannelMediaOptions(
       clientRoleType: ClientRoleType.clientRoleBroadcaster,
@@ -74,6 +78,7 @@ class _CallPageState extends State<CallPage> {
       options: options,
       uid: uid,
     );
+    print('들어가다...');
   }
 
   void leave() {
@@ -112,35 +117,14 @@ class _CallPageState extends State<CallPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Get started with Voice Calling'),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          children: [
-            // Status text
-            Container(height: 40, child: Center(child: _status())),
-            // Button Row
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Join"),
-                    onPressed: () => {join()},
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Leave"),
-                    onPressed: () => {leave()},
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ));
+    // return GetCall(leave: leave);
+    if (!_isJoined) {
+      return CallList(join: join, leave: leave);
+    } else if (_remoteUid == null) {
+      return GetCall(leave: leave);
+    } else {
+      return GetCallSuccess(leave: leave);
+    }
   }
 
   Widget _status() {

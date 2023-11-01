@@ -46,6 +46,7 @@ dependencies:
   file_picker: ^6.0.0
   agora_rtc_engine: ^6.2.4
   permission_handler: ^9.2.0
+  assets_audio_player: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,7 @@ flutter:
     - assets/images/login/
     - assets/images/consulting/
     - assets/images/community/
+    - assets/audios/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
