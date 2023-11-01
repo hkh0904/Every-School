@@ -40,6 +40,16 @@ public class BoardQueryController {
         return ApiResponse.ok(responses);
     }
 
+    @GetMapping("/frees/{boardId}")
+    public ApiResponse<FreeBoardDetailResponse> searchFreeBoard(@PathVariable Long schoolId, @PathVariable Long boardId) {
+        log.debug("call BoardQueryController#searchFreeBoard");
+
+        FreeBoardDetailResponse response = boardQueryService.searchFreeBoard(boardId);
+        log.debug("results={}", response);
+
+        return ApiResponse.ok(response);
+    }
+
     @GetMapping("/new-notice")
     public ApiResponse<List<NewNoticeResponse>> searchNewNoticeBoards(@PathVariable Long schoolId) {
         log.debug("call BoardQueryController#searchNewNoticeBoards");
