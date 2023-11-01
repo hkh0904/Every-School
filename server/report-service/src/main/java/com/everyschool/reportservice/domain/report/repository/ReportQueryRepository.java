@@ -1,5 +1,6 @@
 package com.everyschool.reportservice.domain.report.repository;
 
+import com.everyschool.reportservice.api.controller.report.response.MyReportResponse;
 import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.querydsl.core.types.Projections;
@@ -76,5 +77,20 @@ public class ReportQueryRepository {
             )
             .fetch()
             .size();
+    }
+
+    public List<MyReportResponse> findByUserId(Long userId) {
+        return queryFactory
+            .select(Projections.constructor(
+                MyReportResponse.class,
+                report.id,
+                report.typeId,
+                report.progressStatusId,
+                report.createdDate
+            ))
+            .from(report)
+            .where(report.userId.eq(userId))
+            .orderBy(report.createdDate.desc())
+            .fetch();
     }
 }
