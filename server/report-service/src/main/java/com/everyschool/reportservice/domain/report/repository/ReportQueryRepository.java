@@ -1,6 +1,6 @@
 package com.everyschool.reportservice.domain.report.repository;
 
-import com.everyschool.reportservice.api.controller.report.response.ReceivedResponse;
+import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,10 +20,10 @@ public class ReportQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<ReceivedResponse.ReportVo> searchReceivedReports(Long schoolId, ProgressStatus status) {
+    public List<ReportResponse.ReportVo> searchReceivedReports(Long schoolId, ProgressStatus status) {
         return queryFactory
             .select(Projections.constructor(
-                ReceivedResponse.ReportVo.class,
+                ReportResponse.ReportVo.class,
                 report.id,
                 report.typeId,
                 report.lastModifiedDate
@@ -37,10 +37,10 @@ public class ReportQueryRepository {
             .fetch();
     }
 
-    public List<ReceivedResponse.ReportVo> searchProcessedReports(Long schoolId, ProgressStatus status) {
+    public List<ReportResponse.ReportVo> searchProcessedReports(Long schoolId, ProgressStatus status) {
         return queryFactory
             .select(Projections.constructor(
-                ReceivedResponse.ReportVo.class,
+                ReportResponse.ReportVo.class,
                 report.id,
                 report.typeId,
                 report.lastModifiedDate
