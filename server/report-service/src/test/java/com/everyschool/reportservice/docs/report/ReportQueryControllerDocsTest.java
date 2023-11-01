@@ -1,7 +1,7 @@
 package com.everyschool.reportservice.docs.report;
 
 import com.everyschool.reportservice.api.controller.report.ReportQueryController;
-import com.everyschool.reportservice.api.controller.report.response.ReceivedReportResponse;
+import com.everyschool.reportservice.api.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.service.report.ReportQueryService;
 import com.everyschool.reportservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
@@ -36,19 +36,19 @@ public class ReportQueryControllerDocsTest extends RestDocsSupport {
     @Test
     void searchReceivedReport() throws Exception {
 
-        ReceivedReportResponse.ReportVo vo = ReceivedReportResponse.ReportVo.builder()
+        ReportResponse.ReportVo vo = ReportResponse.ReportVo.builder()
             .reportId(1L)
             .typeId(5001)
             .date(LocalDateTime.now())
             .build();
         vo.setNo(1);
 
-        ReceivedReportResponse response = ReceivedReportResponse.builder()
+        ReportResponse response = ReportResponse.builder()
             .count(1)
             .reports(List.of(vo))
             .build();
 
-        given(reportQueryService.searchReceivedReport(anyLong()))
+        given(reportQueryService.searchReceivedReports(anyLong()))
             .willReturn(response);
 
         mockMvc.perform(
@@ -78,7 +78,58 @@ public class ReportQueryControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("data.reports[].type").type(JsonFieldType.STRING)
                         .description("신고 타입"),
                     fieldWithPath("data.reports[].date").type(JsonFieldType.ARRAY)
-                        .description("신고 등록 일시")
+                        .description("접수 일시")
+                )
+            ));
+    }
+
+    @DisplayName("처리 중인 신고 목록 조회 API")
+    @Test
+    void searchProcessedReports() throws Exception {
+
+        ReportResponse.ReportVo vo = ReportResponse.ReportVo.builder()
+            .reportId(1L)
+            .typeId(5001)
+            .date(LocalDateTime.now())
+            .build();
+        vo.setNo(1);
+
+        ReportResponse response = ReportResponse.builder()
+            .count(1)
+            .reports(List.of(vo))
+            .build();
+
+        given(reportQueryService.searchProcessedReports(anyLong()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                get("/report-service/v1/schools/{schoolId}/processed-reports", 1L)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-processed-report",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.count").type(JsonFieldType.NUMBER)
+                        .description("처리 중 신고수"),
+                    fieldWithPath("data.reports").type(JsonFieldType.ARRAY)
+                        .description("신고 목록"),
+                    fieldWithPath("data.reports[].no").type(JsonFieldType.NUMBER)
+                        .description("신고 번호"),
+                    fieldWithPath("data.reports[].reportId").type(JsonFieldType.NUMBER)
+                        .description("신고 id"),
+                    fieldWithPath("data.reports[].type").type(JsonFieldType.STRING)
+                        .description("신고 타입"),
+                    fieldWithPath("data.reports[].date").type(JsonFieldType.ARRAY)
+                        .description("접수 일시")
                 )
             ));
     }
