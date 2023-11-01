@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:everyschool/page/call/get_call.dart';
+import 'package:everyschool/page/call/get_call_success.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
@@ -112,35 +114,44 @@ class _CallPageState extends State<CallPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Get started with Voice Calling'),
+    // return GetCall(leave: leave);
+    if (!_isJoined) {
+      return Scaffold(
+          body: Center(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            children: [
+              // Status text
+              Container(height: 40, child: Center(child: _status())),
+              // Button Row
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: ElevatedButton(
+                      child: const Text("Join"),
+                      onPressed: () => {join()},
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      child: const Text("Leave"),
+                      onPressed: () => {leave()},
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          children: [
-            // Status text
-            Container(height: 40, child: Center(child: _status())),
-            // Button Row
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Join"),
-                    onPressed: () => {join()},
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    child: const Text("Leave"),
-                    onPressed: () => {leave()},
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ));
+      ));
+    } else if (_remoteUid == null) {
+      return GetCall(leave: leave);
+    } else {
+      return GetCallSuccess(leave: leave);
+    }
   }
 
   Widget _status() {
