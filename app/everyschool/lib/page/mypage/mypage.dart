@@ -14,7 +14,7 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
+      body: SingleChildScrollView(
         child: const Column(
           children: [
             MypageUserInfo(),
