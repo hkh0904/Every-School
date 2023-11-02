@@ -3,6 +3,7 @@ package com.everyschool.userservice.api.controller.user;
 import com.everyschool.userservice.api.ApiResponse;
 import com.everyschool.userservice.api.controller.user.request.JoinParentRequest;
 import com.everyschool.userservice.api.controller.user.request.JoinStudentRequest;
+import com.everyschool.userservice.api.controller.user.request.JoinTeacherRequest;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.service.user.ParentService;
 import com.everyschool.userservice.api.service.user.StudentService;
@@ -67,7 +68,7 @@ public class JoinController {
      */
     @PostMapping("/join/teacher")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserResponse> joinTeacher(@Valid @RequestBody JoinStudentRequest request) {
+    public ApiResponse<UserResponse> joinTeacher(@Valid @RequestBody JoinTeacherRequest request) {
         log.debug("call UserController#joinTeacher");
         log.debug("JoinStudentRequest={}", request);
 
