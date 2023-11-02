@@ -49,6 +49,3 @@ public class FilterWordController {
         return ApiResponse.ok(response);
     }
 }
-
-
-// TODO: 2023-11-01 이거 임시 커밋함 해야함
