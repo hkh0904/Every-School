@@ -3,13 +3,16 @@ package com.everyschool.schoolservice.domain.schooluser;
 import com.everyschool.schoolservice.domain.BaseEntity;
 import com.everyschool.schoolservice.domain.school.School;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SchoolUser extends BaseEntity {
 
     @Id
@@ -17,16 +20,16 @@ public class SchoolUser extends BaseEntity {
     @Column(name = "school_user_id")
     private Long id;
 
-    @Column(nullable = false)
-    private Integer schoolUserCodeId;
+    @Column(updatable = false)
+    private Integer studentNumber;
 
-    @Column(nullable = false)
-    private Integer studentNum;
-
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Integer schoolYear;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
+    private Integer userTypeId;
+
+    @Column(nullable = false, updatable = false)
     private Long userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,15 +40,12 @@ public class SchoolUser extends BaseEntity {
     @JoinColumn(name = "school_class_id")
     private SchoolClass schoolClass;
 
-    protected SchoolUser() {
-        super();
-    }
-
     @Builder
-    private SchoolUser(Integer schoolUserCodeId, Integer studentNum, Integer schoolYear, Long userId, School school, SchoolClass schoolClass) {
-        this.schoolUserCodeId = schoolUserCodeId;
-        this.studentNum = studentNum;
+    private SchoolUser(Integer studentNumber, Integer schoolYear, Integer userTypeId, Long userId, School school, SchoolClass schoolClass) {
+        super();
+        this.studentNumber = studentNumber;
         this.schoolYear = schoolYear;
+        this.userTypeId = userTypeId;
         this.userId = userId;
         this.school = school;
         this.schoolClass = schoolClass;
