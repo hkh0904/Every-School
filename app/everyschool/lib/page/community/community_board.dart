@@ -10,11 +10,12 @@ class CommunityBoard extends StatefulWidget {
 
 class _CommunityBoardState extends State<CommunityBoard> {
   var boardList = [
-    {'title': '짧은공지제목', 'date': '2023.10.30.11:23'},
-    {'title': '짧은공지제목짧은공지제목', 'date': '2023.10.30.10:43'},
-    {'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.30.09:23'},
-    {'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.29.23:01'},
+    {'boardId': 1, 'title': '짧은공지제목', 'date': '2023.10.30.11:23'},
+    {'boardId': 2, 'title': '짧은공지제목짧은공지제목', 'date': '2023.10.30.10:43'},
+    {'boardId': 3, 'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.30.09:23'},
+    {'boardId': 4, 'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.29.23:01'},
     {
+      'boardId': 5,
       'title': '아주긴공지제목아주긴공지제목아주긴공지제목아주긴공지제목아주긴공지제목',
       'date': '2023.10.28.16:33'
     },
