@@ -184,6 +184,8 @@ spring:
           uri: lb://VOICEAI-SERVICE
           predicates:
             - Path=/voiceai-service/v1/**
+          filters:
+            - RewritePath=/voiceai-service/(?<segment>.*), /$\{segment}
 
 
 
