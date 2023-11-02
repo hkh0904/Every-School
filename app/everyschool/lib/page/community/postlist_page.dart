@@ -24,7 +24,7 @@ class _PostlistPageState extends State<PostlistPage> {
           centerTitle: true,
           leading: IconButton(
             iconSize: 30,
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
             onPressed: () {
               Navigator.pop(context); // 이전 페이지로 돌아가기
             },
@@ -42,7 +42,7 @@ class _PostlistPageState extends State<PostlistPage> {
               iconSize: 30,
               icon: Icon(
                 Icons.add,
-                color: Colors.black,
+                color: Color(0XFF15075F),
               ),
               onPressed: () {
                 Navigator.push(

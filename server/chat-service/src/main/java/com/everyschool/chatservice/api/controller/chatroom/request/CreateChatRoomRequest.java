@@ -1,4 +1,4 @@
-package com.everyschool.chatservice.api.controller.chat.request;
+package com.everyschool.chatservice.api.controller.chatroom.request;
 
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
 import lombok.Builder;

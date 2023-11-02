@@ -4,7 +4,6 @@ import com.everyschool.chatservice.api.controller.chat.response.ChatRoomListResp
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

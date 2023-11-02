@@ -5,13 +5,17 @@ import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
+import com.everyschool.chatservice.api.service.util.RedisUtils;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
+import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserQueryRepository;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -20,8 +24,12 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomUserRepository chatRoomUserRepository;
+    private final ChatRoomUserQueryRepository chatRoomUserQueryRepository;
+
     private final UserServiceClient userServiceClient;
     private final SchoolServiceClient schoolServiceClient;
+
+    private final RedisUtils redisUtil;
 
     /**
      * 채팅방 생성
@@ -58,6 +66,27 @@ public class ChatRoomService {
                 .roomTitle(roomUser.getChatRoomTitle())
                 .userName(opponentUser.getUserName())
                 .build();
+    }
+
+    /**
+     * 채팅방 입장시 채팅방에 있는 인원 증가
+     *
+     * @param chatRoomId
+     * @param userId
+     */
+    public void connectChatRoom(Long chatRoomId, Long userId) {
+        String chatRoomUserCountKey = "CHAR_ROOM_USER_COUNT_" + chatRoomId;
+        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        if (roomUserCount == null) {
+            roomUserCount = String.valueOf(0);
+        }
+        int count = Integer.parseInt(roomUserCount) + 1;
+        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
+
+        //채팅 읽음 처리
+        ChatRoomUser chatRoomUser = chatRoomUserQueryRepository.findChatRoomUserByRoomIdAndUserId(chatRoomId, userId)
+                .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
+        chatRoomUser.read();
     }
 
     /**
@@ -103,5 +132,15 @@ public class ChatRoomService {
                 .unreadCount(0)
                 .chatRoom(chatRoom)
                 .build();
+    }
+
+    public void disconnect(Long chatRoomId) {
+        String chatRoomUserCountKey = "CHAR_ROOM_USER_COUNT_" + chatRoomId;
+        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        if (roomUserCount == null) {
+            roomUserCount = String.valueOf(0);
+        }
+        int count = Integer.parseInt(roomUserCount) - 1;
+        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
     }
 }

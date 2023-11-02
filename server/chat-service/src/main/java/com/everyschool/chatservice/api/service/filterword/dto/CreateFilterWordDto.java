@@ -1,7 +1,6 @@
 package com.everyschool.chatservice.api.service.filterword.dto;
 
 import com.everyschool.chatservice.domain.filterword.FilterWord;
-import com.everyschool.chatservice.domain.MongoSeq;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,7 +18,6 @@ public class CreateFilterWordDto {
 
     public FilterWord toEntity() {
         return FilterWord.builder()
-                .id(MongoSeq.getSeq())
                 .word(this.word)
                 .build();
     }
