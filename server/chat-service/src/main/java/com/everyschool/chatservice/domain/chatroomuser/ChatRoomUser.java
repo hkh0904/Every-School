@@ -66,6 +66,3 @@ public class ChatRoomUser extends BaseEntity {
         this.unreadCount = 0;
     }
 }
-
-
-// TODO: 2023-11-01 이거 임시 커밋함 해야함
