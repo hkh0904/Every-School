@@ -1,0 +1,10 @@
+[[search-free-boards]]
+=== 자유 게시판 목록 조회 API
+
+==== HTTP Request
+include::{snippets}/search-free-boards/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-free-boards/http-response.adoc[]
+include::{snippets}/search-free-boards/response-fields.adoc[]
