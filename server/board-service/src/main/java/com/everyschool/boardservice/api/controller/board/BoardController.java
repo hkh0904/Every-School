@@ -37,4 +37,30 @@ public class BoardController {
 
         return ApiResponse.created(response);
     }
+
+    @PostMapping("/notices")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<CreateBoardResponse> createNoticeBoard(@PathVariable Long schoolId, @ModelAttribute CreateBoardRequest request) throws IOException {
+
+        String userKey = tokenUtils.getUserKey();
+
+        List<UploadFile> uploadFiles = fileStore.storeFiles(request.getFiles());
+
+        CreateBoardResponse response = boardService.createNoticeBoard(userKey, schoolId, request.toDto(uploadFiles));
+
+        return ApiResponse.created(response);
+    }
+
+    @PostMapping("/communications")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<CreateBoardResponse> createCommunicationBoard(@PathVariable Long schoolId, @ModelAttribute CreateBoardRequest request) throws IOException {
+
+        String userKey = tokenUtils.getUserKey();
+
+        List<UploadFile> uploadFiles = fileStore.storeFiles(request.getFiles());
+
+        CreateBoardResponse response = boardService.createCommunicationBoard(userKey, schoolId, request.toDto(uploadFiles));
+
+        return ApiResponse.created(response);
+    }
 }
