@@ -2,7 +2,6 @@ import 'package:everyschool/api/stomp_client.dart';
 import 'package:everyschool/page/chat/chat_controller.dart';
 import 'package:everyschool/page/chat/chat_room.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
