@@ -2,6 +2,7 @@ package com.everyschool.schoolservice.api.service.schooluser;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.dto.SearchMyClassStudentDto;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
@@ -56,5 +57,13 @@ public class SchoolUserQueryService {
         }
 
         return responses;
+    }
+
+    public StudentInfo searchStudentInfo(Long userId) {
+        Optional<StudentInfo> studentInfo = schoolUserQueryRepository.findByUserId(userId);
+        if (studentInfo.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return studentInfo.get();
     }
 }
