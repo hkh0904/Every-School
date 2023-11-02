@@ -1,46 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import {
-  onChangeEmail,
-  onChangeId,
-  onChangePassword,
-  onChangePasswordConfirm,
-  onChangePhoneNumber
-} from './SignupFunc';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { checkEmailApi, checkIdApi, clickSignup, checkEmailAuth } from './AuthApi';
+import { onChangeEmail, onChangePassword, onChangePasswordConfirm } from './SignupFunc';
+import { useNavigate } from 'react-router-dom';
+import { clickSignup } from './AuthApi';
 import styles from './Signup.module.css';
+import { emailAuthNum } from '../../api/UserAPI/userAPI';
 
 function Signup() {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [emailAuth, setEmailAuth] = useState('');
-  const [phoneNumber, setphoneNumber] = useState('');
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const [emailMessage, setEmailMessage] = useState('');
-  const [timeoutMessage, setTimeoutMessage] = useState('인증 시간이 만료되었습니다. 다시 인증해주세요.');
-  const [authMessage, setAuthMessage] = useState('');
-  const [phoneNumberMessage, setPhoneNumberMessage] = useState('');
-  const [idMessage, setIdMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
-  const [isId, setIsId] = useState(false);
-  const [idBtn, setIdBtn] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
   const [emailBtn, setEmailBtn] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
   const [authorizedEmail, setAuthorizedEmail] = useState(false);
+  const [showEmailAuth, setShowEmailAuth] = useState(false);
 
   const [remainingTime, setRemainingTime] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
   const [isTimeout, setIsTimeout] = useState(false);
+  const [timeoutMessage, setTimeoutMessage] = useState('인증 시간이 만료되었습니다. 다시 인증해주세요.');
+
+  const navigate = useNavigate();
 
   const startTimer = () => {
-    setRemainingTime(300);
+    setRemainingTime(180);
     setTimerRunning(true);
   };
 
@@ -59,20 +51,19 @@ function Signup() {
     };
   }, [timerRunning, remainingTime]);
 
-  const handleCheckEmail = (e) => {
-    setIsTimeout(false);
-    startTimer();
-  };
+  function clickAuthBtn(e) {
+    e.preventDefault();
+    startTimer(); // 인증버튼을 클릭했을 때 타이머 시작
+    emailAuthNum(email);
+    setShowEmailAuth(true);
+  }
 
   const data = {
     userName,
     email,
-    phoneNumber,
     id,
     password: passwordConfirm
   };
-
-  const navigate = useNavigate();
 
   return (
     <div className={styles.signupBox}>
@@ -95,69 +86,43 @@ function Signup() {
             <button
               className={`${styles.checkbtn}`}
               onClick={(e) => {
-                checkEmailApi(e, email, setEmailMessage, setIsEmail);
-                handleCheckEmail();
+                clickAuthBtn(e);
               }}
               disabled={!emailBtn && !isEmail}
             >
               인증받기
             </button>
-            {timerRunning && !authorizedEmail && isEmail && (
-              <p className={`${styles.message} ${styles.timer}`}>
-                남은 시간: {Math.floor(remainingTime / 60)}분 {remainingTime % 60}초
-              </p>
-            )}
-            {isTimeout && isEmail && (
-              <>
-                <p className={`${styles.message}`}> {timeoutMessage} </p>
-              </>
-            )}
-            {!isTimeout && (
-              <>
-                <p className={`${styles.message} ${isEmail ? styles.correct2 : styles.message}`}> {emailMessage} </p>
-              </>
-            )}
-
-            {isEmail && !isTimeout && (
-              <>
-                <input
-                  className={`${styles.checkinput2}`}
-                  type='text'
-                  id='emailCheck'
-                  value={emailAuth}
-                  placeholder='인증번호를 입력해주세요'
-                  onChange={(e) => setEmailAuth(e.target.value)}
-                  disabled={authorizedEmail}
-                />
-                <button
-                  className={`${styles.checkbtn}`}
-                  onClick={(e) =>
-                    checkEmailAuth(e, email, emailAuth, setEmailMessage, setAuthorizedEmail, setAuthMessage)
-                  }
-                >
-                  인증확인
-                </button>
-                <p className={`${styles.message} ${authorizedEmail ? styles.correct : styles.message}`}>
-                  {' '}
-                  {authMessage}{' '}
-                </p>
-              </>
-            )}
           </div>
-          {/* <div>
-            <label className={styles.label} htmlFor='phoneNumber'>
-              핸드폰번호{' '}
-            </label>
-            <input
-              className={styles.input}
-              type='text'
-              id='phoneNumber'
-              value={phoneNumber}
-              placeholder="'-' 없이 입력"
-              onChange={(e) => onChangePhoneNumber(e, setphoneNumber, setPhoneNumberMessage)}
-            />
-            <p className={styles.message}> {phoneNumberMessage} </p>
-          </div> */}
+          <p className={`${styles.message} ${isEmail ? styles.correct2 : styles.message}`}> {emailMessage} </p>
+
+          {showEmailAuth && (
+            <div className={styles.emailCertification}>
+              <input
+                className={`${styles.checkinput}`}
+                id='emailAuthNum'
+                value={emailAuth}
+                onChange={(e) => {}}
+                placeholder='인증번호를 입력해주세요.'
+              />
+              <button
+                className={`${styles.checkbtn}`}
+                onClick={(e) => {
+                  clickAuthBtn();
+                }}
+                disabled={!emailBtn && !isEmail}
+              >
+                인증번호 확인
+              </button>
+            </div>
+          )}
+          {timerRunning && !isTimeout && (
+            <p className={`${styles.message} ${styles.timer}`}>
+              남은 시간: {Math.floor(remainingTime / 60)}분 {remainingTime % 60}초
+            </p>
+          )}
+
+          {isTimeout && isEmail && <p className={`${styles.message}`}> {timeoutMessage} </p>}
+
           <div>
             <label className={styles.label} htmlFor='userName'>
               이름{' '}
@@ -208,7 +173,7 @@ function Signup() {
           <button
             className={styles.signupBtn}
             onClick={async (e) => {
-              if (isPassword && isPasswordConfirm && isId && isEmail && authorizedEmail) {
+              if (isPassword && isPasswordConfirm && isEmail && authorizedEmail) {
                 const signup = await clickSignup(e, data);
                 if (signup.data === 'success') {
                   navigate('/account/login');
@@ -216,9 +181,6 @@ function Signup() {
               } else if (!isPassword | !isPasswordConfirm) {
                 e.preventDefault();
                 alert('비밀번호를 다시 확인해주세요.');
-              } else if (!isId) {
-                e.preventDefault();
-                alert('아이디를 확인해주세요.');
               } else if (!isEmail || !authorizedEmail) {
                 e.preventDefault();
                 alert('이메일을 확인해주세요.');

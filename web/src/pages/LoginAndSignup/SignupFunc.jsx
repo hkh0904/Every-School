@@ -14,40 +14,6 @@ export const onChangeEmail = function (e, setEmail, setEmailMessage, setEmailBtn
   }
 };
 
-export const onChangePhoneNumber = function (e, setPhoneNumber, setPhoneNumberMessage) {
-  const currentPhoneNumber = e.target.value.replace(/[^0-9]/g, ''); // 하이픈을 제거하고 숫자만 남깁니다.
-
-  const regPhone = (phoneNumber) => {
-    return phoneNumber.replace(/(\d{3})(\d{4})(\d)/, '$1-$2-$3');
-  };
-
-  const formattedPhoneNumber = regPhone(currentPhoneNumber);
-  setPhoneNumber(formattedPhoneNumber);
-
-  const phoneRegExp = /^[0-9]{0,13}$/;
-
-  if (currentPhoneNumber.length > 11) {
-    setPhoneNumberMessage('핸드폰 번호를 입력해 주세요.');
-  } else if (!phoneRegExp.test(currentPhoneNumber)) {
-    setPhoneNumberMessage('숫자만 입력해 주세요.');
-  } else {
-    setPhoneNumberMessage('');
-  }
-};
-
-export const onChangeId = function (e, setId, setIdMessage, setIdBtn) {
-  const currentId = e.target.value;
-  setId(currentId);
-  const idRegExp = /^[a-zA-z0-9]{4,12}$/;
-
-  if (!idRegExp.test(currentId)) {
-    setIdMessage('4-12이내 영문 대소문자 또는 숫자만 입력해 주세요!');
-  } else {
-    setIdMessage('');
-    setIdBtn(true);
-  }
-};
-
 export const onChangePassword = function (e, setPassword, setPasswordMessage, setIsPassword) {
   const currentPassword = e.target.value;
   setPassword(currentPassword);
@@ -80,19 +46,6 @@ export const onChangePasswordConfirm = function (
   }
 };
 
-export const onChangeExp = function (e, setExp, setExpMessage, setIsExp) {
-  const currentExp = e.target.value;
-  setExp(currentExp);
-  const ExpReg = /^[0-9]{0,13}$/;
-  if (!ExpReg.test(currentExp)) {
-    setExpMessage('숫자만 입력해주세요.');
-    setIsExp(false);
-  } else {
-    setExpMessage('');
-    setIsExp(true);
-  }
-};
-
 export const clickLogin = async (e, data) => {
   e.preventDefault();
   const response = await login(data);
@@ -100,16 +53,8 @@ export const clickLogin = async (e, data) => {
     alert('아이디와 비밀번호를 확인해주세요');
     return 0;
   } else {
-    localStorage.clear();
-    localStorage.setItem('tokenType', response.grantType);
-    localStorage.setItem('accessToken', response.accessToken);
-    localStorage.setItem('refreshToken', response.refreshToken);
-
-    function clearLocalStorageAfterTime() {
-      localStorage.clear();
-    }
-
-    setTimeout(clearLocalStorageAfterTime, 86400000);
+    sessionStorage.clear();
+    sessionStorage.setItem('token', response.token);
     return 1;
   }
 };

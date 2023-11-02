@@ -60,9 +60,7 @@ function Login() {
             onClick={async (e) => {
               const loginRes = await clickLogin(e, data);
               if (loginRes === 1) {
-                navigate('/loginmain');
-                const ACCESS_TOKEN = localStorage.getItem('accessToken');
-                dispatch(changeLoginInfo(ACCESS_TOKEN));
+                navigate('/');
                 dispatch(changeLoginId(id));
               }
             }}

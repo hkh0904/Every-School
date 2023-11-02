@@ -1,7 +1,15 @@
 import React from 'react';
 import styles from './NavBar.module.css';
+import { useNavigate } from 'react-router';
 
 export default function NavBar() {
+  const navigate = useNavigate();
+
+  function clickLogin() {
+    sessionStorage.clear();
+    navigate('/login');
+  }
+
   return (
     <div className={styles.navbar}>
       <div className={styles.logo}>
@@ -10,7 +18,7 @@ export default function NavBar() {
       </div>
       <div className={styles.menu}>
         <p>알림</p>
-        <p>로그아웃</p>
+        <p onClick={clickLogin}>로그아웃</p>
       </div>
     </div>
   );
