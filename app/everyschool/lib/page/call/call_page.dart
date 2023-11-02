@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
+import 'package:everyschool/api/agora_config.dart';
 import 'package:everyschool/page/call/call_list.dart';
 import 'package:everyschool/page/call/get_call.dart';
 import 'package:everyschool/page/call/get_call_success.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'dart:convert';
 
-const String appId = "6efb02b249514fb98c77d77fd470660c";
+final AgoraConfig agoraConfig = AgoraConfig();
 
 class CallPage extends StatefulWidget {
   const CallPage({super.key});
@@ -16,10 +19,57 @@ class CallPage extends StatefulWidget {
 }
 
 class _CallPageState extends State<CallPage> {
-  String channelName = "kkk";
-  String token =
-      "007eJxTYLiWp+HSK8Y/9f3pc/e3GCfvm1AWqfLgp+vH3ht7nwte012hwGCWmpZkYJRkZGJpamiSlmRpkWxunmJunpZiYm5gZmaQ/PidY2pDICODyutHDIxQCOIzM2RnZzMwAADg0SHy";
-  int uid = 0;
+  final Dio dio = Dio();
+
+  Future<void> fetchToken(int uid, String channelName, int tokenRole,
+      String serverUrl, int tokenExpireTime, bool isTokenExpiring) async {
+    final channelId = channelName;
+    // Prepare the Url
+    String url =
+        '$serverUrl/rtc/$channelName/${tokenRole.toString()}/uid/${uid.toString()}?expiry=${tokenExpireTime.toString()}';
+
+    // Send the request
+    final response = await dio.get(url);
+
+    if (response.statusCode == 200) {
+      // If the server returns an OK response, then parse the JSON.
+
+      String newToken = response.data['rtcToken'];
+      debugPrint('Token Received: $newToken');
+      // Use the token to join a channel or renew an expiring token
+      setToken(newToken, channelId, isTokenExpiring, uid);
+    } else {
+      // If the server did not return an OK response,
+      // then throw an exception.
+      throw Exception(
+          'Failed to fetch a token. Make sure that your server URL is valid');
+    }
+  }
+
+  void setToken(String newToken, String channelId, isTokenExpiring, uid) async {
+    final reNewToken = newToken;
+    ChannelMediaOptions options = const ChannelMediaOptions(
+      clientRoleType: ClientRoleType.clientRoleBroadcaster,
+      channelProfile: ChannelProfileType.channelProfileCommunication,
+    );
+
+    if (isTokenExpiring) {
+      // Renew the token
+      agoraEngine.renewToken(reNewToken);
+      isTokenExpiring = false;
+      showMessage("Token renewed");
+    } else {
+      // Join a channel.
+      showMessage("Token received, joining a channel...");
+
+      await agoraEngine.joinChannel(
+        token: reNewToken,
+        channelId: channelId,
+        options: options,
+        uid: uid,
+      );
+    }
+  }
 
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission
@@ -28,7 +78,8 @@ class _CallPageState extends State<CallPage> {
 
     //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
-    await agoraEngine.initialize(const RtcEngineContext(appId: appId));
+    await agoraEngine.initialize(RtcEngineContext(appId: agoraConfig.appId));
+    await agoraEngine.enableLocalAudio(true);
     print('아고라엔진시작');
 
     // Register the event handler
@@ -44,6 +95,7 @@ class _CallPageState extends State<CallPage> {
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           print('상대방전화받았음');
+
           setState(() {
             _remoteUid = remoteUid;
           });
@@ -62,23 +114,6 @@ class _CallPageState extends State<CallPage> {
         },
       ),
     );
-  }
-
-  void join() async {
-    print('들어오다...');
-    // Set channel options including the client role and channel profile
-    ChannelMediaOptions options = const ChannelMediaOptions(
-      clientRoleType: ClientRoleType.clientRoleBroadcaster,
-      channelProfile: ChannelProfileType.channelProfileCommunication,
-    );
-
-    await agoraEngine.joinChannel(
-      token: token,
-      channelId: channelName,
-      options: options,
-      uid: uid,
-    );
-    print('들어가다...');
   }
 
   void leave() {
@@ -119,7 +154,7 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     // return GetCall(leave: leave);
     if (!_isJoined) {
-      return CallList(join: join, leave: leave);
+      return CallList(join: fetchToken, leave: leave);
     } else if (_remoteUid == null) {
       return GetCall(leave: leave);
     } else {
@@ -130,9 +165,9 @@ class _CallPageState extends State<CallPage> {
   Widget _status() {
     String statusText;
 
-    if (!_isJoined)
+    if (!_isJoined) {
       statusText = 'Join a channel';
-    else if (_remoteUid == null)
+    } else if (_remoteUid == null)
       statusText = 'Waiting for a remote user to join...';
     else
       statusText = 'Connected to remote user, uid:$_remoteUid';
