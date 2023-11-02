@@ -1,6 +1,5 @@
 package com.everyschool.boardservice.domain.board;
 
-
 import com.everyschool.boardservice.domain.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -70,5 +69,26 @@ public class Board extends BaseEntity {
         this.title = title;
         this.content = content;
         this.isUsedComment = isUsedComment;
+    }
+
+    public static Board createBoard(int categoryId, Long schoolId, Long schoolClassId, Long userId, String title, String content, Boolean isUsedComment, List<UploadFile> uploadFiles) {
+        Board board = Board.builder()
+            .categoryId(categoryId)
+            .schoolId(schoolId)
+            .schoolClassId(schoolClassId)
+            .userId(userId)
+            .title(title)
+            .content(content)
+            .isUsedComment(isUsedComment)
+            .build();
+
+        for (UploadFile uploadFile : uploadFiles) {
+            AttachedFile.builder()
+                .board(board)
+                .uploadFile(uploadFile)
+                .build();
+        }
+
+        return board;
     }
 }
