@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
+import static com.everyschool.chatservice.domain.chatroom.QChatRoom.chatRoom;
 import static com.everyschool.chatservice.domain.chatroomuser.QChatRoomUser.chatRoomUser;
 
 @Repository
@@ -26,5 +27,14 @@ public class ChatRoomUserQueryRepository {
                 .from(chatRoomUser)
                 .where(chatRoomUser.userId.eq(userId),
                         chatRoomUser.chatRoom.id.eq(roomId)).fetchOne());
+    }
+
+    public Optional<Long> findOpponentUserId(Long chatRoomId, Long senderUserId) {
+        return Optional.ofNullable(queryFactory
+                .select(chatRoomUser.userId)
+                .from(chatRoomUser)
+                .join(chatRoom).on(chatRoom.id.eq(chatRoomId))
+                .where(chatRoomUser.userId.ne(senderUserId))
+                .fetchOne());
     }
 }
