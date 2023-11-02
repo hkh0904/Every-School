@@ -12,12 +12,11 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 @Configuration
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor
-public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer  {
+public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
 
     private final StompHandler stompHandler;
 
     /**
-     *
      * @param registry
      */
     @Override
@@ -43,6 +42,3 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer  
         registry.setSendBufferSizeLimit(3 * 512 * 1024);
     }
 }
-
-
-// TODO: 2023-11-01 이거 임시 커밋함 해야함
