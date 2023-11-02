@@ -2,6 +2,7 @@ package com.everyschool.userservice.api.controller.client.response;
 
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.Student;
+import com.everyschool.userservice.domain.user.Teacher;
 import lombok.Builder;
 import lombok.Data;
 
@@ -36,6 +37,15 @@ public class UserInfo {
             .userType(parent.getParentType().charAt(0))
             .userName(parent.getName())
             .schoolClassId(null)
+            .build();
+    }
+
+    public static UserInfo of(Teacher teacher) {
+        return UserInfo.builder()
+            .userId(teacher.getId())
+            .userType('T')
+            .userName(teacher.getName())
+            .schoolClassId(teacher.getSchoolClassId())
             .build();
     }
 
