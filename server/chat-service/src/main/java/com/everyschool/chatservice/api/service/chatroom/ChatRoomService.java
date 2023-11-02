@@ -25,8 +25,10 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRoomUserRepository chatRoomUserRepository;
     private final ChatRoomUserQueryRepository chatRoomUserQueryRepository;
+
     private final UserServiceClient userServiceClient;
     private final SchoolServiceClient schoolServiceClient;
+
     private final RedisUtils redisUtil;
 
     /**
@@ -85,8 +87,6 @@ public class ChatRoomService {
         ChatRoomUser chatRoomUser = chatRoomUserQueryRepository.findChatRoomUserByRoomIdAndUserId(chatRoomId, userId)
                 .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
         chatRoomUser.read();
-
-
     }
 
     /**
@@ -133,7 +133,14 @@ public class ChatRoomService {
                 .chatRoom(chatRoom)
                 .build();
     }
+
+    public void disconnect(Long chatRoomId) {
+        String chatRoomUserCountKey = "CHAR_ROOM_USER_COUNT_" + chatRoomId;
+        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        if (roomUserCount == null) {
+            roomUserCount = String.valueOf(0);
+        }
+        int count = Integer.parseInt(roomUserCount) - 1;
+        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
+    }
 }
-
-
-// TODO: 2023-11-01 이거 임시 커밋함 해야함
