@@ -16,4 +16,20 @@ public enum Category {
         this.code = code;
         this.text = text;
     }
+
+    public static String getText(int code) {
+        if (FREE.getCode() == code) {
+            return FREE.getText();
+        }
+
+        if (NOTICE.getCode() == code) {
+            return FREE.getText();
+        }
+
+        if (COMMUNICATION.getCode() == code) {
+            return FREE.getText();
+        }
+
+        throw new IllegalArgumentException();
+    }
 }
