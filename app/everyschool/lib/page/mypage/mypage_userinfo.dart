@@ -14,14 +14,45 @@ class _MypageUserInfoState extends State<MypageUserInfo> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 400,
+      height: 330,
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/images/mypage/top.png'),
             fit: BoxFit.cover),
       ),
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, children: [userImage()]),
+      child: Column(children: [
+        SizedBox(
+          height: 100,
+          child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Icon(Icons.arrow_back, size: 25),
+              ),
+            ),
+            Text(
+              '내정보',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+            )
+          ]),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.07,
+        ),
+        userImage(),
+        SizedBox(
+          height: 5,
+        ),
+        Text('학교이름'),
+        Text('유저정보'),
+        Text(
+          '유저이름',
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+        )
+      ]),
     );
   }
 
