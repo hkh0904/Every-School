@@ -27,14 +27,26 @@ public class CallQueryService {
      * @return 조회된 통화 목록 리스트
      */
     public List<CallResponse> searchMyCalls(String userKey) {
-        UserInfo user = userServiceClient.searchUserInfoByUserKey(userKey);
         log.debug("call CallQueryService#searchMyCalls");
-        log.debug("get user from user-serivce = {}", user);
+        UserInfo user = getUser(userKey);
 
         if (user.getUserType() == 'T') {
             return callQueryRepository.findAllByTeacherId(user.getUserId());
         }
 
         return callQueryRepository.findAllById(user.getUserId());
+    }
+
+    public CallResponse searchMyCall(Long callId) {
+        log.debug("call CallQueryService#searchMyCalls");
+
+        return callQueryRepository.findById(callId);
+    }
+
+    private UserInfo getUser(String userKey) {
+        UserInfo user = userServiceClient.searchUserInfoByUserKey(userKey);
+        log.debug("get user from user-serivce = {}", user);
+
+        return user;
     }
 }

@@ -1,5 +1,6 @@
 package com.everyschool.callservice.docs.call;
 
+import com.everyschool.callservice.api.controller.FileStore;
 import com.everyschool.callservice.api.controller.call.CallController;
 import com.everyschool.callservice.api.controller.call.request.CreateCallRequest;
 import com.everyschool.callservice.api.service.call.CallService;
@@ -24,11 +25,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class CallControllerDocsTest extends RestDocsSupport {
 
-    private CallService callService = mock(CallService.class);
+    private final CallService callService = mock(CallService.class);
+    private final FileStore fileStore;
+
+    public CallControllerDocsTest(FileStore fileStore) {
+        this.fileStore = fileStore;
+    }
 
     @Override
     protected Object initController() {
-        return new CallController(callService);
+        return new CallController(callService, fileStore);
     }
 
     @DisplayName("선생님 통화 종료시 통화 내역 저장 API")
@@ -39,8 +45,7 @@ public class CallControllerDocsTest extends RestDocsSupport {
                 .sender("O")
                 .startDateTime(LocalDateTime.now().minusHours(12))
                 .endDateTime(LocalDateTime.now().minusHours(11))
-                .uploadFileName("이예리 폭언 논란 원본")
-                .storeFileName("이예리 폭언 논란 원본")
+                .file(null)
                 .build();
 
         mockMvc.perform(
@@ -67,12 +72,9 @@ public class CallControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("endDateTime").type(JsonFieldType.ARRAY)
                                         .optional()
                                         .description("통화 종료 시간"),
-                                fieldWithPath("uploadFileName").type(JsonFieldType.STRING)
+                                fieldWithPath("file").type(JsonFieldType.ARRAY)
                                         .optional()
-                                        .description("업로드 할 파일명"),
-                                fieldWithPath("storeFileName").type(JsonFieldType.STRING)
-                                        .optional()
-                                        .description("저장된 파일 명")
+                                        .description("파일 업로드")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -87,5 +89,4 @@ public class CallControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
-    // TODO: 나의 통화 목록 조회
 }

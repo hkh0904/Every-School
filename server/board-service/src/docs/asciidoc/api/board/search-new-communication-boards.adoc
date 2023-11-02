@@ -1,0 +1,10 @@
+[[search-new-communication-boards]]
+=== 가정통신문 새 글 조회 API
+
+==== HTTP Request
+include::{snippets}/search-new-communication-boards/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-new-communication-boards/http-response.adoc[]
+include::{snippets}/search-new-communication-boards/response-fields.adoc[]

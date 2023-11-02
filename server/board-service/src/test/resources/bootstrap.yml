@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      uri: http://every-school.com:8888
+      name: board-service
+  profiles:
+    active: dev
