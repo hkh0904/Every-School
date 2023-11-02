@@ -1,5 +1,6 @@
 package com.everyschool.chatservice.api.controller.chat.request;
 
+import com.everyschool.chatservice.api.service.chat.dto.SendMessageDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,12 @@ public class ChatMessage {
         this.senderUserKey = senderUserKey;
         this.message = message;
     }
+
+    public SendMessageDto toDto() {
+        return SendMessageDto.builder()
+                .chatRoomId(this.chatRoomId)
+                .senderUserKey(this.senderUserKey)
+                .message(this.message)
+                .build();
+    }
 }
-
-
-// TODO: 2023-11-01 이거 임시 커밋함 해야함
