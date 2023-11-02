@@ -38,10 +38,12 @@ public class UserQueryControllerDocsTest extends RestDocsSupport {
     @Test
     void searchUserInfo() throws Exception {
         UserInfoResponse response = UserInfoResponse.builder()
-            .type("학생")
+            .userTypeId(1001)
             .email("ssafy@gmail.ccom")
             .name("김싸피")
             .birth("2001-01-01")
+            .schoolId(1L)
+            .schoolClassId(10L)
             .joinDate(LocalDateTime.now())
             .build();
 
@@ -76,6 +78,10 @@ public class UserQueryControllerDocsTest extends RestDocsSupport {
                         .description("이름"),
                     fieldWithPath("data.birth").type(JsonFieldType.STRING)
                         .description("생년월일"),
+                    fieldWithPath("data.schoolId").type(JsonFieldType.NUMBER)
+                        .description("학교 id"),
+                    fieldWithPath("data.schoolClassId").type(JsonFieldType.NUMBER)
+                        .description("학급 id"),
                     fieldWithPath("data.joinDate").type(JsonFieldType.ARRAY)
                         .description("가입 일시")
                 )
