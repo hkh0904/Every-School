@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.everyschool.boardservice.domain.board.Category.FREE;
+import static com.everyschool.boardservice.domain.board.Category.*;
 
 @RequiredArgsConstructor
 @Service
@@ -29,4 +29,25 @@ public class BoardService {
 
         return CreateBoardResponse.of(savedBoard);
     }
+
+    public CreateBoardResponse createNoticeBoard(String userKey, Long schoolId, CreateBoardDto dto) {
+        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
+
+        Board board = Board.createBoard(NOTICE.getCode(), schoolId, null, userInfo.getUserId(), dto.getTitle(), dto.getContent(), dto.getIsUsedComment(), dto.getUploadFiles());
+
+        Board savedBoard = boardRepository.save(board);
+
+        return CreateBoardResponse.of(savedBoard);
+    }
+
+    public CreateBoardResponse createCommunicationBoard(String userKey, Long schoolId, CreateBoardDto dto) {
+        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
+
+        Board board = Board.createBoard(COMMUNICATION.getCode(), schoolId, null, userInfo.getUserId(), dto.getTitle(), dto.getContent(), dto.getIsUsedComment(), dto.getUploadFiles());
+
+        Board savedBoard = boardRepository.save(board);
+
+        return CreateBoardResponse.of(savedBoard);
+    }
+
 }
