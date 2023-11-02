@@ -1,5 +1,5 @@
 [[check-message-filter]]
-=== 필터링 단어 추가(관리자) API
+=== 채팅 전송 전 필터링 돌리기 API
 
 ==== HTTP Request
 
