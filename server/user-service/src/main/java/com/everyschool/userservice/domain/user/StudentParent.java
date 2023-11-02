@@ -1,13 +1,16 @@
 package com.everyschool.userservice.domain.user;
 
 import com.everyschool.userservice.domain.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @IdClass(StudentParentId.class)
 public class StudentParent extends BaseEntity {
 
@@ -21,13 +24,9 @@ public class StudentParent extends BaseEntity {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    protected StudentParent() {
-        super();
-    }
-
     @Builder
     private StudentParent(Parent parent, Student student) {
-        this();
+        super();
         this.parent = parent;
         this.student = student;
     }
