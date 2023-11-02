@@ -1,5 +1,5 @@
 spring:
   cloud:
     config:
-      uri: http://127.0.0.1:8888
+      uri: http://every-school:8888
       name: everyschool

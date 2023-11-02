@@ -6,7 +6,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://every-school:8761/eureka
   instance:
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
 
@@ -33,7 +33,7 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user-service/join
+            - Path=/user-service/join/**
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
