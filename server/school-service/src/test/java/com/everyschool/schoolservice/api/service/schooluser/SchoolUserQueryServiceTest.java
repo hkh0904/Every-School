@@ -3,6 +3,7 @@ package com.everyschool.schoolservice.api.service.schooluser;
 import com.everyschool.schoolservice.IntegrationTestSupport;
 import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.domain.school.School;
 import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
@@ -48,8 +49,15 @@ class SchoolUserQueryServiceTest extends IntegrationTestSupport {
         SchoolUser schoolUser1 = saveSchoolUser(school, schoolClass, 1L, 1);
         SchoolUser schoolUser2 = saveSchoolUser(school, schoolClass, 2L, 2);
 
-        given(userServiceClient.searchByUserKey(anyString()))
-            .willReturn(100L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(schoolClass.getId())
+            .build();
+
+        given(userServiceClient.searchUserInfo(anyString()))
+            .willReturn(userInfo);
 
         StudentResponse response1 = StudentResponse.builder()
             .studentId(1L)
@@ -69,10 +77,10 @@ class SchoolUserQueryServiceTest extends IntegrationTestSupport {
 
         //then
         assertThat(responses).hasSize(2)
-            .extracting("studentId", "name", "birth")
+            .extracting("studentNumber", "name", "birth")
             .containsExactlyInAnyOrder(
-                tuple("10301", "이예리", "1998.04.12"),
-                tuple("10302", "이리온", "1998.12.10")
+                tuple(10301, "이예리", "1998.04.12"),
+                tuple(10302, "이리온", "1998.12.10")
             );
     }
 
@@ -102,8 +110,8 @@ class SchoolUserQueryServiceTest extends IntegrationTestSupport {
 
     private SchoolUser saveSchoolUser(School school, SchoolClass schoolClass, Long userId, int studentNum) {
         SchoolUser schoolUser = SchoolUser.builder()
-            .schoolUserCodeId(2)
-            .studentNum(studentNum)
+            .userTypeId(2)
+            .studentNumber(studentNum)
             .schoolYear(2023)
             .userId(userId)
             .school(school)

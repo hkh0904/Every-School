@@ -42,14 +42,14 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
 
         MyClassStudentResponse response1 = MyClassStudentResponse.builder()
             .userId(1L)
-            .studentId("10301")
+            .studentNumber(10301)
             .name("이예리")
             .birth("1998.04.12")
             .build();
 
         MyClassStudentResponse response2 = MyClassStudentResponse.builder()
             .userId(2L)
-            .studentId("10302")
+            .studentNumber(10302)
             .name("이리온")
             .birth("1998.12.10")
             .build();

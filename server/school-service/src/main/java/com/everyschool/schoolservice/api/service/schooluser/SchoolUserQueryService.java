@@ -2,9 +2,10 @@ package com.everyschool.schoolservice.api.service.schooluser;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
-import com.everyschool.schoolservice.api.service.schooluser.dto.SearchMyClassStudentDto;
+import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserQueryRepository;
@@ -24,32 +25,38 @@ public class SchoolUserQueryService {
     private final SchoolClassRepository schoolClassRepository;
     private final UserServiceClient userServiceClient;
 
+    /**
+     * 담임 선생님의 학생 목록 조회
+     *
+     * @param userKey 담임 선생님 고유키
+     * @param schoolYear 조회 학년도
+     * @return 나의 학생 목록
+     */
     public List<MyClassStudentResponse> searchMyClassStudents(String userKey, Integer schoolYear) {
-        Long teacherId = userServiceClient.searchByUserKey(userKey);
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
-        Optional<SchoolClass> findSchoolClass = schoolClassRepository.findByTeacherIdAndSchoolYear(teacherId, schoolYear);
+        Optional<SchoolClass> findSchoolClass = schoolClassRepository.findByTeacherIdAndSchoolYear(userInfo.getUserId(), schoolYear);
         if (findSchoolClass.isEmpty()) {
             throw new NoSuchElementException();
         }
         SchoolClass schoolClass = findSchoolClass.get();
 
-        List<SearchMyClassStudentDto> searchMyClassStudentDtos = schoolUserQueryRepository.findBySchoolClassId(schoolClass.getId());
+        List<MyClassStudentDto> myClassStudents = schoolUserQueryRepository.findBySchoolClassId(schoolClass.getId());
 
-        List<Long> studentIds = searchMyClassStudentDtos.stream()
-            .map(SearchMyClassStudentDto::getStudentId)
+        List<Long> studentIds = myClassStudents.stream()
+            .map(MyClassStudentDto::getStudentId)
             .collect(Collectors.toList());
 
         List<StudentResponse> students = userServiceClient.searchByStudentIdIn(studentIds);
 
-        Map<Long, SearchMyClassStudentDto> map = searchMyClassStudentDtos.stream()
-            .collect(Collectors.toMap(SearchMyClassStudentDto::getStudentId, searchMyClassStudentDto -> searchMyClassStudentDto, (a, b) -> b));
-
+        Map<Long, Integer> map = myClassStudents.stream()
+            .collect(Collectors.toMap(MyClassStudentDto::getStudentId, MyClassStudentDto::getStudentNumber, (a, b) -> b));
 
         List<MyClassStudentResponse> responses = new ArrayList<>();
         for (StudentResponse student : students) {
             MyClassStudentResponse response = MyClassStudentResponse.builder()
                 .userId(student.getStudentId())
-                .studentId(String.format("%d%02d%02d", schoolClass.getGrade(), schoolClass.getClassNum(),  map.get(student.getStudentId()).getStudentNum()))
+                .studentNumber(map.get(student.getStudentId()))
                 .name(student.getName())
                 .birth(student.getBirth())
                 .build();

@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.api.service.schoolapply;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
+import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schoolapply.response.CreateSchoolApplyResponse;
 import com.everyschool.schoolservice.api.service.schoolapply.dto.CreateSchoolApplyDto;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
@@ -32,12 +33,12 @@ public class SchoolApplyService {
         }
         SchoolClass schoolClass = findSchoolClass.get();
 
-        Long userId = userServiceClient.searchByUserKey(userKey);
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
         SchoolApply schoolApply = SchoolApply.builder()
             .schoolYear(schoolClass.getSchoolYear())
             .codeId(1)
-            .studentId(userId)
+            .studentId(userInfo.getUserId())
             .parentId(null)
             .schoolClass(schoolClass)
             .build();
@@ -53,13 +54,13 @@ public class SchoolApplyService {
         }
         SchoolClass schoolClass = findSchoolClass.get();
 
-        Long userId = userServiceClient.searchByUserKey(userKey);
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
         SchoolApply schoolApply = SchoolApply.builder()
             .schoolYear(schoolClass.getSchoolYear())
             .codeId(2)
             .studentId(null)
-            .parentId(userId)
+            .parentId(userInfo.getUserId())
             .schoolClass(schoolClass)
             .build();
         SchoolApply savedSchoolApply = schoolApplyRepository.save(schoolApply);

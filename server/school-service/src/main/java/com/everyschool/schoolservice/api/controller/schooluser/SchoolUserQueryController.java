@@ -30,6 +30,7 @@ public class SchoolUserQueryController {
         log.debug("userKey={}", userKey);
 
         List<MyClassStudentResponse> responses = schoolUserQueryService.searchMyClassStudents(userKey, schoolYear);
+        log.debug("results={}", responses);
 
         return ApiResponse.ok(responses);
     }

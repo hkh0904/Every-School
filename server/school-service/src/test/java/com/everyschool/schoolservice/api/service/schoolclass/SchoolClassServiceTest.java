@@ -2,6 +2,7 @@ package com.everyschool.schoolservice.api.service.schoolclass;
 
 import com.everyschool.schoolservice.IntegrationTestSupport;
 import com.everyschool.schoolservice.api.client.UserServiceClient;
+import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schoolclass.response.CreateSchoolClassResponse;
 import com.everyschool.schoolservice.api.service.schoolclass.dto.CreateSchoolClassDto;
 import com.everyschool.schoolservice.domain.school.School;
@@ -41,8 +42,15 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
         SchoolClass schoolClass = saveSchoolClass(null);
         String userKey = UUID.randomUUID().toString();
 
-        given(userServiceClient.searchByUserKey(userKey))
-            .willReturn(1L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(schoolClass.getId())
+            .build();
+
+        given(userServiceClient.searchUserInfo(userKey))
+            .willReturn(userInfo);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
             .userKey(userKey)
@@ -65,8 +73,15 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
         SchoolClass schoolClass = saveSchoolClass(school);
         String userKey = UUID.randomUUID().toString();
 
-        given(userServiceClient.searchByUserKey(userKey))
-            .willReturn(2L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(schoolClass.getId())
+            .build();
+
+        given(userServiceClient.searchUserInfo(userKey))
+            .willReturn(userInfo);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
             .userKey(userKey)
@@ -88,8 +103,15 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
         School school = saveSchool(1003);
         String userKey = UUID.randomUUID().toString();
 
-        given(userServiceClient.searchByUserKey(userKey))
-            .willReturn(1L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(1L)
+            .build();
+
+        given(userServiceClient.searchUserInfo(userKey))
+            .willReturn(userInfo);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
             .userKey(userKey)
@@ -111,8 +133,15 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
         School school = saveSchool(1002);
         String userKey = UUID.randomUUID().toString();
 
-        given(userServiceClient.searchByUserKey(userKey))
-            .willReturn(1L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(1L)
+            .build();
+
+        given(userServiceClient.searchUserInfo(userKey))
+            .willReturn(userInfo);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
             .userKey(userKey)
@@ -134,8 +163,15 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
         School school = saveSchool(1001);
         String userKey = UUID.randomUUID().toString();
 
-        given(userServiceClient.searchByUserKey(userKey))
-            .willReturn(1L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(1L)
+            .build();
+
+        given(userServiceClient.searchUserInfo(userKey))
+            .willReturn(userInfo);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
             .userKey(userKey)
@@ -157,8 +193,15 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
         School school = saveSchool(1003);
         String userKey = UUID.randomUUID().toString();
 
-        given(userServiceClient.searchByUserKey(userKey))
-            .willReturn(1L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(0L)
+            .build();
+
+        given(userServiceClient.searchUserInfo(userKey))
+            .willReturn(userInfo);
 
         CreateSchoolClassDto dto = CreateSchoolClassDto.builder()
             .userKey(userKey)

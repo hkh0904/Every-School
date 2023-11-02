@@ -4,14 +4,14 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class SearchMyClassStudentDto {
+public class MyClassStudentDto {
 
     private Long studentId;
-    private Integer studentNum;
+    private Integer studentNumber;
 
     @Builder
-    public SearchMyClassStudentDto(Long studentId, Integer studentNum) {
+    public MyClassStudentDto(Long studentId, Integer studentNumber) {
         this.studentId = studentId;
-        this.studentNum = studentNum;
+        this.studentNumber = studentNumber;
     }
 }

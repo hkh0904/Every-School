@@ -1,7 +1,7 @@
 package com.everyschool.schoolservice.domain.schooluser.repository;
 
 import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
-import com.everyschool.schoolservice.api.service.schooluser.dto.SearchMyClassStudentDto;
+import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static com.everyschool.schoolservice.domain.schoolclass.QSchoolClass.schoolClass;
 import static com.everyschool.schoolservice.domain.schooluser.QSchoolUser.schoolUser;
+import static com.everyschool.schoolservice.domain.schooluser.UserType.*;
 
 @Repository
 public class SchoolUserQueryRepository {
@@ -22,15 +23,19 @@ public class SchoolUserQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<SearchMyClassStudentDto> findBySchoolClassId(Long schoolClassId) {
+    public List<MyClassStudentDto> findBySchoolClassId(Long schoolClassId) {
         return queryFactory
             .select(Projections.constructor(
-                SearchMyClassStudentDto.class,
+                MyClassStudentDto.class,
                 schoolUser.userId,
-                schoolUser.studentNum
+                schoolUser.studentNumber
             ))
             .from(schoolUser)
-            .where(schoolUser.schoolClass.id.eq(schoolClassId))
+            .where(
+                schoolUser.schoolClass.id.eq(schoolClassId),
+                schoolUser.userTypeId.eq(STUDENT.getCode()),
+                schoolUser.isDeleted.isFalse()
+            )
             .fetch();
     }
 
@@ -40,7 +45,7 @@ public class SchoolUserQueryRepository {
                 StudentInfo.class,
                 schoolUser.schoolClass.grade,
                 schoolUser.schoolClass.classNum,
-                schoolUser.studentNum
+                schoolUser.studentNumber
             ))
             .from(schoolUser)
             .join(schoolUser.schoolClass, schoolClass)

@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.api.service.schoolclass;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
+import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schoolclass.response.CreateSchoolClassResponse;
 import com.everyschool.schoolservice.api.service.schoolclass.dto.CreateSchoolClassDto;
 import com.everyschool.schoolservice.domain.school.School;
@@ -26,9 +27,9 @@ public class SchoolClassService {
     private final UserServiceClient userServiceClient;
 
     public CreateSchoolClassResponse createSchoolClass(Long schoolId, CreateSchoolClassDto dto) {
-        Long teacherId = userServiceClient.searchByUserKey(dto.getUserKey());
+        UserInfo userInfo = userServiceClient.searchUserInfo(dto.getUserKey());
 
-        boolean isExistTeacher = schoolClassQueryRepository.existByTeacherIdAndSchoolYear(teacherId, dto.getSchoolYear());
+        boolean isExistTeacher = schoolClassQueryRepository.existByTeacherIdAndSchoolYear(userInfo.getUserId(), dto.getSchoolYear());
         if (isExistTeacher) {
             throw new IllegalArgumentException("이미 담임으로 등록된 교사입니다.");
         }
@@ -58,7 +59,7 @@ public class SchoolClassService {
             .grade(dto.getGrade())
             .classNum(dto.getClassNum())
             .school(school)
-            .teacherId(teacherId)
+            .teacherId(userInfo.getUserId())
             .build();
         SchoolClass savedSchoolClass = schoolClassRepository.save(schoolClass);
 

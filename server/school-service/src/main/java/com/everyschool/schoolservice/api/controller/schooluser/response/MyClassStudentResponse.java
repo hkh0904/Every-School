@@ -7,14 +7,14 @@ import lombok.Data;
 public class MyClassStudentResponse {
 
     private Long userId;
-    private String studentId;
+    private Integer studentNumber;
     private String name;
     private String birth;
 
     @Builder
-    public MyClassStudentResponse(Long userId, String studentId, String name, String birth) {
+    public MyClassStudentResponse(Long userId, Integer studentNumber, String name, String birth) {
         this.userId = userId;
-        this.studentId = studentId;
+        this.studentNumber = studentNumber;
         this.name = name;
         this.birth = birth;
     }
