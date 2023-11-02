@@ -16,5 +16,11 @@ include::overview.adoc[]
 
 include::api/chat/create-chat-room.adoc[]
 include::api/chat/search-chat-room-list.adoc[]
-include::api/chat/send-chat.adoc[]
 include::api/chat/search-chat.adoc[]
+
+
+[[filter-API]]
+== Filter API
+
+include::api/filter/create-filter-word.adoc[]
+include::api/filter/check-message-filter.adoc[]

@@ -4,7 +4,7 @@ import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.ChatRoomListResponse;
-import com.everyschool.chatservice.domain.MongoSeq;
+import com.everyschool.chatservice.api.service.SequenceGeneratorService;
 import com.everyschool.chatservice.domain.chat.Chat;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
@@ -33,10 +33,13 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
     @Autowired
     private ChatRoomUserRepository chatRoomUserRepository;
 
+    @Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
+
     @MockBean
     private UserServiceClient userServiceClient;
 
-    @DisplayName("로그인 한 유저의 채팅방 목록 조회")
+    @DisplayName("[Service]로그인 한 유저의 채팅방 목록 조회")
     @Test
     void searchChatRooms() {
         //given
@@ -44,13 +47,13 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
         ChatRoomUser user1 = createChatRoomUser(savedChatRoom1, 1L, "1학년 2반 임우택(부)", 2);
         ChatRoomUser opponent1 = createChatRoomUser(savedChatRoom1, 2L, "선생님", 2);
         Chat user1SentMessage = createSentMessage(savedChatRoom1, user1, opponent1, "user1 sent message");
-        Chat opponent1SentMessage = createSentMessage(savedChatRoom1, opponent1, user1, "opponent1 sent message");
+        Chat opponent1SentMessage = createSentMessage(savedChatRoom1, opponent1, user1, "opponent1 sent message 이거 출력돼야함 2번째로");
 
         ChatRoom savedChatRoom2 = chatRoomRepository.save(ChatRoom.builder().build());
         ChatRoomUser user2 = createChatRoomUser(savedChatRoom2, 1L, "1학년 2반 신성주(부)", 2);
         ChatRoomUser opponent2 = createChatRoomUser(savedChatRoom2, 3L, "선생님", 2);
         Chat opponent2SentMessage = createSentMessage(savedChatRoom2, opponent2, user2, "opponent2 sent message");
-        Chat user2SentMessage = createSentMessage(savedChatRoom2, user2, opponent2, "user2 sent message");
+        Chat user2SentMessage = createSentMessage(savedChatRoom2, user2, opponent2, "user2 sent message이거 1번째로 출력");
 
         UserInfo teacher = UserInfo.builder()
                 .userId(1L)
@@ -73,9 +76,9 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
         //then
         assertThat(chatRooms.size()).isEqualTo(2);
         assertThat(chatRooms.get(0).getRoomTitle()).isEqualTo("1학년 2반 신성주(부)");
-        assertThat(chatRooms.get(0).getLastMessage()).isEqualTo("user2 sent message");
+        assertThat(chatRooms.get(0).getLastMessage()).isEqualTo("user2 sent message이거 1번째로 출력");
         assertThat(chatRooms.get(1).getRoomTitle()).isEqualTo("1학년 2반 임우택(부)");
-        assertThat(chatRooms.get(1).getLastMessage()).isEqualTo("opponent1 sent message");
+        assertThat(chatRooms.get(1).getLastMessage()).isEqualTo("opponent1 sent message 이거 출력돼야함 2번째로");
 
 
     }
@@ -84,7 +87,7 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
         sender.updateUpdateChat(message);
         receiver.updateUpdateChat(message);
         return chatRepository.save(Chat.builder()
-                .id(MongoSeq.getSeq())
+                .id(sequenceGeneratorService.generateSequence(Chat.SEQUENCE_NAME))
                 .userId(sender.getUserId())
                 .content(message)
                 .isBad(false)

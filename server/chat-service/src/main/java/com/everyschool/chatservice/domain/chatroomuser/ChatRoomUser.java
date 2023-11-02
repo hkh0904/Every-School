@@ -61,4 +61,8 @@ public class ChatRoomUser extends BaseEntity {
         this.lastContent = lastContent;
         this.unreadCount++;
     }
+
+    public void read() {
+        this.unreadCount = 0;
+    }
 }
