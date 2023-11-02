@@ -24,7 +24,7 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 35, 0, 20),
+      margin: EdgeInsets.fromLTRB(0, 35, 0, 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(

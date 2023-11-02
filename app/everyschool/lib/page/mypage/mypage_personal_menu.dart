@@ -1,3 +1,4 @@
+import 'package:everyschool/page/mypage/userinfo_correction.dart';
 import 'package:flutter/material.dart';
 
 class MypagePersonalMenu extends StatefulWidget {
@@ -15,6 +16,12 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
     ['공지사항 관리', '비밀번호 변경']
   ];
 
+  var perPagelist = [
+    ['Scrap', 'UserInfoCorrection', 'ChangePwd'],
+    ['Scrap', 'UserInfoCorrection', 'ChangePwd'],
+    ['Notification', 'ChangePwd']
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,23 +32,40 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
         children: List.generate(
           perMenulist[userNum - 1].length,
           (index) {
-            return Container(
-              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Color(0xff9A9A9A)),
-                  borderRadius: BorderRadius.circular(8)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(perMenulist[userNum - 1][index],
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 14,
-                  )
-                ],
+            return GestureDetector(
+              onTap: () {
+                String pageName = perPagelist[userNum - 1][index];
+                Widget pageWidget = Container();
+
+                if (pageName == 'UserInfoCorrection') {
+                  pageWidget = UserInfoCorrection();
+                }
+                // else if (pageName == 'Scrap') {
+                //   pageWidget = Scrap();
+                // }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => pageWidget),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Color(0xff9A9A9A)),
+                    borderRadius: BorderRadius.circular(8)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(perMenulist[userNum - 1][index],
+                        style: TextStyle(fontWeight: FontWeight.w600)),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
+                    )
+                  ],
+                ),
               ),
             );
           },
