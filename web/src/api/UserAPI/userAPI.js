@@ -1,5 +1,4 @@
 import { baseAxios } from '../Axios.jsx';
-// 로그인
 
 export const login = async (data) => {
   const userInfo = {
@@ -39,5 +38,37 @@ export const emailAuthNum = async (email) => {
     return response.data;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const emailAuthNumCheck = async (email, emailAuth) => {
+  try {
+    const response = await baseAxios.post(`/user-service/auth/email/check`, {
+      email: email,
+      authCode: emailAuth
+    });
+    return response.data.status;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const userSignup = async function (e, data) {
+  e.preventDefault();
+  const userInfo = {
+    userCode: data.userCode,
+    email: data.email,
+    password: data.password,
+    name: data.name,
+    birth: data.birth
+  };
+
+  try {
+    const response = await baseAxios.post(`/user-service/join/teacher`, userInfo);
+    console.log(response.data);
+    return response.data.status;
+  } catch (err) {
+    alert('정보를 다시 한번 확인해주세요');
+    return err.message;
   }
 };

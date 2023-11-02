@@ -1,29 +1,8 @@
-// 로그인, 회원가입 요청
-
 import axios from 'axios';
 
 export const AuthApi = axios.create({
   baseURL: '/'
 });
-
-export const clickSignup = async function (e, data) {
-  e.preventDefault();
-  const userInfo = {
-    userName: data.userName,
-    userEmail: data.email,
-    userPhone: data.phoneNumber,
-    userId: data.id,
-    userPwd: data.password,
-    userGrade: 'USER'
-  };
-  try {
-    const response = await AuthApi.post(`account/signup`, userInfo);
-    return response;
-  } catch (err) {
-    alert('정보를 다시 한번 확인해주세요');
-    return err.message;
-  }
-};
 
 export const login = async (data) => {
   const userInfo = {

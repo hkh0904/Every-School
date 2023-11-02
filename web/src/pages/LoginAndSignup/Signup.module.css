@@ -188,3 +188,31 @@ input.input[type='radio'] {
   background-color: transparent;
   color: #2e64fe;
 }
+
+.dateSelectorWrapper {
+  display: flex;
+}
+
+.dateSelector {
+  margin-top: 5px;
+  flex: 1;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  height: 50px;
+}
+
+.selectyear {
+  margin-right: 5px;
+}
+
+.selectmonth {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.selectday {
+  margin-left: 5px;
+}
+
+.defaultOption {
+  color: #d9d9d9;
+}
