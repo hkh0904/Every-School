@@ -1,4 +1,4 @@
-import { login, naverLogin } from './AuthApi';
+import { login } from '../../api/UserAPI/userAPI';
 
 export const onChangeEmail = function (e, setEmail, setEmailMessage, setEmailBtn) {
   const currentEmail = e.target.value;

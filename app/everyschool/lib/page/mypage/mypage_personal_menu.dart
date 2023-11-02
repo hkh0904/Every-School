@@ -1,3 +1,4 @@
+import 'package:everyschool/page/mypage/change_password.dart';
 import 'package:everyschool/page/mypage/userinfo_correction.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +18,9 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
   ];
 
   var perPagelist = [
-    ['Scrap', 'UserInfoCorrection', 'ChangePwd'],
-    ['Scrap', 'UserInfoCorrection', 'ChangePwd'],
-    ['Notification', 'ChangePwd']
+    [UserInfoCorrection(), UserInfoCorrection(), ChangePassword()],
+    [UserInfoCorrection(), UserInfoCorrection(), ChangePassword()],
+    [UserInfoCorrection(), ChangePassword()]
   ];
 
   @override
@@ -34,18 +35,10 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
           (index) {
             return GestureDetector(
               onTap: () {
-                String pageName = perPagelist[userNum - 1][index];
-                Widget pageWidget = Container();
-
-                if (pageName == 'UserInfoCorrection') {
-                  pageWidget = UserInfoCorrection();
-                }
-                // else if (pageName == 'Scrap') {
-                //   pageWidget = Scrap();
-                // }
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => pageWidget),
+                  MaterialPageRoute(
+                      builder: (context) => perPagelist[userNum - 1][index]),
                 );
               },
               child: Container(
@@ -72,6 +65,5 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
         ),
       ),
     );
-    ;
   }
 }
