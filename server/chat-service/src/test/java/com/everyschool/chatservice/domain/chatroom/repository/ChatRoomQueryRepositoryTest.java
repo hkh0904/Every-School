@@ -8,6 +8,7 @@ import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ class ChatRoomQueryRepositoryTest extends IntegrationTestSupport {
     private ChatRoomUserRepository chatRoomUserRepository;
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
+
+    @AfterEach
+    void tearDown() {
+        chatRepository.deleteAll();
+    }
 
     @DisplayName("[Repository] 로그인 한 유저가 속한 채팅방 목록 가져오기")
     @Test
@@ -58,7 +64,6 @@ class ChatRoomQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(chatRooms.get(0).getRoomTitle()).isEqualTo("1학년 2반 신성주(부)");
         assertThat(chatRooms.get(0).getLastMessage()).isEqualTo("user2 sent message이거 1번째로 출력");
         assertThat(chatRooms.get(1).getRoomTitle()).isEqualTo("1학년 2반 임우택(부)");
-//        assertThat(chatRooms.get(1).getRoomTitle()).isEqualTo("1학년 2반 신성주(부)");
         assertThat(chatRooms.get(1).getLastMessage()).isEqualTo("opponent1 sent message 이거 출력돼야함 2번째로");
 
 
