@@ -1,14 +1,14 @@
 package com.everyschool.userservice.api.controller.client;
 
+import com.everyschool.userservice.api.controller.client.response.StudentResponse;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * MSA 통신용 API
@@ -55,5 +55,15 @@ public class UserClientController {
         log.debug("UserInfo={}", userInfo);
 
         return userInfo;
+    }
+
+    @PostMapping("/student-info")
+    public List<StudentResponse> searchByStudentIdIn(@RequestBody List<Long> studentIds) {
+        log.debug("call UserClientController#searchByStudentIdIn");
+
+        List<StudentResponse> response = userQueryService.searchByStudentIdIn(studentIds);
+        log.debug("results={}", response);
+
+        return response;
     }
 }
