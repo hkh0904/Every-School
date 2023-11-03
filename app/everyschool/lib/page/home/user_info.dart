@@ -22,7 +22,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
   // }
 
   var info = {
-    'user_num': 2,
+    'user_num': 1001,
     'school': '수완초등학교',
     'grade': 1,
     'class': 3,
@@ -65,7 +65,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
     //   }),
     // );
     if (info.isNotEmpty) {
-      if (info['user_num'] == 1) {
+      if (info['user_num'] == 1001) {
         return SizedBox(
           height: 60,
           child: Column(
@@ -78,7 +78,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
             ],
           ),
         );
-      } else if (info['user_num'] == 2) {
+      } else if (info['user_num'] == 1002) {
         return SizedBox(
           height: 60,
           child: Row(

@@ -33,14 +33,9 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey[50],
-        leading: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            visualDensity:
-                const VisualDensity(horizontal: -4.0, vertical: -4.0),
-            padding: const EdgeInsets.all(0),
-            alignment: Alignment.center,
-            splashRadius: 24.0,
-            onPressed: () {}),
+        leading: BackButton(
+          color: Colors.black,
+        ),
         elevation: 0,
         title: Text(
           '상담 신청',

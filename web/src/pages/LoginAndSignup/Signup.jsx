@@ -76,12 +76,12 @@ function Signup() {
 
   const handleMonthChange = (e) => {
     const value = e.target.value;
-    setMonth(value.padStart(2, '0'));
+    setMonth(value);
   };
 
   const handleDayChange = (e) => {
     const value = e.target.value;
-    setDay(value.padStart(2, '0'));
+    setDay(value);
   };
 
   const renderYearOptions = () => {
@@ -126,7 +126,7 @@ function Signup() {
     email,
     password: passwordConfirm,
     name: userName,
-    birth: `${year}-${month}-${day}`
+    birth: `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
   };
 
   return (
