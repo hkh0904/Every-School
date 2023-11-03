@@ -28,11 +28,42 @@ class _ChangePasswordState extends State<ChangePassword> {
   TextStyle unabledTitleTextStyle = TextStyle(
       fontSize: 18, color: Color(0xff868E96), fontWeight: FontWeight.bold);
 
+  void passwordValidation(value) {
+    if (!RegExp(
+            r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$")
+        .hasMatch(value)) {
+      setState(() {
+        passwordError = passwordMessage;
+        newPwdValidation = false;
+      });
+    } else {
+      setState(() {
+        passwordError = null; // 에러 없음
+        newPwdValidation = true;
+      });
+    }
+    properColor = newPwdValidation ? Color(0XFF15075F) : Colors.red;
+  }
+
+  void samePasswordValidation(value) {
+    if (newPassword.text != confirmPassword.text) {
+      setState(() {
+        samepasswordError = samepasswordMessage;
+        sameNewPwdValidation = false;
+      });
+    } else {
+      setState(() {
+        samepasswordError = null; // 에러 없음
+        sameNewPwdValidation = true;
+      });
+    }
+    properColor = sameNewPwdValidation ? Color(0XFF15075F) : Colors.red;
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Color properColor = newPwdValidation ? Color(0XFF15075F) : Colors.red;
   }
 
   @override
@@ -58,6 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: TextField(
+                onChanged: passwordValidation,
                 maxLength: 20,
 
                 controller: newPassword,
@@ -69,17 +101,21 @@ class _ChangePasswordState extends State<ChangePassword> {
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 1.5, color: properColor)),
+                        borderSide:
+                            BorderSide(width: 1.5, color: Color(0XFF15075F))),
                     border: OutlineInputBorder(borderSide: BorderSide()),
                     focusColor: Color(0XFF15075F)),
               ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Text('비밀번호 확인', style: myTextStyle),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
               child: TextField(
                 maxLength: 20,
-
+                onChanged: samePasswordValidation,
                 controller: confirmPassword,
                 obscureText: true, // 비밀번호 안보이도록 하는 것
                 decoration: InputDecoration(
@@ -88,9 +124,40 @@ class _ChangePasswordState extends State<ChangePassword> {
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
                     focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 1.5, color: properColor)),
+                        borderSide:
+                            BorderSide(width: 1.5, color: Color(0XFF15075F))),
                     border: OutlineInputBorder(borderSide: BorderSide()),
                     focusColor: Color(0XFF15075F)),
+              ),
+            ),
+            SizedBox(
+              height: 18,
+            ),
+            SizedBox(
+              height: 60,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: ButtonTheme(
+                    child: TextButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Color(0XFF15075F))),
+                        child: SizedBox(
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                '로그인',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ))),
               ),
             ),
           ],

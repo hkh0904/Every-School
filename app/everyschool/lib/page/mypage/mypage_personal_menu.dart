@@ -1,4 +1,5 @@
 import 'package:everyschool/page/mypage/change_password.dart';
+import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/userinfo_correction.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +13,14 @@ class MypagePersonalMenu extends StatefulWidget {
 class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
   int userNum = 1;
   var perMenulist = [
-    ['스크랩한 글', '개인정보 수정', '비밀번호 변경'],
-    ['스크랩한 글', '개인정보 수정', '비밀번호 변경'],
+    ['좋아요한 글', '개인정보 수정', '비밀번호 변경'],
+    ['좋아요한 글', '개인정보 수정', '비밀번호 변경'],
     ['공지사항 관리', '비밀번호 변경']
   ];
 
   var perPagelist = [
-    [UserInfoCorrection(), UserInfoCorrection(), ChangePassword()],
-    [UserInfoCorrection(), UserInfoCorrection(), ChangePassword()],
+    [MyLikePost(), UserInfoCorrection(), ChangePassword()],
+    [MyLikePost(), UserInfoCorrection(), ChangePassword()],
     [UserInfoCorrection(), ChangePassword()]
   ];
 

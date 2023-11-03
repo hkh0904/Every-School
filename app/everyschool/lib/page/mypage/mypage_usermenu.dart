@@ -1,3 +1,5 @@
+import 'package:everyschool/page/mypage/my_like_post.dart';
+import 'package:everyschool/page/mypage/my_write_list.dart';
 import 'package:flutter/material.dart';
 
 class MypageUsermenu extends StatefulWidget {
@@ -21,6 +23,12 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
     ['consulting', 'menu']
   ];
 
+  var perPagelist = [
+    [MyLikePost(), MyWriteList()],
+    [MyLikePost(), MyLikePost()],
+    [MyLikePost(), MyLikePost()],
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,19 +38,28 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
         children: List.generate(
           menulist[userNum - 1].length,
           (index) {
-            return Column(
-              children: [
-                Image.asset(
-                  'assets/images/mypage/${imagelist[userNum - 1][index]}.png',
-                  width: 40,
-                  height: 40,
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(menulist[userNum - 1][index],
-                    style: TextStyle(fontWeight: FontWeight.w600)),
-              ],
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => perPagelist[userNum - 1][index]),
+                );
+              },
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/mypage/${imagelist[userNum - 1][index]}.png',
+                    width: 40,
+                    height: 40,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(menulist[userNum - 1][index],
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                ],
+              ),
             );
           },
         ),
