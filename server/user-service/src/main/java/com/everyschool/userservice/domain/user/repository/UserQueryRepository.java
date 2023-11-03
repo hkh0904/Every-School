@@ -53,7 +53,7 @@ public class UserQueryRepository {
         UserInfoResponse content = queryFactory
             .select(Projections.constructor(
                 UserInfoResponse.class,
-                user.name,
+                user.userCodeId,
                 user.email,
                 user.name,
                 user.birth,
