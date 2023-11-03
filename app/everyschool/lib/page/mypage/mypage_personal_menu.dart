@@ -11,16 +11,16 @@ class MypagePersonalMenu extends StatefulWidget {
 }
 
 class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
-  int userNum = 1;
+  int userNum = 2;
   var perMenulist = [
-    ['좋아요한 글', '개인정보 수정', '비밀번호 변경'],
-    ['좋아요한 글', '개인정보 수정', '비밀번호 변경'],
+    ['학부모 등록하기', '좋아요한 글', '개인정보 수정', '비밀번호 변경'],
+    ['자녀 등록하기', '좋아요한 글', '개인정보 수정', '비밀번호 변경'],
     ['공지사항 관리', '비밀번호 변경']
   ];
 
   var perPagelist = [
-    [MyLikePost(), UserInfoCorrection(), ChangePassword()],
-    [MyLikePost(), UserInfoCorrection(), ChangePassword()],
+    [MyLikePost(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
+    [MyLikePost(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
     [UserInfoCorrection(), ChangePassword()]
   ];
 
