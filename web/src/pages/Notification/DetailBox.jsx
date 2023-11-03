@@ -1,15 +1,10 @@
-import { useState } from 'react';
 import styles from './DetailBox.module.css';
 
-export default function DetailBox() {
-  const [fileName, setFileName] = useState('');
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-
+export default function DetailBox({ setTitle, setContent, setFileName, fileName }) {
   const handleFileInputChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setFileName(file.name);
+    const newFiles = event.target.files;
+    if (newFiles.length > 0) {
+      setFileName(Array.from(newFiles));
     }
   };
 
@@ -30,9 +25,14 @@ export default function DetailBox() {
         ></textarea>
       </div>
       <div className={styles.inputFile}>
-        <input className={styles.fileHolder} value={fileName || '첨부파일'} placeholder='첨부파일' readOnly />
+        <input
+          className={styles.fileHolder}
+          value={fileName.map((file) => file.name).join(', ') || '첨부파일'}
+          placeholder='첨부파일'
+          readOnly
+        />
         <label htmlFor='file'>파일선택</label>
-        <input className={styles.fileSelect} type='file' id='file' onChange={handleFileInputChange} />
+        <input className={styles.fileSelect} type='file' multiple={true} id='file' onChange={handleFileInputChange} />
       </div>
     </div>
   );
