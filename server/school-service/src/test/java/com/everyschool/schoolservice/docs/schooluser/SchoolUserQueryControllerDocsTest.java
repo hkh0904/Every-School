@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.docs.schooluser;
 
 import com.everyschool.schoolservice.api.controller.schooluser.SchoolUserQueryController;
+import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
 import com.everyschool.schoolservice.docs.RestDocsSupport;
@@ -58,7 +59,7 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
-                get("/school-service/v1/schools/{schoolId}/classes/{schoolYear}", 1L, 2023)
+                get("/school-service/v1/schools/{schoolId}/classes/{schoolYear}/students", 1L, 2023)
                     .header("Authorization", "Bearer Access Token")
             )
             .andDo(print())
@@ -84,6 +85,64 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
                         .description("학생 이름"),
                     fieldWithPath("data.content[].birth").type(JsonFieldType.STRING)
                         .description("학생 생년월일")
+                )
+            ));
+    }
+
+    @DisplayName("나의 학급 학부모 조회 API")
+    @Test
+    void searchMyClassParents() throws Exception {
+        given(tokenUtils.getUserKey())
+            .willReturn(UUID.randomUUID().toString());
+
+        MyClassParentResponse response1 = MyClassParentResponse.builder()
+            .userId(1L)
+            .studentNumber(10301)
+            .studentName("하예솔")
+            .parentType('F')
+            .name("박연진")
+            .build();
+
+        MyClassParentResponse response2 = MyClassParentResponse.builder()
+            .userId(2L)
+            .studentNumber(10301)
+            .studentName("하예솔")
+            .parentType('M')
+            .name("하도영")
+            .build();
+
+        given(schoolUserQueryService.searchMyClassParents(anyString(), anyInt()))
+            .willReturn(List.of(response1, response2));
+
+        mockMvc.perform(
+                get("/school-service/v1/schools/{schoolId}/classes/{schoolYear}/parents", 1L, 2023)
+                    .header("Authorization", "Bearer Access Token")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-my-class-parents",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.count").type(JsonFieldType.NUMBER)
+                        .description("등록된 학부모 총원"),
+                    fieldWithPath("data.content[].userId").type(JsonFieldType.NUMBER)
+                        .description("학부모 id"),
+                    fieldWithPath("data.content[].studentNumber").type(JsonFieldType.NUMBER)
+                        .description("자녀 학번"),
+                    fieldWithPath("data.content[].studentName").type(JsonFieldType.STRING)
+                        .description("자녀 이름"),
+                    fieldWithPath("data.content[].parentType").type(JsonFieldType.STRING)
+                        .description("자녀와의 관계"),
+                    fieldWithPath("data.content[].name").type(JsonFieldType.STRING)
+                        .description("학부모 이름")
                 )
             ));
     }

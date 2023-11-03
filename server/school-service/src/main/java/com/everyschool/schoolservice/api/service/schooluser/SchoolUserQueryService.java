@@ -1,20 +1,26 @@
 package com.everyschool.schoolservice.api.service.schooluser;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
+import com.everyschool.schoolservice.api.client.response.StudentParentInfo;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
+import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
+import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
 import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserQueryRepository;
+import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.everyschool.schoolservice.ErrorMessage.NOT_EXIST_MY_SCHOOL_CLASS;
 
 @RequiredArgsConstructor
 @Service
@@ -35,13 +41,9 @@ public class SchoolUserQueryService {
     public List<MyClassStudentResponse> searchMyClassStudents(String userKey, Integer schoolYear) {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
-        Optional<SchoolClass> findSchoolClass = schoolClassRepository.findByTeacherIdAndSchoolYear(userInfo.getUserId(), schoolYear);
-        if (findSchoolClass.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        SchoolClass schoolClass = findSchoolClass.get();
+        SchoolClass mySchoolClass = getMySchoolClass(userInfo.getUserId(), schoolYear);
 
-        List<MyClassStudentDto> myClassStudents = schoolUserQueryRepository.findBySchoolClassId(schoolClass.getId());
+        List<MyClassStudentDto> myClassStudents = schoolUserQueryRepository.findBySchoolClassId(mySchoolClass.getId());
 
         List<Long> studentIds = myClassStudents.stream()
             .map(MyClassStudentDto::getStudentId)
@@ -66,11 +68,47 @@ public class SchoolUserQueryService {
         return responses;
     }
 
+    public List<MyClassParentResponse> searchMyClassParents(String userKey, Integer schoolYear) {
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
+
+        SchoolClass mySchoolClass = getMySchoolClass(userInfo.getUserId(), schoolYear);
+
+        //classId로 회원 서비스에서 보호자관계와 부모타입 조회
+        List<StudentParentInfo> infos = userServiceClient.searchStudentParentBySchoolClassId(mySchoolClass.getId());
+
+        //classId로 학급 유저 전부 조회 (학생, 학부모) -> map으로 변환(key: userId, value: dto)
+        List<SchoolUser> schoolUsers = schoolUserQueryRepository.findParentBySchoolClassId(mySchoolClass.getId());
+        Map<Long, SchoolUser> map = schoolUsers.stream()
+            .collect(Collectors.toMap(SchoolUser::getUserId, schoolUser -> schoolUser, (a, b) -> b));
+
+        //반복문을 돌려서 자식타입이면 학부모 키로 map에서 조회해서 슝
+        List<MyClassParentResponse> responses = new ArrayList<>();
+        for (StudentParentInfo info : infos) {
+            MyClassParentResponse response = MyClassParentResponse.builder()
+                .userId(info.getParentId())
+                .studentNumber(map.get(info.getStudentId()).getStudentNumber())
+                .studentName(map.get(info.getStudentId()).getUserName())
+                .parentType(info.getParentType())
+                .name(map.get(info.getParentId()).getUserName())
+                .build();
+            responses.add(response);
+        }
+        return responses;
+    }
+
     public StudentInfo searchStudentInfo(Long userId) {
         Optional<StudentInfo> studentInfo = schoolUserQueryRepository.findByUserId(userId);
         if (studentInfo.isEmpty()) {
             throw new NoSuchElementException();
         }
         return studentInfo.get();
+    }
+
+    private SchoolClass getMySchoolClass(Long userId, int schoolYear) {
+        Optional<SchoolClass> findSchoolClass = schoolClassRepository.findByTeacherIdAndSchoolYear(userId, schoolYear);
+        if (findSchoolClass.isEmpty()) {
+            throw new NoSuchElementException(NOT_EXIST_MY_SCHOOL_CLASS.getMessage());
+        }
+        return findSchoolClass.get();
     }
 }

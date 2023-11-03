@@ -84,6 +84,7 @@ class SchoolUserQueryRepositoryTest extends IntegrationTestSupport {
         SchoolUser schoolUser = SchoolUser.builder()
             .userTypeId(STUDENT.getCode())
             .studentNumber(studentNumber)
+            .userName("이예리")
             .schoolYear(2023)
             .userId(userId)
             .school(school)

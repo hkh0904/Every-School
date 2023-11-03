@@ -2,6 +2,9 @@ package com.everyschool.schoolservice.domain.schooluser.repository;
 
 import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
+import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
+import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
+import com.everyschool.schoolservice.domain.schooluser.UserType;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -36,6 +39,20 @@ public class SchoolUserQueryRepository {
                 schoolUser.userTypeId.eq(STUDENT.getCode()),
                 schoolUser.isDeleted.isFalse()
             )
+            .fetch();
+    }
+
+    public List<SchoolUser> findParentBySchoolClassId(Long schoolClassId) {
+        List<Integer> userType = List.of(STUDENT.getCode(), PARENT.getCode());
+        return queryFactory
+            .select(schoolUser)
+            .from(schoolUser)
+            .where(
+                schoolUser.isDeleted.isFalse(),
+                schoolUser.schoolClass.id.eq(schoolClassId),
+                schoolUser.userTypeId.in(userType)
+            )
+            .orderBy(schoolUser.studentNumber.asc())
             .fetch();
     }
 
