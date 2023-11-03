@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import { NavLink } from 'react-router-dom';
-import { clickLogin } from './SignupFunc';
 import { useDispatch } from 'react-redux';
-import { changeLoginId, changeLoginInfo } from '../../slices/UserSlice';
+import { changeLoginId } from '../../slices/UserSlice';
+import { login } from '../../api/UserAPI/userAPI';
 
 function Login() {
   const [id, setId] = useState('');
@@ -17,6 +17,19 @@ function Login() {
   const data = { id, password };
 
   const navigate = useNavigate();
+
+  const clickLogin = async (e, data) => {
+    e.preventDefault();
+    const response = await login(data);
+    if (response === 0) {
+      alert('아이디와 비밀번호를 확인해주세요');
+      return 0;
+    } else {
+      sessionStorage.clear();
+      sessionStorage.setItem('token', response.token);
+      return 1;
+    }
+  };
 
   return (
     <div className={styles.loginBox}>

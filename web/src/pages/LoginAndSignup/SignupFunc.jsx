@@ -45,16 +45,3 @@ export const onChangePasswordConfirm = function (
     setIsPasswordConfirm(true);
   }
 };
-
-export const clickLogin = async (e, data) => {
-  e.preventDefault();
-  const response = await login(data);
-  if (response === 0) {
-    alert('아이디와 비밀번호를 확인해주세요');
-    return 0;
-  } else {
-    sessionStorage.clear();
-    sessionStorage.setItem('token', response.token);
-    return 1;
-  }
-};
