@@ -67,7 +67,7 @@ class _ChatListState extends State<ChatList> {
           postDateTime.year == now.year) {
         return '${postDateTime.hour.toString().padLeft(2, '0')}:${postDateTime.minute.toString().padLeft(2, '0')}';
       } else {
-        return '${postDateTime.year}-${postDateTime.month}-${postDateTime.day}';
+        return '${postDateTime.year}.${postDateTime.month}.${postDateTime.day}';
       }
     }
 
