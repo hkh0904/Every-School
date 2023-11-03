@@ -1,9 +1,19 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import styles from './MainPage.module.css';
 import AccordianMenu from './AccordianMenu';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { getUserInfo } from '../../api/UserAPI/userAPI';
 
 export default function MainPage() {
+  const [userInfo, setUserInfo] = useState({});
+
+  useMemo(() => {
+    getUserInfo().then((res) => {
+      console.log(res);
+      setUserInfo(res);
+    });
+  }, []);
+
   return (
     <div className={styles.MainPage}>
       <div className={styles.menubar}>
@@ -11,7 +21,7 @@ export default function MainPage() {
           <p className={styles.teacherInfoP1}>학교명</p>
           <p className={styles.teacherInfoP2}>직급 : </p>
           <p className={styles.teacherInfoP3}>몇학년 몇반</p>
-          <p className={styles.teacherInfoP4}>선생님 이름</p>
+          <p className={styles.teacherInfoP4}>{userInfo.name}</p>
         </div>
         <div>
           <AccordianMenu />

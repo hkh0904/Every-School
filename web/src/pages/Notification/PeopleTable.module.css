@@ -4,29 +4,34 @@
   min-width: 17rem;
 }
 
-
 .tableHeader {
   text-align: center;
   height: 2.1rem;
 }
 
 .tableHeader th {
-  padding: 0 0.25rem 0 0.25rem;
+  padding: 0 1.5rem 0 1.5rem;
 }
 
-@media ( max-width: 1600px ) {
+@media (max-width: 1700px) {
+  .tableHeader th {
+    padding: 0 0.8rem 0 0.8rem;
+  }
+}
+
+@media (max-width: 1600px) {
   .tableHeader th {
     padding: 0 0.6rem 0 0.6rem;
   }
 }
 
-@media ( max-width: 1500px ) {
+@media (max-width: 1500px) {
   .tableHeader th {
     padding: 0 0.3rem 0 0.3rem;
   }
 }
 
-@media ( max-width: 1300px ) {
+@media (max-width: 1300px) {
   .tableHeader th {
     padding: 0 0.1rem 0 0.1rem;
   }
