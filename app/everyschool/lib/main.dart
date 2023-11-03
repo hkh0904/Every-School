@@ -3,13 +3,13 @@ import 'package:everyschool/page/chat/chat_controller.dart';
 import 'package:everyschool/page/category/category_page.dart';
 import 'package:everyschool/page/chat/chat_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
-import 'package:everyschool/page/consulting/consulting_list_teacher.dart';
+import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
 import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
 import 'package:everyschool/page/community/community_page.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
-import 'package:everyschool/page/report/teacher_report_consulting.dart';
+import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
 import 'package:everyschool/store/chat_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class _MainState extends State<Main> {
     });
   }
 
-  int userNum = 1002;
+  int userNum = 1003;
 
   List<Widget> getPagesForUser(int userNum) {
     switch (userNum) {
@@ -97,7 +97,7 @@ class _MainState extends State<Main> {
       default:
         return [
           HomePage(),
-          TrReNCsltTabview(),
+          ReportConsultingPage(),
           ChatPage(),
           CommunityPage(),
           CategoryPage(),

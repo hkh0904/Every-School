@@ -1,18 +1,16 @@
-import 'package:everyschool/page/consulting/consulting_list_teacher.dart';
+import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
-import 'package:everyschool/page/report/teacher_report_get_page.dart';
+import 'package:everyschool/page/report_consulting/teacher_report_get_page.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
-class TrReNCsltTabview extends StatefulWidget {
-  const TrReNCsltTabview({super.key});
+class ReportConsultingPage extends StatefulWidget {
+  const ReportConsultingPage({super.key});
 
   @override
-  State<TrReNCsltTabview> createState() => _TrReNCsltTabviewState();
+  State<ReportConsultingPage> createState() => _ReportConsultingPageState();
 }
 
-class _TrReNCsltTabviewState extends State<TrReNCsltTabview>
+class _ReportConsultingPageState extends State<ReportConsultingPage>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
