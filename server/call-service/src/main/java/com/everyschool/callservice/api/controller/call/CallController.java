@@ -1,8 +1,13 @@
 package com.everyschool.callservice.api.controller.call;
 
 import com.everyschool.callservice.api.ApiResponse;
+import com.everyschool.callservice.api.client.VoiceAiServiceClient;
+import com.everyschool.callservice.api.client.response.RecordStartInfo;
+import com.everyschool.callservice.api.client.response.RecordStopInfo;
 import com.everyschool.callservice.api.controller.FileStore;
 import com.everyschool.callservice.api.controller.call.request.CreateCallRequest;
+import com.everyschool.callservice.api.controller.call.request.RecordStartRequest;
+import com.everyschool.callservice.api.controller.call.request.RecordStopRequest;
 import com.everyschool.callservice.api.controller.call.response.CallResponse;
 import com.everyschool.callservice.api.service.call.CallService;
 import com.everyschool.callservice.api.service.call.dto.CreateCallDto;
@@ -24,6 +29,8 @@ public class CallController {
     private final CallService callService;
 
     private final FileStore fileStore;
+
+    private final VoiceAiServiceClient voiceAiServiceClient;
 
     /**
      * 통화 내역 등록 API
@@ -79,4 +86,35 @@ public class CallController {
 //
 //        return ApiResponse.created("통화 내용 저장 완료.");
 //    }
+
+    /**
+     * 통화 녹음 시작 API
+     *
+     * @param request 통화 녹음에 필요한 정보들
+     * @return 녹음 시작
+     */
+    @PostMapping("/record/start")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<RecordStartInfo> createRecordStart(@RequestBody RecordStartRequest request) {
+        log.debug("Call CallController#createRecordStart");
+        log.debug("RecordStartRequest={}", request);
+
+        RecordStartInfo res = voiceAiServiceClient.recordStart(request);
+        log.debug("RecordStartInfo={}", res);
+
+        return ApiResponse.created(res);
+    }
+
+    @PostMapping("/record/stop")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<RecordStopInfo> createRecordStop(@RequestBody RecordStopRequest request) {
+        log.debug("Call CallController#createRecordStop");
+        log.debug("RecordStopRequest={}", request);
+
+        RecordStopInfo res = voiceAiServiceClient.recordStop(request);
+        log.debug("RecordStartInfo={}", res);
+
+        return ApiResponse.created(res);
+    }
+
 }
