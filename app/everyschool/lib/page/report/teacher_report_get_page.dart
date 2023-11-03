@@ -54,52 +54,37 @@ class _TeacherReportGetPageState extends State<TeacherReportGetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey[50],
-          title: Text(
-            '받은 신고 내역',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          centerTitle: true,
-          elevation: 0,
-        ),
         body: SingleChildScrollView(
-          child: Container(
-            color: Color(0xffF5F5F5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    margin: EdgeInsets.fromLTRB(30, 25, 30, 0),
-                    child: Text(
-                      '처리 대기 중',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    )),
-                Container(
-                    margin: EdgeInsets.fromLTRB(30, 5, 30, 15),
-                    padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
-                    color: Color(0xffF4F6FD),
-                    child: Text(
-                      '📍 신고내역 처리는 관리자 페이지에서 가능하며, 어플에서는 조회만 가능합니다.',
-                      style: TextStyle(fontSize: 15),
-                    )),
-                ReportCard(
-                    state: 'waiting', reportingList: waitingReportingList),
-                Container(
-                    margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
-                    child: Text(
-                      '이전 신고 내역',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    )),
-                ReportCard(state: 'past', reportingList: pastReportingList),
-              ],
-            ),
-          ),
-        ));
+      child: Container(
+        color: Color(0xffF5F5F5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+                margin: EdgeInsets.fromLTRB(30, 25, 30, 0),
+                child: Text(
+                  '처리 대기 중',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                )),
+            Container(
+                margin: EdgeInsets.fromLTRB(30, 5, 30, 15),
+                padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
+                color: Color(0xffF4F6FD),
+                child: Text(
+                  '📍 신고내역 처리는 관리자 페이지에서 가능하며, 어플에서는 조회만 가능합니다.',
+                  style: TextStyle(fontSize: 15),
+                )),
+            ReportCard(state: 'waiting', reportingList: waitingReportingList),
+            Container(
+                margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                child: Text(
+                  '이전 신고 내역',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                )),
+            ReportCard(state: 'past', reportingList: pastReportingList),
+          ],
+        ),
+      ),
+    ));
   }
 }
