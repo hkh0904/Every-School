@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.api.controller.schooluser;
 
 import com.everyschool.schoolservice.api.ApiResponse;
+import com.everyschool.schoolservice.api.Result;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
 import com.everyschool.schoolservice.utils.TokenUtils;
@@ -23,8 +24,8 @@ public class SchoolUserQueryController {
     private final TokenUtils tokenUtils;
 
     @GetMapping("/{schoolYear}")
-    public ApiResponse<List<MyClassStudentResponse>> searchMyClassStudents(@PathVariable Long schoolId, @PathVariable Integer schoolYear) {
-        log.debug("call SchoolUserQueryController#searchMyClassStudent");
+    public ApiResponse<Result<MyClassStudentResponse>> searchMyClassStudents(@PathVariable Long schoolId, @PathVariable Integer schoolYear) {
+        log.debug("call SchoolUserQueryController#searchMyClassStudents");
 
         String userKey = tokenUtils.getUserKey();
         log.debug("userKey={}", userKey);
@@ -32,6 +33,6 @@ public class SchoolUserQueryController {
         List<MyClassStudentResponse> responses = schoolUserQueryService.searchMyClassStudents(userKey, schoolYear);
         log.debug("results={}", responses);
 
-        return ApiResponse.ok(responses);
+        return ApiResponse.ok(Result.of(responses));
     }
 }
