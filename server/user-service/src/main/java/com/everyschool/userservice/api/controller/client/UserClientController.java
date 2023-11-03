@@ -1,7 +1,9 @@
 package com.everyschool.userservice.api.controller.client;
 
+import com.everyschool.userservice.api.controller.client.response.StudentParentInfo;
 import com.everyschool.userservice.api.controller.client.response.StudentResponse;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
+import com.everyschool.userservice.api.service.user.StudentParentQueryService;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.List;
 public class UserClientController {
 
     private final UserQueryService userQueryService;
+    private final StudentParentQueryService studentParentQueryService;
     private final TokenUtils tokenUtils;
 
     /**
@@ -59,6 +62,7 @@ public class UserClientController {
 
     /**
      * 학생 PK로 학생 정보 조회 API
+     *
      * @param studentIds 학생 PK 리스트
      * @return 학생 정보
      */
@@ -70,5 +74,21 @@ public class UserClientController {
         log.debug("results={}", response);
 
         return response;
+    }
+
+    /**
+     * 학급 PK로 가족 관계 조회
+     *
+     * @param schoolClassId 학급 PK
+     * @return 조회된 가족 관계 정보
+     */
+    @GetMapping("/student-parent/{schoolClassId}")
+    public List<StudentParentInfo> searchStudentParentBySchoolClassId(@PathVariable Long schoolClassId) {
+        log.debug("call UserClientController#searchStudentParentBySchoolClassId");
+
+        List<StudentParentInfo> infos = studentParentQueryService.searchStudentParentBySchoolClassId(schoolClassId);
+        log.debug("results={}", infos);
+
+        return infos;
     }
 }
