@@ -17,7 +17,7 @@ public interface UserServiceClient {
     @GetMapping("/user-service/client/v1/user-info/{userKey}")
     UserInfo searchUserInfo(@PathVariable(name = "userKey") String userKey);
 
-    @PostMapping
+    @PostMapping("/user-service/client/v1/student-info")
     List<StudentResponse> searchByStudentIdIn(@RequestBody List<Long> studentIds);
 
     @GetMapping("/user-service/client/v1/student-parent/{schoolClassId}")
