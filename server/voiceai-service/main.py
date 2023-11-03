@@ -5,6 +5,7 @@ from pydantic import BaseModel
 # from S3voice import s3_connection
 from pydantic import BaseModel
 from agoraCall import voiceRecording as vr_router
+from S3voice import router as s3_router
 
 # 유레카 관련 설정
 # INSTANCE_PORT = 9002
@@ -15,6 +16,7 @@ INSTANCE_HOST = "127.0.0.1"
 app = FastAPI()
 
 app.include_router(vr_router.router)
+app.include_router(s3_router)
 
 @app.on_event("startup")
 async def eureka_init():
