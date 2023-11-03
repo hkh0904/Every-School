@@ -7,6 +7,7 @@ import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
+import com.everyschool.schoolservice.domain.schooluser.UserType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.everyschool.schoolservice.domain.schooluser.UserType.STUDENT;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
@@ -80,7 +82,7 @@ class SchoolUserQueryRepositoryTest extends IntegrationTestSupport {
 
     private SchoolUser saveSchoolUser(School school, SchoolClass schoolClass, Long userId, int studentNumber) {
         SchoolUser schoolUser = SchoolUser.builder()
-            .userTypeId(1)
+            .userTypeId(STUDENT.getCode())
             .studentNumber(studentNumber)
             .schoolYear(2023)
             .userId(userId)

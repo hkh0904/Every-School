@@ -6,6 +6,7 @@ import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schoolclass.response.CreateSchoolClassResponse;
 import com.everyschool.schoolservice.api.service.schoolclass.dto.CreateSchoolClassDto;
 import com.everyschool.schoolservice.domain.school.School;
+import com.everyschool.schoolservice.domain.school.SchoolType;
 import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.everyschool.schoolservice.domain.school.SchoolType.HIGH;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
@@ -39,11 +41,12 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
     @Test
     void createSchoolClassExistSameSchoolYear() {
         //given
-        SchoolClass schoolClass = saveSchoolClass(null);
+        School school = saveSchool(HIGH.getCode());
+        SchoolClass schoolClass = saveSchoolClass(school);
         String userKey = UUID.randomUUID().toString();
 
         UserInfo userInfo = UserInfo.builder()
-            .userId(100L)
+            .userId(1L)
             .userType('T')
             .userName("임우택")
             .schoolClassId(schoolClass.getId())
@@ -60,7 +63,7 @@ class SchoolClassServiceTest extends IntegrationTestSupport {
             .build();
 
         //when //then
-        assertThatThrownBy(() -> schoolClassService.createSchoolClass(null, dto))
+        assertThatThrownBy(() -> schoolClassService.createSchoolClass(school.getId(), dto))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이미 담임으로 등록된 교사입니다.");
     }

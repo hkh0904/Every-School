@@ -10,6 +10,7 @@ import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
+import com.everyschool.schoolservice.domain.schooluser.UserType;
 import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import static com.everyschool.schoolservice.domain.schooluser.UserType.STUDENT;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
@@ -46,8 +48,8 @@ class SchoolUserQueryServiceTest extends IntegrationTestSupport {
         //given
         School school = saveSchool();
         SchoolClass schoolClass = saveSchoolClass(school);
-        SchoolUser schoolUser1 = saveSchoolUser(school, schoolClass, 1L, 1);
-        SchoolUser schoolUser2 = saveSchoolUser(school, schoolClass, 2L, 2);
+        SchoolUser schoolUser1 = saveSchoolUser(school, schoolClass, 1L, 10301);
+        SchoolUser schoolUser2 = saveSchoolUser(school, schoolClass, 2L, 10302);
 
         UserInfo userInfo = UserInfo.builder()
             .userId(100L)
@@ -108,10 +110,10 @@ class SchoolUserQueryServiceTest extends IntegrationTestSupport {
         return schoolClassRepository.save(schoolClass);
     }
 
-    private SchoolUser saveSchoolUser(School school, SchoolClass schoolClass, Long userId, int studentNum) {
+    private SchoolUser saveSchoolUser(School school, SchoolClass schoolClass, Long userId, int studentNumber) {
         SchoolUser schoolUser = SchoolUser.builder()
-            .userTypeId(2)
-            .studentNumber(studentNum)
+            .userTypeId(STUDENT.getCode())
+            .studentNumber(studentNumber)
             .schoolYear(2023)
             .userId(userId)
             .school(school)

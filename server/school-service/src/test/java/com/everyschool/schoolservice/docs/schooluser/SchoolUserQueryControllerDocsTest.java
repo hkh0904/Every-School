@@ -76,7 +76,7 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
                         .description("응답 데이터"),
                     fieldWithPath("data[].userId").type(JsonFieldType.NUMBER)
                         .description("학생 id"),
-                    fieldWithPath("data[].studentId").type(JsonFieldType.STRING)
+                    fieldWithPath("data[].studentNumber").type(JsonFieldType.NUMBER)
                         .description("학생 학번"),
                     fieldWithPath("data[].name").type(JsonFieldType.STRING)
                         .description("학생 이름"),
