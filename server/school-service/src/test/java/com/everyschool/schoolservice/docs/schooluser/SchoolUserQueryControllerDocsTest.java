@@ -33,7 +33,7 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
         return new SchoolUserQueryController(schoolUserQueryService, tokenUtils);
     }
 
-    @DisplayName("학급 학생 조회 API")
+    @DisplayName("나의 학급 학생 조회 API")
     @Test
     void searchMyClassStudents() throws Exception {
 
@@ -72,15 +72,17 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
                         .description("상태"),
                     fieldWithPath("message").type(JsonFieldType.STRING)
                         .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.ARRAY)
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
-                    fieldWithPath("data[].userId").type(JsonFieldType.NUMBER)
+                    fieldWithPath("data.count").type(JsonFieldType.NUMBER)
+                        .description("우리반 총원"),
+                    fieldWithPath("data.content[].userId").type(JsonFieldType.NUMBER)
                         .description("학생 id"),
-                    fieldWithPath("data[].studentNumber").type(JsonFieldType.NUMBER)
+                    fieldWithPath("data.content[].studentNumber").type(JsonFieldType.NUMBER)
                         .description("학생 학번"),
-                    fieldWithPath("data[].name").type(JsonFieldType.STRING)
+                    fieldWithPath("data.content[].name").type(JsonFieldType.STRING)
                         .description("학생 이름"),
-                    fieldWithPath("data[].birth").type(JsonFieldType.STRING)
+                    fieldWithPath("data.content[].birth").type(JsonFieldType.STRING)
                         .description("학생 생년월일")
                 )
             ));
