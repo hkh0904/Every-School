@@ -2,7 +2,6 @@ import 'package:everyschool/page/community/post_detail_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/page/community/create_post.dart';
 import 'package:everyschool/page/community/post_comments.dart';
-import 'package:everyschool/page/community/post_detail_dialog.dart';
 
 class PostDetail extends StatefulWidget {
   final int boardId;
