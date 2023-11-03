@@ -1,5 +1,5 @@
 import 'package:everyschool/api/stomp_client.dart';
-import 'package:everyschool/page/chat/chat.dart';
+import 'package:everyschool/page/messenger/chat/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 

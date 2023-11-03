@@ -1,8 +1,8 @@
 import 'package:everyschool/api/base_api.dart';
-import 'package:everyschool/page/chat/bubble.dart';
-import 'package:everyschool/page/chat/chat_controller.dart';
-import 'package:everyschool/page/chat/chat.dart';
-import 'package:everyschool/page/chat/chat_message_type.dart';
+import 'package:everyschool/page/messenger/chat/bubble.dart';
+import 'package:everyschool/page/messenger/chat/chat_controller.dart';
+import 'package:everyschool/page/messenger/chat/chat.dart';
+import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

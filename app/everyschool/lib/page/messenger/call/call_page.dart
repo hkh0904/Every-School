@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/agora_config.dart';
-import 'package:everyschool/page/call/call_list.dart';
-import 'package:everyschool/page/call/get_call.dart';
-import 'package:everyschool/page/call/get_call_success.dart';
+import 'package:everyschool/page/messenger/call/call_list.dart';
+import 'package:everyschool/page/messenger/call/get_call.dart';
+import 'package:everyschool/page/messenger/call/get_call_success.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
@@ -127,8 +127,9 @@ class _CallPageState extends State<CallPage> {
 // Clean up the resources when you leave
   @override
   void dispose() async {
-    await agoraEngine.leaveChannel();
+    print('아고라 엔진 종료');
     super.dispose();
+    await agoraEngine.leaveChannel();
   }
 
   int? _remoteUid;

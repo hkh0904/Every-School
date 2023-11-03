@@ -1,4 +1,4 @@
-import 'package:everyschool/page/chat/chat_message_type.dart';
+import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
 
 class Chat {
   final String message;
