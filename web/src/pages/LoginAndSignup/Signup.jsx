@@ -153,7 +153,7 @@ function Signup() {
                 onClick={(e) => {
                   clickAuthBtn(e);
                 }}
-                disabled={timerRunning}
+                disabled={timerRunning | (email === '')}
               >
                 인증하기
               </button>
