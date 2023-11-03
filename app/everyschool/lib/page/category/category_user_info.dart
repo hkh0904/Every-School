@@ -10,7 +10,7 @@ class CategoryUserInfo extends StatefulWidget {
 
 class _CategoryUserInfoState extends State<CategoryUserInfo> {
   // 학생 학부모 선생님
-  var userNum = 1;
+  var userNum = 2;
 
   @override
   Widget build(BuildContext context) {

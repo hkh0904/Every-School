@@ -60,19 +60,6 @@ class _ConsultingListTeacherState extends State<ConsultingListTeacher> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.grey[50],
-        title: Text(
-          '상담 내역',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-      ),
       body: SingleChildScrollView(
         child: Container(
           color: Color(0xffF5F5F5),

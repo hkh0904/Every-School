@@ -1,6 +1,6 @@
 import 'Package:flutter/material.dart';
 import 'package:everyschool/page/consulting/consulting_list_parent.dart';
-import 'package:everyschool/page/consulting/consulting_list_teacher.dart';
+import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
 
 class ConsultingListPage extends StatefulWidget {
   const ConsultingListPage({super.key});

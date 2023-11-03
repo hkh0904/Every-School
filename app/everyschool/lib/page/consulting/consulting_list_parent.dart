@@ -1,4 +1,6 @@
 import 'package:everyschool/page/consulting/consulting_card_detail.dart';
+import 'package:everyschool/page/consulting/consulting_reason.dart';
+import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:flutter/material.dart';
 
 class ConsultingListParent extends StatefulWidget {
@@ -64,6 +66,38 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
         ),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          Align(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ConsultingReservation()));
+              },
+              child: Container(
+                padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Color(0xffbababa), width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                ),
+                margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                child: const Row(
+                  children: [
+                    Icon(Icons.calendar_month_rounded, color: Colors.red),
+                    SizedBox(width: 5),
+                    Text('상담 신청',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

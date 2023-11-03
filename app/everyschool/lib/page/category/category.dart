@@ -9,7 +9,7 @@ class Category extends StatefulWidget {
 }
 
 class _CategoryState extends State<Category> {
-  int userNum = 3;
+  int userNum = 2;
   var repncsltList = [
     ['신고하기', '신고내역'],
     ['상담신청', '상담내역'],
@@ -17,8 +17,8 @@ class _CategoryState extends State<Category> {
   ];
 
   var chattingList = [
-    ['선생님께 전화하기', '채팅방 보기'],
-    ['선생님께 전화하기', '채팅방 보기'],
+    ['통화목록', '채팅목록'],
+    ['통화목록', '채팅목록'],
     ['연락처', '전화내역', '메세지 내역']
   ];
 
@@ -94,7 +94,7 @@ class _CategoryState extends State<Category> {
   }
 
   Widget _titleTxt2() {
-    String titleTxt = '채팅';
+    String titleTxt = '메신저';
     return Text(
       titleTxt,
       style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),

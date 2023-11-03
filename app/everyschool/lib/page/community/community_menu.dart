@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:everyschool/page/community/school_schedule.dart';
 
 class CommunityMenu extends StatefulWidget {
   const CommunityMenu({super.key});
@@ -8,23 +9,32 @@ class CommunityMenu extends StatefulWidget {
 }
 
 class _CommunityMenuState extends State<CommunityMenu> {
-
   @override
   Widget build(BuildContext context) {
     List<Widget> columns = [
       Column(
         children: [
-          Container(
-            height: 55,
-            width: 55,
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-            decoration: BoxDecoration(
-              color: Color(0xFFF1F1F1),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('assets/images/community/calendar.png'),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        SchoolSchedule()), // SchoolSchedule은 이동하려는 페이지의 클래스 이름이어야 합니다.
+              );
+            },
+            child: Container(
+              height: 55,
+              width: 55,
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+              decoration: BoxDecoration(
+                color: Color(0xFFF1F1F1),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/images/community/calendar.png'),
+              ),
             ),
           ),
           Text(

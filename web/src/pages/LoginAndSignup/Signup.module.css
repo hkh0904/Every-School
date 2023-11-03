@@ -70,7 +70,7 @@
   border: 0;
   color: white;
   height: 54px;
-  border-radius: 3px;
+  border-radius: 10px;
   opacity: 0.8;
   width: 26%;
   font-size: 15px;
@@ -187,4 +187,32 @@ input.input[type='radio'] {
 .input[type='radio']:not(:checked) + label {
   background-color: transparent;
   color: #2e64fe;
+}
+
+.dateSelectorWrapper {
+  display: flex;
+}
+
+.dateSelector {
+  margin-top: 5px;
+  flex: 1;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  height: 50px;
+}
+
+.selectyear {
+  margin-right: 5px;
+}
+
+.selectmonth {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.selectday {
+  margin-left: 5px;
+}
+
+.defaultOption {
+  color: #d9d9d9;
 }

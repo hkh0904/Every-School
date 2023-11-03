@@ -7,6 +7,6 @@ export const baseAxios = axios.create({
 
   headers: {
     'Content-Type': 'application/json'
-    // Authorization: sessionStorage.getItem("token"),
+    // Authorization: sessionStorage.getItem('token')
   }
 });
