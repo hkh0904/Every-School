@@ -57,6 +57,11 @@ public class UserClientController {
         return userInfo;
     }
 
+    /**
+     * 학생 PK로 학생 정보 조회 API
+     * @param studentIds 학생 PK 리스트
+     * @return 학생 정보
+     */
     @PostMapping("/student-info")
     public List<StudentResponse> searchByStudentIdIn(@RequestBody List<Long> studentIds) {
         log.debug("call UserClientController#searchByStudentIdIn");
