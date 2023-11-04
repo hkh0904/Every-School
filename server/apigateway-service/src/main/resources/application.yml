@@ -112,6 +112,11 @@ spring:
         - id: school-service
           uri: lb://SCHOOL-SERVICE
           predicates:
+            - Path=/school-service/client/v1/**
+            - Method=GET, POST
+        - id: school-service
+          uri: lb://SCHOOL-SERVICE
+          predicates:
             - Path=/school-service/actuator/**
             - Method=GET,POST
           filters:
