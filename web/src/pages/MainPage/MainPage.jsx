@@ -19,7 +19,7 @@ export default function MainPage() {
       <div className={styles.menubar}>
         <div className={styles.teacherInfo}>
           <p className={styles.teacherInfoP1}>학교명</p>
-          <p className={styles.teacherInfoP2}>직급 : </p>
+          <p className={styles.teacherInfoP2}>직급 : {userInfo.type}</p>
           <p className={styles.teacherInfoP3}>몇학년 몇반</p>
           <p className={styles.teacherInfoP4}>{userInfo.name}</p>
         </div>
