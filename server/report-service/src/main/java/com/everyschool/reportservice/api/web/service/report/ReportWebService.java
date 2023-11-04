@@ -30,4 +30,16 @@ public class ReportWebService {
 
         return EditReportResponse.of(editReport);
     }
+
+    public EditReportResponse editResult(Long reportId, String result) {
+        Optional<Report> findReport = reportRepository.findById(reportId);
+        if (findReport.isEmpty()) {
+            throw new NoSuchElementException(UNREGISTERED_REPORT.getMessage());
+        }
+        Report report = findReport.get();
+
+        Report editReport = report.writeResult(result);
+
+        return EditReportResponse.of(editReport);
+    }
 }
