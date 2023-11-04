@@ -6,6 +6,7 @@ import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
 import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
+import com.everyschool.consultservice.api.controller.consult.response.FinishConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
 import com.everyschool.consultservice.api.service.consult.dto.CreateConsultDto;
 import com.everyschool.consultservice.domain.consult.Consult;
@@ -67,9 +68,21 @@ public class ConsultService {
         }
         Consult consult = findConsult.get();
 
-        consult.approval();
+        Consult editedConsult = consult.approval();
 
-        return ApproveConsultResponse.of(consult);
+        return ApproveConsultResponse.of(editedConsult);
+    }
+
+    public FinishConsultResponse finishConsult(Long consultId, String resultContent) {
+        Optional<Consult> findConsult = consultRepository.findById(consultId);
+        if (findConsult.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
+        }
+        Consult consult = findConsult.get();
+
+        Consult editedConsult = consult.finish(resultContent);
+
+        return FinishConsultResponse.of(editedConsult);
     }
 
     public RejectConsultResponse rejectConsult(Long consultId, String rejectedReason) {
@@ -79,8 +92,8 @@ public class ConsultService {
         }
         Consult consult = findConsult.get();
 
-        consult.reject(rejectedReason);
+        Consult editedConsult = consult.reject(rejectedReason);
 
-        return RejectConsultResponse.of(consult);
+        return RejectConsultResponse.of(editedConsult);
     }
 }
