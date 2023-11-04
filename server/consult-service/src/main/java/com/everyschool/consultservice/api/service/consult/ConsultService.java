@@ -4,7 +4,9 @@ import com.everyschool.consultservice.api.client.SchoolServiceClient;
 import com.everyschool.consultservice.api.client.UserServiceClient;
 import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
 import com.everyschool.consultservice.api.client.response.UserInfo;
+import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
+import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
 import com.everyschool.consultservice.api.service.consult.dto.CreateConsultDto;
 import com.everyschool.consultservice.domain.consult.Consult;
 import com.everyschool.consultservice.domain.consult.Title;
@@ -12,6 +14,11 @@ import com.everyschool.consultservice.domain.consult.repository.ConsultRepositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static com.everyschool.consultservice.error.ErrorMessage.*;
 
 @RequiredArgsConstructor
 @Service
@@ -51,5 +58,29 @@ public class ConsultService {
         Consult savedConsult = consultRepository.save(consult);
 
         return CreateConsultResponse.of(savedConsult, teacherInfo, schoolClassInfo);
+    }
+
+    public ApproveConsultResponse approveConsult(Long consultId) {
+        Optional<Consult> findConsult = consultRepository.findById(consultId);
+        if (findConsult.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
+        }
+        Consult consult = findConsult.get();
+
+        consult.approval();
+
+        return ApproveConsultResponse.of(consult);
+    }
+
+    public RejectConsultResponse rejectConsult(Long consultId, String rejectedReason) {
+        Optional<Consult> findConsult = consultRepository.findById(consultId);
+        if (findConsult.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
+        }
+        Consult consult = findConsult.get();
+
+        consult.reject(rejectedReason);
+
+        return RejectConsultResponse.of(consult);
     }
 }
