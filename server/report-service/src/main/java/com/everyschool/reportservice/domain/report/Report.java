@@ -1,8 +1,10 @@
 package com.everyschool.reportservice.domain.report;
 
 import com.everyschool.reportservice.domain.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Report extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,6 +87,11 @@ public class Report extends BaseEntity {
     //== 비즈니스 로직 ==//
     public Report editStatus(int progressStatusId) {
         this.progressStatusId = progressStatusId;
+        return this;
+    }
+
+    public Report writeResult(String result) {
+        this.result = result;
         return this;
     }
 }
