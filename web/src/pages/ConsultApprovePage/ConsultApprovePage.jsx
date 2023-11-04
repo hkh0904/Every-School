@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ConsultApprovePage.module.css';
 import ConsultCheckList from './ConsultCheckList';
 import RefuseModal from './RefuseModal';
 import ConsultTime from './ConsultTime';
+import { getConsultingList } from '../../api/ConsultingAPI/consultingAPI';
 
 export default function ConsultApprovePage() {
   const [message, setMessage] = useState('상담 메세지를 설정하세요');
@@ -11,49 +12,37 @@ export default function ConsultApprovePage() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const csltList = [
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2023, 10, 23, 16],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2023, 10, 23, 13],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2023, 11, 23, 16],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2024, 1, 23, 16],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2024, 1, 23, 16],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    }
-  ];
+  const [csltData, setCsltData] = useState([]);
+
+  const [rejectNum, setRejectNum] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newCsltData = await getConsultingList();
+        const formattedCsltData = newCsltData.map((cslt) => ({
+          ...cslt,
+          consultDate: [
+            new Date(cslt.consultDate).getFullYear(),
+            new Date(cslt.consultDate).getMonth() + 1,
+            new Date(cslt.consultDate).getDate(),
+            new Date(cslt.consultDate).getHours()
+          ]
+        }));
+        setCsltData(formattedCsltData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className={styles.ConsultApprove}>
       <div className={styles.title}>
         <p>상담 확인</p>
-        <p>대기 중 : {csltList.length}건</p>
+        <p>대기 중 : {csltData.length}건</p>
         <div className={styles.csltMessage}>
           <p>상담 설명 메세지 :&nbsp;</p>
           {isCorrect ? (
@@ -84,10 +73,13 @@ export default function ConsultApprovePage() {
           {isTimeSet ? <ConsultTime setIsTimeSet={setIsTimeSet} /> : null}
         </div>
       </div>
-      <ConsultCheckList csltList={csltList} setIsModalOpen={setIsModalOpen} />
+      {csltData.length === 0 && <p className={styles.nocslt}>상담 신청 내역이 존재하지 않습니다.</p>}
+      {csltData.length > 0 && (
+        <ConsultCheckList csltList={csltData} setIsModalOpen={setIsModalOpen} setRejectNum={setRejectNum} />
+      )}
       {isModalOpen ? (
         <div className={styles.refModal}>
-          <RefuseModal setIsModalOpen={setIsModalOpen} />
+          <RefuseModal setIsModalOpen={setIsModalOpen} rejectNum={rejectNum} />
         </div>
       ) : null}
     </div>
