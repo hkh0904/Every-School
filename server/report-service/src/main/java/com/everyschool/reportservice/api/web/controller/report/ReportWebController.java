@@ -1,11 +1,14 @@
 package com.everyschool.reportservice.api.web.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
+import com.everyschool.reportservice.api.web.controller.report.request.EditResultRequest;
 import com.everyschool.reportservice.api.web.controller.report.response.EditReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,6 +26,18 @@ public class ReportWebController {
         @RequestParam Integer status
     ) {
         EditReportResponse response = reportWebService.editStatus(reportId, status);
+
+        return ApiResponse.ok(response);
+    }
+
+    @PatchMapping("/{reportId}/result")
+    public ApiResponse<EditReportResponse> editResult(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long reportId,
+        @Valid @RequestBody EditResultRequest request
+    ) {
+        EditReportResponse response = reportWebService.editResult(reportId, request.getResult());
 
         return ApiResponse.ok(response);
     }
