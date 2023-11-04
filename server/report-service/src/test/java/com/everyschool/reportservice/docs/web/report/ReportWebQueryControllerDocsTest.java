@@ -5,7 +5,6 @@ import com.everyschool.reportservice.api.web.controller.report.response.ReportDe
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebQueryService;
 import com.everyschool.reportservice.docs.RestDocsSupport;
-import com.everyschool.reportservice.domain.report.ReportType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -94,7 +93,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .typeId(VIOLENCE.getCode())
             .statusId(REGISTER.getCode())
             .witness("10301 문동은")
-            .who("박연진")
+            .who("10302 박연진")
             .when("2023-11-04 11시경")
             .where("학교 체육관")
             .what("고데기로 화상을 입혔습니다.")
