@@ -1,8 +1,7 @@
 package com.everyschool.consultservice.docs.consult;
 
-import com.everyschool.consultservice.api.controller.consult.ConsultController;
+import com.everyschool.consultservice.api.controller.consult.ConsultAppController;
 import com.everyschool.consultservice.api.controller.consult.request.CreateConsultRequest;
-import com.everyschool.consultservice.api.controller.consult.request.CreateConsultScheduleRequest;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
 import com.everyschool.consultservice.api.service.consult.ConsultService;
 import com.everyschool.consultservice.api.service.consult.dto.CreateConsultDto;
@@ -10,31 +9,31 @@ import com.everyschool.consultservice.docs.RestDocsSupport;
 import com.everyschool.consultservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.UUID;
 
+import static com.everyschool.consultservice.domain.consult.ConsultType.VISIT;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ConsultControllerDocsTest extends RestDocsSupport {
+public class ConsultAppControllerDocsTest extends RestDocsSupport {
 
     private final ConsultService consultService = mock(ConsultService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
+    private final String URL = "/consult-service/v1/app/{schoolYear}/schools/{schoolId}/consults";
 
     @Override
     protected Object initController() {
-        return new ConsultController(consultService, tokenUtils);
+        return new ConsultAppController(consultService, tokenUtils);
     }
 
     @DisplayName("상담 등록 API")
@@ -43,7 +42,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
         CreateConsultRequest request = CreateConsultRequest.builder()
             .consultDateTime(LocalDateTime.now())
             .message("리온이가 너무 귀여워요!")
-            .typeId(2001)
+            .typeId(VISIT.getCode())
             .teacherKey(generateUUID())
             .studentKey(generateUUID())
             .build();
@@ -53,7 +52,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
 
         CreateConsultResponse response = CreateConsultResponse.builder()
             .consultId(1L)
-            .typeId(2001)
+            .typeId(VISIT.getCode())
             .teacher("1학년 3반 임우택 선생님")
             .applicant("1학년 3반 이리온(모) 이예리")
             .consultDateTime(LocalDateTime.now())
@@ -64,7 +63,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                post("/consult-service/v1/schools/{schoolId}/consults", 1L)
+                post(URL, 2023, 21617)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )

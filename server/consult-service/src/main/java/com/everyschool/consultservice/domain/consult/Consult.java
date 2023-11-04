@@ -1,14 +1,17 @@
 package com.everyschool.consultservice.domain.consult;
 
 import com.everyschool.consultservice.domain.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Consult extends BaseEntity {
 
     @Id
@@ -53,13 +56,9 @@ public class Consult extends BaseEntity {
     @Column(nullable = false, updatable = false)
     private Long teacherId;
 
-    protected Consult() {
-        super();
-    }
-
     @Builder
     private Consult(LocalDateTime consultDateTime, String message, Title title, Integer schoolYear, Integer progressStatusId, Integer typeId, Long schoolId, Long parentId, Long studentId, Long teacherId) {
-        this();
+        super();
         this.consultDateTime = consultDateTime;
         this.message = message;
         this.title = title;
@@ -71,5 +70,22 @@ public class Consult extends BaseEntity {
         this.studentId = studentId;
         this.teacherId = teacherId;
     }
-}
 
+    //== 비즈니스 로직 ==//
+    public Consult approval() {
+        this.progressStatusId = ProgressStatus.RESERVATION.getCode();
+        return this;
+    }
+
+    public Consult finish(String resultContent) {
+        this.progressStatusId = ProgressStatus.FINISH.getCode();
+        this.resultContent = resultContent;
+        return this;
+    }
+
+    public Consult reject(String rejectedReason) {
+        this.progressStatusId = ProgressStatus.REJECT.getCode();
+        this.rejectedReason = rejectedReason;
+        return this;
+    }
+}

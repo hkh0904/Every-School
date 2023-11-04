@@ -2,7 +2,6 @@ package com.everyschool.consultservice.api.controller.consult;
 
 import com.everyschool.consultservice.api.ApiResponse;
 import com.everyschool.consultservice.api.controller.consult.request.CreateConsultRequest;
-import com.everyschool.consultservice.api.controller.consult.request.CreateConsultScheduleRequest;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
 import com.everyschool.consultservice.api.service.consult.ConsultService;
 import com.everyschool.consultservice.utils.TokenUtils;
@@ -16,8 +15,8 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/consult-service/v1/schools/{schoolId}/consults")
-public class ConsultController {
+@RequestMapping("/consult-service/v1/app/{schoolYear}/schools/{schoolId}/consults")
+public class ConsultAppController {
 
     private final ConsultService consultService;
     private final TokenUtils tokenUtils;
@@ -25,7 +24,7 @@ public class ConsultController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateConsultResponse> createConsult(@Valid @RequestBody CreateConsultRequest request, @PathVariable Long schoolId) {
-        log.debug("call ConsultController#createConsult");
+        log.debug("call ConsultAppController#createConsult");
         log.debug("CreateConsultRequest={}", request);
 
         String userKey = tokenUtils.getUserKey();

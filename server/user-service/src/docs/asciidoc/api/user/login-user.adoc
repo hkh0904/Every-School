@@ -11,7 +11,7 @@ Host: localhost:8080
 
 {
   "email" : "ssafy@ssafy.com",
-  "pwd" : "ssafy1234@"
+  "password" : "ssafy1234@"
 }
 ----
 

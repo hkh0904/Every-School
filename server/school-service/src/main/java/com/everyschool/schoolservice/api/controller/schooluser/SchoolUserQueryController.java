@@ -1,6 +1,8 @@
 package com.everyschool.schoolservice.api.controller.schooluser;
 
 import com.everyschool.schoolservice.api.ApiResponse;
+import com.everyschool.schoolservice.api.Result;
+import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
 import com.everyschool.schoolservice.utils.TokenUtils;
@@ -16,21 +18,35 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/school-service/v1/schools/{schoolId}/classes")
+@RequestMapping("/school-service/v1/schools/{schoolId}/classes/{schoolYear}")
 public class SchoolUserQueryController {
 
     private final SchoolUserQueryService schoolUserQueryService;
     private final TokenUtils tokenUtils;
 
-    @GetMapping("/{schoolYear}")
-    public ApiResponse<List<MyClassStudentResponse>> searchMyClassStudents(@PathVariable Long schoolId, @PathVariable Integer schoolYear) {
-        log.debug("call SchoolUserQueryController#searchMyClassStudent");
+    @GetMapping("/students")
+    public ApiResponse<Result<MyClassStudentResponse>> searchMyClassStudents(@PathVariable Long schoolId, @PathVariable Integer schoolYear) {
+        log.debug("call SchoolUserQueryController#searchMyClassStudents");
 
         String userKey = tokenUtils.getUserKey();
         log.debug("userKey={}", userKey);
 
         List<MyClassStudentResponse> responses = schoolUserQueryService.searchMyClassStudents(userKey, schoolYear);
+        log.debug("results={}", responses);
 
-        return ApiResponse.ok(responses);
+        return ApiResponse.ok(Result.of(responses));
+    }
+
+    @GetMapping("/parents")
+    public ApiResponse<Result<MyClassParentResponse>> searchMyClassParents(@PathVariable Long schoolId, @PathVariable Integer schoolYear) {
+        log.debug("call SchoolUserQueryController#searchMyClassParents");
+
+        String userKey = tokenUtils.getUserKey();
+        log.debug("userKey={}", userKey);
+
+        List<MyClassParentResponse> responses = schoolUserQueryService.searchMyClassParents(userKey, schoolYear);
+        log.debug("results={}", responses);
+
+        return ApiResponse.ok(Result.of(responses));
     }
 }

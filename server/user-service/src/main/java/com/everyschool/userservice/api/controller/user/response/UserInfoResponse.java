@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+import static com.everyschool.userservice.domain.user.UserType.getText;
+
 @Data
 public class UserInfoResponse {
 
@@ -15,8 +17,8 @@ public class UserInfoResponse {
     private LocalDateTime joinDate;
 
     @Builder
-    public UserInfoResponse(String type, String email, String name, String birth, LocalDateTime joinDate) {
-        this.type = type;
+    public UserInfoResponse(int userTypeId, String email, String name, String birth, LocalDateTime joinDate) {
+        this.type = getText(userTypeId);
         this.email = email;
         this.name = name;
         this.birth = birth;
