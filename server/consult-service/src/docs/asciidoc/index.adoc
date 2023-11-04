@@ -14,7 +14,8 @@ include::overview.adoc[]
 [[Consult-API]]
 == Consult API
 
-include::api/consult/create-consult.adoc[]
+// include::api/consult/create-consult.adoc[]
 include::api/consult/search-consults.adoc[]
+include::api/consult/search-consult.adoc[]
 include::api/consult/approve-consult.adoc[]
 include::api/consult/reject-consult.adoc[]
