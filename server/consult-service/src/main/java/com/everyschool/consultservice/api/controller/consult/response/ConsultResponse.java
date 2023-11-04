@@ -1,37 +1,37 @@
 package com.everyschool.consultservice.api.controller.consult.response;
 
 import com.everyschool.consultservice.domain.consult.Consult;
-import com.everyschool.consultservice.domain.consult.ConsultType;
-import com.everyschool.consultservice.domain.consult.ProgressStatus;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+
+import static com.everyschool.consultservice.domain.consult.ConsultType.getText;
 
 @Data
 public class ConsultResponse {
 
     private Long consultId;
     private String type;
-    private String progressStatus;
-    private String title;
+    private String studentInfo;
+    private String parentInfo;
     private LocalDateTime consultDate;
 
     @Builder
-    public ConsultResponse(Long consultId, int typeId, int progressStatusId, String title, LocalDateTime consultDate) {
+    public ConsultResponse(Long consultId, int typeId, String studentInfo, String parentInfo, LocalDateTime consultDate) {
         this.consultId = consultId;
-        this.type = ConsultType.getText(typeId);
-        this.progressStatus = ProgressStatus.getText(progressStatusId);
-        this.title = title;
+        this.type = getText(typeId);
+        this.studentInfo = studentInfo;
+        this.parentInfo = parentInfo;
         this.consultDate = consultDate;
     }
 
-    public static ConsultResponse of(Consult consult, char userType) {
+    public static ConsultResponse of(Consult consult, String studentInfo, String parentInfo) {
         return ConsultResponse.builder()
             .consultId(consult.getId())
             .typeId(consult.getTypeId())
-            .progressStatusId(consult.getProgressStatusId())
-            .title(userType == 'T' ? consult.getTitle().getTeacherTitle() : consult.getTitle().getParentTitle())
+            .studentInfo(studentInfo)
+            .parentInfo(parentInfo)
             .consultDate(consult.getConsultDateTime())
             .build();
     }
