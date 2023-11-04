@@ -1,0 +1,13 @@
+[[edit-status]]
+=== [교직원] 신고 처리 상태 변경 API
+
+==== HTTP Request
+
+include::{snippets}/edit-status/http-request.adoc[]
+include::{snippets}/edit-status/request-parameters.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/edit-status/http-response.adoc[]
+include::{snippets}/edit-status/response-fields.adoc[]
