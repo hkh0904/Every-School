@@ -50,7 +50,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
         CreateConsultRequest request = CreateConsultRequest.builder()
             .consultDateTime(LocalDateTime.now())
             .message("리온이가 너무 귀여워요!")
-            .typeId(2001)
+            .typeId(VISIT.getCode())
             .teacherKey(generateUUID())
             .studentKey(generateUUID())
             .build();
