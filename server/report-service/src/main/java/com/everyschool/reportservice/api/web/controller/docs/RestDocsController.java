@@ -1,4 +1,4 @@
-package com.everyschool.reportservice.api.controller.docs;
+package com.everyschool.reportservice.api.web.controller.docs;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
