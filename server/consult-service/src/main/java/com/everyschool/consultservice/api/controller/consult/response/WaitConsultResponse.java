@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import static com.everyschool.consultservice.domain.consult.ConsultType.getText;
 
 @Data
-public class ConsultResponse {
+public class WaitConsultResponse {
 
     private Long consultId;
     private String type;
@@ -18,7 +18,7 @@ public class ConsultResponse {
     private LocalDateTime consultDate;
 
     @Builder
-    public ConsultResponse(Long consultId, int typeId, String studentInfo, String parentInfo, LocalDateTime consultDate) {
+    public WaitConsultResponse(Long consultId, int typeId, String studentInfo, String parentInfo, LocalDateTime consultDate) {
         this.consultId = consultId;
         this.type = getText(typeId);
         this.studentInfo = studentInfo;
@@ -26,8 +26,8 @@ public class ConsultResponse {
         this.consultDate = consultDate;
     }
 
-    public static ConsultResponse of(Consult consult, String studentInfo, String parentInfo) {
-        return ConsultResponse.builder()
+    public static WaitConsultResponse of(Consult consult, String studentInfo, String parentInfo) {
+        return WaitConsultResponse.builder()
             .consultId(consult.getId())
             .typeId(consult.getTypeId())
             .studentInfo(studentInfo)

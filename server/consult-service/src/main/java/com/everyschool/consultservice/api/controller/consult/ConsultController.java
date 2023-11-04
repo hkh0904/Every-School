@@ -39,7 +39,7 @@ public class ConsultController {
         return ApiResponse.created(response);
     }
 
-    @PatchMapping("/{consultId}/approve")
+    @PatchMapping("/approve/{consultId}")
     public ApiResponse<ApproveConsultResponse> approveConsult(
         @PathVariable Long schoolId,
         @PathVariable Integer schoolYear,
@@ -53,14 +53,14 @@ public class ConsultController {
         return ApiResponse.ok(response);
     }
 
-    @PatchMapping("/{consultId}/reject")
+    @PatchMapping("/reject/{consultId}")
     public ApiResponse<RejectConsultResponse> rejectConsult(
         @PathVariable Long schoolId,
         @PathVariable Integer schoolYear,
         @PathVariable Long consultId,
         @Valid @RequestBody RejectConsultRequest request
     ) {
-        log.debug("call ConsultController#approveConsult");
+        log.debug("call ConsultController#rejectConsult");
 
         RejectConsultResponse response = consultService.rejectConsult(consultId, request.getRejectedReason());
         log.debug("ApproveConsultResponse={}", response);

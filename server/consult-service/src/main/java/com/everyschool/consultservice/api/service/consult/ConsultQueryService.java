@@ -5,7 +5,7 @@ import com.everyschool.consultservice.api.client.UserServiceClient;
 import com.everyschool.consultservice.api.client.response.ConsultUserInfo;
 import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
-import com.everyschool.consultservice.api.controller.consult.response.ConsultResponse;
+import com.everyschool.consultservice.api.controller.consult.response.WaitConsultResponse;
 import com.everyschool.consultservice.domain.consult.Consult;
 import com.everyschool.consultservice.domain.consult.repository.ConsultQueryRepository;
 import com.everyschool.consultservice.domain.consult.repository.ConsultRepository;
@@ -26,7 +26,7 @@ public class ConsultQueryService {
     private final UserServiceClient userServiceClient;
     private final SchoolServiceClient schoolServiceClient;
 
-    public List<ConsultResponse> searchConsults(String userKey, int schoolYear) {
+    public List<WaitConsultResponse> searchConsults(String userKey, int schoolYear) {
         UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
 
         List<Consult> findConsults = consultQueryRepository.findByTeacherIdAndSchoolYear(userInfo.getUserId(), schoolYear);
@@ -43,7 +43,7 @@ public class ConsultQueryService {
             .collect(Collectors.toMap(ConsultUserInfo::getUserId, ConsultUserInfo::getUserInfo, (a, b) -> b));
 
         return findConsults.stream()
-            .map(consult -> ConsultResponse.of(consult, map.get(consult.getStudentId()), map.get(consult.getParentId())))
+            .map(consult -> WaitConsultResponse.of(consult, map.get(consult.getStudentId()), map.get(consult.getParentId())))
             .collect(Collectors.toList());
     }
 

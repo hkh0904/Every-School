@@ -1,8 +1,7 @@
 package com.everyschool.consultservice.docs.consult;
 
 import com.everyschool.consultservice.api.controller.consult.ConsultQueryController;
-import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
-import com.everyschool.consultservice.api.controller.consult.response.ConsultResponse;
+import com.everyschool.consultservice.api.controller.consult.response.WaitConsultResponse;
 import com.everyschool.consultservice.api.service.consult.ConsultQueryService;
 import com.everyschool.consultservice.docs.RestDocsSupport;
 import com.everyschool.consultservice.utils.TokenUtils;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import static com.everyschool.consultservice.domain.consult.ConsultType.*;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -36,72 +35,23 @@ public class ConsultQueryControllerDocsTest extends RestDocsSupport {
         return new ConsultQueryController(consultQueryService, tokenUtils);
     }
 
-    @DisplayName("상담 내역 목록 조회 API")
+    @DisplayName("[교직원] 상담 확인 조회 API")
     @Test
-    void searchConsults() throws Exception {
+    void searchWaitConsults() throws Exception {
         given(tokenUtils.getUserKey())
             .willReturn(UUID.randomUUID().toString());
+        WaitConsultResponse response1 = createWaitConsultResponse(1L, "10301 하예솔 학생", "하도영 아버님", LocalDateTime.of(2023, 11, 4, 14, 0));
+        WaitConsultResponse response2 = createWaitConsultResponse(2L, "10301 하예솔 학생", "박연진 어머님", LocalDateTime.of(2023, 11, 4, 15, 0));
 
-        ConsultResponse response1 = createConsultResponse(1L, 2001, 3001);
-        ConsultResponse response2 = createConsultResponse(2L, 2002, 3002);
-        ConsultResponse response3 = createConsultResponse(3L, 2001, 3003);
-
-        given(consultQueryService.searchConsults(anyString()))
-            .willReturn(List.of(response1, response2, response3));
+        given(consultQueryService.searchConsults(anyString(), anyInt()))
+            .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
-                get("/consult-service/v1/consults")
-            )
+            get("/consult-service/v1/schools/{schoolId}/consults/{schoolYear}/wait", 1L, 2023)
+        )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-consults",
-                preprocessResponse(prettyPrint()),
-                responseFields(
-                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-                        .description("코드"),
-                    fieldWithPath("status").type(JsonFieldType.STRING)
-                        .description("상태"),
-                    fieldWithPath("message").type(JsonFieldType.STRING)
-                        .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.ARRAY)
-                        .description("응답 데이터"),
-                    fieldWithPath("data[].consultId").type(JsonFieldType.NUMBER)
-                        .description("상담 id"),
-                    fieldWithPath("data[].type").type(JsonFieldType.STRING)
-                        .description("상담 유형"),
-                    fieldWithPath("data[].progressStatus").type(JsonFieldType.STRING)
-                        .description("진행 상태"),
-                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
-                        .description("상담 제목"),
-                    fieldWithPath("data[].consultDate").type(JsonFieldType.ARRAY)
-                        .description("상담 일시")
-                )
-            ));
-    }
-
-    @DisplayName("상담 내역 목록 조회 API")
-    @Test
-    void searchConsult() throws Exception {
-        ConsultDetailResponse response = ConsultDetailResponse.builder()
-            .consultId(1L)
-            .typeId(2001)
-            .progressStatusId(3003)
-            .title("1학년 3반 이예리 선생님")
-            .message("리온이는 귀여워요!")
-            .resultContent("리온이는 정말 귀엽습니다!")
-            .rejectedReason("")
-            .consultDate(LocalDateTime.now())
-            .build();
-
-        given(consultQueryService.searchConsult(anyLong()))
-            .willReturn(response);
-
-        mockMvc.perform(
-                get("/consult-service/v1/consults/{consultId}", 1L)
-            )
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document("search-consult",
+            .andDo(document("search-wait-consults",
                 preprocessResponse(prettyPrint()),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -112,33 +62,29 @@ public class ConsultQueryControllerDocsTest extends RestDocsSupport {
                         .description("메시지"),
                     fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
-                    fieldWithPath("data.consultId").type(JsonFieldType.NUMBER)
+                    fieldWithPath("data.count").type(JsonFieldType.NUMBER)
+                        .description("상담 확인 대기 중인 신청 수"),
+                    fieldWithPath("data.content[].consultId").type(JsonFieldType.NUMBER)
                         .description("상담 id"),
-                    fieldWithPath("data.type").type(JsonFieldType.STRING)
+                    fieldWithPath("data.content[].type").type(JsonFieldType.STRING)
                         .description("상담 유형"),
-                    fieldWithPath("data.progressStatus").type(JsonFieldType.STRING)
-                        .description("진행 상태"),
-                    fieldWithPath("data.title").type(JsonFieldType.STRING)
-                        .description("상담 제목"),
-                    fieldWithPath("data.message").type(JsonFieldType.STRING)
-                        .description("상담 메세지"),
-                    fieldWithPath("data.resultContent").type(JsonFieldType.STRING)
-                        .description("상담 결과"),
-                    fieldWithPath("data.rejectedReason").type(JsonFieldType.STRING)
-                        .description("상담 거절 사유"),
-                    fieldWithPath("data.consultDate").type(JsonFieldType.ARRAY)
+                    fieldWithPath("data.content[].studentInfo").type(JsonFieldType.STRING)
+                        .description("상담 학생 정보"),
+                    fieldWithPath("data.content[].parentInfo").type(JsonFieldType.STRING)
+                        .description("상담 학부모 정보"),
+                    fieldWithPath("data.content[].consultDate").type(JsonFieldType.ARRAY)
                         .description("상담 일시")
                 )
             ));
     }
 
-    private ConsultResponse createConsultResponse(long consultId, int typeId, int progressStatusId) {
-        return ConsultResponse.builder()
+    private WaitConsultResponse createWaitConsultResponse(Long consultId, String studentInfo, String parentInfo, LocalDateTime consultDate) {
+        return WaitConsultResponse.builder()
             .consultId(consultId)
-            .typeId(typeId)
-            .progressStatusId(progressStatusId)
-            .title("1학년 3반 이예리 선생님")
-            .consultDate(LocalDateTime.now())
+            .typeId(VISIT.getCode())
+            .studentInfo(studentInfo)
+            .parentInfo(parentInfo)
+            .consultDate(consultDate)
             .build();
     }
 }

@@ -12,24 +12,24 @@ import java.time.LocalDateTime;
 public class ApproveConsultResponse {
 
     private Long consultId;
-    private LocalDateTime consultDateTime;
-    private String progressStatus;
     private String type;
+    private String progressStatus;
+    private LocalDateTime consultDateTime;
 
     @Builder
     private ApproveConsultResponse(Long consultId, LocalDateTime consultDateTime, int progressStatusId, int typeId) {
         this.consultId = consultId;
-        this.consultDateTime = consultDateTime;
-        this.progressStatus = ProgressStatus.getText(progressStatusId);
         this.type = ConsultType.getText(typeId);
+        this.progressStatus = ProgressStatus.getText(progressStatusId);
+        this.consultDateTime = consultDateTime;
     }
 
     public static ApproveConsultResponse of(Consult consult) {
         return ApproveConsultResponse.builder()
             .consultId(consult.getId())
-            .consultDateTime(consult.getConsultDateTime())
-            .progressStatusId(consult.getProgressStatusId())
             .typeId(consult.getTypeId())
+            .progressStatusId(consult.getProgressStatusId())
+            .consultDateTime(consult.getConsultDateTime())
             .build();
     }
 }

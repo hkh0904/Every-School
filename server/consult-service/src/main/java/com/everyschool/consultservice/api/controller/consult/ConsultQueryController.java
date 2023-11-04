@@ -1,8 +1,9 @@
 package com.everyschool.consultservice.api.controller.consult;
 
 import com.everyschool.consultservice.api.ApiResponse;
+import com.everyschool.consultservice.api.Result;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
-import com.everyschool.consultservice.api.controller.consult.response.ConsultResponse;
+import com.everyschool.consultservice.api.controller.consult.response.WaitConsultResponse;
 import com.everyschool.consultservice.api.service.consult.ConsultQueryService;
 import com.everyschool.consultservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,17 @@ public class ConsultQueryController {
     private final ConsultQueryService consultQueryService;
     private final TokenUtils tokenUtils;
 
-    @GetMapping
-    public ApiResponse<List<ConsultResponse>> searchConsults(@PathVariable String schoolId, @PathVariable Integer schoolYear) {
+    @GetMapping("/wait")
+    public ApiResponse<Result<WaitConsultResponse>> searchWaitConsults(@PathVariable String schoolId, @PathVariable Integer schoolYear) {
         log.debug("call ConsultQueryController#searchConsults");
 
         String userKey = tokenUtils.getUserKey();
         log.debug("userKey={}", userKey);
 
-        List<ConsultResponse> responses = consultQueryService.searchConsults(userKey, schoolYear);
-        log.debug("result={}", responses);
+        List<WaitConsultResponse> response = consultQueryService.searchConsults(userKey, schoolYear);
+        log.debug("results={}", response);
 
-        return ApiResponse.ok(responses);
+        return ApiResponse.ok(Result.of(response));
     }
 
     @GetMapping("/{consultId}")
