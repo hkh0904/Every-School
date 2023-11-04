@@ -11,8 +11,11 @@ endif::[]
 
 include::overview.adoc[]
 
-[[Report-API]]
-== Report API
+[[Report-Web-API]]
+== Report Web API
 
 include::api/web/report/search-reports.adoc[]
 include::api/web/report/search-report.adoc[]
+
+[[Report-App-API]]
+== Report App API
