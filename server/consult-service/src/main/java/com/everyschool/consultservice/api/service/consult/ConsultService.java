@@ -30,9 +30,9 @@ public class ConsultService {
     private final SchoolServiceClient schoolServiceClient;
 
     public CreateConsultResponse createConsult(String userKey, Long schoolId, CreateConsultDto dto) {
-        UserInfo parentInfo = userServiceClient.searchByUserKey(userKey);
-        UserInfo studentInfo = userServiceClient.searchByUserKey(dto.getStudentKey());
-        UserInfo teacherInfo = userServiceClient.searchByUserKey(dto.getTeacherKey());
+        UserInfo parentInfo = userServiceClient.searchUserInfo(userKey);
+        UserInfo studentInfo = userServiceClient.searchUserInfo(dto.getStudentKey());
+        UserInfo teacherInfo = userServiceClient.searchUserInfo(dto.getTeacherKey());
 
         SchoolClassInfo schoolClassInfo = schoolServiceClient.searchSchoolClassByTeacherId(teacherInfo.getUserId());
 
