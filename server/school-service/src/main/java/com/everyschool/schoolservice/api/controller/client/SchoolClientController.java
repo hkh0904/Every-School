@@ -32,7 +32,7 @@ public class SchoolClientController {
         return studentInfo;
     }
 
-    @PostMapping
+    @PostMapping("/consult-user-infos")
     public List<ConsultUserInfo> searchConsultUser(@RequestBody List<Long> userIds) {
         log.debug("call SchoolClientController#searchConsultUser");
         log.debug("userIds size={}", userIds.size());
