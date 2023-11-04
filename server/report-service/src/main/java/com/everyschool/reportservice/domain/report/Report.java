@@ -46,14 +46,9 @@ public class Report extends BaseEntity {
     @OneToMany(mappedBy = "report", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AttachedFile> files = new ArrayList<>();
 
-    protected Report() {
-        super();
-        this.progressStatusId = 1;
-    }
-
     @Builder
     private Report(String title, String description, ReportContent content, Integer schoolYear, Integer typeId, Long schoolId, Long userId) {
-        this();
+        super();
         this.title = title;
         this.description = description;
         this.content = content;
@@ -61,10 +56,10 @@ public class Report extends BaseEntity {
         this.typeId = typeId;
         this.schoolId = schoolId;
         this.userId = userId;
+        this.progressStatusId = ProgressStatus.REGISTER.getCode();
     }
 
     //== 연관관계 편의 메서드 ==//
-
     public static Report createReport(String title, String description, ReportContent content, int schoolYear, int typeId, Long schoolId, Long userId, List<UploadFile> uploadFiles) {
         Report report = Report.builder()
             .title(title)
@@ -84,5 +79,11 @@ public class Report extends BaseEntity {
         }
 
         return report;
+    }
+
+    //== 비즈니스 로직 ==//
+    public Report editStatus(int progressStatusId) {
+        this.progressStatusId = progressStatusId;
+        return this;
     }
 }
