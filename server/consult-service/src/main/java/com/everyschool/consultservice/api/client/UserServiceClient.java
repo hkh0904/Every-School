@@ -1,21 +1,13 @@
 package com.everyschool.consultservice.api.client;
 
-import com.everyschool.consultservice.api.client.response.TeacherInfo;
 import com.everyschool.consultservice.api.client.response.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
-@FeignClient("user-service")
+@FeignClient(name = "user-service", url = "https://every-school.com/api")
 public interface UserServiceClient {
 
-    // TODO: 2023-10-30 상대 구현
-    @PostMapping
-    UserInfo searchByUserKey(@RequestBody String userKey);
-
-    // TODO: 2023-10-30 상대 구현
-    @PostMapping
-    TeacherInfo searchTeacherByUserKey(@RequestBody String userKey);
+    @GetMapping("/user-service/client/v1/user-info/{userKey}")
+    UserInfo searchUserInfo(@PathVariable(name = "userKey") String userKey);
 }

@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ConsultType {
 
-    VISIT(2001, "방문상담"),
-    CALL(2002, "전화상담");
+    VISIT(4001, "방문상담"),
+    CALL(4002, "전화상담");
 
     private final int code;
     private final String text;
@@ -25,6 +25,6 @@ public enum ConsultType {
             return CALL.getText();
         }
 
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("등록이 되지 않은 상담 유형 코드입니다.");
     }
 }

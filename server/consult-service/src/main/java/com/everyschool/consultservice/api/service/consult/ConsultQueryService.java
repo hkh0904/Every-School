@@ -27,7 +27,7 @@ public class ConsultQueryService {
     private final SchoolServiceClient schoolServiceClient;
 
     public List<WaitConsultResponse> searchConsults(String userKey, int schoolYear) {
-        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
         List<Consult> findConsults = consultQueryRepository.findByTeacherIdAndSchoolYear(userInfo.getUserId(), schoolYear);
 
