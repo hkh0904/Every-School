@@ -4,6 +4,7 @@ import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.StudentParentInfo;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
+import com.everyschool.schoolservice.api.controller.client.response.ConsultUserInfo;
 import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
@@ -12,7 +13,6 @@ import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
 import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserQueryRepository;
-import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,5 +110,13 @@ public class SchoolUserQueryService {
             throw new NoSuchElementException(NOT_EXIST_MY_SCHOOL_CLASS.getMessage());
         }
         return findSchoolClass.get();
+    }
+
+    public List<ConsultUserInfo> searchConsultUser(List<Long> userIds) {
+        List<SchoolUser> findSchoolUsers = schoolUserQueryRepository.findByUserIdIn(userIds);
+
+        return findSchoolUsers.stream()
+            .map(ConsultUserInfo::of)
+            .collect(Collectors.toList());
     }
 }
