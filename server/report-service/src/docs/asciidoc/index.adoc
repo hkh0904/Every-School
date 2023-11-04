@@ -15,3 +15,4 @@ include::overview.adoc[]
 == Report API
 
 include::api/web/report/search-reports.adoc[]
+include::api/web/report/search-report.adoc[]
