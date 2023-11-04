@@ -17,20 +17,20 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/consult-service/v1/schools/{schoolId}/consults")
+@RequestMapping("/consult-service/v1/schools/{schoolId}/consults/{schoolYear}")
 public class ConsultQueryController {
 
     private final ConsultQueryService consultQueryService;
     private final TokenUtils tokenUtils;
 
     @GetMapping
-    public ApiResponse<List<ConsultResponse>> searchConsults(@PathVariable String schoolId) {
+    public ApiResponse<List<ConsultResponse>> searchConsults(@PathVariable String schoolId, @PathVariable Integer schoolYear) {
         log.debug("call ConsultQueryController#searchConsults");
 
         String userKey = tokenUtils.getUserKey();
         log.debug("userKey={}", userKey);
 
-        List<ConsultResponse> responses = consultQueryService.searchConsults(userKey);
+        List<ConsultResponse> responses = consultQueryService.searchConsults(userKey, schoolYear);
         log.debug("result={}", responses);
 
         return ApiResponse.ok(responses);
