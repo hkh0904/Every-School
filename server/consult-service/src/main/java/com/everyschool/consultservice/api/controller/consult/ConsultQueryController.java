@@ -2,6 +2,7 @@ package com.everyschool.consultservice.api.controller.consult;
 
 import com.everyschool.consultservice.api.ApiResponse;
 import com.everyschool.consultservice.api.Result;
+import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.controller.consult.response.WebConsultResponse;
 import com.everyschool.consultservice.api.service.consult.ConsultQueryService;
 import com.everyschool.consultservice.utils.TokenUtils;
@@ -21,12 +22,12 @@ public class ConsultQueryController {
     private final TokenUtils tokenUtils;
 
     @GetMapping
-    public ApiResponse<Result<WebConsultResponse>> searchWaitConsults(
-        @PathVariable String schoolId,
+    public ApiResponse<Result<WebConsultResponse>> searchConsults(
         @PathVariable Integer schoolYear,
+        @PathVariable String schoolId,
         @RequestParam Integer status
     ) {
-        log.debug("call ConsultQueryController#searchWaitConsults");
+        log.debug("call ConsultQueryController#searchConsults");
 
         String userKey = tokenUtils.getUserKey();
         log.debug("userKey={}", userKey);
@@ -35,5 +36,18 @@ public class ConsultQueryController {
         log.debug("results={}", response);
 
         return ApiResponse.ok(Result.of(response));
+    }
+
+    @GetMapping("/{consultId}")
+    public ApiResponse<ConsultDetailResponse> searchConsult(
+        @PathVariable Integer schoolYear,
+        @PathVariable String schoolId,
+        @PathVariable Long consultId
+    ) {
+        log.debug("call ConsultQueryController#searchConsults");
+
+        ConsultDetailResponse response = consultQueryService.searchConsult(consultId);
+
+        return ApiResponse.ok(response);
     }
 }
