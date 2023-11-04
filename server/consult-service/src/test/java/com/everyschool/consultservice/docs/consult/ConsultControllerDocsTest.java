@@ -60,7 +60,7 @@ public class ConsultControllerDocsTest extends RestDocsSupport {
 
         CreateConsultResponse response = CreateConsultResponse.builder()
             .consultId(1L)
-            .typeId(2001)
+            .typeId(VISIT.getCode())
             .teacher("1학년 3반 임우택 선생님")
             .applicant("1학년 3반 이리온(모) 이예리")
             .consultDateTime(LocalDateTime.now())
