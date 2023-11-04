@@ -72,13 +72,20 @@ public class Consult extends BaseEntity {
     }
 
     //== 비즈니스 로직 ==//
-    public void approval() {
+    public Consult approval() {
         this.progressStatusId = ProgressStatus.RESERVATION.getCode();
+        return this;
     }
 
-    public void reject(String rejectedReason) {
+    public Consult finish(String resultContent) {
+        this.progressStatusId = ProgressStatus.FINISH.getCode();
+        this.resultContent = resultContent;
+        return this;
+    }
+
+    public Consult reject(String rejectedReason) {
         this.progressStatusId = ProgressStatus.REJECT.getCode();
         this.rejectedReason = rejectedReason;
+        return this;
     }
 }
-
