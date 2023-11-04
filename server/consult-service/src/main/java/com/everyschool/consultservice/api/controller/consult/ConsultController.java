@@ -2,8 +2,10 @@ package com.everyschool.consultservice.api.controller.consult;
 
 import com.everyschool.consultservice.api.ApiResponse;
 import com.everyschool.consultservice.api.controller.consult.request.CreateConsultRequest;
-import com.everyschool.consultservice.api.controller.consult.request.CreateConsultScheduleRequest;
+import com.everyschool.consultservice.api.controller.consult.request.RejectConsultRequest;
+import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
+import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
 import com.everyschool.consultservice.api.service.consult.ConsultService;
 import com.everyschool.consultservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/consult-service/v1/schools/{schoolId}/consults")
+@RequestMapping("/consult-service/v1/schools/{schoolId}/consults/{schoolYear}")
 public class ConsultController {
 
     private final ConsultService consultService;
@@ -35,5 +37,34 @@ public class ConsultController {
         log.debug("result={}", response);
 
         return ApiResponse.created(response);
+    }
+
+    @PatchMapping("/{consultId}/approve")
+    public ApiResponse<ApproveConsultResponse> approveConsult(
+        @PathVariable Long schoolId,
+        @PathVariable Integer schoolYear,
+        @PathVariable Long consultId
+    ) {
+        log.debug("call ConsultController#approveConsult");
+
+        ApproveConsultResponse response = consultService.approveConsult(consultId);
+        log.debug("ApproveConsultResponse={}", response);
+
+        return ApiResponse.ok(response);
+    }
+
+    @PatchMapping("/{consultId}/reject")
+    public ApiResponse<RejectConsultResponse> rejectConsult(
+        @PathVariable Long schoolId,
+        @PathVariable Integer schoolYear,
+        @PathVariable Long consultId,
+        @Valid @RequestBody RejectConsultRequest request
+    ) {
+        log.debug("call ConsultController#approveConsult");
+
+        RejectConsultResponse response = consultService.rejectConsult(consultId, request.getRejectedReason());
+        log.debug("ApproveConsultResponse={}", response);
+
+        return ApiResponse.ok(response);
     }
 }
