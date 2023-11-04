@@ -1,6 +1,8 @@
 package com.everyschool.consultservice.api.service.consult;
 
+import com.everyschool.consultservice.api.client.SchoolServiceClient;
 import com.everyschool.consultservice.api.client.UserServiceClient;
+import com.everyschool.consultservice.api.client.response.ConsultUserInfo;
 import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.controller.consult.response.ConsultResponse;
@@ -22,14 +24,26 @@ public class ConsultQueryService {
     private final ConsultRepository consultRepository;
     private final ConsultQueryRepository consultQueryRepository;
     private final UserServiceClient userServiceClient;
+    private final SchoolServiceClient schoolServiceClient;
 
-    public List<ConsultResponse> searchConsults(String userKey) {
+    public List<ConsultResponse> searchConsults(String userKey, int schoolYear) {
         UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
 
-        List<Consult> findConsults = consultQueryRepository.findByParentId(userInfo.getUserId(), userInfo.getUserType());
+        List<Consult> findConsults = consultQueryRepository.findByTeacherIdAndSchoolYear(userInfo.getUserId(), schoolYear);
+
+        List<Long> temp = new ArrayList<>();
+        for (Consult findConsult : findConsults) {
+            temp.add(findConsult.getStudentId());
+            temp.add(findConsult.getParentId());
+        }
+
+        List<ConsultUserInfo> consultUserInfos = schoolServiceClient.searchConsultUser(temp);
+
+        Map<Long, String> map = consultUserInfos.stream()
+            .collect(Collectors.toMap(ConsultUserInfo::getUserId, ConsultUserInfo::getUserInfo, (a, b) -> b));
 
         return findConsults.stream()
-            .map(consult -> ConsultResponse.of(consult, userInfo.getUserType()))
+            .map(consult -> ConsultResponse.of(consult, map.get(consult.getStudentId()), map.get(consult.getParentId())))
             .collect(Collectors.toList());
     }
 
