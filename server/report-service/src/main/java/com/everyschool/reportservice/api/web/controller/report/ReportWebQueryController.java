@@ -3,6 +3,7 @@ package com.everyschool.reportservice.api.web.controller.report;
 import com.everyschool.reportservice.api.ApiResponse;
 import com.everyschool.reportservice.api.Result;
 import com.everyschool.reportservice.api.service.report.ReportQueryService;
+import com.everyschool.reportservice.api.web.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebQueryService;
 import com.everyschool.reportservice.utils.TokenUtils;
@@ -29,5 +30,17 @@ public class ReportWebQueryController {
         List<ReportResponse> response = reportWebQueryService.searchReports(schoolId, schoolYear, status);
 
         return ApiResponse.ok(Result.of(response));
+    }
+
+    @GetMapping("/{reportId}")
+    public ApiResponse<ReportDetailResponse> searchReport(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long reportId
+    ) {
+
+        ReportDetailResponse response = reportWebQueryService.searchReport(reportId);
+
+        return ApiResponse.ok(response);
     }
 }
