@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum UserType {
 
     STUDENT(3001, "학생"),
-    PARENT(3002, "학부모"),
+    FATHER(3002, "아버님"),
+    MOTHER(3003, "어머님"),
     TEACHER(3003, "교직원");
 
     private final int code;
