@@ -17,12 +17,10 @@ public enum ConsultType {
     }
 
     public static String getText(int code) {
-        if (VISIT.getCode() == code) {
-            return VISIT.getText();
-        }
-
-        if (CALL.getCode() == code) {
-            return CALL.getText();
+        for (ConsultType type : values()) {
+            if (type.getCode() == code) {
+                return type.getText();
+            }
         }
 
         throw new IllegalArgumentException("등록이 되지 않은 상담 유형 코드입니다.");

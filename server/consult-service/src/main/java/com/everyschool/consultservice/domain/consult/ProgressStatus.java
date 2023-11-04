@@ -19,20 +19,10 @@ public enum ProgressStatus {
     }
 
     public static String getText(int code) {
-        if (WAIT.getCode() == code) {
-            return WAIT.getText();
-        }
-
-        if (RESERVATION.getCode() == code) {
-            return RESERVATION.getText();
-        }
-
-        if (FINISH.getCode() == code) {
-            return FINISH.getText();
-        }
-
-        if (REJECT.getCode() == code) {
-            return REJECT.getText();
+        for (ProgressStatus status : values()) {
+            if (status.getCode() == code) {
+                return status.getText();
+            }
         }
 
         throw new IllegalArgumentException("등록이 되지 않은 상담 진행 상태 코드입니다.");
