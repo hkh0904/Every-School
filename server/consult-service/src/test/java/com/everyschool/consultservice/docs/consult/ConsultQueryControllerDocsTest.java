@@ -1,7 +1,7 @@
 package com.everyschool.consultservice.docs.consult;
 
 import com.everyschool.consultservice.api.controller.consult.ConsultQueryController;
-import com.everyschool.consultservice.api.controller.consult.response.WaitConsultResponse;
+import com.everyschool.consultservice.api.controller.consult.response.WebConsultResponse;
 import com.everyschool.consultservice.api.service.consult.ConsultQueryService;
 import com.everyschool.consultservice.docs.RestDocsSupport;
 import com.everyschool.consultservice.utils.TokenUtils;
@@ -22,6 +22,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,24 +37,30 @@ public class ConsultQueryControllerDocsTest extends RestDocsSupport {
         return new ConsultQueryController(consultQueryService, tokenUtils);
     }
 
-    @DisplayName("[교직원] 상담 확인 조회 API")
+    @DisplayName("[교직원] 상담 조회 API")
     @Test
-    void searchWaitConsults() throws Exception {
+    void searchConsults() throws Exception {
         given(tokenUtils.getUserKey())
             .willReturn(UUID.randomUUID().toString());
-        WaitConsultResponse response1 = createWaitConsultResponse(1L, "10301 하예솔 학생", "하도영 아버님", LocalDateTime.of(2023, 11, 4, 14, 0));
-        WaitConsultResponse response2 = createWaitConsultResponse(2L, "10301 하예솔 학생", "박연진 어머님", LocalDateTime.of(2023, 11, 4, 15, 0));
+        WebConsultResponse response1 = createWaitConsultResponse(1L, "10301 하예솔 학생", "하도영 아버님", LocalDateTime.of(2023, 11, 4, 14, 0));
+        WebConsultResponse response2 = createWaitConsultResponse(2L, "10301 하예솔 학생", "박연진 어머님", LocalDateTime.of(2023, 11, 4, 15, 0));
 
-        given(consultQueryService.searchConsults(anyString(), anyInt()))
+        given(consultQueryService.searchConsults(anyString(), anyInt(), anyInt()))
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
-            get("/consult-service/v1/schools/{schoolId}/consults/{schoolYear}/wait", 1L, 2023)
+            get("/consult-service/v1/web/{schoolYear}/schools/{schoolId}/consults", 2023, 21617)
+                .header("Authorization", "Bearer Access Token")
+                .param("status", "5001")
         )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-wait-consults",
+            .andDo(document("search-consults",
                 preprocessResponse(prettyPrint()),
+                requestParameters(
+                    parameterWithName("status")
+                        .description("상담 진행 상태 코드")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
@@ -78,8 +86,8 @@ public class ConsultQueryControllerDocsTest extends RestDocsSupport {
             ));
     }
 
-    private WaitConsultResponse createWaitConsultResponse(Long consultId, String studentInfo, String parentInfo, LocalDateTime consultDate) {
-        return WaitConsultResponse.builder()
+    private WebConsultResponse createWaitConsultResponse(Long consultId, String studentInfo, String parentInfo, LocalDateTime consultDate) {
+        return WebConsultResponse.builder()
             .consultId(consultId)
             .typeId(VISIT.getCode())
             .studentInfo(studentInfo)

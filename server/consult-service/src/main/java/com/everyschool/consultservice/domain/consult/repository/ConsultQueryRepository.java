@@ -20,7 +20,7 @@ public class ConsultQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<Consult> findByTeacherIdAndSchoolYear(Long teacherId, int schoolYear) {
+    public List<Consult> findByTeacherIdAndSchoolYear(Long teacherId, int schoolYear, int status) {
         return queryFactory
             .select(consult)
             .from(consult)
@@ -28,7 +28,7 @@ public class ConsultQueryRepository {
                 consult.isDeleted.isFalse(),
                 consult.teacherId.eq(teacherId),
                 consult.schoolYear.eq(schoolYear),
-                consult.progressStatusId.eq(ProgressStatus.WAIT.getCode())
+                consult.progressStatusId.eq(status)
             )
             .orderBy(consult.consultDateTime.desc())
             .fetch();
