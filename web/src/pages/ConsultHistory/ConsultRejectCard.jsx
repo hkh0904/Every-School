@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './ConsultRejectCard.module.css';
+import { getRejectClstList } from '../../api/ConsultingAPI/consultingAPI.js';
 
 export default function ConsultRejectCard() {
-  const csltList = [
+  const [csltList, setCsltList] = useState([
     {
       studentName: '강OO',
       parentName: '김OO',
@@ -44,7 +45,21 @@ export default function ConsultRejectCard() {
       reason: '자녀의진로상담어쩌고저쩌고',
       rejectReason: '고릴라가 무서워서'
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newCsltData = await getRejectClstList();
+        console.log(newCsltData);
+        setCsltList(newCsltData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [groupCslt, setGroupCslt] = useState([]);
 
@@ -70,6 +85,7 @@ export default function ConsultRejectCard() {
     const groupedByYearMonth = groupByYearMonth(csltList);
     setGroupCslt(groupedByYearMonth);
   }, []);
+
   return (
     <div className={styles.ConsultCompleteCard}>
       <div className={styles.year}>

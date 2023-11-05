@@ -10,6 +10,20 @@ export default function MyPage() {
     jobLevel: '담당 선생님',
     grade: '3학년 2반'
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newCsltData = await getCompliteConsulting();
+        console.log(newCsltData);
+        setCsltList(newCsltData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div className={styles.MyPage}>
       <div className={styles.title}>

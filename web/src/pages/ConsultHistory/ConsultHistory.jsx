@@ -6,7 +6,7 @@ import ConsultRejectCard from './ConsultRejectCard';
 
 export default function ConsultHistory() {
   const [pageIdx, setPageIdx] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   return (
     <div className={styles.consultHistory}>

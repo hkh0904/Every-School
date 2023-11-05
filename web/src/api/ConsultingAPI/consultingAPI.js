@@ -1,5 +1,6 @@
 import { baseAxios } from '../Axios.jsx';
 
+//상담 예정 목록
 export const getConsultingList = async () => {
   try {
     const response = await baseAxios.get(`/consult-service/v1/web/2023/schools/21617/consults?status=5001`, {
@@ -12,7 +13,7 @@ export const getConsultingList = async () => {
     return 0;
   }
 };
-
+//상담 승인
 export const approveConsulting = async (consultId) => {
   try {
     const response = await baseAxios.patch(`/consult-service/v1/web/2023/schools/21617/consults/${consultId}/approve`);
@@ -26,7 +27,7 @@ export const approveConsulting = async (consultId) => {
     return 0;
   }
 };
-
+//상담 거절
 export const rejectConsulting = async (consultId, reason) => {
   const rejectedReason = {
     rejectedReason: reason
@@ -43,6 +44,44 @@ export const rejectConsulting = async (consultId, reason) => {
       window.location.reload();
     }
     return response.data;
+  } catch (error) {
+    return 0;
+  }
+};
+
+//상담 완료내역 조회
+export const getCompliteConsulting = async () => {
+  try {
+    const response = await baseAxios.get(`/consult-service/v1/web/2023/schools/21617/consults`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+      },
+      params: {
+        status: 5003
+      }
+    });
+    if (response.data.message === 'SUCCESS') {
+      return response.data.data;
+    }
+  } catch (error) {
+    return 0;
+  }
+};
+
+//상담 거절내역 조회
+export const getRejectClstList = async () => {
+  try {
+    const response = await baseAxios.get(`/consult-service/v1/web/2023/schools/21617/consults`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+      },
+      params: {
+        status: 5004
+      }
+    });
+    if (response.data.message === 'SUCCESS') {
+      return response.data.data;
+    }
   } catch (error) {
     return 0;
   }

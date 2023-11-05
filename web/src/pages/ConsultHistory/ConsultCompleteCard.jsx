@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './ConsultCompleteCard.module.css';
+import { getCompliteConsulting } from '../../api/ConsultingAPI/consultingAPI.js';
 
 export default function ConsultCompleteCard() {
-  const csltList = [
+  const [csltList, setCsltList] = useState([
     {
       studentName: '강OO',
       parentName: '김OO',
@@ -36,10 +37,23 @@ export default function ConsultCompleteCard() {
       studentName: '강OO',
       parentName: '김OO',
       parentSex: 'F',
-      date: [2024, 1, 23, 16],
+      date: [2024, 1, 23, 16, 0],
       reason: '자녀의진로상담어쩌고저쩌고'
     }
-  ];
+  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const newCsltData = await getCompliteConsulting();
+        console.log(newCsltData);
+        setCsltList(newCsltData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [groupCslt, setGroupCslt] = useState([]);
 
@@ -65,6 +79,7 @@ export default function ConsultCompleteCard() {
     const groupedByYearMonth = groupByYearMonth(csltList);
     setGroupCslt(groupedByYearMonth);
   }, []);
+
   return (
     <div className={styles.ConsultCompleteCard}>
       <div className={styles.year}>
