@@ -1,17 +1,20 @@
 package com.everyschool.userservice.api.service.user;
 
+import com.everyschool.userservice.api.controller.client.response.StudentResponse;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.Student;
+import com.everyschool.userservice.domain.user.Teacher;
 import com.everyschool.userservice.domain.user.User;
 import com.everyschool.userservice.domain.user.repository.UserQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -80,7 +83,16 @@ public class UserQueryService {
             return UserInfo.of(student);
         }
 
-        Parent parent = (Parent) user;
-        return UserInfo.of(parent);
+        if (user instanceof Parent) {
+            Parent parent = (Parent) user;
+            return UserInfo.of(parent);
+        }
+
+        Teacher teacher = (Teacher) user;
+        return UserInfo.of(teacher);
+    }
+
+    public List<StudentResponse> searchByStudentIdIn(List<Long> studentIds) {
+        return userQueryRepository.findStudentByIdIn(studentIds);
     }
 }

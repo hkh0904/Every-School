@@ -1,0 +1,12 @@
+[[reject-consult]]
+=== [교직원] 상담 거절 API
+
+==== HTTP Request
+
+include::{snippets}/reject-consult/http-request.adoc[]
+include::{snippets}/reject-consult/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/reject-consult/http-response.adoc[]
+include::{snippets}/reject-consult/response-fields.adoc[]

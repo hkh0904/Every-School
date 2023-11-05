@@ -6,6 +6,7 @@ import com.everyschool.userservice.api.controller.user.response.UserInfoResponse
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.User;
+import com.everyschool.userservice.domain.user.UserType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.everyschool.userservice.domain.user.UserType.*;
 import static org.assertj.core.api.Assertions.*;
 
 class UserQueryRepositoryTest extends IntegrationTestSupport {
@@ -88,7 +90,7 @@ class UserQueryRepositoryTest extends IntegrationTestSupport {
             .name("김싸피")
             .birth("2001-01-01")
             .userKey(UUID.randomUUID().toString())
-            .userCodeId(1)
+            .userCodeId(PARENT.getCode())
             .parentType("M")
             .build();
         return parentRepository.save(parent);

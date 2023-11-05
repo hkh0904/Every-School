@@ -25,13 +25,27 @@ include::api/codedetail/search-code-detail.adoc[]
 include::api/codedetail/remove-code-detail.adoc[]
 
 
+[[Web-User-API]]
+== Web User API
+
+include::api/web/user/web-search-user-info.adoc[]
+
+
+[[App-User-API]]
+== App User API
+
+include::api/app/user/app-search-student-info.adoc[]
+include::api/app/user/app-search-parent-info.adoc[]
+include::api/app/user/app-search-teacher-info.adoc[]
+
+
 [[User-API]]
 == User API
 
 include::api/user/login-user.adoc[]
 include::api/user/create-parent.adoc[]
 include::api/user/create-student.adoc[]
-include::api/user/search-user-info.adoc[]
+include::api/user/create-teacher.adoc[]
 include::api/user/forgot-email.adoc[]
 include::api/user/forgot-pwd.adoc[]
 include::api/user/edit-pwd.adoc[]
@@ -50,5 +64,5 @@ include::api/auth/auth-email-check.adoc[]
 [[Client-API]]
 == Client API
 
-include::api/client/client-search-user-id.adoc[]
-include::api/client/client-search-user-info.adoc[]
+include::api/client/client-search-user-info-token.adoc[]
+include::api/client/client-search-user-info-key.adoc[]

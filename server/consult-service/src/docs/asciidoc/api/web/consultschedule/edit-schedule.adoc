@@ -1,0 +1,13 @@
+[[edit-schedule]]
+=== [교직원] 상담 스케줄 일정 수정 API
+
+==== HTTP Request
+
+include::{snippets}/edit-schedules/http-request.adoc[]
+include::{snippets}/edit-schedules/request-fields.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/edit-schedules/http-response.adoc[]
+include::{snippets}/edit-schedules/response-fields.adoc[]

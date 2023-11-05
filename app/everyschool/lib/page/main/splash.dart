@@ -1,6 +1,8 @@
 import 'package:everyschool/main.dart';
+import 'package:everyschool/page/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -10,16 +12,31 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  String? token;
+
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIMode((SystemUiMode.immersive));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+    getToken();
 
     Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => const Main(),
-      ));
+      if (token != null && token!.isNotEmpty) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => const Main(),
+        ));
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => const LoginPage(),
+        ));
+      }
     });
+  }
+
+  void getToken() async {
+    final storage = FlutterSecureStorage();
+    token = await storage.read(key: 'token') ?? "";
   }
 
   @override
