@@ -1,0 +1,10 @@
+[[app-search-teacher-info]]
+=== 교직원 회원 정보 조회 API
+
+==== HTTP Request
+include::{snippets}/app-search-teacher-info/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/app-search-teacher-info/http-response.adoc[]
+include::{snippets}/app-search-teacher-info/response-fields.adoc[]

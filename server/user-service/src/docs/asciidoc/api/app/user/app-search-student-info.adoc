@@ -1,0 +1,10 @@
+[[app-search-student-info]]
+=== 학생 회원 정보 조회 API
+
+==== HTTP Request
+include::{snippets}/app-search-student-info/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/app-search-student-info/http-response.adoc[]
+include::{snippets}/app-search-student-info/response-fields.adoc[]
