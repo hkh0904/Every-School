@@ -83,7 +83,7 @@ class _ChatRoomState extends State<ChatRoom> {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: const Text(
-          "여기 변경하기",
+          "담임선생님",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

@@ -2,6 +2,7 @@ import 'package:everyschool/page/messenger/call/call_history.dart';
 
 import 'package:everyschool/page/messenger/call/call_page.dart';
 import 'package:everyschool/page/messenger/chat/chat_list.dart';
+import 'package:everyschool/page/messenger/chat/chat_room.dart';
 import 'package:flutter/material.dart';
 
 class MessengerPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _MessengerPageState extends State<MessengerPage> {
     // TODO: implement initState
   }
 
-  final userId = 1;
+  final userId = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,14 @@ class UserTapBar extends StatelessWidget {
                                 fontWeight: FontWeight.bold))),
                     IconButton(onPressed: () {}, icon: Icon(Icons.call)),
                     IconButton(
-                        onPressed: () {}, icon: Icon(Icons.message_sharp))
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      const ChatRoom()));
+                        },
+                        icon: Icon(Icons.message_sharp))
                   ],
                   actionsIconTheme: const IconThemeData(
                     color: Colors.black,
