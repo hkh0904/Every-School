@@ -67,6 +67,7 @@ public class SchoolClassQueryRepository {
             .select(Projections.constructor(
                 SchoolClassInfo.class,
                 schoolClass.school.name,
+                schoolClass.schoolYear,
                 schoolClass.grade,
                 schoolClass.classNum
             ))
