@@ -2,16 +2,16 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class CallList extends StatefulWidget {
-  const CallList({super.key, this.join, this.leave});
+class StartCall extends StatefulWidget {
+  const StartCall({super.key, this.join, this.leave});
   final join;
   final leave;
 
   @override
-  State<CallList> createState() => _CallListState();
+  State<StartCall> createState() => _StartCallState();
 }
 
-class _CallListState extends State<CallList> {
+class _StartCallState extends State<StartCall> {
   String generateRandomString(int length) {
     const String charset =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
