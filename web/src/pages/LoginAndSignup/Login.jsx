@@ -27,6 +27,7 @@ function Login() {
     } else {
       sessionStorage.clear();
       sessionStorage.setItem('token', response.token);
+      sessionStorage.setItem('userkey', response.userkey);
       return 1;
     }
   };
