@@ -49,4 +49,19 @@ public class ConsultSchedule extends BaseEntity {
         this.thursday = thursday;
         this.friday = friday;
     }
+
+    //== 비즈니스 로직 ==//
+    public ConsultSchedule editDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public ConsultSchedule editSchedule(String monday, String tuesday, String wednesday, String thursday, String friday) {
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        return this;
+    }
 }
