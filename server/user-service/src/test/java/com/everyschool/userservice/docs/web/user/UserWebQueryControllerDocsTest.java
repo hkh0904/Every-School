@@ -79,6 +79,8 @@ public class UserWebQueryControllerDocsTest extends RestDocsSupport {
                         .description("메시지"),
                     fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
+                    fieldWithPath("data.userType").type(JsonFieldType.NUMBER)
+                        .description("회원 유형 코드"),
                     fieldWithPath("data.email").type(JsonFieldType.STRING)
                         .description("회원 이메일"),
                     fieldWithPath("data.name").type(JsonFieldType.STRING)
