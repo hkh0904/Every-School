@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "school-service", url = "https://every-school.com/api")
 public interface SchoolServiceClient {
 
-    @PostMapping("/school-service/v1/client/school-class-info")
+    @PostMapping("/school-service/client/v1/school-class-info")
     SchoolClassInfo searchBySchoolClassId(@RequestBody Long schoolClassId);
 }
