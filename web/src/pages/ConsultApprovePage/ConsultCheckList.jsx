@@ -2,16 +2,17 @@ import { useState } from 'react';
 import styles from './ConsultCheckList.module.css';
 import { useEffect } from 'react';
 import RefuseModal from './RefuseModal';
+import { approveConsulting } from '../../api/ConsultingAPI/consultingAPI';
 
-export default function ConsultCheckList({ csltList, setIsModalOpen }) {
+export default function ConsultCheckList({ csltList, setIsModalOpen, setRejectNum }) {
   const [groupCslt, setGroupCslt] = useState([]);
 
   function groupByYearMonth(list) {
     const grouped = {};
 
     list.forEach((item) => {
-      const year = item.date[0];
-      const month = item.date[1];
+      const year = item.consultDate[0];
+      const month = item.consultDate[1];
 
       if (!grouped[year]) {
         grouped[year] = {};
@@ -49,24 +50,39 @@ export default function ConsultCheckList({ csltList, setIsModalOpen }) {
                             src={process.env.PUBLIC_URL + '/assets/consult/consultcheck.png'}
                             alt=''
                           />
-                          <p className={styles.childName}>{item.studentName} 학생</p>
+                          <p className={styles.childName}>{item.studentInfo.split(' ')[1]} 학생</p>
                           <p className={styles.parentName}>
-                            {item.parentName}
-                            {item.parentSex === 'F' ? <span>(모)</span> : <span>(부)</span>}
+                            {item.parentInfo.split(' ')[0]}
+                            {item.parentInfo.split(' ')[1] === '어머님' ? <span>(모)</span> : <span>(부)</span>}
                           </p>
                         </div>
                         <div className={styles.reasonBox}>
+                          <p className={styles.reasonBoxP1}>상담 종류</p>
+                          <p className={styles.reasonBoxP2}>{item.type}</p>
                           <p className={styles.reasonBoxP1}>상담 일자</p>
                           <p className={styles.reasonBoxP2}>
-                            {item.date.slice(0, 3).join('.')} {item.date[3]}:00
+                            {item.consultDate.slice(0, 3).join('.')} {item.consultDate[3]}:00
                           </p>
                           <p className={styles.reasonBoxP3}>신청 사유</p>
-                          <p className={styles.reasonBoxP4}>{item.reason}</p>
+                          <p className={styles.reasonBoxP4}>아직 신청사유를 못받았어요</p>
                         </div>
                       </div>
                       <div className={styles.checkBtn}>
-                        <p>승인</p>
-                        <p onClick={() => setIsModalOpen(true)}>거절</p>
+                        <p
+                          onClick={() => {
+                            approveConsulting(item.consultId);
+                          }}
+                        >
+                          승인
+                        </p>
+                        <p
+                          onClick={() => {
+                            setIsModalOpen(true);
+                            setRejectNum(item.consultId);
+                          }}
+                        >
+                          거절
+                        </p>
                       </div>
                     </div>
                   ))}
