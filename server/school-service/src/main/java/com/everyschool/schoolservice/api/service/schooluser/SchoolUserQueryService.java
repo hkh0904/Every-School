@@ -5,6 +5,7 @@ import com.everyschool.schoolservice.api.client.response.StudentParentInfo;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.web.controller.client.response.ConsultUserInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.DescendantInfo;
 import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
@@ -118,5 +119,9 @@ public class SchoolUserQueryService {
         return findSchoolUsers.stream()
             .map(ConsultUserInfo::of)
             .collect(Collectors.toList());
+    }
+
+    public List<DescendantInfo> searchDescendantInfo(List<Long> userIds) {
+        return schoolUserQueryRepository.findDescendantInfo(userIds);
     }
 }
