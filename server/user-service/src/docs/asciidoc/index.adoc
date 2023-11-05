@@ -24,6 +24,11 @@ include::api/codedetail/create-code-detail.adoc[]
 include::api/codedetail/search-code-detail.adoc[]
 include::api/codedetail/remove-code-detail.adoc[]
 
+[[Web-User-API]]
+== Web User API
+
+include::api/web/user/web-search-user-info.adoc[]
+
 
 [[User-API]]
 == User API
