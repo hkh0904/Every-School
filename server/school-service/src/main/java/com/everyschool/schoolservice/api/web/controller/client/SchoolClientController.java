@@ -2,10 +2,10 @@ package com.everyschool.schoolservice.api.web.controller.client;
 
 import com.everyschool.schoolservice.api.service.schoolclass.SchoolClassQueryService;
 import com.everyschool.schoolservice.api.web.controller.client.response.ConsultUserInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.DescendantInfo;
 import com.everyschool.schoolservice.api.web.controller.client.response.SchoolClassInfo;
 import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
-import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,5 +53,14 @@ public class SchoolClientController {
         log.debug("result={}", schoolClassInfo);
 
         return schoolClassInfo;
+    }
+
+    @PostMapping("/descendant-info")
+    public List<DescendantInfo> searchByUserId(@RequestBody List<Long> userIds) {
+
+        List<DescendantInfo> descendantInfos = schoolUserQueryService.searchDescendantInfo(userIds);
+        log.debug("result={}", descendantInfos);
+
+        return descendantInfos;
     }
 }
