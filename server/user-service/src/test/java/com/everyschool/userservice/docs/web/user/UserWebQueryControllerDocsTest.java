@@ -12,13 +12,16 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static com.everyschool.userservice.domain.user.UserType.TEACHER;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,6 +54,7 @@ public class UserWebQueryControllerDocsTest extends RestDocsSupport {
             .build();
 
         UserInfoResponse response = UserInfoResponse.builder()
+            .userType(TEACHER.getCode())
             .email("ssafy@gmail.com")
             .name("이예리")
             .birth("1998-04-12")
