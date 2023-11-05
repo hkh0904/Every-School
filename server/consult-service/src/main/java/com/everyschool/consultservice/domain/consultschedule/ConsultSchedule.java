@@ -1,4 +1,4 @@
-package com.everyschool.consultservice.domain.consulttime;
+package com.everyschool.consultservice.domain.consultschedule;
 
 import com.everyschool.consultservice.domain.BaseEntity;
 import lombok.AccessLevel;

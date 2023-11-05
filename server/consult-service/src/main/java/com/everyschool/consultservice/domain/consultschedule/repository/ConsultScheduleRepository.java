@@ -1,6 +1,6 @@
-package com.everyschool.consultservice.domain.consulttime.repository;
+package com.everyschool.consultservice.domain.consultschedule.repository;
 
-import com.everyschool.consultservice.domain.consulttime.ConsultSchedule;
+import com.everyschool.consultservice.domain.consultschedule.ConsultSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
