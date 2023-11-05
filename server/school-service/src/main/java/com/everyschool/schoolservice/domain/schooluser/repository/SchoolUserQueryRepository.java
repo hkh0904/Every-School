@@ -1,6 +1,6 @@
 package com.everyschool.schoolservice.domain.schooluser.repository;
 
-import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
 import com.querydsl.core.types.Projections;

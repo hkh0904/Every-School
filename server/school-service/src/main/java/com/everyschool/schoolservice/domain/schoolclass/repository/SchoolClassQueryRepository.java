@@ -1,6 +1,8 @@
 package com.everyschool.schoolservice.domain.schoolclass.repository;
 
+import com.everyschool.schoolservice.api.web.controller.client.response.SchoolClassInfo;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +10,7 @@ import javax.persistence.EntityManager;
 
 import java.util.Optional;
 
+import static com.everyschool.schoolservice.domain.school.QSchool.school;
 import static com.everyschool.schoolservice.domain.schoolclass.QSchoolClass.schoolClass;
 
 @Repository
@@ -57,5 +60,19 @@ public class SchoolClassQueryRepository {
             )
             .fetchFirst();
         return Optional.ofNullable(result);
+    }
+
+    public SchoolClassInfo findInfoById(Long schoolClassId) {
+        return queryFactory
+            .select(Projections.constructor(
+                SchoolClassInfo.class,
+                schoolClass.school.name,
+                schoolClass.grade,
+                schoolClass.classNum
+            ))
+            .from(schoolClass)
+            .join(schoolClass.school, school)
+            .where(schoolClass.id.eq(schoolClassId))
+            .fetchFirst();
     }
 }
