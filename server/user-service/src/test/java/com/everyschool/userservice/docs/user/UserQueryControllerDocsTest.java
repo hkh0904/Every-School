@@ -38,7 +38,7 @@ public class UserQueryControllerDocsTest extends RestDocsSupport {
     @Test
     void searchUserInfo() throws Exception {
         UserInfoResponse response = UserInfoResponse.builder()
-            .type("학생")
+            .userTypeId(1001)
             .email("ssafy@gmail.ccom")
             .name("김싸피")
             .birth("2001-01-01")

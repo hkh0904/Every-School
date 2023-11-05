@@ -1,19 +1,16 @@
 package com.everyschool.userservice.api.controller.user;
 
 import com.everyschool.userservice.api.ApiResponse;
-import com.everyschool.userservice.api.controller.user.request.*;
+import com.everyschool.userservice.api.controller.user.request.EditPwdRequest;
+import com.everyschool.userservice.api.controller.user.request.WithdrawalRequest;
 import com.everyschool.userservice.api.controller.user.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.WithdrawalResponse;
-import com.everyschool.userservice.api.service.user.ParentService;
-import com.everyschool.userservice.api.service.user.StudentService;
 import com.everyschool.userservice.api.service.user.UserService;
 import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 /**
  * 회원 API
@@ -23,49 +20,11 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/")
+@RequestMapping("/v1")
 public class UserController {
 
     private final UserService userService;
-    private final ParentService parentService;
-    private final StudentService studentService;
     private final TokenUtils tokenUtils;
-
-    /**
-     * 학부모 회원 가입 API
-     *
-     * @param request 회원 가입시 필요한 회원 정보
-     * @return 가입에 성공한 회원의 기본 정보
-     */
-    @PostMapping("/join/parent")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserResponse> joinParent(@Valid @RequestBody JoinParentRequest request) {
-        log.debug("call UserController#joinParent");
-        log.debug("JoinParentRequest={}", request);
-
-        UserResponse response = parentService.createParent(request.toDto(), request.getParentType());
-        log.debug("UserResponse={}", response);
-
-        return ApiResponse.created(response);
-    }
-
-    /**
-     * 학생 회원 가입 API
-     *
-     * @param request 회원 가입시 필요한 회원 정보
-     * @return 가입에 성공한 회원의 기본 정보
-     */
-    @PostMapping("/join/student")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<UserResponse> joinStudent(@Valid @RequestBody JoinStudentRequest request) {
-        log.debug("call UserController#joinStudent");
-        log.debug("JoinStudentRequest={}", request);
-
-        UserResponse response = studentService.createStudent(request.toDto());
-        log.debug("UserResponse={}", response);
-
-        return ApiResponse.created(response);
-    }
 
     /**
      * 회원 비밀번호 수정 API
@@ -73,7 +32,7 @@ public class UserController {
      * @param request 수정할 비밀번호 정보
      * @return 변경 성공 메세지
      */
-    @PatchMapping("/v1/pwd")
+    @PatchMapping("/pwd")
     public ApiResponse<String> editPwd(@RequestBody EditPwdRequest request) {
         String userKey = tokenUtils.getUserKey();
 
@@ -88,7 +47,7 @@ public class UserController {
      * @param request 탈퇴할 회원의 정보
      * @return 탈퇴 성공 메세지
      */
-    @PostMapping("/v1/withdrawal")
+    @PostMapping("/withdrawal")
     public ApiResponse<WithdrawalResponse> withdrawal(@RequestBody WithdrawalRequest request) {
         String userKey = tokenUtils.getUserKey();
 

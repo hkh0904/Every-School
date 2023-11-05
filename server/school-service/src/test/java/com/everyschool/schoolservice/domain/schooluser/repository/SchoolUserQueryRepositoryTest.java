@@ -1,13 +1,13 @@
 package com.everyschool.schoolservice.domain.schooluser.repository;
 
 import com.everyschool.schoolservice.IntegrationTestSupport;
-import com.everyschool.schoolservice.api.service.schooluser.dto.SearchMyClassStudentDto;
+import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.everyschool.schoolservice.domain.school.School;
 import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
-import org.assertj.core.api.Assertions;
+import com.everyschool.schoolservice.domain.schooluser.UserType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.everyschool.schoolservice.domain.schooluser.UserType.STUDENT;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
@@ -38,20 +39,20 @@ class SchoolUserQueryRepositoryTest extends IntegrationTestSupport {
         //given
         School school = saveSchool();
         SchoolClass schoolClass = saveSchoolClass(school);
-        SchoolUser schoolUser1 = saveSchoolUser(school, schoolClass, 1L, 1);
-        SchoolUser schoolUser2 = saveSchoolUser(school, schoolClass, 2L, 2);
-        SchoolUser schoolUser3 = saveSchoolUser(school, schoolClass, 3L, 3);
+        SchoolUser schoolUser1 = saveSchoolUser(school, schoolClass, 1L, 10301);
+        SchoolUser schoolUser2 = saveSchoolUser(school, schoolClass, 2L, 10302);
+        SchoolUser schoolUser3 = saveSchoolUser(school, schoolClass, 3L, 10303);
 
         //when
-        List<SearchMyClassStudentDto> contents = schoolUserQueryRepository.findBySchoolClassId(schoolClass.getId());
+        List<MyClassStudentDto> contents = schoolUserQueryRepository.findBySchoolClassId(schoolClass.getId());
 
         //then
         assertThat(contents).hasSize(3)
-            .extracting("studentId", "studentNum")
+            .extracting("studentId", "studentNumber")
             .containsExactlyInAnyOrder(
-                tuple(1L, 1),
-                tuple(2L, 2),
-                tuple(3L, 3)
+                tuple(1L, 10301),
+                tuple(2L, 10302),
+                tuple(3L, 10303)
             );
     }
 
@@ -79,10 +80,11 @@ class SchoolUserQueryRepositoryTest extends IntegrationTestSupport {
         return schoolClassRepository.save(schoolClass);
     }
 
-    private SchoolUser saveSchoolUser(School school, SchoolClass schoolClass, Long userId, int studentNum) {
+    private SchoolUser saveSchoolUser(School school, SchoolClass schoolClass, Long userId, int studentNumber) {
         SchoolUser schoolUser = SchoolUser.builder()
-            .schoolUserCodeId(1)
-            .studentNum(studentNum)
+            .userTypeId(STUDENT.getCode())
+            .studentNumber(studentNumber)
+            .userName("이예리")
             .schoolYear(2023)
             .userId(userId)
             .school(school)

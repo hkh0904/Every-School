@@ -1,0 +1,11 @@
+[[approve-consult]]
+=== [교직원] 상담 승인 API
+
+==== HTTP Request
+
+include::{snippets}/approve-consult/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/approve-consult/http-response.adoc[]
+include::{snippets}/approve-consult/response-fields.adoc[]

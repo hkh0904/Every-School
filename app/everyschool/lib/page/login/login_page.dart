@@ -1,6 +1,7 @@
 import 'package:everyschool/page/signup/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/page/login/login_form.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailAddress = TextEditingController();
   TextEditingController password = TextEditingController();
+  final storage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {

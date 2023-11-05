@@ -5,6 +5,7 @@ import com.everyschool.userservice.api.controller.user.response.UserClientRespon
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.User;
+import com.everyschool.userservice.domain.user.UserType;
 import com.everyschool.userservice.domain.user.repository.ParentRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import static com.everyschool.userservice.domain.user.UserType.*;
 import static org.assertj.core.api.Assertions.*;
 
 class UserQueryServiceTest extends IntegrationTestSupport {
@@ -120,7 +122,7 @@ class UserQueryServiceTest extends IntegrationTestSupport {
             .name("김싸피")
             .birth("2001-01-01")
             .userKey(UUID.randomUUID().toString())
-            .userCodeId(1)
+            .userCodeId(PARENT.getCode())
             .parentType("M")
             .build();
         return parentRepository.save(parent);

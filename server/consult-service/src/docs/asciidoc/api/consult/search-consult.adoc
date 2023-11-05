@@ -1,5 +1,5 @@
 [[search-consult]]
-=== 상담 내역 상세 조회 API
+=== [교직원] 상담 상세 조회 API
 
 ==== HTTP Request
 

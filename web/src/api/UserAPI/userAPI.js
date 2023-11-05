@@ -18,7 +18,7 @@ export const login = async (data) => {
 
 export const getUserInfo = async () => {
   try {
-    const response = await baseAxios.get(`/user-service/v1/info`, {
+    const response = await baseAxios.get(`/user-service/v1/web/info`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }

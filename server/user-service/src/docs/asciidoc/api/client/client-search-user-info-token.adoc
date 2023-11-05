@@ -1,0 +1,11 @@
+[[client-search-user-info-token]]
+=== 토큰으로 회원 정보 조회 API
+
+==== HTTP Request
+include::{snippets}/client-search-user-info-token/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/client-search-user-info-token/http-response.adoc[]
+include::{snippets}/client-search-user-info-token/response-fields.adoc[]
+include::sub/user-type.adoc[]

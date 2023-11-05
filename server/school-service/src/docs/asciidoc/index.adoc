@@ -29,6 +29,7 @@ include::api/schoolclass/create-school-class.adoc[]
 == School User API
 
 include::api/schooluser/search-my-class-students.adoc[]
+include::api/schooluser/search-my-class-parents.adoc[]
 
 [[School-Apply-API]]
 == School Apply API

@@ -20,11 +20,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -64,6 +59,7 @@ class _MainState extends State<Main> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       FirebaseApi().foregroundMessage(message);
     });
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     FirebaseApi().initializeNotifications(context);
   }
 

@@ -10,9 +10,18 @@ export default function NavBar() {
     sessionStorage.clear();
     navigate('/login');
   }
+
+  function handleLogoClick() {
+    if (token) {
+      navigate('/');
+    } else {
+      navigate('/login');
+    }
+  }
+
   return (
     <div className={styles.navbar}>
-      <div className={styles.logo}>
+      <div className={styles.logo} onClick={handleLogoClick}>
         <img className={styles.logoImg1} src={process.env.PUBLIC_URL + '/assets/main/logo.png'} alt='' />
         <img className={styles.logoImg2} src={process.env.PUBLIC_URL + '/assets/main/logo_text.png'} alt='' />
       </div>
