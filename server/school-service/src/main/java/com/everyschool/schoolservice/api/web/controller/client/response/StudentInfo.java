@@ -1,4 +1,4 @@
-package com.everyschool.schoolservice.api.controller.client.response;
+package com.everyschool.schoolservice.api.web.controller.client.response;
 
 import lombok.Builder;
 import lombok.Data;

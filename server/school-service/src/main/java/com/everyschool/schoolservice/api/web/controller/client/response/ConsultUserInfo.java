@@ -1,4 +1,4 @@
-package com.everyschool.schoolservice.api.controller.client.response;
+package com.everyschool.schoolservice.api.web.controller.client.response;
 
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
 import com.everyschool.schoolservice.domain.schooluser.UserType;
