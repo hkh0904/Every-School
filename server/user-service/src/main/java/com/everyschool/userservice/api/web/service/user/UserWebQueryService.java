@@ -51,6 +51,7 @@ public class UserWebQueryService {
             .build();
 
         return UserInfoResponse.builder()
+            .userType(teacher.getUserCodeId())
             .email(teacher.getEmail())
             .name(teacher.getName())
             .birth(teacher.getBirth())

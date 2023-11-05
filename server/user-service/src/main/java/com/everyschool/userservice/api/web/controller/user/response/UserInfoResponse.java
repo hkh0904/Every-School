@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class UserInfoResponse {
 
+    private Integer userType;
     private String email;
     private String name;
     private String birth;
@@ -16,7 +17,8 @@ public class UserInfoResponse {
     private LocalDateTime joinDate;
 
     @Builder
-    private UserInfoResponse(String email, String name, String birth, School school, SchoolClass schoolClass, LocalDateTime joinDate) {
+    private UserInfoResponse(Integer userType, String email, String name, String birth, School school, SchoolClass schoolClass, LocalDateTime joinDate) {
+        this.userType = userType;
         this.email = email;
         this.name = name;
         this.birth = birth;
