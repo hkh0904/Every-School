@@ -1,0 +1,12 @@
+[[search-my-consult-schedule]]
+=== [교직원] 나의 상담 스케줄 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-my-consult-schedule/http-request.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/search-my-consult-schedule/http-response.adoc[]
+include::{snippets}/search-my-consult-schedule/response-fields.adoc[]
