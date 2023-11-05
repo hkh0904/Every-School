@@ -7,12 +7,14 @@ import lombok.Data;
 public class SchoolClassInfo {
 
     private String schoolName;
+    private Integer schoolYear;
     private Integer grade;
     private Integer classNum;
 
     @Builder
-    public SchoolClassInfo(String schoolName, Integer grade, Integer classNum) {
+    public SchoolClassInfo(String schoolName, Integer schoolYear, Integer grade, Integer classNum) {
         this.schoolName = schoolName;
+        this.schoolYear = schoolYear;
         this.grade = grade;
         this.classNum = classNum;
     }
