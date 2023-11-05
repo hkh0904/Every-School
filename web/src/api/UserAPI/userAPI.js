@@ -23,6 +23,9 @@ export const getUserInfo = async () => {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
     });
+    sessionStorage.setItem('year', 2023);
+    sessionStorage.setItem('classNum', response.data.data.schoolClass.classNum);
+    sessionStorage.setItem('grade', response.data.data.schoolClass.grade);
     return response.data.data;
   } catch (error) {
     console.log(error);

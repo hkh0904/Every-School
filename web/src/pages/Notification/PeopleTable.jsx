@@ -1,7 +1,15 @@
-import styles from './PeopleTable.module.css'
+import { getParentList } from '../../api/SchoolAPI/schoolAPI';
+import styles from './PeopleTable.module.css';
 import { useEffect, useState } from 'react';
 
 export default function PeopleTable({ selectAll }) {
+  const [patentList, setPatentList] = useState([]);
+
+  useEffect(() => {
+    const newList = getParentList();
+    console.log(newList);
+  }, []);
+
   const headers = [
     {
       text: '번호',
@@ -30,41 +38,41 @@ export default function PeopleTable({ selectAll }) {
       number: 1,
       name: '하하',
       par_name: '호호',
-      relationship: '모',
+      relationship: '모'
     },
     {
       number: 2,
       name: '아오',
       par_name: '귀찮아',
-      relationship: '모',
+      relationship: '모'
     },
     {
       number: 3,
       name: '진짜',
       par_name: '귀찮아',
-      relationship: '모',
+      relationship: '모'
     },
     {
       number: 4,
       name: '데이터를',
       par_name: '만들기가',
-      relationship: '모',
+      relationship: '모'
     },
     {
       number: 5,
       name: '제일귀',
       par_name: '찮음',
-      relationship: '모',
+      relationship: '모'
     },
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
-    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모'},
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' },
+    { number: 5, name: '제일귀', par_name: '찮음', relationship: '모' }
   ];
 
   const selectable = true;
@@ -81,16 +89,12 @@ export default function PeopleTable({ selectAll }) {
   useEffect(() => {
     const updatedSelectedItems = items.map(() => selectAll);
     setSelectedItems(updatedSelectedItems);
-    const selectedNames = items
-      .filter((item, index) => updatedSelectedItems[index])
-      .map((item) => item.name);
+    const selectedNames = items.filter((item, index) => updatedSelectedItems[index]).map((item) => item.name);
     console.log(selectedNames);
   }, [selectAll]);
 
   const handleSaveSelectedNames = () => {
-    const selectedNames = items
-      .filter((item, index) => selectedItems[index])
-      .map((item) => item.name);
+    const selectedNames = items.filter((item, index) => selectedItems[index]).map((item) => item.name);
     console.log(selectedNames);
   };
 
@@ -113,7 +117,7 @@ export default function PeopleTable({ selectAll }) {
               {selectable && (
                 <td>
                   <input
-                    type="checkbox"
+                    type='checkbox'
                     checked={selectedItems[index] || false}
                     onChange={() => handleCheckboxChange(index)}
                   />
