@@ -19,6 +19,7 @@ public class SchoolApplyController {
     private final SchoolApplyService schoolApplyService;
     private final TokenUtils tokenUtils;
 
+    // TODO: 11/6/23 이전중
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateSchoolApplyResponse> createSchoolApply(@PathVariable Long schoolId, @RequestBody CreateSchoolApplyRequest request) {
