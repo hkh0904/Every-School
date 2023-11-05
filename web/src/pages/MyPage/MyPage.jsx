@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import styles from './MyPage.module.css';
+import { getUserInfo } from '../../api/UserAPI/userAPI';
 
 export default function MyPage() {
-  const dummy = {
+  const [userInfo, setUserInfo] = useState({
     name: '이지혁',
     gender: 'M',
     email: 'illu@ssafy.com',
@@ -9,14 +11,13 @@ export default function MyPage() {
     school: '휘낭시에초등학교',
     jobLevel: '담당 선생님',
     grade: '3학년 2반'
-  };
-
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newCsltData = await getCompliteConsulting();
-        console.log(newCsltData);
-        setCsltList(newCsltData);
+        const myInfo = await getUserInfo();
+        console.log(myInfo);
+        setUserInfo(myInfo);
       } catch (error) {
         console.error(error);
       }
@@ -24,6 +25,7 @@ export default function MyPage() {
 
     fetchData();
   }, []);
+
   return (
     <div className={styles.MyPage}>
       <div className={styles.title}>
@@ -37,24 +39,23 @@ export default function MyPage() {
           <div className={styles.userInformationContent}>
             <div className={styles.userInformationContentBox}>
               <p>이름</p>
-              <p>{dummy.name}</p>
+              <p>{userInfo.name}</p>
             </div>
             <hr />
             <div className={styles.userInformationContentBox}>
               <p>성별</p>
-              <p>{dummy.gender}</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>이메일</p>
-              <p>{dummy.email}</p>
+              <p>{userInfo.email}</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>생년월일</p>
-              <p>{dummy.birth}</p>
+              <p>{userInfo.birth}</p>
             </div>
           </div>
         </div>
@@ -65,19 +66,21 @@ export default function MyPage() {
           <div className={styles.userInformationContent}>
             <div className={styles.userInformationContentBox}>
               <p>학교</p>
-              <p>{dummy.school}</p>
+              <p>{userInfo.school.name}</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>직급</p>
-              <p>{dummy.jobLevel}</p>
+              <p>담당선생님</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>담당 학급</p>
-              <p>{dummy.grade}</p>
+              <p>
+                {userInfo.schoolClass?.grade}학년{userInfo.schoolClass?.classNum}반
+              </p>
             </div>
           </div>
         </div>
