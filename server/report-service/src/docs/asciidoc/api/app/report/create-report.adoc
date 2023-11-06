@@ -1,5 +1,5 @@
 [[create-report]]
-=== [교직원] 신고 처리 결과 수정 API
+=== 신고 등록 API
 
 ==== HTTP Request
 

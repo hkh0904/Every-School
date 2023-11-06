@@ -453,7 +453,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#Report-App-API">Report App API</a>
 <ul class="sectlevel2">
-<li><a href="#create-report">[교직원] 신고 처리 결과 수정 API</a></li>
+<li><a href="#create-report">신고 등록 API</a></li>
 </ul>
 </li>
 <li><a href="#Report-Web-API">Report Web API</a>
@@ -522,7 +522,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="Report-App-API"><a class="link" href="#Report-App-API">Report App API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="create-report"><a class="link" href="#create-report">[교직원] 신고 처리 결과 수정 API</a></h3>
+<h3 id="create-report"><a class="link" href="#create-report">신고 등록 API</a></h3>
 <div class="sect3">
 <h4 id="_http_request"><a class="link" href="#_http_request">HTTP Request</a></h4>
 <div class="listingblock">
@@ -637,7 +637,7 @@ Content-Length: 206
   "data" : {
     "reportId" : 1,
     "title" : "20201 동팔이",
-    "createdDate" : [ 2023, 11, 6, 13, 40, 15, 358567700 ]
+    "createdDate" : [ 2023, 11, 6, 13, 51, 16, 243786800 ]
   }
 }</code></pre>
 </div>
@@ -742,7 +742,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 426
+Content-Length: 428
 
 {
   "code" : 200,
@@ -754,12 +754,12 @@ Content-Length: 426
       "reportId" : 1,
       "type" : "학교폭력",
       "status" : "접수 완료",
-      "date" : [ 2023, 11, 6, 13, 40, 16, 57567200 ]
+      "date" : [ 2023, 11, 6, 13, 51, 16, 904792400 ]
     }, {
       "reportId" : 2,
       "type" : "기타",
       "status" : "접수 완료",
-      "date" : [ 2023, 11, 6, 13, 40, 16, 57567200 ]
+      "date" : [ 2023, 11, 6, 13, 51, 16, 904792400 ]
     } ]
   }
 }</code></pre>
@@ -1028,7 +1028,7 @@ Content-Length: 221
     "reportId" : 1,
     "status" : "처리중",
     "result" : "",
-    "lastModifiedDate" : [ 2023, 11, 6, 13, 40, 15, 974568300 ]
+    "lastModifiedDate" : [ 2023, 11, 6, 13, 51, 16, 827787700 ]
   }
 }</code></pre>
 </div>
@@ -1155,7 +1155,7 @@ Content-Length: 267
     "reportId" : 1,
     "status" : "처리 완료",
     "result" : "징계 위원회를 소집하겠습니다.",
-    "lastModifiedDate" : [ 2023, 11, 6, 13, 40, 15, 769566700 ]
+    "lastModifiedDate" : [ 2023, 11, 6, 13, 51, 16, 638787900 ]
   }
 }</code></pre>
 </div>
