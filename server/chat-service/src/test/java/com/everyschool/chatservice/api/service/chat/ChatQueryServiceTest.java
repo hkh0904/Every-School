@@ -4,13 +4,14 @@ import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.ChatResponse;
-import com.everyschool.chatservice.domain.MongoSeq;
+import com.everyschool.chatservice.api.service.SequenceGeneratorService;
 import com.everyschool.chatservice.domain.chat.Chat;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
+import com.everyschool.chatservice.domain.mongo.repository.DatabaseSequenceRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,11 +29,17 @@ class ChatQueryServiceTest extends IntegrationTestSupport {
     private ChatQueryService chatQueryService;
 
     @Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
+
+    @Autowired
     private ChatRoomRepository chatRoomRepository;
     @Autowired
     private ChatRoomUserRepository chatRoomUserRepository;
     @Autowired
     private ChatRepository chatRepository;
+
+    @Autowired
+    private DatabaseSequenceRepository databaseSequenceRepository;
 
     @MockBean
     private UserServiceClient userServiceClient;
@@ -40,6 +47,7 @@ class ChatQueryServiceTest extends IntegrationTestSupport {
     @AfterEach
     void dataReset() {
         chatRepository.deleteAll();
+        databaseSequenceRepository.deleteAll();
     }
 
     @DisplayName("[Service] 채팅방 접속 시 채팅 목록 조회")
@@ -91,7 +99,7 @@ class ChatQueryServiceTest extends IntegrationTestSupport {
         sender.updateUpdateChat(message);
         receiver.updateUpdateChat(message);
         return chatRepository.save(Chat.builder()
-                .id(MongoSeq.getSeq())
+                .id(sequenceGeneratorService.generateSequence(Chat.SEQUENCE_NAME))
                 .userId(sender.getUserId())
                 .content(message)
                 .isBad(false)
