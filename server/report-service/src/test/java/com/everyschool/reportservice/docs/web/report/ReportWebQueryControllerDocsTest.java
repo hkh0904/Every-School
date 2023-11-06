@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
 
     private final ReportWebQueryService reportWebQueryService = mock(ReportWebQueryService.class);
-    private final String URL = "/report-service/v1/web/{schoolYear}/schools/{schoolId}/reports";
+    private final String BASE_URL = "/report-service/v1/web/{schoolYear}/schools/{schoolId}/reports";
 
     @Override
     protected Object initController() {
@@ -49,7 +49,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
-                get(URL, 2023, 21617)
+                get(BASE_URL, 2023, 21617)
                     .header("Authorization", "Bearer Access Token")
                     .param("status", "7001")
             )
@@ -107,7 +107,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get(URL + "/{reportId}", 2023, 21617, 1)
+                get(BASE_URL + "/{reportId}", 2023, 21617, 1)
                     .header("Authorization", "Bearer Access Token")
             ).andDo(print())
             .andExpect(status().isOk())
