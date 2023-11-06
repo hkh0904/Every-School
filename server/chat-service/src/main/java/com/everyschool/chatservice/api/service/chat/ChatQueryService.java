@@ -19,8 +19,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ChatQueryService {
 
-    private ChatRepository chatRepository;
-    private UserServiceClient userServiceClient;
+    private final ChatRepository chatRepository;
+    private final UserServiceClient userServiceClient;
 
     public List<ChatResponse> searchChat(Long chatRoomId, @Nullable Long idx, String token) {
         UserInfo loginUser = userServiceClient.searchUserInfo(token);
