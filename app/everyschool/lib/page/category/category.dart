@@ -1,4 +1,10 @@
 import 'package:everyschool/page/category/category_report_consult.dart';
+import 'package:everyschool/page/consulting/consulting_list_page.dart';
+import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
+import 'package:everyschool/page/report/my%20_report_list_page.dart';
+import 'package:everyschool/page/report/report_page.dart';
+import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
+import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
 import 'package:flutter/material.dart';
 
 class Category extends StatefulWidget {
@@ -34,6 +40,17 @@ class _CategoryState extends State<Category> {
     ['공지사항 관리', '비밀번호 변경']
   ];
 
+  var repncsltListLink = [
+    [ReportPage(), ReportListPage()],
+    [ConsultingReservation(), ConsultingListPage()],
+    [
+      ReportConsultingPage(index: 0),
+      ReportPage(),
+      ReportConsultingPage(index: 1),
+      ReportConsultingPage(index: 2)
+    ]
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,6 +68,7 @@ class _CategoryState extends State<Category> {
           CategoryRepnCslt(
               userNum: userNum,
               categoryList: repncsltList,
+              categoryListLink: repncsltListLink,
               titleTxt: _titleTxt),
           SizedBox(
             height: 30,
@@ -70,9 +88,7 @@ class _CategoryState extends State<Category> {
             height: 30,
           ),
           CategoryRepnCslt(
-              userNum: userNum,
-              categoryList: communityList,
-              titleTxt: _titleTxt4),
+              userNum: userNum, categoryList: mypageList, titleTxt: _titleTxt4),
         ],
       ),
     );

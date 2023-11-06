@@ -37,7 +37,11 @@ void main() async {
     ],
     child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: "Pretendard"),
+        theme: ThemeData(
+            fontFamily: "Pretendard",
+            appBarTheme: AppBarTheme(
+              iconTheme: IconThemeData(color: Colors.black),
+            )),
         home: Splash()),
   ));
 }
@@ -93,7 +97,7 @@ class _MainState extends State<Main> {
       default:
         return [
           HomePage(),
-          ReportConsultingPage(),
+          ReportConsultingPage(index: 0),
           ChatPage(),
           CommunityPage(),
           CategoryPage(),
