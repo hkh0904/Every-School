@@ -49,6 +49,11 @@ public class Call extends BaseEntity {
     @ColumnDefault("false")
     private Boolean isBad;
 
+    private String sentiment;
+    private Float neutral;
+    private Float positive;
+    private Float negative;
+
     protected Call() { super(); }
 
     @Builder
@@ -65,6 +70,14 @@ public class Call extends BaseEntity {
         this.endDateTime = endDateTime;
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
+        this.isBad = isBad;
+    }
+
+    public void updateCallInfo(String sentiment, Float neutral, Float positive, Float negative, Boolean isBad) {
+        this.sentiment = sentiment;
+        this.neutral = neutral;
+        this.positive = positive;
+        this.negative = negative;
         this.isBad = isBad;
     }
 }

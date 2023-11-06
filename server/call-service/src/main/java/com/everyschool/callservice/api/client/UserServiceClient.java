@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("user-service")
+@FeignClient("http://k9c108.p.ssafy.io:8000/user-service")
 public interface UserServiceClient {
 
-    @GetMapping
+    @GetMapping("/client/v1/user-id")
     UserInfo searchUserInfo(@RequestHeader("Authorization") String token);
 
-    @GetMapping
+    @GetMapping("/client/v1/")
     UserInfo searchUserInfoByUserKey(@RequestParam(name = "otherUserKey") String otherUserKey);
 
 }

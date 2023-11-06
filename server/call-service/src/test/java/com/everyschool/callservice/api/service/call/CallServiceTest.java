@@ -67,7 +67,6 @@ class CallServiceTest extends IntegrationTestSupport {
         // then
         assertThat(response.getSenderName()).isEqualTo("홍경환");
         assertThat(response.getReceiverName()).isEqualTo("신성주");
-        assertThat(response.getUploadFileName()).isEqualTo("이예리 폭언 녹음본");
     }
 
     private Call saveCall() {

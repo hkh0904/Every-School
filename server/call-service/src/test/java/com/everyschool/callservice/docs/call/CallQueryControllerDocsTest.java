@@ -43,8 +43,6 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                 .sender("O")
                 .startDateTime(LocalDateTime.now().minusHours(10))
                 .endDateTime(LocalDateTime.now().minusHours(9))
-                .uploadFileName("음성 파일")
-                .storeFileName("음성 파일")
                 .isBad(false)
                 .build();
 
@@ -55,8 +53,6 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                 .sender("O")
                 .startDateTime(LocalDateTime.now().minusHours(10))
                 .endDateTime(LocalDateTime.now().minusHours(9))
-                .uploadFileName("")
-                .storeFileName("")
                 .isBad(false)
                 .build();
 
@@ -96,10 +92,6 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                                         .description("통화 시작 시간"),
                                 fieldWithPath("data[].endDateTime").type(JsonFieldType.ARRAY)
                                         .description("통화 종료 시간"),
-                                fieldWithPath("data[].uploadFileName").type(JsonFieldType.STRING)
-                                        .description("업로드 된 음성 파일"),
-                                fieldWithPath("data[].storeFileName").type(JsonFieldType.STRING)
-                                        .description("저장된 음성 파일"),
                                 fieldWithPath("data[].isBad").type(JsonFieldType.BOOLEAN)
                                         .description("악성 민원 여부")
                         )
