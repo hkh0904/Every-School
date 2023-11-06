@@ -12,13 +12,20 @@ export const clickNotiRegister = async (e, data) => {
     formData.append('files', image);
   });
 
+  const schoolNum = sessionStorage.getItem('schoolId');
+  const schoolYear = sessionStorage.getItem('year');
+
   try {
-    const response = await baseAxios.post(`/board-service/v1/web/2023/schools/100000/boards/communications`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    const response = await baseAxios.post(
+      `/board-service/v1/web/${schoolYear}/schools/${schoolNum}/boards/communications`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
       }
-    });
+    );
     console.log(response.data);
     return response.data;
   } catch (error) {
