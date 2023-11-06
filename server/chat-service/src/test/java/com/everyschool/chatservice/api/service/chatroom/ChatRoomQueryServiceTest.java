@@ -11,6 +11,7 @@ import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,14 +96,14 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
                 .build());
     }
 
-    private ChatRoomUser createChatRoomUser(ChatRoom savedChatRoom1, long userId, String chatRoomTitle, int unreadCount) {
+    private ChatRoomUser createChatRoomUser(ChatRoom savedChatRoom, long userId, String chatRoomTitle, int unreadCount) {
         return chatRoomUserRepository.save(ChatRoomUser.builder()
                 .chatRoomTitle(chatRoomTitle)
                 .socketTopic("CHATROOM_TOPIC")
                 .userId(userId)
                 .isAlarm(true)
                 .unreadCount(unreadCount)
-                .chatRoom(savedChatRoom1)
+                .chatRoom(savedChatRoom)
                 .build());
     }
 }
