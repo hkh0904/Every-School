@@ -1,8 +1,8 @@
 import 'package:everyschool/api/base_api.dart';
-import 'package:everyschool/page/chat/bubble.dart';
-import 'package:everyschool/page/chat/chat_controller.dart';
-import 'package:everyschool/page/chat/chat.dart';
-import 'package:everyschool/page/chat/chat_message_type.dart';
+import 'package:everyschool/page/messenger/chat/bubble.dart';
+import 'package:everyschool/page/messenger/chat/chat_controller.dart';
+import 'package:everyschool/page/messenger/chat/chat.dart';
+import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class _ChatRoomState extends State<ChatRoom> {
     // client is connected and ready
     print('connected');
     stompClient.subscribe(
-      destination: '/sub/public',
+      destination: '/seb/',
       callback: (frame) {
         print('여기가 바디야');
         print(frame.body);
@@ -83,7 +83,7 @@ class _ChatRoomState extends State<ChatRoom> {
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
         title: const Text(
-          "여기 변경하기",
+          "담임선생님",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

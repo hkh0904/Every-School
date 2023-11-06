@@ -15,6 +15,8 @@ class LoginApi {
         // 'notiToken': deviceToken
       });
       await storage.write(key: 'token', value: response.headers['token']?[0]);
+      await storage.write(
+          key: 'userKey', value: response.headers['userKey']?[0]);
       return 1;
     } catch (e) {
       return 0;
