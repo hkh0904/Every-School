@@ -1,4 +1,4 @@
-package com.everyschool.reportservice.api.service.report.dto;
+package com.everyschool.reportservice.api.app.service.report.dto;
 
 import com.everyschool.reportservice.domain.report.ReportContent;
 import lombok.Builder;

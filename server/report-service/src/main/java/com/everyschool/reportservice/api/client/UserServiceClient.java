@@ -4,7 +4,7 @@ import com.everyschool.reportservice.api.client.response.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient("user-service")
+@FeignClient(name = "user-service", url = "https://every-school.com/api")
 public interface UserServiceClient {
 
     @GetMapping("/user-service/client/v1/user-info/{userKey}")

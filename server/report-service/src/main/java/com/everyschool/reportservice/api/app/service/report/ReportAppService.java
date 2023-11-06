@@ -1,9 +1,9 @@
-package com.everyschool.reportservice.api.service.report;
+package com.everyschool.reportservice.api.app.service.report;
 
+import com.everyschool.reportservice.api.app.controller.report.response.CreateReportResponse;
 import com.everyschool.reportservice.api.client.UserServiceClient;
 import com.everyschool.reportservice.api.client.response.UserInfo;
-import com.everyschool.reportservice.api.controller.report.response.CreateReportResponse;
-import com.everyschool.reportservice.api.service.report.dto.CreateReportDto;
+import com.everyschool.reportservice.api.app.service.report.dto.CreateReportDto;
 import com.everyschool.reportservice.domain.report.Report;
 import com.everyschool.reportservice.domain.report.ReportContent;
 import com.everyschool.reportservice.domain.report.UploadFile;
@@ -17,17 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class ReportService {
+public class ReportAppService {
 
     private final ReportRepository reportRepository;
     private final UserServiceClient userServiceClient;
 
-    public CreateReportResponse createReport(String userKey, Long schoolId, CreateReportDto dto, List<UploadFile> uploadFiles) {
+    public CreateReportResponse createReport(String userKey, Long schoolId, Integer schoolYear, CreateReportDto dto, List<UploadFile> uploadFiles) {
         UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
 
         ReportContent content = dto.toContent();
 
-        Report report = Report.createReport(dto.getTitle(), dto.getDescription(), content, 2023, dto.getTypeId(), schoolId, userInfo.getUserId(), uploadFiles);
+        //학번 정보 가져오기
+
+        Report report = Report.createReport(dto.getTitle(), dto.getDescription(), content, schoolYear, dto.getTypeId(), schoolId, userInfo.getUserId(), uploadFiles);
 
         Report savedReport = reportRepository.save(report);
 

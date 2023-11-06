@@ -1,6 +1,6 @@
-package com.everyschool.reportservice.api.controller.report.request;
+package com.everyschool.reportservice.api.app.controller.report.request;
 
-import com.everyschool.reportservice.api.service.report.dto.CreateReportDto;
+import com.everyschool.reportservice.api.app.service.report.dto.CreateReportDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,6 @@ import java.util.List;
 public class CreateReportRequest {
 
     private Integer typeId;
-    private String title;
     private String description;
     private String who;
     private String when;
@@ -25,9 +24,8 @@ public class CreateReportRequest {
     private List<MultipartFile> files = new ArrayList<>();
 
     @Builder
-    private CreateReportRequest(Integer typeId, String title, String description, String who, String when, String where, String what, String how, String why, List<MultipartFile> files) {
+    private CreateReportRequest(Integer typeId, String description, String who, String when, String where, String what, String how, String why, List<MultipartFile> files) {
         this.typeId = typeId;
-        this.title = title;
         this.description = description;
         this.who = who;
         this.when = when;
@@ -41,7 +39,6 @@ public class CreateReportRequest {
     public CreateReportDto toDto() {
         return CreateReportDto.builder()
             .typeId(this.typeId)
-            .title(this.title)
             .description(this.description)
             .who(this.who)
             .when(this.when)
