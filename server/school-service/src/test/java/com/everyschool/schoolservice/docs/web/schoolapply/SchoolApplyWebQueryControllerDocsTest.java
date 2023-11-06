@@ -145,4 +145,46 @@ public class SchoolApplyWebQueryControllerDocsTest extends RestDocsSupport {
                 )
             ));
     }
+
+    @DisplayName("학급 승인 상세 조회 API")
+    @Test
+    void searchSchoolApply() throws Exception {
+        SchoolApplyResponse response = SchoolApplyResponse.builder()
+            .schoolApplyId(1L)
+            .applyType(ApplyType.STUDENT.getText())
+            .studentInfo("10301 이예리")
+            .lastModifiedDate(LocalDateTime.now())
+            .build();
+
+        given(schoolApplyWebQueryService.searchSchoolApply(anyLong()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                get(BASE_URL + "/apply/{schoolApplyId}", 2023, 100000, 1)
+                    .header("Authorization", "Bearer Access Token")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-detail-school-apply",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.schoolApplyId").type(JsonFieldType.NUMBER)
+                        .description("승인 신청 id"),
+                    fieldWithPath("data.applyType").type(JsonFieldType.STRING)
+                        .description("승인 신청 유형"),
+                    fieldWithPath("data.studentInfo").type(JsonFieldType.STRING)
+                        .description("승인 신청 학생 정보"),
+                    fieldWithPath("data.lastModifiedDate").type(JsonFieldType.ARRAY)
+                        .description("승인 일시")
+                )
+            ));
+    }
 }
