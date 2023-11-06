@@ -72,7 +72,7 @@ public class BoardQueryService {
     }
 
     public FreeBoardDetailResponse searchFreeBoard(Long boardId, String userKey) {
-        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
         Optional<Board> findBoard = boardRepository.findById(boardId);
         if (findBoard.isEmpty()) {

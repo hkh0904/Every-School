@@ -90,6 +90,7 @@ class SchoolApplyQueryServiceTest extends IntegrationTestSupport {
         SchoolApply schoolApply = SchoolApply.builder()
             .schoolYear(2023)
             .codeId(1)
+            .studentInfo("test")
             .studentId(studentId)
             .parentId(parentId)
             .schoolClass(schoolClass)

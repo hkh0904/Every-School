@@ -21,7 +21,7 @@ public class BoardService {
     private final UserServiceClient userServiceClient;
 
     public CreateBoardResponse createFreeBoard(String userKey, Long schoolId, CreateBoardDto dto) {
-        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
         Board board = Board.createBoard(FREE.getCode(), schoolId, null, userInfo.getUserId(), dto.getTitle(), dto.getContent(), dto.getIsUsedComment(), dto.getUploadFiles());
 
@@ -29,25 +29,4 @@ public class BoardService {
 
         return CreateBoardResponse.of(savedBoard);
     }
-
-    public CreateBoardResponse createNoticeBoard(String userKey, Long schoolId, CreateBoardDto dto) {
-        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
-
-        Board board = Board.createBoard(NOTICE.getCode(), schoolId, null, userInfo.getUserId(), dto.getTitle(), dto.getContent(), dto.getIsUsedComment(), dto.getUploadFiles());
-
-        Board savedBoard = boardRepository.save(board);
-
-        return CreateBoardResponse.of(savedBoard);
-    }
-
-    public CreateBoardResponse createCommunicationBoard(String userKey, Long schoolId, CreateBoardDto dto) {
-        UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
-
-        Board board = Board.createBoard(COMMUNICATION.getCode(), schoolId, null, userInfo.getUserId(), dto.getTitle(), dto.getContent(), dto.getIsUsedComment(), dto.getUploadFiles());
-
-        Board savedBoard = boardRepository.save(board);
-
-        return CreateBoardResponse.of(savedBoard);
-    }
-
 }

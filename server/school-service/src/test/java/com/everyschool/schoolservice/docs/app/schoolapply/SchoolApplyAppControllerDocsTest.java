@@ -1,22 +1,21 @@
-package com.everyschool.schoolservice.docs.schoolapply;
+package com.everyschool.schoolservice.docs.app.schoolapply;
 
-import com.everyschool.schoolservice.api.controller.schoolapply.SchoolApplyController;
+import com.everyschool.schoolservice.api.app.controller.schoolapply.SchoolApplyAppController;
+import com.everyschool.schoolservice.api.app.controller.schoolapply.response.CreateSchoolApplyResponse;
+import com.everyschool.schoolservice.api.app.service.schoolapply.SchoolApplyAppService;
 import com.everyschool.schoolservice.api.controller.schoolapply.request.CreateSchoolApplyRequest;
-import com.everyschool.schoolservice.api.controller.schoolapply.response.CreateSchoolApplyResponse;
-import com.everyschool.schoolservice.api.service.schoolapply.SchoolApplyService;
-import com.everyschool.schoolservice.api.service.schoolapply.dto.CreateSchoolApplyDto;
 import com.everyschool.schoolservice.docs.RestDocsSupport;
 import com.everyschool.schoolservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -27,14 +26,15 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class SchoolApplyControllerDocsTest extends RestDocsSupport {
+public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
 
-    private final SchoolApplyService schoolApplyService = mock(SchoolApplyService.class);
+    private final SchoolApplyAppService schoolApplyAppService = mock(SchoolApplyAppService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
+    private static final String BASE_URL = "/school-service/v1/app/{schoolYear}/schools/{schoolId}/apply";
 
     @Override
     protected Object initController() {
-        return new SchoolApplyController(schoolApplyService, tokenUtils);
+        return new SchoolApplyAppController(schoolApplyAppService, tokenUtils);
     }
 
     @DisplayName("[학생] 학급 등록 신청 API")
@@ -55,11 +55,11 @@ public class SchoolApplyControllerDocsTest extends RestDocsSupport {
             .appliedDate(LocalDateTime.now())
             .build();
 
-        given(schoolApplyService.createSchoolApply(anyLong(), anyString(), any(CreateSchoolApplyDto.class)))
+        given(schoolApplyAppService.createSchoolApply(anyString(), anyLong(), anyInt(), any()))
             .willReturn(response);
 
         mockMvc.perform(
-                post("/school-service/v1/schools/{schoolId}/apply", 1L)
+                post(BASE_URL, 2023, 100000)
                     .header("Authorization", "Bearer Access Token")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
@@ -97,4 +97,6 @@ public class SchoolApplyControllerDocsTest extends RestDocsSupport {
                 )
             ));
     }
+
+
 }
