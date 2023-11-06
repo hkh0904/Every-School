@@ -1,6 +1,7 @@
 package com.everyschool.reportservice.api.app.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
+import com.everyschool.reportservice.api.app.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.app.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.app.service.report.ReportAppQueryService;
 import com.everyschool.reportservice.utils.TokenUtils;
@@ -32,5 +33,14 @@ public class ReportAppQueryController {
         List<ReportResponse> response =  reportAppQueryService.searchReports(userKey, schoolYear);
 
         return ApiResponse.ok(response);
+    }
+
+    @GetMapping("/{reportId}")
+    public ApiResponse<?> searchReport(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long reportId
+    ) {
+        ReportDetailResponse response = reportAppQueryService.searchReport(reportId);
     }
 }
