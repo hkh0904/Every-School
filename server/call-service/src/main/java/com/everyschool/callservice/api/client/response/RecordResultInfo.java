@@ -1,6 +1,5 @@
 package com.everyschool.callservice.api.client.response;
 
-import kotlin.text.UStringsKt;
 import lombok.Data;
 
 import java.util.List;

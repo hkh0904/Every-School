@@ -3,7 +3,6 @@ package com.everyschool.callservice.api.client;
 import com.everyschool.callservice.api.client.response.RecordResultInfo;
 import com.everyschool.callservice.api.client.response.RecordStartInfo;
 import com.everyschool.callservice.api.client.response.RecordStopInfo;
-import com.everyschool.callservice.api.controller.call.request.RecordAnalysisRequest;
 import com.everyschool.callservice.api.controller.call.request.RecordStartRequest;
 import com.everyschool.callservice.api.controller.call.request.RecordStopRequest;
 import org.springframework.cloud.openfeign.FeignClient;
