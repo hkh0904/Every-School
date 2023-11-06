@@ -21,7 +21,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ChatQueryControllerDocsTest extends RestDocsSupport {
+public class ChatRoomQueryControllerDocsTest extends RestDocsSupport {
 
     @DisplayName("채팅방 목록 조회 API")
     @Test
@@ -66,6 +66,64 @@ public class ChatQueryControllerDocsTest extends RestDocsSupport {
                         )
                 ));
     }
+
+
+//    @DisplayName("채팅 전송 API")
+//    @Test
+//    void sendMessage() throws Exception {
+//
+//        mockMvc.perform(
+//                        post("/chat-service/v1/chat-room/{chatRoomId}", 1L)
+//                )
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andDo(document("send-chat",
+//                        preprocessResponse(prettyPrint()),
+//                        responseFields(
+//                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+//                                        .description("코드"),
+//                                fieldWithPath("status").type(JsonFieldType.STRING)
+//                                        .description("상태"),
+//                                fieldWithPath("message").type(JsonFieldType.STRING)
+//                                        .description("메시지"),
+//                                fieldWithPath("data").type(JsonFieldType.NUMBER)
+//                                        .description("응답 데이터(채팅 PK)")
+//                        )
+//                ));
+//    }
+
+//    @DisplayName("채팅 조회 API")
+//    @Test
+//    void searchChat() throws Exception {
+//
+//        mockMvc.perform(
+//                        get("/chat-service/v1/chat-room/{chatRoomId}", 1L)
+//                )
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andDo(document("search-chat",
+//                        preprocessRequest(prettyPrint()),
+//                        preprocessResponse(prettyPrint()),
+//                        responseFields(
+//                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+//                                        .description("코드"),
+//                                fieldWithPath("status").type(JsonFieldType.STRING)
+//                                        .description("상태"),
+//                                fieldWithPath("message").type(JsonFieldType.STRING)
+//                                        .description("메시지"),
+//                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+//                                        .description("응답 데이터"),
+//                                fieldWithPath("data[].chatId").type(JsonFieldType.NUMBER)
+//                                        .description("채팅 PK"),
+//                                fieldWithPath("data[].mine").type(JsonFieldType.BOOLEAN)
+//                                        .description("로그인 한 유저가 보낸 채팅인지"),
+//                                fieldWithPath("data[].content").type(JsonFieldType.STRING)
+//                                        .description("채팅 내용"),
+//                                fieldWithPath("data[].sendTime").type(JsonFieldType.STRING)
+//                                        .description("전송 시간")
+//                        )
+//                ));
+//    }
 
     private static ChatRoomListResponse createChatRoomListResponse(long roomId, String roomTitle, String lastMessage, LocalDateTime updateTime, int unreadMessageNum) {
         return ChatRoomListResponse.builder()
