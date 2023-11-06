@@ -21,7 +21,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ChatRoomQueryControllerDocsTest extends RestDocsSupport {
+public class ChatQueryControllerDocsTest extends RestDocsSupport {
 
     @DisplayName("채팅방 목록 조회 API")
     @Test
