@@ -46,4 +46,16 @@ public class SchoolApplyWebQueryController {
 
         return ApiResponse.ok(Result.of(response));
     }
+
+    @GetMapping("/apply/{schoolApplyId}")
+    public ApiResponse<SchoolApplyResponse> searchSchoolApply(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long schoolApplyId
+    ) {
+
+        SchoolApplyResponse response = schoolApplyWebQueryService.searchSchoolApply(schoolApplyId);
+
+        return ApiResponse.ok(response);
+    }
 }
