@@ -40,6 +40,15 @@ dependencies:
   firebase_core: ^2.20.0
   firebase_messaging: ^14.7.2
   flutter_local_notifications: ^16.1.0
+  socket_io_client: ^2.0.3+1
+  flutter_chat_bubble: ^2.0.2
+  provider: ^6.0.5
+  stomp_dart_client: ^1.0.0
+  file_picker: ^6.0.0
+  agora_rtc_engine: ^6.2.4
+  permission_handler: ^9.2.0
+  assets_audio_player: ^3.1.1
+  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +82,8 @@ flutter:
     - assets/images/login/
     - assets/images/consulting/
     - assets/images/community/
+    - assets/audios/
+    - assets/images/mypage/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

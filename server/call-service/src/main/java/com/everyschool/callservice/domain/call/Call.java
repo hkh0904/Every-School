@@ -27,6 +27,12 @@ public class Call extends BaseEntity {
     @Column(nullable = false, updatable = false, length = 1)
     private String sender;
 
+    @Column(nullable = false, updatable = false, length = 20)
+    private String senderName;
+
+    @Column(nullable = false, updatable = false, length = 20)
+    private String receiverName;
+
     @Column(nullable = false)
     private LocalDateTime startDateTime;
 
@@ -46,12 +52,15 @@ public class Call extends BaseEntity {
     protected Call() { super(); }
 
     @Builder
-    private Call(Long teacherId, Long otherUserId, String sender, LocalDateTime startDateTime, LocalDateTime endDateTime,
-                String uploadFileName, String storeFileName, Boolean isBad) {
+    private Call(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
+                 LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName, String storeFileName,
+                 Boolean isBad) {
         this();
         this.teacherId = teacherId;
         this.otherUserId = otherUserId;
         this.sender = sender;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.uploadFileName = uploadFileName;

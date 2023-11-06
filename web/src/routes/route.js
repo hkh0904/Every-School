@@ -23,30 +23,30 @@ function RouteLink() {
         <Route Component={PublicRouter}>
           {/* 회원 */}
           <Route path='/login' element={<LoginPage />} />
-          <Route path='/login' element={<SignupPage />} />
+          <Route path='/signup' element={<SignupPage />} />
         </Route>
 
         {/* 로그인으로 보호받는 주소 */}
-        {/* <Route Component={PrivateRouter}> */}
-        <Route path='/' element={<MainPage />}>
-          {/* 학급 관리 */}
-          <Route path='' element={<Navigate to='/manage/myclass' replace />} />
-          <Route path='manage/parents' element={<ManageParentsPage />} />
-          <Route path='manage/myclass' element={<ManageMyclassPage />} />
-          <Route path='manage/class' element={<ManageClassPage />} />
-          {/* 신고페이지 */}
-          <Route path='report/history' element={<ReportHistoryPage />} />
-          <Route path='report/detail' element={<ReportDetailPage />} />
-          {/* 고지서 등록 */}
-          <Route path='docs/register-noti' element={<RegisterNotiPage />} />
-          <Route path='docs/register-payment' element={<RegisterPayPage />} />
-          {/* 상담 */}
-          <Route path='consult/approve' element={<ConsultApprovePage />} />
-          <Route path='consult/history' element={<ConsultHistory />} />
-          {/* 개인정보 수정 */}
-          <Route path='mypage' element={<MyPage />} />
+        <Route Component={PrivateRouter}>
+          <Route path='/' element={<MainPage />}>
+            {/* 학급 관리 */}
+            <Route path='' element={<Navigate to='/manage/myclass' replace />} />
+            <Route path='manage/parents' element={<ManageParentsPage />} />
+            <Route path='manage/myclass' element={<ManageMyclassPage />} />
+            <Route path='manage/class' element={<ManageClassPage />} />
+            {/* 신고페이지 */}
+            <Route path='report/history' element={<ReportHistoryPage />} />
+            <Route path='report/detail' element={<ReportDetailPage />} />
+            {/* 고지서 등록 */}
+            <Route path='docs/register-noti' element={<RegisterNotiPage />} />
+            <Route path='docs/register-payment' element={<RegisterPayPage />} />
+            {/* 상담 */}
+            <Route path='consult/approve' element={<ConsultApprovePage />} />
+            <Route path='consult/history' element={<ConsultHistory />} />
+            {/* 개인정보 수정 */}
+            <Route path='mypage' element={<MyPage />} />
+          </Route>
         </Route>
-        {/* </Route> */}
       </Routes>
     </>
   );

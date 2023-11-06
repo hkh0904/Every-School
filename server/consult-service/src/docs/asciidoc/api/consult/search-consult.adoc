@@ -1,0 +1,11 @@
+[[search-consult]]
+=== [교직원] 상담 상세 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-consult/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/search-consult/http-response.adoc[]
+include::{snippets}/search-consult/response-fields.adoc[]

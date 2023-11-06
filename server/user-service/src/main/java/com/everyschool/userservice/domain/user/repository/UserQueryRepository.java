@@ -1,5 +1,6 @@
 package com.everyschool.userservice.domain.user.repository;
 
+import com.everyschool.userservice.api.controller.client.response.StudentResponse;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.everyschool.userservice.domain.user.QUser.user;
@@ -53,7 +55,7 @@ public class UserQueryRepository {
         UserInfoResponse content = queryFactory
             .select(Projections.constructor(
                 UserInfoResponse.class,
-                user.name,
+                user.userCodeId,
                 user.email,
                 user.name,
                 user.birth,
@@ -114,5 +116,18 @@ public class UserQueryRepository {
             .where(user.userKey.eq(userKey))
             .fetchFirst();
         return Optional.ofNullable(content);
+    }
+
+    public List<StudentResponse> findStudentByIdIn(List<Long> studentIds) {
+        return queryFactory
+            .select(Projections.constructor(
+                StudentResponse.class,
+                user.id,
+                user.name,
+                user.birth
+            ))
+            .from(user)
+            .where(user.id.in(studentIds))
+            .fetch();
     }
 }

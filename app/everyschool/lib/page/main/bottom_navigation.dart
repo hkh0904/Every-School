@@ -10,11 +10,25 @@ class BtmNav extends StatefulWidget {
 }
 
 class _BtmNavState extends State<BtmNav> {
+  int userNum = 1002;
+
   @override
   Widget build(BuildContext context) {
+    String label;
+    switch (userNum) {
+      case 1001:
+        label = '신고';
+        break;
+      case 1002:
+        label = '상담';
+        break;
+      default:
+        label = '신고 및 상담';
+        break;
+    }
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
           activeIcon: Icon(Icons.home),
@@ -23,12 +37,12 @@ class _BtmNavState extends State<BtmNav> {
         BottomNavigationBarItem(
           icon: Icon(Icons.report_outlined),
           activeIcon: Icon(Icons.report),
-          label: '신고 및 상담',
+          label: label,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.mail_outlined),
           activeIcon: Icon(Icons.mail),
-          label: '채팅',
+          label: '메신저',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.dashboard_outlined),

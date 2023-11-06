@@ -4,6 +4,7 @@
 ==== HTTP Request
 
 include::{snippets}/create-filter-word/http-request.adoc[]
+include::{snippets}/create-filter-word/request-fields.adoc[]
 
 ==== HTTP Response
 

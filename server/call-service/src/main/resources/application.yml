@@ -1,6 +1,5 @@
 server:
   port: 0
-
 # logging
 logging:
   level:
@@ -37,6 +36,20 @@ spring:
         default_batch_fetch_size: 100
         format_sql: true
     open-in-view: true
+
+cloud:
+  aws:
+    s3:
+      bucket: everyschool-bucket.bucket
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      access-key: ${access.key}
+      secret-key: ${secret.key}
+
 
 eureka:
   instance:

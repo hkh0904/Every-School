@@ -13,6 +13,6 @@ public interface UserServiceClient {
     UserInfo searchUserInfo(@RequestHeader("Authorization") String token);
 
     @GetMapping
-    UserInfo searchUserInfoByUserKey(@RequestParam String otherUserKey);
+    UserInfo searchUserInfoByUserKey(@RequestParam(name = "otherUserKey") String otherUserKey);
 
 }

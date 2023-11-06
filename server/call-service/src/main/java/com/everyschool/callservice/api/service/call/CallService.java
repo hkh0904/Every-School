@@ -19,33 +19,36 @@ public class CallService {
     private final UserServiceClient userServiceClient;
 
     public CallResponse createCallInfo(CreateCallDto dto, String otherUserKey, String token) {
-        // memo: 선생님이 전화를 끊을때만 저장 -> token 선생일수밖에 없음
-        // TODO: 로그인 사용자의 토큰으로 user-service에 pk 요청
-        //       otherUserKey를 user-service에 pk 요청
 
         UserInfo otherUser = userServiceClient.searchUserInfoByUserKey(otherUserKey);
         UserInfo teacher = userServiceClient.searchUserInfo(token);
 
-        Call savedCall = insertCall(dto, teacher.getUserId(), otherUser.getUserId());
+        String senderName = otherUser.getUserName();
+        String receiverName = teacher.getUserName();
 
-        CallResponse response = CallResponse.of(savedCall);
-        response.setTeacherName(teacher.getUserName());
-        response.setOtherUserName(otherUser.getUserName());
+        if (dto.getSender().equals("T")) {
+            receiverName = otherUser.getUserName();
+            senderName = teacher.getUserName();
+        }
 
-        return response;
+        Call savedCall = insertCall(dto, teacher.getUserId(), otherUser.getUserId(), senderName, receiverName);
+        return CallResponse.of(savedCall);
     }
 
-    private Call insertCall(CreateCallDto dto, Long teacherId, Long otherUserId) {
+    private Call insertCall(CreateCallDto dto, Long teacherId, Long otherUserId, String senderName, String receiverName) {
         Call call = Call.builder()
                 .teacherId(teacherId)
                 .otherUserId(otherUserId)
                 .sender(dto.getSender())
+                .senderName(senderName)
+                .receiverName(receiverName)
                 .startDateTime(dto.getStartDateTime())
                 .endDateTime(dto.getEndDateTime())
                 .uploadFileName(dto.getUploadFileName())
                 .storeFileName(dto.getStoreFileName())
                 .isBad(dto.getIsBad())
                 .build();
+
         return callRepository.save(call);
     }
 

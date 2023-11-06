@@ -1,25 +1,24 @@
 import 'package:everyschool/api/firebase_api.dart';
+import 'package:everyschool/page/chat/chat_controller.dart';
+import 'package:everyschool/page/category/category_page.dart';
+import 'package:everyschool/page/chat/chat_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
-import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
+import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
 import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
-import 'package:everyschool/page/report/report_list_page.dart';
 import 'package:everyschool/page/community/community_page.dart';
+import 'package:everyschool/page/report/my%20_report_list_page.dart';
+import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
+import 'package:everyschool/store/chat_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 // fcm
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +30,16 @@ void main() async {
     statusBarColor: Colors.transparent,
   ));
   await initializeDateFormatting();
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: "Pretendard"),
-      home: Splash()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (c) => ChatStore()),
+      ChangeNotifierProvider(create: (c) => ChatController()),
+    ],
+    child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: "Pretendard"),
+        home: Splash()),
+  ));
 }
 
 class Main extends StatefulWidget {
@@ -54,6 +59,7 @@ class _MainState extends State<Main> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       FirebaseApi().foregroundMessage(message);
     });
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     FirebaseApi().initializeNotifications(context);
   }
 
@@ -64,16 +70,40 @@ class _MainState extends State<Main> {
     });
   }
 
-  final List<Widget> pages = [
-    HomePage(),
-    ReportListPage(),
-    Center(child: Text('채팅')),
-    CommunityPage(),
-    Center(child: Text('전체보기')),
-  ];
+  int userNum = 1003;
+
+  List<Widget> getPagesForUser(int userNum) {
+    switch (userNum) {
+      case 1001:
+        return [
+          HomePage(),
+          ReportListPage(),
+          ChatPage(),
+          CommunityPage(),
+          CategoryPage(),
+        ];
+      case 1002:
+        return [
+          HomePage(),
+          ConsultingListPage(),
+          ChatPage(),
+          CommunityPage(),
+          CategoryPage(),
+        ];
+      default:
+        return [
+          HomePage(),
+          ReportConsultingPage(),
+          ChatPage(),
+          CommunityPage(),
+          CategoryPage(),
+        ];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = getPagesForUser(userNum);
     return Scaffold(
       body: pages[selectedIndex],
       bottomNavigationBar: SizedBox(

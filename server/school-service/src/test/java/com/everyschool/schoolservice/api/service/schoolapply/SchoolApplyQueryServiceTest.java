@@ -3,6 +3,7 @@ package com.everyschool.schoolservice.api.service.schoolapply;
 import com.everyschool.schoolservice.IntegrationTestSupport;
 import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schoolapply.response.SchoolApplyResponse;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
 import com.everyschool.schoolservice.domain.schoolapply.repository.SchoolApplyRepository;
@@ -43,8 +44,15 @@ class SchoolApplyQueryServiceTest extends IntegrationTestSupport {
         saveSchoolApply(2L, null, schoolClass);
         saveSchoolApply(3L, 20L, schoolClass);
 
-        given(userServiceClient.searchByUserKey(anyString()))
-            .willReturn(100L);
+        UserInfo userInfo = UserInfo.builder()
+            .userId(100L)
+            .userType('T')
+            .userName("임우택")
+            .schoolClassId(schoolClass.getId())
+            .build();
+
+        given(userServiceClient.searchUserInfo(anyString()))
+            .willReturn(userInfo);
 
         StudentResponse response1 = createStudentResponse(1L, "이예리", "1998.04.12");
         StudentResponse response2 = createStudentResponse(2L, "이리온", "1998.12.10");

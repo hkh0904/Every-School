@@ -1,0 +1,11 @@
+[[search-calls]]
+=== 통화 내역 조회 API
+
+==== HTTP Request
+include::{snippets}/search-calls/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-calls/http-response.adoc[]
+include::{snippets}/search-calls/response-fields.adoc[]
+

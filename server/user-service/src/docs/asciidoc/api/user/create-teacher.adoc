@@ -1,0 +1,11 @@
+[[create-teacher]]
+=== 교직원 회원 가입 API
+
+==== HTTP Request
+include::{snippets}/create-teacher/http-request.adoc[]
+include::{snippets}/create-teacher/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-teacher/http-response.adoc[]
+include::{snippets}/create-teacher/response-fields.adoc[]

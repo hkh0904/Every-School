@@ -1,0 +1,11 @@
+[[client-search-user-info-key]]
+=== 고유키로 회원 정보 조회 API
+
+==== HTTP Request
+include::{snippets}/client-search-user-info-key/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/client-search-user-info-key/http-response.adoc[]
+include::{snippets}/client-search-user-info-key/response-fields.adoc[]
+include::sub/user-type.adoc[]

@@ -12,6 +12,7 @@
   display: flex;
   margin-left: 10px;
   align-items: center;
+  cursor: pointer;
 }
 
 .logoImg1 {
@@ -30,7 +31,9 @@
 
 .menu > p:nth-child(1) {
   margin-right: 20px;
+  cursor: pointer;
 }
 
 .menu > p:nth-child(2) {
+  cursor: pointer;
 }

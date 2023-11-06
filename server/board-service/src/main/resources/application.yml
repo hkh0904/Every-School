@@ -44,3 +44,13 @@ management:
     web:
       exposure:
         include: refresh, health, beans, info, metrics, prometheus, busrefresh
+
+cloud:
+  aws:
+    s3:
+      bucket: everyschool
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: ${my.accessKey}
+      secretKey: ${my.secretKey}

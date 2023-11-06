@@ -1,0 +1,12 @@
+[[check-message-filter]]
+=== 채팅 전송 전 필터링 돌리기 API
+
+==== HTTP Request
+
+include::{snippets}/check-message-filter/http-request.adoc[]
+include::{snippets}/check-message-filter/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/check-message-filter/http-response.adoc[]
+include::{snippets}/check-message-filter/response-fields.adoc[]

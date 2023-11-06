@@ -1,0 +1,10 @@
+[[search-notice-board]]
+=== 공지사항 상세 조회 API
+
+==== HTTP Request
+include::{snippets}/search-notice-board/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-notice-board/http-response.adoc[]
+include::{snippets}/search-notice-board/response-fields.adoc[]

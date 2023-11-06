@@ -1,3 +1,6 @@
+import 'package:everyschool/api/firebase_api.dart';
+import 'package:everyschool/api/login_api.dart';
+import 'package:everyschool/main.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -11,6 +14,30 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  void loginSuccess() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (_) => Main(),
+    ));
+  }
+
+  void _showLoginFailureDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('로그인 실패'),
+        content: Text('이메일 또는 비밀번호가 올바르지 않습니다.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -62,7 +89,17 @@ class _LoginFormState extends State<LoginForm> {
               padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: ButtonTheme(
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final deviceToken =
+                            await FirebaseApi().getMyDeviceToken();
+                        int response = await LoginApi().login(
+                            widget.emailAddress, widget.password, deviceToken);
+                        if (response == 1) {
+                          loginSuccess();
+                        } else {
+                          _showLoginFailureDialog(context);
+                        }
+                      },
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll(Color(0xff15075F))),

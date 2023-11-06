@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 @Data
 public class CallResponse {
 
-    private String teacherName;
-    private String otherUserName;
+    private Long callId;
+    private String senderName;
+    private String receiverName;
     private String sender;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
@@ -19,10 +20,11 @@ public class CallResponse {
     private Boolean isBad;
 
     @Builder
-    public CallResponse(String teacherName, String otherUserName, String sender, LocalDateTime startDateTime,
+    public CallResponse(Long callId, String senderName, String receiverName, String sender, LocalDateTime startDateTime,
                         LocalDateTime endDateTime, String uploadFileName, String storeFileName, Boolean isBad) {
-        this.teacherName = teacherName;
-        this.otherUserName = otherUserName;
+        this.callId = callId;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
         this.sender = sender;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
@@ -33,6 +35,9 @@ public class CallResponse {
 
     public static CallResponse of(Call call) {
         return CallResponse.builder()
+                .callId(call.getId())
+                .senderName(call.getSenderName())
+                .receiverName(call.getReceiverName())
                 .sender(call.getSender())
                 .startDateTime(call.getStartDateTime())
                 .endDateTime(call.getEndDateTime())

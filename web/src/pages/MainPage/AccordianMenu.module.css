@@ -1,8 +1,7 @@
 .AccordianMenu {
   padding-top: 20px;
-  border-top: 0.5px solid #868E96;
+  border-top: 0.5px solid #868e96;
 }
-
 
 .accordianTitle {
   display: flex;
@@ -31,7 +30,7 @@
 .isActive {
   text-decoration: none;
   display: flex;
-  color: #FFFF9F;
+  color: #ffff9f;
   align-items: center;
 }
 
@@ -48,6 +47,7 @@
 .accordianMain {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .accordianMain > p {
@@ -86,5 +86,5 @@
 
 .itemActive {
   text-decoration: none;
-  color: #FFFF9F;
+  color: #ffff9f;
 }

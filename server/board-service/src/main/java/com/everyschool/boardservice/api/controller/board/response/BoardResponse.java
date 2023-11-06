@@ -1,10 +1,10 @@
 package com.everyschool.boardservice.api.controller.board.response;
 
+import com.everyschool.boardservice.domain.board.Board;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 public class BoardResponse {
@@ -12,17 +12,26 @@ public class BoardResponse {
     private Long boardId;
     private String title;
     private String content;
-    private String userName;
-    private String createDate;
-    private List<MultipartFile> uploadFiles;
+    private int commentCount;
+    private LocalDateTime createdDate;
 
     @Builder
-    private BoardResponse(Long boardId, String title, String content, String userName, String createDate, List<MultipartFile> uploadFiles) {
+    private BoardResponse(Long boardId, String title, String content, int commentCount, LocalDateTime createdDate) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
-        this.userName = userName;
-        this.createDate = createDate;
-        this.uploadFiles = uploadFiles;
+        this.commentCount = commentCount;
+        this.createdDate = createdDate;
+    }
+
+    public static BoardResponse of(Board board) {
+        return BoardResponse.builder()
+            .boardId(board.getId())
+            .title(board.getTitle())
+            .content(board.getContent())
+            .commentCount(board.getCommentCount())
+            .createdDate(board.getCreatedDate())
+            .build();
+
     }
 }
