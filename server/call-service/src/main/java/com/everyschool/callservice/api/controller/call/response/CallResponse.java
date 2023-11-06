@@ -1,12 +1,16 @@
 package com.everyschool.callservice.api.controller.call.response;
 
 import com.everyschool.callservice.domain.call.Call;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CallResponse {
 
     private Long callId;
@@ -15,21 +19,17 @@ public class CallResponse {
     private String sender;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private String uploadFileName;
-    private String storeFileName;
     private Boolean isBad;
 
     @Builder
     public CallResponse(Long callId, String senderName, String receiverName, String sender, LocalDateTime startDateTime,
-                        LocalDateTime endDateTime, String uploadFileName, String storeFileName, Boolean isBad) {
+                        LocalDateTime endDateTime, Boolean isBad) {
         this.callId = callId;
         this.senderName = senderName;
         this.receiverName = receiverName;
         this.sender = sender;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.uploadFileName = uploadFileName;
-        this.storeFileName = storeFileName;
         this.isBad = isBad;
     }
 
@@ -41,8 +41,6 @@ public class CallResponse {
                 .sender(call.getSender())
                 .startDateTime(call.getStartDateTime())
                 .endDateTime(call.getEndDateTime())
-                .uploadFileName(call.getUploadFileName())
-                .storeFileName(call.getStoreFileName())
                 .isBad(call.getIsBad())
                 .build();
     }
