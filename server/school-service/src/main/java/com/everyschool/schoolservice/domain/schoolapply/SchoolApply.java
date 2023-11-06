@@ -19,7 +19,7 @@ public class SchoolApply extends BaseEntity {
     private Integer schoolYear;
 
     @Column(nullable = false)
-    private Boolean isApproved; //false
+    private Boolean isApproved;
 
     @Column(insertable = false, length = 50)
     private String rejectedReason;
@@ -48,5 +48,15 @@ public class SchoolApply extends BaseEntity {
         this.studentId = studentId;
         this.parentId = parentId;
         this.schoolClass = schoolClass;
+    }
+
+    public SchoolApply approve() {
+        this.isApproved = true;
+        return this;
+    }
+
+    public SchoolApply reject(String rejectedReason) {
+        this.rejectedReason = rejectedReason;
+        return this;
     }
 }
