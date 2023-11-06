@@ -16,8 +16,8 @@ include::overview.adoc[]
 
 include::api/web/schoolapply/approve-school-apply.adoc[]
 include::api/web/schoolapply/reject-school-apply.adoc[]
-
-
+include::api/web/schoolapply/search-wait-school-apply.adoc[]
+include::api/web/schoolapply/search-approve-school-apply.adoc[]
 
 
 

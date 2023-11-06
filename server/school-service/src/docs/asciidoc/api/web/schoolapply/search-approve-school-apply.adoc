@@ -1,0 +1,10 @@
+[[search-approve-school-apply]]
+=== 학급 학급 승인 목록 조회 API
+
+==== HTTP Request
+include::{snippets}/search-approve-school-apply/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-approve-school-apply/http-response.adoc[]
+include::{snippets}/search-approve-school-apply/response-fields.adoc[]
