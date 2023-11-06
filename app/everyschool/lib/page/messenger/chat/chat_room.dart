@@ -46,7 +46,7 @@ class _ChatRoomState extends State<ChatRoom> {
     // client is connected and ready
     print('connected');
     stompClient.subscribe(
-      destination: '/sub/public',
+      destination: '/seb/',
       callback: (frame) {
         print('여기가 바디야');
         print(frame.body);
