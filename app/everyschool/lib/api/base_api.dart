@@ -6,5 +6,5 @@ class ServerApi {
 }
 
 class SocketApi {
-  final socketURL = 'ws://10.0.2.2:8080/chat';
+  final socketURL = 'ws://every-school.com:8000/chat-service/v1/chat';
 }

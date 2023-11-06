@@ -1,8 +1,8 @@
 library flutter_chat_bubble;
 
-import 'package:everyschool/page/chat/chat.dart';
-import 'package:everyschool/page/chat/chat_message_type.dart';
-import 'package:everyschool/page/chat/formatter.dart';
+import 'package:everyschool/page/messenger/chat/chat.dart';
+import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
+import 'package:everyschool/page/messenger/chat/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';

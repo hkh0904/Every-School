@@ -1,13 +1,13 @@
 import 'package:everyschool/api/firebase_api.dart';
-import 'package:everyschool/page/chat/chat_controller.dart';
+import 'package:everyschool/page/messenger/chat/chat_controller.dart';
 import 'package:everyschool/page/category/category_page.dart';
-import 'package:everyschool/page/chat/chat_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
 import 'package:everyschool/page/home/home_page.dart';
 import 'package:everyschool/page/main/bottom_navigation.dart';
 import 'package:everyschool/page/main/splash.dart';
 import 'package:everyschool/page/community/community_page.dart';
+import 'package:everyschool/page/messenger/messenger_page.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
 import 'package:everyschool/store/chat_store.dart';
@@ -82,7 +82,7 @@ class _MainState extends State<Main> {
         return [
           HomePage(),
           ReportListPage(),
-          ChatPage(),
+          MessengerPage(),
           CommunityPage(),
           CategoryPage(),
         ];
@@ -90,7 +90,7 @@ class _MainState extends State<Main> {
         return [
           HomePage(),
           ConsultingListPage(),
-          ChatPage(),
+          MessengerPage(),
           CommunityPage(),
           CategoryPage(),
         ];
@@ -98,7 +98,7 @@ class _MainState extends State<Main> {
         return [
           HomePage(),
           ReportConsultingPage(index: 0),
-          ChatPage(),
+          MessengerPage(),
           CommunityPage(),
           CategoryPage(),
         ];
