@@ -36,7 +36,7 @@ public class ChatQueryService {
         if (idx == null) {
             idx = Long.MAX_VALUE;
         }
-        List<Chat> list = chatRepository.findTop20ChatsByChatRoomIdAndIsBadAndIdLessThanOrderByIdDesc(chatRoomId, false, idx);
+        List<Chat> list = chatRepository.findTop20ChatsByChatRoomIdAndStatusAndIdLessThanOrderByIdDesc(chatRoomId, false, idx);
         List<ChatResponse> responses = new ArrayList<>();
         for (Chat chat : list) {
             ChatResponse response = createChatResponse(loginUser, chat);
