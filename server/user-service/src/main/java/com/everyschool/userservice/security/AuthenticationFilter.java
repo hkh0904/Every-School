@@ -64,6 +64,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             .compact();
 
         response.addHeader("token", token);
+        response.addHeader("userType", String.valueOf(user.getUserCodeId()));
         response.addHeader("userKey", user.getUserKey());
         //servlet
     }
