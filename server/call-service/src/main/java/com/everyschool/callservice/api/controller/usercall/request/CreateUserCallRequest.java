@@ -1,6 +1,6 @@
-package com.everyschool.callservice.api.controller.call.request;
+package com.everyschool.callservice.api.controller.usercall.request;
 
-import com.everyschool.callservice.api.service.call.dto.CreateCallDto;
+import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class CreateCallRequest {
+public class CreateUserCallRequest {
 
     @NotNull
     private String otherUserKey;
@@ -32,8 +32,8 @@ public class CreateCallRequest {
     private MultipartFile file;
 
     @Builder
-    private CreateCallRequest(String otherUserKey, String sender, LocalDateTime startDateTime, LocalDateTime endDateTime,
-                              MultipartFile file) {
+    private CreateUserCallRequest(String otherUserKey, String sender, LocalDateTime startDateTime, LocalDateTime endDateTime,
+                                  MultipartFile file) {
         this.otherUserKey = otherUserKey;
         this.sender = sender;
         this.startDateTime = startDateTime;
@@ -41,8 +41,8 @@ public class CreateCallRequest {
         this.file = file;
     }
 
-    public CreateCallDto toDto() {
-        return CreateCallDto.builder()
+    public CreateUserCallDto toDto() {
+        return CreateUserCallDto.builder()
                 .sender(this.sender)
                 .startDateTime(this.startDateTime)
                 .endDateTime(this.endDateTime)

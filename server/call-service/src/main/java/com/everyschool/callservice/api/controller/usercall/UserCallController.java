@@ -1,4 +1,4 @@
-package com.everyschool.callservice.api.controller.call;
+package com.everyschool.callservice.api.controller.usercall;
 
 import com.everyschool.callservice.api.ApiResponse;
 import com.everyschool.callservice.api.client.VoiceAiServiceClient;
@@ -6,12 +6,12 @@ import com.everyschool.callservice.api.client.response.RecordResultInfo;
 import com.everyschool.callservice.api.client.response.RecordStartInfo;
 import com.everyschool.callservice.api.client.response.RecordStopInfo;
 import com.everyschool.callservice.api.controller.FileStore;
-import com.everyschool.callservice.api.controller.call.request.CreateCallRequest;
-import com.everyschool.callservice.api.controller.call.request.RecordStartRequest;
-import com.everyschool.callservice.api.controller.call.request.RecordStopRequest;
-import com.everyschool.callservice.api.controller.call.response.CallResponse;
-import com.everyschool.callservice.api.service.call.CallService;
-import com.everyschool.callservice.api.service.call.dto.CreateCallDto;
+import com.everyschool.callservice.api.controller.usercall.request.CreateUserCallRequest;
+import com.everyschool.callservice.api.controller.usercall.request.RecordStartRequest;
+import com.everyschool.callservice.api.controller.usercall.request.RecordStopRequest;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.call.UserCallService;
+import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
 import com.everyschool.callservice.domain.call.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +26,9 @@ import java.io.IOException;
 @RestController
 @Slf4j
 @RequestMapping("/call-service/v1/calls")
-public class CallController {
+public class UserCallController {
 
-    private final CallService callService;
+    private final UserCallService userCallService;
 
     private final FileStore fileStore;
 
@@ -42,21 +42,21 @@ public class CallController {
      */
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<String> createCallInfo(CreateCallRequest request,
+    public ApiResponse<String> createCallInfo(CreateUserCallRequest request,
                                               @RequestHeader("Authorization") String token) throws IOException {
-        log.debug("Call CallController#createCallInfo");
-        log.debug("CreateCallRequest={}", request);
+        log.debug("UserCall UserCallController#createCallInfo");
+        log.debug("CreateUserCallRequest={}", request);
 
         // 음성 파일 업로드
         UploadFile uploadFile = fileStore.storeFile(request.getFile());
         log.debug("getUploadFile={}", uploadFile);
 
-        CreateCallDto dto = request.toDto();
+        CreateUserCallDto dto = request.toDto();
         dto.setStoreFileName(uploadFile.getStoreFileName());
         dto.setUploadFileName(uploadFile.getUploadFileName());
         dto.setIsBad(false);
 
-        CallResponse response = callService.createCallInfo(dto, request.getOtherUserKey(), token);
+        UserCallResponse response = userCallService.createCallInfo(dto, request.getOtherUserKey(), token);
         log.debug("SavedCallResponse={}", response);
 
 //        createRecordAnalysis(request.getFile(), response.getCallId());
@@ -69,7 +69,7 @@ public class CallController {
         try {
             RecordResultInfo res = voiceAiServiceClient.recordAnalysis(file);
 
-            callService.updateCallInfo(callId, res);
+            userCallService.updateCallInfo(callId, res);
 
             System.out.println(res);
 
@@ -93,12 +93,12 @@ public class CallController {
      */
 //    @PostMapping("/")
 //    @ResponseStatus(HttpStatus.CREATED)
-//    public ApiResponse<String> createCallInfo(@RequestBody CreateCallRequest request,
+//    public ApiResponse<String> createCallInfo(@RequestBody CreateUserCallRequest request,
 //                                              @RequestHeader("Authorization") String token) {
-//        log.debug("Call CallController#createCallInfo");
-//        log.debug("CreateCallRequest={}", request);
+//        log.debug("UserCall UserCallController#createCallInfo");
+//        log.debug("CreateUserCallRequest={}", request);
 //
-//        CallResponse response = callService.createCallInfo(request.toDto(), request.getOtherUserKey(), token);
+//        UserCallResponse response = callService.createCallInfo(request.toDto(), request.getOtherUserKey(), token);
 //        log.debug("SavedCallResponse={}", response);
 //
 //        return ApiResponse.created("통화 내용 저장 완료.");
@@ -113,7 +113,7 @@ public class CallController {
     @PostMapping("/record/start")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<RecordStartInfo> createRecordStart(@RequestBody RecordStartRequest request) {
-        log.debug("Call CallController#createRecordStart");
+        log.debug("UserCall UserCallController#createRecordStart");
         log.debug("RecordStartRequest={}", request);
 
         RecordStartInfo res = voiceAiServiceClient.recordStart(request);
@@ -125,7 +125,7 @@ public class CallController {
     @PostMapping("/record/stop")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<RecordStopInfo> createRecordStop(@RequestBody RecordStopRequest request) {
-        log.debug("Call CallController#createRecordStop");
+        log.debug("UserCall UserCallController#createRecordStop");
         log.debug("RecordStopRequest={}", request);
 
         RecordStopInfo res = voiceAiServiceClient.recordStop(request);

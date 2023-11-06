@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "call")
-public class Call extends BaseEntity {
+public class UserCall extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,12 +54,12 @@ public class Call extends BaseEntity {
     private Float positive;
     private Float negative;
 
-    protected Call() { super(); }
+    protected UserCall() { super(); }
 
     @Builder
-    private Call(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
-                 LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName, String storeFileName,
-                 Boolean isBad) {
+    private UserCall(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
+                     LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName, String storeFileName,
+                     Boolean isBad) {
         this();
         this.teacherId = teacherId;
         this.otherUserId = otherUserId;

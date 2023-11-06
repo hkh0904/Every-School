@@ -1,7 +1,7 @@
 package com.everyschool.callservice.domain.callrecord;
 
 import com.everyschool.callservice.domain.BaseEntity;
-import com.everyschool.callservice.domain.call.Call;
+import com.everyschool.callservice.domain.call.UserCall;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Table(name = "call_record")
-public class CallRecord extends BaseEntity {
+public class UserCallDetails extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class CallRecord extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "call_id")
-    private Call call;
+    private UserCall userCall;
 
 //    @Column(nullable = false, updatable = false, length = 50)
 //    private String content;
@@ -38,13 +38,13 @@ public class CallRecord extends BaseEntity {
     private Float positive;
     private Float negative;
 
-    protected CallRecord() { super(); }
+    protected UserCallDetails() { super(); }
 
     @Builder
-    public CallRecord(Call call, String content, int start, int length, String sentiment, Float neutral,
-                      Float positive, Float negative) {
+    public UserCallDetails(UserCall userCall, String content, int start, int length, String sentiment, Float neutral,
+                           Float positive, Float negative) {
         this();
-        this.call = call;
+        this.userCall = userCall;
         this.content = content;
         this.start = start;
         this.length = length;

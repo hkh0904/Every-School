@@ -3,12 +3,12 @@ package com.everyschool.callservice.api.service.call;
 import com.everyschool.callservice.api.client.UserServiceClient;
 import com.everyschool.callservice.api.client.response.RecordResultInfo;
 import com.everyschool.callservice.api.client.response.UserInfo;
-import com.everyschool.callservice.api.controller.call.response.CallResponse;
-import com.everyschool.callservice.api.service.call.dto.CreateCallDto;
-import com.everyschool.callservice.domain.call.Call;
-import com.everyschool.callservice.domain.call.repository.CallRepository;
-import com.everyschool.callservice.domain.callrecord.CallRecord;
-import com.everyschool.callservice.domain.callrecord.repository.CallRecordRepository;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
+import com.everyschool.callservice.domain.call.UserCall;
+import com.everyschool.callservice.domain.call.repository.UserCallRepository;
+import com.everyschool.callservice.domain.callrecord.UserCallDetails;
+import com.everyschool.callservice.domain.callrecord.repository.UserCallRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,13 +21,13 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CallService {
+public class UserCallService {
 
-    private final CallRepository callRepository;
-    private final CallRecordRepository callRecordRepository;
+    private final UserCallRepository userCallRepository;
+    private final UserCallRecordRepository userCallRecordRepository;
     private final UserServiceClient userServiceClient;
 
-    public CallResponse createCallInfo(CreateCallDto dto, String otherUserKey, String token) {
+    public UserCallResponse createCallInfo(CreateUserCallDto dto, String otherUserKey, String token) {
 
         UserInfo otherUser = userServiceClient.searchUserInfoByUserKey(otherUserKey);
         UserInfo teacher = userServiceClient.searchUserInfo(token);
@@ -40,29 +40,29 @@ public class CallService {
             senderName = teacher.getUserName();
         }
 
-        Call savedCall = insertCall(dto, teacher.getUserId(), otherUser.getUserId(), senderName, receiverName);
-//        Call savedCall = insertCall(dto, 1L, 2L, "선생님", "학부모");
-        return CallResponse.of(savedCall);
+        UserCall savedUserCall = insertCall(dto, teacher.getUserId(), otherUser.getUserId(), senderName, receiverName);
+//        UserCall savedUserCall = insertCall(dto, 1L, 2L, "선생님", "학부모");
+        return UserCallResponse.of(savedUserCall);
     }
 
     public void updateCallInfo(Long callId, RecordResultInfo res) {
         // 데이터베이스에서 해당 엔티티를 가져옵니다.
-        Optional<Call> optionalCall = callRepository.findById(callId);
+        Optional<UserCall> optionalCall = userCallRepository.findById(callId);
 
         if (optionalCall.isPresent()) {
-            Call call = optionalCall.get();
+            UserCall userCall = optionalCall.get();
 
-            call.updateCallInfo(res.getOverallResult(), res.getOverallPercent().get(0), res.getOverallPercent().get(1), res.getOverallPercent().get(2)
+            userCall.updateCallInfo(res.getOverallResult(), res.getOverallPercent().get(0), res.getOverallPercent().get(1), res.getOverallPercent().get(2)
                                 , res.getOverallResult().equals("negative"));
 
-            Call updatedCall = callRepository.save(call);
+            UserCall updatedUserCall = userCallRepository.save(userCall);
 
-            System.out.println(updatedCall);
-            List<CallRecord> callRecords = new ArrayList<>();
+            System.out.println(updatedUserCall);
+            List<UserCallDetails> userCallDetails = new ArrayList<>();
             res.getDetailsResult().forEach(e -> {
                 System.out.println(e);
-                CallRecord callDetails = CallRecord.builder()
-                        .call(call)
+                UserCallDetails callDetails = UserCallDetails.builder()
+                        .userCall(userCall)
                         .content(e.getContent())
                         .start(e.getStart())
                         .length(e.getLength())
@@ -71,18 +71,18 @@ public class CallService {
                         .positive(e.getConfidence().get(1))
                         .negative(e.getConfidence().get(2))
                         .build();
-                callRecords.add(callDetails);
+                userCallDetails.add(callDetails);
             });
-            callRecordRepository.saveAll(callRecords);
+            userCallRecordRepository.saveAll(userCallDetails);
 
         } else {
-            throw new EntityNotFoundException("Call not found");
+            throw new EntityNotFoundException("UserCall not found");
         }
 
     }
 
-    private Call insertCall(CreateCallDto dto, Long teacherId, Long otherUserId, String senderName, String receiverName) {
-        Call call = Call.builder()
+    private UserCall insertCall(CreateUserCallDto dto, Long teacherId, Long otherUserId, String senderName, String receiverName) {
+        UserCall userCall = UserCall.builder()
                 .teacherId(teacherId)
                 .otherUserId(otherUserId)
                 .sender(dto.getSender())
@@ -95,7 +95,7 @@ public class CallService {
                 .isBad(dto.getIsBad())
                 .build();
 
-        return callRepository.save(call);
+        return userCallRepository.save(userCall);
     }
 
 }

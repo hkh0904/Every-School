@@ -1,8 +1,8 @@
 package com.everyschool.callservice.docs.call;
 
-import com.everyschool.callservice.api.controller.call.CallQueryController;
-import com.everyschool.callservice.api.controller.call.response.CallResponse;
-import com.everyschool.callservice.api.service.call.CallQueryService;
+import com.everyschool.callservice.api.controller.usercall.UserCallQueryController;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.call.UserCallQueryService;
 import com.everyschool.callservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,19 +25,19 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CallQueryControllerDocsTest extends RestDocsSupport {
-    private final CallQueryService callQueryService = mock(CallQueryService.class);
+public class UserCallQueryControllerDocsTest extends RestDocsSupport {
+    private final UserCallQueryService userCallQueryService = mock(UserCallQueryService.class);
 
     @Override
     protected Object initController() {
-        return new CallQueryController(callQueryService);
+        return new UserCallQueryController(userCallQueryService);
     }
 
     @DisplayName("내 통화 내역 조회 API")
     @Test
     void searchMyCalls() throws Exception {
-        CallResponse r1 = CallResponse.builder()
-                .callId(1L)
+        UserCallResponse r1 = UserCallResponse.builder()
+                .userCallId(1L)
                 .senderName("신성주")
                 .receiverName("임우택 선생님")
                 .sender("O")
@@ -46,8 +46,8 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                 .isBad(false)
                 .build();
 
-        CallResponse r2 = CallResponse.builder()
-                .callId(2L)
+        UserCallResponse r2 = UserCallResponse.builder()
+                .userCallId(2L)
                 .senderName("신성주")
                 .receiverName("임우택 선생님")
                 .sender("O")
@@ -56,11 +56,11 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                 .isBad(false)
                 .build();
 
-        List<CallResponse> rList = new ArrayList<>();
+        List<UserCallResponse> rList = new ArrayList<>();
         rList.add(r1);
         rList.add(r2);
 
-        given(callQueryService.searchMyCalls(anyString()))
+        given(userCallQueryService.searchMyCalls(anyString()))
                 .willReturn(rList);
 
         mockMvc.perform(
@@ -69,7 +69,7 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("search-calls",
+                .andDo(document("search-userCalls",
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -80,7 +80,7 @@ public class CallQueryControllerDocsTest extends RestDocsSupport {
                                         .description("메시지"),
                                 fieldWithPath("data").type(JsonFieldType.ARRAY)
                                         .description("응답 데이터"),
-                                fieldWithPath("data[].callId").type(JsonFieldType.NUMBER)
+                                fieldWithPath("data[].userCallId").type(JsonFieldType.NUMBER)
                                         .description("통화 ID"),
                                 fieldWithPath("data[].senderName").type(JsonFieldType.STRING)
                                         .description("발신자"),

@@ -3,10 +3,10 @@ package com.everyschool.callservice.api.service.call;
 import com.everyschool.callservice.IntegrationTestSupport;
 import com.everyschool.callservice.api.client.UserServiceClient;
 import com.everyschool.callservice.api.client.response.UserInfo;
-import com.everyschool.callservice.api.controller.call.response.CallResponse;
-import com.everyschool.callservice.api.service.call.dto.CreateCallDto;
-import com.everyschool.callservice.domain.call.Call;
-import com.everyschool.callservice.domain.call.repository.CallRepository;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
+import com.everyschool.callservice.domain.call.UserCall;
+import com.everyschool.callservice.domain.call.repository.UserCallRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-class CallServiceTest extends IntegrationTestSupport {
+class UserCallServiceTest extends IntegrationTestSupport {
 
     @Autowired
-    private CallService callService;
+    private UserCallService userCallService;
 
     @Autowired
-    private CallRepository callRepository;
+    private UserCallRepository userCallRepository;
 
     @MockBean
     private UserServiceClient userServiceClient;
@@ -52,7 +52,7 @@ class CallServiceTest extends IntegrationTestSupport {
         given(userServiceClient.searchUserInfoByUserKey("otheruserkey"))
                 .willReturn(parent);
 
-        CreateCallDto dto = CreateCallDto.builder()
+        CreateUserCallDto dto = CreateUserCallDto.builder()
                 .sender("O")
                 .startDateTime(LocalDateTime.now().minusHours(2))
                 .endDateTime(LocalDateTime.now().minusHours(1))
@@ -62,15 +62,15 @@ class CallServiceTest extends IntegrationTestSupport {
                 .build();
 
         // when
-        CallResponse response = callService.createCallInfo(dto, "otheruserkey", "jwt");
+        UserCallResponse response = userCallService.createCallInfo(dto, "otheruserkey", "jwt");
 
         // then
         assertThat(response.getSenderName()).isEqualTo("홍경환");
         assertThat(response.getReceiverName()).isEqualTo("신성주");
     }
 
-    private Call saveCall() {
-        Call call = Call.builder()
+    private UserCall saveCall() {
+        UserCall userCall = UserCall.builder()
                 .teacherId(1L)
                 .otherUserId(2L)
                 .sender("O")
@@ -80,6 +80,6 @@ class CallServiceTest extends IntegrationTestSupport {
                 .storeFileName("이예리 폭언 녹음본")
                 .isBad(true)
                 .build();
-        return callRepository.save(call);
+        return userCallRepository.save(userCall);
     }
 }

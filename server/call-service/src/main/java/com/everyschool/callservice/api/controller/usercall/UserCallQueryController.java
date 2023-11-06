@@ -1,8 +1,8 @@
-package com.everyschool.callservice.api.controller.call;
+package com.everyschool.callservice.api.controller.usercall;
 
 import com.everyschool.callservice.api.ApiResponse;
-import com.everyschool.callservice.api.controller.call.response.CallResponse;
-import com.everyschool.callservice.api.service.call.CallQueryService;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.call.UserCallQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,9 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/call-service/v1/calls")
-public class CallQueryController {
+public class UserCallQueryController {
 
-    private final CallQueryService callQueryService;
+    private final UserCallQueryService userCallQueryService;
 
     /**
      * 내 통화 내역 조회 API
@@ -26,11 +26,11 @@ public class CallQueryController {
      * @return 통화 내역 리스트
      */
     @GetMapping("/{userKey}")
-    public ApiResponse<List<CallResponse>> searchMyCalls(@PathVariable String userKey) {
-        log.debug("call CallQueryController#searchMyCalls");
+    public ApiResponse<List<UserCallResponse>> searchMyCalls(@PathVariable String userKey) {
+        log.debug("call UserCallQueryController#searchMyCalls");
         log.debug("userKey={}", userKey);
 
-        List<CallResponse> responses = callQueryService.searchMyCalls(userKey);
+        List<UserCallResponse> responses = userCallQueryService.searchMyCalls(userKey);
         log.debug("search results = {}", responses);
 
         return ApiResponse.ok(responses);
@@ -42,10 +42,10 @@ public class CallQueryController {
      * @return 통화
      */
 //    @GetMapping("/detail/{callId}")
-//    public ApiResponse<List<CallResponse>> searchCallDetails(@PathVariable Long callId) {
-//        log.debug("call CallQueryController#searchMyCall");
+//    public ApiResponse<List<UserCallResponse>> searchCallDetails(@PathVariable Long callId) {
+//        log.debug("call UserCallQueryController#searchMyCall");
 //
-//        CallResponse response = callQueryService.searchMyCall(callId);
+//        UserCallResponse response = callQueryService.searchMyCall(callId);
 //        log.debug("search results = {}", response);
 //
 //        return ApiResponse.ok(response);

@@ -3,9 +3,9 @@ package com.everyschool.callservice.api.service.call;
 import com.everyschool.callservice.IntegrationTestSupport;
 import com.everyschool.callservice.api.client.UserServiceClient;
 import com.everyschool.callservice.api.client.response.UserInfo;
-import com.everyschool.callservice.api.controller.call.response.CallResponse;
-import com.everyschool.callservice.domain.call.Call;
-import com.everyschool.callservice.domain.call.repository.CallRepository;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.domain.call.UserCall;
+import com.everyschool.callservice.domain.call.repository.UserCallRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import java.util.UUID;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.*;
 
-class CallQueryServiceTest extends IntegrationTestSupport {
+class UserCallQueryServiceTest extends IntegrationTestSupport {
 
     @Autowired
-    private CallQueryService callQueryService;
+    private UserCallQueryService userCallQueryService;
 
     @Autowired
-    private CallRepository callRepository;
+    private UserCallRepository userCallRepository;
 
     @MockBean
     private UserServiceClient userServiceClient;
@@ -43,17 +43,17 @@ class CallQueryServiceTest extends IntegrationTestSupport {
 
         String userKey = UUID.randomUUID().toString();
 
-        Call call1 = saveCal(1L, 2L, "T", "신성주", "홍경환", LocalDateTime.now().minusHours(5), LocalDateTime.now().minusHours(4), "파일명", "파일명", false);
-        Call call2 = saveCal(1L, 2L, "O", "홍경환", "신성주", LocalDateTime.now().minusHours(3), LocalDateTime.now().minusHours(2), "파일명", "파일명", false);
-        Call call3 = saveCal(1L, 3L, "T", "신성주", "이예리", LocalDateTime.now().minusHours(1), LocalDateTime.now().minusMinutes(30), "파일명", "파일명", false);
-        Call call4 = saveCal(4L, 2L, "T", "이지혁", "홍경환", LocalDateTime.now().minusMinutes(20), LocalDateTime.now().minusMinutes(10), "파일명", "파일명", false);
-        Call call5 = saveCal(1L, 5L, "O", "임우택", "신성주", LocalDateTime.now().minusMinutes(5), LocalDateTime.now().minusMinutes(1), "파일명", "파일명", false);
+        UserCall userCall1 = saveCal(1L, 2L, "T", "신성주", "홍경환", LocalDateTime.now().minusHours(5), LocalDateTime.now().minusHours(4), "파일명", "파일명", false);
+        UserCall userCall2 = saveCal(1L, 2L, "O", "홍경환", "신성주", LocalDateTime.now().minusHours(3), LocalDateTime.now().minusHours(2), "파일명", "파일명", false);
+        UserCall userCall3 = saveCal(1L, 3L, "T", "신성주", "이예리", LocalDateTime.now().minusHours(1), LocalDateTime.now().minusMinutes(30), "파일명", "파일명", false);
+        UserCall userCall4 = saveCal(4L, 2L, "T", "이지혁", "홍경환", LocalDateTime.now().minusMinutes(20), LocalDateTime.now().minusMinutes(10), "파일명", "파일명", false);
+        UserCall userCall5 = saveCal(1L, 5L, "O", "임우택", "신성주", LocalDateTime.now().minusMinutes(5), LocalDateTime.now().minusMinutes(1), "파일명", "파일명", false);
 
         given(userServiceClient.searchUserInfoByUserKey(userKey))
                 .willReturn(teacher);
 
         // when
-        List<CallResponse> responses = callQueryService.searchMyCalls(userKey);
+        List<UserCallResponse> responses = userCallQueryService.searchMyCalls(userKey);
 
         // then
         assertThat(responses).hasSize(4);
@@ -67,10 +67,10 @@ class CallQueryServiceTest extends IntegrationTestSupport {
                 );
     }
 
-    private Call saveCal(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
-                         LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName, String storeFileName,
-                         Boolean isBad){
-        Call call = Call.builder()
+    private UserCall saveCal(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
+                             LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName, String storeFileName,
+                             Boolean isBad){
+        UserCall userCall = UserCall.builder()
                 .teacherId(teacherId)
                 .otherUserId(otherUserId)
                 .sender(sender)
@@ -82,6 +82,6 @@ class CallQueryServiceTest extends IntegrationTestSupport {
                 .storeFileName(storeFileName)
                 .isBad(isBad)
                 .build();
-        return callRepository.save(call);
+        return userCallRepository.save(userCall);
     }
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class CreateCallDto {
+public class CreateUserCallDto {
     private Long otherUserId;
     private Long teacherId;
     private String sender;
@@ -17,8 +17,8 @@ public class CreateCallDto {
     private Boolean isBad;
 
     @Builder
-    private CreateCallDto(Long otherUserId, Long teacherId, String sender, LocalDateTime startDateTime,
-                          LocalDateTime endDateTime, String uploadFileName, String storeFileName, Boolean isBad) {
+    private CreateUserCallDto(Long otherUserId, Long teacherId, String sender, LocalDateTime startDateTime,
+                              LocalDateTime endDateTime, String uploadFileName, String storeFileName, Boolean isBad) {
         this.otherUserId = otherUserId;
         this.teacherId = teacherId;
         this.sender = sender;

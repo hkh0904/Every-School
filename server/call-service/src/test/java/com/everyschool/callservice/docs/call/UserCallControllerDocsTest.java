@@ -4,13 +4,13 @@ import com.everyschool.callservice.api.client.VoiceAiServiceClient;
 import com.everyschool.callservice.api.client.response.RecordStartInfo;
 import com.everyschool.callservice.api.client.response.RecordStopInfo;
 import com.everyschool.callservice.api.controller.FileStore;
-import com.everyschool.callservice.api.controller.call.CallController;
-import com.everyschool.callservice.api.controller.call.request.CreateCallRequest;
-import com.everyschool.callservice.api.controller.call.request.RecordStartRequest;
-import com.everyschool.callservice.api.controller.call.request.RecordStopRequest;
-import com.everyschool.callservice.api.controller.call.response.CallResponse;
-import com.everyschool.callservice.api.service.call.CallService;
-import com.everyschool.callservice.api.service.call.dto.CreateCallDto;
+import com.everyschool.callservice.api.controller.usercall.UserCallController;
+import com.everyschool.callservice.api.controller.usercall.request.CreateUserCallRequest;
+import com.everyschool.callservice.api.controller.usercall.request.RecordStartRequest;
+import com.everyschool.callservice.api.controller.usercall.request.RecordStopRequest;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.call.UserCallService;
+import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
 import com.everyschool.callservice.docs.RestDocsSupport;
 import com.everyschool.callservice.domain.call.UploadFile;
 import org.junit.jupiter.api.DisplayName;
@@ -33,22 +33,22 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class CallControllerDocsTest extends RestDocsSupport {
+public class UserCallControllerDocsTest extends RestDocsSupport {
 
-    private final CallService callService = mock(CallService.class);
+    private final UserCallService userCallService = mock(UserCallService.class);
     private final VoiceAiServiceClient voiceAiServiceClient = mock(VoiceAiServiceClient.class);
     private final FileStore fileStore = mock(FileStore.class);
-    private final CallController callController = mock(CallController.class);
+    private final UserCallController userCallController = mock(UserCallController.class);
     @Override
     protected Object initController() {
-        return new CallController(callService, fileStore, voiceAiServiceClient);
+        return new UserCallController(userCallService, fileStore, voiceAiServiceClient);
     }
 
     @DisplayName("선생님 통화 종료시 통화 내역 저장 API")
     @Test
     void createCallInfo() throws Exception {
 
-        CreateCallRequest request = CreateCallRequest.builder()
+        CreateUserCallRequest request = CreateUserCallRequest.builder()
                 .otherUserKey(UUID.randomUUID().toString())
                 .sender("O")
                 .startDateTime(LocalDateTime.now().minusHours(12))
@@ -66,13 +66,13 @@ public class CallControllerDocsTest extends RestDocsSupport {
                 .willReturn(uploadFile);
 
 
-        CreateCallDto dto = request.toDto();
+        CreateUserCallDto dto = request.toDto();
         dto.setStoreFileName(uploadFile.getStoreFileName());
         dto.setUploadFileName(uploadFile.getUploadFileName());
         dto.setIsBad(false);
 
-        CallResponse r1 = CallResponse.builder()
-                .callId(1L)
+        UserCallResponse r1 = UserCallResponse.builder()
+                .userCallId(1L)
                 .senderName("신성주")
                 .receiverName("임우택 선생님")
                 .sender("O")
@@ -81,10 +81,10 @@ public class CallControllerDocsTest extends RestDocsSupport {
                 .isBad(false)
                 .build();
 
-        given(callService.createCallInfo(dto, request.getOtherUserKey(), UUID.randomUUID().toString()))
+        given(userCallService.createCallInfo(dto, request.getOtherUserKey(), UUID.randomUUID().toString()))
                 .willReturn(r1);
 
-        Mockito.doNothing().when(callController).createRecordAnalysis(null, 2L);
+        Mockito.doNothing().when(userCallController).createRecordAnalysis(null, 2L);
 
         mockMvc.perform(
                         post("/call-service/v1/calls/")
@@ -94,7 +94,7 @@ public class CallControllerDocsTest extends RestDocsSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andDo(document("create-call-info",
+                .andDo(document("create-userCall-info",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -157,7 +157,7 @@ public class CallControllerDocsTest extends RestDocsSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andDo(document("call-record-start",
+                .andDo(document("userCall-record-start",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -229,7 +229,7 @@ public class CallControllerDocsTest extends RestDocsSupport {
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andDo(document("call-record-stop",
+                .andDo(document("userCall-record-stop",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(

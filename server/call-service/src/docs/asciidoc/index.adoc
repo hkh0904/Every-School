@@ -1,7 +1,7 @@
 ifndef::snippets[]
 :snippets: ../../build/generated-snippets
 endif::[]
-= Every School(call-service) REST API 문서
+= Every School(userCall-service) REST API 문서
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -16,8 +16,8 @@ include::overview.adoc[]
 
 include::api/call/create-donotdisturb.adoc[]
 include::api/call/search-donotdisturbs.adoc[]
-include::api/call/create-call-info.adoc[]
-include::api/call/search-calls.adoc[]
-include::api/call/call-record-start.adoc[]
-include::api/call/call-record-stop.adoc[]
+include::api/call/create-userCall-info.adoc[]
+include::api/call/search-userCalls.adoc[]
+include::api/call/userCall-record-start.adoc[]
+include::api/call/userCall-record-stop.adoc[]
 

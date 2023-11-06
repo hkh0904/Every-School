@@ -1,4 +1,4 @@
-package com.everyschool.callservice.api.controller.call.request;
+package com.everyschool.callservice.api.controller.usercall.request;
 
 import lombok.Builder;
 import lombok.Data;
