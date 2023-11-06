@@ -16,6 +16,7 @@ include::overview.adoc[]
 == Report App API
 
 include::api/app/report/create-report.adoc[]
+include::api/app/report/search-reports.adoc[]
 
 
 [[Report-Web-API]]
