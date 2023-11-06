@@ -26,6 +26,7 @@ export const getUserInfo = async () => {
     sessionStorage.setItem('year', 2023);
     sessionStorage.setItem('classNum', response.data.data.schoolClass.classNum);
     sessionStorage.setItem('grade', response.data.data.schoolClass.grade);
+    sessionStorage.setItem('schoolId', response.data.data.school.schoolId);
     return response.data.data;
   } catch (error) {
     console.log(error);

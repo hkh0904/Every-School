@@ -14,6 +14,7 @@ class LoginApi {
         'password': password.text,
         // 'notiToken': deviceToken
       });
+      print(response.headers);
       await storage.write(key: 'token', value: response.headers['token']?[0]);
       await storage.write(
           key: 'userKey', value: response.headers['userKey']?[0]);

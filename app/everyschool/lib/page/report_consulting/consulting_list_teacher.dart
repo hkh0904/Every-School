@@ -73,6 +73,14 @@ class _ConsultingListTeacherState extends State<ConsultingListTeacher> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
               ),
+              Container(
+                  margin: EdgeInsets.fromLTRB(30, 5, 30, 15),
+                  padding: EdgeInsets.fromLTRB(8, 10, 8, 10),
+                  color: Color(0xffF4F6FD),
+                  child: Text(
+                    '📍 상담내역 처리는 관리자 페이지에서 가능하며, 어플에서는 조회만 가능합니다.',
+                    style: TextStyle(fontSize: 15),
+                  )),
               ConsultingCard(
                   consultingList: upcomingConsulting, state: 'upcoming'),
               Container(
