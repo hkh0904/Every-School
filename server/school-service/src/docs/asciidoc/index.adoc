@@ -18,7 +18,10 @@ include::api/web/schoolapply/approve-school-apply.adoc[]
 include::api/web/schoolapply/reject-school-apply.adoc[]
 include::api/web/schoolapply/search-wait-school-apply.adoc[]
 include::api/web/schoolapply/search-approve-school-apply.adoc[]
+include::api/web/schoolapply/search-detail-school-apply.adoc[]
 
+
+== 아래는 수정 중
 
 
 [[School-API]]
