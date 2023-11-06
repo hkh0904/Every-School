@@ -18,4 +18,6 @@ include::api/call/create-donotdisturb.adoc[]
 include::api/call/search-donotdisturbs.adoc[]
 include::api/call/create-call-info.adoc[]
 include::api/call/search-calls.adoc[]
+include::api/call/call-record-start.adoc[]
+include::api/call/call-record-stop.adoc[]
 

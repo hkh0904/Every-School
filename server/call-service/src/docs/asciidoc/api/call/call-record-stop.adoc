@@ -1,0 +1,11 @@
+[[call-record-stop]]
+=== 통화 녹음 종료 API
+
+==== HTTP Request
+include::{snippets}/call-record-stop/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/call-record-stop/http-response.adoc[]
+include::{snippets}/call-record-stop/response-fields.adoc[]
+
