@@ -6,8 +6,11 @@ import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.request.ChatMessage;
 import com.everyschool.chatservice.api.controller.filterword.response.ChatFilterResponse;
 import com.everyschool.chatservice.api.service.filterword.dto.CreateFilterWordDto;
+import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.filterword.FilterWord;
 import com.everyschool.chatservice.domain.filterword.repository.FilterWordRepository;
+import com.everyschool.chatservice.domain.mongo.repository.DatabaseSequenceRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,18 @@ class FilterWordServiceTest extends IntegrationTestSupport {
 
     @MockBean
     private UserServiceClient userServiceClient;
+
+    @Autowired
+    private ChatRepository chatRepository;
+    @Autowired
+    private DatabaseSequenceRepository databaseSequenceRepository;
+
+    @AfterEach
+    void reset() {
+        chatRepository.deleteAll();
+        filterWordRepository.deleteAll();
+        databaseSequenceRepository.deleteAll();
+    }
 
     @DisplayName("필터 단어 등록은 관리자 계정이 아니면 예외가 발생한다.")
     @Test
