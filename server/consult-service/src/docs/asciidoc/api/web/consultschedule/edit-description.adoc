@@ -1,0 +1,13 @@
+[[edit-description]]
+=== [교직원] 상담 스케줄 설명 수정 API
+
+==== HTTP Request
+
+include::{snippets}/edit-description/http-request.adoc[]
+include::{snippets}/edit-description/request-fields.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/edit-description/http-response.adoc[]
+include::{snippets}/edit-description/response-fields.adoc[]

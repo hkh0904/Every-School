@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.domain.schooluser.repository;
 
-import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.DescendantInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
 import com.querydsl.core.types.Projections;
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static com.everyschool.schoolservice.domain.school.QSchool.school;
 import static com.everyschool.schoolservice.domain.schoolclass.QSchoolClass.schoolClass;
 import static com.everyschool.schoolservice.domain.schooluser.QSchoolUser.schoolUser;
 import static com.everyschool.schoolservice.domain.schooluser.UserType.*;
@@ -77,6 +79,27 @@ public class SchoolUserQueryRepository {
             .select(schoolUser)
             .from(schoolUser)
             .where(schoolUser.userId.in(userIds))
+            .fetch();
+    }
+
+    public List<DescendantInfo> findDescendantInfo(List<Long> userIds) {
+        return queryFactory
+            .select(Projections.constructor(
+                DescendantInfo.class,
+                schoolUser.userId,
+                schoolUser.school.name,
+                schoolUser.schoolYear,
+                schoolUser.schoolClass.grade,
+                schoolUser.schoolClass.classNum,
+                schoolUser.studentNumber
+            ))
+            .from(schoolUser)
+            .join(schoolUser.schoolClass, schoolClass)
+            .join(schoolUser.school, school)
+            .where(
+                schoolUser.isDeleted.isFalse(),
+                schoolUser.userId.in(userIds)
+            )
             .fetch();
     }
 }

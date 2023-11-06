@@ -1,0 +1,10 @@
+[[app-search-parent-info]]
+=== 학부모 회원 정보 조회 API
+
+==== HTTP Request
+include::{snippets}/app-search-parent-info/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/app-search-parent-info/http-response.adoc[]
+include::{snippets}/app-search-parent-info/response-fields.adoc[]

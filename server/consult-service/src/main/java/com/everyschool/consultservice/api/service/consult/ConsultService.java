@@ -64,7 +64,7 @@ public class ConsultService {
     public ApproveConsultResponse approveConsult(Long consultId) {
         Optional<Consult> findConsult = consultRepository.findById(consultId);
         if (findConsult.isEmpty()) {
-            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
+            throw new NoSuchElementException(UNREGISTERED_CONSULT.getMessage());
         }
         Consult consult = findConsult.get();
 
@@ -76,7 +76,7 @@ public class ConsultService {
     public FinishConsultResponse finishConsult(Long consultId, String resultContent) {
         Optional<Consult> findConsult = consultRepository.findById(consultId);
         if (findConsult.isEmpty()) {
-            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
+            throw new NoSuchElementException(UNREGISTERED_CONSULT.getMessage());
         }
         Consult consult = findConsult.get();
 
@@ -88,7 +88,7 @@ public class ConsultService {
     public RejectConsultResponse rejectConsult(Long consultId, String rejectedReason) {
         Optional<Consult> findConsult = consultRepository.findById(consultId);
         if (findConsult.isEmpty()) {
-            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
+            throw new NoSuchElementException(UNREGISTERED_CONSULT.getMessage());
         }
         Consult consult = findConsult.get();
 

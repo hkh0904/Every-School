@@ -1,0 +1,13 @@
+[[search-reports]]
+=== [교직원] 신고 내역 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-reports/http-request.adoc[]
+include::{snippets}/search-reports/request-parameters.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/search-reports/http-response.adoc[]
+include::{snippets}/search-reports/response-fields.adoc[]

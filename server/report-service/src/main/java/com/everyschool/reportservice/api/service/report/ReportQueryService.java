@@ -76,12 +76,12 @@ public class ReportQueryService {
 
         UserInfo userInfo = userServiceClient.searchByUserId(report.getUserId());
 
-        StudentInfo studentInfo = schoolServiceClient.searchByUserId(report.getUserId());
+//        StudentInfo studentInfo = schoolServiceClient.searchByUserId(report.getUserId());
 
         List<String> filePaths = report.getFiles().stream()
             .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
             .collect(Collectors.toList());
 
-        return ReportDetailResponse.of(report, userInfo, studentInfo, filePaths);
+        return ReportDetailResponse.of(report, userInfo, null, filePaths);
     }
 }
