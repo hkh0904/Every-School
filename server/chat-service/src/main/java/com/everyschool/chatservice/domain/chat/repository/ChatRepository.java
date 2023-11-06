@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ChatRepository extends MongoRepository<Chat, Long> {
 
-    List<Chat> findTop20ChatsByChatRoomIdAndIsBadAndIdLessThanOrderByIdDesc(Long chatRoomId, Boolean isBad, Long id);
+    List<Chat> findTop20ChatsByChatRoomIdAndStatusAndIdLessThanOrderByIdDesc(Long chatRoomId, Boolean isBad, Long id);
 }
