@@ -1,4 +1,6 @@
 import 'package:everyschool/api/base_api.dart';
+import 'package:everyschool/api/messenger_api.dart';
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/messenger/chat/bubble.dart';
 import 'package:everyschool/page/messenger/chat/chat_controller.dart';
 import 'package:everyschool/page/messenger/chat/chat.dart';
@@ -7,13 +9,14 @@ import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
 import 'dart:convert';
 
-final socketURL = SocketApi().socketURL;
+final socketURL = SocketApi().wsURL;
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
@@ -23,10 +26,31 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  sendMessage() {
+  final storage = FlutterSecureStorage();
+  String? token;
+  String? roomId;
+  String? roomTitle;
+  String? userName;
+
+  createChatroom() async {
+    final storage = FlutterSecureStorage();
+    token = await storage.read(key: 'token') ?? "";
+    print(1);
+    final result = await MessengerApi().createChatRoom(token);
+
+    print(2);
+    setState(() {
+      roomId = result['roomId'];
+      roomTitle = result['roomTitle'];
+      userName = result['userName'];
+    });
+    stompClient.activate();
+  }
+
+  void sendMessage() {
     print('메시지 보내기');
     stompClient.send(
-        destination: '/pub/chat.sendMessage',
+        destination: '/pub/chat.send',
         body: json.encode({
           "message": context.read<ChatController>().textEditingController.text,
         }),
@@ -46,7 +70,7 @@ class _ChatRoomState extends State<ChatRoom> {
     // client is connected and ready
     print('connected');
     stompClient.subscribe(
-      destination: '/seb/',
+      destination: '/seb/$roomId',
       callback: (frame) {
         print('여기가 바디야');
         print(frame.body);
@@ -71,8 +95,8 @@ class _ChatRoomState extends State<ChatRoom> {
     super.initState();
     //Important: If your server is running on localhost and you are testing your app on Android then replace http://localhost:3000 with http://10.0.2.2:3000
     // 소켓 통신 시작
+    createChatroom();
     print('시작');
-    stompClient.activate();
     print('하는 도중');
   }
 
