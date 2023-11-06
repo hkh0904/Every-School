@@ -4,7 +4,7 @@ import com.everyschool.reportservice.api.ApiResponse;
 import com.everyschool.reportservice.api.app.controller.report.request.CreateReportRequest;
 import com.everyschool.reportservice.api.app.controller.report.response.CreateReportResponse;
 import com.everyschool.reportservice.api.app.service.report.ReportAppService;
-import com.everyschool.reportservice.api.controller.FileStore;
+import com.everyschool.reportservice.api.FileStore;
 import com.everyschool.reportservice.domain.report.UploadFile;
 import com.everyschool.reportservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;

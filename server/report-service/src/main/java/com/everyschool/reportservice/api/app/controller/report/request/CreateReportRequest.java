@@ -1,6 +1,6 @@
 package com.everyschool.reportservice.api.app.controller.report.request;
 
-import com.everyschool.reportservice.api.service.report.dto.CreateReportDto;
+import com.everyschool.reportservice.api.app.service.report.dto.CreateReportDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
