@@ -14,6 +14,7 @@ import 'package:everyschool/store/chat_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 // fcm
 import 'package:firebase_core/firebase_core.dart';
@@ -55,6 +56,15 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> {
   String? fcmToken;
+  final storage = FlutterSecureStorage();
+
+  getuserType() async {
+    final storage = FlutterSecureStorage();
+    var userType = await storage.read(key: 'usertype') ?? "";
+    print('유저타입 $userType ${userType.runtimeType}');
+    return int.parse(userType);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -76,44 +86,64 @@ class _MainState extends State<Main> {
 
   int userNum = 1003;
 
-  List<Widget> getPagesForUser(int userNum) {
-    switch (userNum) {
-      case 1001:
-        return [
-          HomePage(),
-          ReportListPage(),
-          MessengerPage(),
-          CommunityPage(),
-          CategoryPage(),
-        ];
-      case 1002:
-        return [
-          HomePage(),
-          ConsultingListPage(),
-          MessengerPage(),
-          CommunityPage(),
-          CategoryPage(),
-        ];
-      default:
-        return [
-          HomePage(),
-          ReportConsultingPage(index: 0),
-          MessengerPage(),
-          CommunityPage(),
-          CategoryPage(),
-        ];
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = getPagesForUser(userNum);
-    return Scaffold(
-      body: pages[selectedIndex],
-      bottomNavigationBar: SizedBox(
-          height: 70,
-          child:
-              BtmNav(selectedIndex: selectedIndex, onItemTapped: onItemTapped)),
-    );
+    return FutureBuilder(
+        future: getuserType(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          List<Widget> getPagesForUser(int userNum) {
+            switch (snapshot.data) {
+              case 1001:
+                return [
+                  HomePage(),
+                  ReportListPage(),
+                  MessengerPage(),
+                  CommunityPage(),
+                  CategoryPage(),
+                ];
+              case 1002:
+                return [
+                  HomePage(),
+                  ConsultingListPage(),
+                  MessengerPage(),
+                  CommunityPage(),
+                  CategoryPage(),
+                ];
+              default:
+                return [
+                  HomePage(),
+                  ReportConsultingPage(index: 0),
+                  MessengerPage(),
+                  CommunityPage(),
+                  CategoryPage(),
+                ];
+            }
+          }
+
+          if (snapshot.hasData) {
+            List<Widget> pages = getPagesForUser(userNum);
+            return Scaffold(
+              body: pages[selectedIndex],
+              bottomNavigationBar: SizedBox(
+                  height: 70,
+                  child: BtmNav(
+                      selectedIndex: selectedIndex,
+                      onItemTapped: onItemTapped)),
+            );
+          } else if (snapshot.hasError) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(fontSize: 15),
+              ),
+            );
+          } else {
+            return Container(
+              height: 800,
+            );
+            ;
+          }
+        });
   }
 }
