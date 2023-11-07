@@ -1,17 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './ReportDetailPage.module.css';
 import { Row, Col } from 'antd';
 import Select from 'react-select';
+import { reportDetailInfo } from '../../api/UserAPI/reportAPI';
 
 export default function ReportDetailPage() {
   const location = useLocation();
-  const data = location.state.detailData;
-  const [selectedValue, setSelectedValue] = useState(data.report_status ? 'true' : 'false');
-  let selectOptions = [
-    { value: 'false', label: '처리 중' },
-    { value: 'true', label: '처리 완료' }
+  const { reportId } = location.state || {};
+  const [data, setData] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('');
+  const selectOptions = [
+    { value: 'receive', label: '접수 완료' },
+    { value: 'doing', label: '처리 중' },
+    { value: 'complete', label: '처리 완료' }
   ];
+
+  useEffect(() => {
+    const fetchDetail = async () => {
+      const detail = await reportDetailInfo(reportId);
+      setData(detail);
+
+      if (detail.status) {
+        const value = selectOptions.find((option) => option.label === detail.status)?.value || '';
+        setSelectedValue(value);
+      }
+    };
+    fetchDetail();
+  }, [reportId]);
 
   const customStyles = {
     container: (provided) => ({
@@ -86,22 +102,19 @@ export default function ReportDetailPage() {
               <div className={styles.contentText}>누가</div>
             </Col>
             <Col span={12} className={styles.line}>
-              <div className={styles.contentText}>{data.report_who}</div>
+              <div className={styles.contentText}>{data.who}</div>
             </Col>
             <Col span={9} className={[styles.line, styles.category]}>
               <div className={styles.contentText}>어디서</div>
             </Col>
             <Col span={12} className={styles.line}>
-              <div className={styles.contentText}>{data.report_where}</div>
+              <div className={styles.contentText}>{data.where}</div>
             </Col>
             <Col span={9} className={[styles.line, styles.category, styles.bottomLine]}>
               <div className={styles.contentText}>목격 일시</div>
             </Col>
             <Col span={12} className={[styles.line, styles.bottomLine]}>
-              <div className={styles.contentText}>
-                {data.report_when.split('.')[0]}.{data.report_when.split('.')[1]}.{data.report_when.split('.')[2]}{' '}
-                {data.report_when.split('.')[3]}시경
-              </div>
+              <div className={styles.contentText}>{data.when}</div>
             </Col>
             <Col span={21} style={{ marginTop: '40px' }} />
 
@@ -131,10 +144,18 @@ export default function ReportDetailPage() {
         {/* 오른쪽 박스 */}
         <Col span={12} className={styles.contentBox}>
           <Col span={24} className={[styles.line, styles.bottomLine]} style={{ backgroundColor: '#f6f5f9' }}>
+            <div className={styles.contentText}>제목</div>
+          </Col>
+          <Col span={24}>
+            <div className={[styles.reportBox]}>{data.description}</div>
+          </Col>
+          <Col span={24} className={[styles.line, styles.bottomLine]} style={{ backgroundColor: '#f6f5f9' }}>
             <div className={styles.contentText}>내용</div>
           </Col>
           <Col span={24} className={styles.bottomLine}>
-            <div className={[styles.reportBox]}>{data.report_content}</div>
+            <div className={[styles.reportBox]} style={{ minHeight: '25vh' }}>
+              {data.what}
+            </div>
           </Col>
         </Col>
       </Row>
