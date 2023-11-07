@@ -30,11 +30,11 @@ class UserApi {
 
   Future<dynamic> login(id, password, deviceToken) async {
     try {
-      final response =
-          await dio.post('${serverApi.serverURL}/user-service/login', data: {
+      final response = await dio
+          .post('${serverApi.serverURL}/user-service/login', data: {
         'email': id.text,
         'password': password.text,
-        // 'notiToken': deviceToken
+        'fcmToken': deviceToken
       });
       await storage.write(key: 'token', value: response.headers['token']?[0]);
       await storage.write(

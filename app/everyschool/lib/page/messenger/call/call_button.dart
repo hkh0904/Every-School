@@ -1,26 +1,52 @@
-import 'dart:async';
 import 'dart:math';
+
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:dio/dio.dart';
-import 'package:everyschool/api/agora_config.dart';
+import 'package:everyschool/page/messenger/call/answer_call.dart';
+import 'package:everyschool/page/messenger/call/call_modal.dart';
+import 'package:everyschool/page/messenger/call/call_page.dart';
 import 'package:everyschool/page/messenger/call/get_call.dart';
 import 'package:everyschool/page/messenger/call/get_call_success.dart';
-import 'package:everyschool/page/messenger/call/start_call.dart';
+import 'package:everyschool/page/messenger/call/modal_call_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'dart:convert';
 
-final AgoraConfig agoraConfig = AgoraConfig();
-
-class CallPage extends StatefulWidget {
-  const CallPage({super.key});
+class CallButton extends StatefulWidget {
+  const CallButton({super.key});
 
   @override
-  State<CallPage> createState() => _CallPageState();
+  State<CallButton> createState() => _CallButtonState();
 }
 
-class _CallPageState extends State<CallPage> {
+class _CallButtonState extends State<CallButton> {
   final Dio dio = Dio();
+
+  String randomString = '';
+  int tokenRole = 1; // use 1 for Host/Broadcaster, 2 for Subscriber/Audience
+  String serverUrl =
+      "https://agora-token-server-gst8.onrender.com"; // The base URL to your token server, for example "https://agora-token-service-production-92ff.up.railway.app"
+  int tokenExpireTime = 6000; // Expire time in Seconds.
+  bool isTokenExpiring = false; // Set to true when the token is about to expire
+  String? channelName; // To access the TextField
+  int uid = 1;
+
+  getChannelName(length) {
+    const String charset =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    final Random random = Random();
+    final StringBuffer buffer = StringBuffer();
+
+    for (int i = 0; i < length; i++) {
+      final int randomIndex = random.nextInt(charset.length);
+      buffer.write(charset[randomIndex]);
+    }
+    var newChannelName = buffer.toString();
+    setState(() {
+      channelName = newChannelName;
+    });
+  }
 
   Future<void> fetchToken(int uid, String channelName, int tokenRole,
       String serverUrl, int tokenExpireTime, bool isTokenExpiring) async {
@@ -63,6 +89,8 @@ class _CallPageState extends State<CallPage> {
       // Join a channel.
       showMessage("Token received, joining a channel...");
 
+      print('여기는 $reNewToken, $channelId, $uid');
+
       await agoraEngine.joinChannel(
         token: reNewToken,
         channelId: channelId,
@@ -70,9 +98,18 @@ class _CallPageState extends State<CallPage> {
         uid: uid,
       );
       setState(() {
-        _isJoined = true;
+        isJoined = true;
       });
+      _navigateToModalCallPage();
     }
+  }
+
+  void _navigateToModalCallPage() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => GetCall(leave: leave),
+      ),
+    );
   }
 
   Future<void> setupVoiceSDKEngine() async {
@@ -92,8 +129,9 @@ class _CallPageState extends State<CallPage> {
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           showMessage(
               "Local user uid:${connection.localUid} joined the channel");
+          print('아니 들어감:${connection.localUid} joined the channel');
           setState(() {
-            _isJoined = true;
+            isJoined = true;
           });
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
@@ -101,8 +139,24 @@ class _CallPageState extends State<CallPage> {
           print('상대방전화받았음');
 
           setState(() {
-            _remoteUid = remoteUid;
+            this.remoteUid = remoteUid;
           });
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => GetCallSuccess(leave: leave),
+            ),
+          );
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (BuildContext context, Animation<double> animation1,
+                      Animation<double> animation2) =>
+                  GetCallSuccess(leave: leave) //변경 필요
+              ,
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+            ),
+          );
         },
         onError: (ErrorCodeType rtcError, String error) {
           print("Error code: ${rtcError.toString()}");
@@ -113,7 +167,7 @@ class _CallPageState extends State<CallPage> {
           showMessage("Remote user uid:$remoteUid left the channel");
           print('전화끊음');
           setState(() {
-            _remoteUid = null;
+            this.remoteUid = null;
           });
         },
       ),
@@ -122,8 +176,8 @@ class _CallPageState extends State<CallPage> {
 
   void leave() {
     setState(() {
-      _isJoined = false;
-      _remoteUid = null;
+      isJoined = false;
+      remoteUid = null;
     });
     agoraEngine.leaveChannel();
     Navigator.of(context).pop();
@@ -134,10 +188,11 @@ class _CallPageState extends State<CallPage> {
     print('아고라 엔진 종료');
     super.dispose();
     await agoraEngine.leaveChannel();
+    await agoraEngine.release();
   }
 
-  int? _remoteUid;
-  bool _isJoined = false;
+  int? remoteUid;
+  bool isJoined = false;
   late RtcEngine agoraEngine;
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
@@ -152,34 +207,34 @@ class _CallPageState extends State<CallPage> {
   @override
   void initState() {
     super.initState();
-    // channelName = getChannelName(16);
+    getChannelName(16);
     setupVoiceSDKEngine();
   }
 
   @override
   Widget build(BuildContext context) {
-    // return GetCall(leave: leave);
-    if (!_isJoined) {
-      return StartCall(join: fetchToken, leave: leave);
-    } else if (_remoteUid == null) {
-      return GetCall(leave: leave);
+    if (channelName != null) {
+      return IconButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CallModal(
+                join: fetchToken,
+                uid: uid,
+                channelName: channelName,
+                tokenRole: tokenRole,
+                serverUrl: serverUrl,
+                tokenExpireTime: tokenExpireTime,
+                isTokenExpiring: isTokenExpiring,
+              );
+            },
+          );
+        },
+        icon: Icon(Icons.call),
+      );
     } else {
-      return GetCallSuccess(leave: leave);
+      return Container(); // 또는 다른 로딩 상태를 표시하는 위젯
     }
-  }
-
-  Widget _status() {
-    String statusText;
-
-    if (!_isJoined) {
-      statusText = 'Join a channel';
-    } else if (_remoteUid == null)
-      statusText = 'Waiting for a remote user to join...';
-    else
-      statusText = 'Connected to remote user, uid:$_remoteUid';
-
-    return Text(
-      statusText,
-    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:everyschool/page/messenger/call/call_button.dart';
 import 'package:everyschool/page/messenger/call/call_history.dart';
 
 import 'package:everyschool/page/messenger/call/call_page.dart';
@@ -103,7 +104,7 @@ class UserTapBar extends StatelessWidget {
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold))),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.call)),
+                    CallButton(),
                     IconButton(
                         onPressed: () {
                           Navigator.push(
