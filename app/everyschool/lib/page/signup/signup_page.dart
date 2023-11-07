@@ -2,8 +2,9 @@ import 'package:everyschool/page/signup/signup_form.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+  const SignupPage({super.key, this.usertype});
 
+  final usertype;
   @override
   State<SignupPage> createState() => _SignupPageState();
 }
@@ -55,7 +56,8 @@ class _SignupPageState extends State<SignupPage> {
                           return SignupForm(
                               emailAddress: email,
                               password: password,
-                              passwordCheck: passwordCheck);
+                              passwordCheck: passwordCheck,
+                              usertype: widget.usertype);
                         }))))
           ],
         ),

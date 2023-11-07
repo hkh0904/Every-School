@@ -1,5 +1,5 @@
 import 'package:everyschool/api/firebase_api.dart';
-import 'package:everyschool/api/login_api.dart';
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () async {
                         final deviceToken =
                             await FirebaseApi().getMyDeviceToken();
-                        int response = await LoginApi().login(
+                        int response = await UserApi().login(
                             widget.emailAddress, widget.password, deviceToken);
                         if (response == 1) {
                           loginSuccess();

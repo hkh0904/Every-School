@@ -1,18 +1,48 @@
+import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/page/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class AddInfoForm extends StatefulWidget {
-  const AddInfoForm({super.key});
+  const AddInfoForm({super.key, this.email, this.password, this.type});
+
+  final email;
+  final password;
+  final type;
 
   @override
   State<AddInfoForm> createState() => _AddInfoFormState();
 }
 
 class _AddInfoFormState extends State<AddInfoForm> {
+  String? devicetoken;
   TextEditingController name = TextEditingController();
+
+  TextEditingController year = TextEditingController();
+  TextEditingController month = TextEditingController();
+  TextEditingController day = TextEditingController();
   TextEditingController birthday = TextEditingController();
+
   final TextEditingController genderController = TextEditingController();
-  GenderLabel? selectedGender;
+  GenderLabel? selectedGender = GenderLabel.male;
   String? finalGender;
+
+  bool yearcheck = false;
+  bool monthcheck = false;
+  bool daycheck = false;
+
+  void getToken() async {
+    final storage = FlutterSecureStorage();
+    devicetoken = await storage.read(key: 'token') ?? "";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getToken();
+    finalGender = selectedGender!.gender;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,31 +133,32 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                     r"^(19[0-9][0-9]|20[01][0-9]|202[0-3])$")
                                 .hasMatch(value)) {
                               setState(() {
-                                // yearcheck = false;
+                                yearcheck = false;
                               });
                             } else {
                               setState(() {
-                                // yearcheck = true;
+                                yearcheck = true;
                               });
                             }
                           },
-                          // controller: controller,
+                          controller: year,
                           cursorColor: Color(0xffA1CBA1),
                           decoration: InputDecoration(
-                              // enabledBorder: yearcheck
-                              //     ? UnderlineInputBorder(
-                              //         borderSide: BorderSide(
-                              //             width: 1.5, color: Colors.black),
-                              //       )
-                              //     : UnderlineInputBorder()                              //         borderSide: BorderSide(
-                              //             width: 2, color: Colors.red)),
-                              // focusedBorder: UnderlineInputBorder(
-                              //   borderSide: BorderSide(
-                              //       width: 1.5,
-                              //       color: yearcheck
-                              //           ? Color(0xffA1CBA1)
-                              //           : Colors.red),
-                              // ),
+                              enabledBorder: yearcheck
+                                  ? UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 1.5, color: Colors.black),
+                                    )
+                                  : UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 2, color: Colors.red)),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.5,
+                                    color: yearcheck
+                                        ? Color(0xffA1CBA1)
+                                        : Colors.red),
+                              ),
                               counterText: '',
                               border: UnderlineInputBorder(),
                               isDense: true,
@@ -150,31 +181,32 @@ class _AddInfoFormState extends State<AddInfoForm> {
                             if (!RegExp(r"^(0?[1-9]|1[0-2])$")
                                 .hasMatch(value)) {
                               setState(() {
-                                // monthcheck = false;
+                                monthcheck = false;
                               });
                             } else {
                               setState(() {
-                                // monthcheck = true;
+                                monthcheck = true;
                               });
                             }
                           },
-                          // controller: controller2,
+                          controller: month,
                           cursorColor: Color(0xffA1CBA1),
                           decoration: InputDecoration(
-                              // enabledBorder: monthcheck
-                              //     ? UnderlineInputBorder(
-                              //         borderSide: BorderSide(
-                              //             width: 1.5, color: Colors.black),
-                              //       )
-                              //     : UnderlineInputBorder()                              //         borderSide: BorderSide(
-                              //             width: 2, color: Colors.red)),
-                              // focusedBorder: UnderlineInputBorder(
-                              //   borderSide: BorderSide(
-                              //       width: 1.5,
-                              //       color: monthcheck
-                              //           ? Color(0xffA1CBA1)
-                              //           : Colors.red),
-                              // ),
+                              enabledBorder: monthcheck
+                                  ? UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 1.5, color: Colors.black),
+                                    )
+                                  : UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 2, color: Colors.red)),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.5,
+                                    color: monthcheck
+                                        ? Color(0xffA1CBA1)
+                                        : Colors.red),
+                              ),
                               counterText: '',
                               border: UnderlineInputBorder(),
                               isDense: true,
@@ -196,33 +228,33 @@ class _AddInfoFormState extends State<AddInfoForm> {
                             if (!RegExp(r"^(0?[1-9]|[12][0-9]|3[01])$")
                                 .hasMatch(value)) {
                               setState(() {
-                                // daycheck = false;
+                                daycheck = false;
                               });
                             } else {
                               setState(() {
-                                // daycheck = true;
+                                daycheck = true;
                               });
                             }
                           },
                           maxLength: 2,
                           cursorColor: Color(0xffA1CBA1),
-                          // controller: controller3,
+                          controller: day,
                           decoration: InputDecoration(
-
-                              // enabledBorder: daycheck
-                              //     ? UnderlineInputBorder(
-                              //         borderSide: BorderSide(
-                              //             width: 1.5, color: Colors.black),
-                              //       )
-                              //     : UnderlineInputBorder()                              //         borderSide: BorderSide(
-                              //             width: 2, color: Colors.red)),
-                              // focusedBorder: UnderlineInputBorder(
-                              //   borderSide: BorderSide(
-                              //       width: 1.5,
-                              //       color: daycheck
-                              //           ? Color(0xffA1CBA1)
-                              //           : Colors.red),
-                              // ),
+                              enabledBorder: daycheck
+                                  ? UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 1.5, color: Colors.black),
+                                    )
+                                  : UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 2, color: Colors.red)),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1.5,
+                                    color: daycheck
+                                        ? Color(0xffA1CBA1)
+                                        : Colors.red),
+                              ),
                               counterText: '',
                               border: UnderlineInputBorder(),
                               isDense: true,
@@ -332,80 +364,79 @@ class _AddInfoFormState extends State<AddInfoForm> {
                   children: [
                     Flexible(
                       child: TextButton(
-                          onPressed: () {},
-                          // onPressed: yearcheck &&
-                          //         monthcheck &&
-                          //         daycheck &&
-                          //         context.watch<UserStore>().policycheck
-                          //     ? () async {
-                          //         if (controller2.text.length == 1) {
-                          //           controller2.text = '0${controller2.text}';
-                          //         }
-                          //         if (controller3.text.length == 1) {
-                          //           controller3.text = '0${controller3.text}';
-                          //         }
-                          //         birthday =
-                          //             '${controller.text}-${controller2.text}-${controller3.text}';
-                          //         final deviceToken =
-                          //             context.read<UserStore>().deviceToken;
+                          onPressed: yearcheck && monthcheck && daycheck
+                              ? () async {
+                                  if (month.text.length == 1) {
+                                    month.text = '0${month.text}';
+                                  }
+                                  if (day.text.length == 1) {
+                                    day.text = '0${day.text}';
+                                  }
+                                  birthday.text =
+                                      '${year.text}-${month.text}-${day.text}';
 
-                          //         final loginres = await pageapi.signup(
-                          //             widget.user['userEmail'].toString(),
-                          //             widget.user['userPwd'].toString(),
-                          //             birthday,
-                          //             selectedGenderString,
-                          //             selectedVeganNumber,
-                          //             selectedAllergieNumber,
-                          //             deviceToken.toString());
-
-                          //         if (loginres is Map &&
-                          //             loginres.containsKey('accessToken')) {
-                          //           final accessToken = loginres['accessToken'];
-                          //           final refreshToken =
-                          //               loginres['refreshToken'];
-                          //           context
-                          //               .read<UserStore>()
-                          //               .disposePolicyCheck();
-
-                          //           await widget.storage.write(
-                          //               key: "login",
-                          //               value:
-                          //                   "accessToken $accessToken refreshToken $refreshToken");
-
-                          //           Navigator.pushAndRemoveUntil(
-                          //               context,
-                          //               MaterialPageRoute(
-                          //                   builder: (BuildContext context) =>
-                          //                       Main()),
-                          //               (route) => false);
-                          //         } else {
-                          //           showDialog(
-                          //               context: context,
-                          //               builder: ((context) {
-                          //                 return AlertDialog(
-                          //                   actions: <Widget>[
-                          //                     TextButton(
-                          //                         onPressed: () {
-                          //                           Navigator.of(context).pop();
-                          //                         },
-                          //                         child: Text('닫기'))
-                          //                   ],
-                          //                   content: SingleChildScrollView(
-                          //                     child: Text('나중에 다시 시도해주세요.'),
-                          //                   ),
-                          //                 );
-                          //               }));
-                          //         }
-                          //       }
-                          //     : null,
-                          // style: ButtonStyle(
-                          //     backgroundColor: yearcheck &&
-                          //             monthcheck &&
-                          //             daycheck &&
-                          //             context.watch<UserStore>().policycheck
-                          //         ? MaterialStatePropertyAll(Color(0xffA1CBA1))
-                          //         : MaterialStatePropertyAll(Colors.grey)),
-                          style: ButtonStyle(),
+                                  final response = await UserApi().parentSignUp(
+                                      widget.type,
+                                      widget.email.text,
+                                      widget.password.text,
+                                      name.text,
+                                      birthday.text,
+                                      finalGender);
+                                  print('여기는 나와서 ${response['data']}');
+                                  if (response['data'] is Map) {
+                                    showDialog(
+                                        context: context,
+                                        builder: ((context) {
+                                          return WillPopScope(
+                                            onWillPop: () async {
+                                              return false;
+                                            },
+                                            child: AlertDialog(
+                                              actions: <Widget>[
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              LoginPage(),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Text('닫기'))
+                                              ],
+                                              content: SingleChildScrollView(
+                                                child: Text('회원가입이 완료됐습니다.'),
+                                              ),
+                                            ),
+                                          );
+                                        }));
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: ((context) {
+                                          return AlertDialog(
+                                            actions: <Widget>[
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('닫기'))
+                                            ],
+                                            content: SingleChildScrollView(
+                                              child: Text('나중에 다시 시도해주세요.'),
+                                            ),
+                                          );
+                                        }));
+                                  }
+                                }
+                              : null,
+                          style: ButtonStyle(
+                              backgroundColor: yearcheck &&
+                                      monthcheck &&
+                                      daycheck
+                                  ? MaterialStatePropertyAll(Color(0xffA1CBA1))
+                                  : MaterialStatePropertyAll(Colors.grey)),
                           child: SizedBox(
                             height: 30,
                             child: Row(
