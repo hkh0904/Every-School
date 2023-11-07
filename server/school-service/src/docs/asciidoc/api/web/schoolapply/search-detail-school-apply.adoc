@@ -1,0 +1,10 @@
+[[search-detail-school-apply]]
+=== 학급 승인 상세 조회 API
+
+==== HTTP Request
+include::{snippets}/search-detail-school-apply/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-detail-school-apply/http-response.adoc[]
+include::{snippets}/search-detail-school-apply/response-fields.adoc[]

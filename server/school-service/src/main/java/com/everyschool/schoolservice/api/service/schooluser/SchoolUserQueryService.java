@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.everyschool.schoolservice.ErrorMessage.NOT_EXIST_MY_SCHOOL_CLASS;
+import static com.everyschool.schoolservice.error.ErrorMessage.NOT_EXIST_MY_SCHOOL_CLASS;
 
 @RequiredArgsConstructor
 @Service

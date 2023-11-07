@@ -24,7 +24,7 @@ public class ChatRoomQueryController {
      *
      * @return
      */
-    @GetMapping("/chat-room")
+    @GetMapping
     public ApiResponse<List<ChatRoomListResponse>> searchChatRoomList(@RequestHeader("Authorization") String token) {
 
         List<ChatRoomListResponse> responses = chatRoomQueryService.searchChatRooms(token);

@@ -11,6 +11,11 @@ endif::[]
 
 include::overview.adoc[]
 
+[[Web-Board-API]]
+== Web Board API
+include::api/web/board/web-create-notice-board.adoc[]
+include::api/web/board/web-create-communication-board.adoc[]
+
 [[Free-Board-API]]
 == Free Board API
 
@@ -23,7 +28,6 @@ include::api/board/search-new-free-boards.adoc[]
 [[Notice-Board-API]]
 == Notice Board API
 
-include::api/board/create-notice-board.adoc[]
 include::api/board/search-notice-boards.adoc[]
 include::api/board/search-notice-board.adoc[]
 include::api/board/search-new-notice-boards.adoc[]
@@ -32,7 +36,6 @@ include::api/board/search-new-notice-boards.adoc[]
 [[Communication-Board-API]]
 == Communication Board API
 
-include::api/board/create-communication-board.adoc[]
 include::api/board/search-communication-boards.adoc[]
 include::api/board/search-communication-board.adoc[]
 include::api/board/search-new-communication-boards.adoc[]

@@ -8,13 +8,22 @@ class UserApi {
   ServerApi serverApi = ServerApi();
 
   Future<dynamic> getUserInfo(token) async {
+    var userType = await storage.read(key: 'usertype');
+    String lastAdd;
+    if (userType == '1001') {
+      lastAdd = '/v1/app/info/student';
+    } else if (userType == '1002') {
+      lastAdd = '/v1/app/info/parent';
+    } else {
+      lastAdd = '/v1/app/info/teacher';
+    }
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/user-service/v1/info',
+          '${serverApi.serverURL}/user-service$lastAdd',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
+      print(e);
       return 0;
     }
   }
@@ -30,8 +39,11 @@ class UserApi {
       await storage.write(key: 'token', value: response.headers['token']?[0]);
       await storage.write(
           key: 'userKey', value: response.headers['userKey']?[0]);
+      await storage.write(
+          key: 'usertype', value: response.headers['usertype']?[0]);
       return 1;
     } catch (e) {
+      print(e);
       return 0;
     }
   }

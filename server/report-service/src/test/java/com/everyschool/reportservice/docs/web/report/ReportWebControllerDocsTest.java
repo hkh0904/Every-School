@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ReportWebControllerDocsTest extends RestDocsSupport {
 
     private final ReportWebService reportWebService = mock(ReportWebService.class);
-    private final String URL = "/report-service/v1/web/{schoolYear}/schools/{schoolId}/reports";
+    private final String BASE_URL = "/report-service/v1/web/{schoolYear}/schools/{schoolId}/reports";
 
     @Override
     protected Object initController() {
@@ -50,7 +50,7 @@ public class ReportWebControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                patch(URL + "/{reportId}", 2023, 21617, 1)
+                patch(BASE_URL + "/{reportId}", 2023, 21617, 1)
                     .header("Authorization", "Bearer Access Token")
                     .param("status", "7002")
             )
@@ -101,11 +101,11 @@ public class ReportWebControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-            patch(URL + "/{reportId}/result", 2023, 21617, 1)
-                .header("Authorization", "Bearer Access Token")
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-        )
+                patch(BASE_URL + "/{reportId}/result", 2023, 21617, 1)
+                    .header("Authorization", "Bearer Access Token")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("edit-result",
