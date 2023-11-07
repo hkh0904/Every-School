@@ -61,7 +61,6 @@ class _MainState extends State<Main> {
   getuserType() async {
     final storage = FlutterSecureStorage();
     var userType = await storage.read(key: 'usertype') ?? "";
-    print('유저타입 $userType ${userType.runtimeType}');
     return int.parse(userType);
   }
 

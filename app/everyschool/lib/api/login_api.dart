@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/base_api.dart';
+import 'package:everyschool/api/firebase_api.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginApi {
@@ -12,7 +13,7 @@ class LoginApi {
           .post('${serverApi.serverURL}/user-service/login', data: {
         'email': id.text,
         'password': password.text,
-        // 'notiToken': deviceToken
+        'fcmToken': deviceToken
       });
       await storage.write(key: 'token', value: response.headers['token']?[0]);
       await storage.write(
