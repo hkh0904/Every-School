@@ -83,4 +83,18 @@ class UserApi {
       print(e);
     }
   }
+
+  //사용자 학교 등록
+  Future<dynamic> getSchoolList(schoolName) async {
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.get(
+          '${serverApi.serverURL}/school-service/v1/schools?query=$schoolName',
+          data: {'schoolName': schoolName});
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      // rethrow;
+    }
+  }
 }

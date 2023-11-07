@@ -1,4 +1,4 @@
-import 'package:everyschool/api/userapi/user_api.dart';
+import 'package:everyschool/api/user_api.dart';
 import 'package:flutter/material.dart';
 
 class School {
