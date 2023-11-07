@@ -1,11 +1,11 @@
 import { useMemo, useEffect, useState } from 'react';
 import Table from '../../component/Table/Table';
-import styles from './ReportHistoryPage.module.css';
+import styles from './BadComplainHistory.module.css';
 import SvgIcon from '@mui/material/SvgIcon';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { receivedReportInfo } from '../../api/UserAPI/reportAPI';
 
-export default function ReportHistoryPage() {
+export default function BadComplainHistoryPage() {
   const columns = useMemo(
     () => [
       {
