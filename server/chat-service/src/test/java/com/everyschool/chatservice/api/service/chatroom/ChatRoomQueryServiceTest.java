@@ -6,6 +6,7 @@ import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.ChatRoomListResponse;
 import com.everyschool.chatservice.api.service.SequenceGeneratorService;
 import com.everyschool.chatservice.domain.chat.Chat;
+import com.everyschool.chatservice.domain.chat.ChatStatus;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
@@ -100,7 +101,7 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
                 .id(sequenceGeneratorService.generateSequence(Chat.SEQUENCE_NAME))
                 .userId(sender.getUserId())
                 .content(message)
-                .isBad(false)
+                .status(ChatStatus.PLANE.getCode())
                 .chatRoomId(savedChatRoom.getId())
                 .build());
     }
