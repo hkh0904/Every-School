@@ -4,6 +4,7 @@ import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.ChatResponse;
 import com.everyschool.chatservice.domain.chat.Chat;
+import com.everyschool.chatservice.domain.chat.ChatStatus;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.mongodb.lang.Nullable;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class ChatQueryService {
         if (idx == null) {
             idx = Long.MAX_VALUE;
         }
-        List<Chat> list = chatRepository.findTop20ChatsByChatRoomIdAndStatusAndIdLessThanOrderByIdDesc(chatRoomId, false, idx);
+        List<Chat> list = chatRepository.findTop20ChatsByChatRoomIdAndStatusAndIdLessThanOrderByIdDesc(chatRoomId, ChatStatus.PLANE.getCode(), idx);
         List<ChatResponse> responses = new ArrayList<>();
         for (Chat chat : list) {
             ChatResponse response = createChatResponse(loginUser, chat);
