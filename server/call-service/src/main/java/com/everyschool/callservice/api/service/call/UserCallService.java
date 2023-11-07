@@ -32,6 +32,10 @@ public class UserCallService {
         UserInfo otherUser = userServiceClient.searchUserInfoByUserKey(otherUserKey);
         UserInfo teacher = userServiceClient.searchUserInfo(token);
 
+        System.out.println("UserCallService");
+        System.out.println("otherUser" + otherUserKey);
+        System.out.println("teacher" + teacher);
+
         String senderName = otherUser.getUserName();
         String receiverName = teacher.getUserName();
 
@@ -41,7 +45,6 @@ public class UserCallService {
         }
 
         UserCall savedUserCall = insertCall(dto, teacher.getUserId(), otherUser.getUserId(), senderName, receiverName);
-//        UserCall savedUserCall = insertCall(dto, 1L, 2L, "선생님", "학부모");
         return UserCallResponse.of(savedUserCall);
     }
 
