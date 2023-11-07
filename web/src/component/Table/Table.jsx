@@ -39,33 +39,25 @@ export default function Table({ columns, data }) {
             return (
               <tr className={styles.tableEle} {...row.getRowProps()}>
                 {row.cells.map((cell) => {
-                  let cellValue = String(cell.value);
+                  // let cellValue = String(cell.value);
                   // 'parent' 열의 값 처리
-                  if (cell.column.id === 'parent' || cell.column.id === 'status') {
-                    return (
-                      <td className={styles.tableEle} {...cell.getCellProps()}>
-                        {cell.value ? 'O' : 'X'}
-                      </td>
-                    );
-                  }
-                  // 'birth' 열의 값 처리
-                  else if (cell.column.id === 'birth') {
-                    return (
-                      <td className={styles.tableEle} {...cell.getCellProps()}>
-                        {`${cellValue.slice(0, 4)}.${cellValue.slice(4, 6)}.${cellValue.slice(6)}`}
-                      </td>
-                    );
-                  }
+                  // if (cell.column.id === 'parent' || cell.column.id === 'status') {
+                  //   return (
+                  //     <td className={styles.tableEle} {...cell.getCellProps()}>
+                  //       {cell.value ? 'O' : 'X'}
+                  //     </td>
+                  //   );
+                  // }
                   // 'tel' 열의 값 처리
-                  else if (cell.column.id === 'tel') {
-                    return (
-                      <td className={styles.tableEle} {...cell.getCellProps()}>
-                        {`${cell.value.slice(0, 3)}-${cell.value.slice(3, 7)}-${cell.value.slice(7)}`}
-                      </td>
-                    );
-                  }
+                  // else if (cell.column.id === 'tel') {
+                  //   return (
+                  //     <td className={styles.tableEle} {...cell.getCellProps()}>
+                  //       {`${cell.value.slice(0, 3)}-${cell.value.slice(3, 7)}-${cell.value.slice(7)}`}
+                  //     </td>
+                  //   );
+                  // }
                   // 'detail' 열의 값 처리
-                  else if (cell.column.id === 'detail') {
+                  if (cell.column.id === 'detail') {
                     return (
                       <td className={styles.tableEle} {...cell.getCellProps()}>
                         <div className={styles.row} style={{cursor: 'pointer'}} onClick={() => handleClick(cell.row.values.detail)}>
