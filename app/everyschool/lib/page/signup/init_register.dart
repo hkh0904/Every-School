@@ -11,8 +11,16 @@ class InitRegister extends StatefulWidget {
 
 class _InitRegisterState extends State<InitRegister> {
   var selectList = [
-    {'image': 'assets/images/mypage/parent.png', 'value': '학부모'},
-    {'image': 'assets/images/mypage/student.png', 'value': '학생'},
+    {
+      'image': 'assets/images/mypage/parent.png',
+      'value': '학부모',
+      'type': '1002'
+    },
+    {
+      'image': 'assets/images/mypage/student.png',
+      'value': '학생',
+      'type': '1001'
+    },
   ];
 
   @override
@@ -22,13 +30,8 @@ class _InitRegisterState extends State<InitRegister> {
         backgroundColor: Color(0xffD4DAF7),
         elevation: 0,
         leading: BackButton(
-            color: Colors.black,
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => Main()),
-                  (Route route) => false);
-            }),
+          color: Colors.black,
+        ),
       ),
       body: Container(
         color: Color(0xffD4DAF7),

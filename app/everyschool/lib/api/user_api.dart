@@ -47,4 +47,40 @@ class UserApi {
       return 0;
     }
   }
+
+  Future<dynamic> parentSignUp(
+      code, email, password, name, birth, gender) async {
+    try {
+      final response = await dio
+          .post('${serverApi.serverURL}/user-service/join/parent', data: {
+        'userCode': code,
+        'email': email,
+        'password': password,
+        'name': name,
+        'birth': birth,
+        "parentType": gender
+      });
+      print('여기 회원가입 되돌리는,${response.data}');
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> studentSignUp(code, email, password, name, birth) async {
+    try {
+      final response = await dio
+          .post('${serverApi.serverURL}/user-service/join/parent', data: {
+        'userCode': code,
+        'email': email.text,
+        'password': password.text,
+        'name': name,
+        'birth': birth,
+      });
+
+      return 1;
+    } catch (e) {
+      print(e);
+    }
+  }
 }
