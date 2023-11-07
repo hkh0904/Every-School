@@ -2,11 +2,9 @@ package com.everyschool.reportservice.api.web.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
 import com.everyschool.reportservice.api.Result;
-import com.everyschool.reportservice.api.service.report.ReportQueryService;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebQueryService;
-import com.everyschool.reportservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

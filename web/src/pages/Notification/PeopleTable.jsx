@@ -8,6 +8,7 @@ export default function PeopleTable({ selectAll }) {
   useEffect(() => {
     const newList = getParentList();
     console.log(newList);
+    setPatentList(newList);
   }, []);
 
   const headers = [

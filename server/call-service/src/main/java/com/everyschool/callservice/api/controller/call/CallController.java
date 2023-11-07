@@ -2,6 +2,7 @@ package com.everyschool.callservice.api.controller.call;
 
 import com.everyschool.callservice.api.ApiResponse;
 import com.everyschool.callservice.api.client.VoiceAiServiceClient;
+import com.everyschool.callservice.api.client.response.RecordResultInfo;
 import com.everyschool.callservice.api.client.response.RecordStartInfo;
 import com.everyschool.callservice.api.client.response.RecordStopInfo;
 import com.everyschool.callservice.api.controller.FileStore;
@@ -15,8 +16,9 @@ import com.everyschool.callservice.domain.call.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -57,16 +59,31 @@ public class CallController {
         CallResponse response = callService.createCallInfo(dto, request.getOtherUserKey(), token);
         log.debug("SavedCallResponse={}", response);
 
+//        createRecordAnalysis(request.getFile(), response.getCallId());
+
         return ApiResponse.created("통화 내용 저장 완료.");
     }
 
+    @Async
+    public void createRecordAnalysis(MultipartFile file, Long callId) throws IOException {
+        try {
+            RecordResultInfo res = voiceAiServiceClient.recordAnalysis(file);
+
+            callService.updateCallInfo(callId, res);
+
+            System.out.println(res);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     /**
      * 음성 파일 다운로드
      */
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<byte[]> download(@PathVariable String fileName) throws IOException {
-        return fileStore.getObject(fileName);
-    }
+//    @GetMapping("/download/{fileName}")
+//    public ResponseEntity<byte[]> download(@PathVariable String fileName) throws IOException {
+//        return fileStore.getObject(fileName);
+//    }
 
     /**
      * 통화 상세 기록 등록 API
@@ -116,5 +133,7 @@ public class CallController {
 
         return ApiResponse.created(res);
     }
+
+
 
 }

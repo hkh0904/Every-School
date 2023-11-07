@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:everyschool/page/mypage/select_school.dart';
 
 class UserInfoCorrection extends StatefulWidget {
   const UserInfoCorrection({super.key});
@@ -118,7 +119,15 @@ class _UserInfoCorrectionState extends State<UserInfoCorrection> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text('학교', style: myTextStyle),
-              Text('학교 정보 설정'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SelectSchool()),
+                  );
+                },
+                child: Text('학교 정보 설정'),
+              )
             ],
           ),
           SizedBox(

@@ -29,8 +29,6 @@ public class CallQueryRepository {
                         call.sender,
                         call.startDateTime,
                         call.endDateTime,
-                        call.uploadFileName,
-                        call.storeFileName,
                         call.isBad
                 ))
                 .from(call)
@@ -50,8 +48,6 @@ public class CallQueryRepository {
                         call.sender,
                         call.startDateTime,
                         call.endDateTime,
-                        call.uploadFileName,
-                        call.storeFileName,
                         call.isBad
                 ))
                 .from(call)

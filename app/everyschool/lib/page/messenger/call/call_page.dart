@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/agora_config.dart';
 import 'package:everyschool/page/messenger/call/get_call.dart';
@@ -68,6 +69,9 @@ class _CallPageState extends State<CallPage> {
         options: options,
         uid: uid,
       );
+      setState(() {
+        _isJoined = true;
+      });
     }
   }
 
@@ -122,9 +126,9 @@ class _CallPageState extends State<CallPage> {
       _remoteUid = null;
     });
     agoraEngine.leaveChannel();
+    Navigator.of(context).pop();
   }
 
-// Clean up the resources when you leave
   @override
   void dispose() async {
     print('아고라 엔진 종료');
@@ -148,6 +152,7 @@ class _CallPageState extends State<CallPage> {
   @override
   void initState() {
     super.initState();
+    // channelName = getChannelName(16);
     setupVoiceSDKEngine();
   }
 

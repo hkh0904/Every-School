@@ -1,6 +1,6 @@
 package com.everyschool.reportservice.api.web.service.report;
 
-import com.everyschool.reportservice.api.controller.FileStore;
+import com.everyschool.reportservice.api.FileStore;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.domain.report.Report;

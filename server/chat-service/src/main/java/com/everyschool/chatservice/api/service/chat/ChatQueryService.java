@@ -22,6 +22,14 @@ public class ChatQueryService {
     private final ChatRepository chatRepository;
     private final UserServiceClient userServiceClient;
 
+    /**
+     * 채팅 목록 가져오기
+     *
+     * @param chatRoomId
+     * @param idx
+     * @param token
+     * @return
+     */
     public List<ChatResponse> searchChat(Long chatRoomId, @Nullable Long idx, String token) {
         UserInfo loginUser = userServiceClient.searchUserInfo(token);
 

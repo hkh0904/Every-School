@@ -1,0 +1,10 @@
+[[approve-school-apply]]
+=== 등록 신청 승인 API
+
+==== HTTP Request
+include::{snippets}/approve-school-apply/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/approve-school-apply/http-response.adoc[]
+include::{snippets}/approve-school-apply/response-fields.adoc[]

@@ -1,22 +1,43 @@
 .container {
-  background-color: #F6F5F9;
+  background-color: #f6f5f9;
   height: 90vh;
   padding: 5vw;
   padding-top: 3vw;
 }
 
-.inrow {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 .headText {
   font-weight: bold;
   font-size: 1.5vw;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   margin-left: 0.3rem;
+}
+
+.contentText {
+  font-weight: bold;
+  font-size: 1vw;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 0.3rem;
+}
+
+.pickerText {
+  font-weight: bold;
+  font-size: 1vw;
+}
+
+.line {
+  border-top: 3px solid #f2f2f2;
+  padding-left: 15px;
+}
+
+.bottomLine {
+  border-bottom: 3px solid #f2f2f2;
+}
+
+.category {
+  border-right: 2px solid #f2f2f2;
+  background-color: #f6f5f9;
 }
 
 .selectItem {
@@ -29,25 +50,21 @@
   outline: none;
 }
 
-.whiteBox {
-  display: flex;
-  background-color: white;
-  border: 1px #D9D9D9 solid;
-  height: 2vh;
-  border-radius: 8px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 1.1vw;
-}
-
 .contentBox {
   background-color: white;
-  height: 55vh;
-  border: 1px #D9D9D9 solid;
+  border: 1px #d9d9d9 solid;
   border-radius: 8px;
-  padding: 20px;
+  padding: 50px;
   font-size: 1.4vw;
   line-height: 1.5;
+}
+
+.reportBox {
+  font-size: 1.3vw;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  /* height: 20vh; */
+  line-height: 1.7;
 }

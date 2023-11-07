@@ -4,7 +4,8 @@ import 'package:everyschool/page/report_consulting/teacher_report_get_page.dart'
 import 'package:flutter/material.dart';
 
 class ReportConsultingPage extends StatefulWidget {
-  const ReportConsultingPage({super.key});
+  const ReportConsultingPage({super.key, this.index});
+  final index;
 
   @override
   State<ReportConsultingPage> createState() => _ReportConsultingPageState();
@@ -17,7 +18,8 @@ class _ReportConsultingPageState extends State<ReportConsultingPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController =
+        TabController(initialIndex: widget.index, length: 3, vsync: this);
   }
 
   @override
@@ -61,7 +63,7 @@ class _ReportConsultingPageState extends State<ReportConsultingPage>
                     )),
                     Tab(
                         child: Text(
-                      '상담 내역',
+                      '받은 신고 내역',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
