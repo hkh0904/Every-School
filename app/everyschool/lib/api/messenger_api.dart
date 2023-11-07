@@ -29,7 +29,7 @@ class MessengerApi {
     try {
       final response = await dio.get('${socketApi.httpURL}/v1/chat-rooms',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      print(response.data);
+      print(response.data['data']);
       print('채팅목록 불러오기 성공 실행');
       return response.data['data'];
     } catch (e) {
