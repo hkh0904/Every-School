@@ -8,18 +8,40 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+  
+  Future<dynamic> getChatList() async {
+    final 
+    
+  }
+  
+  return FutureBuilder(
+        future = getChatList(),
+        builder = (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return()
+          } else if (snapshot.hasError){
+return Padding(
+             padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Error: ${snapshot.error}',
+              style: TextStyle(fontSize: 15),
+             ),
+          );
+          } else {
+            return Container(
+              height: 800,
+            );
+          }
+        });
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
-  final chatList = [
-    {'name': '이지혁', 'time': '2023.03.02 15:13', 'last': '아름다운 하늘을 봐볼래?'},
-    {'name': '가라마', 'time': '2023.03.13 08:13', 'last': '우리 헤어지자....'},
-    {'name': '고등어', 'time': '2023.03.17 15:13', 'last': '그러지마 제발'},
-    {'name': '가자미', 'time': '2023.03.19 17:13', 'last': '돈노와 돈노와 !!!!!'}
-  ];
+  final chatList = [];
 
   @override
   Widget build(BuildContext context) {

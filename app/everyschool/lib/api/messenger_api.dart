@@ -13,7 +13,7 @@ class MessengerApi {
             "opponentUserKey": '099ced50-cb18-4ebe-a445-fee91677d8ed',
             "loginUserType": "M",
             "schoolClassId": 1,
-            "relation": "1학년 1반 임우택(모)"
+            "relation": "정인재 선생님"
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print(response.data);

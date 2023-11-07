@@ -28,22 +28,21 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   final storage = FlutterSecureStorage();
   String? token;
-  String? roomId;
+  int? roomId = 3;
   String? roomTitle;
   String? userName;
 
   createChatroom() async {
     final storage = FlutterSecureStorage();
     token = await storage.read(key: 'token') ?? "";
-    print(1);
-    final result = await MessengerApi().createChatRoom(token);
 
-    print(2);
-    setState(() {
-      roomId = result['roomId'];
-      roomTitle = result['roomTitle'];
-      userName = result['userName'];
-    });
+    // final result = await MessengerApi().createChatRoom(token);
+
+    // setState(() {
+    //   roomId = result['roomId'];
+    //   roomTitle = result['roomTitle'];
+    //   userName = result['userName'];
+    // });
     stompClient.activate();
   }
 
@@ -52,6 +51,8 @@ class _ChatRoomState extends State<ChatRoom> {
     stompClient.send(
         destination: '/pub/chat.send',
         body: json.encode({
+          'chatRoomId': 3,
+          'senderUserKey': '68ab4b00-1729-4021-aa73-fa40a3ecc9e2',
           "message": context.read<ChatController>().textEditingController.text,
         }),
         headers: {});
@@ -69,8 +70,10 @@ class _ChatRoomState extends State<ChatRoom> {
   void onConnectCallback(StompFrame connectFrame) {
     // client is connected and ready
     print('connected');
+    print('여기 룸 아이디 $roomId');
     stompClient.subscribe(
-      destination: '/seb/$roomId',
+      destination: '/sub/3',
+      headers: {'Authorization': 'Bearer $token'},
       callback: (frame) {
         print('여기가 바디야');
         print(frame.body);
@@ -87,7 +90,7 @@ class _ChatRoomState extends State<ChatRoom> {
   late StompClient stompClient = StompClient(
       config: StompConfig(
           url: socketURL,
-          webSocketConnectHeaders: {'login': 'your', 'password': 'hhhh'},
+          webSocketConnectHeaders: {'Authorization': 'Bearer $token'},
           onConnect: onConnectCallback));
 
   @override
@@ -98,6 +101,14 @@ class _ChatRoomState extends State<ChatRoom> {
     createChatroom();
     print('시작');
     print('하는 도중');
+  }
+
+  @override
+  void dispose() {
+    stompClient.deactivate();
+    // dispose 메서드에서 리소스나 이벤트를 해제합니다.
+    // 메모리 누수를 방지하기 위해 이곳에서 구독 해제 등의 정리 작업을 수행합니다.
+    super.dispose();
   }
 
   @override
