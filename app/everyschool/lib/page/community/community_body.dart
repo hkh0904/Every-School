@@ -27,17 +27,17 @@ class _CommunityBodyState extends State<CommunityBody> {
                 icon: const Icon(Icons.notifications_none),
                 visualDensity:
                     const VisualDensity(horizontal: -4.0, vertical: -4.0),
-                padding: const EdgeInsets.all(0), // 패딩을 조절합니다.
-                alignment: Alignment.center, // 아이콘을 가운데 정렬합니다.
-                splashRadius: 24.0, // 클릭 시 스플래시 효과의 반지름을 조절합니다.
+                padding: const EdgeInsets.all(0), 
+                alignment: Alignment.center, 
+                splashRadius: 24.0, 
                 onPressed: () {}),
             IconButton(
                 icon: const Icon(Icons.settings),
                 visualDensity:
                     const VisualDensity(horizontal: -2.0, vertical: -4.0),
-                padding: const EdgeInsets.all(0), // 패딩을 조절합니다.
-                alignment: Alignment.center, // 아이콘을 가운데 정렬합니다.
-                splashRadius: 24.0, // 클릭 시 스플래시 효과의 반지름을 조절합니다.
+                padding: const EdgeInsets.all(0), 
+                alignment: Alignment.center,
+                splashRadius: 24.0, 
                 onPressed: () {
                   Navigator.push(
                       context,

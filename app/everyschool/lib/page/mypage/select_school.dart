@@ -1,4 +1,5 @@
 import 'package:everyschool/api/user_api.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 class School {
@@ -19,11 +20,6 @@ class School {
       address: json['address'],
     );
   }
-
-  // @override
-  // String toString() {
-  //   return 'School(id: $schoolId, name: $name, address: $address)';
-  // }
 }
 
 class SelectSchool extends StatefulWidget {
@@ -41,6 +37,7 @@ class _SelectSchoolState extends State<SelectSchool> {
   final TextEditingController _gradeController = TextEditingController();
   final TextEditingController _classController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
+  int? _selectedSchoolId;
 
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
@@ -73,6 +70,22 @@ class _SelectSchoolState extends State<SelectSchool> {
     }
   }
 
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  Future<List<School>> performSearch(String query) async {
+    List<School> schools = [];
+    if (query.isNotEmpty) {
+      final response = await userApi.getSchoolList(query);
+      if (response is List) {
+        schools = response.map((json) => School.fromJson(json)).toList();
+      }
+    }
+    return schools; // Future<List<School>>를 반환합니다.
+  }
+
   OverlayEntry _createOverlayEntry() {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
     var size = renderBox.size;
@@ -81,29 +94,93 @@ class _SelectSchoolState extends State<SelectSchool> {
     return OverlayEntry(
       builder: (context) => Positioned(
         left: offset.dx,
-        top: offset.dy + size.height + 100000,
-        width: size.width * 0.86,
+        top: offset.dy + size.height,
+        width: size.width * 0.855,
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: Offset(0, 10.0), // 기준점에서의 y축 오프셋 조정
+          offset: Offset(0, 50.0),
           child: Material(
             elevation: 4.0,
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                maxHeight: 250.0, // 최대 높이 설정, 필요에 따라 조정
+                maxHeight: 250.0, // 최대 높이 설정
               ),
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: schoolData.length,
-                itemBuilder: (context, index) {
-                  var school = schoolData[index];
-                  return ListTile(
-                    title: Text(school.name),
-                    onTap: () {
-                      // Handle the school selection
-                    },
-                  );
+              child: FutureBuilder<List<School>>(
+                future: performSearch(_searchController.text), // 비동기 검색 함수 호출
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: SizedBox(
+                        height: 50.0,
+                        width: 50.0,
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (snapshot.hasData) {
+                    var schools = snapshot.data ?? [];
+                    if (schools.isEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          '검색 결과가 없습니다.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: schools.length,
+                      itemBuilder: (context, index) {
+                        var school = schools[index];
+                        return InkWell(
+                          onTap: () {
+                            setState(() {
+                              _searchController.text = school.name;
+                              _selectedSchoolId = school.schoolId;
+                              _overlayEntry?.remove();
+                              _overlayEntry = null;
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0), // 여기서 패딩 조정
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  school.name,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(height: 4.0),
+                                Text(
+                                  school.address,
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    // 데이터가 없고 로딩 중이 아닐 때의 메시지 표시
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        '검색 결과가 없습니다.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    );
+                  }
                 },
               ),
             ),
@@ -113,33 +190,43 @@ class _SelectSchoolState extends State<SelectSchool> {
     );
   }
 
-  void performSearch(String query) async {
-    if (query.isNotEmpty) {
-      final response = await userApi.getSchoolList(query);
-      if (response is List) {
-        // API가 Map의 리스트를 반환한다고 가정합니다.
-        setState(() {
-          schoolData = response.map((json) => School.fromJson(json)).toList();
-        });
-      }
+  Future<void> _registerSchool() async {
+    if (_selectedSchoolId == null) {
+      print('학교를 선택해주세요.');
+      return;
+    }
+
+    final grade = _gradeController.text;
+    final classNum = _classController.text;
+
+    if (grade.isEmpty || classNum.isEmpty) {
+      print('학년과 반을 모두 입력해주세요.');
+      return;
+    }
+
+    final result =
+        await userApi.registSchool(_selectedSchoolId!, grade, classNum);
+
+    if (result != null) {
+      print('등록 성공: $result');
+    } else {
+      print('등록 실패');
     }
   }
 
-  InputDecoration getTextFieldDecoration(String hint, {bool showIcon = false}) {
+  InputDecoration getTextFieldDecoration(String hint,
+      {bool showIcon = false, String? suffixText}) {
     return InputDecoration(
-      filled: true,
-      fillColor: Colors.white,
+      filled: false,
       hintText: hint,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      focusedBorder: OutlineInputBorder(
+      border: UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.blue),
-        borderRadius: BorderRadius.circular(8),
+      ),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.blue),
       ),
       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       suffixIcon: showIcon
@@ -150,6 +237,8 @@ class _SelectSchoolState extends State<SelectSchool> {
               },
             )
           : null,
+      suffixText: suffixText,
+      suffixStyle: TextStyle(color: Colors.black, fontSize: 18),
     );
   }
 
@@ -158,7 +247,9 @@ class _SelectSchoolState extends State<SelectSchool> {
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
+        _removeOverlay();
       },
+      behavior: HitTestBehavior.translucent,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey[50],
@@ -197,6 +288,10 @@ class _SelectSchoolState extends State<SelectSchool> {
                 link: _layerLink,
                 child: TextField(
                   controller: _searchController,
+                  style: TextStyle(fontSize: 18),
+                  // onTap: () {
+                  //   // 오버레이가 열릴 때 포커스를 잃지 않게 하기 위해서 onTap을 빈 콜백으로 오버라이드합니다.
+                  // },
                   onChanged: (value) => performSearch(value), // 입력할 때마다 검색 수행
                   decoration: getTextFieldDecoration('학교 검색', showIcon: true),
                 ),
@@ -212,6 +307,8 @@ class _SelectSchoolState extends State<SelectSchool> {
               SizedBox(height: 10),
               TextField(
                 controller: _nameController,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18),
                 decoration: getTextFieldDecoration('이름을 입력하세요'),
               ),
               SizedBox(height: 25),
@@ -230,7 +327,14 @@ class _SelectSchoolState extends State<SelectSchool> {
                       padding: const EdgeInsets.only(right: 6.0),
                       child: TextField(
                         controller: _gradeController,
-                        decoration: getTextFieldDecoration('학년'),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                        keyboardType: TextInputType.number, // 숫자 키보드 타입
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ], // 숫자만 입력 허용
+                        decoration: getTextFieldDecoration('',
+                            suffixText: '학년'), // 우측에 "학년" 텍스트 추가
                       ),
                     ),
                   ),
@@ -239,12 +343,44 @@ class _SelectSchoolState extends State<SelectSchool> {
                       padding: const EdgeInsets.only(left: 6.0),
                       child: TextField(
                         controller: _classController,
-                        decoration: getTextFieldDecoration('반'),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18),
+                        keyboardType: TextInputType.number, // 숫자 키보드 타입
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ], // 숫자만 입력 허용
+                        decoration: getTextFieldDecoration('',
+                            suffixText: '반'), // 우측에 "반" 텍스트 추가
                       ),
                     ),
                   ),
                 ],
               ),
+              SizedBox(height: 40),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: InkWell(
+                      onTap: _registerSchool,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF15075F),
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        ),
+                        child: Text(
+                          '제출하기',
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white),
+                          textAlign: TextAlign.center, // 텍스트를 컨테이너 중앙에 위치시킴
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

@@ -84,13 +84,28 @@ class UserApi {
     }
   }
 
-  //사용자 학교 등록
+  // 학교 데이터 조회
   Future<dynamic> getSchoolList(schoolName) async {
     try {
       // final deviceToken = getMyDeviceToken();
       final response = await dio.get(
           '${serverApi.serverURL}/school-service/v1/schools?query=$schoolName',
           data: {'schoolName': schoolName});
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      // rethrow;
+    }
+  }
+
+  // 학급 등록 신청
+  Future<dynamic> registSchool(schoolId, garde, classNum) async {
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.post(
+          // '${serverApi.serverURL}/school-service/v1/app/2023/schools/100000/apply',
+          '${serverApi.serverURL}/school-service/v1/app/2023/schools/$schoolId/apply',
+          data: {'grade': garde, 'classNum': classNum});
       return response.data['data'];
     } catch (e) {
       print(e);
