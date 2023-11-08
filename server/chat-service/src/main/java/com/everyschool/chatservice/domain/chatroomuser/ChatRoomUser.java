@@ -32,6 +32,10 @@ public class ChatRoomUser extends BaseEntity {
 
     @NotNull
     private Long userId;
+
+    @Column(length = 1)
+    @Size(min = 1, max = 1)
+    private String opponentUserType;
     private boolean isAlarm;
     private int unreadCount;
     @Column(length = 50)
@@ -43,11 +47,12 @@ public class ChatRoomUser extends BaseEntity {
     private ChatRoom chatRoom;
 
     @Builder
-    private ChatRoomUser(Long id, String chatRoomTitle, String socketTopic, Long userId, boolean isAlarm, int unreadCount, String lastContent, ChatRoom chatRoom) {
+    public ChatRoomUser(Long id, String chatRoomTitle, String socketTopic, Long userId, String opponentUserType, boolean isAlarm, int unreadCount, String lastContent, ChatRoom chatRoom) {
         this.id = id;
         this.chatRoomTitle = chatRoomTitle;
         this.socketTopic = socketTopic;
         this.userId = userId;
+        this.opponentUserType = opponentUserType;
         this.isAlarm = isAlarm;
         this.unreadCount = unreadCount;
         this.lastContent = lastContent;
