@@ -3,11 +3,16 @@ package com.everyschool.chatservice.api.service.chat.dto;
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.service.util.RedisUtils;
+import com.everyschool.chatservice.domain.chat.Chat;
+import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -15,11 +20,33 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class ChatService {
 
+    private final ChatRepository chatRepository;
+
     private final RedisUtils redisUtil;
 
     private final ChatRoomUserQueryRepository chatRoomUserQueryRepository;
 
     private final UserServiceClient userServiceClient;
+
+    /**
+     * date에 채팅 있던 채팅방 목록 반환하기
+     *
+     * @param date
+     * @return
+     */
+    public List<Long> searchChatRoomIdByDate(LocalDate date) {
+        List<Chat> chats = chatRepository.findByCreatedDateBetween(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+        List<Long> responses = new ArrayList<>();
+        for (Chat chat : chats) {
+            if (responses.contains(chat.getChatRoomId())) {
+                continue;
+            }
+            responses.add(chat.getChatRoomId());
+        }
+
+        return responses;
+    }
+
 
     public void sendMessageProcessing(SendMessageDto dto) {
         // 채팅방 인원수 확인
