@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DoNotDisturbResponse {
+
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-
     @JsonProperty("isActivate")
     private boolean isActivate;
 
