@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "user-service", url = "https://every-school.com/api")
 public interface UserServiceClient {
 
+    @GetMapping("/user-service/client/v1/user-info/{userId}/user-id")
+    UserInfo searchUserInfoById(@PathVariable(name = "userId") Long userId);
+
     @GetMapping("/user-service/client/v1/user-info")
     UserInfo searchUserInfo(@RequestHeader("Authorization") String accessToken);
 
