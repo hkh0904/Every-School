@@ -1,5 +1,5 @@
 class ServerApi {
-  final serverURL = 'https://every-school.com/api/';
+  final serverURL = 'https://every-school.com/api';
 }
 
 class SocketApi {

@@ -30,7 +30,7 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   final storage = FlutterSecureStorage();
 
-  String? roomNumber;
+  int? roomNumber;
   String? token;
   String? userKey;
   String? userType;
@@ -57,25 +57,32 @@ class _ChatRoomState extends State<ChatRoom> {
     stompClient.activate();
   }
 
-  void sendMessage() {
-    print('메시지 보내기');
-    stompClient.send(
-        destination: '/pub/chat.send',
-        body: json.encode({
-          'chatRoomId': 5,
-          'senderUserKey': '68ab4b00-1729-4021-aa73-fa40a3ecc9e2',
-          "message": context.read<ChatController>().textEditingController.text,
-        }),
-        headers: {});
-    print('메시지 보내기2');
-    context.read<ChatController>().addNewMessage(Chat(
-          message: context.read<ChatController>().textEditingController.text,
-          type: ChatMessageType.sent,
-          time: DateTime.now(),
-        ));
-    context.read<ChatController>().onFieldSubmitted();
-    print('메시지 보내기3');
-    setState(() {});
+  void sendMessage() async {
+    final filter = await MessengerApi().chatFilter(
+        token,
+        widget.roomInfo['roomId'],
+        userKey,
+        context.read<ChatController>().textEditingController.text);
+    if (filter['isBad'] == false) {
+      stompClient.send(
+          destination: '/pub/chat.send',
+          body: json.encode({
+            'chatRoomId': 5,
+            'senderUserKey': '68ab4b00-1729-4021-aa73-fa40a3ecc9e2',
+            "message":
+                context.read<ChatController>().textEditingController.text,
+          }),
+          headers: {});
+      print('메시지 보내기2');
+      context.read<ChatController>().addNewMessage(Chat(
+            message: context.read<ChatController>().textEditingController.text,
+            type: ChatMessageType.sent,
+            time: DateTime.now(),
+          ));
+      context.read<ChatController>().onFieldSubmitted();
+      print('메시지 보내기3');
+      setState(() {});
+    }
   }
 
   void onConnectCallback(StompFrame connectFrame) {

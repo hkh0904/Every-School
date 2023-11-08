@@ -5,6 +5,7 @@ import 'package:everyschool/page/messenger/call/call_history.dart';
 import 'package:everyschool/page/messenger/call/call_page.dart';
 import 'package:everyschool/page/messenger/chat/chat_list.dart';
 import 'package:everyschool/page/messenger/chat/chat_room.dart';
+import 'package:everyschool/page/messenger/chat/connect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -38,7 +39,7 @@ class ManagerTapBar extends StatefulWidget {
 
 class _ManagerTapBarState extends State<ManagerTapBar> {
   final storage = FlutterSecureStorage();
-
+  List<dynamic>? userConnect;
   List<dynamic> chatList = [];
   List roomIdList = [];
   int? roomId = 0;
@@ -47,9 +48,13 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
 
   _getChatList() async {
     final token = await storage.read(key: 'token') ?? "";
+    print(token);
     final response = await MessengerApi().getChatList(token);
+    final contact = await MessengerApi().getTeacherConnect(token);
+
     setState(() {
       chatList = response;
+      userConnect = contact;
     });
     response.forEach((item) {
       if (item.containsKey("roomId")) {
@@ -60,11 +65,12 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
     return response;
   }
 
+  Future<dynamic>? chatListFuture;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getChatList();
+    chatListFuture = _getChatList();
   }
 
   @override
@@ -108,7 +114,7 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
             body: TabBarView(
               children: [
                 FutureBuilder(
-                    future: _getChatList(),
+                    future: chatListFuture,
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
                         return ChatList(chatList: chatList);
@@ -124,7 +130,9 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
                       }
                     }),
                 CallHistory(),
-                CallHistory()
+                Connect(
+                  userConnect: userConnect,
+                )
               ],
             ),
           ),
@@ -144,6 +152,7 @@ class UserTapBar extends StatefulWidget {
 class _UserTapBarState extends State<UserTapBar> {
   final storage = FlutterSecureStorage();
 
+  Map<String, String>? teacherConnect;
   List<dynamic> chatList = [];
   List roomIdList = [];
   int? roomId = 0;
@@ -153,8 +162,10 @@ class _UserTapBarState extends State<UserTapBar> {
   _getChatList() async {
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
+    final contact = await MessengerApi().getTeacherConnect(token);
     setState(() {
       chatList = response;
+      teacherConnect = contact;
     });
     response.forEach((item) {
       if (item.containsKey("roomId")) {

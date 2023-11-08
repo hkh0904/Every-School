@@ -4,6 +4,7 @@ import 'package:everyschool/api/base_api.dart';
 class MessengerApi {
   Dio dio = Dio();
   SocketApi socketApi = SocketApi();
+  ServerApi serverApi = ServerApi();
 
   //채팅방 만들기
   Future<dynamic> createChatRoom(token, userKey, userType) async {
@@ -56,14 +57,50 @@ class MessengerApi {
   }
 
   //채팅 전송 전 필터링
-  Future<dynamic> chatFilter(
-    token,
-  ) async {
+  Future<dynamic> chatFilter(token, chatRoomId, senderUserkey, message) async {
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/filters/chat',
+          data: {
+            "chatRoomId": 1,
+            //보내는 사람 유저키
+            "senderUserKey": "senderUserKey",
+            "message": "우리는"
+          },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print(response.data);
       print('채팅 필터링');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //선생님의 연락처 조회
+  Future<dynamic> getTeacherConnect(
+    token,
+  ) async {
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/user-service/v1/app/2023/schools/100000/students',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('성생님 연락처');
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  //학생, 학부모들의 연락처 조회
+  Future<dynamic> getUserConnect(
+    token,
+  ) async {
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/user-service/v1/app/2023/schools/100000/teachers',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('학생들 연락처');
+      print(response.data);
       return response.data['data'];
     } catch (e) {
       print(e);
