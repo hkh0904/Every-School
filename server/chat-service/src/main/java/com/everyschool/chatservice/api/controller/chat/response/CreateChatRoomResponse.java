@@ -7,13 +7,15 @@ import lombok.Data;
 public class CreateChatRoomResponse {
 
     private Long roomId;
-    private String roomTitle;
-    private String userName;
+    private String opponentUserName;
+    private String opponentUserType;
+    private String opponentUsersChildName;
 
     @Builder
-    private CreateChatRoomResponse(Long roomId, String roomTitle, String userName) {
+    private CreateChatRoomResponse(Long roomId, String opponentUserName, String opponentUserType, String opponentUsersChildName) {
         this.roomId = roomId;
-        this.roomTitle = roomTitle;
-        this.userName = userName;
+        this.opponentUserName = opponentUserName;
+        this.opponentUserType = opponentUserType;
+        this.opponentUsersChildName = opponentUsersChildName;
     }
 }
