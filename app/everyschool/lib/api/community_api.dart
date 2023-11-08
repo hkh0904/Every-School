@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/base_api.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CommunityApi {
-  final storage = FlutterSecureStorage();
   Dio dio = Dio();
   ServerApi serverApi = ServerApi();
 

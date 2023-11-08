@@ -1,6 +1,8 @@
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/page/community/postlist_page.dart';
+import 'package:provider/provider.dart';
 
 class CommunityBoard extends StatefulWidget {
   const CommunityBoard({super.key});
@@ -14,6 +16,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
   List<dynamic> boardList = [];
 
   Future<void> _loadBoardData() async {
+    final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
     try {
       var response = await communityApi.getBoardList();
       if (response != null && response['content'] != null) {

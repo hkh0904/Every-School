@@ -22,7 +22,7 @@ class _LoginFormState extends State<LoginForm> {
   void loginSuccess() async {
     var token = await storage.read(key: 'token') ?? "";
     final userinfo = await UserApi().getUserInfo(token);
-    await Provider.of<UserStore>(context).setUserInfo(userinfo);
+    await Provider.of<UserStore>(context, listen: false).setUserInfo(userinfo);
     print('여기는 스토아 ');
     print(context.read<UserStore>().userInfo);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
