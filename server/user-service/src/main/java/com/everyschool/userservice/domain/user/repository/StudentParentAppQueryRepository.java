@@ -1,7 +1,6 @@
 package com.everyschool.userservice.domain.user.repository;
 
 import com.everyschool.userservice.domain.user.Parent;
-import com.everyschool.userservice.domain.user.QParent;
 import com.everyschool.userservice.domain.user.Student;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -35,7 +34,7 @@ public class StudentParentAppQueryRepository {
         return queryFactory
             .select(studentParent.parent)
             .from(studentParent)
-            .join(studentParent.parent, parent).fetchJoin()
+            .join(studentParent.parent, parent)
             .where(studentParent.student.id.eq(studentId))
             .fetch();
     }
