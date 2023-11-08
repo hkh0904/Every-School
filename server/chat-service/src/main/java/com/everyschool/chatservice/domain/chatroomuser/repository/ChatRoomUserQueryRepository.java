@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 import static com.everyschool.chatservice.domain.chatroom.QChatRoom.chatRoom;
@@ -36,5 +37,22 @@ public class ChatRoomUserQueryRepository {
                 .join(chatRoom).on(chatRoom.id.eq(chatRoomId))
                 .where(chatRoomUser.userId.ne(senderUserId))
                 .fetchOne());
+    }
+
+    public Optional<Long> findChatRoomIdByTwoUserId(Long user1Id, Long user2Id) {
+        List<Long> query = queryFactory.select(chatRoomUser.chatRoom.id)
+                .from(chatRoomUser)
+                .where(chatRoomUser.userId.eq(user2Id))
+                .fetch();
+        if (query.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(queryFactory
+                .select(chatRoomUser.chatRoom.id)
+                .from(chatRoomUser)
+                .where(chatRoomUser.userId.eq(user1Id),
+                        chatRoomUser.chatRoom.id.in(
+                                query
+                        )).fetchFirst());
     }
 }
