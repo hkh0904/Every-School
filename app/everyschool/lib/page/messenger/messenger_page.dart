@@ -1,3 +1,4 @@
+import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/page/messenger/call/call_button.dart';
 import 'package:everyschool/page/messenger/call/call_history.dart';
 
@@ -5,6 +6,7 @@ import 'package:everyschool/page/messenger/call/call_page.dart';
 import 'package:everyschool/page/messenger/chat/chat_list.dart';
 import 'package:everyschool/page/messenger/chat/chat_room.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MessengerPage extends StatefulWidget {
   const MessengerPage({super.key});
@@ -27,10 +29,43 @@ class _MessengerPageState extends State<MessengerPage> {
   }
 }
 
-class ManagerTapBar extends StatelessWidget {
+class ManagerTapBar extends StatefulWidget {
   ManagerTapBar({super.key});
 
+  @override
+  State<ManagerTapBar> createState() => _ManagerTapBarState();
+}
+
+class _ManagerTapBarState extends State<ManagerTapBar> {
+  final storage = FlutterSecureStorage();
+
+  List<dynamic> chatList = [];
+  List roomIdList = [];
+  int? roomId = 0;
+
   TextStyle tapBarTextStyle = TextStyle(fontSize: 16, color: Colors.black);
+
+  _getChatList() async {
+    final token = await storage.read(key: 'token') ?? "";
+    final response = await MessengerApi().getChatList(token);
+    setState(() {
+      chatList = response;
+    });
+    response.forEach((item) {
+      if (item.containsKey("roomId")) {
+        roomIdList.add(item["roomId"]);
+      }
+    });
+
+    return response;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getChatList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +105,27 @@ class ManagerTapBar extends StatelessWidget {
                 ),
               ];
             },
-            body: const TabBarView(
-              children: [ChatList(), CallHistory(), CallHistory()],
+            body: TabBarView(
+              children: [
+                FutureBuilder(
+                    future: _getChatList(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ChatList(chatList: chatList);
+                      } else if (snapshot.hasError) {
+                        return Text(
+                          'Error: ${snapshot.error}',
+                          style: TextStyle(fontSize: 15),
+                        );
+                      } else {
+                        return Container(
+                          height: 800,
+                        );
+                      }
+                    }),
+                CallHistory(),
+                CallHistory()
+              ],
             ),
           ),
         ),
@@ -80,10 +134,44 @@ class ManagerTapBar extends StatelessWidget {
   }
 }
 
-class UserTapBar extends StatelessWidget {
+class UserTapBar extends StatefulWidget {
   UserTapBar({super.key});
 
+  @override
+  State<UserTapBar> createState() => _UserTapBarState();
+}
+
+class _UserTapBarState extends State<UserTapBar> {
+  final storage = FlutterSecureStorage();
+
+  List<dynamic> chatList = [];
+  List roomIdList = [];
+  int? roomId = 0;
+
   TextStyle tapBarTextStyle = TextStyle(fontSize: 16, color: Colors.black);
+
+  _getChatList() async {
+    final token = await storage.read(key: 'token') ?? "";
+    final response = await MessengerApi().getChatList(token);
+    setState(() {
+      chatList = response;
+    });
+    response.forEach((item) {
+      if (item.containsKey("roomId")) {
+        roomIdList.add(item["roomId"]);
+      }
+    });
+
+    return response;
+  }
+
+  Future<dynamic>? chatListFuture;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    chatListFuture = _getChatList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +198,10 @@ class UserTapBar extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const ChatRoom()));
+                                  builder: (BuildContext context) => ChatRoom(
+                                        chatRoomInfo: chatList,
+                                        roomInfo: null,
+                                      )));
                         },
                         icon: Icon(Icons.message_sharp))
                   ],
@@ -137,9 +227,24 @@ class UserTapBar extends StatelessWidget {
                 ),
               ];
             },
-            body: const TabBarView(
+            body: TabBarView(
               children: [
-                ChatList(),
+                FutureBuilder(
+                    future: chatListFuture,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ChatList(chatList: chatList);
+                      } else if (snapshot.hasError) {
+                        return Text(
+                          'Error: ${snapshot.error}',
+                          style: TextStyle(fontSize: 15),
+                        );
+                      } else {
+                        return Container(
+                          height: 800,
+                        );
+                      }
+                    }),
                 CallHistory(),
               ],
             ),

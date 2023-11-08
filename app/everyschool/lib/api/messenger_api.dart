@@ -6,14 +6,18 @@ class MessengerApi {
   SocketApi socketApi = SocketApi();
 
   //채팅방 만들기
-  Future<dynamic> createChatRoom(token) async {
+  Future<dynamic> createChatRoom(token, userKey, userType) async {
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/chat-rooms',
           data: {
+            //상대방 키
             "opponentUserKey": '099ced50-cb18-4ebe-a445-fee91677d8ed',
+            //아래 두개는 내 정보
             "loginUserType": "M",
             "schoolClassId": 1,
-            "relation": "정인재 선생님"
+            //상대방 이름 직급
+            "relation": "오리온"
+            //상대방 유저 타입
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print(response.data);

@@ -1,9 +1,12 @@
 import 'package:everyschool/api/messenger_api.dart';
+import 'package:everyschool/page/messenger/chat/chat_room.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ChatList extends StatefulWidget {
-  const ChatList({super.key});
+  const ChatList({super.key, this.chatList});
+
+  final chatList;
 
   @override
   State<ChatList> createState() => _ChatListState();
@@ -11,8 +14,6 @@ class ChatList extends StatefulWidget {
 
 class _ChatListState extends State<ChatList> {
   final storage = FlutterSecureStorage();
-
-  List<dynamic> chatList = [];
 
   String formatText(String text) {
     if (text.length > 10) {
@@ -45,7 +46,7 @@ class _ChatListState extends State<ChatList> {
     // DateTime 객체로 변환
     DateTime postDateTime;
     try {
-      postDateTime = DateTime.parse('$year.$month.$day $time:$min');
+      postDateTime = DateTime.parse('$year-$month-$day $time:$min');
     } catch (e) {
       print('DateTime parsing error: $e');
       return dateTimeStr.substring(0, 10); // parsing에 실패하면 원래 문자열을 반환
@@ -60,110 +61,89 @@ class _ChatListState extends State<ChatList> {
         postDateTime.year == now.year) {
       return '${postDateTime.hour.toString().padLeft(2, '0')}:${postDateTime.minute.toString().padLeft(2, '0')}';
     } else {
-      return '${postDateTime.year}.${postDateTime.month}.${postDateTime.day}';
+      return '${postDateTime.year}-${postDateTime.month}-${postDateTime.day}';
     }
-  }
-
-  _getChatList() async {
-    final token = await storage.read(key: 'token') ?? "";
-    final response = await MessengerApi().getChatList(token);
-    setState(() {
-      chatList = response;
-    });
-    return response;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _getChatList(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return Container(
-                child: ListView.builder(
-                    itemCount: chatList.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(20, 15, 20, 10),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[50],
-                            // border: Border(
-                            //   bottom: BorderSide(
-                            //     color: Colors.grey.shade400,
-                            //     width: 1.0,
-                            //   ),
-                            // ),
+    return Container(
+        child: ListView.builder(
+            itemCount: widget.chatList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ChatRoom(roomInfo: widget.chatList[index]),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    // border: Border(
+                    //   bottom: BorderSide(
+                    //     color: Colors.grey.shade400,
+                    //     width: 1.0,
+                    //   ),
+                    // ),
+                  ),
+                  height: 80,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xffd9d9d9)),
+                            borderRadius: BorderRadius.circular(100)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: Image.asset(
+                            'assets/images/community/user.png',
+                            width: 35,
+                            height: 35,
+                            color: Colors.black,
                           ),
-                          height: 80,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(color: Color(0xffd9d9d9)),
-                                    borderRadius: BorderRadius.circular(100)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.asset(
-                                    'assets/images/community/user.png',
-                                    width: 35,
-                                    height: 35,
-                                    color: Colors.black,
+                                child: Text(
+                                  widget.chatList[index]['roomTitle'] as String,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          chatList[index]['roomTitle']
-                                              as String,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        child: Text(
-                                          formatText(chatList[index]
-                                              ['lastMessage'] as String),
-                                          style: TextStyle(fontSize: 13),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              SizedBox(
+                                child: Text(
+                                  // formatText(widget.chatList[index]
+                                  //     ['lastMessage'] as String),
+                                  'gg',
+                                  style: TextStyle(fontSize: 13),
                                 ),
                               ),
-                              Text(formatDateTime(
-                                  chatList[index]['updateTime'] as String)),
                             ],
                           ),
                         ),
-                      );
-                    }));
-          } else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15),
-              ),
-            );
-          } else {
-            return Container(
-              height: 800,
-            );
-          }
-        });
+                      ),
+                      Text(formatDateTime(
+                          widget.chatList[index]['updateTime'] as String)),
+                    ],
+                  ),
+                ),
+              );
+            }));
   }
 }

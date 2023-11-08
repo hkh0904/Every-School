@@ -8,7 +8,6 @@ import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:stomp_dart_client/stomp.dart';
@@ -19,7 +18,10 @@ import 'dart:convert';
 final socketURL = SocketApi().wsURL;
 
 class ChatRoom extends StatefulWidget {
-  const ChatRoom({super.key});
+  ChatRoom({super.key, this.roomInfo, this.chatRoomInfo});
+
+  final roomInfo;
+  final chatRoomInfo;
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -27,22 +29,31 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   final storage = FlutterSecureStorage();
+
+  String? roomNumber;
   String? token;
-  int? roomId = 3;
+  String? userKey;
+  String? userType;
+
   String? roomTitle;
   String? userName;
 
   createChatroom() async {
+    print('123');
     final storage = FlutterSecureStorage();
     token = await storage.read(key: 'token') ?? "";
+    final myInfo = await UserApi().getUserInfo(token);
+    print(myInfo);
+    // userKey = await myInfo[] ?? "";
+    // userType = await storage.read(key: 'usertype') ?? "";
+    final result =
+        await MessengerApi().createChatRoom(token, userKey, userType);
 
-    // final result = await MessengerApi().createChatRoom(token);
-
-    // setState(() {
-    //   roomId = result['roomId'];
-    //   roomTitle = result['roomTitle'];
-    //   userName = result['userName'];
-    // });
+    setState(() {
+      roomNumber = result['roomId'];
+      //   roomTitle = result['roomTitle'];
+      //   userName = result['userName'];
+    });
     stompClient.activate();
   }
 
@@ -51,7 +62,7 @@ class _ChatRoomState extends State<ChatRoom> {
     stompClient.send(
         destination: '/pub/chat.send',
         body: json.encode({
-          'chatRoomId': 3,
+          'chatRoomId': 5,
           'senderUserKey': '68ab4b00-1729-4021-aa73-fa40a3ecc9e2',
           "message": context.read<ChatController>().textEditingController.text,
         }),
@@ -70,18 +81,18 @@ class _ChatRoomState extends State<ChatRoom> {
   void onConnectCallback(StompFrame connectFrame) {
     // client is connected and ready
     print('connected');
-    print('여기 룸 아이디 $roomId');
+    print('여기 룸 아이디 ${widget.roomInfo?['roomId']}');
     stompClient.subscribe(
-      destination: '/sub/3',
+      destination: '/sub/5',
       headers: {'Authorization': 'Bearer $token'},
       callback: (frame) {
         print('여기가 바디야');
         print(frame.body);
-        context.read<ChatController>().addNewMessage(Chat(
-              message: json.decode(frame.body!)['message'],
-              type: ChatMessageType.received,
-              time: DateTime.now(),
-            ));
+        // context.read<ChatController>().addNewMessage(Chat(
+        //       message: json.decode(frame.body!)['message'],
+        //       type: ChatMessageType.received,
+        //       time: DateTime.now(),
+        //     ));
         setState(() {});
       },
     );
@@ -96,9 +107,10 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void initState() {
     super.initState();
-    //Important: If your server is running on localhost and you are testing your app on Android then replace http://localhost:3000 with http://10.0.2.2:3000
     // 소켓 통신 시작
-    createChatroom();
+    // print(widget.roomId);
+    print(widget.roomInfo);
+    widget.roomInfo == null ? createChatroom() : null;
     print('시작');
     print('하는 도중');
   }
@@ -117,8 +129,8 @@ class _ChatRoomState extends State<ChatRoom> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: BackButton(color: Colors.black),
-        title: const Text(
-          "담임선생님",
+        title: Text(
+          '${widget.roomInfo?['roomTitle']}',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
