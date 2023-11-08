@@ -1,7 +1,10 @@
 import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key, this.emailAddress, this.password});
@@ -14,7 +17,14 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  void loginSuccess() {
+  final storage = FlutterSecureStorage();
+
+  void loginSuccess() async {
+    var token = await storage.read(key: 'token') ?? "";
+    final userinfo = await UserApi().getUserInfo(token);
+    await Provider.of<UserStore>(context).setUserInfo(userinfo);
+    print('여기는 스토아 ');
+    print(context.read<UserStore>().userInfo);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (_) => Main(),
     ));

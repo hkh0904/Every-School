@@ -68,8 +68,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                 builder: (context) => SelectChild()),
                           )
                         },
-                        child:
-                            Text('변경', style: TextStyle(color: Colors.black)),
                         style: OutlinedButton.styleFrom(
                             minimumSize: Size.zero,
                             padding: EdgeInsets.fromLTRB(13, 10, 13, 10),
@@ -77,6 +75,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(0)))),
+                        child:
+                            Text('변경', style: TextStyle(color: Colors.black)),
                       )
                     ],
                   ),
@@ -108,7 +108,6 @@ class _SchoolInfoState extends State<SchoolInfo> {
                             fontSize: 16, fontWeight: FontWeight.w600)),
                     OutlinedButton(
                       onPressed: () => {},
-                      child: Text('등록', style: TextStyle(color: Colors.black)),
                       style: OutlinedButton.styleFrom(
                           minimumSize: Size.zero,
                           padding: EdgeInsets.fromLTRB(13, 10, 13, 10),
@@ -116,6 +115,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(0)))),
+                      child: Text('등록', style: TextStyle(color: Colors.black)),
                     )
                   ],
                 ),

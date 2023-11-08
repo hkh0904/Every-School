@@ -18,7 +18,6 @@ public class SequenceGeneratorService {
     private MongoOperations mongoOperations;
 
     @Autowired
-
     public SequenceGeneratorService(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }

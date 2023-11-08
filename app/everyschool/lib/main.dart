@@ -11,14 +11,18 @@ import 'package:everyschool/page/messenger/messenger_page.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
 import 'package:everyschool/store/chat_store.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_callkit_incoming/entities/entities.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
 // fcm
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -31,10 +35,12 @@ void main() async {
     statusBarColor: Colors.transparent,
   ));
   await initializeDateFormatting();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (c) => ChatStore()),
       ChangeNotifierProvider(create: (c) => ChatController()),
+      ChangeNotifierProvider(create: (c) => UserStore()),
     ],
     child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -67,6 +73,7 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
+
     FirebaseApi().getMyDeviceToken();
     FirebaseApi().setupInteractedMessage(context);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -74,6 +81,8 @@ class _MainState extends State<Main> {
     });
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     FirebaseApi().initializeNotifications(context);
+    FirebaseApi().getIncomingCall(context);
+    // checkAndNavigationCallingPage();
   }
 
   int selectedIndex = 0;
@@ -141,7 +150,6 @@ class _MainState extends State<Main> {
             return Container(
               height: 800,
             );
-            ;
           }
         });
   }

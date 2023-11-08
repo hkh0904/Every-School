@@ -91,4 +91,12 @@ public class UserClientController {
 
         return infos;
     }
+
+    @GetMapping("/user-info/{userId}/user-id")
+    public UserInfo searchUserInfoById(@PathVariable Long userId) {
+
+        // TODO: 2023-11-08
+
+        return null;
+    }
 }

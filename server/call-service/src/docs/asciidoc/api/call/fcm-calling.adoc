@@ -1,0 +1,11 @@
+[[fcm-calling]]
+=== 통화 내역 등록 API
+
+==== HTTP Request
+include::{snippets}/fcm-calling/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/fcm-calling/http-response.adoc[]
+include::{snippets}/fcm-calling/response-fields.adoc[]
+

@@ -3,10 +3,10 @@ package com.everyschool.chatservice.api.service.chatroom;
 import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.api.client.SchoolServiceClient;
 import com.everyschool.chatservice.api.client.UserServiceClient;
+import com.everyschool.chatservice.api.client.response.SchoolClassInfo;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
-import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,6 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private ChatRoomService chatRoomService;
-
-    @Autowired
-    private ChatRoomRepository chatRoomRepository;
 
     @MockBean
     private UserServiceClient userServiceClient;
@@ -45,6 +42,12 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
                 .userName("오연주")
                 .schoolClassId(1L)
                 .build();
+        SchoolClassInfo schoolClassInfo = SchoolClassInfo.builder()
+                .schoolName("떡잎초")
+                .schoolYear(2023)
+                .grade(1)
+                .classNum(2)
+                .build();
 
         given(userServiceClient.searchUserInfo("jwt"))
                 .willReturn(parent);
@@ -52,8 +55,8 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
                 .willReturn(teacher);
         given(userServiceClient.searchChildName(1L, 1L))
                 .willReturn("임우택");
-        given(schoolServiceClient.searchClassName(1L))
-                .willReturn("1학년 2반");
+        given(schoolServiceClient.searchSchoolClassInfo(1L))
+                .willReturn(schoolClassInfo);
 
         CreateChatRoomDto dto = CreateChatRoomDto.builder()
                 .loginUserToken("jwt")

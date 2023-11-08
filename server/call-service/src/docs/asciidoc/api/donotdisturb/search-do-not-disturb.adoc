@@ -1,0 +1,11 @@
+[[search-do-not-disturbs]]
+=== 방해 금지 타임 조회 API
+
+==== HTTP Request
+include::{snippets}/search-do-not-disturbs/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-do-not-disturbs/http-response.adoc[]
+include::{snippets}/search-do-not-disturbs/response-fields.adoc[]
+

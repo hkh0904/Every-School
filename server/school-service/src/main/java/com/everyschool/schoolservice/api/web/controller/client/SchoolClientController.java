@@ -1,17 +1,11 @@
 package com.everyschool.schoolservice.api.web.controller.client;
 
 import com.everyschool.schoolservice.api.service.schoolclass.SchoolClassQueryService;
-import com.everyschool.schoolservice.api.web.controller.client.response.ConsultUserInfo;
-import com.everyschool.schoolservice.api.web.controller.client.response.DescendantInfo;
-import com.everyschool.schoolservice.api.web.controller.client.response.SchoolClassInfo;
-import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.*;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -62,5 +56,23 @@ public class SchoolClientController {
         log.debug("result={}", descendantInfos);
 
         return descendantInfos;
+    }
+
+    @GetMapping("/infos/{schoolYear}/users/{userId}")
+    public Long searchTeacherByUserId(@PathVariable Long userId, @PathVariable Integer schoolYear) {
+
+        Long teacherId = schoolUserQueryService.searchTeacherByUserId(userId, schoolYear);
+        log.debug("result={}", teacherId);
+
+        return teacherId;
+    }
+
+    @GetMapping("/infos/{schoolYear}/users/{userId}/students")
+    public List<StudentInfoCon> searchStudentsByUserId(@PathVariable Long userId, @PathVariable Integer schoolYear) {
+
+        List<StudentInfoCon> infos = schoolUserQueryService.searchStudentsByUserId(userId, schoolYear);
+        log.debug("results={}", infos);
+
+        return infos;
     }
 }

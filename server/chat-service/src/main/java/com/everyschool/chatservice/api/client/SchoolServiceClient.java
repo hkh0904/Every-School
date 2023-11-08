@@ -1,12 +1,13 @@
 package com.everyschool.chatservice.api.client;
 
+import com.everyschool.chatservice.api.client.response.SchoolClassInfo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient("school-service")
+@FeignClient(name = "school-service", url = "https://every-school.com/api")
 public interface SchoolServiceClient {
 
-    @GetMapping
-    String searchClassName(@RequestParam(name = "schoolClassId") Long schoolClassId);
+    @PostMapping("/school-service/client/v1/school-class-info")
+    SchoolClassInfo searchSchoolClassInfo(@RequestBody Long schoolClassId);
 }

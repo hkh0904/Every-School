@@ -37,6 +37,8 @@ include::api/web/user/web-search-user-info.adoc[]
 include::api/app/user/app-search-student-info.adoc[]
 include::api/app/user/app-search-parent-info.adoc[]
 include::api/app/user/app-search-teacher-info.adoc[]
+include::api/app/user/app-search-user-contact-info.adoc[]
+include::api/app/user/app-search-user-contact-infos.adoc[]
 
 
 [[User-API]]

@@ -1,0 +1,11 @@
+[[userCall-record-start]]
+=== 통화 녹음 시작 API
+
+==== HTTP Request
+include::{snippets}/userCall-record-start/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/userCall-record-start/http-response.adoc[]
+include::{snippets}/userCall-record-start/response-fields.adoc[]
+
