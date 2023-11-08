@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ReportAppController {
     public ApiResponse<CreateReportResponse> createReport(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
-        @ModelAttribute CreateReportRequest request
+        @Valid @ModelAttribute CreateReportRequest request
     ) throws IOException {
         String userKey = tokenUtils.getUserKey();
 

@@ -42,5 +42,7 @@ public class ReportAppQueryController {
         @PathVariable Long reportId
     ) {
         ReportDetailResponse response = reportAppQueryService.searchReport(reportId);
+
+        return ApiResponse.ok(null);
     }
 }
