@@ -31,8 +31,8 @@ public class ChatRoomQueryRepository {
                 ))
                 .from(chatRoomUser)
                 .where(
-                        chatRoomUser.userId.eq(loginUserId))
-                .orderBy(chatRoomUser.unreadCount.desc(), chatRoomUser.lastModifiedDate.desc())
+                        chatRoomUser.userId.eq(loginUserId), chatRoomUser.isDeleted.eq(false))
+                .orderBy(chatRoomUser.lastModifiedDate.desc())
                 .fetch();
     }
 }

@@ -2,4 +2,6 @@ spring:
   cloud:
     config:
       uri: http://every-school.com:8888
-      name: chat-service-release
+      name: chat-service
+  profiles:
+    active: dev

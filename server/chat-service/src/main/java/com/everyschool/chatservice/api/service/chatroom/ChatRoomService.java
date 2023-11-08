@@ -2,6 +2,7 @@ package com.everyschool.chatservice.api.service.chatroom;
 
 import com.everyschool.chatservice.api.client.SchoolServiceClient;
 import com.everyschool.chatservice.api.client.UserServiceClient;
+import com.everyschool.chatservice.api.client.response.SchoolClassInfo;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
@@ -12,6 +13,7 @@ import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserQueryRepository;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
@@ -41,16 +44,20 @@ public class ChatRoomService {
 
         // 로그인 한 회원 정보 요청
         UserInfo loginUser = userServiceClient.searchUserInfo(dto.getLoginUserToken());
+        log.debug("[채팅방 생성 Service] 로그인 유저 = {}", loginUser.getUserName());
         // 상대 유저키로 정보 요청
         UserInfo opponentUser = userServiceClient.searchUserInfoByUserKey(dto.getOpponentUserKey());
+        log.debug("[채팅방 생성 Service] 상대방 유저 = {}", opponentUser.getUserName());
 
-        // TODO: 2023-10-27 두 아이디로 생성된 방 있으면 그냥 열기 
+        // TODO: 2023-10-27 두 아이디로 생성된 방 있으면 그냥 열기
 
         // 채팅방 생성
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder().build());
 
         // 학급 id로 학급 이름(1학년 1반) 가져오기
-        String className = schoolServiceClient.searchClassName(dto.getSchoolClassId());
+        SchoolClassInfo schoolClassInfo = schoolServiceClient.searchSchoolClassInfo(dto.getSchoolClassId());
+        String className = schoolClassInfo.getClassName();
+        log.debug("[채팅방 생성 Service] 학급 = {}", className);
 
         // 상대방의 체팅방 이름 만들기
         String opponentTitle = getOpponentTitle(dto.getSchoolClassId(), loginUser, className);
@@ -112,6 +119,8 @@ public class ChatRoomService {
                 opponentTitle = className + " " + childName + "(부)";
             }
         }
+
+        log.debug("[채팅방 생성] 제목 : {}",opponentTitle);
         return opponentTitle;
     }
 
@@ -126,7 +135,7 @@ public class ChatRoomService {
     private ChatRoomUser createChatRoomUser(String title, Long userId, ChatRoom chatRoom) {
         return ChatRoomUser.builder()
                 .chatRoomTitle(title)
-                .socketTopic("/topic/chatroom/" + chatRoom.getId())
+//                .socketTopic("/topic/chatroom/" + chatRoom.getId())
                 .userId(userId)
                 .isAlarm(true)
                 .unreadCount(0)
