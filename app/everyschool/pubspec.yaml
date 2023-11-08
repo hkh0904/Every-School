@@ -49,6 +49,8 @@ dependencies:
   permission_handler: ^9.2.0
   assets_audio_player: ^3.1.1
   flutter_secure_storage: ^9.0.0
+  flutter_callkit_incoming: ^2.0.0+2
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
