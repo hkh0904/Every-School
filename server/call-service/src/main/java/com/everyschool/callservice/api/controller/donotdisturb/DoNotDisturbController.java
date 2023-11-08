@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/call-service/v1/donotdisturbs")
+@RequestMapping("/call-service/v1/do-not-disturbs")
 public class DoNotDisturbController {
 
     /**
@@ -23,26 +23,6 @@ public class DoNotDisturbController {
      *
      * @return 요청 정보 리스트
      */
-    @GetMapping("/")
-    public ApiResponse<List<DoNotDisturbResponse>> searchDoNotDisturbs() {
-        DoNotDisturbResponse res1 = DoNotDisturbResponse.builder()
-                .startTime(LocalDateTime.now())
-                .endTime(LocalDateTime.now().plusDays(1))
-                .isActivate(true)
-                .build();
-        DoNotDisturbResponse res2 = DoNotDisturbResponse.builder()
-                .startTime(LocalDateTime.now().minusDays(5))
-                .endTime(LocalDateTime.now().minusDays(3))
-                .isActivate(true)
-                .build();
-
-        List<DoNotDisturbResponse> l = new ArrayList<>();
-        l.add(res1);
-        l.add(res2);
-
-        return ApiResponse.ok(l);
-    }
-
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<String> createDoNotDisturb(@RequestBody DoNotDisturbRequest request) {
