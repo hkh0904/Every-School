@@ -5,6 +5,7 @@ import com.everyschool.reportservice.api.app.controller.report.request.CreateRep
 import com.everyschool.reportservice.api.app.controller.report.response.CreateReportResponse;
 import com.everyschool.reportservice.api.app.service.report.ReportAppService;
 import com.everyschool.reportservice.api.FileStore;
+import com.everyschool.reportservice.domain.report.ReportType;
 import com.everyschool.reportservice.domain.report.UploadFile;
 import com.everyschool.reportservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,9 @@ public class ReportAppController {
         @PathVariable Long schoolId,
         @Valid @ModelAttribute CreateReportRequest request
     ) throws IOException {
+
+        ReportType.getText(request.getTypeId());
+
         String userKey = tokenUtils.getUserKey();
 
         List<UploadFile> uploadFiles = fileStore.storeFiles(request.getFiles());

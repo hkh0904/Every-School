@@ -53,6 +53,42 @@ class ReportAppControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.message").value("신고 유형은 필수입니다."));
     }
 
+    @DisplayName("신고 접수시 신고 유형은 9000 ~ 9003이다.")
+    @Test
+    void createReportNotContainTypeId() throws Exception {
+        //given
+        CreateReportRequest request = CreateReportRequest.builder()
+            .typeId(VIOLENCE.getCode())
+            .description("description")
+            .who("who")
+            .when("when")
+            .where("where")
+            .what("what")
+            .how(null)
+            .why(null)
+            .files(new ArrayList<>())
+            .build();
+
+        //when //then
+        mockMvc.perform(
+                post(BASE_URL, 2023, 100000)
+                    .param("typeId", "8000")
+                    .param("description", request.getDescription())
+                    .param("who", request.getWho())
+                    .param("when", request.getWhen())
+                    .param("where", request.getWhere())
+                    .param("what", request.getWhat())
+                    .param("how", request.getHow())
+                    .param("why", request.getWhy())
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("400"))
+            .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+            .andExpect(jsonPath("$.message").value("등록이 되지 않은 신고 유형입니다."));
+    }
+
     @DisplayName("신고 접수시 신고 설명은 필수값이다.")
     @Test
     void createReportWithoutDescription() throws Exception {
