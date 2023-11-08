@@ -58,7 +58,7 @@ public class SchoolClientController {
         return descendantInfos;
     }
 
-    @GetMapping("/school-service/client/v1/infos/{schoolYear}/users/{userId}")
+    @GetMapping("/infos/{schoolYear}/users/{userId}")
     public Long searchTeacherByUserId(@PathVariable Long userId, @PathVariable Integer schoolYear) {
 
         Long teacherId = schoolUserQueryService.searchTeacherByUserId(userId, schoolYear);
@@ -67,7 +67,7 @@ public class SchoolClientController {
         return teacherId;
     }
 
-    @GetMapping("/school-service/client/v1/infos/{schoolYear}/users/{userId}/students")
+    @GetMapping("/infos/{schoolYear}/users/{userId}/students")
     public List<StudentInfoCon> searchStudentsByUserId(@PathVariable Long userId, @PathVariable Integer schoolYear) {
 
         List<StudentInfoCon> infos = schoolUserQueryService.searchStudentsByUserId(userId, schoolYear);

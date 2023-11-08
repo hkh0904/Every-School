@@ -4,6 +4,7 @@ import com.everyschool.schoolservice.api.web.controller.client.response.Descenda
 import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
+import com.everyschool.schoolservice.domain.schooluser.UserType;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -113,5 +114,28 @@ public class SchoolUserQueryRepository {
             )
             .fetchFirst();
         return Optional.ofNullable(teacherId);
+    }
+
+    public Optional<SchoolUser> findTeacher(Long schoolClassId) {
+        SchoolUser content = queryFactory
+            .select(schoolUser)
+            .from(schoolUser)
+            .where(
+                schoolUser.schoolClass.id.eq(schoolClassId),
+                schoolUser.userTypeId.eq(TEACHER.getCode())
+            )
+            .fetchFirst();
+        return Optional.ofNullable(content);
+    }
+
+    public List<SchoolUser> findStudent(Long schoolClassId) {
+        return queryFactory
+            .select(schoolUser)
+            .from(schoolUser)
+            .where(
+                schoolUser.schoolClass.id.eq(schoolClassId),
+                schoolUser.userTypeId.eq(STUDENT.getCode())
+            )
+            .fetch();
     }
 }

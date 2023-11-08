@@ -128,19 +128,41 @@ public class SchoolUserQueryService {
 
     public Long searchTeacherByUserId(Long userId, Integer schoolYear) {
         //클래스 id 조회
-        Optional<Long> findTeacher = schoolUserQueryRepository.findByUserIdAndSchoolYear(userId, schoolYear);
+        Optional<Long> findSchoolClassId = schoolUserQueryRepository.findByUserIdAndSchoolYear(userId, schoolYear);
+        if (findSchoolClassId.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Long schoolClassId = findSchoolClassId.get();
+
+        Optional<SchoolUser> findTeacher = schoolUserQueryRepository.findTeacher(schoolClassId);
         if (findTeacher.isEmpty()) {
             throw new NoSuchElementException();
         }
-        Long teacherId = findTeacher.get();
 
+        SchoolUser teacher = findTeacher.get();
 
-
-        //해당 클래스 id를 가진 교직원 조회
-        return null;
+        return teacher.getUserId();
     }
 
     public List<StudentInfoCon> searchStudentsByUserId(Long userId, Integer schoolYear) {
-        return null;
+        Optional<Long> findSchoolClassId = schoolUserQueryRepository.findByUserIdAndSchoolYear(userId, schoolYear);
+        if (findSchoolClassId.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Long schoolClassId = findSchoolClassId.get();
+
+        List<SchoolUser> students = schoolUserQueryRepository.findStudent(schoolClassId);
+
+
+        List<StudentInfoCon> infos = new ArrayList<>();
+        for (SchoolUser student : students) {
+            StudentInfoCon info = StudentInfoCon.builder()
+                .userId(student.getUserId())
+                .studentNumber(student.getStudentNumber())
+                .build();
+            infos.add(info);
+        }
+
+        return infos;
     }
 }
