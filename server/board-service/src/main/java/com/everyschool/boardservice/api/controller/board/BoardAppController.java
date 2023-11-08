@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/board-service/v1/app/{schoolYear}/schools/{schoolId}")
-public class BoardController {
+public class BoardAppController {
 
     private final BoardService boardService;
     private final TokenUtils tokenUtils;
