@@ -1,4 +1,4 @@
-package com.everyschool.boardservice.api.controller.board;
+package com.everyschool.boardservice.api.app.controller.board;
 
 import com.everyschool.boardservice.api.ApiResponse;
 import com.everyschool.boardservice.api.controller.FileStore;
