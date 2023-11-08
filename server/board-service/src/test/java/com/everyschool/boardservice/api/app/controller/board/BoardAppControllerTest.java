@@ -1,12 +1,9 @@
 package com.everyschool.boardservice.api.app.controller.board;
 
 import com.everyschool.boardservice.ControllerTestSupport;
-import com.everyschool.boardservice.api.controller.board.request.CreateBoardRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-
-import java.util.ArrayList;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -21,17 +18,13 @@ class BoardAppControllerTest extends ControllerTestSupport {
     @Test
     void createFreeBoardWithoutTitle() throws Exception {
         //given
-        CreateBoardRequest request = CreateBoardRequest.builder()
-            .content("content")
-            .isUsedComment(false)
-            .files(new ArrayList<>())
-            .build();
 
         //when //then
         mockMvc.perform(
                 post(BASE_URL + "/free-boards", 2023, 100000)
-                    .content(objectMapper.writeValueAsString(request))
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("content", "content")
+                    .param("isUsedComment", "false")
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
             .andExpect(status().isBadRequest())
@@ -44,47 +37,59 @@ class BoardAppControllerTest extends ControllerTestSupport {
     @Test
     void createFreeBoardMaxLengthTitle() throws Exception {
         //given
-        CreateBoardRequest request = CreateBoardRequest.builder()
-            .title(createText(101))
-            .content("content")
-            .isUsedComment(false)
-            .files(new ArrayList<>())
-            .build();
 
         //when //then
         mockMvc.perform(
                 post(BASE_URL + "/free-boards", 2023, 100000)
-                    .content(objectMapper.writeValueAsString(request))
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("title", createText(101))
+                    .param("content", "content")
+                    .param("isUsedComment", "false")
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.code").value("400"))
             .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
-            .andExpect(jsonPath("$.message").value("게시물 제목은 필수입니다."));
+            .andExpect(jsonPath("$.message").value("게시물 제목의 길이는 최대 100자 입니다."));
     }
 
     @DisplayName("자유게시판에 게시물을 등록할 때 내용은 필수값이다.")
     @Test
     void createFreeBoardWithoutContent() throws Exception {
         //given
-        CreateBoardRequest request = CreateBoardRequest.builder()
-            .title("title")
-            .isUsedComment(false)
-            .files(new ArrayList<>())
-            .build();
 
         //when //then
         mockMvc.perform(
                 post(BASE_URL + "/free-boards", 2023, 100000)
-                    .content(objectMapper.writeValueAsString(request))
-                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("title", "title")
+                    .param("isUsedComment", "false")
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.code").value("400"))
             .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
             .andExpect(jsonPath("$.message").value("게시물 내용은 필수입니다."));
+    }
+
+    @DisplayName("자유게시판에 게시물을 등록한다.")
+    @Test
+    void createFreeBoard() throws Exception {
+        //given
+
+        //when //then
+        mockMvc.perform(
+                post(BASE_URL + "/free-boards", 2023, 100000)
+                    .param("title", "title")
+                    .param("content", "content")
+                    .param("isUsedComment", "false")
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
+            )
+            .andDo(print())
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.code").value("201"))
+            .andExpect(jsonPath("$.status").value("CREATED"))
+            .andExpect(jsonPath("$.message").value("CREATED"));
     }
 
     private String createText(int size) {
