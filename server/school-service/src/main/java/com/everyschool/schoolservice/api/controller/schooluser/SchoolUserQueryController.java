@@ -18,14 +18,18 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/school-service/v1/schools/{schoolId}/classes/{schoolYear}")
+@RequestMapping("/school-service/v1/web/{schoolYear}/schools/{schoolId}/classes/{schoolClassId}")
 public class SchoolUserQueryController {
 
     private final SchoolUserQueryService schoolUserQueryService;
     private final TokenUtils tokenUtils;
 
     @GetMapping("/students")
-    public ApiResponse<Result<MyClassStudentResponse>> searchMyClassStudents(@PathVariable Long schoolId, @PathVariable Integer schoolYear) {
+    public ApiResponse<Result<MyClassStudentResponse>> searchMyClassStudents(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long schoolClassId
+    ) {
         log.debug("call SchoolUserQueryController#searchMyClassStudents");
 
         String userKey = tokenUtils.getUserKey();
@@ -38,7 +42,11 @@ public class SchoolUserQueryController {
     }
 
     @GetMapping("/parents")
-    public ApiResponse<Result<MyClassParentResponse>> searchMyClassParents(@PathVariable Long schoolId, @PathVariable Integer schoolYear) {
+    public ApiResponse<Result<MyClassParentResponse>> searchMyClassParents(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long schoolClassId
+    ) {
         log.debug("call SchoolUserQueryController#searchMyClassParents");
 
         String userKey = tokenUtils.getUserKey();
