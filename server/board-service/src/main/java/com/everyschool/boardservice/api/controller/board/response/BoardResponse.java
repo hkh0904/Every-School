@@ -16,7 +16,7 @@ public class BoardResponse {
     private LocalDateTime createdDate;
 
     @Builder
-    private BoardResponse(Long boardId, String title, String content, int commentCount, LocalDateTime createdDate) {
+    public BoardResponse(Long boardId, String title, String content, int commentCount, LocalDateTime createdDate) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;

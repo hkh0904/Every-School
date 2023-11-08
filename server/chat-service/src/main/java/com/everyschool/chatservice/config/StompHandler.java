@@ -61,7 +61,9 @@ public class StompHandler implements ChannelInterceptor {
 
     private Long connectToChatRoom(StompHeaderAccessor accessor, MessageHeaders headers) {
         Long chatRoomId = getChatRoomNo(headers);
+        log.debug("[소켓 연결] 채팅방 번호 = {}", chatRoomId);
         String jwt = accessor.getFirstNativeHeader("Authorization");
+        log.debug("[소켓 연결] jwt = {}", jwt);
         UserInfo userInfo = userServiceClient.searchUserInfo(jwt);
         chatRoomService.connectChatRoom(chatRoomId, userInfo.getUserId());
         return chatRoomId;

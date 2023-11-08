@@ -1,0 +1,11 @@
+[[create-do-not-disturb]]
+=== 방해 금지 타임 등록 API
+
+==== HTTP Request
+include::{snippets}/create-do-not-disturb/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-do-not-disturb/http-response.adoc[]
+include::{snippets}/create-do-not-disturb/response-fields.adoc[]
+

@@ -1,0 +1,11 @@
+[[create-userCall-info]]
+=== 통화 내역 등록 API
+
+==== HTTP Request
+include::{snippets}/create-userCall-info/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-userCall-info/http-response.adoc[]
+include::{snippets}/create-userCall-info/response-fields.adoc[]
+

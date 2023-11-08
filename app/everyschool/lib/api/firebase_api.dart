@@ -1,12 +1,56 @@
+import 'package:everyschool/main.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
+import 'package:everyschool/page/messenger/call/answer_call.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_callkit_incoming/entities/entities.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:uuid/uuid.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 @pragma('vm:entry-point')
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  if (message.data['type'] == 'call') {
+    var name = message.notification!.title;
+    var phoneNumber = message.notification!.body;
+    var channelName = message.data['channelName'];
+    showCallkitIncoming(
+        '10', name as String, phoneNumber as String, channelName as String);
+  }
+}
+
+Future<void> showCallkitIncoming(
+    String uuid, String name, String phoneNumber, String channelName) async {
+  final params = CallKitParams(
+      id: uuid,
+      nameCaller: name,
+      appName: 'Callkit',
+      // avatar: null,
+      handle: phoneNumber,
+      type: 0,
+      duration: 30000,
+      textAccept: '받기',
+      textDecline: '거절하기',
+      missedCallNotification: const NotificationParams(
+        showNotification: true,
+        isShowCallback: true,
+        subtitle: 'Missed call',
+        callbackText: 'Call back',
+      ),
+      extra: <String, dynamic>{'userId': channelName},
+      headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
+      android: const AndroidParams(
+        isCustomNotification: true,
+        isShowLogo: false,
+        ringtonePath: 'system_ringtone_default',
+        backgroundColor: '#0955fa',
+        backgroundUrl: 'assets/test.png',
+        actionColor: '#4CAF50',
+      ));
+  await FlutterCallkitIncoming.showCallkitIncoming(params);
+}
 
 class FirebaseApi {
   // 토큰 얻어오기
@@ -55,6 +99,14 @@ class FirebaseApi {
     RemoteNotification? notification = message.notification;
 
     if (notification != null) {
+      if (message.data['type'] == 'call') {
+        var name = message.notification!.title;
+        var phoneNumber = message.notification!.body;
+        var channelName = message.data['channelName'];
+        showCallkitIncoming(
+            '10', name as String, phoneNumber as String, channelName as String);
+        // getIncomingCall();
+      }
       FlutterLocalNotificationsPlugin().show(
           notification.hashCode,
           notification.title,
@@ -100,8 +152,89 @@ class FirebaseApi {
     RemoteMessage? message =
         await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ConsultingListPage()));
+      if (message.data['type'] == 'call') {
+        // var name = message.notification!.title;
+        // var phoneNumber = message.notification!.body;
+        // showCallkitIncoming('10', name as String, phoneNumber as String);
+        // getIncomingCall();
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const ConsultingListPage()));
+      }
     }
+  }
+
+  Future<void> getIncomingCall(context) async {
+    await FlutterCallkitIncoming.onEvent.listen((event) {
+      print('이벤트 $event');
+      print('바디는 ${event!.body['extra']['userId']}');
+      String? channelName = event!.body['extra']['userId'];
+      switch (event!.event) {
+        case Event.actionCallIncoming:
+          // TODO: received an incoming call
+          print('전화옴');
+          break;
+        case Event.actionCallStart:
+          // TODO: started an outgoing call
+          // TODO: show screen calling in Flutter
+          break;
+        case Event.actionCallAccept:
+          // TODO: accepted an incoming call
+          // TODO: show screen calling in Flutter
+          print('콜받음');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AnswerCall(channelName: channelName)));
+          break;
+        case Event.actionCallDecline:
+          // TODO: declined an incoming call
+          print('안받음');
+          break;
+        case Event.actionCallEnded:
+          // TODO: ended an incoming/outgoing call
+          print('전화끊음');
+          FlutterCallkitIncoming.endAllCalls();
+          break;
+        case Event.actionCallTimeout:
+          // TODO: missed an incoming call
+          print('전화옴');
+          break;
+        case Event.actionCallCallback:
+          // TODO: only Android - click action `Call back` from missed call notification
+          print('전화옴');
+          break;
+        case Event.actionCallToggleHold:
+          // TODO: only iOS
+          print('전화옴');
+          break;
+        case Event.actionCallToggleMute:
+          // TODO: only iOS
+          print('전화옴');
+          break;
+        case Event.actionCallToggleDmtf:
+          // TODO: only iOS
+          print('전화옴');
+          break;
+        case Event.actionCallToggleGroup:
+          // TODO: only iOS
+          print('전화옴');
+          break;
+        case Event.actionCallToggleAudioSession:
+          // TODO: only iOS
+          print('전화옴');
+          break;
+        case Event.actionDidUpdateDevicePushTokenVoip:
+          // TODO: only iOS
+          print('전화옴');
+          break;
+        case Event.actionCallCustom:
+          // TODO: for custom action
+          print('전화옴');
+          break;
+      }
+    });
   }
 }

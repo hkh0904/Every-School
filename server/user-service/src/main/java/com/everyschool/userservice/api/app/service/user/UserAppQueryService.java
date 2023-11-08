@@ -1,13 +1,12 @@
 package com.everyschool.userservice.api.app.service.user;
 
-import com.everyschool.userservice.api.app.controller.user.response.ParentInfoResponse;
-import com.everyschool.userservice.api.app.controller.user.response.StudentInfoResponse;
-import com.everyschool.userservice.api.app.controller.user.response.TeacherInfoResponse;
+import com.everyschool.userservice.api.app.controller.user.response.*;
 import com.everyschool.userservice.api.app.controller.user.response.info.School;
 import com.everyschool.userservice.api.app.controller.user.response.info.SchoolClass;
 import com.everyschool.userservice.api.client.school.SchoolServiceClient;
 import com.everyschool.userservice.api.client.school.response.DescendantInfo;
 import com.everyschool.userservice.api.client.school.response.SchoolClassInfo;
+import com.everyschool.userservice.api.client.school.response.StudentInfo;
 import com.everyschool.userservice.domain.user.Parent;
 import com.everyschool.userservice.domain.user.Student;
 import com.everyschool.userservice.domain.user.Teacher;
@@ -147,6 +146,66 @@ public class UserAppQueryService {
             .schoolClass(schoolClass)
             .joinDate(teacher.getCreatedDate())
             .build();
+    }
+
+    //학부모, 학생용 ->  담임 연락처 조회
+    public TeacherContactInfoResponse searchContactInfo(Integer schoolYear, String userKey) {
+        User user = getUser(userKey);
+
+        Long teacherId = schoolServiceClient.searchTeacherByUserId(user.getId(), schoolYear);
+
+        //학교에 요청해서 학년도 당시 회원의 학급을 조회
+
+        Optional<User> findUser = userRepository.findById(teacherId);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        User teacher = findUser.get();
+
+        return TeacherContactInfoResponse.builder()
+            .userKey(teacher.getUserKey())
+            .name(teacher.getName())
+            .build();
+    }
+
+    public List<StudentContactInfoResponse> searchContactInfos(Integer schoolYear, String userKey) {
+        User findUser = getUser(userKey);
+
+        List<StudentInfo> infos = schoolServiceClient.searchStudentsByUserId(findUser.getId(), schoolYear);
+
+        Map<Long, Integer> map = infos.stream()
+            .collect(Collectors.toMap(StudentInfo::getUserId, StudentInfo::getStudentNumber, (a, b) -> b));
+
+        List<Long> temp = new ArrayList<>(map.keySet());
+        List<User> students = userRepository.findByIdIn(temp);
+
+        List<StudentContactInfoResponse> responses = new ArrayList<>();
+        for (User user : students) {
+            if (!(user instanceof Student)) {
+                throw new IllegalArgumentException();
+            }
+            Student student = (Student) user;
+
+            StudentContactInfoResponse response = StudentContactInfoResponse.builder()
+                .studentKey(student.getUserKey())
+                .name(student.getName())
+                .studentNumber(map.get(student.getId()))
+                .build();
+
+            responses.add(response);
+
+            List<Parent> parents = studentParentAppQueryRepository.findByStudentId(student.getId());
+            for (Parent parent : parents) {
+                StudentContactInfoResponse.Parent parentResponse = StudentContactInfoResponse.Parent.builder()
+                    .parentKey(parent.getUserKey())
+                    .name(parent.getName())
+                    .parentType(parent.getParentType())
+                    .build();
+                response.getParents().add(parentResponse);
+            }
+        }
+
+        return responses;
     }
 
     private User getUser(String userKey) {
