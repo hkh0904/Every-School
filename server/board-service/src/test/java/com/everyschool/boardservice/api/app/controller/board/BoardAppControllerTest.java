@@ -1,0 +1,97 @@
+package com.everyschool.boardservice.api.app.controller.board;
+
+import com.everyschool.boardservice.ControllerTestSupport;
+import com.everyschool.boardservice.api.controller.board.request.CreateBoardRequest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+
+import java.util.ArrayList;
+
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+class BoardAppControllerTest extends ControllerTestSupport {
+
+    private static final String BASE_URL = "/board-service/v1/app/{schoolYear}/schools/{schoolId}";
+
+    @DisplayName("자유게시판에 게시물을 등록할 때 제목은 필수값이다.")
+    @Test
+    void createFreeBoardWithoutTitle() throws Exception {
+        //given
+        CreateBoardRequest request = CreateBoardRequest.builder()
+            .content("content")
+            .isUsedComment(false)
+            .files(new ArrayList<>())
+            .build();
+
+        //when //then
+        mockMvc.perform(
+                post(BASE_URL + "/free-boards", 2023, 100000)
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("400"))
+            .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+            .andExpect(jsonPath("$.message").value("게시물 제목은 필수입니다."));
+    }
+
+    @DisplayName("자유게시판에 게시물을 등록할 때 제목의 최대 길이는 100자이다.")
+    @Test
+    void createFreeBoardMaxLengthTitle() throws Exception {
+        //given
+        CreateBoardRequest request = CreateBoardRequest.builder()
+            .title(createText(101))
+            .content("content")
+            .isUsedComment(false)
+            .files(new ArrayList<>())
+            .build();
+
+        //when //then
+        mockMvc.perform(
+                post(BASE_URL + "/free-boards", 2023, 100000)
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("400"))
+            .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+            .andExpect(jsonPath("$.message").value("게시물 제목은 필수입니다."));
+    }
+
+    @DisplayName("자유게시판에 게시물을 등록할 때 내용은 필수값이다.")
+    @Test
+    void createFreeBoardWithoutContent() throws Exception {
+        //given
+        CreateBoardRequest request = CreateBoardRequest.builder()
+            .title("title")
+            .isUsedComment(false)
+            .files(new ArrayList<>())
+            .build();
+
+        //when //then
+        mockMvc.perform(
+                post(BASE_URL + "/free-boards", 2023, 100000)
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("400"))
+            .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+            .andExpect(jsonPath("$.message").value("게시물 내용은 필수입니다."));
+    }
+
+    private String createText(int size) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            builder.append("0");
+        }
+        return String.valueOf(builder);
+    }
+}
