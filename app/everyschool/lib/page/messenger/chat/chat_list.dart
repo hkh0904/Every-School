@@ -15,17 +15,17 @@ class _ChatListState extends State<ChatList> {
   List<dynamic> chatList = [];
 
   String formatText(String text) {
-    if (text.length > 35) {
-      text = '${text.substring(0, 35)}...';
+    if (text.length > 10) {
+      text = '${text.substring(0, 10)}...';
     }
     // 이미 문자열이 30자를 초과하더라도, 10자가 넘으면 여전히 줄바꿈을 적용합니다.
-    if (text.length > 15) {
-      int breakIndex = text.indexOf(' ', 15);
-      if (breakIndex != -1) {
-        text =
-            '${text.substring(0, breakIndex)}\n${text.substring(breakIndex + 1)}';
-      }
-    }
+    // if (text.length > 15) {
+    //   int breakIndex = text.indexOf(' ', 15);
+    //   if (breakIndex != -1) {
+    //     text =
+    //         '${text.substring(0, breakIndex)}\n${text.substring(breakIndex + 1)}';
+    //   }
+    // }
     return text;
   }
 
