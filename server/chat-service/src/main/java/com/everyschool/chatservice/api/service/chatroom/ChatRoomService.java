@@ -120,7 +120,7 @@ public class ChatRoomService {
             }
         }
 
-        log.debug("[채팅방 생성] 제목 : {}",opponentTitle);
+        log.debug("[채팅방 생성] 제목 : {}", opponentTitle);
         return opponentTitle;
     }
 
@@ -132,11 +132,11 @@ public class ChatRoomService {
      * @param chatRoom
      * @return
      */
-    private ChatRoomUser createChatRoomUser(String title, Long userId, ChatRoom chatRoom) {
+    private ChatRoomUser createChatRoomUser(String title, Long userId, ChatRoom chatRoom, String opponentUserType) {
         return ChatRoomUser.builder()
                 .chatRoomTitle(title)
-//                .socketTopic("/topic/chatroom/" + chatRoom.getId())
                 .userId(userId)
+                .opponentUserType(opponentUserType)
                 .isAlarm(true)
                 .unreadCount(0)
                 .chatRoom(chatRoom)
