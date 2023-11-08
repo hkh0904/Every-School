@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
@@ -29,12 +30,8 @@ public class FCMNotificationService {
 
         Notification notification = Notification.builder()
                 .setTitle(dto.getSenderName())
-                .setBody(dto.getSenderTel())
+                .setBody("calling...")
                 .build();
-
-        Map<String, String> data = new HashMap<>();
-        data.put("type", "call");
-        data.put("cname", dto.getCname());
 
         Message message = Message.builder()
 //                .setToken(fcmToken)
@@ -44,8 +41,8 @@ public class FCMNotificationService {
                 .putData("cname", dto.getCname())
                 .build();
 
-        firebaseMessaging.send(message);
+        return firebaseMessaging.send(message);
 
-        return "전화 알림 전송 완료";
+//        return "전화 알림 전송 완료";
     }
 }

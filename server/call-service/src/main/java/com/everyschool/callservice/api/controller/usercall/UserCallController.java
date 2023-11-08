@@ -35,6 +35,44 @@ public class UserCallController {
     private final VoiceAiServiceClient voiceAiServiceClient;
 
     /**
+     * 통화 녹음 시작 API
+     *  상대방이 전화 알림을 통해 전화 받을시
+     *
+     * @param request 통화 녹음에 필요한 정보들
+     * @return 녹음 시작
+     */
+    @PostMapping("/record/start")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<RecordStartInfo> createRecordStart(@RequestBody RecordStartRequest request) {
+        log.debug("UserCall UserCallController#createRecordStart");
+        log.debug("RecordStartRequest={}", request);
+
+        RecordStartInfo res = voiceAiServiceClient.recordStart(request);
+        log.debug("RecordStartInfo={}", res);
+
+        return ApiResponse.created(res);
+    }
+
+    /**
+     * 통화 녹음 시작 API
+     *
+     * @param request 통화 녹음에 필요한 정보들
+     * @return 녹음 시작
+     */
+    @PostMapping("/record/stop")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<RecordStopInfo> createRecordStop(@RequestBody RecordStopRequest request) {
+        log.debug("UserCall UserCallController#createRecordStop");
+        log.debug("RecordStopRequest={}", request);
+
+        RecordStopInfo res = voiceAiServiceClient.recordStop(request);
+        log.debug("RecordStartInfo={}", res);
+
+        return ApiResponse.created(res);
+    }
+
+
+    /**
      * 통화 내역 등록 API
      *
      * @param request 통화 종료후 통화 내역 정보
@@ -63,7 +101,11 @@ public class UserCallController {
 
         return ApiResponse.created("통화 내용 저장 완료.");
     }
-
+    
+    /*
+    * TODO 배치 서버 돌리기
+    * 
+     */
     @Async
     public void createRecordAnalysis(MultipartFile file, Long callId) throws IOException {
         try {
@@ -104,35 +146,6 @@ public class UserCallController {
 //        return ApiResponse.created("통화 내용 저장 완료.");
 //    }
 
-    /**
-     * 통화 녹음 시작 API
-     *
-     * @param request 통화 녹음에 필요한 정보들
-     * @return 녹음 시작
-     */
-    @PostMapping("/record/start")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<RecordStartInfo> createRecordStart(@RequestBody RecordStartRequest request) {
-        log.debug("UserCall UserCallController#createRecordStart");
-        log.debug("RecordStartRequest={}", request);
-
-        RecordStartInfo res = voiceAiServiceClient.recordStart(request);
-        log.debug("RecordStartInfo={}", res);
-
-        return ApiResponse.created(res);
-    }
-
-    @PostMapping("/record/stop")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<RecordStopInfo> createRecordStop(@RequestBody RecordStopRequest request) {
-        log.debug("UserCall UserCallController#createRecordStop");
-        log.debug("RecordStopRequest={}", request);
-
-        RecordStopInfo res = voiceAiServiceClient.recordStop(request);
-        log.debug("RecordStartInfo={}", res);
-
-        return ApiResponse.created(res);
-    }
 
 
 

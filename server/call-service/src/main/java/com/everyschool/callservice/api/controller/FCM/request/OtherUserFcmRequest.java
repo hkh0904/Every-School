@@ -18,16 +18,12 @@ public class OtherUserFcmRequest {
     private String senderName;
 
     @NotNull
-    private String senderTel;
-
-    @NotNull
     private String cname;
 
     @Builder
-    public OtherUserFcmRequest(String otherUserKey, String senderName, String senderTel, String cname) {
+    public OtherUserFcmRequest(String otherUserKey, String senderName, String cname) {
         this.otherUserKey = otherUserKey;
         this.senderName = senderName;
-        this.senderTel = senderTel;
         this.cname = cname;
     }
 
@@ -35,7 +31,6 @@ public class OtherUserFcmRequest {
         return OtherUserFcmDto.builder()
                 .otherUserKey(this.otherUserKey)
                 .senderName(this.senderName)
-                .senderTel(this.senderTel)
                 .cname(this.cname)
                 .build();
     }

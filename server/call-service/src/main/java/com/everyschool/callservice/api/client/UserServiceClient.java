@@ -15,6 +15,6 @@ public interface UserServiceClient {
     @GetMapping("/user-service/client/v1/user-info/{userKey}")
     UserInfo searchUserInfoByUserKey(@PathVariable(name = "userKey") String userKey);
 
-//    @GetMapping("/user-service/client/v1/user-fcm/{userKey}")
-//    String searchUserFcmByUserKey(@PathVariable(name = "userKey") String userKey);
+    @GetMapping("/user-service/client/v1/user-fcm/{userKey}")
+    String searchUserFcmByUserKey(@PathVariable(name = "userKey") String userKey);
 }
