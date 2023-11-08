@@ -17,6 +17,11 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 신고 App API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -27,6 +32,15 @@ public class ReportAppController {
     private final TokenUtils tokenUtils;
     private final FileStore fileStore;
 
+    /**
+     * 신고 등록 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId 학교 아이디
+     * @param request 신고 등록 요청 정보
+     * @return 등록된 신고 정보
+     * @throws IOException S3에 파일 업로드 실패 시 발생
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateReportResponse> createReport(
