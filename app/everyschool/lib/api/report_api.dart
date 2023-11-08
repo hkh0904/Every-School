@@ -22,7 +22,7 @@ class ReportApi {
       return response.data['data'];
     } catch (e) {
       print(e);
-      return 0;
+      return null;
     }
   }
 }
