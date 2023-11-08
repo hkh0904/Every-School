@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class BoardWebController {
     public ApiResponse<CreateBoardResponse> createNoticeBoard(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
-        @ModelAttribute CreateBoardRequest request
+        @Valid @ModelAttribute CreateBoardRequest request
     ) throws IOException {
 
         String userKey = tokenUtils.getUserKey();
@@ -47,7 +48,7 @@ public class BoardWebController {
     public ApiResponse<CreateBoardResponse> createCommunicationBoard(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
-        @ModelAttribute CreateBoardRequest request
+        @Valid @ModelAttribute CreateBoardRequest request
     ) throws IOException {
 
         String userKey = tokenUtils.getUserKey();
