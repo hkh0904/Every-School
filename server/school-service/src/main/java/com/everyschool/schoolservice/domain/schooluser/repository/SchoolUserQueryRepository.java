@@ -102,4 +102,16 @@ public class SchoolUserQueryRepository {
             )
             .fetch();
     }
+
+    public Optional<Long> findByUserIdAndSchoolYear(Long userId, int schoolYear) {
+        Long teacherId = queryFactory
+            .select(schoolUser.schoolClass.id)
+            .from(schoolUser)
+            .where(
+                schoolUser.userId.eq(userId),
+                schoolUser.schoolYear.eq(schoolYear)
+            )
+            .fetchFirst();
+        return Optional.ofNullable(teacherId);
+    }
 }

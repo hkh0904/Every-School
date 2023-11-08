@@ -10,6 +10,7 @@ import com.everyschool.schoolservice.api.web.controller.client.response.StudentI
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
+import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfoCon;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
@@ -123,5 +124,23 @@ public class SchoolUserQueryService {
 
     public List<DescendantInfo> searchDescendantInfo(List<Long> userIds) {
         return schoolUserQueryRepository.findDescendantInfo(userIds);
+    }
+
+    public Long searchTeacherByUserId(Long userId, Integer schoolYear) {
+        //클래스 id 조회
+        Optional<Long> findTeacher = schoolUserQueryRepository.findByUserIdAndSchoolYear(userId, schoolYear);
+        if (findTeacher.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Long teacherId = findTeacher.get();
+
+
+
+        //해당 클래스 id를 가진 교직원 조회
+        return null;
+    }
+
+    public List<StudentInfoCon> searchStudentsByUserId(Long userId, Integer schoolYear) {
+        return null;
     }
 }
