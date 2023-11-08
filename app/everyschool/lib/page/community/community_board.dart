@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/page/community/postlist_page.dart';
 
 class CommunityBoard extends StatefulWidget {
@@ -9,17 +10,28 @@ class CommunityBoard extends StatefulWidget {
 }
 
 class _CommunityBoardState extends State<CommunityBoard> {
-  var boardList = [
-    {'boardId': 1, 'title': '짧은공지제목', 'date': '2023.10.30.11:23'},
-    {'boardId': 2, 'title': '짧은공지제목짧은공지제목', 'date': '2023.10.30.10:43'},
-    {'boardId': 3, 'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.30.09:23'},
-    {'boardId': 4, 'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.29.23:01'},
-    {
-      'boardId': 5,
-      'title': '아주긴공지제목아주긴공지제목아주긴공지제목아주긴공지제목아주긴공지제목',
-      'date': '2023.10.28.16:33'
-    },
-  ];
+  final CommunityApi communityApi = CommunityApi();
+  List<dynamic> boardList = [];
+
+  Future<void> _loadBoardData() async {
+    try {
+      var response = await communityApi.getBoardList();
+      if (response != null && response['content'] != null) {
+        setState(() {
+          boardList = response['content'];
+        });
+      }
+    } catch (e) {
+      print('데이터 로딩 중 오류 발생: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBoardData();
+    print('자유게시판 리스트 $boardList');
+  }
 
   @override
   Widget build(BuildContext context) {

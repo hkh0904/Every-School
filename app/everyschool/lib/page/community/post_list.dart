@@ -14,9 +14,9 @@ class _PostListState extends State<PostList> {
       'boardId': 1,
       'title': '선생님께 사과받고 싶습니다.',
       'content': '아니 진짜 살다살다 제가 잘못한건가요 아니 진짜 살다살다 제가 잘못한건가요',
-      'time': '2023.10.31 20:54',
-      'isTapped': false,
-      'comments': 22
+      'commentCount': 22,
+      'createdDate': '2023.10.31 20:54',
+      'isTapped': false
     },
     {
       'boardId': 2,
