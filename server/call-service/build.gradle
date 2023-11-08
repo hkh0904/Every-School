@@ -41,7 +41,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	//spring cloud
@@ -87,6 +87,9 @@ dependencies {
 
 	// AWS S3
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
+
+	// FCM
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
 }
 
 dependencyManagement {

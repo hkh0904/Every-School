@@ -36,6 +36,7 @@ public class ChatRoomController {
     public ApiResponse<CreateChatRoomResponse> createChatRoom(@RequestBody @Valid CreateChatRoomRequest request,
                                                               @RequestHeader("Authorization") String token) {
 
+        log.debug("[채팅방 생성 Controller] 요청 들어옴");
         CreateChatRoomDto dto = request.toDto(token);
         CreateChatRoomResponse response = chatRoomService.createChatRoom(dto);
         return ApiResponse.created(response);

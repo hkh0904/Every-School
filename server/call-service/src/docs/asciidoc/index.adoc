@@ -1,7 +1,7 @@
 ifndef::snippets[]
 :snippets: ../../build/generated-snippets
 endif::[]
-= Every School(call-service) REST API 문서
+= Every School(userCall-service) REST API 문서
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -11,13 +11,17 @@ endif::[]
 
 include::overview.adoc[]
 
+[[DoNotDisturb-API]]
+== DoNotDisturb API
+
+include::api/donotdisturb/create-do-not-disturb.adoc[]
+include::api/donotdisturb/search-do-not-disturb.adoc[]
+
 [[Call-API]]
 == Call API
-
-include::api/call/create-donotdisturb.adoc[]
-include::api/call/search-donotdisturbs.adoc[]
-include::api/call/create-call-info.adoc[]
-include::api/call/search-calls.adoc[]
-include::api/call/call-record-start.adoc[]
-include::api/call/call-record-stop.adoc[]
+include::api/call/create-userCall-info.adoc[]
+include::api/call/search-userCalls.adoc[]
+include::api/call/userCall-record-start.adoc[]
+include::api/call/userCall-record-stop.adoc[]
+include::api/call/fcm-calling.adoc[]
 
