@@ -1,44 +1,28 @@
 package com.everyschool.openaiservice.api.service;
 
+import com.everyschool.openaiservice.api.client.ChatServiceClient;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 
-@Configuration
-@EnableBatchProcessing
+@Service
+@Transactional
 @RequiredArgsConstructor
 public class OpenAiService {
 
-    private final JobBuilderFactory jobBuilderFactory;
-    private final StepBuilderFactory stepBuilderFactory;
-//    private final ChatFeignClient chatFeignClient;
+    private final ChatServiceClient chatServiceClient;
 
-    @Bean
-    public Step chatStep() {
-        return stepBuilderFactory.get("chatStep")
-                .tasklet((contribution, chunkContext) -> {
-                    // 매일 2시마다 Chat 서버에 요청을 보냄
-                    // TODO: 2023-11-06 채팅 목록 불러오기
-                    return null;
-                })
-                .build();
+    public void doChecking() {
+        // TODO: 2023-11-08 채팅방 id 가져오기
+        List<Long> roomIds = chatServiceClient.searchChatRoomIdByDate(LocalDate.now().minusDays(1));
+        // TODO: 2023-11-08 반복문 안에서 채팅 목록 가져오기
+        // TODO: 2023-11-08 발신자 정리해서 GPT 보내기
+        // TODO: 2023-11-08 문제 채팅 카프카로 저장하기
     }
-
-    @Bean
-    public Job chatJob() {
-        return jobBuilderFactory.get("chatJob")
-                .incrementer(new RunIdIncrementer())
-                .start(chatStep())
-                .build();
-    }
- }
+}
 
 
