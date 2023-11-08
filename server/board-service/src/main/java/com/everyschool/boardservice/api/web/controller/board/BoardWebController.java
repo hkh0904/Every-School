@@ -18,19 +18,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Slf4j
-@RequestMapping("/board-service/v1/web/{schoolYear}/schools/{schoolId}/boards")
+@RequestMapping("/board-service/v1/web/{schoolYear}/schools/{schoolId}")
 public class BoardWebController {
 
     private final BoardWebService boardWebService;
     private final TokenUtils tokenUtils;
     private final FileStore fileStore;
 
-    @PostMapping("/notices")
+    @PostMapping("/notice-boards")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateBoardResponse> createNoticeBoard(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
-        @ModelAttribute CreateBoardRequest request) throws IOException {
+        @ModelAttribute CreateBoardRequest request
+    ) throws IOException {
 
         String userKey = tokenUtils.getUserKey();
 
@@ -41,7 +42,7 @@ public class BoardWebController {
         return ApiResponse.created(response);
     }
 
-    @PostMapping("/communications")
+    @PostMapping("/communication-boards")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateBoardResponse> createCommunicationBoard(
         @PathVariable Integer schoolYear,
