@@ -1,4 +1,4 @@
-package com.everyschool.callservice.docs.call;
+package com.everyschool.callservice.docs.donotdisturb;
 
 import com.everyschool.callservice.api.controller.donotdisturb.DoNotDisturbController;
 import com.everyschool.callservice.api.controller.donotdisturb.request.DoNotDisturbRequest;
@@ -11,7 +11,6 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import java.time.LocalDateTime;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -24,35 +23,6 @@ public class DoNotDisturbControllerDocsTest extends RestDocsSupport {
         return new DoNotDisturbController();
     }
 
-    @DisplayName("방해 금지 리스트 API")
-    @Test
-    void searchDoNotDisturbs() throws Exception {
-        mockMvc.perform(
-            get("/call-service/v1/donotdisturbs/")
-        )
-        .andDo(print())
-        .andExpect(status().isOk())
-        .andDo(document("search-donotdisturbs",
-            preprocessResponse(prettyPrint()),
-            responseFields(
-                fieldWithPath("code").type(JsonFieldType.NUMBER)
-                    .description("코드"),
-                fieldWithPath("status").type(JsonFieldType.STRING)
-                    .description("상태"),
-                fieldWithPath("message").type(JsonFieldType.STRING)
-                    .description("메시지"),
-                fieldWithPath("data").type(JsonFieldType.ARRAY)
-                    .description("응답 데이터"),
-                fieldWithPath("data[].startTime").type(JsonFieldType.ARRAY)
-                    .description("시작 시간"),
-                fieldWithPath("data[].endTime").type(JsonFieldType.ARRAY)
-                    .description("끝 나는 시간"),
-                fieldWithPath("data[].isActivate").type(JsonFieldType.BOOLEAN)
-                    .description("활성화 상태")
-            )
-        ));
-    }
-
     @DisplayName("방해 금지 등록 API")
     @Test
     void createDoNotDisturb() throws Exception {
@@ -63,14 +33,14 @@ public class DoNotDisturbControllerDocsTest extends RestDocsSupport {
             .build();
 
         mockMvc.perform(
-            post("/call-service/v1/donotdisturbs/")
+            post("/call-service/v1/do-not-disturbs/")
                 .header("Authorization", "Bearer Token")
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
         )
         .andDo(print())
         .andExpect(status().isCreated())
-        .andDo(document("create-donotdisturb",
+        .andDo(document("create-do-not-disturb",
             preprocessRequest(prettyPrint()),
             preprocessResponse(prettyPrint()),
             requestFields(
