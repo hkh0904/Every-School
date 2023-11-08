@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:everyschool/api/report_api.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -22,24 +23,34 @@ class _ReportPageState extends State<ReportPage> {
   List<File> _filePaths = [];
   TextEditingController _fileController = TextEditingController();
 
-  postFile(List<File> files) async {
-    const url = 'YOUR_API';
+  postFile() async {
     FormData formData = FormData.fromMap({
-      "attachments": files,
+      "typeId": 9001,
+      "files": _filePaths
+          .map((file) => MultipartFile.fromFileSync(file.path))
+          .toList(),
+      "description": _detailInput,
+      "who": _suspectInput,
+      "when": '${_selectedDate.toString()} ${_selectedTime.toString()}',
+      "where": _locationInput,
+      "what": _selectedType,
+      "how": null,
+      "why": null
     });
 
-    var dio = Dio();
+    ReportApi().writeReport(formData);
+    // var dio = Dio();
 
-    try {
-      var response = await dio.post(
-        url,
-        data: formData,
-      );
+    // try {
+    //   var response = await dio.post(
+    //     url,
+    //     data: formData,
+    //   );
 
-      print("응답 ${response.data.toString()}");
-    } catch (eee) {
-      print("error occur");
-    }
+    //   print("응답 ${response.data.toString()}");
+    // } catch (eee) {
+    //   print("error occur");
+    // }
   }
 
 //   Future<void> postFiles(List<File> files) async {
@@ -285,7 +296,7 @@ class _ReportPageState extends State<ReportPage> {
                         _detailInput = value;
                       });
                     },
-                    controller: TextEditingController(text: _detailInput),
+                    // controller: TextEditingController(text: _detailInput),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: '상세 내용을 입력해주세요',
@@ -363,15 +374,16 @@ class _ReportPageState extends State<ReportPage> {
                   _detailInput != null
               ? () {
                   // 버튼이 활성화된 경우 실행할 동작
-                  print(_selectedType);
-                  print(_selectedDate);
-                  print(_selectedTime);
-                  print(_locationInput);
-                  print(_detailInput);
-                  print(
-                    _filePaths
-                        .map((file) => MultipartFile.fromFileSync(file.path)),
-                  );
+                  postFile();
+                  // print(_selectedType);
+                  // print(_selectedDate);
+                  // print(_selectedTime);
+                  // print(_locationInput);
+                  // print(_detailInput);
+                  // print(
+                  //   _filePaths
+                  //       .map((file) => MultipartFile.fromFileSync(file.path)),
+                  // );
                 }
               : null,
           child: Text(
