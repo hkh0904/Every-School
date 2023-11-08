@@ -194,6 +194,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글에 달린 댓글수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
+                    fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
+                        .description("탭 여부"),
                     fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
                         .description("현재 페이지 번호"),
                     fieldWithPath("data.size").type(JsonFieldType.NUMBER)
@@ -249,6 +251,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글에 달린 댓글수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
+                    fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
+                        .description("탭 여부"),
                     fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
                         .description("현재 페이지 번호"),
                     fieldWithPath("data.size").type(JsonFieldType.NUMBER)
@@ -304,6 +308,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글에 달린 댓글수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
+                    fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
+                        .description("탭 여부"),
                     fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
                         .description("현재 페이지 번호"),
                     fieldWithPath("data.size").type(JsonFieldType.NUMBER)
