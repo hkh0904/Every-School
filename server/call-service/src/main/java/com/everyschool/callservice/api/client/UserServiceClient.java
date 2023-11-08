@@ -3,16 +3,18 @@ package com.everyschool.callservice.api.client;
 import com.everyschool.callservice.api.client.response.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("http://k9c108.p.ssafy.io:8000/user-service")
+@FeignClient(name = "user-service", url = "https://every-school.com/api")
 public interface UserServiceClient {
 
-    @GetMapping("/client/v1/user-id")
-    UserInfo searchUserInfo(@RequestHeader("Authorization") String token);
+    @GetMapping("/user-service/client/v1/user-info")
+    UserInfo searchUserInfo(@RequestHeader("Authorization") String accessToken);
 
-    @GetMapping("/client/v1/")
-    UserInfo searchUserInfoByUserKey(@RequestParam(name = "otherUserKey") String otherUserKey);
+    @GetMapping("/user-service/client/v1/user-info/{userKey}")
+    UserInfo searchUserInfoByUserKey(@PathVariable(name = "userKey") String userKey);
 
+    @GetMapping("/user-service/client/v1/user-fcm/{userKey}")
+    String searchUserFcmByUserKey(@PathVariable(name = "userKey") String userKey);
 }
