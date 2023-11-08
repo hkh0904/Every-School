@@ -3,8 +3,6 @@ package com.everyschool.callservice.api.service.FCM.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Map;
-
 @Data
 public class OtherUserFcmDto {
 

@@ -1,7 +1,6 @@
 package com.everyschool.callservice.api.service.FCM;
 
 import com.everyschool.callservice.api.client.UserServiceClient;
-import com.everyschool.callservice.api.controller.FCM.request.OtherUserFcmRequest;
 import com.everyschool.callservice.api.service.FCM.dto.OtherUserFcmDto;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -9,10 +8,6 @@ import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
