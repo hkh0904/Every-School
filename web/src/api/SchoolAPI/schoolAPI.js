@@ -2,17 +2,19 @@ import { baseAxios } from '../Axios.jsx';
 
 export const getParentList = async () => {
   const schoolNum = sessionStorage.getItem('schoolId');
-  // const schoolYear = sessionStorage.getItem('year');
+  const schoolYear = sessionStorage.getItem('year');
   const classNum = sessionStorage.getItem('classNum');
 
   try {
-    const response = await baseAxios.get(`/school-service/v1/schools/${classNum}/classes/${schoolNum}/parents`, {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    const response = await baseAxios.get(
+      `/school-service/v1/web/${schoolYear}/schools/${schoolNum}/classes/${classNum}/parents`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
       }
-    });
-    console.log(response.data);
-    return response.data.data;
+    );
+    return response.data.data.content;
   } catch (error) {
     return 0;
   }
