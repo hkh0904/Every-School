@@ -90,7 +90,7 @@ class _CallButtonState extends State<CallButton> {
       showMessage("Token received, joining a channel...");
 
       print('여기는 $reNewToken, $channelId, $uid');
-
+      print('채널은 $channelId');
       await agoraEngine.joinChannel(
         token: reNewToken,
         channelId: channelId,
