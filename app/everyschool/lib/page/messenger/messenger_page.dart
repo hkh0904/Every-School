@@ -25,8 +25,10 @@ class _MessengerPageState extends State<MessengerPage> {
   @override
   void initState() {
     // TODO: implement initState
-    userType = 1003;
-    // userType = context.read<UserStore>().userInfo['userType'];
+
+    userType = context.read<UserStore>().userInfo['userType'];
+    print(userType);
+    // userType = 1003;
   }
 
   @override
@@ -165,7 +167,7 @@ class _UserTapBarState extends State<UserTapBar> {
   final storage = FlutterSecureStorage();
 
   Map<String, dynamic>? teacherConnect;
-  List<dynamic> chatList = [];
+  List chatList = [];
   List roomIdList = [];
   int? roomId = 0;
 
@@ -261,9 +263,11 @@ class _UserTapBarState extends State<UserTapBar> {
                       if (snapshot.hasData) {
                         return ChatList(chatList: chatList);
                       } else if (snapshot.hasError) {
-                        return Text(
-                          'Error: ${snapshot.error}',
-                          style: TextStyle(fontSize: 15),
+                        return Center(
+                          child: Text(
+                            'Error: ${snapshot.error}',
+                            style: TextStyle(fontSize: 15),
+                          ),
                         );
                       } else {
                         return Container(
