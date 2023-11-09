@@ -187,7 +187,7 @@ public class UserAppQueryService {
             Student student = (Student) user;
 
             StudentContactInfoResponse response = StudentContactInfoResponse.builder()
-                .studentKey(student.getUserKey())
+                .userKey(student.getUserKey())
                 .name(student.getName())
                 .studentNumber(map.get(student.getId()))
                 .build();
