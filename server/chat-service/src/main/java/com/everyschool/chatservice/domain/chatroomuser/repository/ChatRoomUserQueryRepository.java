@@ -22,6 +22,13 @@ public class ChatRoomUserQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    /**
+     * 내가 속한 그 채팅방 정보 가져오기
+     *
+     * @param roomId
+     * @param userId
+     * @return
+     */
     public Optional<ChatRoomUser> findChatRoomUserByRoomIdAndUserId(Long roomId, Long userId) {
         return Optional.ofNullable(queryFactory
                 .select(chatRoomUser)
@@ -30,6 +37,13 @@ public class ChatRoomUserQueryRepository {
                         chatRoomUser.chatRoom.id.eq(roomId)).fetchOne());
     }
 
+    /**
+     * 채팅방 다른 유저 가져오기
+     *
+     * @param chatRoomId
+     * @param senderUserId
+     * @return
+     */
     public Optional<Long> findOpponentUserId(Long chatRoomId, Long senderUserId) {
         return Optional.ofNullable(queryFactory
                 .select(chatRoomUser.userId)
@@ -39,6 +53,13 @@ public class ChatRoomUserQueryRepository {
                 .fetchOne());
     }
 
+    /**
+     * 두 유저 Id로 채팅방 찾기
+     *
+     * @param user1Id
+     * @param user2Id
+     * @return
+     */
     public Optional<Long> findChatRoomIdByTwoUserId(Long user1Id, Long user2Id) {
         List<Long> query = queryFactory.select(chatRoomUser.chatRoom.id)
                 .from(chatRoomUser)
