@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:everyschool/api/report_api.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -22,46 +23,75 @@ class _ReportPageState extends State<ReportPage> {
   List<File> _filePaths = [];
   TextEditingController _fileController = TextEditingController();
 
-  postFile(List<File> files) async {
-    const url = 'YOUR_API';
+  postFile() async {
     FormData formData = FormData.fromMap({
-      "attachments": files,
+      "typeId": 9001,
+      "files": _filePaths
+          .map((file) => MultipartFile.fromFileSync(file.path))
+          .toList(),
+      "description": _detailInput,
+      "who": _suspectInput,
+      "when": '${_selectedDate.toString()} ${_selectedTime.toString()}',
+      "where": _locationInput,
+      "what": _selectedType,
+      "how": null,
+      "why": null
     });
 
-    var dio = Dio();
-
-    try {
-      var response = await dio.post(
-        url,
-        data: formData,
+    var response = ReportApi().writeReport(formData);
+    if (response.runtimeType != Null) {
+      showDialog(
+        context: context,
+        builder: ((context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 40,
+                ),
+                Center(
+                    child: Text("신고가 완료되었습니다.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 18))),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                    child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Text("진행 사항은 신고 목록에서 확인 가능합니다.",
+                      style: TextStyle(fontSize: 16)),
+                )),
+                SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 50,
+                    color: Color(0xff15075f),
+                    child: Center(
+                      child: Text(
+                        "확인",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
       );
-
-      print("응답 ${response.data.toString()}");
-    } catch (eee) {
-      print("error occur");
     }
   }
-
-//   Future<void> postFiles(List<File> files) async {
-//   const url = 'YOUR_API_ENDPOINT';
-
-//   var dio = Dio();
-
-//   FormData formData = FormData.fromMap({
-//     "attachments": files.map((file) => MultipartFile.fromFileSync(file.path)),
-//   });
-
-//   try {
-//     var response = await dio.post(
-//       url,
-//       data: formData,
-//     );
-
-//     print("응답: ${response.data.toString()}");
-//   } catch (error) {
-//     print("에러 발생: $error");
-//   }
-// }
 
   String extractFileName(String filePath) {
     List<String> parts = filePath.split('/');
@@ -285,7 +315,7 @@ class _ReportPageState extends State<ReportPage> {
                         _detailInput = value;
                       });
                     },
-                    controller: TextEditingController(text: _detailInput),
+                    // controller: TextEditingController(text: _detailInput),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: '상세 내용을 입력해주세요',
@@ -363,15 +393,7 @@ class _ReportPageState extends State<ReportPage> {
                   _detailInput != null
               ? () {
                   // 버튼이 활성화된 경우 실행할 동작
-                  print(_selectedType);
-                  print(_selectedDate);
-                  print(_selectedTime);
-                  print(_locationInput);
-                  print(_detailInput);
-                  print(
-                    _filePaths
-                        .map((file) => MultipartFile.fromFileSync(file.path)),
-                  );
+                  postFile();
                 }
               : null,
           child: Text(
