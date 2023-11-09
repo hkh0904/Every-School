@@ -6,8 +6,10 @@ import 'package:everyschool/page/messenger/call/call_page.dart';
 import 'package:everyschool/page/messenger/chat/chat_list.dart';
 import 'package:everyschool/page/messenger/chat/chat_room.dart';
 import 'package:everyschool/page/messenger/chat/connect.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class MessengerPage extends StatefulWidget {
   const MessengerPage({super.key});
@@ -39,8 +41,8 @@ class ManagerTapBar extends StatefulWidget {
 
 class _ManagerTapBarState extends State<ManagerTapBar> {
   final storage = FlutterSecureStorage();
-  List<dynamic>? userConnect;
-  List<dynamic> chatList = [];
+  List? userConnect;
+  List? chatList;
   List roomIdList = [];
   int? roomId = 0;
 
@@ -50,10 +52,15 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
     final token = await storage.read(key: 'token') ?? "";
     print(token);
     final response = await MessengerApi().getChatList(token);
-    final contact = await MessengerApi().getTeacherConnect(token);
+    print('여기가 리스폰즈 $response');
+    print('여기가 리스폰즈 ${response.runtimeType}');
+    final contact = await MessengerApi().getUserConnect(token);
+    print('여기가 zjsxorzxm $contact');
 
     setState(() {
-      chatList = response;
+      chatList = List<Map>.from(response);
+      print('이게 챗 리스트');
+      print(chatList);
       userConnect = contact;
     });
     response.forEach((item) {
@@ -119,8 +126,10 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
                       if (snapshot.hasData) {
                         return ChatList(chatList: chatList);
                       } else if (snapshot.hasError) {
+                        print(snapshot.error);
+                        print(chatList);
                         return Text(
-                          'Error: ${snapshot.error}',
+                          '에러뜨니까 확인해 Error: ${snapshot.error}',
                           style: TextStyle(fontSize: 15),
                         );
                       } else {
@@ -152,7 +161,7 @@ class UserTapBar extends StatefulWidget {
 class _UserTapBarState extends State<UserTapBar> {
   final storage = FlutterSecureStorage();
 
-  Map<String, String>? teacherConnect;
+  Map<String, dynamic>? teacherConnect;
   List<dynamic> chatList = [];
   List roomIdList = [];
   int? roomId = 0;
@@ -163,6 +172,10 @@ class _UserTapBarState extends State<UserTapBar> {
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
     final contact = await MessengerApi().getTeacherConnect(token);
+    print('내정보${context.read<UserStore>().userInfo}');
+    print('상대정보 $contact');
+    print(contact.runtimeType);
+
     setState(() {
       chatList = response;
       teacherConnect = contact;
@@ -203,16 +216,15 @@ class _UserTapBarState extends State<UserTapBar> {
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold))),
-                    // CallButton(),
+                    CallButton(),
                     IconButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (BuildContext context) => ChatRoom(
-                                        chatRoomInfo: chatList,
-                                        roomInfo: null,
-                                      )));
+                                      roomInfo: null,
+                                      userInfo: teacherConnect)));
                         },
                         icon: Icon(Icons.message_sharp))
                   ],

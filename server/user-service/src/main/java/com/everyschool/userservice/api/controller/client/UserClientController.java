@@ -3,6 +3,7 @@ package com.everyschool.userservice.api.controller.client;
 import com.everyschool.userservice.api.controller.client.response.StudentParentInfo;
 import com.everyschool.userservice.api.controller.client.response.StudentResponse;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
+import com.everyschool.userservice.api.service.user.AccountService;
 import com.everyschool.userservice.api.service.user.StudentParentQueryService;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.utils.TokenUtils;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequestMapping("/client/v1")
 public class UserClientController {
 
+    private final AccountService accountService;
     private final UserQueryService userQueryService;
     private final StudentParentQueryService studentParentQueryService;
     private final TokenUtils tokenUtils;
@@ -92,11 +94,25 @@ public class UserClientController {
         return infos;
     }
 
+    @GetMapping("/user-fcm-info/{userKey}")
+    public String searchUserFcmTokenInfo(@PathVariable String userKey) {
+        log.debug("call UserClientController#searchUserFcmTokenInfo");
+        log.debug("userKey={}", userKey);
+
+        String fcmToken = accountService.getFcmToken(userKey);
+        log.debug("fcmToken={}", fcmToken);
+
+        return fcmToken;
+    }
+
     @GetMapping("/user-info/{userId}/user-id")
     public UserInfo searchUserInfoById(@PathVariable Long userId) {
+        log.debug("call UserClientController#searchUserInfoById");
+        log.debug("userId={}", userId);
 
-        // TODO: 2023-11-08
+        UserInfo userInfo = userQueryService.searchUserInfoById(userId);
+        log.debug("result={}", userId);
 
-        return null;
+        return userInfo;
     }
 }

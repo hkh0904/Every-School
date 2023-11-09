@@ -35,7 +35,7 @@ public class BoardWebControllerDocsTest extends RestDocsSupport {
     private final BoardWebService boardWebService = mock(BoardWebService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
     private final FileStore fileStore = mock(FileStore.class);
-    private static final String BASE_URL = "/board-service/v1/web/{schoolYear}/schools/{schoolId}/boards";
+    private static final String BASE_URL = "/board-service/v1/web/{schoolYear}/schools/{schoolId}";
 
     @Override
     protected Object initController() {
@@ -67,7 +67,7 @@ public class BoardWebControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                post(BASE_URL + "/notices", 2023, 100000)
+                post(BASE_URL + "/notice-boards", 2023, 100000)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
@@ -137,7 +137,7 @@ public class BoardWebControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                post(BASE_URL + "/communications", 2023, 100000)
+                post(BASE_URL + "/communication-boards", 2023, 100000)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )

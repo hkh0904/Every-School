@@ -9,8 +9,10 @@ import static com.everyschool.reportservice.error.ErrorMessage.UNREGISTERED_REPO
 @Getter
 public enum ReportType {
 
-    ETC(5000, "기타"),
-    VIOLENCE(5001, "학교폭력");
+    ETC(9000, "기타"),
+    VIOLENCE(9001, "학교폭력"),
+    THEFT(9002, "도난, 절도"),
+    VIOLATION(9003, "학칙위반(흡연, 기물파손 등)");
 
     private final int code;
     private final String text;

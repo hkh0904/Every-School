@@ -7,18 +7,20 @@ class MessengerApi {
   ServerApi serverApi = ServerApi();
 
   //채팅방 만들기
-  Future<dynamic> createChatRoom(token, userKey, userType) async {
+  Future<dynamic> createChatRoom(
+      token, userKey, userType, userName, mytype, myclassId) async {
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/chat-rooms',
           data: {
             //상대방 키
-            "opponentUserKey": '099ced50-cb18-4ebe-a445-fee91677d8ed',
-            //아래 두개는 내 정보
-            "loginUserType": "M",
-            "schoolClassId": 1,
+            "userkey": userKey,
             //상대방 이름 직급
-            "relation": "오리온"
+            "username": userName,
             //상대방 유저 타입
+            "usertype": userType,
+            //아래 두개는 내 정보
+            "mytype": mytype,
+            "myclassId": myclassId,
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print(response.data);
@@ -61,10 +63,9 @@ class MessengerApi {
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/filters/chat',
           data: {
-            "chatRoomId": 1,
-            //보내는 사람 유저키
-            "senderUserKey": "senderUserKey",
-            "message": "우리는"
+            "chatRoomId": chatRoomId,
+            "senderUserKey": senderUserkey,
+            "message": message
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print(response.data);
@@ -101,6 +102,32 @@ class MessengerApi {
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('학생들 연락처');
       print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+
+class CallingApi {
+  Dio dio = Dio();
+  ServerApi serverApi = ServerApi();
+
+  // 전화걸때
+  Future<dynamic> callOthers(token, userKey, senderName, cname) async {
+    print('전화걸때 $userKey $senderName $cname');
+    try {
+      final response = await dio.post(
+        '${serverApi.serverURL}/call-service/v1/calls/calling',
+        data: {
+          "otherUserKey": userKey,
+          "senderName": senderName,
+          "cname": cname
+        },
+        // options: Options(headers: {'Authorization': 'Bearer $token'})
+      );
+      print(response.data);
+      print('전화걸음^^~');
       return response.data['data'];
     } catch (e) {
       print(e);

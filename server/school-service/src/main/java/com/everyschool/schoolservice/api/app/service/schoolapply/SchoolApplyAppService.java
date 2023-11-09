@@ -29,7 +29,7 @@ public class SchoolApplyAppService {
     private final UserServiceClient userServiceClient;
 
     public CreateSchoolApplyResponse createSchoolApply(String userKey, Long schoolId, Integer schoolYear, CreateSchoolApplyDto dto) {
-        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(schoolId, dto.getSchoolYear(), dto.getGrade(), dto.getClassNum());
+        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(schoolId, schoolYear, dto.getGrade(), dto.getClassNum());
         if (findSchoolClass.isEmpty()) {
             throw new NoSuchElementException(UNREGISTERED_SCHOOL_CLASS.getMessage());
         }

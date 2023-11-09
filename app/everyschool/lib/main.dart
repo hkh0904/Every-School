@@ -1,4 +1,5 @@
 import 'package:everyschool/api/firebase_api.dart';
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/messenger/chat/chat_controller.dart';
 import 'package:everyschool/page/category/category_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
@@ -70,6 +71,14 @@ class _MainState extends State<Main> {
     return int.parse(userType);
   }
 
+  saveUserInfo() async {
+    var token = await storage.read(key: 'token') ?? "";
+    final userinfo = await UserApi().getUserInfo(token);
+    await Provider.of<UserStore>(context, listen: false).setUserInfo(userinfo);
+    print('여기는 스토아 ');
+    print(context.read<UserStore>().userInfo);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -83,6 +92,7 @@ class _MainState extends State<Main> {
     FirebaseApi().initializeNotifications(context);
     FirebaseApi().getIncomingCall(context);
     // checkAndNavigationCallingPage();
+    saveUserInfo();
   }
 
   int selectedIndex = 0;

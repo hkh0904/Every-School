@@ -8,7 +8,7 @@ public enum UserType {
     STUDENT(3001, "학생"),
     FATHER(3002, "아버님"),
     MOTHER(3003, "어머님"),
-    TEACHER(3003, "교직원");
+    TEACHER(3004, "교직원");
 
     private final int code;
     private final String text;
