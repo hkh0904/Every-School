@@ -1,6 +1,7 @@
 package com.everyschool.reportservice.api.web.service.report;
 
 import com.everyschool.reportservice.IntegrationTestSupport;
+import com.everyschool.reportservice.api.web.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.everyschool.reportservice.domain.report.Report;
@@ -25,7 +26,7 @@ class ReportWebQueryServiceTest extends IntegrationTestSupport {
     @Autowired
     private ReportRepository reportRepository;
 
-    @DisplayName("학교 아이디, 학년도, 처리 상태를 입력 받아 신고 목록을 조회한다.")
+    @DisplayName("학교 아이디, 학년도, 처리 상태를 입력 받아 신고 목록 조회를 할 수 있다.")
     @Test
     void searchReports() {
         //given
@@ -48,6 +49,19 @@ class ReportWebQueryServiceTest extends IntegrationTestSupport {
         assertThat(responses).hasSize(1)
             .extracting("status")
             .containsExactlyInAnyOrder(REGISTER.getText());
+    }
+
+    @DisplayName("신고 아이디를 입력 받아 신고 내역을 상세 조회를 할 수 있다.")
+    @Test
+    void searchReport() {
+        //given
+        Report report = saveReport(100000L, 2023);
+
+        //when
+        ReportDetailResponse response = reportWebQueryService.searchReport(report.getId());
+
+        //then
+        assertThat(response.getFiles()).hasSize(0);
     }
 
     private Report saveReport(long schoolId, int schoolYear) {
