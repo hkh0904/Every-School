@@ -43,4 +43,26 @@ public class ConsultAppQueryRepository {
             .orderBy(consult.lastModifiedDate.desc())
             .fetch();
     }
+
+    public List<ConsultResponse> findByTeacherIdAndSchoolYear(Long teacherId, Integer schoolYear) {
+        return queryFactory
+            .select(
+                Projections.constructor(
+                    ConsultResponse.class,
+                    consult.id,
+                    consult.typeId,
+                    consult.progressStatusId,
+                    consult.title.teacherTitle,
+                    consult.consultDateTime
+                )
+            )
+            .from(consult)
+            .where(
+                consult.isDeleted.isFalse(),
+                consult.schoolYear.eq(schoolYear),
+                consult.teacherId.eq(teacherId)
+            )
+            .orderBy(consult.lastModifiedDate.desc())
+            .fetch();
+    }
 }
