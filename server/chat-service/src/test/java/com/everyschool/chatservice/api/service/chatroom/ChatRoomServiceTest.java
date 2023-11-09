@@ -5,7 +5,7 @@ import com.everyschool.chatservice.api.client.SchoolServiceClient;
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.SchoolClassInfo;
 import com.everyschool.chatservice.api.client.response.UserInfo;
-import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
+import com.everyschool.chatservice.api.controller.chatroom.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
