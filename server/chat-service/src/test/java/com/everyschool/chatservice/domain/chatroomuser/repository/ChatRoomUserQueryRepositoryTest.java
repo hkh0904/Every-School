@@ -60,8 +60,9 @@ class ChatRoomUserQueryRepositoryTest extends IntegrationTestSupport {
     private ChatRoomUser saveChatRoomUser(ChatRoom chatRoom, long userId) {
         return chatRoomUserRepository.save(ChatRoomUser.builder()
                 .chatRoomTitle("1학년 2반 홍경환(부)")
-                .socketTopic(String.valueOf(chatRoom.getId()))
+                .childName("신짱구")
                 .userId(userId)
+                .opponentUserType("F")
                 .isAlarm(true)
                 .unreadCount(0)
                 .chatRoom(chatRoom)
