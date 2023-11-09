@@ -1,0 +1,12 @@
+[[search-consults-by-teacher]]
+=== [교직원] 상담 내역 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-consults-by-teacher/http-request.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/search-consults-by-teacher/http-response.adoc[]
+include::{snippets}/search-consults-by-teacher/response-fields.adoc[]

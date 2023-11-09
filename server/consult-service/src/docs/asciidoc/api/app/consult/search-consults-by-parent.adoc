@@ -1,0 +1,12 @@
+[[search-consults-by-parent]]
+=== [학부모] 상담 내역 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-consults-by-parent/http-request.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/search-consults-by-parent/http-response.adoc[]
+include::{snippets}/search-consults-by-parent/response-fields.adoc[]

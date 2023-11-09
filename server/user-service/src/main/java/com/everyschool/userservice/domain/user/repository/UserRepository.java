@@ -3,7 +3,6 @@ package com.everyschool.userservice.domain.user.repository;
 import com.everyschool.userservice.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -34,4 +33,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserKey(String userKey);
 
     List<User> findByIdIn(List<Long> userIds);
+
+    @Query("select u.userKey from User u where u.id=:userId")
+    Optional<String> findUserKeyById(Long userId);
 }

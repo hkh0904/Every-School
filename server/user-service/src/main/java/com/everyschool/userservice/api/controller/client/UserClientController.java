@@ -115,4 +115,13 @@ public class UserClientController {
 
         return userInfo;
     }
+
+    @GetMapping("/user-fcm-info/{userId}/user-id")
+    public String searchFcmTokenByUserId(@PathVariable Long userId) {
+
+        String fcmToken = accountService.getFcmTokenById(userId);
+        log.debug("fcmToken={}", fcmToken);
+
+        return fcmToken;
+    }
 }
