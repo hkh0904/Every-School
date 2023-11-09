@@ -13,7 +13,10 @@ include::overview.adoc[]
 
 [[App-Consult-API]]
 == App Consult API
+
 include::api/app/consult/create-consult.adoc[]
+include::api/app/consult/search-consults-by-parent.adoc[]
+include::api/app/consult/search-consults-by-teacher.adoc[]
 
 
 [[Web-Consult-API]]
