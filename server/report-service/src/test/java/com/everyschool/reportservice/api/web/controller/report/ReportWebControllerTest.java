@@ -1,6 +1,7 @@
 package com.everyschool.reportservice.api.web.controller.report;
 
 import com.everyschool.reportservice.ControllerTestSupport;
+import com.everyschool.reportservice.api.web.controller.report.request.EditResultRequest;
 import com.everyschool.reportservice.api.web.controller.report.request.EditStatusRequest;
 import com.everyschool.reportservice.domain.report.ProgressStatus;
 import org.junit.jupiter.api.DisplayName;
@@ -78,5 +79,75 @@ class ReportWebControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.code").value("200"))
             .andExpect(jsonPath("$.status").value("OK"))
             .andExpect(jsonPath("$.message").value("SUCCESS"));
+    }
+
+    @DisplayName("신고 처리 결과 수정시 처리 결과는 필수값이다.")
+    @Test
+    void editResultWithoutResult() throws Exception {
+        //given
+        EditResultRequest request = EditResultRequest.builder()
+            .build();
+
+        //when //then
+        mockMvc.perform(
+                patch(BASE_URL + "/{reportId}/result", 2023, 100000, 1)
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("400"))
+            .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+            .andExpect(jsonPath("$.message").value("신고 처리 결과는 필수입니다."));
+    }
+
+    @DisplayName("신고 처리 결과 수정시 처리 결과는 최대 500자이다.")
+    @Test
+    void editResultMaxLengthResult() throws Exception {
+        //given
+        EditResultRequest request = EditResultRequest.builder()
+            .result(getText(501))
+            .build();
+
+        //when //then
+        mockMvc.perform(
+                patch(BASE_URL + "/{reportId}/result", 2023, 100000, 1)
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("400"))
+            .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+            .andExpect(jsonPath("$.message").value("신고 처리 결과는 최대 500자 입니다."));
+    }
+
+    @DisplayName("신고 처리 결과를 수정한다.")
+    @Test
+    void editResult() throws Exception {
+        //given
+        EditResultRequest request = EditResultRequest.builder()
+            .result(getText(500))
+            .build();
+
+        //when //then
+        mockMvc.perform(
+                patch(BASE_URL + "/{reportId}/result", 2023, 100000, 1)
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.code").value("200"))
+            .andExpect(jsonPath("$.status").value("OK"))
+            .andExpect(jsonPath("$.message").value("SUCCESS"));
+    }
+
+    private String getText(int size) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            builder.append("0");
+        }
+        return String.valueOf(builder);
     }
 }
