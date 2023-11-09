@@ -35,6 +35,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
 
     private final BoardQueryService boardQueryService = mock(BoardQueryService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
+    private static final String BASE_URL = "/board-service/v1/app/{schoolYear}/schools/{schoolId}";
 
     @Override
     protected Object initController() {
@@ -54,7 +55,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response1, response2, response3, response4, response5));
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/new-free", 1L)
+                get(BASE_URL + "/free-boards/new", 2023, 100000)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -89,7 +90,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response4, response3, response2, response1));
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/new-notice", 1L)
+                get(BASE_URL + "/notice-boards/new", 2023, 100000)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -125,7 +126,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response3, response2, response1));
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/new-communication", 1L)
+                get(BASE_URL + "/communication-boards/new", 2023, 100000)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -164,7 +165,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/frees", 1L)
+                get(BASE_URL + "/free-boards", 2023, 100000)
                     .param("page", "1")
             )
             .andDo(print())
@@ -194,6 +195,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글에 달린 댓글수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
+                    fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
+                        .description("탭 여부"),
                     fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
                         .description("현재 페이지 번호"),
                     fieldWithPath("data.size").type(JsonFieldType.NUMBER)
@@ -219,7 +222,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/notices", 1L)
+                get(BASE_URL + "/notice-boards", 2023, 100000)
                     .param("page", "1")
             )
             .andDo(print())
@@ -249,6 +252,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글에 달린 댓글수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
+                    fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
+                        .description("탭 여부"),
                     fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
                         .description("현재 페이지 번호"),
                     fieldWithPath("data.size").type(JsonFieldType.NUMBER)
@@ -274,7 +279,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/communications", 1L)
+                get(BASE_URL + "/communication-boards", 2023, 100000)
                     .param("page", "1")
             )
             .andDo(print())
@@ -304,6 +309,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글에 달린 댓글수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
+                    fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
+                        .description("탭 여부"),
                     fieldWithPath("data.currentPage").type(JsonFieldType.NUMBER)
                         .description("현재 페이지 번호"),
                     fieldWithPath("data.size").type(JsonFieldType.NUMBER)
@@ -374,7 +381,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/frees/{boardId}", 1L, 1L)
+                get(BASE_URL + "/free-boards/{boardId}", 2023, 100000, 1)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -485,7 +492,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/notice/{boardId}", 1L, 1L)
+                get(BASE_URL + "/notice-boards/{boardId}", 2023, 100000, 1)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -586,7 +593,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/board-service/v1/schools/{schoolId}/boards/communications/{boardId}", 1L, 1L)
+                get(BASE_URL + "/communication-boards/{boardId}", 2023, 100000, 1)
             )
             .andDo(print())
             .andExpect(status().isOk())

@@ -6,13 +6,11 @@ import lombok.Data;
 @Data
 public class CreateSchoolApplyDto {
 
-    private Integer schoolYear;
     private Integer grade;
     private Integer classNum;
 
     @Builder
-    private CreateSchoolApplyDto(Integer schoolYear, Integer grade, Integer classNum) {
-        this.schoolYear = schoolYear;
+    private CreateSchoolApplyDto(Integer grade, Integer classNum) {
         this.grade = grade;
         this.classNum = classNum;
     }

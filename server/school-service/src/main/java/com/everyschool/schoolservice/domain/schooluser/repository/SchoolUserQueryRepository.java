@@ -44,7 +44,7 @@ public class SchoolUserQueryRepository {
     }
 
     public List<SchoolUser> findParentBySchoolClassId(Long schoolClassId) {
-        List<Integer> userType = List.of(STUDENT.getCode(), FATHER.getCode());
+        List<Integer> userType = List.of(STUDENT.getCode(), FATHER.getCode(), MOTHER.getCode());
         return queryFactory
             .select(schoolUser)
             .from(schoolUser)

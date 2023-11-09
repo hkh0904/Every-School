@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static com.everyschool.reportservice.domain.report.ReportType.VIOLENCE;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -48,7 +49,7 @@ public class ReportAppControllerDocsTest extends RestDocsSupport {
             .willReturn(new ArrayList<>());
 
         CreateReportRequest request = CreateReportRequest.builder()
-            .typeId(ReportType.VIOLENCE.getCode())
+            .typeId(VIOLENCE.getCode())
             .description("이예리가 빵 사오래요")
             .who("이예리")
             .when("2023-11-06 12시경")
@@ -71,37 +72,20 @@ public class ReportAppControllerDocsTest extends RestDocsSupport {
         mockMvc.perform(
                 post(BASE_URL, 2023, 100000)
                     .header("Authorization", "Bearer Access Token")
-                    .content(objectMapper.writeValueAsString(request))
+                    .param("typeId", String.valueOf(request.getTypeId()))
+                    .param("description", request.getDescription())
+                    .param("who", request.getWho())
+                    .param("when", request.getWhen())
+                    .param("where", request.getWhere())
+                    .param("what", request.getWhat())
+                    .param("how", request.getHow())
+                    .param("why", request.getWhy())
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
             .andExpect(status().isCreated())
             .andDo(document("create-report",
-                preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                requestFields(
-                    fieldWithPath("typeId").type(JsonFieldType.NUMBER)
-                        .description("신고 타입"),
-                    fieldWithPath("description").type(JsonFieldType.STRING)
-                        .description("설명"),
-                    fieldWithPath("who").type(JsonFieldType.STRING)
-                        .description("누가"),
-                    fieldWithPath("when").type(JsonFieldType.STRING)
-                        .description("언제"),
-                    fieldWithPath("where").type(JsonFieldType.STRING)
-                        .description("어디서"),
-                    fieldWithPath("what").type(JsonFieldType.STRING)
-                        .description("무엇을"),
-                    fieldWithPath("how").type(JsonFieldType.STRING)
-                        .optional()
-                        .description("어떻게"),
-                    fieldWithPath("why").type(JsonFieldType.STRING)
-                        .optional()
-                        .description("왜"),
-                    fieldWithPath("files").type(JsonFieldType.ARRAY)
-                        .optional()
-                        .description("첨부 파일")
-                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),

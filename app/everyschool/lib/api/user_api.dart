@@ -41,6 +41,7 @@ class UserApi {
           key: 'userKey', value: response.headers['userKey']?[0]);
       await storage.write(
           key: 'usertype', value: response.headers['usertype']?[0]);
+      print('액세스토큰 ${response.headers['token']?[0]}');
       return 1;
     } catch (e) {
       print(e);
