@@ -189,6 +189,68 @@ public class ConsultAppQueryControllerDocsTest extends RestDocsSupport {
             ));
     }
 
+    @DisplayName("교직원 상담 상세 조회 API")
+    @Test
+    void searchConsultByTeacher() throws Exception {
+        given(tokenUtils.getUserKey())
+            .willReturn(UUID.randomUUID().toString());
+
+        ConsultDetailResponse response = ConsultDetailResponse.builder()
+            .consultId(1L)
+            .type(ConsultType.VISIT.getCode())
+            .status(FINISH.getCode())
+            .teacherInfo("2학년 3반 이예리 선생님")
+            .parentInfo("2학년 3반 18번 임우택 어머님")
+            .consultDateTime(LocalDateTime.now())
+            .message("우리 아이 진로 상담을 원합니다.")
+            .resultContent("개발자의 길을 안내했습니다.")
+            .rejectReason(null)
+            .build();
+
+        given(consultAppQueryService.searchConsult(anyLong()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                get(BASE_URL + "/teacher/{consultId}", 2023, 100000, 1)
+                    .header("Authorization", "Bearer Access Token")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("search-consult-by-teacher",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.consultId").type(JsonFieldType.NUMBER)
+                        .description("상담 아이디"),
+                    fieldWithPath("data.type").type(JsonFieldType.STRING)
+                        .description("상담 유형"),
+                    fieldWithPath("data.status").type(JsonFieldType.STRING)
+                        .description("상담 진행 상태"),
+                    fieldWithPath("data.teacherInfo").type(JsonFieldType.STRING)
+                        .description("상담 교직원 정보"),
+                    fieldWithPath("data.parentInfo").type(JsonFieldType.STRING)
+                        .description("상담 학부모 정보"),
+                    fieldWithPath("data.consultDateTime").type(JsonFieldType.ARRAY)
+                        .description("상담 시간"),
+                    fieldWithPath("data.message").type(JsonFieldType.STRING)
+                        .description("상담 메세지"),
+                    fieldWithPath("data.resultContent").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("상담 결과"),
+                    fieldWithPath("data.rejectReason").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("상담 거절 사유")
+                )
+            ));
+    }
+
     private ConsultResponse createConsultResponse(Long consultId, int status, String info) {
         return ConsultResponse.builder()
             .consultId(consultId)
