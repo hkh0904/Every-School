@@ -7,10 +7,8 @@ import com.everyschool.consultservice.api.app.service.consult.ConsultAppService;
 import com.everyschool.consultservice.docs.RestDocsSupport;
 import com.everyschool.consultservice.domain.consult.ConsultType;
 import com.everyschool.consultservice.utils.TokenUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
@@ -78,19 +76,14 @@ public class ConsultAppControllerDocsTest extends RestDocsSupport {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                     fieldWithPath("teacherKey").type(JsonFieldType.STRING)
-                        .optional()
                         .description("교직원 식별키"),
                     fieldWithPath("studentKey").type(JsonFieldType.STRING)
-                        .optional()
                         .description("학생(자녀) 식별키"),
                     fieldWithPath("typeId").type(JsonFieldType.NUMBER)
-                        .optional()
                         .description("상담 유형"),
                     fieldWithPath("consultDateTime").type(JsonFieldType.ARRAY)
-                        .optional()
                         .description("상담 일시"),
                     fieldWithPath("message").type(JsonFieldType.STRING)
-                        .optional()
                         .description("상담 내용")
                 ),
                 responseFields(

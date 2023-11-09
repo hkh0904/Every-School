@@ -11,6 +11,11 @@ endif::[]
 
 include::overview.adoc[]
 
+[[App-Consult-API]]
+== App Consult API
+include::api/app/consult/create-consult.adoc[]
+
+
 [[Web-Consult-API]]
 == Web Consult API
 
@@ -20,11 +25,10 @@ include::api/consult/approve-consult.adoc[]
 include::api/consult/finish-consult.adoc[]
 include::api/consult/reject-consult.adoc[]
 
+
 [[Web-Consult-Schedule-API]]
 == Web Consult Schedule API
 
 include::api/web/consultschedule/search-my-consult-schedule.adoc[]
 include::api/web/consultschedule/edit-description.adoc[]
 include::api/web/consultschedule/edit-schedule.adoc[]
-
-// include::api/consult/create-consult.adoc[]
