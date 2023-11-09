@@ -32,7 +32,7 @@ class ChatRoomUserQueryRepositoryTest extends IntegrationTestSupport {
 
         //when
         Optional<ChatRoomUser> chatRoomUser1 = chatRoomUserQueryRepository.findChatRoomUserByRoomIdAndUserId(chatRoom.getId(), 1L);
-        Optional<ChatRoomUser> chatRoomUser2 = chatRoomUserQueryRepository.findChatRoomUserByRoomIdAndUserId(5L, 1L);
+        Optional<ChatRoomUser> chatRoomUser2 = chatRoomUserQueryRepository.findChatRoomUserByRoomIdAndUserId(-777L, -1L);
 
 
         //then

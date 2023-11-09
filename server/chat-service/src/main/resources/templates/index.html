@@ -698,7 +698,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 483
+Content-Length: 592
 
 {
   "code" : 200,
@@ -706,14 +706,18 @@ Content-Length: 483
   "message" : "SUCCESS",
   "data" : [ {
     "roomId" : 1,
-    "roomTitle" : "1학년 2반 하현상 선생님",
-    "lastMessage" : "아이패드 에어4",
+    "opponentUserName" : "봉미선",
+    "opponentUserType" : "M",
+    "opponentUserChildName" : "신짱구",
+    "lastMessage" : "짱구 엄마입니다~",
     "updateTime" : [ 2023, 10, 10, 10, 10 ],
     "unreadMessageNum" : 3
   }, {
     "roomId" : 2,
-    "roomTitle" : "1학년 5반 임동규 선생님",
-    "lastMessage" : "아이패드 프로",
+    "opponentUserName" : "신짱아",
+    "opponentUserType" : "S",
+    "opponentUserChildName" : "",
+    "lastMessage" : "짱아입니다~",
     "updateTime" : [ 2023, 10, 10, 12, 10 ],
     "unreadMessageNum" : 0
   } ]
@@ -763,9 +767,19 @@ Content-Length: 483
 <td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 PK</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].roomTitle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].opponentUserName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 제목</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].opponentUserType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 회원 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].opponentUserChildName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 자녀 이름</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].lastMessage</code></p></td>
@@ -1222,7 +1236,7 @@ Content-Length: 127
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-06 11:42:18 +0900
+Last updated 2023-11-06 20:40:30 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
