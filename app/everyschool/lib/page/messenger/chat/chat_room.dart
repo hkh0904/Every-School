@@ -45,7 +45,6 @@ class _ChatRoomState extends State<ChatRoom> {
   Map<String, dynamic>? createRoomInfo = {};
 
   createChatroom() async {
-    final storage = FlutterSecureStorage();
     token = await storage.read(key: 'token') ?? "";
     userKey = widget.userInfo?['userKey'];
     userName = widget.userInfo?['name'];
@@ -57,15 +56,21 @@ class _ChatRoomState extends State<ChatRoom> {
 
     final result = await MessengerApi()
         .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
-
-    setState(() {
-      createRoomInfo = result;
-    });
+    print('여기 리절트$result');
+    createRoomInfo = result;
+    if (result['opponentUserType'] == 'T') {
+      position = '선생님';
+    } else if (result['opponentUserType'] == 'S') {
+      position = '학생';
+    } else {
+      position = '학부모님';
+    }
     stompClient.activate();
+    return 0;
   }
 
   void sendMessage() async {
-    final myKey = await storage.read(key: 'userkey');
+    final myKey = await storage.read(key: 'userKey');
     final filter = await MessengerApi().chatFilter(
         token,
         widget.roomInfo == null
@@ -99,18 +104,21 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void onConnectCallback(StompFrame connectFrame) {
+    print('소켓연결');
+
     stompClient.subscribe(
       destination: widget.roomInfo == null
           ? '/sub/${createRoomInfo!['roomId']}}'
           : '/sub/${widget.roomInfo?['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
       callback: (frame) {
+        print('구독 성공');
         print(frame.body);
-        // context.read<ChatController>().addNewMessage(Chat(
-        //       message: json.decode(frame.body!)['message'],
-        //       type: ChatMessageType.received,
-        //       time: DateTime.now(),
-        //     ));
+        context.read<ChatController>().addNewMessage(Chat(
+              message: json.decode(frame.body!)['message'],
+              type: ChatMessageType.received,
+              time: DateTime.now(),
+            ));
         setState(() {});
       },
     );
@@ -118,6 +126,9 @@ class _ChatRoomState extends State<ChatRoom> {
 
   late StompClient stompClient = StompClient(
       config: StompConfig(
+          onStompError: (p0) {
+            print('구독 못받았어1');
+          },
           url: socketURL,
           webSocketConnectHeaders: {'Authorization': 'Bearer $token'},
           onConnect: onConnectCallback));
@@ -127,16 +138,29 @@ class _ChatRoomState extends State<ChatRoom> {
     print('이닛');
     print(widget.roomInfo);
     print(widget.userInfo);
+    print(createRoomInfo);
     super.initState();
-    if (widget.userInfo['userType'] == 'T') {
-      position = '선생님';
-    } else if (widget.userInfo['userType'] == 'S') {
-      position = '학생';
-    } else {
-      position = '학부모님';
+    if (widget.roomInfo != null) {
+      if (widget.roomInfo['opponentUserType'] == 'T') {
+        setState(() {
+          position = '선생님';
+        });
+      } else if (widget.roomInfo['opponentUserType'] == 'S') {
+        setState(() {
+          position = '학생';
+        });
+      } else {
+        setState(() {
+          position = '학부모님';
+        });
+      }
     }
+  }
 
-    widget.roomInfo == null ? createChatroom() : null;
+  getInitstate() async {
+    stompClient.activate();
+
+    return 0;
   }
 
   @override
@@ -149,108 +173,194 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        leading: BackButton(color: Colors.black),
-        title: Text(
-          widget.roomInfo == null
-              ? '${widget.userInfo!['name']} $position'
-              : '${widget.roomInfo?['userName']}',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.grey[50],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                context.read<ChatController>().focusNode.unfocus();
-                // FocusScope.of(context).unfocus();
-              },
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Selector<ChatController, List<Chat>>(
-                  selector: (context, controller) =>
-                      controller.chatList.reversed.toList(),
-                  builder: (context, chatList, child) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      reverse: true,
-                      padding: const EdgeInsets.only(top: 12, bottom: 20) +
-                          const EdgeInsets.symmetric(horizontal: 12),
-                      separatorBuilder: (_, __) => const SizedBox(
-                        height: 12,
-                      ),
-                      controller:
-                          context.read<ChatController>().scrollController,
-                      itemCount: chatList.length,
-                      itemBuilder: (context, index) {
-                        return Bubble(chat: chatList[index]);
-                      },
-                    );
-                  },
+    return FutureBuilder(
+        future: widget.roomInfo == null ? createChatroom() : getInitstate(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              resizeToAvoidBottomInset: true,
+              appBar: AppBar(
+                leading: BackButton(color: Colors.black),
+                title: Text(
+                  widget.roomInfo == null
+                      ? '${createRoomInfo!['opponentUserName']} $position'
+                      : '${widget.roomInfo?['opponentUserName']} $position',
+                  style: TextStyle(color: Colors.black),
                 ),
+                centerTitle: true,
+                backgroundColor: Colors.grey[50],
               ),
-            ),
-          ),
-          SafeArea(
-            bottom: true,
-            child: Container(
-              constraints: const BoxConstraints(minHeight: 48),
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Color(0xFFE5E5EA),
-                  ),
-                ),
-              ),
-              child: Stack(
+              body: Column(
                 children: [
-                  TextField(
-                    focusNode: context.read<ChatController>().focusNode,
-                    onChanged: context.read<ChatController>().onFieldChanged,
-                    controller:
-                        context.read<ChatController>().textEditingController,
-                    maxLines: null,
-                    textAlignVertical: TextAlignVertical.top,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                        right: 42,
-                        left: 16,
-                        top: 18,
-                      ),
-                      hintText: 'message',
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                        borderRadius: BorderRadius.circular(8.0),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<ChatController>().focusNode.unfocus();
+                        // FocusScope.of(context).unfocus();
+                      },
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Selector<ChatController, List<Chat>>(
+                          selector: (context, controller) =>
+                              controller.chatList.reversed.toList(),
+                          builder: (context, chatList, child) {
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              reverse: true,
+                              padding: const EdgeInsets.only(
+                                      top: 12, bottom: 20) +
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              separatorBuilder: (_, __) => const SizedBox(
+                                height: 12,
+                              ),
+                              controller: context
+                                  .read<ChatController>()
+                                  .scrollController,
+                              itemCount: chatList.length,
+                              itemBuilder: (context, index) {
+                                return Bubble(chat: chatList[index]);
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
-                  // custom suffix btn
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: IconButton(
-                      icon: Icon(Icons.send),
-                      onPressed: sendMessage,
+                  SafeArea(
+                    bottom: true,
+                    child: Container(
+                      constraints: const BoxConstraints(minHeight: 48),
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: Color(0xFFE5E5EA),
+                          ),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          TextField(
+                            focusNode: context.read<ChatController>().focusNode,
+                            onChanged:
+                                context.read<ChatController>().onFieldChanged,
+                            controller: context
+                                .read<ChatController>()
+                                .textEditingController,
+                            maxLines: null,
+                            textAlignVertical: TextAlignVertical.top,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.only(
+                                right: 42,
+                                left: 16,
+                                top: 18,
+                              ),
+                              hintText: 'message',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                          // custom suffix btn
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: IconButton(
+                              icon: Icon(Icons.send),
+                              onPressed: sendMessage,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
-          ),
-        ],
-      ),
-    );
+            );
+          } else if (snapshot.hasError) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(fontSize: 15),
+              ),
+            );
+          } else {
+            return Scaffold(
+              appBar: AppBar(
+                leading: BackButton(color: Colors.black),
+                title: Text(''),
+                centerTitle: true,
+                backgroundColor: Colors.grey[50],
+              ),
+              body: Column(
+                children: [
+                  Spacer(),
+                  SafeArea(
+                    bottom: true,
+                    child: Container(
+                      constraints: const BoxConstraints(minHeight: 48),
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          top: BorderSide(
+                            color: Color(0xFFE5E5EA),
+                          ),
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          TextField(
+                            focusNode: context.read<ChatController>().focusNode,
+                            onChanged:
+                                context.read<ChatController>().onFieldChanged,
+                            controller: context
+                                .read<ChatController>()
+                                .textEditingController,
+                            maxLines: null,
+                            textAlignVertical: TextAlignVertical.top,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.only(
+                                right: 42,
+                                left: 16,
+                                top: 18,
+                              ),
+                              hintText: 'message',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                          // custom suffix btn
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: IconButton(
+                              icon: Icon(Icons.send),
+                              onPressed: sendMessage,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        });
   }
 }
 
