@@ -16,6 +16,7 @@ include::overview.adoc[]
 
 include::api/app/consult/create-consult.adoc[]
 include::api/app/consult/search-consults-by-parent.adoc[]
+include::api/app/consult/search-consult-by-parent.adoc[]
 include::api/app/consult/search-consults-by-teacher.adoc[]
 
 
