@@ -8,11 +8,11 @@ public class CreateChatRoomResponse {
 
     private Long roomId;
     private String opponentUserName;
-    private String opponentUserType;
+    private char opponentUserType;
     private String opponentUsersChildName;
 
     @Builder
-    private CreateChatRoomResponse(Long roomId, String opponentUserName, String opponentUserType, String opponentUsersChildName) {
+    private CreateChatRoomResponse(Long roomId, String opponentUserName, char opponentUserType, String opponentUsersChildName) {
         this.roomId = roomId;
         this.opponentUserName = opponentUserName;
         this.opponentUserType = opponentUserType;
