@@ -1,10 +1,9 @@
 package com.everyschool.consultservice.docs.consult;
 
-import com.everyschool.consultservice.api.controller.consult.ConsultAppController;
+import com.everyschool.consultservice.api.app.controller.consult.ConsultAppController;
+import com.everyschool.consultservice.api.app.service.consult.ConsultAppService;
 import com.everyschool.consultservice.api.controller.consult.request.CreateConsultRequest;
 import com.everyschool.consultservice.api.controller.consult.response.CreateConsultResponse;
-import com.everyschool.consultservice.api.service.consult.ConsultService;
-import com.everyschool.consultservice.api.service.consult.dto.CreateConsultDto;
 import com.everyschool.consultservice.docs.RestDocsSupport;
 import com.everyschool.consultservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ConsultAppControllerDocsTest extends RestDocsSupport {
 
-    private final ConsultService consultService = mock(ConsultService.class);
+    private final ConsultAppService consultService = mock(ConsultAppService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
     private final String URL = "/consult-service/v1/app/{schoolYear}/schools/{schoolId}/consults";
 
@@ -59,8 +58,8 @@ public class ConsultAppControllerDocsTest extends RestDocsSupport {
             .message("리온이가 너무 귀여워요!")
             .build();
 
-        given(consultService.createConsult(anyString(), anyLong(), any(CreateConsultDto.class)))
-            .willReturn(response);
+//        given(consultService.createConsult(anyString(), anyLong(), any(CreateConsultDto.class)))
+//            .willReturn(response);
 
         mockMvc.perform(
                 post(URL, 2023, 21617)
