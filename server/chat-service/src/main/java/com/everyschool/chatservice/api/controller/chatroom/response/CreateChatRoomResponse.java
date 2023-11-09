@@ -1,4 +1,4 @@
-package com.everyschool.chatservice.api.controller.chat.response;
+package com.everyschool.chatservice.api.controller.chatroom.response;
 
 import lombok.Builder;
 import lombok.Data;
