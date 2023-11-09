@@ -74,6 +74,7 @@ class _CallModalState extends State<CallModal> {
                       final token = await storage.read(key: 'token') ?? "";
                       final contact =
                           await MessengerApi().getTeacherConnect(token);
+                      print('콘텍트 ${contact}');
                       final myInfo = await context.read<UserStore>().userInfo;
                       print('전화걸때 ${myInfo['name']}');
 

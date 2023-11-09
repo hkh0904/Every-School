@@ -126,8 +126,97 @@ class CallingApi {
         },
         // options: Options(headers: {'Authorization': 'Bearer $token'})
       );
-      print(response.data);
+      print('걸었어용 ${response.data}');
       print('전화걸음^^~');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> missedCall(
+      token, userKey, senderName, startDateTime, endDateTime) async {
+    print('부재중 $userKey $senderName $startDateTime $endDateTime');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/calling/denied',
+          data: {
+            "otherUserKey": userKey,
+            "senderName": senderName,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('부재중 리스폰스 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> cancelCall(
+      token, userKey, senderName, startDateTime, endDateTime) async {
+    print('취소 $userKey $senderName $startDateTime $endDateTime');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/calling/cancel',
+          data: {
+            "otherUserKey": userKey,
+            "senderName": senderName,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('취소 리스폰스 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> callRecordingStart(
+      token, cname, uid, chatroomtoken, userKey, otherUserKey) async {
+    print(
+        '녹음시작 토큰 $token 유저키$userKey 채널이름 $cname 유저아이디 $uid 챗룸토큰 $chatroomtoken 내 유저키 $userKey 다른사람유저키 $otherUserKey ');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/record/start',
+          data: {
+            "cname": cname,
+            "uid": uid,
+            "token": chatroomtoken,
+            "userKey": userKey,
+            "otherUserKey": otherUserKey
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('녹음시작 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> callRecordingStop(token, cname, uid, resourceId, sid,
+      otherUserKey, sender, startDateTime, endDateTime) async {
+    print(
+        '녹음종료 토큰 $token 유아이디$uid 채널이름 $cname 리소스아이디 $resourceId 에스아이디 $sid 발신자 $sender 다른사람유저키 $otherUserKey 시작시간 $startDateTime 끝나는시간 $endDateTime');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/record/stop',
+          data: {
+            "cname": cname,
+            "uid": uid,
+            "resourceId": resourceId,
+            "sid": sid,
+            "otherUserKey": otherUserKey,
+            "sender": sender,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime,
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('녹음종료 ${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);
