@@ -19,16 +19,19 @@ class MessengerPage extends StatefulWidget {
 }
 
 class _MessengerPageState extends State<MessengerPage> {
+  final storage = FlutterSecureStorage();
+  int? userType;
+
   @override
   void initState() {
     // TODO: implement initState
+    userType = 1003;
+    // userType = context.read<UserStore>().userInfo['userType'];
   }
-
-  final userId = 2;
 
   @override
   Widget build(BuildContext context) {
-    return userId == 1 ? ManagerTapBar() : UserTapBar();
+    return userType == 1003 ? ManagerTapBar() : UserTapBar();
   }
 }
 
@@ -41,6 +44,7 @@ class ManagerTapBar extends StatefulWidget {
 
 class _ManagerTapBarState extends State<ManagerTapBar> {
   final storage = FlutterSecureStorage();
+
   List? userConnect;
   List? chatList;
   List roomIdList = [];
@@ -53,7 +57,6 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
     print(token);
     final response = await MessengerApi().getChatList(token);
     print('여기가 리스폰즈 $response');
-    print('여기가 리스폰즈 ${response.runtimeType}');
     final contact = await MessengerApi().getUserConnect(token);
     print('여기가 zjsxorzxm $contact');
 
