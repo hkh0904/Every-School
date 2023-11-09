@@ -1,14 +1,20 @@
 package com.everyschool.consultservice.api.app.service.consult;
 
+import com.everyschool.consultservice.api.app.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.app.controller.consult.response.ConsultResponse;
 import com.everyschool.consultservice.api.client.UserServiceClient;
 import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.domain.consult.repository.ConsultAppQueryRepository;
+import com.everyschool.consultservice.error.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+import static com.everyschool.consultservice.error.ErrorMessage.*;
 
 @RequiredArgsConstructor
 @Service
@@ -32,5 +38,13 @@ public class ConsultAppQueryService {
         List<ConsultResponse> consults = consultAppQueryRepository.findByTeacherIdAndSchoolYear(userInfo.getUserId(), schoolYear);
 
         return consults;
+    }
+
+    public ConsultDetailResponse searchConsult(Long consultId) {
+        Optional<ConsultDetailResponse> findResponse = consultAppQueryRepository.findById(consultId);
+        if (findResponse.isEmpty()) {
+            throw new NoSuchElementException(UNREGISTERED_CONSULT.getMessage());
+        }
+        return findResponse.get();
     }
 }
