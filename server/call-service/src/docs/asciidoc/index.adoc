@@ -24,4 +24,6 @@ include::api/call/search-userCalls.adoc[]
 include::api/call/userCall-record-start.adoc[]
 include::api/call/userCall-record-stop.adoc[]
 include::api/call/fcm-calling.adoc[]
+include::api/call/calling-denied.adoc[]
+include::api/call/calling-cancel.adoc[]
 

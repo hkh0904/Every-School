@@ -9,10 +9,10 @@ import com.everyschool.callservice.api.controller.usercall.request.CreateUserCal
 import com.everyschool.callservice.api.controller.usercall.request.RecordStartRequest;
 import com.everyschool.callservice.api.controller.usercall.request.RecordStopRequest;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
-import com.everyschool.callservice.api.service.call.UserCallService;
-import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
+import com.everyschool.callservice.api.service.usercall.UserCallService;
+import com.everyschool.callservice.api.service.usercall.dto.CreateUserCallDto;
 import com.everyschool.callservice.docs.RestDocsSupport;
-import com.everyschool.callservice.domain.call.UploadFile;
+import com.everyschool.callservice.domain.usercall.UploadFile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -39,6 +39,7 @@ public class UserCallControllerDocsTest extends RestDocsSupport {
     private final VoiceAiServiceClient voiceAiServiceClient = mock(VoiceAiServiceClient.class);
     private final FileStore fileStore = mock(FileStore.class);
     private final UserCallController userCallController = mock(UserCallController.class);
+
     @Override
     protected Object initController() {
         return new UserCallController(userCallService, fileStore, voiceAiServiceClient);
@@ -207,6 +208,10 @@ public class UserCallControllerDocsTest extends RestDocsSupport {
                 .uid("123")
                 .resourceId("chatroomresourceId")
                 .sid("chatroomsid")
+                .otherUserKey("34d78c06-abcc-43a3-bfbd-551348bcb7ab")
+                .sender("T")
+                .startDateTime(LocalDateTime.now().minusHours(3))
+                .endDateTime(LocalDateTime.now().minusHours(2))
                 .build();
 
         RecordStopInfo res = RecordStopInfo.builder()
@@ -244,7 +249,19 @@ public class UserCallControllerDocsTest extends RestDocsSupport {
                                         .description("종료할 채널의 resourceId"),
                                 fieldWithPath("sid").type(JsonFieldType.STRING)
                                         .optional()
-                                        .description("종료할 채널의 sid")
+                                        .description("종료할 채널의 sid"),
+                                fieldWithPath("otherUserKey").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("상대방 유저 키"),
+                                fieldWithPath("sender").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("발신자 타입(T: 선생님, O:다른 유저)"),
+                                fieldWithPath("startDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("통화 시작 시간"),
+                                fieldWithPath("endDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("통화 종료 시간")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER)
