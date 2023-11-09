@@ -25,4 +25,20 @@ class ReportApi {
       return null;
     }
   }
+
+  Future<dynamic> getReportList(year, schoolId) async {
+    String? token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/report-service/v1/app/$year/schools/$schoolId/reports',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

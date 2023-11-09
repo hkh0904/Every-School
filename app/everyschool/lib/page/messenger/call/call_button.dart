@@ -166,6 +166,7 @@ class _CallButtonState extends State<CallButton> {
             UserOfflineReasonType reason) {
           showMessage("Remote user uid:$remoteUid left the channel");
           print('전화끊음');
+          leave();
           setState(() {
             this.remoteUid = null;
           });

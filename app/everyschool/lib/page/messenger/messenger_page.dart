@@ -219,7 +219,7 @@ class _UserTapBarState extends State<UserTapBar> {
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold))),
-                    // CallButton(),
+                    CallButton(),
                     IconButton(
                         onPressed: () {
                           Navigator.push(

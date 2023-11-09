@@ -1,7 +1,10 @@
+import 'package:everyschool/api/report_api.dart';
 import 'package:everyschool/page/report/report_card.dart';
 import 'package:everyschool/page/report/report_page.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class ReportListPage extends StatefulWidget {
   const ReportListPage({super.key});
@@ -16,6 +19,15 @@ class _ReportListPageState extends State<ReportListPage> {
   getuserType() async {
     var userType = await storage.read(key: 'usertype') ?? "";
     return int.parse(userType);
+  }
+
+  getList() async {
+    final myInfo = context.read<UserStore>().userInfo;
+    final year = context.read<UserStore>().year;
+
+    var response =
+        await ReportApi().getReportList(year, myInfo['school']['schoolId']);
+    print(response);
   }
 
   var pastReportingList = [
