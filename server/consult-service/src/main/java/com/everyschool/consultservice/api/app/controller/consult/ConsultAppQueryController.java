@@ -1,6 +1,7 @@
 package com.everyschool.consultservice.api.app.controller.consult;
 
 import com.everyschool.consultservice.api.ApiResponse;
+import com.everyschool.consultservice.api.app.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.app.controller.consult.response.ConsultResponse;
 import com.everyschool.consultservice.api.app.service.consult.ConsultAppQueryService;
 import com.everyschool.consultservice.utils.TokenUtils;
@@ -32,6 +33,18 @@ public class ConsultAppQueryController {
         List<ConsultResponse> responses = consultAppQueryService.searchConsultsByParent(userKey, schoolYear);
 
         return ApiResponse.ok(responses);
+    }
+
+    @GetMapping("/parent/{consultId}")
+    public ApiResponse<ConsultDetailResponse> searchConsultByParent(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long consultId
+    ) {
+
+        ConsultDetailResponse response = consultAppQueryService.searchConsult(consultId);
+
+        return ApiResponse.ok(response);
     }
 
     @GetMapping("/teacher")
