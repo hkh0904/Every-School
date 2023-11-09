@@ -22,14 +22,26 @@ public class ConsultAppQueryController {
     private final ConsultAppQueryService consultAppQueryService;
     private final TokenUtils tokenUtils;
 
-    @GetMapping
+    @GetMapping("/parent")
     public ApiResponse<List<ConsultResponse>> searchConsultsByParent(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        List<ConsultResponse> responses = consultAppQueryService.searchConsults(userKey, schoolYear);
+        List<ConsultResponse> responses = consultAppQueryService.searchConsultsByParent(userKey, schoolYear);
+
+        return ApiResponse.ok(responses);
+    }
+
+    @GetMapping("/teacher")
+    public ApiResponse<List<ConsultResponse>> searchConsultsByTeacher(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId
+    ) {
+        String userKey = tokenUtils.getUserKey();
+
+        List<ConsultResponse> responses = consultAppQueryService.searchConsultsByTeacher(userKey, schoolYear);
 
         return ApiResponse.ok(responses);
     }
