@@ -42,32 +42,28 @@ class ChatRoomQueryRepositoryTest extends IntegrationTestSupport {
     void findChatRooms() {
         //given
         ChatRoom savedChatRoom1 = chatRoomRepository.save(ChatRoom.builder().build());
-        ChatRoomUser user1 = createChatRoomUser(savedChatRoom1, 1L, "1학년 2반 임우택(부)", 2);
-        ChatRoomUser opponent1 = createChatRoomUser(savedChatRoom1, 2L, "선생님", 2);
-        Chat user1SentMessage = createSentMessage(savedChatRoom1, user1, opponent1, "user1 sent message");
-        Chat opponent1SentMessage = createSentMessage(savedChatRoom1, opponent1, user1, "opponent1 sent message 이거 출력돼야함 2번째로");
+        ChatRoomUser loginRoomUser1 = createChatRoomUser(savedChatRoom1, "봉미선", "신짱구", 101L, "M", 3);
+        ChatRoomUser opponentRoomUser1 = createChatRoomUser(savedChatRoom1, "채성아", null, 103L, "T", 0);
+        Chat loginRoomUser1SentMessage = createSentMessage(savedChatRoom1, loginRoomUser1, opponentRoomUser1, "채성아 선생님이 봉미선한테 선톡함");
+        Chat opponentRoomUser1SentMessage = createSentMessage(savedChatRoom1, opponentRoomUser1, loginRoomUser1, "봉미선이 채성아 선생님한테 톡한게 출력돼야함.");
 
         ChatRoom savedChatRoom2 = chatRoomRepository.save(ChatRoom.builder().build());
-        ChatRoomUser user2 = createChatRoomUser(savedChatRoom2, 1L, "1학년 2반 신성주(부)", 2);
-        ChatRoomUser opponent2 = createChatRoomUser(savedChatRoom2, 3L, "선생님", 2);
-        Chat opponent2SentMessage = createSentMessage(savedChatRoom2, opponent2, user2, "opponent2 sent message");
-        Chat user2SentMessage = createSentMessage(savedChatRoom2, user2, opponent2, "user2 sent message이거 1번째로 출력");
+        ChatRoomUser loginRoomUser2 = createChatRoomUser(savedChatRoom2, "신짱아", null, 101L, "S", 0);
+        ChatRoomUser opponentRoomUser2 = createChatRoomUser(savedChatRoom2, "채성아", null, 102L, "T", 3);
+        Chat opponentRoomUser2SentMessage = createSentMessage(savedChatRoom2, opponentRoomUser2, loginRoomUser2, "짱아가 채성아 선생님한테 선톡");
+        Chat loginRoomUser2SentMessage = createSentMessage(savedChatRoom2, loginRoomUser2, opponentRoomUser2, "채성아 선생님이 짱아한테 톡보낸거 출력됨");
 
         //when
-        List<ChatRoomListResponse> chatRooms = chatRoomQueryRepository.findChatRooms(user1.getUserId());
+        List<ChatRoomListResponse> chatRooms = chatRoomQueryRepository.findChatRooms(loginRoomUser1.getUserId());
         for (ChatRoomListResponse chatRoom : chatRooms) {
             System.out.println("채팅방 id : " + chatRoom.getRoomId());
-            System.out.println("채팅방 제목 : " + chatRoom.getRoomTitle());
+            System.out.println("채팅방 제목(상대 이름) : " + chatRoom.getOpponentUserName());
             System.out.println("채팅방 마지막메세지 : " + chatRoom.getLastMessage());
             System.out.println();
         }
 
         //then
         assertThat(chatRooms.size()).isEqualTo(2);
-//        assertThat(chatRooms.get(0).getRoomTitle()).isEqualTo("1학년 2반 신성주(부)");
-//        assertThat(chatRooms.get(0).getLastMessage()).isEqualTo("user2 sent message이거 1번째로 출력");
-//        assertThat(chatRooms.get(1).getRoomTitle()).isEqualTo("1학년 2반 임우택(부)");
-//        assertThat(chatRooms.get(1).getLastMessage()).isEqualTo("opponent1 sent message 이거 출력돼야함 2번째로");
     }
 
     private Chat createSentMessage(ChatRoom savedChatRoom, ChatRoomUser sender, ChatRoomUser receiver, String message) {
@@ -82,15 +78,15 @@ class ChatRoomQueryRepositoryTest extends IntegrationTestSupport {
                 .build());
     }
 
-    private ChatRoomUser createChatRoomUser(ChatRoom savedChatRoom1, long userId, String chatRoomTitle, int unreadCount) {
+    private ChatRoomUser createChatRoomUser(ChatRoom savedChatRoom, String opponentUserName, String childName, long userId, String opponentUserType, int unreadCount) {
         return chatRoomUserRepository.save(ChatRoomUser.builder()
-                .chatRoomTitle(chatRoomTitle)
-                .socketTopic("CHATROOM_TOPIC")
+                .chatRoomTitle(opponentUserName)
+                .childName(childName)
                 .userId(userId)
+                .opponentUserType(opponentUserType)
                 .isAlarm(true)
                 .unreadCount(unreadCount)
-                .chatRoom(savedChatRoom1)
+                .chatRoom(savedChatRoom)
                 .build());
     }
-
 }
