@@ -1,6 +1,6 @@
 package com.everyschool.callservice.api.controller.usercall.response;
 
-import com.everyschool.callservice.domain.call.UserCall;
+import com.everyschool.callservice.domain.usercall.UserCall;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
