@@ -113,4 +113,35 @@ class UserApi {
       // rethrow;
     }
   }
+
+  //이메일 인증
+  Future<dynamic> authEmail(email) async {
+    print(email);
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.post(
+          '${serverApi.serverURL}/user-service/auth/email',
+          data: {'email': email});
+      print('실행');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      // rethrow;
+    }
+  }
+
+  Future<dynamic> checkAuthNumber(email, code) async {
+    print(email);
+    print(code);
+
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.post(
+          '${serverApi.serverURL}/user-service/auth/email/check',
+          data: {"email": email, "authCode": code.toString()});
+      return response.data;
+    } on DioException catch (e) {
+      return e.response?.data;
+    }
+  }
 }
