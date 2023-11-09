@@ -50,7 +50,29 @@ class ReportWebServiceTest extends IntegrationTestSupport {
         assertThat(response.getStatus()).isEqualTo(PROCESS.getText());
     }
 
+    @DisplayName("등록되지 않은 신고의 처리 결과를 수정하는 경우 예외가 발생한다.")
+    @Test
+    void editResultUnregisteredReport() {
+        //given
 
+        //when //then
+        assertThatThrownBy(() -> reportWebService.editResult(1L, "result"))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage(UNREGISTERED_REPORT.getMessage());
+    }
+
+    @DisplayName("신고 아이디와 처리 결과를 입력 받아 처리 결과를 수정할 수 있다.")
+    @Test
+    void editResult() {
+        //given
+        Report report = saveReport();
+
+        //when
+        EditReportResponse response = reportWebService.editResult(report.getId(), "result");
+
+        //then
+        assertThat(response.getResult()).isEqualTo("result");
+    }
 
     private Report saveReport() {
         ReportContent content = ReportContent.builder()
