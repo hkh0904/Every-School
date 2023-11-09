@@ -1,6 +1,8 @@
 import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class MypageUserInfo extends StatefulWidget {
   const MypageUserInfo({super.key});
@@ -12,6 +14,8 @@ class MypageUserInfo extends StatefulWidget {
 class _MypageUserInfoState extends State<MypageUserInfo> {
   var userNum = 1;
 
+  final yearList = ['2023 년도', '2022 년도'];
+  String selectedYear = '2023 년도';
   final storage = FlutterSecureStorage();
 
   getCategoryUserInfo() async {
@@ -47,23 +51,55 @@ class _MypageUserInfoState extends State<MypageUserInfo> {
                 SizedBox(
                   height: 100,
                   child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                            child: Icon(Icons.arrow_back, size: 25),
-                          ),
-                        ),
-                        Text(
-                          '내정보',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w700),
-                        )
-                      ]),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: Icon(Icons.arrow_back, size: 25),
+                              ),
+                            ),
+                            Text(
+                              '내정보',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w700),
+                            )
+                          ]),
+                      Container(
+                          padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                          child: Row(
+                            children: [
+                              DropdownButton(
+                                value: selectedYear,
+                                items: yearList
+                                    .map((e) => DropdownMenuItem(
+                                          value:
+                                              e, // 선택 시 onChanged 를 통해 반환할 value
+                                          child: Text(e),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  context
+                                      .read<UserStore>()
+                                      .setYear(value!.substring(0, 4));
+
+                                  // items 의 DropdownMenuItem 의 value 반환
+                                  setState(() {
+                                    selectedYear = value;
+                                  });
+                                  print(selectedYear);
+                                },
+                              ),
+                            ],
+                          ))
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.07,
