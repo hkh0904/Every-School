@@ -2,6 +2,7 @@ package com.everyschool.chatservice.api.controller.chat;
 
 import com.everyschool.chatservice.api.controller.chat.request.ChatMessage;
 import com.everyschool.chatservice.api.service.chat.dto.ChatService;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -23,7 +24,7 @@ public class ChatController {
      * @return
      */
     @MessageMapping("/chat.send")
-    public void sendMessage(ChatMessage message) {
+    public void sendMessage(ChatMessage message) throws FirebaseMessagingException {
 
         Long roomId = message.getChatRoomId();
 
