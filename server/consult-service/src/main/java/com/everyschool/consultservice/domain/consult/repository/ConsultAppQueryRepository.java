@@ -1,5 +1,6 @@
 package com.everyschool.consultservice.domain.consult.repository;
 
+import com.everyschool.consultservice.api.app.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.app.controller.consult.response.ConsultResponse;
 import com.everyschool.consultservice.domain.consult.Consult;
 import com.everyschool.consultservice.domain.consult.QConsult;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.everyschool.consultservice.domain.consult.QConsult.*;
 
@@ -64,5 +66,29 @@ public class ConsultAppQueryRepository {
             )
             .orderBy(consult.lastModifiedDate.desc())
             .fetch();
+    }
+
+    public Optional<ConsultDetailResponse> findById(Long consultId) {
+        ConsultDetailResponse content = queryFactory
+            .select(
+                Projections.constructor(
+                    ConsultDetailResponse.class,
+                    consult.id,
+                    consult.typeId,
+                    consult.progressStatusId,
+                    consult.title.teacherTitle,
+                    consult.title.parentTitle,
+                    consult.consultDateTime,
+                    consult.message,
+                    consult.resultContent,
+                    consult.rejectedReason
+                )
+            )
+            .from(consult)
+            .where(
+                consult.id.eq(consultId)
+            )
+            .fetchOne();
+        return Optional.ofNullable(content);
     }
 }
