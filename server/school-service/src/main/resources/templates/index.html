@@ -548,7 +548,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /school-service/v1/web/2023/schools/100000/apply/1/approve HTTP/1.1
 Authorization: Bearer Access Token
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -558,7 +558,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 259
+Content-Length: 247
 
 {
   "code" : 200,
@@ -569,7 +569,7 @@ Content-Length: 259
     "schoolYear" : 2023,
     "isApproved" : true,
     "rejectedReason" : null,
-    "lastModifiedDate" : [ 2023, 11, 6, 11, 22, 55, 650720700 ]
+    "lastModifiedDate" : [ 2023, 11, 8, 22, 5, 40, 872868000 ]
   }
 }</code></pre>
 </div>
@@ -649,8 +649,8 @@ Content-Length: 259
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /school-service/v1/web/2023/schools/100000/apply/1/reject HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 59
-Host: every-school.com/api
+Content-Length: 57
+Host: localhost:8080
 
 {
   "rejectedReason" : "학급 인원이 아닙니다."
@@ -691,7 +691,7 @@ Host: every-school.com/api
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 288
+Content-Length: 276
 
 {
   "code" : 200,
@@ -702,7 +702,7 @@ Content-Length: 288
     "schoolYear" : 2023,
     "isApproved" : false,
     "rejectedReason" : "학급 인원이 아닙니다.",
-    "lastModifiedDate" : [ 2023, 11, 6, 11, 22, 55, 608721100 ]
+    "lastModifiedDate" : [ 2023, 11, 8, 22, 5, 40, 859968000 ]
   }
 }</code></pre>
 </div>
@@ -781,7 +781,7 @@ Content-Length: 288
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/wait-apply HTTP/1.1
 Authorization: Bearer Access Token
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -791,7 +791,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 497
+Content-Length: 477
 
 {
   "code" : 200,
@@ -803,12 +803,12 @@ Content-Length: 497
       "schoolApplyId" : 1,
       "applyType" : "학생 신청",
       "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 6, 11, 22, 55, 775687300 ]
+      "lastModifiedDate" : [ 2023, 11, 8, 22, 5, 40, 911423000 ]
     }, {
       "schoolApplyId" : 1,
       "applyType" : "아버님 신청",
       "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 6, 11, 22, 55, 775687300 ]
+      "lastModifiedDate" : [ 2023, 11, 8, 22, 5, 40, 911434000 ]
     } ]
   }
 }</code></pre>
@@ -888,7 +888,7 @@ Content-Length: 497
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/approve-apply HTTP/1.1
 Authorization: Bearer Access Token
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -898,7 +898,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 497
+Content-Length: 477
 
 {
   "code" : 200,
@@ -910,12 +910,12 @@ Content-Length: 497
       "schoolApplyId" : 1,
       "applyType" : "학생 신청",
       "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 6, 11, 22, 55, 702723300 ]
+      "lastModifiedDate" : [ 2023, 11, 8, 22, 5, 40, 889449000 ]
     }, {
       "schoolApplyId" : 1,
       "applyType" : "아버님 신청",
       "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 6, 11, 22, 55, 702723300 ]
+      "lastModifiedDate" : [ 2023, 11, 8, 22, 5, 40, 889465000 ]
     } ]
   }
 }</code></pre>
@@ -995,7 +995,7 @@ Content-Length: 497
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/apply/1 HTTP/1.1
 Authorization: Bearer Access Token
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -1005,7 +1005,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 253
+Content-Length: 242
 
 {
   "code" : 200,
@@ -1015,7 +1015,7 @@ Content-Length: 253
     "schoolApplyId" : 1,
     "applyType" : "학생 신청",
     "studentInfo" : "10301 이예리",
-    "lastModifiedDate" : [ 2023, 11, 6, 11, 22, 55, 740720500 ]
+    "lastModifiedDate" : [ 2023, 11, 8, 22, 5, 40, 900479000 ]
   }
 }</code></pre>
 </div>
@@ -1099,7 +1099,7 @@ Content-Length: 253
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/schools?query=%EC%88%98%EC%99%84 HTTP/1.1
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1127,7 +1127,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 585
+Content-Length: 564
 
 {
   "code" : 200,
@@ -1216,7 +1216,7 @@ Content-Length: 585
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/schools/1 HTTP/1.1
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -1226,7 +1226,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 310
+Content-Length: 298
 
 {
   "code" : 200,
@@ -1327,11 +1327,11 @@ Content-Length: 310
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /school-service/v1/schools/1/classes HTTP/1.1
 Content-Type: application/json
-Content-Length: 117
-Host: every-school.com/api
+Content-Length: 112
+Host: localhost:8080
 
 {
-  "userKey" : "1cb9f77d-a18f-4283-a43a-c2af23037b15",
+  "userKey" : "6567c247-9e58-4dca-b3da-40cc90dbaa7a",
   "schoolYear" : 2023,
   "grade" : 1,
   "classNum" : 3
@@ -1390,7 +1390,7 @@ Host: every-school.com/api
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 318
+Content-Length: 304
 
 {
   "code" : 201,
@@ -1403,7 +1403,7 @@ Content-Length: 318
     "grade" : 1,
     "classNum" : 3,
     "teacherName" : "이예리",
-    "createdDate" : [ 2023, 11, 6, 11, 22, 55, 424722600 ]
+    "createdDate" : [ 2023, 11, 8, 22, 5, 40, 801053000 ]
   }
 }</code></pre>
 </div>
@@ -1495,9 +1495,9 @@ Content-Length: 318
 <h4 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/schools/1/classes/2023/students HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/classes/2/students HTTP/1.1
 Authorization: Bearer Access Token
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -1507,7 +1507,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 368
+Content-Length: 350
 
 {
   "code" : 200,
@@ -1602,9 +1602,9 @@ Content-Length: 368
 <h4 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/schools/1/classes/2023/parents HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/classes/2/parents HTTP/1.1
 Authorization: Bearer Access Token
-Host: every-school.com/api</code></pre>
+Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
@@ -1614,7 +1614,7 @@ Host: every-school.com/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 448
+Content-Length: 428
 
 {
   "code" : 200,
@@ -1724,8 +1724,8 @@ Content-Length: 448
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /school-service/v1/app/2023/schools/100000/apply HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 38
-Host: every-school.com/api
+Content-Length: 35
+Host: localhost:8080
 
 {
   "grade" : 1,
@@ -1773,7 +1773,7 @@ Host: every-school.com/api
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 215
+Content-Length: 205
 
 {
   "code" : 201,
@@ -1783,7 +1783,7 @@ Content-Length: 215
     "schoolYear" : 2023,
     "grade" : 1,
     "classNum" : 3,
-    "appliedDate" : [ 2023, 11, 6, 11, 22, 55, 54721400 ]
+    "appliedDate" : [ 2023, 11, 8, 22, 5, 40, 688757000 ]
   }
 }</code></pre>
 </div>
@@ -1855,7 +1855,7 @@ Content-Length: 215
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-06 11:19:23 +0900
+Last updated 2023-11-06 19:41:03 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
