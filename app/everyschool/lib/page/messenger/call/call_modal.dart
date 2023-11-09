@@ -1,5 +1,9 @@
+import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/page/messenger/call/modal_call_page.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class CallModal extends StatefulWidget {
   const CallModal(
@@ -24,6 +28,8 @@ class CallModal extends StatefulWidget {
 }
 
 class _CallModalState extends State<CallModal> {
+  final storage = FlutterSecureStorage();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -64,7 +70,15 @@ class _CallModalState extends State<CallModal> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      final token = await storage.read(key: 'token') ?? "";
+                      final contact =
+                          await MessengerApi().getTeacherConnect(token);
+                      final myInfo = await context.read<UserStore>().userInfo;
+                      print('전화걸때 ${myInfo['name']}');
+
+                      CallingApi().callOthers(token, contact['userKey'],
+                          myInfo['name'], widget.channelName);
                       widget.join(
                           widget.uid,
                           widget.channelName,

@@ -108,3 +108,29 @@ class MessengerApi {
     }
   }
 }
+
+class CallingApi {
+  Dio dio = Dio();
+  ServerApi serverApi = ServerApi();
+
+  // 전화걸때
+  Future<dynamic> callOthers(token, userKey, senderName, cname) async {
+    print('전화걸때 $userKey $senderName $cname');
+    try {
+      final response = await dio.post(
+        '${serverApi.serverURL}/call-service/v1/calls/calling',
+        data: {
+          "otherUserKey": userKey,
+          "senderName": senderName,
+          "cname": cname
+        },
+        // options: Options(headers: {'Authorization': 'Bearer $token'})
+      );
+      print(response.data);
+      print('전화걸음^^~');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+}
