@@ -2,8 +2,10 @@ package com.everyschool.reportservice.api.web.controller.report;
 
 import com.everyschool.reportservice.api.ApiResponse;
 import com.everyschool.reportservice.api.web.controller.report.request.EditResultRequest;
+import com.everyschool.reportservice.api.web.controller.report.request.EditStatusRequest;
 import com.everyschool.reportservice.api.web.controller.report.response.EditReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebService;
+import com.everyschool.reportservice.domain.report.ProgressStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,11 @@ public class ReportWebController {
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
         @PathVariable Long reportId,
-        @RequestParam Integer status
+        @Valid @RequestBody EditStatusRequest request
     ) {
-        EditReportResponse response = reportWebService.editStatus(reportId, status);
+        ProgressStatus.getText(request.getStatus());
+
+        EditReportResponse response = reportWebService.editStatus(reportId, request.getStatus());
 
         return ApiResponse.ok(response);
     }

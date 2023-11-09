@@ -17,4 +17,9 @@ public interface SchoolServiceClient {
 
     @PostMapping("/school-service/client/v1/consult-user-infos")
     List<ConsultUserInfo> searchConsultUser(@RequestBody List<Long> userIds);
+
+    // TODO: 2023-11-09 학생 아이디와 학년도로 해당 학생의 학번을 조회
+    @PostMapping()
+    Integer searchStudentNumber(Long studentId, Integer schoolYear);
+
 }

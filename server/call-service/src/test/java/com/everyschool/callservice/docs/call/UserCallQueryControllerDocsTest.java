@@ -2,7 +2,7 @@ package com.everyschool.callservice.docs.call;
 
 import com.everyschool.callservice.api.controller.usercall.UserCallQueryController;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
-import com.everyschool.callservice.api.service.call.UserCallQueryService;
+import com.everyschool.callservice.api.service.usercall.UserCallQueryService;
 import com.everyschool.callservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

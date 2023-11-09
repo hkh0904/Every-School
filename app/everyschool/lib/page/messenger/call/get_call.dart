@@ -1,11 +1,16 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:everyschool/api/messenger_api.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 final assetsAudioPlayer = AssetsAudioPlayer();
 
 class GetCall extends StatefulWidget {
-  const GetCall({super.key, this.leave});
+  const GetCall({super.key, this.leave, this.startDateTime});
   final leave;
+  final startDateTime;
 
   @override
   State<GetCall> createState() => _GetCallState();
@@ -26,6 +31,35 @@ class _GetCallState extends State<GetCall> {
   void dispose() {
     super.dispose();
     assetsAudioPlayer.stop();
+  }
+
+  final storage = FlutterSecureStorage();
+
+  var endDateTime = [];
+
+  List<int> datetimeToCustomList() {
+    DateTime now = DateTime.now();
+    return [
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+      now.second,
+      now.microsecond
+    ];
+  }
+
+  checkCancelCall() async {
+    final token = await storage.read(key: 'token') ?? "";
+    final contact = await MessengerApi().getTeacherConnect(token);
+    final myInfo = await context.read<UserStore>().userInfo;
+    setState(() {
+      endDateTime = datetimeToCustomList();
+    });
+
+    CallingApi().cancelCall(token, contact['userKey'], myInfo['name'],
+        widget.startDateTime, endDateTime);
   }
 
   @override
@@ -70,7 +104,11 @@ class _GetCallState extends State<GetCall> {
           ),
           Center(
             child: GestureDetector(
-              onTap: widget.leave,
+              onTap: () {
+                checkCancelCall();
+                widget.leave;
+                Navigator.of(context).pop();
+              },
               child: Container(
                 height: 80,
                 width: 80,

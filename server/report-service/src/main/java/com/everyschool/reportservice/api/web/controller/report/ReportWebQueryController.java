@@ -5,6 +5,7 @@ import com.everyschool.reportservice.api.Result;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebQueryService;
+import com.everyschool.reportservice.domain.report.ProgressStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,8 @@ public class ReportWebQueryController {
         @PathVariable Long schoolId,
         @RequestParam Integer status
     ) {
+        ProgressStatus.getText(status);
+
         List<ReportResponse> response = reportWebQueryService.searchReports(schoolId, schoolYear, status);
 
         return ApiResponse.ok(Result.of(response));

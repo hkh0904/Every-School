@@ -1,5 +1,5 @@
 [[fcm-calling]]
-=== 통화 내역 등록 API
+=== 통화 알림 전송 API
 
 ==== HTTP Request
 include::{snippets}/fcm-calling/http-request.adoc[]

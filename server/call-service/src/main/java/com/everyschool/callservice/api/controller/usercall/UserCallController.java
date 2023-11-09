@@ -10,9 +10,9 @@ import com.everyschool.callservice.api.controller.usercall.request.CreateUserCal
 import com.everyschool.callservice.api.controller.usercall.request.RecordStartRequest;
 import com.everyschool.callservice.api.controller.usercall.request.RecordStopRequest;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
-import com.everyschool.callservice.api.service.call.UserCallService;
-import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
-import com.everyschool.callservice.domain.call.UploadFile;
+import com.everyschool.callservice.api.service.usercall.UserCallService;
+import com.everyschool.callservice.api.service.usercall.dto.CreateUserCallDto;
+import com.everyschool.callservice.domain.usercall.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,7 @@ public class UserCallController {
 
     /**
      * 통화 녹음 시작 API
-     *  상대방이 전화 알림을 통해 전화 받을시
+     * 상대방이 전화 알림을 통해 전화 받을시
      *
      * @param request 통화 녹음에 필요한 정보들
      * @return 녹음 시작
@@ -61,16 +61,19 @@ public class UserCallController {
      */
     @PostMapping("/record/stop")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<RecordStopInfo> createRecordStop(@RequestBody RecordStopRequest request) {
+    public ApiResponse<RecordStopInfo> createRecordStop(@RequestBody RecordStopRequest request,
+                                                        @RequestHeader("Authorization") String token) {
         log.debug("UserCall UserCallController#createRecordStop");
         log.debug("RecordStopRequest={}", request);
+        log.debug("token={}", token);
 
         RecordStopInfo res = voiceAiServiceClient.recordStop(request);
         log.debug("RecordStartInfo={}", res);
 
+        userCallService.createCallInfo(request.toDto(), request.getOtherUserKey(), token);
+
         return ApiResponse.created(res);
     }
-
 
     /**
      * 통화 내역 등록 API
@@ -101,10 +104,10 @@ public class UserCallController {
 
         return ApiResponse.created("통화 내용 저장 완료.");
     }
-    
+
     /*
-    * TODO 배치 서버 돌리기
-    * 
+     * TODO 배치 서버 돌리기
+     *
      */
     @Async
     public void createRecordAnalysis(MultipartFile file, Long callId) throws IOException {
@@ -145,8 +148,6 @@ public class UserCallController {
 //
 //        return ApiResponse.created("통화 내용 저장 완료.");
 //    }
-
-
 
 
 }
