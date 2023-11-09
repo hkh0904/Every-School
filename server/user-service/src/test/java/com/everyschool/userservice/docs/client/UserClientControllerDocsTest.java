@@ -2,6 +2,7 @@ package com.everyschool.userservice.docs.client;
 
 import com.everyschool.userservice.api.controller.client.UserClientController;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
+import com.everyschool.userservice.api.service.user.AccountService;
 import com.everyschool.userservice.api.service.user.StudentParentQueryService;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.docs.RestDocsSupport;
@@ -26,13 +27,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserClientControllerDocsTest extends RestDocsSupport {
 
+    private final AccountService accountService = mock(AccountService.class);
     private final UserQueryService userQueryService = mock(UserQueryService.class);
     private final StudentParentQueryService studentParentQueryService = mock(StudentParentQueryService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
 
     @Override
     protected Object initController() {
-        return new UserClientController(userQueryService, studentParentQueryService, tokenUtils);
+        return new UserClientController(accountService, userQueryService, studentParentQueryService, tokenUtils);
     }
 
     @DisplayName("토큰으로 회원 정보 조회 API")
