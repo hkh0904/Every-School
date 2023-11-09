@@ -133,4 +133,24 @@ class CallingApi {
       print(e);
     }
   }
+
+  Future<dynamic> missedCall(
+      token, userKey, senderName, startDateTime, endDateTime) async {
+    print('부재중 $userKey $senderName $startDateTime $endDateTime');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/calling/denied',
+          data: {
+            "otherUserKey": userKey,
+            "senderName": senderName,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('부재중 리스폰스 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }

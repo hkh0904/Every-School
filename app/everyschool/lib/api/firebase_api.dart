@@ -98,11 +98,14 @@ class FirebaseApi {
   void foregroundMessage(RemoteMessage message) {
     RemoteNotification? notification = message.notification;
 
+    print('메세지!!!!! 노티피케이션 ${message.notification}');
+    print('메세지!!!!! 데이터 ${message.data}');
+
     if (notification != null) {
       if (message.data['type'] == 'call') {
         var name = message.notification!.title;
         var phoneNumber = message.notification!.body;
-        var channelName = message.data['channelName'];
+        var channelName = message.data['cname'];
         showCallkitIncoming(
             '10', name as String, phoneNumber as String, channelName as String);
         // getIncomingCall();

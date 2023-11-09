@@ -1,16 +1,21 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:dio/dio.dart';
+import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
 import 'package:everyschool/page/messenger/call/call_modal.dart';
 import 'package:everyschool/page/messenger/call/call_page.dart';
 import 'package:everyschool/page/messenger/call/get_call.dart';
 import 'package:everyschool/page/messenger/call/get_call_success.dart';
 import 'package:everyschool/page/messenger/call/modal_call_page.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class CallButton extends StatefulWidget {
   const CallButton({super.key});
@@ -21,6 +26,7 @@ class CallButton extends StatefulWidget {
 
 class _CallButtonState extends State<CallButton> {
   final Dio dio = Dio();
+  final storage = FlutterSecureStorage();
 
   String randomString = '';
   int tokenRole = 1; // use 1 for Host/Broadcaster, 2 for Subscriber/Audience
@@ -30,6 +36,28 @@ class _CallButtonState extends State<CallButton> {
   bool isTokenExpiring = false; // Set to true when the token is about to expire
   String? channelName; // To access the TextField
   int uid = 1;
+
+  bool peopleGetCall = false;
+
+  var startDateTime = [];
+  var endDateTime = [];
+
+  int? timerDurationInSeconds = 60;
+  Timer? timer;
+
+  void startTimer() {
+    timer = Timer(Duration(seconds: timerDurationInSeconds as int), () {
+      if (remoteUid == null) {
+        leave();
+      }
+    });
+  }
+
+  void cancelTimer() {
+    if (timer != null && timer!.isActive) {
+      timer!.cancel();
+    }
+  }
 
   getChannelName(length) {
     const String charset =
@@ -112,6 +140,19 @@ class _CallButtonState extends State<CallButton> {
     );
   }
 
+  List<int> datetimeToCustomList() {
+    DateTime now = DateTime.now();
+    return [
+      now.year,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+      now.second,
+      now.microsecond
+    ];
+  }
+
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission
     await [Permission.microphone].request();
@@ -132,7 +173,9 @@ class _CallButtonState extends State<CallButton> {
           print('아니 들어감:${connection.localUid} joined the channel');
           setState(() {
             isJoined = true;
+            startDateTime = datetimeToCustomList();
           });
+          startTimer();
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
@@ -140,6 +183,7 @@ class _CallButtonState extends State<CallButton> {
 
           setState(() {
             this.remoteUid = remoteUid;
+            peopleGetCall = true;
           });
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
@@ -175,6 +219,17 @@ class _CallButtonState extends State<CallButton> {
     );
   }
 
+  missedCallCheck() async {
+    final token = await storage.read(key: 'token') ?? "";
+    final contact = await MessengerApi().getTeacherConnect(token);
+    final myInfo = await context.read<UserStore>().userInfo;
+    setState(() {
+      endDateTime = datetimeToCustomList();
+    });
+    CallingApi().missedCall(
+        token, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
+  }
+
   void leave() {
     setState(() {
       isJoined = false;
@@ -182,6 +237,10 @@ class _CallButtonState extends State<CallButton> {
     });
     agoraEngine.leaveChannel();
     Navigator.of(context).pop();
+    if (peopleGetCall == false) {
+      missedCallCheck();
+    }
+    cancelTimer();
   }
 
   @override
