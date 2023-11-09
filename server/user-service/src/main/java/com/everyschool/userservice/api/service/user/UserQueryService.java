@@ -10,6 +10,7 @@ import com.everyschool.userservice.domain.user.Student;
 import com.everyschool.userservice.domain.user.Teacher;
 import com.everyschool.userservice.domain.user.User;
 import com.everyschool.userservice.domain.user.repository.UserQueryRepository;
+import com.everyschool.userservice.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +19,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.everyschool.userservice.error.ErrorMessage.UNREGISTERED_USER;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 public class UserQueryService {
 
+    private final UserRepository userRepository;
     private final UserQueryRepository userQueryRepository;
 
     public UserInfoResponse searchUser(String userKey) {
@@ -74,7 +78,28 @@ public class UserQueryService {
     public UserInfo searchUserInfo(String userKey) {
         Optional<User> findUser = userQueryRepository.findUserInfoByUserKey(userKey);
         if (findUser.isEmpty()) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException(UNREGISTERED_USER.getMessage());
+        }
+        User user = findUser.get();
+
+        if (user instanceof Student) {
+            Student student = (Student) user;
+            return UserInfo.of(student);
+        }
+
+        if (user instanceof Parent) {
+            Parent parent = (Parent) user;
+            return UserInfo.of(parent);
+        }
+
+        Teacher teacher = (Teacher) user;
+        return UserInfo.of(teacher);
+    }
+
+    public UserInfo searchUserInfoById(Long userId) {
+        Optional<User> findUser = userRepository.findById(userId);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException(UNREGISTERED_USER.getMessage());
         }
         User user = findUser.get();
 
