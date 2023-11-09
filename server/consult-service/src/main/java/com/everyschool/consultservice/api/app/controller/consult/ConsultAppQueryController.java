@@ -58,4 +58,16 @@ public class ConsultAppQueryController {
 
         return ApiResponse.ok(responses);
     }
+
+    @GetMapping("/teacher/{consultId}")
+    public ApiResponse<ConsultDetailResponse> searchConsultByTeacher(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long consultId
+    ) {
+
+        ConsultDetailResponse response = consultAppQueryService.searchConsult(consultId);
+
+        return ApiResponse.ok(response);
+    }
 }
