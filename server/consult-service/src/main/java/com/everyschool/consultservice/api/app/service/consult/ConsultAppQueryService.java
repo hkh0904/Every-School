@@ -18,10 +18,18 @@ public class ConsultAppQueryService {
     private final ConsultAppQueryRepository consultAppQueryRepository;
     private final UserServiceClient userServiceClient;
 
-    public List<ConsultResponse> searchConsults(String userKey, int schoolYear) {
+    public List<ConsultResponse> searchConsultsByParent(String userKey, int schoolYear) {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
         List<ConsultResponse> consults = consultAppQueryRepository.findByParentIdAndSchoolYear(userInfo.getUserId(), schoolYear);
+
+        return consults;
+    }
+
+    public List<ConsultResponse> searchConsultsByTeacher(String userKey, Integer schoolYear) {
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
+
+        List<ConsultResponse> consults = consultAppQueryRepository.findByTeacherIdAndSchoolYear(userInfo.getUserId(), schoolYear);
 
         return consults;
     }
