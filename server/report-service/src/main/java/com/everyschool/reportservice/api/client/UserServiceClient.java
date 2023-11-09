@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public interface UserServiceClient {
 
     @GetMapping("/user-service/client/v1/user-info/{userKey}")
-    UserInfo searchByUserKey(@PathVariable String userKey);
+    UserInfo searchByUserKey(@PathVariable(name = "userKey") String userKey);
 
     // TODO: 2023-11-02 구현 예정
     @GetMapping("/user-service/client/v1/user-info/{userId}")
