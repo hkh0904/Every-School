@@ -29,7 +29,7 @@ public class ChatRoomController {
      *
      * @param request
      * @param token   상대 유저 토큰
-     * @return 채팅방 Id, 채팅방 제목, 상대 유저 이름
+     * @return
      */
     @PostMapping("/chat-rooms")
     @ResponseStatus(HttpStatus.CREATED)
