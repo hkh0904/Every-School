@@ -2,6 +2,7 @@ package com.everyschool.callservice.docs.call;
 
 import com.everyschool.callservice.api.client.UserServiceClient;
 import com.everyschool.callservice.api.controller.FCM.FCMNotificationController;
+import com.everyschool.callservice.api.controller.FCM.request.CallDeniedRequest;
 import com.everyschool.callservice.api.controller.FCM.request.OtherUserFcmRequest;
 import com.everyschool.callservice.api.service.FCM.FCMNotificationService;
 import com.everyschool.callservice.docs.RestDocsSupport;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
@@ -71,7 +73,7 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
 
         mockMvc.perform(
                         post("/call-service/v1/calls/calling")
-//                                .header("Authorization", "Bearer Access Token")
+                                .header("Authorization", "Bearer Access Token")
                                 .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -102,5 +104,111 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                                         .description("응답 데이터")
                         )
                 ));
+    }
+
+    @DisplayName("부재중 API")
+    @Test
+    void createUserCallClosed() throws Exception{
+
+        CallDeniedRequest request = CallDeniedRequest.builder()
+                .otherUserKey(UUID.randomUUID().toString())
+                .senderName("오연주 바보")
+                .startDateTime(LocalDateTime.now().minusHours(2))
+                .endDateTime(LocalDateTime.now().minusHours(1))
+                .build();
+
+        given(fcmNotificationService.createUserCallDenied(request.toDto(), "token"))
+                .willReturn(Boolean.TRUE);
+
+        mockMvc.perform(
+                        post("/call-service/v1/calls/calling/cancel")
+                                .header("Authorization", "Bearer Access Token")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(document("calling-cancel",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("otherUserKey").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("전화 요청할 상대방 유저키"),
+                                fieldWithPath("senderName").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("전화 거는 사람 이름"),
+                                fieldWithPath("startDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("전화 건 시간"),
+                                fieldWithPath("endDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("전화 종료 시간")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.STRING)
+                                        .description("응답 데이터")
+                        )
+                ));
+
+    }
+
+    @DisplayName("전화 취소 API")
+    @Test
+    void createUserCallDenied() throws Exception{
+
+        CallDeniedRequest request = CallDeniedRequest.builder()
+                .otherUserKey(UUID.randomUUID().toString())
+                .senderName("오연주 바보")
+                .startDateTime(LocalDateTime.now().minusHours(2))
+                .endDateTime(LocalDateTime.now().minusHours(1))
+                .build();
+
+        given(fcmNotificationService.createUserCallCancel(request.toDto(), "token"))
+                .willReturn(Boolean.TRUE);
+
+        mockMvc.perform(
+                        post("/call-service/v1/calls/calling/denied")
+                                .header("Authorization", "Bearer Access Token")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(document("calling-denied",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("otherUserKey").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("전화 요청할 상대방 유저키"),
+                                fieldWithPath("senderName").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("전화 거는 사람 이름"),
+                                fieldWithPath("startDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("전화 건 시간"),
+                                fieldWithPath("endDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("전화 취소 시간")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.STRING)
+                                        .description("응답 데이터")
+                        )
+                ));
+
     }
 }
