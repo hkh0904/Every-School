@@ -15,9 +15,11 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (message.data['type'] == 'call') {
     var name = message.notification!.title;
     var phoneNumber = message.notification!.body;
-    var channelName = message.data['channelName'];
+    var channelName = message.data['cname'];
     showCallkitIncoming(
         '10', name as String, phoneNumber as String, channelName as String);
+  } else if(message.data['type'] == 'cancel') {
+    FlutterCallkitIncoming.endAllCalls();
   }
 }
 
@@ -109,6 +111,8 @@ class FirebaseApi {
         showCallkitIncoming(
             '10', name as String, phoneNumber as String, channelName as String);
         // getIncomingCall();
+      } else if(message.data['type'] == 'cancel') {
+        FlutterCallkitIncoming.endAllCalls();
       }
       FlutterLocalNotificationsPlugin().show(
           notification.hashCode,
@@ -199,7 +203,7 @@ class FirebaseApi {
         case Event.actionCallEnded:
           // TODO: ended an incoming/outgoing call
           print('전화끊음');
-          FlutterCallkitIncoming.endAllCalls();
+
           break;
         case Event.actionCallTimeout:
           // TODO: missed an incoming call

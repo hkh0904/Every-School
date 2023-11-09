@@ -135,7 +135,8 @@ class _CallButtonState extends State<CallButton> {
   void _navigateToModalCallPage() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => GetCall(leave: leave),
+        builder: (context) =>
+            GetCall(leave: leave, startDateTime: startDateTime),
       ),
     );
   }
@@ -185,11 +186,6 @@ class _CallButtonState extends State<CallButton> {
             this.remoteUid = remoteUid;
             peopleGetCall = true;
           });
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => GetCallSuccess(leave: leave),
-            ),
-          );
           Navigator.pushReplacement(
             context,
             PageRouteBuilder(
