@@ -107,9 +107,12 @@ public class UserClientController {
 
     @GetMapping("/user-info/{userId}/user-id")
     public UserInfo searchUserInfoById(@PathVariable Long userId) {
+        log.debug("call UserClientController#searchUserInfoById");
+        log.debug("userId={}", userId);
 
-        // TODO: 2023-11-08
+        UserInfo userInfo = userQueryService.searchUserInfoById(userId);
+        log.debug("result={}", userId);
 
-        return null;
+        return userInfo;
     }
 }
