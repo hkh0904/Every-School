@@ -45,6 +45,8 @@ class _CallButtonState extends State<CallButton> {
   int? timerDurationInSeconds = 60;
   Timer? timer;
 
+  String? chatroomtoken;
+
   void startTimer() {
     timer = Timer(Duration(seconds: timerDurationInSeconds as int), () {
       if (remoteUid == null) {
@@ -93,6 +95,7 @@ class _CallButtonState extends State<CallButton> {
       debugPrint('Token Received: $newToken');
       // Use the token to join a channel or renew an expiring token
       setToken(newToken, channelId, isTokenExpiring, uid);
+      chatroomtoken = newToken;
     } else {
       // If the server did not return an OK response,
       // then throw an exception.
@@ -154,6 +157,15 @@ class _CallButtonState extends State<CallButton> {
     ];
   }
 
+  startRecording() async {
+    final token = await storage.read(key: 'token') ?? "";
+    final contact = await MessengerApi().getTeacherConnect(token);
+    final myInfo = await context.read<UserStore>().userInfo;
+    final userKey = await storage.read(key: 'userKey') ?? "";
+    CallingApi().callRecordingStart(
+        token, channelName, uid, chatroomtoken, userKey, contact['userKey']);
+  }
+
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission
     await [Permission.microphone].request();
@@ -181,7 +193,6 @@ class _CallButtonState extends State<CallButton> {
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           print('상대방전화받았음');
-
           setState(() {
             this.remoteUid = remoteUid;
             peopleGetCall = true;
@@ -197,6 +208,7 @@ class _CallButtonState extends State<CallButton> {
               reverseTransitionDuration: Duration.zero,
             ),
           );
+          startRecording();
         },
         onError: (ErrorCodeType rtcError, String error) {
           print("Error code: ${rtcError.toString()}");
