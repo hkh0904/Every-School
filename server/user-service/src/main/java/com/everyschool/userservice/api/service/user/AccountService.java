@@ -67,4 +67,21 @@ public class AccountService implements UserDetailsService {
 
         return fcmToken;
     }
+
+    public String getFcmTokenById(Long userId) {
+        Optional<String> findUserKey = userRepository.findUserKeyById(userId);
+        if (findUserKey.isEmpty()) {
+            throw new NoSuchElementException("등록되지 않은 사용자입니다");
+        }
+
+        ValueOperations<String, String> operations = redisTemplate.opsForValue();
+
+        String fcmToken = operations.get(findUserKey.get());
+
+        if (!hasText(fcmToken)) {
+            throw new NoSuchElementException("FCM 토큰이 존재하지 않습니다");
+        }
+
+        return fcmToken;
+    }
 }
