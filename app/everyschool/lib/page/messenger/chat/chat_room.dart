@@ -22,7 +22,8 @@ class ChatRoom extends StatefulWidget {
   ChatRoom({super.key, this.roomInfo, this.userInfo});
   // 여기는 채팅 리스트에서 오는거
   final roomInfo;
-  // 여기는 네비게이션 버튼 받아오는거
+
+  // 여기는 네비게이션 버튼이랑 연락처에서 받아오는거 받아오는거
   final userInfo;
 
   @override
@@ -44,11 +45,8 @@ class _ChatRoomState extends State<ChatRoom> {
   Map<String, dynamic>? createRoomInfo = {};
 
   createChatroom() async {
-    print('이거가 내가 확인해야할 정보');
-    print(widget.userInfo);
     final storage = FlutterSecureStorage();
     token = await storage.read(key: 'token') ?? "";
-    print(context.read<UserStore>().userInfo);
     userKey = widget.userInfo?['userKey'];
     userName = widget.userInfo?['name'];
     userType = widget.userInfo['userType'];
@@ -57,16 +55,11 @@ class _ChatRoomState extends State<ChatRoom> {
     myclassId =
         context.read<UserStore>().userInfo['schoolClass']['schoolClassId'];
 
-    print('$userKey $myclassId');
-    // userKey = await myInfo[] ?? "";
-    // userType = await storage.read(key: 'usertype') ?? "";
     final result = await MessengerApi()
         .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
 
     setState(() {
       createRoomInfo = result;
-      //   roomTitle = result['roomTitle'];
-      //   userName = result['userName'];
     });
     stompClient.activate();
   }
@@ -93,14 +86,12 @@ class _ChatRoomState extends State<ChatRoom> {
           }),
           headers: {});
 
-      print('메시지 보내기2');
       context.read<ChatController>().addNewMessage(Chat(
             message: context.read<ChatController>().textEditingController.text,
             type: ChatMessageType.sent,
             time: DateTime.now(),
           ));
       context.read<ChatController>().onFieldSubmitted();
-      print('메시지 보내기3');
       setState(() {});
     } else {
       print('문제가 있어 보내지 않았습니다');
@@ -108,16 +99,12 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void onConnectCallback(StompFrame connectFrame) {
-    // client is connected and ready
-    print('connected');
-    print('여기 룸 아이디 ${widget.roomInfo?['roomId']}');
     stompClient.subscribe(
       destination: widget.roomInfo == null
           ? '/sub/${createRoomInfo!['roomId']}}'
           : '/sub/${widget.roomInfo?['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
       callback: (frame) {
-        print('여기가 바디야');
         print(frame.body);
         // context.read<ChatController>().addNewMessage(Chat(
         //       message: json.decode(frame.body!)['message'],
@@ -137,6 +124,9 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void initState() {
+    print('이닛');
+    print(widget.roomInfo);
+    print(widget.userInfo);
     super.initState();
     if (widget.userInfo['userType'] == 'T') {
       position = '선생님';
@@ -146,10 +136,7 @@ class _ChatRoomState extends State<ChatRoom> {
       position = '학부모님';
     }
 
-    // print(widget.roomId);
-    print(widget.roomInfo);
     widget.roomInfo == null ? createChatroom() : null;
-    print('시작');
   }
 
   @override

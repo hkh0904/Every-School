@@ -56,16 +56,14 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
 
   _getChatList() async {
     final token = await storage.read(key: 'token') ?? "";
-    print(token);
+
     final response = await MessengerApi().getChatList(token);
-    print('여기가 리스폰즈 $response');
+
     final contact = await MessengerApi().getUserConnect(token);
-    print('여기가 zjsxorzxm $contact');
 
     setState(() {
       chatList = List<Map>.from(response);
-      print('이게 챗 리스트');
-      print(chatList);
+
       userConnect = contact;
     });
     response.forEach((item) {

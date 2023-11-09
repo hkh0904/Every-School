@@ -15,7 +15,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (message.data['type'] == 'call') {
     var name = message.notification!.title;
     var phoneNumber = message.notification!.body;
-    var channelName = message.data['channelName'];
+    var channelName = message.data['cname'];
     showCallkitIncoming(
         '10', name as String, phoneNumber as String, channelName as String);
   }
@@ -102,7 +102,7 @@ class FirebaseApi {
       if (message.data['type'] == 'call') {
         var name = message.notification!.title;
         var phoneNumber = message.notification!.body;
-        var channelName = message.data['channelName'];
+        var channelName = message.data['cname'];
         showCallkitIncoming(
             '10', name as String, phoneNumber as String, channelName as String);
         // getIncomingCall();
@@ -167,11 +167,11 @@ class FirebaseApi {
   }
 
   Future<void> getIncomingCall(context) async {
-    await FlutterCallkitIncoming.onEvent.listen((event) {
+    FlutterCallkitIncoming.onEvent.listen((event) {
       print('이벤트 $event');
       print('바디는 ${event!.body['extra']['userId']}');
-      String? channelName = event!.body['extra']['userId'];
-      switch (event!.event) {
+      String? channelName = event.body['extra']['userId'];
+      switch (event.event) {
         case Event.actionCallIncoming:
           // TODO: received an incoming call
           print('전화옴');

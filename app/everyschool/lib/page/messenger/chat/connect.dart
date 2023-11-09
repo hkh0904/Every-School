@@ -1,3 +1,4 @@
+import 'package:everyschool/page/messenger/chat/chat_room.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -86,6 +87,18 @@ class _ConnectState extends State<Connect> {
                               ),
                             ),
                           ),
+                          TextButton(
+                            child: Text('연락하기'),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ChatRoom(
+                                          roomInfo: null,
+                                          userInfo:
+                                              widget.userConnect[index])));
+                            },
+                          )
                         ],
                       ),
                     ),
