@@ -157,13 +157,27 @@ class _CallButtonState extends State<CallButton> {
     ];
   }
 
+  String? sid;
+  String? resourceId;
+
   startRecording() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
     final myInfo = await context.read<UserStore>().userInfo;
     final userKey = await storage.read(key: 'userKey') ?? "";
-    CallingApi().callRecordingStart(
+    var recordingDetail = await CallingApi().callRecordingStart(
         token, channelName, uid, chatroomtoken, userKey, contact['userKey']);
+    sid = recordingDetail['sid'];
+    resourceId = recordingDetail['resourceId'];
+  }
+
+  stopRecording() async {
+    final token = await storage.read(key: 'token') ?? "";
+    final contact = await MessengerApi().getTeacherConnect(token);
+    final myInfo = await context.read<UserStore>().userInfo;
+    endDateTime = datetimeToCustomList();
+    await CallingApi().callRecordingStop(token, channelName, uid, resourceId,
+        sid, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
   }
 
   Future<void> setupVoiceSDKEngine() async {
@@ -215,9 +229,10 @@ class _CallButtonState extends State<CallButton> {
           print("Error description: ${rtcError.value()} 고요 $error");
         },
         onUserOffline: (RtcConnection connection, int remoteUid,
-            UserOfflineReasonType reason) {
+            UserOfflineReasonType reason) async {
           showMessage("Remote user uid:$remoteUid left the channel");
           print('전화끊음');
+          await stopRecording();
           leave();
           setState(() {
             this.remoteUid = null;
