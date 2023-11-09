@@ -1,5 +1,9 @@
-import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:everyschool/store/user_store.dart';
+import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:everyschool/api/community_api.dart';
 
 class CreatePostBody extends StatefulWidget {
   const CreatePostBody({Key? key}) : super(key: key);
@@ -9,6 +13,7 @@ class CreatePostBody extends StatefulWidget {
 }
 
 class _CreatePostBodyState extends State<CreatePostBody> {
+  final CommunityApi communityApi = CommunityApi();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   List<String> attachedFileNames = [];
@@ -27,6 +32,45 @@ class _CreatePostBodyState extends State<CreatePostBody> {
         attachedFileNames
             .addAll(newAttachedFileNames); // 기존 파일 이름 리스트에 새로운 파일 이름들을 추가합니다.
       });
+    }
+  }
+
+  Future<void> sendPost() async {
+    // 현재 context를 저장해두었다가 비동기 작업 이후에 사용합니다.
+    final localContext = context;
+
+    String title = _titleController.text;
+    String content = _contentController.text;
+    bool useComment = true;
+
+    // FilePicker를 통해 얻은 실제 파일 경로를 사용하여 File 객체를 생성합니다.
+    List<File> files = attachedFileNames.map((path) => File(path)).toList();
+
+    final schoolId =
+        localContext.read<UserStore>().userInfo['school']['schoolId'];
+
+    // API 호출
+    var result = await communityApi.createPost(
+      schoolId,
+      title,
+      content,
+      // useComment,
+      files,
+    );
+
+    // 비동기 작업 후에는 mounted를 확인하여 위젯이 여전히 존재하는지 확인합니다.
+    if (!mounted) return;
+
+    // 위젯이 마운트 상태일 때만 BuildContext를 사용합니다.
+    if (result != null) {
+      ScaffoldMessenger.of(localContext).showSnackBar(
+        SnackBar(content: Text('게시물이 성공적으로 작성되었습니다.')),
+      );
+      Navigator.pop(localContext);
+    } else {
+      ScaffoldMessenger.of(localContext).showSnackBar(
+        SnackBar(content: Text('게시물 작성에 실패하였습니다.')),
+      );
     }
   }
 
@@ -169,26 +213,24 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                 SizedBox(
                   height: 30,
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 13, 0, 13),
-                  decoration: BoxDecoration(
-                    color: Color(0XFF15075F),
-                    borderRadius: BorderRadius.circular(20),
+                ElevatedButton(
+                  onPressed: sendPost, // 버튼이 눌렸을 때 호출할 함수 지정
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0XFF15075F),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.fromLTRB(0, 13, 0, 13),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        '작성 완료',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )
-                    ],
+                  child: Text(
+                    '작성 완료',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
