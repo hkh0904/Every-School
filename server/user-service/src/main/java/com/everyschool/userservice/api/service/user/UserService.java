@@ -31,9 +31,9 @@ public class UserService {
     /**
      * 비밀번호 변경
      *
-     * @param userKey 변경할 계정의 고유키
+     * @param userKey    변경할 계정의 고유키
      * @param currentPwd 현재 비밀번호
-     * @param newPwd 변경할 비밀번호
+     * @param newPwd     변경할 비밀번호
      * @return 변경된 회원 정보
      */
     public UserResponse editPwd(String userKey, String currentPwd, String newPwd) {
@@ -51,15 +51,11 @@ public class UserService {
      * 회원 탈퇴
      *
      * @param userKey 탈퇴할 계정의 고유키
-     * @param pwd 계정 비밀번호
+     * @param pwd     계정 비밀번호
      * @return 탈퇴한 회원 정보
      */
     public WithdrawalResponse withdrawal(String userKey, String pwd) {
-        Optional<User> findUser = userRepository.findByUserKey(userKey);
-        if (findUser.isEmpty()) {
-            throw new NoSuchElementException("존재하지 않는 회원입니다.");
-        }
-        User user = findUser.get();
+        User user = getUserByUserKey(userKey);
 
         equalPwd(pwd, user.getPwd());
 
@@ -72,7 +68,7 @@ public class UserService {
      * 10자리 랜덤한 비밀번호로 변경
      *
      * @param email 변경할 계정의 이메일
-     * @param name 변경할 계정의 사용자 이름
+     * @param name  변경할 계정의 사용자 이름
      * @param birth 변경할 계정의 사용자 생년월일
      * @return 변경된 회원 정보
      */
@@ -104,7 +100,7 @@ public class UserService {
     /**
      * 비밀번호 일치 여부 확인
      *
-     * @param targetPwd 확인할 비밀번호
+     * @param targetPwd  확인할 비밀번호
      * @param encodedPwd 인코딩된 비밀번호
      * @throws IllegalArgumentException 비밀번호가 일치하지 않을 때
      */
@@ -118,8 +114,8 @@ public class UserService {
     /**
      * 회원의 이름과 생년월일 일치 여부 확인
      *
-     * @param user 대상 회원 엔티티
-     * @param name 회원 이름
+     * @param user  대상 회원 엔티티
+     * @param name  회원 이름
      * @param birth 회원 생년월일
      * @throws NoSuchElementException 회원 정보가 하나라도 일치하지 않을 때
      */
@@ -154,9 +150,14 @@ public class UserService {
             int index = random.nextInt(4);
 
             switch (index) {
-                case 0: key.append((char) (random.nextInt(26) + 97)); break;
-                case 1: key.append((char) (random.nextInt(26) + 65)); break;
-                default: key.append(random.nextInt(9));
+                case 0:
+                    key.append((char) (random.nextInt(26) + 97));
+                    break;
+                case 1:
+                    key.append((char) (random.nextInt(26) + 65));
+                    break;
+                default:
+                    key.append(random.nextInt(9));
             }
         }
         return key.toString();
@@ -175,6 +176,13 @@ public class UserService {
         return randomPwd;
     }
 
+    /**
+     * 회원 고유키로 회원 엔티티 조회
+     *
+     * @param userKey 회원 고유키
+     * @return 조회된 회원 엔티티
+     * @throws NoSuchElementException 등록된 회원이 아닌 경우 발생
+     */
     private User getUserByUserKey(String userKey) {
         Optional<User> findUser = userRepository.findByUserKey(userKey);
         if (findUser.isEmpty()) {
