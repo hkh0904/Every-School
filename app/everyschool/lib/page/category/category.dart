@@ -3,7 +3,6 @@ import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
 import 'package:everyschool/page/report/report_page.dart';
-import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

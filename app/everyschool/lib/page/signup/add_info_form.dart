@@ -31,9 +31,9 @@ class _AddInfoFormState extends State<AddInfoForm> {
   bool yearcheck = false;
   bool monthcheck = false;
   bool daycheck = false;
+  final storage = FlutterSecureStorage();
 
   void getToken() async {
-    final storage = FlutterSecureStorage();
     devicetoken = await storage.read(key: 'token') ?? "";
   }
 
@@ -42,6 +42,21 @@ class _AddInfoFormState extends State<AddInfoForm> {
     super.initState();
     getToken();
     finalGender = selectedGender!.gender;
+  }
+
+  afterSignup(context) async {
+    String usertype = await storage.read(key: 'usertype') ?? "";
+    String token = await storage.read(key: 'token') ?? "";
+    final userinfo = await UserApi().getUserInfo(token);
+
+    if (usertype == "1001") {
+      if (userinfo == 0) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (Route<dynamic> route) => false);
+      } else {}
+    }
   }
 
   @override
@@ -395,13 +410,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                               actions: <Widget>[
                                                 TextButton(
                                                     onPressed: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              LoginPage(),
-                                                        ),
-                                                      );
+                                                      afterSignup(context);
                                                     },
                                                     child: Text('닫기'))
                                               ],
