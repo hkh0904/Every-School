@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 회원 웹 조회 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -19,6 +24,11 @@ public class UserWebQueryController {
     private final UserWebQueryService userWebQueryService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 교직원 회원 정보 조회 API
+     *
+     * @return 조회된 교직원 회원 정보
+     */
     @GetMapping("/info")
     public ApiResponse<UserInfoResponse> searchUserInfo() {
 
