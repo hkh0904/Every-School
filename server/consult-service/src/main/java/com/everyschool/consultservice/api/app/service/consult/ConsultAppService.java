@@ -36,6 +36,7 @@ public class ConsultAppService {
         UserInfo teacherInfo = userServiceClient.searchUserInfo(dto.getTeacherKey());
 
         Integer studentNumber = schoolServiceClient.searchStudentNumber(studentInfo.getUserId(), schoolYear);
+        Integer studentNumber = schoolServiceClient.searchStudentNumber(studentInfo.getUserId(), schoolYear);
 
         int grade = studentNumber / 10000;
         int classNum = studentNumber / 100 % 100;
