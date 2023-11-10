@@ -2,10 +2,10 @@
 === 방해 금지 타임 조회 API
 
 ==== HTTP Request
-include::{snippets}/search-do-not-disturbs/http-request.adoc[]
+include::{snippets}/search-do-not-disturb/http-request.adoc[]
 
 
 ==== HTTP Response
-include::{snippets}/search-do-not-disturbs/http-response.adoc[]
-include::{snippets}/search-do-not-disturbs/response-fields.adoc[]
+include::{snippets}/search-do-not-disturb/http-response.adoc[]
+include::{snippets}/search-do-not-disturb/response-fields.adoc[]
 
