@@ -33,16 +33,7 @@ public class KafkaConsumer {
      */
     @KafkaListener(topics = "edit-student-class-info")
     public void editStudentClassInfo(String kafkaMessage) {
-        log.info("Kafka Message: ->" + kafkaMessage);
-
-        Map<Object, Object> map = new HashMap<>();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {
-            });
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        Map<Object, Object> map = getMap(kafkaMessage);
 
         Long studentId = (Long) map.get("studentId");
         Long schoolId = (Long) map.get("schoolId");
@@ -58,6 +49,21 @@ public class KafkaConsumer {
      */
     @KafkaListener(topics = "create-student-parent")
     public void createStudentParent(String kafkaMessage) {
+        Map<Object, Object> map = getMap(kafkaMessage);
+
+        Long studentId = (Long) map.get("studentId");
+        Long parentId = (Long) map.get("parentId");
+
+        studentParentService.createStudentParent(studentId, parentId);
+    }
+
+    /**
+     * 카프라 큐잉 메세지 역직렬화
+     *
+     * @param kafkaMessage 카프카 큐잉 메세지
+     * @return 역직렬화된 정보
+     */
+    private Map<Object, Object> getMap(String kafkaMessage) {
         log.info("Kafka Message: ->" + kafkaMessage);
 
         Map<Object, Object> map = new HashMap<>();
@@ -69,9 +75,6 @@ public class KafkaConsumer {
             throw new RuntimeException(e);
         }
 
-        Long studentId = (Long) map.get("studentId");
-        Long parentId = (Long) map.get("parentId");
-
-        studentParentService.createStudentParent(studentId, parentId);
+        return map;
     }
 }
