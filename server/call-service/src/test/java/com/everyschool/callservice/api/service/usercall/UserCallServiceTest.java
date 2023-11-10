@@ -3,8 +3,8 @@ package com.everyschool.callservice.api.service.usercall;
 import com.everyschool.callservice.IntegrationTestSupport;
 import com.everyschool.callservice.api.client.UserServiceClient;
 import com.everyschool.callservice.api.client.response.UserInfo;
+import com.everyschool.callservice.api.controller.usercall.request.RecordStopRequest;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
-import com.everyschool.callservice.api.service.usercall.dto.CreateUserCallDto;
 import com.everyschool.callservice.domain.usercall.UserCall;
 import com.everyschool.callservice.domain.usercall.repository.UserCallRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -33,14 +34,14 @@ class UserCallServiceTest extends IntegrationTestSupport {
     void createCallInfo() {
 
         // given
-        UserInfo teacher = UserInfo.builder()
+        UserInfo sender = UserInfo.builder()
                 .userId(1L)
                 .userType('T')
                 .userName("신성주")
                 .schoolClassId(1L)
                 .build();
 
-        UserInfo parent = UserInfo.builder()
+        UserInfo receiver = UserInfo.builder()
                 .userId(2L)
                 .userType('M')
                 .userName("홍경환")
@@ -48,25 +49,23 @@ class UserCallServiceTest extends IntegrationTestSupport {
                 .build();
 
         given(userServiceClient.searchUserInfo("jwt"))
-                .willReturn(teacher);
+                .willReturn(sender);
         given(userServiceClient.searchUserInfoByUserKey("otheruserkey"))
-                .willReturn(parent);
+                .willReturn(receiver);
 
-        CreateUserCallDto dto = CreateUserCallDto.builder()
-                .sender("O")
+        RecordStopRequest request = RecordStopRequest.builder()
+                .otherUserKey(UUID.randomUUID().toString())
+                .sender("T")
                 .startDateTime(LocalDateTime.now().minusHours(2))
                 .endDateTime(LocalDateTime.now().minusHours(1))
-                .uploadFileName("이예리 폭언 녹음본")
-                .storeFileName("이예리 폭언 녹음본")
-                .isBad(true)
                 .build();
 
         // when
-        UserCallResponse response = userCallService.createCallInfo(dto, "otheruserkey", "jwt");
+        UserCallResponse response = userCallService.createCallInfo(request.toDto(), "otheruserkey", "jwt");
 
         // then
-        assertThat(response.getSenderName()).isEqualTo("홍경환");
-        assertThat(response.getReceiverName()).isEqualTo("신성주");
+        assertThat(response.getSenderName()).isEqualTo("신성주");
+        assertThat(response.getReceiverName()).isEqualTo("홍경환");
     }
 
     private UserCall saveCall() {
