@@ -49,7 +49,7 @@ public class ConsultAppQueryControllerDocsTest extends RestDocsSupport {
         ConsultResponse response2 = createConsultResponse(2L, REJECT.getCode(), "2학년 3반 이예리 선생님");
         ConsultResponse response1 = createConsultResponse(1L, WAIT.getCode(), "2학년 3반 이예리 선생님");
 
-        given(consultAppQueryService.searchConsultsByParent(anyString(), anyInt()))
+        given(consultAppQueryService.searchConsultsByParent(anyString(), anyInt(), anyLong()))
             .willReturn(List.of(response1, response2, response3));
 
         mockMvc.perform(
@@ -155,7 +155,7 @@ public class ConsultAppQueryControllerDocsTest extends RestDocsSupport {
         ConsultResponse response2 = createConsultResponse(2L, REJECT.getCode(), "2학년 3반 17번 이예리 어머님");
         ConsultResponse response1 = createConsultResponse(1L, WAIT.getCode(), "2학년 3반 13번 신성주 아버님");
 
-        given(consultAppQueryService.searchConsultsByTeacher(anyString(), anyInt()))
+        given(consultAppQueryService.searchConsultsByTeacher(anyString(), anyInt(), anyLong()))
             .willReturn(List.of(response1, response2, response3));
 
         mockMvc.perform(
