@@ -165,7 +165,7 @@ class _ConnectState extends State<Connect> {
   startRecording() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
-    final myInfo = await context.read<UserStore>().userInfo;
+    final myInfo = context.read<UserStore>().userInfo;
     final userKey = await storage.read(key: 'userKey') ?? "";
     var recordingDetail = await CallingApi().callRecordingStart(
         token, channelName, uid, chatroomtoken, userKey, contact['userKey']);
@@ -176,7 +176,7 @@ class _ConnectState extends State<Connect> {
   stopRecording() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
-    final myInfo = await context.read<UserStore>().userInfo;
+    final myInfo = context.read<UserStore>().userInfo;
     endDateTime = datetimeToCustomList();
     await CallingApi().callRecordingStop(token, channelName, uid, resourceId,
         sid, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
@@ -247,7 +247,7 @@ class _ConnectState extends State<Connect> {
   missedCallCheck() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
-    final myInfo = await context.read<UserStore>().userInfo;
+    final myInfo = context.read<UserStore>().userInfo;
     setState(() {
       endDateTime = datetimeToCustomList();
     });
@@ -293,7 +293,7 @@ class _ConnectState extends State<Connect> {
   void initState() {
     super.initState();
     getChannelName(16);
-    setupVoiceSDKEngine();
+    // setupVoiceSDKEngine();
   }
 
   List<bool> showParentList = List<bool>.generate(50, (index) => false);

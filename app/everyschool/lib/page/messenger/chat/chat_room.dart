@@ -105,13 +105,16 @@ class _ChatRoomState extends State<ChatRoom> {
 
   void onConnectCallback(StompFrame connectFrame) {
     print('소켓연결');
+    print('/sub/${createRoomInfo!['roomId']}');
+    print('/sub/${widget.roomInfo?['roomId']}');
 
     stompClient.subscribe(
       destination: widget.roomInfo == null
-          ? '/sub/${createRoomInfo!['roomId']}}'
+          ? '/sub/${createRoomInfo!['roomId']}'
           : '/sub/${widget.roomInfo?['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
-      callback: (frame) {
+      callback: (frame) async {
+        print('구독 성공');
         print('구독 성공');
         print(frame.body);
         context.read<ChatController>().addNewMessage(Chat(
@@ -126,9 +129,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
   late StompClient stompClient = StompClient(
       config: StompConfig(
-          onStompError: (p0) {
-            print('구독 못받았어1');
-          },
           url: socketURL,
           webSocketConnectHeaders: {'Authorization': 'Bearer $token'},
           onConnect: onConnectCallback));
