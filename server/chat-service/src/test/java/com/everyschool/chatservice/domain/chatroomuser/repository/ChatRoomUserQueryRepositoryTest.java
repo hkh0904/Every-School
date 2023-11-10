@@ -4,7 +4,6 @@ import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,6 @@ class ChatRoomUserQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(find).isPresent();
     }
 
-    @NotNull
     private ChatRoomUser saveChatRoomUser(ChatRoom chatRoom, long userId) {
         return chatRoomUserRepository.save(ChatRoomUser.builder()
                 .chatRoomTitle("1학년 2반 홍경환(부)")
