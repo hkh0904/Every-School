@@ -6,14 +6,14 @@ import 'package:everyschool/page/community/post_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-class CommunityBoard extends StatefulWidget {
-  const CommunityBoard({super.key});
+class HomeNoticeBoard extends StatefulWidget {
+  const HomeNoticeBoard({super.key});
 
   @override
-  State<CommunityBoard> createState() => _CommunityBoardState();
+  State<HomeNoticeBoard> createState() => _HomeNoticeBoardState();
 }
 
-class _CommunityBoardState extends State<CommunityBoard> {
+class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
   final CommunityApi communityApi = CommunityApi();
   List<dynamic> boardList = [];
 
@@ -24,15 +24,10 @@ class _CommunityBoardState extends State<CommunityBoard> {
   }
 
   Future<void> _loadBoardData() async {
-    final userType = context.read<UserStore>().userInfo["userType"];
     final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
     var response;
     try {
-      if (userType == 1001) {
-        response = await communityApi.getBoardList(schoolId);
-      } else if (userType == 1002 || userType == 1003) {
-        response = await communityApi.getNoticeList(schoolId);
-      }
+      response = await communityApi.getHomeNoticeList(schoolId);
       if (response != null && response['content'] != null) {
         setState(() {
           boardList = response['content'];
@@ -66,7 +61,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
         return '${difference.inHours}시간 전';
       }
     } else {
-      return '${postDateTime.month.toString().padLeft(2, '0')}/${postDateTime.day.toString().padLeft(2, '0')}';
+      return '${postDateTime.year.toString().padLeft(2, '0')}.${postDateTime.month.toString().padLeft(2, '0')}.${postDateTime.day.toString().padLeft(2, '0')}';
     }
   }
 
@@ -82,16 +77,15 @@ class _CommunityBoardState extends State<CommunityBoard> {
     tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     Duration difference = now.difference(postDateTime);
 
-    return difference.inHours == 0 && difference.inMinutes < 60;
+    return difference.inHours == 0 && difference.inMinutes < 1800;
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<UserStore>(
       builder: (context, userStore, child) {
-        final userType = userStore.userInfo["userType"];
         double containerHeight =
-            boardList.length < 5 ? boardList.length * 47.0 : 235.0;
+            boardList.length < 5 ? boardList.length * 70.0 : 210.0;
 
         return Container(
           decoration: BoxDecoration(
@@ -105,13 +99,11 @@ class _CommunityBoardState extends State<CommunityBoard> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    String pageTitle = userType == 1001 ? '자유 게시판' : '학사 공지';
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            PostlistPage(pageTitle: pageTitle),
-                      ),
+                          builder: (context) =>
+                              PostlistPage(pageTitle: '가정통신문')),
                     );
                   },
                   child: Row(
@@ -119,7 +111,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        userType == 1001 ? '자유 게시판' : '학사 공지',
+                        '가정통신문',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w800),
                       ),
@@ -151,8 +143,8 @@ class _CommunityBoardState extends State<CommunityBoard> {
                       bool isWithinAnHour = isWithinHour(dateTimeString);
 
                       return Container(
-                        height: 45,
-                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        height: 65,
+                        padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
                         margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: GestureDetector(
                           onTapDown: (TapDownDetails details) {
@@ -179,29 +171,44 @@ class _CommunityBoardState extends State<CommunityBoard> {
                               );
                             }
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
                             children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.6,
-                                child: Text(
-                                  (boardList[index]['title'] as String).length >
-                                          15
-                                      ? '${(boardList[index]['title'] as String).substring(0, 15)}...'
-                                      : boardList[index]['title'] as String,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        (boardList[index]['title'] as String)
+                                                    .length >
+                                                15
+                                            ? '${(boardList[index]['title'] as String).substring(0, 15)}...'
+                                            : boardList[index]['title']
+                                                as String,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      SizedBox(height: 4),
+                                      Text(
+                                        displayTime,
+                                        style: TextStyle(
+                                            color: Color(0xff999999),
+                                            fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                  if (isWithinAnHour)
+                                    Image.asset(
+                                      'assets/images/community/new.png',
+                                      height: 35,
+                                    )
+                                ],
                               ),
-                              if (isWithinAnHour)
-                                Image.asset('assets/images/community/new.png')
-                              else
-                                Text(
-                                  displayTime,
-                                  style: TextStyle(
-                                      fontSize: 17, color: Color(0xff999999)),
-                                ),
                             ],
                           ),
                         ),

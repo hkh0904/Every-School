@@ -2,6 +2,7 @@ import 'package:everyschool/page/community/community_menu.dart';
 import 'package:everyschool/page/community/community_board.dart';
 import 'package:everyschool/page/community/popular_post.dart';
 import 'package:everyschool/page/community/hot_post.dart';
+import 'package:everyschool/page/community/home_notice_board.dart';
 import 'package:everyschool/page/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,15 +71,24 @@ class _CommunityBodyState extends State<CommunityBody> {
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: CommunityMenu()),
             ),
-            SliverToBoxAdapter(
-              child: CommunityBoard(),
-            ),
-            SliverToBoxAdapter(
-              child: PopularPost(),
-            ),
-            SliverToBoxAdapter(
-              child: HotPost(),
-            ),
+            if (userType == 1001) ...[
+              SliverToBoxAdapter(
+                child: CommunityBoard(),
+              ),
+              SliverToBoxAdapter(
+                child: PopularPost(),
+              ),
+              SliverToBoxAdapter(
+                child: HotPost(),
+              ),
+            ] else if (userType == 1002 || userType == 1003) ...[
+              SliverToBoxAdapter(
+                child: CommunityBoard(),
+              ),
+              SliverToBoxAdapter(
+                child: HomeNoticeBoard(),
+              ),
+            ],
           ],
         );
       },
