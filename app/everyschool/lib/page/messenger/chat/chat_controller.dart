@@ -24,12 +24,8 @@ class ChatController extends ChangeNotifier {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
-    print(22);
     textEditingController.clear();
-    print(33);
-
     notifyListeners();
-    print(44);
   }
 
   void setChatList(message) {

@@ -43,9 +43,30 @@ class _ChatRoomState extends State<ChatRoom> {
   int? mytype;
   int? myclassId;
   Map<String, dynamic>? createRoomInfo = {};
+  String? mykey;
+  getgetget() async {
+    final kkk = await storage.read(key: 'userKey');
+    setState(() {
+      mykey = kkk;
+    });
+  }
+
+  getChat() async {
+    token = await storage.read(key: 'token') ?? "";
+
+    final response = await MessengerApi().getChatListItem(
+      token,
+      widget.roomInfo == null
+          ? createRoomInfo!['roomId']
+          : widget.roomInfo['roomId'],
+    );
+    print('이게 정말 채팅 내역');
+    print(response);
+  }
 
   createChatroom() async {
     token = await storage.read(key: 'token') ?? "";
+    print(token);
     userKey = widget.userInfo?['userKey'];
     userName = widget.userInfo?['name'];
     userType = widget.userInfo['userType'];
@@ -78,6 +99,7 @@ class _ChatRoomState extends State<ChatRoom> {
             : widget.roomInfo['roomId'],
         myKey,
         context.read<ChatController>().textEditingController.text);
+    print(filter);
     if (filter['isBad'] == false) {
       stompClient.send(
           destination: '/pub/chat.send',
@@ -93,11 +115,10 @@ class _ChatRoomState extends State<ChatRoom> {
 
       context.read<ChatController>().addNewMessage(Chat(
             message: context.read<ChatController>().textEditingController.text,
-            type: ChatMessageType.sent,
+            sender: myKey!,
             time: DateTime.now(),
           ));
       context.read<ChatController>().onFieldSubmitted();
-      setState(() {});
     } else {
       print('문제가 있어 보내지 않았습니다');
     }
@@ -114,15 +135,15 @@ class _ChatRoomState extends State<ChatRoom> {
           : '/sub/${widget.roomInfo?['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
       callback: (frame) async {
-        print('구독 성공');
-        print('구독 성공');
-        print(frame.body);
-        context.read<ChatController>().addNewMessage(Chat(
-              message: json.decode(frame.body!)['message'],
-              type: ChatMessageType.received,
-              time: DateTime.now(),
-            ));
-        setState(() {});
+        print(json.decode(frame.body!)['message']);
+        print(json.decode(frame.body!)['senderUserKey']);
+
+        Provider.of<ChatController>(context, listen: false).addNewMessage(Chat(
+          message: json.decode(frame.body!)['message'],
+          // sender: ChatMessageType.received,
+          sender: json.decode(frame.body!)['senderUserKey'],
+          time: DateTime.now(),
+        ));
       },
     );
   }
@@ -133,12 +154,19 @@ class _ChatRoomState extends State<ChatRoom> {
           webSocketConnectHeaders: {'Authorization': 'Bearer $token'},
           onConnect: onConnectCallback));
 
+  getToken() async {
+    token = await storage.read(key: 'token') ?? "";
+  }
+
   @override
   void initState() {
     print('이닛');
     print(widget.roomInfo);
     print(widget.userInfo);
     print(createRoomInfo);
+    getChat();
+    getgetget();
+    getToken();
     super.initState();
     if (widget.roomInfo != null) {
       if (widget.roomInfo['opponentUserType'] == 'T') {
@@ -218,7 +246,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                   .scrollController,
                               itemCount: chatList.length,
                               itemBuilder: (context, index) {
-                                return Bubble(chat: chatList[index]);
+                                return Bubble(
+                                    chat: chatList[index], myKey: mykey);
                               },
                             );
                           },
