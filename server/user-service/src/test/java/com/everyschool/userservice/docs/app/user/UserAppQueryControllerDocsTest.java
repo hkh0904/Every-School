@@ -98,7 +98,7 @@ public class UserAppQueryControllerDocsTest extends RestDocsSupport {
 
         response.getParents().add(parent);
 
-        given(userAppQueryService.searchContactInfos(anyInt(), anyString()))
+        given(userAppQueryService.searchContactInfos(anyString(), anyInt()))
             .willReturn(List.of(response));
 
         mockMvc.perform(

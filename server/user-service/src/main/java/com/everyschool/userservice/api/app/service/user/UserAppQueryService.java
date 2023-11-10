@@ -20,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.everyschool.userservice.error.ErrorMessage.UNAUTHORIZED_USER;
-import static com.everyschool.userservice.error.ErrorMessage.NO_SUCH_USER;
+import static com.everyschool.userservice.error.ErrorMessage.*;
 
 @RequiredArgsConstructor
 @Service
@@ -198,39 +197,43 @@ public class UserAppQueryService {
         return TeacherContactInfoResponse.of(teacher);
     }
 
-    public List<StudentContactInfoResponse> searchContactInfos(Integer schoolYear, String userKey) {
-        User findUser = getUserByUserKey(userKey);
+    /**
+     * 학급 인원 연락처 목록 조회
+     *
+     * @param teacherKey 교직원 고유키
+     * @param schoolYear 학년도
+     * @return 조회된 학급 인원 연락처 목록
+     */
+    public List<StudentContactInfoResponse> searchContactInfos(String teacherKey, int schoolYear) {
+        User teacher = getUserByUserKey(teacherKey);
 
-        List<StudentInfo> infos = schoolServiceClient.searchStudentsByUserId(findUser.getId(), schoolYear);
+        //내 학급의 학생 정보 조회
+        List<StudentInfo> infos = schoolServiceClient.searchStudentsByUserId(teacher.getId(), schoolYear);
 
+        //key: 회원(학생) 아이디, value: 학번
         Map<Long, Integer> map = infos.stream()
             .collect(Collectors.toMap(StudentInfo::getUserId, StudentInfo::getStudentNumber, (a, b) -> b));
 
+        //회원(학생) 아이디를 리스트로 전환
         List<Long> temp = new ArrayList<>(map.keySet());
+
+        //회원(학생) 아이디로 회원(학생) 엔티티 목록 조회
         List<User> students = userRepository.findByIdIn(temp);
 
+        //학급 인원 연락처 목록 생성
         List<StudentContactInfoResponse> responses = new ArrayList<>();
         for (User user : students) {
-            if (!(user instanceof Student)) {
-                throw new IllegalArgumentException();
-            }
-            Student student = (Student) user;
+            Student student = convertToStudent(user);
 
-            StudentContactInfoResponse response = StudentContactInfoResponse.builder()
-                .userKey(student.getUserKey())
-                .name(student.getName())
-                .studentNumber(map.get(student.getId()))
-                .build();
-
+            //학생 연락처 생성
+            Integer studentNumber = map.get(student.getId());
+            StudentContactInfoResponse response = createStudentContactInfoResponse(student, studentNumber);
             responses.add(response);
 
+            //학부모 연락처 생성
             List<Parent> parents = studentParentAppQueryRepository.findByStudentId(student.getId());
             for (Parent parent : parents) {
-                StudentContactInfoResponse.Parent parentResponse = StudentContactInfoResponse.Parent.builder()
-                    .parentKey(parent.getUserKey())
-                    .name(parent.getName())
-                    .parentType(parent.getParentType())
-                    .build();
+                StudentContactInfoResponse.Parent parentResponse = createStudentContactInfoResponseInnerParent(parent);
                 response.getParents().add(parentResponse);
             }
         }
@@ -258,11 +261,54 @@ public class UserAppQueryService {
      * @param userId 회원 아이디
      * @return 조회된 회원 엔티티
      */
-    public User getUserById(Long userId) {
+    private User getUserById(Long userId) {
         Optional<User> findUser = userRepository.findById(userId);
         if (findUser.isEmpty()) {
             throw new NoSuchElementException(NO_SUCH_USER.getMessage());
         }
         return findUser.get();
+    }
+
+    /**
+     * 회원 엔티티를 학생 엔티티로 변환
+     *
+     * @param user 회원 엔티티
+     * @return 변환된 학생 엔티티
+     * @throws IllegalArgumentException 학생 회원이 아닌 경우 발생
+     */
+    private Student convertToStudent(User user) {
+        if (!(user instanceof Student)) {
+            throw new IllegalArgumentException(NOT_STUDENT_USER.getMessage());
+        }
+        return (Student) user;
+    }
+
+    /**
+     * 학생 연락처 생성
+     *
+     * @param student       학생 엔티티
+     * @param studentNumber 학번
+     * @return 생성된 학생 연락처
+     */
+    private StudentContactInfoResponse createStudentContactInfoResponse(Student student, int studentNumber) {
+        return StudentContactInfoResponse.builder()
+            .userKey(student.getUserKey())
+            .name(student.getName())
+            .studentNumber(studentNumber)
+            .build();
+    }
+
+    /**
+     * 학부모 연락처 생성
+     *
+     * @param parent 학부모 엔티티
+     * @return 생성된 학부모 연락처
+     */
+    private StudentContactInfoResponse.Parent createStudentContactInfoResponseInnerParent(Parent parent) {
+        return StudentContactInfoResponse.Parent.builder()
+            .parentKey(parent.getUserKey())
+            .name(parent.getName())
+            .parentType(parent.getParentType())
+            .build();
     }
 }

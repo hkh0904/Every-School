@@ -61,7 +61,7 @@ public class UserAppQueryController {
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        List<StudentContactInfoResponse> response = userAppQueryService.searchContactInfos(schoolYear, userKey);
+        List<StudentContactInfoResponse> response = userAppQueryService.searchContactInfos(userKey, schoolYear);
 
         return ApiResponse.ok(response);
     }
