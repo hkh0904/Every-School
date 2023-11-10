@@ -87,7 +87,7 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
-
+    // storage.delete(key: 'token');
     FirebaseApi().getMyDeviceToken();
     FirebaseApi().setupInteractedMessage(context);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

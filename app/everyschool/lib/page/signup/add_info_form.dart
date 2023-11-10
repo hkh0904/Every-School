@@ -31,9 +31,9 @@ class _AddInfoFormState extends State<AddInfoForm> {
   bool yearcheck = false;
   bool monthcheck = false;
   bool daycheck = false;
+  final storage = FlutterSecureStorage();
 
   void getToken() async {
-    final storage = FlutterSecureStorage();
     devicetoken = await storage.read(key: 'token') ?? "";
   }
 
@@ -395,13 +395,14 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                               actions: <Widget>[
                                                 TextButton(
                                                     onPressed: () {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              LoginPage(),
-                                                        ),
-                                                      );
+                                                      Navigator.pushAndRemoveUntil(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const LoginPage()),
+                                                          (Route<dynamic>
+                                                                  route) =>
+                                                              false);
                                                     },
                                                     child: Text('닫기'))
                                               ],

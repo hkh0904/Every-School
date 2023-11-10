@@ -20,7 +20,7 @@ class _ReportPageState extends State<ReportPage> {
   String? _locationInput;
   String? _suspectInput;
   String? _detailInput;
-  final List<File> _filePaths = [];
+  List<File> _filePaths = [];
   final TextEditingController _fileController = TextEditingController();
 
   postFile() async {
@@ -37,8 +37,8 @@ class _ReportPageState extends State<ReportPage> {
       "how": null,
       "why": null
     });
-    print("신고페이지!!!!!!!! $_filePaths");
-    var response = ReportApi().writeReport(formData);
+
+    var response = await ReportApi().writeReport(formData);
     if (response.runtimeType != Null) {
       showDialog(
         context: context,
@@ -90,6 +90,18 @@ class _ReportPageState extends State<ReportPage> {
           );
         }),
       );
+      setState(() {
+        _selectedType = null;
+        _selectedDate = null;
+        _selectedTime = null;
+        _locationInput = null;
+        _suspectInput = null;
+        _detailInput = null;
+        _filePaths = [];
+      });
+      _fileController.text = _filePaths.isNotEmpty
+          ? _filePaths.map((file) => extractFileName(file.path)).join(", ")
+          : "첨부 파일이 없습니다";
     }
   }
 
