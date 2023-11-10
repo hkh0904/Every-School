@@ -3,6 +3,7 @@
 
 ==== HTTP Request
 include::{snippets}/calling-cancel/http-request.adoc[]
+include::{snippets}/calling-cancel/request-fields.adoc[]
 
 
 ==== HTTP Response

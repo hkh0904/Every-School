@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -28,39 +27,32 @@ public class DoNotDisturbQueryControllerDocsTest extends RestDocsSupport {
 
     private final UserServiceClient userServiceClient = mock(UserServiceClient.class);
     private final DoNotDisturbQueryService doNotDisturbQueryService = mock(DoNotDisturbQueryService.class);
+
     @Override
     protected Object initController() {
         return new DoNotDisturbQueryController(doNotDisturbQueryService);
     }
 
-    @DisplayName("내 방해 금지 목록 조회 API")
+    @DisplayName("가장 최근에 등록한 내 금지 목록 조회 API")
     @Test
-    void searchDoNotDisturbs() throws Exception {
+    void searchDoNotDisturb() throws Exception {
 
-        DoNotDisturbResponse response1 = DoNotDisturbResponse.builder()
+        DoNotDisturbResponse response = DoNotDisturbResponse.builder()
                 .startTime(LocalDateTime.now().minusDays(1))
                 .endTime(LocalDateTime.now().minusHours(23))
                 .isActivate(false)
                 .build();
 
-        DoNotDisturbResponse response2 = DoNotDisturbResponse.builder()
-                .startTime(LocalDateTime.now().minusHours(2))
-                .endTime(LocalDateTime.now().minusHours(1))
-                .isActivate(true)
-                .build();
-
-        List<DoNotDisturbResponse> dList = List.of(response1, response2);
-
-        given(doNotDisturbQueryService.searchMyDoNotDisturbs(anyString()))
-                .willReturn(dList);
+        given(doNotDisturbQueryService.searchMyDoNotDisturb(anyString()))
+                .willReturn(response);
 
         mockMvc.perform(
                         get("/call-service/v1/do-not-disturbs/")
-                            .header("Authorization", "Bearer Access Token")
+                                .header("Authorization", "Bearer Access Token")
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("search-do-not-disturbs",
+                .andDo(document("search-do-not-disturb",
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -69,13 +61,13 @@ public class DoNotDisturbQueryControllerDocsTest extends RestDocsSupport {
                                         .description("상태"),
                                 fieldWithPath("message").type(JsonFieldType.STRING)
                                         .description("메시지"),
-                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+                                fieldWithPath("data").type(JsonFieldType.OBJECT)
                                         .description("응답 데이터"),
-                                fieldWithPath("data[].startTime").type(JsonFieldType.ARRAY)
+                                fieldWithPath("data.startTime").type(JsonFieldType.ARRAY)
                                         .description("시작 시간"),
-                                fieldWithPath("data[].endTime").type(JsonFieldType.ARRAY)
+                                fieldWithPath("data.endTime").type(JsonFieldType.ARRAY)
                                         .description("끝 나는 시간"),
-                                fieldWithPath("data[].isActivate").type(JsonFieldType.BOOLEAN)
+                                fieldWithPath("data.isActivate").type(JsonFieldType.BOOLEAN)
                                         .description("활성화 상태")
                         )
                 ));

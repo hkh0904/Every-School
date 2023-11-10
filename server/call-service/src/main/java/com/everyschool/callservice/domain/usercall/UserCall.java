@@ -33,7 +33,8 @@ public class UserCall extends BaseEntity {
     @Column(nullable = false, updatable = false, length = 20)
     private String receiverName;
 
-    private Boolean receiveCall;
+    @Column(nullable = false, length = 1)
+    private String receiveCall;
 
     @Column(nullable = false)
     private LocalDateTime startDateTime;
@@ -58,7 +59,7 @@ public class UserCall extends BaseEntity {
 
     @Builder
     private UserCall(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
-                     Boolean receiveCall, LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName,
+                     String receiveCall, LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName,
                      String storeFileName, Boolean isBad) {
         this();
         this.teacherId = teacherId;

@@ -66,7 +66,7 @@ public class FCMNotificationService {
         UserInfo sender = getUserWithToken(token);
         UserInfo receiver = getUserWithUserKey(dto.getOtherUserKey());
 
-        createUserCall(sender, receiver, dto);
+        createUserCall(sender, receiver, dto, "M");
         return true;
     }
 
@@ -102,7 +102,7 @@ public class FCMNotificationService {
 
         UserInfo sender = getUserWithToken(token);
         UserInfo receiver = getUserWithUserKey(dto.getOtherUserKey());
-        createUserCall(sender, receiver, dto);
+        createUserCall(sender, receiver, dto, "C");
 
         return true;
     }
@@ -114,11 +114,12 @@ public class FCMNotificationService {
         return userServiceClient.searchUserInfoByUserKey(userKey);
     }
 
-    void createUserCall(UserInfo sender, UserInfo receiver, CallDeniedDto dto) {
+    void createUserCall(UserInfo sender, UserInfo receiver, CallDeniedDto dto, String receiveCall) {
 
         Long teacherId = sender.getUserId();
         Long otherUserId = receiver.getUserId();
         String senderType = "T";
+
         if (receiver.getUserType() == 'T') {
             teacherId = receiver.getUserId();
             otherUserId = sender.getUserId();
@@ -131,7 +132,7 @@ public class FCMNotificationService {
                 .sender(senderType)
                 .senderName(sender.getUserName())
                 .receiverName(receiver.getUserName())
-                .receiveCall(false)
+                .receiveCall(receiveCall)
                 .startDateTime(dto.getStartDateTime())
                 .endDateTime(dto.getEndDateTime())
                 .build();

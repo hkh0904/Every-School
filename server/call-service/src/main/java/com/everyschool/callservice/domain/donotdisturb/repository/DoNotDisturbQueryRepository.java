@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.List;
 
 import static com.everyschool.callservice.domain.donotdisturb.QDoNotDisturb.doNotDisturb;
 
@@ -19,16 +18,19 @@ public class DoNotDisturbQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<DoNotDisturbResponse> findAllByUserId(Long userId) {
+    public DoNotDisturbResponse findByUserId(Long userId) {
         return queryFactory
                 .select(Projections.constructor(
                         DoNotDisturbResponse.class,
+                        doNotDisturb.id,
                         doNotDisturb.startTime,
                         doNotDisturb.endTime,
                         doNotDisturb.isActivate
                 ))
                 .from(doNotDisturb)
                 .where(doNotDisturb.teacherId.eq(userId))
-                .fetch();
+                .orderBy(doNotDisturb.id.desc())
+                .limit(1)
+                .fetchFirst();
     }
 }
