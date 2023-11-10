@@ -8,6 +8,7 @@ import com.everyschool.chatservice.domain.chat.ChatStatus;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.mongodb.lang.Nullable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Objects;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ChatQueryService {
 
     private final ChatRepository chatRepository;
@@ -33,11 +35,13 @@ public class ChatQueryService {
      */
     public List<ChatResponse> searchChat(Long chatRoomId, @Nullable Long idx, String token) {
         UserInfo loginUser = userServiceClient.searchUserInfo(token);
-
+        log.debug("[Service] 채팅 목록 불러오기 요청됨. 채팅방 Id = {}", chatRoomId);
+        log.debug("[Service] 채팅 목록 불러오기 요청됨. Idx = {}", idx);
         if (idx == null) {
             idx = Long.MAX_VALUE;
         }
         List<Chat> list = chatRepository.findTop20ChatsByChatRoomIdAndStatusAndIdLessThanOrderByIdDesc(chatRoomId, ChatStatus.PLANE.getCode(), idx);
+        log.debug("[Service] 채팅 목록 불러오기 요청됨. 채팅 리스트 수 = {}", list.size());
         List<ChatResponse> responses = new ArrayList<>();
         for (Chat chat : list) {
             ChatResponse response = createChatResponse(loginUser, chat);
