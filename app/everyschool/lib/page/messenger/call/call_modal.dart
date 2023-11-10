@@ -14,7 +14,8 @@ class CallModal extends StatefulWidget {
       this.tokenRole,
       this.serverUrl,
       this.tokenExpireTime,
-      this.isTokenExpiring});
+      this.isTokenExpiring,
+      this.getUserKey});
   final join;
   final uid;
   final channelName;
@@ -22,6 +23,7 @@ class CallModal extends StatefulWidget {
   final serverUrl;
   final tokenExpireTime;
   final isTokenExpiring;
+  final getUserKey;
 
   @override
   State<CallModal> createState() => _CallModalState();
@@ -72,14 +74,21 @@ class _CallModalState extends State<CallModal> {
                   child: GestureDetector(
                     onTap: () async {
                       final token = await storage.read(key: 'token') ?? "";
-                      final contact =
-                          await MessengerApi().getTeacherConnect(token);
-                      print('콘텍트 ${contact}');
-                      final myInfo = await context.read<UserStore>().userInfo;
-                      print('전화걸때 ${myInfo['name']}');
 
-                      CallingApi().callOthers(token, contact['userKey'],
-                          myInfo['name'], widget.channelName);
+                      if (widget.getUserKey == null) {
+                        final contact =
+                            await MessengerApi().getTeacherConnect(token);
+                        final myInfo = await context.read<UserStore>().userInfo;
+                        print('콘텍트 ${contact['userKey']}');
+                        print('전화걸때 ${myInfo['name']}');
+                        CallingApi().callOthers(token, contact['userKey'],
+                            myInfo['name'], widget.channelName);
+                      } else {
+                        final myInfo = await context.read<UserStore>().userInfo;
+                        CallingApi().callOthers(token, widget.getUserKey,
+                            myInfo['name'], widget.channelName);
+                      }
+
                       widget.join(
                           widget.uid,
                           widget.channelName,

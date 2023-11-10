@@ -310,6 +310,7 @@ class _CallButtonState extends State<CallButton> {
                 serverUrl: serverUrl,
                 tokenExpireTime: tokenExpireTime,
                 isTokenExpiring: isTokenExpiring,
+                getUserKey: null,
               );
             },
           );

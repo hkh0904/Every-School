@@ -44,21 +44,6 @@ class _AddInfoFormState extends State<AddInfoForm> {
     finalGender = selectedGender!.gender;
   }
 
-  afterSignup(context) async {
-    String usertype = await storage.read(key: 'usertype') ?? "";
-    String token = await storage.read(key: 'token') ?? "";
-    final userinfo = await UserApi().getUserInfo(token);
-
-    if (usertype == "1001") {
-      if (userinfo == 0) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginPage()),
-            (Route<dynamic> route) => false);
-      } else {}
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final List<DropdownMenuEntry<GenderLabel>> genderList =
@@ -410,7 +395,14 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                               actions: <Widget>[
                                                 TextButton(
                                                     onPressed: () {
-                                                      afterSignup(context);
+                                                      Navigator.pushAndRemoveUntil(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const LoginPage()),
+                                                          (Route<dynamic>
+                                                                  route) =>
+                                                              false);
                                                     },
                                                     child: Text('닫기'))
                                               ],

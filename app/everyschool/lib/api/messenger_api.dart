@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/base_api.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MessengerApi {
   Dio dio = Dio();
@@ -116,9 +117,12 @@ class MessengerApi {
 class CallingApi {
   Dio dio = Dio();
   ServerApi serverApi = ServerApi();
+  final storage = FlutterSecureStorage();
 
   // 전화걸때
   Future<dynamic> callOthers(token, userKey, senderName, cname) async {
+    var uuu = await storage.read(key: 'userKey') ?? "";
+    print('내 유저키 전화 $uuu');
     print('전화걸때 $userKey $senderName $cname');
     try {
       final response = await dio.post(
