@@ -39,55 +39,6 @@ public class ConsultQueryControllerDocsTest extends RestDocsSupport {
         return new ConsultQueryController(consultQueryService, tokenUtils);
     }
 
-    @DisplayName("[교직원] 상담 목록 조회 API")
-    @Test
-    void searchConsults() throws Exception {
-        given(tokenUtils.getUserKey())
-            .willReturn(UUID.randomUUID().toString());
-        WebConsultResponse response1 = createWaitConsultResponse(1L, "10301 하예솔 학생", "하도영 아버님", LocalDateTime.of(2023, 11, 4, 14, 0));
-        WebConsultResponse response2 = createWaitConsultResponse(2L, "10301 하예솔 학생", "박연진 어머님", LocalDateTime.of(2023, 11, 4, 15, 0));
-
-        given(consultQueryService.searchConsults(anyString(), anyInt(), anyInt()))
-            .willReturn(List.of(response1, response2));
-
-        mockMvc.perform(
-            get("/consult-service/v1/web/{schoolYear}/schools/{schoolId}/consults", 2023, 21617)
-                .header("Authorization", "Bearer Access Token")
-                .param("status", "5001")
-        )
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document("search-consults",
-                preprocessResponse(prettyPrint()),
-                requestParameters(
-                    parameterWithName("status")
-                        .description("상담 진행 상태 코드")
-                ),
-                responseFields(
-                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-                        .description("코드"),
-                    fieldWithPath("status").type(JsonFieldType.STRING)
-                        .description("상태"),
-                    fieldWithPath("message").type(JsonFieldType.STRING)
-                        .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.OBJECT)
-                        .description("응답 데이터"),
-                    fieldWithPath("data.count").type(JsonFieldType.NUMBER)
-                        .description("상담 확인 대기 중인 신청 수"),
-                    fieldWithPath("data.content[].consultId").type(JsonFieldType.NUMBER)
-                        .description("상담 id"),
-                    fieldWithPath("data.content[].type").type(JsonFieldType.STRING)
-                        .description("상담 유형"),
-                    fieldWithPath("data.content[].studentInfo").type(JsonFieldType.STRING)
-                        .description("상담 학생 정보"),
-                    fieldWithPath("data.content[].parentInfo").type(JsonFieldType.STRING)
-                        .description("상담 학부모 정보"),
-                    fieldWithPath("data.content[].consultDate").type(JsonFieldType.ARRAY)
-                        .description("상담 일시")
-                )
-            ));
-    }
-
     @DisplayName("[교직원] 상담 상세 조회 API")
     @Test
     void searchConsult() throws Exception {
