@@ -39,6 +39,39 @@ public class UserAppQueryService {
         }
         Student student = (Student) user;
 
+        if (student.getSchoolClassId() == null) {
+            boolean result = schoolServiceClient.existApply(student.getId());
+            if (result) {
+                //승인 X
+                School school = School.builder()
+                    .schoolId(null)
+                    .name("미승인")
+                    .build();
+                return StudentInfoResponse.builder()
+                    .userType(student.getUserCodeId())
+                    .email(student.getEmail())
+                    .name(student.getName())
+                    .birth(student.getBirth())
+                    .school(school)
+                    .schoolClass(null)
+                    .joinDate(student.getCreatedDate())
+                    .build();
+            }
+            School school = School.builder()
+                .schoolId(null)
+                .name("미신청")
+                .build();
+            return StudentInfoResponse.builder()
+                .userType(student.getUserCodeId())
+                .email(student.getEmail())
+                .name(student.getName())
+                .birth(student.getBirth())
+                .school(school)
+                .schoolClass(null)
+                .joinDate(student.getCreatedDate())
+                .build();
+        }
+
         SchoolClassInfo schoolClassInfo = schoolServiceClient.searchBySchoolClassId(student.getSchoolClassId());
 
         School school = School.builder()
