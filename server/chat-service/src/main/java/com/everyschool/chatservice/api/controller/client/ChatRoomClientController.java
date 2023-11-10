@@ -1,5 +1,6 @@
 package com.everyschool.chatservice.api.controller.client;
 
+import com.everyschool.chatservice.api.controller.client.response.CheckingChatResponse;
 import com.everyschool.chatservice.api.service.chat.dto.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,15 +17,27 @@ public class ChatRoomClientController {
 
     private final ChatService chatService;
 
+    /**
+     * date 하루 전 날 채팅이 있던 채팅방 Id 가져오기
+     *
+     * @param date
+     * @return
+     */
     @GetMapping
     public List<Long> searchChatRoomIdByDate(@RequestParam(name = "date") LocalDate date) {
         return chatService.searchChatRoomIdByDate(date);
     }
 
-    // TODO: 2023-11-10 해야함
+    /**
+     * 채팅방 date에 이루어진 채팅 목록과 정보 가져오기
+     *
+     * @param date
+     * @param chatRoomId
+     * @return
+     */
     @GetMapping("/{chatRoomId}")
-    public ? searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
-                                                @PathVariable(name = "chatRoomId") Long chatRoomId) {
+    public CheckingChatResponse searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
+                                                              @PathVariable(name = "chatRoomId") Long chatRoomId) {
         return chatService.searchChatListForContentCheck(chatRoomId, date);
     }
 }
