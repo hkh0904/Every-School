@@ -28,7 +28,7 @@ public class ChatQueryController {
     public ApiResponse<List<ChatResponse>> searchChat(@PathVariable Long chatRoomId,
                                                       @RequestParam Long idx,
                                                       @RequestHeader("Authorization") String token) {
-
+        log.debug("[Controller] 채팅 목록 불러오기 요청됨. 채팅방 ID = {}", chatRoomId);
         List<ChatResponse> responses = chatQueryService.searchChat(chatRoomId, idx, token);
         return ApiResponse.ok(responses);
     }
