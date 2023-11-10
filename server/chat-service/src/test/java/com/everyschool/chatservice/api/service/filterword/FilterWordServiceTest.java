@@ -36,7 +36,6 @@ class FilterWordServiceTest extends IntegrationTestSupport {
     @Autowired
     private DatabaseSequenceRepository databaseSequenceRepository;
 
-
     @DisplayName("필터 단어 등록은 관리자 계정이 아니면 예외가 발생한다.")
     @Test
     void createFilterWordErrorAuth() {
@@ -78,7 +77,7 @@ class FilterWordServiceTest extends IntegrationTestSupport {
 
         CreateFilterWordDto dto = CreateFilterWordDto.builder()
                 .loginUserToken("jwt")
-                .word("바보")
+                .word("심한욕")
                 .build();
         //when
         Long filterWordId = filterWordService.createFilterWord(dto);
