@@ -21,6 +21,11 @@ import java.util.Optional;
 
 import static com.everyschool.userservice.message.ErrorMessage.NO_SUCH_USER;
 
+/**
+ * 회원 조회 서비스
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
