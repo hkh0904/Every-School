@@ -91,4 +91,15 @@ public class Board extends BaseEntity {
 
         return board;
     }
+
+    //== 비즈니스 로직 ==//
+    public int increaseCommentCount() {
+        this.commentCount += 1;
+        return this.commentCount;
+    }
+
+    public int increaseCommentNumber() {
+        this.commentNumber += 1;
+        return this.commentNumber;
+    }
 }
