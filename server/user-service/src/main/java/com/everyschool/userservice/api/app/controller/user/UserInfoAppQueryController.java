@@ -8,6 +8,7 @@ import com.everyschool.userservice.api.app.service.user.UserAppQueryService;
 import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,14 @@ public class UserInfoAppQueryController {
         String userKey = tokenUtils.getUserKey();
 
         StudentInfoResponse response = userAppQueryService.searchStudentInfo(userKey);
+
+        if (response.getSchool().getName().equals("미승인")) {
+            return ApiResponse.of(HttpStatus.OK, "학급 승인 대기중입니다.", response);
+        }
+
+        if (response.getSchool().getName().equals("미신청")) {
+            return ApiResponse.of(HttpStatus.OK, "학급 신청 후 이용바랍니다.", response);
+        }
 
         return ApiResponse.ok(response);
     }

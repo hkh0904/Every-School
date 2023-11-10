@@ -85,7 +85,7 @@ class ReportWebServiceTest extends IntegrationTestSupport {
             .build();
 
         Report report = Report.builder()
-            .title("title")
+            .witness("witness")
             .description("description")
             .content(content)
             .schoolYear(2023)

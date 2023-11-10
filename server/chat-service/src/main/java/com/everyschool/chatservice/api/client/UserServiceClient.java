@@ -21,4 +21,7 @@ public interface UserServiceClient {
 
     @GetMapping
     String searchChildName(@RequestParam(name = "userId") Long userId, @RequestParam(name = "schoolClassId") Long schoolClassId);
+
+    @GetMapping("/")
+    String searchFcmTokenByUserId(Long UserId);
 }

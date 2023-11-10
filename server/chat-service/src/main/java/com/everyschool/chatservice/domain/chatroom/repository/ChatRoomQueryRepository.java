@@ -25,6 +25,8 @@ public class ChatRoomQueryRepository {
         return queryFactory.select(Projections.constructor(ChatRoomListResponse.class,
                         chatRoomUser.chatRoom.id,
                         chatRoomUser.chatRoomTitle,
+                        chatRoomUser.opponentUserType,
+                        chatRoomUser.childName,
                         chatRoomUser.lastContent,
                         chatRoomUser.lastModifiedDate,
                         chatRoomUser.unreadCount

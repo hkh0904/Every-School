@@ -2,8 +2,7 @@ package com.everyschool.chatservice.api.controller.chatroom;
 
 import com.everyschool.chatservice.api.ApiResponse;
 import com.everyschool.chatservice.api.controller.chatroom.request.CreateChatRoomRequest;
-import com.everyschool.chatservice.api.controller.chat.response.ChatResponse;
-import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
+import com.everyschool.chatservice.api.controller.chatroom.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.ChatRoomService;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +26,7 @@ public class ChatRoomController {
      *
      * @param request
      * @param token   상대 유저 토큰
-     * @return 채팅방 Id, 채팅방 제목, 상대 유저 이름
+     * @return
      */
     @PostMapping("/chat-rooms")
     @ResponseStatus(HttpStatus.CREATED)

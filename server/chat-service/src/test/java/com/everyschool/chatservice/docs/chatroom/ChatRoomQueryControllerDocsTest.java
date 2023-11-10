@@ -27,9 +27,9 @@ public class ChatRoomQueryControllerDocsTest extends RestDocsSupport {
     @Test
     void searchChatRoomList() throws Exception {
 
-        ChatRoomListResponse response1 = createChatRoomListResponse(1L, "1학년 2반 하현상 선생님", "아이패드 에어4", LocalDateTime.of(2023, 10, 10, 10, 10), 3);
+        ChatRoomListResponse response1 = createChatRoomListResponse(1L, "봉미선", "짱구 엄마입니다~", LocalDateTime.of(2023, 10, 10, 10, 10), 3, "M", "신짱구");
 
-        ChatRoomListResponse response2 = createChatRoomListResponse(2L, "1학년 5반 임동규 선생님", "아이패드 프로", LocalDateTime.of(2023, 10, 10, 12, 10), 0);
+        ChatRoomListResponse response2 = createChatRoomListResponse(2L, "신짱아", "짱아입니다~", LocalDateTime.of(2023, 10, 10, 12, 10), 0, "S", "");
 
         List<ChatRoomListResponse> responses = List.of(response1, response2);
 
@@ -55,8 +55,12 @@ public class ChatRoomQueryControllerDocsTest extends RestDocsSupport {
                                         .description("응답 데이터"),
                                 fieldWithPath("data[].roomId").type(JsonFieldType.NUMBER)
                                         .description("채팅방 PK"),
-                                fieldWithPath("data[].roomTitle").type(JsonFieldType.STRING)
-                                        .description("채팅방 제목"),
+                                fieldWithPath("data[].opponentUserName").type(JsonFieldType.STRING)
+                                        .description("상대방 이름"),
+                                fieldWithPath("data[].opponentUserType").type(JsonFieldType.STRING)
+                                        .description("상대방 회원 타입"),
+                                fieldWithPath("data[].opponentUserChildName").type(JsonFieldType.STRING)
+                                        .description("상대방 자녀 이름"),
                                 fieldWithPath("data[].lastMessage").type(JsonFieldType.STRING)
                                         .description("채팅방 마지막 메세지"),
                                 fieldWithPath("data[].updateTime").type(JsonFieldType.ARRAY)
@@ -67,10 +71,12 @@ public class ChatRoomQueryControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
-    private static ChatRoomListResponse createChatRoomListResponse(long roomId, String roomTitle, String lastMessage, LocalDateTime updateTime, int unreadMessageNum) {
+    private static ChatRoomListResponse createChatRoomListResponse(long roomId, String roomTitle, String lastMessage, LocalDateTime updateTime, int unreadMessageNum, String opponentUserType, String opponentUserChildName) {
         return ChatRoomListResponse.builder()
                 .roomId(roomId)
-                .roomTitle(roomTitle)
+                .opponentUserName(roomTitle)
+                .opponentUserType(opponentUserType)
+                .opponentUserChildName(opponentUserChildName)
                 .lastMessage(lastMessage)
                 .updateTime(updateTime)
                 .unreadMessageNum(unreadMessageNum)
