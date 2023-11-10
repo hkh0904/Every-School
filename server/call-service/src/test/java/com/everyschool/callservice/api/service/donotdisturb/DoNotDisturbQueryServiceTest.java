@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -58,7 +57,7 @@ class DoNotDisturbQueryServiceTest extends IntegrationTestSupport {
 
     }
 
-    private DoNotDisturb saveD(Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate){
+    private DoNotDisturb saveD(Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate) {
         DoNotDisturb userD = DoNotDisturb.builder()
                 .teacherId(teacherId)
                 .startTime(startTime)
