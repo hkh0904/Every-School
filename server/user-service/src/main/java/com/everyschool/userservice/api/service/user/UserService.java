@@ -13,6 +13,13 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
 
+import static com.everyschool.userservice.message.ErrorMessage.NO_SUCH_USER;
+
+/**
+ * 회원 명렁 서비스
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -30,11 +37,7 @@ public class UserService {
      * @return 변경된 회원 정보
      */
     public UserResponse editPwd(String userKey, String currentPwd, String newPwd) {
-        Optional<User> findUser = userRepository.findByUserKey(userKey);
-        if (findUser.isEmpty()) {
-            throw new NoSuchElementException("존재하지 않는 회원입니다.");
-        }
-        User user = findUser.get();
+        User user = getUserByUserKey(userKey);
 
         equalPwd(currentPwd, user.getPwd());
 
@@ -170,5 +173,13 @@ public class UserService {
         String encodedPwd = passwordEncoder.encode(randomPwd);
         user.editPwd(encodedPwd);
         return randomPwd;
+    }
+
+    private User getUserByUserKey(String userKey) {
+        Optional<User> findUser = userRepository.findByUserKey(userKey);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_USER.getMessage());
+        }
+        return findUser.get();
     }
 }
