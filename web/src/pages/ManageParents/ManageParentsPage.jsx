@@ -1,37 +1,37 @@
-import { useMemo, useState, useEffect } from "react";
-import Table from "../../component/Table/Table";
-import styles from "./ManageParentsPage.module.css";
-import SvgIcon from "@mui/material/SvgIcon";
+import { useMemo, useState, useEffect } from 'react';
+import Table from '../../component/Table/Table';
+import styles from './ManageParentsPage.module.css';
+import SvgIcon from '@mui/material/SvgIcon';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { getParentList } from "../../api/SchoolAPI/schoolAPI";
+import { getParentList } from '../../api/SchoolAPI/schoolAPI';
 
 export default function ManageParentsPage() {
   const columns = useMemo(
     () => [
       {
-        accessor: "grade",
-        Header: "학년",
+        accessor: 'grade',
+        Header: '학년'
       },
       {
-        accessor: "class",
-        Header: "반",
+        accessor: 'class',
+        Header: '반'
       },
       {
-        accessor: "number",
-        Header: "번호",
+        accessor: 'number',
+        Header: '번호'
       },
       {
-        accessor: "studentName",
-        Header: "학생 이름",
+        accessor: 'studentName',
+        Header: '학생 이름'
       },
       {
-        accessor: "name",
-        Header: "보호자 이름",
+        accessor: 'name',
+        Header: '보호자 이름'
       },
       {
-        accessor: "parentType",
-        Header: "관계",
-      },
+        accessor: 'parentType',
+        Header: '관계'
+      }
       // {
       //   accessor: "tel",
       //   Header: "연락처",
@@ -39,19 +39,6 @@ export default function ManageParentsPage() {
     ],
     []
   );
-
-  const data = [
-    {
-      grade: 1,
-      class: 3,
-      number: 1,
-      childName: "신성주",
-      relation: '모',
-      name:"OOO",
-      tel: "01012345678",
-      etc: null,
-    },
-  ];
 
   const [parents, setParents] = useState([]);
   const [totalParents, setTotalParents] = useState(0);
@@ -76,7 +63,6 @@ export default function ManageParentsPage() {
     fetchStudents();
   }, []);
 
-
   return (
     <div className={styles.container}>
       <div className={styles.row}>
@@ -85,7 +71,7 @@ export default function ManageParentsPage() {
           <div className={styles.underText}>등록 인원 수 : {totalParents}명</div>
         </div>
         <div className={styles.plusButton}>
-        <SvgIcon component={AddCircleIcon} inheritViewBox />
+          <SvgIcon component={AddCircleIcon} inheritViewBox />
           <p>추가</p>
         </div>
       </div>
@@ -96,5 +82,5 @@ export default function ManageParentsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

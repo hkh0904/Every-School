@@ -75,7 +75,7 @@ class ReportWebQueryServiceTest extends IntegrationTestSupport {
             .build();
 
         Report report = Report.builder()
-            .title("title")
+            .witness("getWitness")
             .description("description")
             .content(content)
             .schoolYear(schoolYear)

@@ -50,4 +50,19 @@ public class SchoolApplyQueryRepository {
         }
         return schoolApply.isApproved.isTrue();
     }
+
+    public boolean existApply(Long studentId) {
+        Long content = queryFactory
+            .select(schoolApply.id)
+            .from(schoolApply)
+            .where(
+                schoolApply.isApproved.isFalse(),
+                schoolApply.rejectedReason.isNull(),
+                schoolApply.studentId.eq(studentId)
+            )
+            .orderBy(schoolApply.createdDate.desc())
+            .fetchOne();
+        return content != null;
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.everyschool.schoolservice.api.web.controller.client;
 
+import com.everyschool.schoolservice.api.service.schoolapply.SchoolApplyQueryService;
+import com.everyschool.schoolservice.api.service.schoolapply.SchoolApplyService;
 import com.everyschool.schoolservice.api.service.schoolclass.SchoolClassQueryService;
 import com.everyschool.schoolservice.api.web.controller.client.response.*;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequestMapping("/school-service/client/v1")
 public class SchoolClientController {
 
+    private final SchoolApplyQueryService schoolApplyQueryService;
     private final SchoolClassQueryService schoolClassQueryService;
     private final SchoolUserQueryService schoolUserQueryService;
 
@@ -74,5 +77,14 @@ public class SchoolClientController {
         log.debug("results={}", infos);
 
         return infos;
+    }
+
+    @GetMapping("/applies/{studentId}/exist")
+    public boolean existApply(@PathVariable Long studentId) {
+
+        boolean result = schoolApplyQueryService.existApply(studentId);
+        log.debug("result={}", result);
+
+        return result;
     }
 }

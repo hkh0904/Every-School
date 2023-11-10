@@ -20,8 +20,8 @@ class _ReportPageState extends State<ReportPage> {
   String? _locationInput;
   String? _suspectInput;
   String? _detailInput;
-  List<File> _filePaths = [];
-  TextEditingController _fileController = TextEditingController();
+  final List<File> _filePaths = [];
+  final TextEditingController _fileController = TextEditingController();
 
   postFile() async {
     FormData formData = FormData.fromMap({

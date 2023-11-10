@@ -2,7 +2,7 @@ package com.everyschool.chatservice.docs.chatroom;
 
 import com.everyschool.chatservice.api.controller.chatroom.ChatRoomController;
 import com.everyschool.chatservice.api.controller.chatroom.request.CreateChatRoomRequest;
-import com.everyschool.chatservice.api.controller.chat.response.CreateChatRoomResponse;
+import com.everyschool.chatservice.api.controller.chatroom.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.ChatRoomService;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
 import com.everyschool.chatservice.docs.RestDocsSupport;
@@ -29,15 +29,17 @@ public class ChatRoomControllerDocsTest extends RestDocsSupport {
     void createChatRoom() throws Exception {
         CreateChatRoomRequest request = CreateChatRoomRequest.builder()
                 .opponentUserKey("opponentUserKey")
-                .loginUserType('M')
+                .opponentUserName("봉미선")
+                .opponentUserType("M")
+                .loginUserType(1000)
                 .schoolClassId(1L)
-                .relation("1학년 1반 임우택(모)")
                 .build();
 
         CreateChatRoomResponse response = CreateChatRoomResponse.builder()
                 .roomId(1L)
-                .roomTitle("1학년 1반 임우택(모)")
-                .userName("신성주")
+                .opponentUserName("봉미선")
+                .opponentUserType('M')
+                .opponentUsersChildName("신짱구")
                 .build();
 
         BDDMockito.given(chatRoomService.createChatRoom(any(CreateChatRoomDto.class)))
@@ -58,15 +60,17 @@ public class ChatRoomControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("opponentUserKey").type(JsonFieldType.STRING)
                                         .optional()
                                         .description("상대방 유저 키"),
-                                fieldWithPath("loginUserType").type(JsonFieldType.STRING)
+                                fieldWithPath("opponentUserName").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("상대방 유저 이름"),
+                                fieldWithPath("opponentUserType").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("상대방 유저 타입"),
+                                fieldWithPath("loginUserType").type(JsonFieldType.NUMBER)
                                         .optional()
                                         .description("로그인 유저 타입"),
                                 fieldWithPath("schoolClassId").type(JsonFieldType.NUMBER)
-                                        .optional()
-                                        .description("학급 ID"),
-                                fieldWithPath("relation").type(JsonFieldType.STRING)
-                                        .optional()
-                                        .description("상대유저 관계(학생, 누구의 부/모)")
+                                        .description("학급 ID")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -79,10 +83,12 @@ public class ChatRoomControllerDocsTest extends RestDocsSupport {
                                         .description("응답 데이터"),
                                 fieldWithPath("data.roomId").type(JsonFieldType.NUMBER)
                                         .description("채팅방 ID"),
-                                fieldWithPath("data.roomTitle").type(JsonFieldType.STRING)
-                                        .description("채팅방 제목"),
-                                fieldWithPath("data.userName").type(JsonFieldType.STRING)
-                                        .description("상대방 이름")
+                                fieldWithPath("data.opponentUserName").type(JsonFieldType.STRING)
+                                        .description("상대 유저 이름"),
+                                fieldWithPath("data.opponentUserType").type(JsonFieldType.STRING)
+                                        .description("상대방 타입"),
+                                fieldWithPath("data.opponentUsersChildName").type(JsonFieldType.STRING)
+                                        .description("상대방이 부모일 때 자녀 이름")
                         )
                 ));
     }

@@ -20,7 +20,7 @@ public class Report extends BaseEntity {
     private Long id;
 
     @Column(nullable = false, updatable = false, length = 100)
-    private String title;
+    private String witness;
 
     @Column(nullable = false, updatable = false, length = 500)
     private String description;
@@ -50,9 +50,9 @@ public class Report extends BaseEntity {
     private List<AttachedFile> files = new ArrayList<>();
 
     @Builder
-    private Report(String title, String description, ReportContent content, Integer schoolYear, Integer typeId, Long schoolId, Long userId) {
+    private Report(String witness, String description, ReportContent content, Integer schoolYear, Integer typeId, Long schoolId, Long userId) {
         super();
-        this.title = title;
+        this.witness = witness;
         this.description = description;
         this.content = content;
         this.schoolYear = schoolYear;
@@ -63,9 +63,9 @@ public class Report extends BaseEntity {
     }
 
     //== 연관관계 편의 메서드 ==//
-    public static Report createReport(String title, String description, ReportContent content, int schoolYear, int typeId, Long schoolId, Long userId, List<UploadFile> uploadFiles) {
+    public static Report createReport(String witness, String description, ReportContent content, int schoolYear, int typeId, Long schoolId, Long userId, List<UploadFile> uploadFiles) {
         Report report = Report.builder()
-            .title(title)
+            .witness(witness)
             .description(description)
             .content(content)
             .schoolYear(schoolYear)

@@ -36,13 +36,13 @@ public class ReportAppQueryController {
     }
 
     @GetMapping("/{reportId}")
-    public ApiResponse<?> searchReport(
+    public ApiResponse<ReportDetailResponse> searchReport(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
         @PathVariable Long reportId
     ) {
         ReportDetailResponse response = reportAppQueryService.searchReport(reportId);
 
-        return ApiResponse.ok(null);
+        return ApiResponse.ok(response);
     }
 }

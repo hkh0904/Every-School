@@ -4,7 +4,6 @@ export const getParentList = async () => {
   const schoolNum = sessionStorage.getItem('schoolId');
   const schoolYear = sessionStorage.getItem('year');
   const classNum = sessionStorage.getItem('classNum');
-
   try {
     const response = await baseAxios.get(
       `/school-service/v1/web/${schoolYear}/schools/${schoolNum}/classes/${classNum}/parents`,
@@ -14,7 +13,7 @@ export const getParentList = async () => {
         }
       }
     );
-    return response.data.data.content;
+    return response.data.data;
   } catch (error) {
     return 0;
   }
@@ -23,13 +22,16 @@ export const getParentList = async () => {
 export const getStudentList = async () => {
   const schoolNum = sessionStorage.getItem('schoolId');
   const schoolYear = sessionStorage.getItem('year');
+  const classNum = sessionStorage.getItem('classNum');
   try {
-    const response = await baseAxios.get(`/school-service/v1/web/${schoolYear}/schools/${schoolNum}/students`, {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+    const response = await baseAxios.get(
+      `/school-service/v1/web/${schoolYear}/schools/${schoolNum}/classes/${classNum}/students`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
       }
-    });
-    // console.log(response.data);
+    );
     return response.data.data;
   } catch (error) {
     return 0;
