@@ -14,7 +14,8 @@ public interface ChatServiceClient {
     @GetMapping("/chat-service/client/v1/chat-rooms")
     List<Long> searchChatRoomIdByDate(@RequestParam(name = "date") LocalDate date);
 
+    // TODO: 2023-11-10 해야함
     @GetMapping("/chat-service/client/v1/chat-rooms/{chatRoomId}")
-    List<Long> searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
+    List<sldka> searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
                                              @PathVariable(name = "chatRoomId") Long chatRoomId);
 }

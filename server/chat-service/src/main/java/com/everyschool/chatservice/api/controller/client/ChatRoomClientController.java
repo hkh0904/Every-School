@@ -3,10 +3,7 @@ package com.everyschool.chatservice.api.controller.client;
 import com.everyschool.chatservice.api.service.chat.dto.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,5 +19,12 @@ public class ChatRoomClientController {
     @GetMapping
     public List<Long> searchChatRoomIdByDate(@RequestParam(name = "date") LocalDate date) {
         return chatService.searchChatRoomIdByDate(date);
+    }
+
+    // TODO: 2023-11-10 해야함
+    @GetMapping("/{chatRoomId}")
+    public ? searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
+                                                @PathVariable(name = "chatRoomId") Long chatRoomId) {
+        return chatService.searchChatListForContentCheck(chatRoomId, date);
     }
 }
