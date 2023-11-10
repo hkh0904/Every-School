@@ -63,7 +63,7 @@ public class FilterWordService {
         List<String> reasons = new ArrayList<>();
         ChatStatus chatStatus = isBadChat(message, reasons);
 
-        Chat chat = saveChat(message, senderUserInfo, 8000);
+        Chat chat = saveChat(message, senderUserInfo, chatStatus.getCode());
 
         ChatFilterResponse response = ChatFilterResponse.builder()
                 .isBad(false)
