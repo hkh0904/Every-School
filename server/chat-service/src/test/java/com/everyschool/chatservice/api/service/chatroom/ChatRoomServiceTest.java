@@ -92,20 +92,6 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
 
     }
 
-    private ChatRoomUser saveChatRoomUser(ChatRoom chatRoom, String opponentUserName, String opponentUserChildName, long userId, String opponentUserType) {
-        ChatRoomUser chatRoomUser = ChatRoomUser.builder()
-                .chatRoomTitle(opponentUserName)
-                .childName(opponentUserChildName)
-                .userId(userId)
-                .opponentUserType(opponentUserType)
-                .isAlarm(true)
-                .unreadCount(0)
-                .lastContent("")
-                .chatRoom(chatRoom)
-                .build();
-        return chatRoomUserRepository.save(chatRoomUser);
-    }
-
     @DisplayName("채팅방 생성")
     @Test
     void createChatRoom() {
@@ -155,5 +141,19 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
         assertThat(response.getRoomId()).isPositive();
         assertThat(response.getOpponentUserName()).isEqualTo("오연주");
         assertThat(response.getOpponentUserType()).isEqualTo('T');
+    }
+
+    private ChatRoomUser saveChatRoomUser(ChatRoom chatRoom, String opponentUserName, String opponentUserChildName, long userId, String opponentUserType) {
+        ChatRoomUser chatRoomUser = ChatRoomUser.builder()
+                .chatRoomTitle(opponentUserName)
+                .childName(opponentUserChildName)
+                .userId(userId)
+                .opponentUserType(opponentUserType)
+                .isAlarm(true)
+                .unreadCount(0)
+                .lastContent("")
+                .chatRoom(chatRoom)
+                .build();
+        return chatRoomUserRepository.save(chatRoomUser);
     }
 }
