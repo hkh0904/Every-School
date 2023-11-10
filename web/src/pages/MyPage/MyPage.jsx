@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styles from './MyPage.module.css';
 
 export default function MyPage() {
@@ -14,9 +15,9 @@ export default function MyPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newCsltData = await getCompliteConsulting();
-        console.log(newCsltData);
-        setCsltList(newCsltData);
+        // const newCsltData = await getCompliteConsulting();
+        // console.log(newCsltData);
+        // setCsltList(newCsltData);
       } catch (error) {
         console.error(error);
       }

@@ -1,0 +1,122 @@
+.modalbackground {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.RefuseModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  flex-direction: column;
+  width: 900px;
+  height: 600px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 2;
+  overflow-y: auto;
+  margin-bottom: 80px;
+}
+
+.refuseMsg {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.body {
+  margin: 0px 40px;
+  min-width: 800px;
+}
+
+.body > p {
+  margin-bottom: 30px;
+  text-align: justify;
+  word-break: break-all;
+}
+
+.buttonBox {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  bottom: 30px;
+  width: 160px;
+  padding-bottom: 30px;
+}
+
+.buttonBox > p {
+  background-color: #15075f;
+  color: white;
+  padding: 8px 37px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.bottominputbox {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+
+  min-width: 700px;
+
+  padding-bottom: 30px;
+}
+
+.bottominputbox > .pTag {
+  padding: 0;
+  margin: 0;
+  font-size: 21px;
+}
+
+.bottominputbox > textarea {
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  width: 750px;
+  height: 200px;
+  margin-top: 10px;
+}
+
+.csltcomplitebutton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  bottom: 30px;
+  width: 500px;
+  padding-bottom: 30px;
+}
+
+.csltcomplitebutton > .donebutton {
+  background-color: #15075f;
+  color: white;
+  padding: 8px 37px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.csltcomplitebutton > .backbutton {
+  border: 2px solid black;
+  padding: 8px 37px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+}
