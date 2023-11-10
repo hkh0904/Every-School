@@ -2,11 +2,14 @@ package com.everyschool.chatservice.api.service.chat.dto;
 
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
+import com.everyschool.chatservice.api.controller.client.response.CheckingChatResponse;
 import com.everyschool.chatservice.api.service.util.RedisUtils;
 import com.everyschool.chatservice.domain.chat.Chat;
+import com.everyschool.chatservice.domain.chat.ChatStatus;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserQueryRepository;
+import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -29,10 +32,38 @@ public class ChatService {
 
     private final RedisUtils redisUtil;
 
+    private final ChatRoomUserRepository chatRoomUserRepository;
     private final ChatRoomUserQueryRepository chatRoomUserQueryRepository;
 
     private final UserServiceClient userServiceClient;
     private final FirebaseMessaging firebaseMessaging;
+
+    /**
+     * AI 확인용 채팅 리스트 반환
+     *
+     * @param chatRoomId
+     * @param date
+     * @return
+     */
+    public CheckingChatResponse searchChatListForContentCheck(Long chatRoomId, LocalDate date) {
+        List<Chat> chatList = chatRepository.findChatsByChatRoomIdAndCreatedDateBetweenAndStatus(chatRoomId, date.atStartOfDay(), date.plusDays(1).atStartOfDay(), ChatStatus.PLANE.getCode());
+        List<ChatRoomUser> users = chatRoomUserQueryRepository.findChatRoomUsersByChatRoomId(chatRoomId);
+        ChatRoomUser teacherUser = users.get(0);
+        ChatRoomUser otherUser = users.get(1);
+
+        if (users.get(0).getOpponentUserType().equals("T")) {
+            teacherUser = users.get(1);
+            otherUser = users.get(0);
+        }
+
+        return CheckingChatResponse.builder()
+                .teacherId(teacherUser.getUserId())
+                .teacherName(otherUser.getChatRoomTitle())
+                .chats(chatList)
+                .otherUserName(teacherUser.getChatRoomTitle())
+                .childName(teacherUser.getChildName())
+                .build();
+    }
 
     /**
      * date에 채팅 있던 채팅방 목록 반환하기
@@ -94,5 +125,14 @@ public class ChatService {
                     .build();
             firebaseMessaging.send(message);
         }
+    }
+
+    /**
+     * 부정적 채팅 데이터 업데이트
+     *
+     * @param chatId
+     * @param reason
+     */
+    public void chatUpdate(Long chatId, String reason) {
     }
 }
