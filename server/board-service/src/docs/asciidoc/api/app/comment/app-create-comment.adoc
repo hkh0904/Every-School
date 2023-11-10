@@ -1,0 +1,11 @@
+[[app-create-comment]]
+=== 댓글 등록 API
+
+==== HTTP Request
+include::{snippets}/app-create-comment/http-request.adoc[]
+include::{snippets}/app-create-comment/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/app-create-comment/http-response.adoc[]
+include::{snippets}/app-create-comment/response-fields.adoc[]

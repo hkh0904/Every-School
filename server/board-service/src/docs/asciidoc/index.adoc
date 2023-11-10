@@ -16,6 +16,13 @@ include::overview.adoc[]
 include::api/web/board/web-create-notice-board.adoc[]
 include::api/web/board/web-create-communication-board.adoc[]
 
+
+[[App-Board-API]]
+== App-Board-API
+include::api/app/comment/app-create-comment.adoc[]
+include::api/app/comment/app-create-child-comment.adoc[]
+
+
 [[Free-Board-API]]
 == Free Board API
 
