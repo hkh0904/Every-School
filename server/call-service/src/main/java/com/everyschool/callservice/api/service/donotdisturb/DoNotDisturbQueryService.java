@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -24,13 +22,13 @@ public class DoNotDisturbQueryService {
      * 내 방해금지 목록 조회
      *
      * @param token 회원 토큰
-     * @return 조회된 방해금지 목록
+     * @return 최근에 생성한 방해금지
      */
-    public List<DoNotDisturbResponse> searchMyDoNotDisturbs(String token) {
-        log.debug("call DoNotDisturbQueryService#searchMyDoNotDisturbs");
+    public DoNotDisturbResponse searchMyDoNotDisturb(String token) {
+        log.debug("call DoNotDisturbQueryService#searchMyDoNotDisturb");
         UserInfo user = userServiceClient.searchUserInfo(token);
         log.debug("user = {}", user);
 
-        return doNotDisturbQueryRepository.findAllByUserId(user.getUserId());
+        return doNotDisturbQueryRepository.findByUserId(user.getUserId());
     }
 }
