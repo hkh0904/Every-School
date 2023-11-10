@@ -148,36 +148,29 @@ public class UserAppQueryService {
             .build();
     }
 
+    /**
+     * 교직원 회원 정보 조회
+     *
+     * @param userKey 회원 고유키
+     * @return 조회된 교직원 회원 정보
+     */
     public TeacherInfoResponse searchTeacherInfo(String userKey) {
+        //회원 엔티티 조회
         User user = getUserByUserKey(userKey);
-        if (!(user instanceof Teacher)) {
-            throw new IllegalArgumentException(UNAUTHORIZED_USER.getMessage());
-        }
-        Teacher teacher = (Teacher) user;
 
+        //교직원 엔티티로 변환
+        Teacher teacher = convertToTeacher(user);
+
+        //학급 정보 조회
         SchoolClassInfo schoolClassInfo = schoolServiceClient.searchBySchoolClassId(teacher.getSchoolClassId());
 
-        School school = School.builder()
-            .schoolId(teacher.getSchoolId())
-            .name(schoolClassInfo.getSchoolName())
-            .build();
+        //학교 정보 생성
+        School school = School.of(teacher.getSchoolId(), schoolClassInfo.getSchoolName());
 
-        SchoolClass schoolClass = SchoolClass.builder()
-            .schoolClassId(teacher.getSchoolClassId())
-            .schoolYear(schoolClassInfo.getSchoolYear())
-            .grade(schoolClassInfo.getGrade())
-            .classNum(schoolClassInfo.getClassNum())
-            .build();
+        //학급 정보 생성
+        SchoolClass schoolClass = SchoolClass.of(teacher.getSchoolClassId(), schoolClassInfo);
 
-        return TeacherInfoResponse.builder()
-            .userType(teacher.getUserCodeId())
-            .email(teacher.getEmail())
-            .name(teacher.getName())
-            .birth(teacher.getBirth())
-            .school(school)
-            .schoolClass(schoolClass)
-            .joinDate(teacher.getCreatedDate())
-            .build();
+        return TeacherInfoResponse.of(teacher, school, schoolClass);
     }
 
     /**
@@ -281,6 +274,20 @@ public class UserAppQueryService {
             throw new IllegalArgumentException(NOT_STUDENT_USER.getMessage());
         }
         return (Student) user;
+    }
+
+    /**
+     * 회원 엔티티를 교직원 엔티티로 변환
+     *
+     * @param user 회원 엔티티
+     * @return 변횐된 교직원 엔티티
+     * @throws IllegalArgumentException 교직원 회원이 아닌 경우 발생
+     */
+    private Teacher convertToTeacher(User user) {
+        if (!(user instanceof Teacher)) {
+            throw new IllegalArgumentException(NOT_TEACHER_USER.getMessage());
+        }
+        return (Teacher) user;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.everyschool.userservice.api.app.controller.user.response.info;
 
+import com.everyschool.userservice.api.client.school.response.SchoolClassInfo;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,5 +18,14 @@ public class SchoolClass {
         this.schoolYear = schoolYear;
         this.grade = grade;
         this.classNum = classNum;
+    }
+
+    public static SchoolClass of(Long schoolClassId, SchoolClassInfo schoolClassInfo) {
+        return SchoolClass.builder()
+            .schoolClassId(schoolClassId)
+            .schoolYear(schoolClassInfo.getSchoolYear())
+            .grade(schoolClassInfo.getGrade())
+            .classNum(schoolClassInfo.getClassNum())
+            .build();
     }
 }
