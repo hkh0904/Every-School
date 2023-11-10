@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.everyschool.userservice.api.app.controller.user.response.ParentInfoResponse.*;
 import static com.everyschool.userservice.error.ErrorMessage.*;
 
 @RequiredArgsConstructor
@@ -96,56 +97,51 @@ public class UserAppQueryService {
             .build();
     }
 
+    /**
+     * 학부모 회원 정보 조회
+     *
+     * @param userKey 회원 고유키
+     * @return 조회된 학부모 회원 정보
+     */
     public ParentInfoResponse searchParentInfo(String userKey) {
+        //회원 엔티티 조회
         User user = getUserByUserKey(userKey);
-        if (!(user instanceof Parent)) {
-            throw new IllegalArgumentException(UNAUTHORIZED_USER.getMessage());
-        }
-        Parent parent = (Parent) user;
 
+        //학부모 엔티티로 변환
+        Parent parent = convertToParent(user);
+
+        //학부모와 연결된 학생(자식) 엔티티 조회
         List<Student> students = studentParentAppQueryRepository.findByParentId(parent.getId());
+
+        //학생 아이디 리스트로 변환
         List<Long> studentIds = students.stream()
             .map(Student::getId)
             .collect(Collectors.toList());
 
+        //학생(자식)의 학급 정보 조회
         List<DescendantInfo> descendantInfos = schoolServiceClient.searchByUserId(studentIds);
 
+        //key: 학생 아이디, value: 학생(자식) 학급 정보
         Map<Long, DescendantInfo> map = descendantInfos.stream()
             .collect(Collectors.toMap(DescendantInfo::getUserId, descendantInfo -> descendantInfo, (a, b) -> b));
 
-        List<ParentInfoResponse.Descendant> descendants = new ArrayList<>();
+        //학생(자식) 회원 정보 생성
+        List<Descendant> descendants = new ArrayList<>();
         for (Student student : students) {
-            School school = School.builder()
-                .schoolId(student.getSchoolId())
-                .name(map.get(student.getId()).getSchoolName())
-                .build();
+            //학교 정보 생성
+            DescendantInfo descendantInfo = map.get(student.getId());
+            School school = School.of(student.getSchoolId(), descendantInfo.getSchoolName());
 
-            SchoolClass schoolClass = SchoolClass.builder()
-                .schoolClassId(student.getSchoolClassId())
-                .schoolYear(map.get(student.getId()).getSchoolYear())
-                .grade(map.get(student.getId()).getGrade())
-                .classNum(map.get(student.getId()).getClassNum())
-                .build();
+            //학급 정보 생성
+            SchoolClass schoolClass = SchoolClass.of(student.getSchoolClassId(), descendantInfo);
 
-            ParentInfoResponse.Descendant descendant = ParentInfoResponse.Descendant.builder()
-                .userType(student.getUserCodeId())
-                .name(student.getName())
-                .studentNumber(map.get(student.getId()).getStudentNumber())
-                .school(school)
-                .schoolClass(schoolClass)
-                .build();
+            //학생(자식) 회원 정보 생성
+            Descendant descendant = Descendant.of(student, descendantInfo.getStudentNumber(), school, schoolClass);
 
             descendants.add(descendant);
         }
 
-        return ParentInfoResponse.builder()
-            .userType(parent.getUserCodeId())
-            .email(parent.getEmail())
-            .name(parent.getName())
-            .birth(parent.getBirth())
-            .descendants(descendants)
-            .joinDate(parent.getCreatedDate())
-            .build();
+        return of(parent, descendants);
     }
 
     /**
@@ -274,6 +270,20 @@ public class UserAppQueryService {
             throw new IllegalArgumentException(NOT_STUDENT_USER.getMessage());
         }
         return (Student) user;
+    }
+
+    /**
+     * 회원 엔티티를 학부모 엔티티로 변환
+     *
+     * @param user 회원 엔티티
+     * @return 변환된 학부모 엔티티
+     * @throws IllegalArgumentException 학부모 회원이 아닌 경우 발생
+     */
+    private Parent convertToParent(User user) {
+        if (!(user instanceof Parent)) {
+            throw new IllegalArgumentException(NOT_PARENT_USER.getMessage());
+        }
+        return (Parent) user;
     }
 
     /**

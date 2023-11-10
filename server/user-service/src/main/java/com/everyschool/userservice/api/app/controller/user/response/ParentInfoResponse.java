@@ -2,6 +2,8 @@ package com.everyschool.userservice.api.app.controller.user.response;
 
 import com.everyschool.userservice.api.app.controller.user.response.info.School;
 import com.everyschool.userservice.api.app.controller.user.response.info.SchoolClass;
+import com.everyschool.userservice.domain.user.Parent;
+import com.everyschool.userservice.domain.user.Student;
 import lombok.Builder;
 import lombok.Data;
 
@@ -28,6 +30,17 @@ public class ParentInfoResponse {
         this.joinDate = joinDate;
     }
 
+    public static ParentInfoResponse of(Parent parent, List<Descendant> descendants) {
+        return ParentInfoResponse.builder()
+            .userType(parent.getUserCodeId())
+            .email(parent.getEmail())
+            .name(parent.getName())
+            .birth(parent.getBirth())
+            .descendants(descendants)
+            .joinDate(parent.getCreatedDate())
+            .build();
+    }
+
     @Data
     public static class Descendant {
 
@@ -44,6 +57,16 @@ public class ParentInfoResponse {
             this.studentNumber = studentNumber;
             this.school = school;
             this.schoolClass = schoolClass;
+        }
+
+        public static Descendant of(Student student, int studentNumber, School school, SchoolClass schoolClass) {
+            return Descendant.builder()
+                .userType(student.getUserCodeId())
+                .name(student.getName())
+                .studentNumber(studentNumber)
+                .school(school)
+                .schoolClass(schoolClass)
+                .build();
         }
     }
 }
