@@ -1,4 +1,4 @@
-package com.everyschool.callservice.docs.call;
+package com.everyschool.callservice.docs.usercall;
 
 import com.everyschool.callservice.api.client.UserServiceClient;
 import com.everyschool.callservice.api.controller.FCM.FCMNotificationController;
