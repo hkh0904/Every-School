@@ -27,9 +27,9 @@ class DoNotDisturbQueryServiceTest extends IntegrationTestSupport {
     @Autowired
     private DoNotDisturbQueryService doNotDisturbQueryService;
 
-    @DisplayName("내 방해 금지 목록 불러오기")
+    @DisplayName("최근 등록한 방해 금지 목록 불러오기")
     @Test
-    void searchMyDoNotDisturbs() {
+    void searchMyDoNotDisturb() {
 
         // given
         UserInfo teacher = UserInfo.builder()
@@ -50,10 +50,11 @@ class DoNotDisturbQueryServiceTest extends IntegrationTestSupport {
         DoNotDisturb d4 = saveD(3L, LocalDateTime.now().minusMinutes(20), LocalDateTime.now().minusMinutes(10), false);
 
         // when
-        List<DoNotDisturbResponse> responses = doNotDisturbQueryService.searchMyDoNotDisturbs(token);
+        DoNotDisturbResponse response = doNotDisturbQueryService.searchMyDoNotDisturb(token);
 
         // then
-        assertThat(responses).hasSize(2);
+        assertThat(response.getDoNotDisturbId()).isEqualTo(d2.getId());
+        assertThat(response.isActivate()).isFalse();
 
     }
 
