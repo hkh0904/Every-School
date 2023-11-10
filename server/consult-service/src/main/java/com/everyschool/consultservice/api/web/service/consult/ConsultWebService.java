@@ -1,8 +1,8 @@
 package com.everyschool.consultservice.api.web.service.consult;
 
-import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
-import com.everyschool.consultservice.api.controller.consult.response.FinishConsultResponse;
-import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.response.ApproveConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.response.FinishConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.response.RejectConsultResponse;
 import com.everyschool.consultservice.domain.consult.Consult;
 import com.everyschool.consultservice.domain.consult.repository.ConsultRepository;
 import lombok.RequiredArgsConstructor;

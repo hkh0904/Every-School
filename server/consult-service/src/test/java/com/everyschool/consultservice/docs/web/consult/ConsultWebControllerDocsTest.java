@@ -1,11 +1,11 @@
 package com.everyschool.consultservice.docs.web.consult;
 
 import com.everyschool.consultservice.api.web.controller.consult.ConsultWebController;
-import com.everyschool.consultservice.api.controller.consult.request.FinishConsultRequest;
-import com.everyschool.consultservice.api.controller.consult.request.RejectConsultRequest;
-import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
-import com.everyschool.consultservice.api.controller.consult.response.FinishConsultResponse;
-import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.request.FinishConsultRequest;
+import com.everyschool.consultservice.api.web.controller.consult.request.RejectConsultRequest;
+import com.everyschool.consultservice.api.web.controller.consult.response.ApproveConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.response.FinishConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.response.RejectConsultResponse;
 import com.everyschool.consultservice.api.web.service.consult.ConsultWebService;
 import com.everyschool.consultservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;

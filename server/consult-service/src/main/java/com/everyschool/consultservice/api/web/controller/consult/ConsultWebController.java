@@ -1,11 +1,11 @@
 package com.everyschool.consultservice.api.web.controller.consult;
 
 import com.everyschool.consultservice.api.ApiResponse;
-import com.everyschool.consultservice.api.controller.consult.request.FinishConsultRequest;
-import com.everyschool.consultservice.api.controller.consult.request.RejectConsultRequest;
-import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
-import com.everyschool.consultservice.api.controller.consult.response.FinishConsultResponse;
-import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.request.FinishConsultRequest;
+import com.everyschool.consultservice.api.web.controller.consult.request.RejectConsultRequest;
+import com.everyschool.consultservice.api.web.controller.consult.response.ApproveConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.response.FinishConsultResponse;
+import com.everyschool.consultservice.api.web.controller.consult.response.RejectConsultResponse;
 import com.everyschool.consultservice.api.web.service.consult.ConsultWebService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
