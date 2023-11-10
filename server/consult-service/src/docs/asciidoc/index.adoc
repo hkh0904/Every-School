@@ -25,8 +25,9 @@ include::api/app/consult/search-consult-by-teacher.adoc[]
 == Web Consult API
 
 include::api/web/consult/web-search-consults.adoc[]
+include::api/web/consult/web-search-consult.adoc[]
 
-include::api/consult/search-consult.adoc[]
+
 include::api/consult/approve-consult.adoc[]
 include::api/consult/finish-consult.adoc[]
 include::api/consult/reject-consult.adoc[]
