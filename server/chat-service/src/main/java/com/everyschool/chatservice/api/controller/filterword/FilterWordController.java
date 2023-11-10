@@ -43,8 +43,9 @@ public class FilterWordController {
      * @return
      */
     @PostMapping("/chat")
-    public ApiResponse<ChatFilterResponse> checkMessageFilter(ChatMessage message) {
+    public ApiResponse<ChatFilterResponse> checkMessageFilter(@RequestBody ChatMessage message) {
 
+        log.debug("[Controller] 채팅 필터링 적용. senderUserKey = {}", message.getSenderUserKey());
         ChatFilterResponse response = filterWordService.sendMessage(message);
         return ApiResponse.ok(response);
     }

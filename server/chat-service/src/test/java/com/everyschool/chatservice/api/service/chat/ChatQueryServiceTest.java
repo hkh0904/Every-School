@@ -56,8 +56,8 @@ class ChatQueryServiceTest extends IntegrationTestSupport {
     void searchChat() {
         //given
         ChatRoom savedChatRoom = chatRoomRepository.save(ChatRoom.builder().build());
-        ChatRoomUser teacher = createChatRoomUser(savedChatRoom, 1L, "1학년 2반 신성주(부)", 2);
-        ChatRoomUser parent = createChatRoomUser(savedChatRoom, 2L, "선생님", 2);
+        ChatRoomUser teacher = createChatRoomUser(savedChatRoom, "봉미선", "신짱구", 101L, "M", 3);
+        ChatRoomUser parent = createChatRoomUser(savedChatRoom, "채성아", null, 103L, "T", 0);
         Chat chat1 = createSentMessage(savedChatRoom, teacher, parent, "올포유");
         Chat chat2 = createSentMessage(savedChatRoom, teacher, parent, "벌써 며칠째 전화도 없는 너");
         Chat chat3 = createSentMessage(savedChatRoom, teacher, parent, "얼마 후면 나의 생일이란 걸 아는지");
@@ -108,11 +108,12 @@ class ChatQueryServiceTest extends IntegrationTestSupport {
                 .build());
     }
 
-    private ChatRoomUser createChatRoomUser(ChatRoom savedChatRoom, long userId, String chatRoomTitle, int unreadCount) {
+    private ChatRoomUser createChatRoomUser(ChatRoom savedChatRoom, String opponentUserName, String childName, long userId, String opponentUserType, int unreadCount) {
         return chatRoomUserRepository.save(ChatRoomUser.builder()
-                .chatRoomTitle(chatRoomTitle)
-                .socketTopic("CHATROOM_TOPIC")
+                .chatRoomTitle(opponentUserName)
+                .childName(childName)
                 .userId(userId)
+                .opponentUserType(opponentUserType)
                 .isAlarm(true)
                 .unreadCount(unreadCount)
                 .chatRoom(savedChatRoom)
