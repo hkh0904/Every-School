@@ -43,11 +43,11 @@ class UserCallQueryServiceTest extends IntegrationTestSupport {
 
         String userKey = UUID.randomUUID().toString();
 
-        UserCall userCall1 = saveCal(1L, 2L, "T", "신성주", "홍경환", LocalDateTime.now().minusHours(5), LocalDateTime.now().minusHours(4), "파일명", "파일명", false);
-        UserCall userCall2 = saveCal(1L, 2L, "O", "홍경환", "신성주", LocalDateTime.now().minusHours(3), LocalDateTime.now().minusHours(2), "파일명", "파일명", false);
-        UserCall userCall3 = saveCal(1L, 3L, "T", "신성주", "이예리", LocalDateTime.now().minusHours(1), LocalDateTime.now().minusMinutes(30), "파일명", "파일명", false);
-        UserCall userCall4 = saveCal(4L, 2L, "T", "이지혁", "홍경환", LocalDateTime.now().minusMinutes(20), LocalDateTime.now().minusMinutes(10), "파일명", "파일명", false);
-        UserCall userCall5 = saveCal(1L, 5L, "O", "임우택", "신성주", LocalDateTime.now().minusMinutes(5), LocalDateTime.now().minusMinutes(1), "파일명", "파일명", false);
+        UserCall userCall1 = saveCal(1L, 2L, "T", "신성주", "홍경환", "Y", LocalDateTime.now().minusHours(5), LocalDateTime.now().minusHours(4), "파일명", "파일명", false);
+        UserCall userCall2 = saveCal(1L, 2L, "O", "홍경환", "신성주", "M", LocalDateTime.now().minusHours(3), LocalDateTime.now().minusHours(2), "파일명", "파일명", false);
+        UserCall userCall3 = saveCal(1L, 3L, "T", "신성주", "이예리", "C", LocalDateTime.now().minusHours(1), LocalDateTime.now().minusMinutes(30), "파일명", "파일명", false);
+        UserCall userCall4 = saveCal(4L, 2L, "T", "이지혁", "홍경환", "Y", LocalDateTime.now().minusMinutes(20), LocalDateTime.now().minusMinutes(10), "파일명", "파일명", false);
+        UserCall userCall5 = saveCal(1L, 5L, "O", "임우택", "신성주", "Y", LocalDateTime.now().minusMinutes(5), LocalDateTime.now().minusMinutes(1), "파일명", "파일명", false);
 
         given(userServiceClient.searchUserInfoByUserKey(userKey))
                 .willReturn(teacher);
@@ -67,7 +67,7 @@ class UserCallQueryServiceTest extends IntegrationTestSupport {
                 );
     }
 
-    private UserCall saveCal(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
+    private UserCall saveCal(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName, String receiveCall,
                              LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName, String storeFileName,
                              Boolean isBad) {
         UserCall userCall = UserCall.builder()
@@ -76,6 +76,7 @@ class UserCallQueryServiceTest extends IntegrationTestSupport {
                 .sender(sender)
                 .senderName(senderName)
                 .receiverName(receiverName)
+                .receiveCall(receiveCall)
                 .startDateTime(startDateTime)
                 .endDateTime(endDateTime)
                 .uploadFileName(uploadFileName)

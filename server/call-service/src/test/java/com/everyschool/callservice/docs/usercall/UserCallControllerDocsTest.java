@@ -1,4 +1,4 @@
-package com.everyschool.callservice.docs.call;
+package com.everyschool.callservice.docs.usercall;
 
 import com.everyschool.callservice.api.client.VoiceAiServiceClient;
 import com.everyschool.callservice.api.client.response.RecordStartInfo;
