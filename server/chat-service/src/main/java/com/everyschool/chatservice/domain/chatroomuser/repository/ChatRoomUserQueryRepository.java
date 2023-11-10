@@ -23,6 +23,19 @@ public class ChatRoomUserQueryRepository {
     }
 
     /**
+     * 채팅방 Id로 2명 유저 찾기
+     *
+     * @param roomId
+     */
+    public List<ChatRoomUser> findChatRoomUsersByChatRoomId(Long roomId) {
+        return queryFactory
+                .select(chatRoomUser)
+                .from(chatRoomUser)
+                .where(chatRoomUser.chatRoom.id.eq(roomId))
+                .fetch();
+    }
+
+    /**
      * 내가 속한 그 채팅방 정보 가져오기
      *
      * @param roomId
