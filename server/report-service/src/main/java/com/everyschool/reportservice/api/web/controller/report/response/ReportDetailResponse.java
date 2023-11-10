@@ -48,7 +48,7 @@ public class ReportDetailResponse {
             .schoolYear(report.getSchoolYear())
             .typeId(report.getTypeId())
             .statusId(report.getProgressStatusId())
-            .witness(report.getTitle())
+            .witness(report.getWitness())
             .who(report.getContent().getReportWho())
             .when(report.getContent().getReportWhen())
             .where(report.getContent().getReportWhere())

@@ -8,7 +8,6 @@ import com.everyschool.userservice.docs.RestDocsSupport;
 import com.everyschool.userservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.util.List;
@@ -92,7 +91,7 @@ public class UserAppQueryControllerDocsTest extends RestDocsSupport {
             .build();
 
         StudentContactInfoResponse response = StudentContactInfoResponse.builder()
-            .studentKey(UUID.randomUUID().toString())
+            .userKey(UUID.randomUUID().toString())
             .name("이리온")
             .studentNumber(20201)
             .build();
@@ -119,7 +118,7 @@ public class UserAppQueryControllerDocsTest extends RestDocsSupport {
                         .description("메시지"),
                     fieldWithPath("data").type(JsonFieldType.ARRAY)
                         .description("응답 데이터"),
-                    fieldWithPath("data[].studentKey").type(JsonFieldType.STRING)
+                    fieldWithPath("data[].userKey").type(JsonFieldType.STRING)
                         .description("학생 고유키"),
                     fieldWithPath("data[].name").type(JsonFieldType.STRING)
                         .description("학생 이름"),
