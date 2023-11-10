@@ -16,6 +16,7 @@ include::overview.adoc[]
 
 include::api/donotdisturb/create-do-not-disturb.adoc[]
 include::api/donotdisturb/search-do-not-disturb.adoc[]
+include::api/donotdisturb/update-isActivate.adoc[]
 
 [[Call-API]]
 == Call API
