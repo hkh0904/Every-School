@@ -37,7 +37,7 @@ public class ParentController {
 
         log.debug("connectCode={}", request.getConnectCode());
 
-        ParentSchoolApplyDto dto = studentParentService.createStudentParent(userKey, request.getConnectCode());
+        ParentSchoolApplyDto dto = studentParentService.checkStudentParent(userKey, request.getConnectCode());
         log.debug("result={}", dto);
 
         kafkaProducer.parentSchoolApply("parent-school-apply", dto);

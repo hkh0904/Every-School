@@ -1,5 +1,6 @@
 package com.everyschool.userservice.messagequeue;
 
+import com.everyschool.userservice.api.service.user.StudentParentService;
 import com.everyschool.userservice.api.service.user.StudentService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class KafkaConsumer {
 
     private final StudentService studentService;
+    private final StudentParentService studentParentService;
 
     /**
      * 학생 회원 학급 수정
@@ -30,7 +32,7 @@ public class KafkaConsumer {
      * @param kafkaMessage 카프카 큐잉 메세지
      */
     @KafkaListener(topics = "edit-student-class-info")
-    public void updateExp(String kafkaMessage) {
+    public void editStudentClassInfo(String kafkaMessage) {
         log.info("Kafka Message: ->" + kafkaMessage);
 
         Map<Object, Object> map = new HashMap<>();
@@ -47,5 +49,29 @@ public class KafkaConsumer {
         Long schoolClassId = (Long) map.get("schoolClassId");
 
         studentService.editClassInfo(studentId, schoolId, schoolClassId);
+    }
+
+    /**
+     * 부모와 학생(자녀 관계) 연결
+     *
+     * @param kafkaMessage 카프카 큐잉 메세지
+     */
+    @KafkaListener(topics = "create-student-parent")
+    public void createStudentParent(String kafkaMessage) {
+        log.info("Kafka Message: ->" + kafkaMessage);
+
+        Map<Object, Object> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        Long studentId = (Long) map.get("studentId");
+        Long parentId = (Long) map.get("parentId");
+
+        studentParentService.createStudentParent(studentId, parentId);
     }
 }
