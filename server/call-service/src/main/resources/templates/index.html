@@ -540,12 +540,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/do-not-disturbs/ HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Token
-Content-Length: 137
+Content-Length: 139
 Host: localhost:8080
 
 {
-  "startTime" : [ 2023, 11, 11, 0, 33, 32, 27320800 ],
-  "endTime" : [ 2023, 11, 12, 0, 33, 32, 27320800 ],
+  "startTime" : [ 2023, 11, 11, 1, 37, 34, 837894400 ],
+  "endTime" : [ 2023, 11, 12, 1, 37, 34, 837894400 ],
   "isActivate" : true
 }</code></pre>
 </div>
@@ -596,7 +596,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 253
+Content-Length: 254
 
 {
   "code" : 200,
@@ -604,8 +604,8 @@ Content-Length: 253
   "message" : "SUCCESS",
   "data" : {
     "doNotDisturbId" : 1,
-    "startTime" : [ 2023, 11, 10, 23, 33, 32, 27320800 ],
-    "endTime" : [ 2023, 11, 11, 0, 3, 32, 27320800 ],
+    "startTime" : [ 2023, 11, 11, 0, 37, 34, 837894400 ],
+    "endTime" : [ 2023, 11, 11, 1, 7, 34, 837894400 ],
     "isActivate" : false
   }
 }</code></pre>
@@ -697,12 +697,12 @@ Content-Length: 383
   "status" : "OK",
   "message" : "SUCCESS",
   "data" : [ {
-    "startTime" : [ 2023, 11, 10, 0, 33, 32, 278300600 ],
-    "endTime" : [ 2023, 11, 10, 1, 33, 32, 279293200 ],
+    "startTime" : [ 2023, 11, 10, 0, 34, 58, 218056100 ],
+    "endTime" : [ 2023, 11, 10, 1, 34, 58, 218056100 ],
     "isActivate" : false
   }, {
-    "startTime" : [ 2023, 11, 10, 22, 33, 32, 279293200 ],
-    "endTime" : [ 2023, 11, 10, 23, 33, 32, 279293200 ],
+    "startTime" : [ 2023, 11, 10, 22, 34, 58, 218056100 ],
+    "endTime" : [ 2023, 11, 10, 23, 34, 58, 218056100 ],
     "isActivate" : true
   } ]
 }</code></pre>
@@ -782,7 +782,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 255
+Content-Length: 254
 
 {
   "code" : 200,
@@ -790,8 +790,8 @@ Content-Length: 255
   "message" : "SUCCESS",
   "data" : {
     "doNotDisturbId" : 1,
-    "startTime" : [ 2023, 11, 10, 23, 33, 32, 203974700 ],
-    "endTime" : [ 2023, 11, 11, 0, 3, 32, 203974700 ],
+    "startTime" : [ 2023, 11, 11, 0, 37, 34, 988081700 ],
+    "endTime" : [ 2023, 11, 11, 1, 7, 34, 988081700 ],
     "isActivate" : false
   }
 }</code></pre>
@@ -876,10 +876,10 @@ Content-Length: 222
 Host: localhost:8080
 
 {
-  "otherUserKey" : "d60521b7-3fbc-4086-abef-01523b6cd3c6",
+  "otherUserKey" : "60ccbce9-064c-4852-9579-cdea972a5e28",
   "sender" : "O",
-  "startDateTime" : [ 2023, 11, 10, 12, 33, 32, 622774500 ],
-  "endDateTime" : [ 2023, 11, 10, 13, 33, 32, 623773600 ],
+  "startDateTime" : [ 2023, 11, 10, 13, 37, 35, 304912200 ],
+  "endDateTime" : [ 2023, 11, 10, 14, 37, 35, 304912200 ],
   "file" : null
 }</code></pre>
 </div>
@@ -999,7 +999,7 @@ Content-Length: 115
 <h4 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /call-service/v1/calls/58e225c7-d454-4b1d-a142-d0916522aa14 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /call-service/v1/calls/ba80109c-d302-4c94-bcdc-d7d85fbce951 HTTP/1.1
 Authorization: Bearer Access Token
 Host: localhost:8080</code></pre>
 </div>
@@ -1023,8 +1023,8 @@ Content-Length: 688
     "receiverName" : "임우택 선생님",
     "receiveCall" : "Y",
     "sender" : "O",
-    "startDateTime" : [ 2023, 11, 10, 14, 33, 32, 743203100 ],
-    "endDateTime" : [ 2023, 11, 10, 15, 33, 32, 743203100 ],
+    "startDateTime" : [ 2023, 11, 10, 15, 37, 35, 384853500 ],
+    "endDateTime" : [ 2023, 11, 10, 16, 37, 35, 384853500 ],
     "isBad" : false
   }, {
     "userCallId" : 2,
@@ -1032,8 +1032,8 @@ Content-Length: 688
     "receiverName" : "임우택 선생님",
     "receiveCall" : "M",
     "sender" : "O",
-    "startDateTime" : [ 2023, 11, 10, 14, 33, 32, 743203100 ],
-    "endDateTime" : [ 2023, 11, 10, 15, 33, 32, 743203100 ],
+    "startDateTime" : [ 2023, 11, 10, 15, 37, 35, 384853500 ],
+    "endDateTime" : [ 2023, 11, 10, 16, 37, 35, 384853500 ],
     "isBad" : false
   } ]
 }</code></pre>
@@ -1295,8 +1295,8 @@ Host: localhost:8080
   "cname" : "test",
   "uid" : "123",
   "token" : "chatroomtoken",
-  "userKey" : "8889ddda-3636-40f3-b35e-d18539212b96",
-  "otherUserKey" : "5a7ee2c1-46d9-45f0-a93c-071d1d298219"
+  "userKey" : "7029ce52-df68-446d-9c2e-4e8703f1fe1a",
+  "otherUserKey" : "f17dc0de-0408-448a-afe1-d6fcb3eb9663"
 }</code></pre>
 </div>
 </div>
@@ -1453,8 +1453,8 @@ Host: localhost:8080
   "sid" : "chatroomsid",
   "otherUserKey" : "34d78c06-abcc-43a3-bfbd-551348bcb7ab",
   "sender" : "T",
-  "startDateTime" : [ 2023, 11, 10, 21, 33, 32, 555199800 ],
-  "endDateTime" : [ 2023, 11, 10, 22, 33, 32, 556143900 ]
+  "startDateTime" : [ 2023, 11, 10, 22, 37, 35, 259008300 ],
+  "endDateTime" : [ 2023, 11, 10, 23, 37, 35, 259008300 ]
 }</code></pre>
 </div>
 </div>
@@ -1635,7 +1635,7 @@ Content-Length: 133
 Host: localhost:8080
 
 {
-  "otherUserKey" : "1ca7c80e-d795-4fe8-b057-5715242fe3ff",
+  "otherUserKey" : "7e05eeed-aca0-4be4-a95a-406401d42f1c",
   "senderName" : "오연주스",
   "cname" : "전화좀 받아라"
 }</code></pre>
@@ -1747,14 +1747,14 @@ Content-Length: 158
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/calls/calling/denied HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 223
+Content-Length: 222
 Host: localhost:8080
 
 {
-  "otherUserKey" : "c8d05c10-dd12-49d6-9644-72f4d1d09771",
+  "otherUserKey" : "0c37a4cb-c753-46fc-bc65-604afafef276",
   "senderName" : "오연주 바보",
-  "startDateTime" : [ 2023, 11, 10, 22, 33, 32, 476036200 ],
-  "endDateTime" : [ 2023, 11, 10, 23, 33, 32, 476036200 ]
+  "startDateTime" : [ 2023, 11, 10, 23, 37, 35, 203588700 ],
+  "endDateTime" : [ 2023, 11, 11, 0, 37, 35, 203588700 ]
 }</code></pre>
 </div>
 </div>
@@ -1870,14 +1870,14 @@ Content-Length: 93
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/calls/calling/cancel HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 223
+Content-Length: 222
 Host: localhost:8080
 
 {
-  "otherUserKey" : "b64791c9-7f1e-4d57-8bd9-a839185a84c7",
+  "otherUserKey" : "287b21cd-a234-41e8-b130-908aafecf555",
   "senderName" : "오연주 바보",
-  "startDateTime" : [ 2023, 11, 10, 22, 33, 32, 437002600 ],
-  "endDateTime" : [ 2023, 11, 10, 23, 33, 32, 437002600 ]
+  "startDateTime" : [ 2023, 11, 10, 23, 37, 35, 174060200 ],
+  "endDateTime" : [ 2023, 11, 11, 0, 37, 35, 174060200 ]
 }</code></pre>
 </div>
 </div>
