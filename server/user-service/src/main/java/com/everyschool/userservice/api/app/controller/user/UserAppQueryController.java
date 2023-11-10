@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 회원 앱 조회 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -23,6 +28,13 @@ public class UserAppQueryController {
     private final UserAppQueryService userAppQueryService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 담임 선생님 연락처 조회 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @return 조회된 담임 선생님 연락처
+     */
     @GetMapping("/students")
     public ApiResponse<TeacherContactInfoResponse> searchUserContactInfo(
         @PathVariable Integer schoolYear,
@@ -35,6 +47,13 @@ public class UserAppQueryController {
         return ApiResponse.ok(response);
     }
 
+    /**
+     * 학급 인원 연락처 목록 조회 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @return 조회된 학급 인원 연락처 목록
+     */
     @GetMapping("/teachers")
     public ApiResponse<List<StudentContactInfoResponse>> searchUserContactInfos(
         @PathVariable Integer schoolYear,
