@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.everyschool.userservice.api.app.controller.user.response.ParentInfoResponse.*;
-import static com.everyschool.userservice.error.ErrorMessage.*;
+import static com.everyschool.userservice.message.ErrorMessage.*;
 
 /**
  * 회원 앱 조회 서비스

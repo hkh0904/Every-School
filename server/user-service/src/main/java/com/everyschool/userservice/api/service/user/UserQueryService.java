@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.everyschool.userservice.error.ErrorMessage.NO_SUCH_USER;
+import static com.everyschool.userservice.message.ErrorMessage.NO_SUCH_USER;
 
 @RequiredArgsConstructor
 @Service

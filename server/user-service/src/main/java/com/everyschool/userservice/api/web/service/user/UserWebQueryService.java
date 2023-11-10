@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.everyschool.userservice.api.web.controller.user.response.UserInfoResponse.*;
-import static com.everyschool.userservice.error.ErrorMessage.*;
+import static com.everyschool.userservice.message.ErrorMessage.*;
 
 /**
  * 회원 웹 조회 서비스

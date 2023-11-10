@@ -1,4 +1,4 @@
-package com.everyschool.userservice.error;
+package com.everyschool.userservice.message;
 
 import lombok.Getter;
 

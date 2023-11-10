@@ -1,4 +1,4 @@
-package com.everyschool.userservice.api.controller.restdocs;
+package com.everyschool.userservice.api.web.controller.docs;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

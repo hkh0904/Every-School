@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 회원 API
+ * 회원 명령 API 컨트롤러
  *
  * @author 임우택
  */
