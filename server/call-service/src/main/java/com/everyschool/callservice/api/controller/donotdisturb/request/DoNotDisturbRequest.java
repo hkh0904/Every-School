@@ -1,5 +1,6 @@
 package com.everyschool.callservice.api.controller.donotdisturb.request;
 
+import com.everyschool.callservice.api.service.donotdisturb.dto.DoNotDisturbDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,13 @@ public class DoNotDisturbRequest {
         this.startTime = startTime;
         this.endTime = endTime;
         this.isActivate = isActivate;
+    }
+
+    public DoNotDisturbDto toDto() {
+        return DoNotDisturbDto.builder()
+                .startTime(this.startTime)
+                .endTime(this.endTime)
+                .isActivate(this.isActivate)
+                .build();
     }
 }

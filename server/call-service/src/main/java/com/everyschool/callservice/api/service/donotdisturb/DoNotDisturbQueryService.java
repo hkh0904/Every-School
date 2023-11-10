@@ -29,6 +29,7 @@ public class DoNotDisturbQueryService {
     public List<DoNotDisturbResponse> searchMyDoNotDisturbs(String token) {
         log.debug("call DoNotDisturbQueryService#searchMyDoNotDisturbs");
         UserInfo user = userServiceClient.searchUserInfo(token);
+        log.debug("user = {}", user);
 
         return doNotDisturbQueryRepository.findAllByUserId(user.getUserId());
     }

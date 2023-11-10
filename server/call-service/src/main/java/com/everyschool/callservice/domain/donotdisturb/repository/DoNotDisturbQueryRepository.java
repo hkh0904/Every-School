@@ -23,6 +23,7 @@ public class DoNotDisturbQueryRepository {
         return queryFactory
                 .select(Projections.constructor(
                         DoNotDisturbResponse.class,
+                        doNotDisturb.teacherId,
                         doNotDisturb.startTime,
                         doNotDisturb.endTime,
                         doNotDisturb.isActivate

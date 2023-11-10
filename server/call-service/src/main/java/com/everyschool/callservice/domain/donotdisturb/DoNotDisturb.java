@@ -43,4 +43,8 @@ public class DoNotDisturb extends BaseEntity {
         this.endTime = endTime;
         this.isActivate = isActivate;
     }
+
+    public void updateIsActivate() {
+        this.isActivate = !this.isActivate;
+    }
 }
