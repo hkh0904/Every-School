@@ -4,11 +4,17 @@ import com.everyschool.userservice.api.ApiResponse;
 import com.everyschool.userservice.api.controller.parent.request.ConnectStudentParentRequest;
 import com.everyschool.userservice.api.controller.parent.response.CreateStudentParentResponse;
 import com.everyschool.userservice.api.service.user.StudentParentService;
+import com.everyschool.userservice.messagequeue.KafkaProducer;
+import com.everyschool.userservice.messagequeue.dto.ParentSchoolApplyDto;
 import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,11 +23,13 @@ import org.springframework.web.bind.annotation.*;
 public class ParentController {
 
     private final StudentParentService studentParentService;
+    private final KafkaProducer kafkaProducer;
     private final TokenUtils tokenUtils;
 
     @PostMapping("/connection")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<CreateStudentParentResponse> connectStudentParent(@RequestBody ConnectStudentParentRequest request) {
+    public ApiResponse<CreateStudentParentResponse> connectStudentParent(
+        @Valid @RequestBody ConnectStudentParentRequest request
+    ) {
         log.debug("call ParentController#connectStudentParent");
 
         String userKey = tokenUtils.getUserKey();
@@ -29,9 +37,11 @@ public class ParentController {
 
         log.debug("connectCode={}", request.getConnectCode());
 
-        CreateStudentParentResponse response = studentParentService.createStudentParent(userKey, request.getConnectCode());
-        log.debug("result={}", response);
+        ParentSchoolApplyDto dto = studentParentService.createStudentParent(userKey, request.getConnectCode());
+        log.debug("result={}", dto);
 
-        return ApiResponse.ok(response);
+        kafkaProducer.parentSchoolApply("parent-school-apply", dto);
+
+        return ApiResponse.ok(null);
     }
 }
