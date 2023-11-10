@@ -1,6 +1,7 @@
 package com.everyschool.consultservice.docs.web.consult;
 
 import com.everyschool.consultservice.api.web.controller.consult.ConsultWebQueryController;
+import com.everyschool.consultservice.api.web.controller.consult.response.ConsultDetailResponse;
 import com.everyschool.consultservice.api.web.controller.consult.response.ConsultResponse;
 import com.everyschool.consultservice.api.web.service.consult.ConsultWebQueryService;
 import com.everyschool.consultservice.docs.RestDocsSupport;
@@ -67,10 +68,10 @@ public class ConsultWebQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
-            get(BASE_URL, 2023, 100000)
-                .header("Authorization", "Bearer Access Token")
-                .param("status", String.valueOf(ProgressStatus.WAIT.getCode()))
-        )
+                get(BASE_URL, 2023, 100000)
+                    .header("Authorization", "Bearer Access Token")
+                    .param("status", String.valueOf(ProgressStatus.WAIT.getCode()))
+            )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("web-search-consults",
@@ -103,6 +104,63 @@ public class ConsultWebQueryControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("data.content[].rejectedReason").type(JsonFieldType.STRING)
                         .optional()
                         .description("거절 사유")
+                )
+            ));
+    }
+
+    @DisplayName("상담 상세 조회 API")
+    @Test
+    void searchConsult() throws Exception {
+        ConsultDetailResponse response = ConsultDetailResponse.builder()
+            .consultId(1L)
+            .type(ConsultType.VISIT.getCode())
+            .status(ProgressStatus.REJECT.getCode())
+            .parentInfo("2학년 2반 14번 이예리 어머님")
+            .consultDate(LocalDateTime.of(2023, 11, 10, 14, 0))
+            .message("우리 아이가 고양이를 좋아해요.")
+            .resultContent("리온이와 둘만의 시간을 주는걸 권장하였습니다.")
+            .rejectedReason("")
+            .lastModifiesDate(LocalDateTime.now())
+            .build();
+
+        given(consultWebQueryService.searchConsult(anyLong()))
+            .willReturn(response);
+
+        mockMvc.perform(
+                get(BASE_URL + "/{consultId}", 2023, 100000, 1)
+                    .header("Authorization", "Bearer Access Token")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andDo(document("web-search-consult",
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                    fieldWithPath("code").type(JsonFieldType.NUMBER)
+                        .description("코드"),
+                    fieldWithPath("status").type(JsonFieldType.STRING)
+                        .description("상태"),
+                    fieldWithPath("message").type(JsonFieldType.STRING)
+                        .description("메시지"),
+                    fieldWithPath("data").type(JsonFieldType.OBJECT)
+                        .description("응답 데이터"),
+                    fieldWithPath("data.consultId").type(JsonFieldType.NUMBER)
+                        .description("상담 아이디"),
+                    fieldWithPath("data.type").type(JsonFieldType.STRING)
+                        .description("상담 유형"),
+                    fieldWithPath("data.status").type(JsonFieldType.STRING)
+                        .description("상담 진행 상태"),
+                    fieldWithPath("data.parentInfo").type(JsonFieldType.STRING)
+                        .description("학부모 정보"),
+                    fieldWithPath("data.consultDate").type(JsonFieldType.ARRAY)
+                        .description("상담 일시"),
+                    fieldWithPath("data.message").type(JsonFieldType.STRING)
+                        .description("학부모 상담 메세지"),
+                    fieldWithPath("data.resultContent").type(JsonFieldType.STRING)
+                        .description("상담 결과"),
+                    fieldWithPath("data.rejectedReason").type(JsonFieldType.STRING)
+                        .description("거절 사유"),
+                    fieldWithPath("data.lastModifiesDate").type(JsonFieldType.ARRAY)
+                        .description("최종 수정 일시")
                 )
             ));
     }

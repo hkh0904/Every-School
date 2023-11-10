@@ -1,4 +1,4 @@
-package com.everyschool.consultservice.api.controller.consult.request;
+package com.everyschool.consultservice.api.web.controller.consult.request;
 
 import lombok.Builder;
 import lombok.Data;

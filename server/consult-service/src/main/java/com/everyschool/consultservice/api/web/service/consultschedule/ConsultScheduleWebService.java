@@ -1,7 +1,6 @@
 package com.everyschool.consultservice.api.web.service.consultschedule;
 
 import com.everyschool.consultservice.api.client.UserServiceClient;
-import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.api.web.controller.consultschedule.response.ConsultScheduleResponse;
 import com.everyschool.consultservice.api.web.service.consultschedule.dto.EditScheduleDto;
 import com.everyschool.consultservice.domain.consultschedule.ConsultSchedule;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.everyschool.consultservice.error.ErrorMessage.UNREGISTERED_CONSULT_SCHEDULE;
+import static com.everyschool.consultservice.error.ErrorMessage.NO_SUCH_CONSULT_SCHEDULE;
 
 @RequiredArgsConstructor
 @Service
@@ -43,7 +42,7 @@ public class ConsultScheduleWebService {
     private ConsultSchedule getConsultSchedule(Long consultScheduleId) {
         Optional<ConsultSchedule> findConsultSchedule = consultScheduleRepository.findById(consultScheduleId);
         if (findConsultSchedule.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_CONSULT_SCHEDULE.getMessage());
+            throw new NoSuchElementException(NO_SUCH_CONSULT_SCHEDULE.getMessage());
         }
         return findConsultSchedule.get();
     }

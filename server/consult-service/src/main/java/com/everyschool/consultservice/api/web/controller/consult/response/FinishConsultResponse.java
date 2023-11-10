@@ -1,4 +1,4 @@
-package com.everyschool.consultservice.api.controller.consult.response;
+package com.everyschool.consultservice.api.web.controller.consult.response;
 
 import com.everyschool.consultservice.domain.consult.Consult;
 import com.everyschool.consultservice.domain.consult.ConsultType;
