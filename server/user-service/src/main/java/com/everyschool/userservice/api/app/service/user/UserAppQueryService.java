@@ -23,6 +23,11 @@ import java.util.stream.Collectors;
 import static com.everyschool.userservice.api.app.controller.user.response.ParentInfoResponse.*;
 import static com.everyschool.userservice.error.ErrorMessage.*;
 
+/**
+ * 회원 앱 조회 서비스
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -32,13 +37,20 @@ public class UserAppQueryService {
     private final StudentParentAppQueryRepository studentParentAppQueryRepository;
     private final SchoolServiceClient schoolServiceClient;
 
+    /**
+     * 학생 회원 정보 조회
+     *
+     * @param userKey 회원 고유키
+     * @return 조회된 학생 회원 정보
+     */
     public StudentInfoResponse searchStudentInfo(String userKey) {
+        //회원 엔티티 조회
         User user = getUserByUserKey(userKey);
-        if (!(user instanceof Student)) {
-            throw new IllegalArgumentException(UNAUTHORIZED_USER.getMessage());
-        }
-        Student student = (Student) user;
 
+        //학생 엔티티로 변환
+        Student student = convertToStudent(user);
+
+        // TODO: 11/10/23 리팩토링 필수
         if (student.getSchoolClassId() == null) {
             boolean result = schoolServiceClient.existApply(student.getId());
             if (result) {
@@ -72,29 +84,16 @@ public class UserAppQueryService {
                 .build();
         }
 
+        //학급 정보 조회
         SchoolClassInfo schoolClassInfo = schoolServiceClient.searchBySchoolClassId(student.getSchoolClassId());
 
-        School school = School.builder()
-            .schoolId(student.getSchoolId())
-            .name(schoolClassInfo.getSchoolName())
-            .build();
+        //학교 정보 생성
+        School school = School.of(student.getSchoolId(), schoolClassInfo.getSchoolName());
 
-        SchoolClass schoolClass = SchoolClass.builder()
-            .schoolClassId(student.getSchoolClassId())
-            .schoolYear(schoolClassInfo.getSchoolYear())
-            .grade(schoolClassInfo.getGrade())
-            .classNum(schoolClassInfo.getClassNum())
-            .build();
+        //학급 정보 생성
+        SchoolClass schoolClass = SchoolClass.of(student.getSchoolClassId(), schoolClassInfo);
 
-        return StudentInfoResponse.builder()
-            .userType(student.getUserCodeId())
-            .email(student.getEmail())
-            .name(student.getName())
-            .birth(student.getBirth())
-            .school(school)
-            .schoolClass(schoolClass)
-            .joinDate(student.getCreatedDate())
-            .build();
+        return StudentInfoResponse.of(student, school, schoolClass);
     }
 
     /**
