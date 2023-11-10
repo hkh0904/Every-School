@@ -6,8 +6,9 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -18,9 +19,10 @@ public class FCMConfig {
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
         // resource에 있는 FCM json파일 불러오기
-        ClassPathResource resource = new ClassPathResource("firebase/everyschool-firebase-adminSDK.json");
+        String rootPath = System.getProperty("user.dir");
+        File file = new File(rootPath + "/everyschool-firebase-adminSDK.json");
 
-        InputStream refreshToken = resource.getInputStream();
+        InputStream refreshToken = new FileInputStream(file);
 
         FirebaseApp firebaseApp = null;
         List<FirebaseApp> firebaseAppList = FirebaseApp.getApps();
