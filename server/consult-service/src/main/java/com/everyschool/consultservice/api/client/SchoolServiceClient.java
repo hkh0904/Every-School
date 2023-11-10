@@ -3,6 +3,7 @@ package com.everyschool.consultservice.api.client;
 import com.everyschool.consultservice.api.client.response.ConsultUserInfo;
 import com.everyschool.consultservice.api.client.response.SchoolClassInfo;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -19,7 +20,7 @@ public interface SchoolServiceClient {
     List<ConsultUserInfo> searchConsultUser(@RequestBody List<Long> userIds);
 
     // TODO: 2023-11-09 학생 아이디와 학년도로 해당 학생의 학번을 조회
-    @PostMapping()
-    Integer searchStudentNumber(Long studentId, Integer schoolYear);
+    @PostMapping("/{schoolId}/{schoolYear}")
+    Integer searchStudentNumber(@PathVariable(name = "schoolId") Long schoolId, @PathVariable(name = "schoolYear") Integer schoolYear);
 
 }
