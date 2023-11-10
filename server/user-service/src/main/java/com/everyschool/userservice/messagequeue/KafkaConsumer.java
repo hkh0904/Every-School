@@ -13,10 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Kafka Consumer
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Component
 @Slf4j
-@Transactional
 public class KafkaConsumer {
 
     private final StudentService studentService;
