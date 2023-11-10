@@ -59,6 +59,10 @@ dependencies {
     //rest docs
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 dependencyManagement {
