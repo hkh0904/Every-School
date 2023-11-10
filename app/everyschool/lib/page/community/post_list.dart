@@ -18,6 +18,7 @@ class _PostListState extends State<PostList> {
 
   Future<void> _loadPostData() async {
     final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
+    print(context.read<UserStore>().userInfo);
     try {
       var response = await communityApi.getBoardList(schoolId);
       if (response != null && response['content'] != null) {
