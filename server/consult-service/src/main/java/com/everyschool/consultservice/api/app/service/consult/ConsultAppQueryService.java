@@ -5,7 +5,6 @@ import com.everyschool.consultservice.api.app.controller.consult.response.Consul
 import com.everyschool.consultservice.api.client.UserServiceClient;
 import com.everyschool.consultservice.api.client.response.UserInfo;
 import com.everyschool.consultservice.domain.consult.repository.ConsultAppQueryRepository;
-import com.everyschool.consultservice.error.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +42,7 @@ public class ConsultAppQueryService {
     public ConsultDetailResponse searchConsult(Long consultId) {
         Optional<ConsultDetailResponse> findResponse = consultAppQueryRepository.findById(consultId);
         if (findResponse.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_CONSULT.getMessage());
+            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
         }
         return findResponse.get();
     }

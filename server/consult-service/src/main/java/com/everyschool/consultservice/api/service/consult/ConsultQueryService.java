@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.everyschool.consultservice.error.ErrorMessage.UNREGISTERED_CONSULT;
+import static com.everyschool.consultservice.error.ErrorMessage.NO_SUCH_CONSULT;
 
 @RequiredArgsConstructor
 @Service
@@ -52,7 +52,7 @@ public class ConsultQueryService {
     public ConsultDetailResponse searchConsult(Long consultId) {
         Optional<Consult> findConsult = consultRepository.findById(consultId);
         if (findConsult.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_CONSULT.getMessage());
+            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
         }
         Consult consult = findConsult.get();
 
