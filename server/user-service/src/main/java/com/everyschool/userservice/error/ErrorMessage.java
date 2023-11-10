@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorMessage {
 
-    UNREGISTERED_USER("등록이 되지 않은 회원입니다."),
+    NO_SUCH_USER("등록이 되지 않은 회원입니다."),
     UNAUTHORIZED_USER("권한이 없는 사용자입니다."),
     EXPIRE_AUTH_TIME("유효 시간이 만료되었습니다."),
     NOT_EQUAL_AUTH_NUMBER("인증 번호가 일치하지 않습니다."),

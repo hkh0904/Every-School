@@ -42,7 +42,7 @@ public class UserAppQueryController {
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        TeacherContactInfoResponse response = userAppQueryService.searchContactInfo(schoolYear, userKey);
+        TeacherContactInfoResponse response = userAppQueryService.searchContactInfo(userKey, schoolYear);
 
         return ApiResponse.ok(response);
     }

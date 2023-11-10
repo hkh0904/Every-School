@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.everyschool.userservice.error.ErrorMessage.UNAUTHORIZED_USER;
-import static com.everyschool.userservice.error.ErrorMessage.UNREGISTERED_USER;
+import static com.everyschool.userservice.error.ErrorMessage.NO_SUCH_USER;
 
 @RequiredArgsConstructor
 @Service
@@ -27,7 +27,7 @@ public class UserWebQueryService {
     public UserInfoResponse searchUserInfo(String userKey) {
         Optional<User> findUser = userRepository.findByUserKey(userKey);
         if (findUser.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_USER.getMessage());
+            throw new NoSuchElementException(NO_SUCH_USER.getMessage());
         }
         User user = findUser.get();
 

@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.everyschool.userservice.error.ErrorMessage.UNAUTHORIZED_USER;
-import static com.everyschool.userservice.error.ErrorMessage.UNREGISTERED_USER;
+import static com.everyschool.userservice.error.ErrorMessage.NO_SUCH_USER;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +33,7 @@ public class UserAppQueryService {
     private final SchoolServiceClient schoolServiceClient;
 
     public StudentInfoResponse searchStudentInfo(String userKey) {
-        User user = getUser(userKey);
+        User user = getUserByUserKey(userKey);
         if (!(user instanceof Student)) {
             throw new IllegalArgumentException(UNAUTHORIZED_USER.getMessage());
         }
@@ -98,7 +98,7 @@ public class UserAppQueryService {
     }
 
     public ParentInfoResponse searchParentInfo(String userKey) {
-        User user = getUser(userKey);
+        User user = getUserByUserKey(userKey);
         if (!(user instanceof Parent)) {
             throw new IllegalArgumentException(UNAUTHORIZED_USER.getMessage());
         }
@@ -150,7 +150,7 @@ public class UserAppQueryService {
     }
 
     public TeacherInfoResponse searchTeacherInfo(String userKey) {
-        User user = getUser(userKey);
+        User user = getUserByUserKey(userKey);
         if (!(user instanceof Teacher)) {
             throw new IllegalArgumentException(UNAUTHORIZED_USER.getMessage());
         }
@@ -181,28 +181,25 @@ public class UserAppQueryService {
             .build();
     }
 
-    //학부모, 학생용 ->  담임 연락처 조회
-    public TeacherContactInfoResponse searchContactInfo(Integer schoolYear, String userKey) {
-        User user = getUser(userKey);
+    /**
+     * 담임 선생님 연락처 조회
+     *
+     * @param userKey    회원 고유키
+     * @param schoolYear 학년도
+     * @return 조회된 담임 선생님 연락처
+     */
+    public TeacherContactInfoResponse searchContactInfo(String userKey, int schoolYear) {
+        User user = getUserByUserKey(userKey);
 
         Long teacherId = schoolServiceClient.searchTeacherByUserId(user.getId(), schoolYear);
 
-        //학교에 요청해서 학년도 당시 회원의 학급을 조회
+        User teacher = getUserById(teacherId);
 
-        Optional<User> findUser = userRepository.findById(teacherId);
-        if (findUser.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        User teacher = findUser.get();
-
-        return TeacherContactInfoResponse.builder()
-            .userKey(teacher.getUserKey())
-            .name(teacher.getName())
-            .build();
+        return TeacherContactInfoResponse.of(teacher);
     }
 
     public List<StudentContactInfoResponse> searchContactInfos(Integer schoolYear, String userKey) {
-        User findUser = getUser(userKey);
+        User findUser = getUserByUserKey(userKey);
 
         List<StudentInfo> infos = schoolServiceClient.searchStudentsByUserId(findUser.getId(), schoolYear);
 
@@ -241,10 +238,30 @@ public class UserAppQueryService {
         return responses;
     }
 
-    private User getUser(String userKey) {
+    /**
+     * 회원 고유키로 회원 엔티티 조회
+     *
+     * @param userKey 회원 고유키
+     * @return 조회된 회원 엔티티
+     */
+    private User getUserByUserKey(String userKey) {
         Optional<User> findUser = userRepository.findByUserKey(userKey);
         if (findUser.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_USER.getMessage());
+            throw new NoSuchElementException(NO_SUCH_USER.getMessage());
+        }
+        return findUser.get();
+    }
+
+    /**
+     * 회원 아이디로 회원 엔티티 조회
+     *
+     * @param userId 회원 아이디
+     * @return 조회된 회원 엔티티
+     */
+    public User getUserById(Long userId) {
+        Optional<User> findUser = userRepository.findById(userId);
+        if (findUser.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_USER.getMessage());
         }
         return findUser.get();
     }
