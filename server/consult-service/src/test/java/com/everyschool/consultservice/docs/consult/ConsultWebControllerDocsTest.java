@@ -1,6 +1,6 @@
 package com.everyschool.consultservice.docs.consult;
 
-import com.everyschool.consultservice.api.controller.consult.ConsultWebController;
+import com.everyschool.consultservice.api.web.controller.consult.ConsultWebController;
 import com.everyschool.consultservice.api.controller.consult.request.FinishConsultRequest;
 import com.everyschool.consultservice.api.controller.consult.request.RejectConsultRequest;
 import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
@@ -31,12 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ConsultWebControllerDocsTest extends RestDocsSupport {
 
     private final ConsultService consultService = mock(ConsultService.class);
-    private final TokenUtils tokenUtils = mock(TokenUtils.class);
     private final String URL = "/consult-service/v1/web/{schoolYear}/schools/{schoolId}/consults";
 
     @Override
     protected Object initController() {
-        return new ConsultWebController(consultService, tokenUtils);
+        return new ConsultWebController(consultService);
     }
 
     @DisplayName("[교직원] 상담 승인 API")
