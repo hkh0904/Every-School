@@ -245,4 +245,51 @@ class CallingApi {
       print(e);
     }
   }
+
+  Future<dynamic> getCallDetail(userCallId) async {
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/call-service/v1/calls/detail/$userCallId',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('상세정보 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> muteTimeSet(startTime, endTime, isActivate) async {
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/do-not-disturbs/',
+          data: {
+            "startTime" : startTime,
+            "endTime" : endTime,
+            "isActivate" : isActivate
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('방해금지시간설정 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> muteTimeInquiry() async {
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/call-service/v1/do-not-disturbs/',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('방해금지시간조회 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }

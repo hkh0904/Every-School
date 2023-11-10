@@ -30,6 +30,10 @@ class _CallHistoryState extends State<CallHistory> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
+                        onTap: () {
+                          CallingApi().getCallDetail(
+                              snapshot.data[index]['userCallId']);
+                        },
                         child: Container(
                           padding: EdgeInsets.fromLTRB(20, 15, 20, 10),
                           decoration: BoxDecoration(
