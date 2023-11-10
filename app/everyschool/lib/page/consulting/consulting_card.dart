@@ -2,15 +2,24 @@ import 'Package:flutter/material.dart';
 import 'package:everyschool/page/consulting/consulting_card_detail.dart';
 
 class ConsultingCard extends StatefulWidget {
-  const ConsultingCard({super.key, this.consultingList, this.state});
+  const ConsultingCard(
+      {super.key, this.consultingList, this.state, this.userType});
   final consultingList;
   final state;
+  final userType;
 
   @override
   State<ConsultingCard> createState() => _ConsultingCardState();
 }
 
 class _ConsultingCardState extends State<ConsultingCard> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.consultingList);
+  }
+
   Color _getColorFromState(String state) {
     switch (state) {
       case 'past':
@@ -20,6 +29,25 @@ class _ConsultingCardState extends State<ConsultingCard> {
       default:
         return Colors.black;
     }
+  }
+
+  String formatConsultDateTime(List<dynamic> consultDateTime) {
+    DateTime dateTime = DateTime(
+      consultDateTime[0],
+      consultDateTime[1],
+      consultDateTime[2],
+      consultDateTime[3],
+      consultDateTime[4],
+      consultDateTime[5],
+      consultDateTime[6] ~/ 1000, // 밀리초 단위 제거
+    );
+
+    String formattedDateTime =
+        "${dateTime.year}.${dateTime.month}.${dateTime.day} "
+        "${dateTime.hour.toString().padLeft(2, '0')}:"
+        "${dateTime.minute.toString().padLeft(2, '0')}";
+
+    return formattedDateTime;
   }
 
   @override
@@ -68,9 +96,9 @@ class _ConsultingCardState extends State<ConsultingCard> {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              Text(item['consultant'] as String),
+                              Text(item['info'] as String),
                               Text(
-                                item['dateTime'] as String,
+                                formatConsultDateTime(item['consultDateTime']),
                                 style: TextStyle(color: Color(0xff999999)),
                               ),
                             ],

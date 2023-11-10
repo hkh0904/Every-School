@@ -1,4 +1,3 @@
-import 'package:everyschool/api/consulting_api.dart';
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/mypage/mypage.dart';
 import 'package:flutter/material.dart';
