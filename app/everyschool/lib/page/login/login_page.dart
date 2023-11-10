@@ -1,4 +1,4 @@
-import 'package:everyschool/page/signup/signup_page.dart';
+import 'package:everyschool/page/signup/init_register.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/page/login/login_form.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                                                 MaterialPageRoute(
                                                     builder: (BuildContext
                                                             context) =>
-                                                        SignupPage()),
+                                                        InitRegister()),
                                               );
                                             },
                                             child: Text(

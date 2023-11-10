@@ -26,7 +26,7 @@ public class Chat {
     private Long userId;
     @NotBlank
     private String content;
-    private Boolean isBad;
+    private int status;
 
     @Field("chat_room_id")
     private Long chatRoomId;
@@ -36,11 +36,11 @@ public class Chat {
     private LocalDateTime lastModifiedDate;
 
     @Builder
-    private Chat(Long id, Long userId, String content, Boolean isBad, Long chatRoomId) {
+    private Chat(Long id, Long userId, String content, int status, Long chatRoomId) {
         this.id = id;
         this.userId = userId;
         this.content = content;
-        this.isBad = isBad;
+        this.status = status;
         this.chatRoomId = chatRoomId;
         this.isDeleted = false;
         this.createdDate = LocalDateTime.now();

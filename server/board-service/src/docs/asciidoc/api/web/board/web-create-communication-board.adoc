@@ -1,0 +1,11 @@
+[[web-create-communication-board]]
+=== 가정통신문 작성 API
+
+==== HTTP Request
+include::{snippets}/web-create-communication-board/http-request.adoc[]
+include::{snippets}/web-create-communication-board/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/web-create-communication-board/http-response.adoc[]
+include::{snippets}/web-create-communication-board/response-fields.adoc[]

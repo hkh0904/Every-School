@@ -3,10 +3,11 @@ import styles from './ConsultApprovePage.module.css';
 import ConsultCheckList from './ConsultCheckList';
 import RefuseModal from './RefuseModal';
 import ConsultTime from './ConsultTime';
-import { getConsultingList } from '../../api/ConsultingAPI/consultingAPI';
+import { getConsultingList, getConsultingMessage } from '../../api/ConsultingAPI/consultingAPI';
+import { modifyConsultMsg } from './../../api/ConsultingAPI/consultingAPI';
 
 export default function ConsultApprovePage() {
-  const [message, setMessage] = useState('상담 메세지를 설정하세요');
+  const [message, setMessage] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
   const [isTimeSet, setIsTimeSet] = useState(false);
 
@@ -16,7 +17,22 @@ export default function ConsultApprovePage() {
 
   const [rejectNum, setRejectNum] = useState();
 
+  const [consultScheduleId, setConsultScheduleId] = useState();
+
   useEffect(() => {
+    const consultingSchedule = async () => {
+      try {
+        const schedule = await getConsultingMessage();
+        console.log(schedule.description);
+        if (schedule.description) {
+          setMessage(schedule.description);
+        } else {
+          setMessage('상담 메세지를 설정하세요');
+        }
+        setConsultScheduleId(schedule.consultScheduleId);
+      } catch (error) {}
+    };
+
     const fetchData = async () => {
       try {
         const newCsltData = await getConsultingList();
@@ -34,7 +50,7 @@ export default function ConsultApprovePage() {
         console.error(error);
       }
     };
-
+    consultingSchedule();
     fetchData();
   }, []);
 
@@ -48,7 +64,13 @@ export default function ConsultApprovePage() {
           {isCorrect ? (
             <div className={styles.correctMsg}>
               <input type='text' value={message} onChange={(e) => setMessage(e.target.value)} />
-              <p className={styles.msgBtn} onClick={() => setIsCorrect(false)}>
+              <p
+                className={styles.msgBtn}
+                onClick={() => {
+                  setIsCorrect(false);
+                  modifyConsultMsg(consultScheduleId, message);
+                }}
+              >
                 완료
               </p>
             </div>
@@ -70,7 +92,7 @@ export default function ConsultApprovePage() {
               </p>
             )}
           </div>
-          {isTimeSet ? <ConsultTime setIsTimeSet={setIsTimeSet} /> : null}
+          {isTimeSet ? <ConsultTime setIsTimeSet={setIsTimeSet} consultScheduleId={consultScheduleId} /> : null}
         </div>
       </div>
       {csltData.length === 0 && <p className={styles.nocslt}>상담 신청 내역이 존재하지 않습니다.</p>}

@@ -25,6 +25,8 @@ import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static org.springframework.util.StringUtils.hasText;
+
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -45,6 +47,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         try {
             LoginRequest creds = new ObjectMapper().readValue(request.getInputStream(), LoginRequest.class);
 
+            com.everyschool.userservice.domain.user.User user = accountService.getUserDetailsByEmail(creds.getEmail());
+
+            if (hasText(creds.getFcmToken())) {
+                accountService.saveFcmToken(user.getUserKey(), creds.getFcmToken());
+            }
+
             return getAuthenticationManager()
                 .authenticate(new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
@@ -64,6 +72,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             .compact();
 
         response.addHeader("token", token);
+        response.addHeader("userType", String.valueOf(user.getUserCodeId()));
         response.addHeader("userKey", user.getUserKey());
         //servlet
     }

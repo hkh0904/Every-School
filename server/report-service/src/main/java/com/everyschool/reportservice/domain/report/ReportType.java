@@ -4,11 +4,15 @@ import lombok.Getter;
 
 import java.util.NoSuchElementException;
 
+import static com.everyschool.reportservice.error.ErrorMessage.UNREGISTERED_REPORT_TYPE;
+
 @Getter
 public enum ReportType {
 
-    ETC(5000, "기타"),
-    VIOLENCE(5001, "학교폭력");
+    ETC(9000, "기타"),
+    VIOLENCE(9001, "학교폭력"),
+    THEFT(9002, "도난, 절도"),
+    VIOLATION(9003, "학칙위반(흡연, 기물파손 등)");
 
     private final int code;
     private final String text;
@@ -19,14 +23,12 @@ public enum ReportType {
     }
 
     public static String getText(int code) {
-        if (ETC.getCode() == code) {
-            return ETC.getText();
+        for (ReportType type : values()) {
+            if (type.getCode() == code) {
+                return type.getText();
+            }
         }
 
-        if (VIOLENCE.getCode() == code) {
-            return VIOLENCE.getText();
-        }
-
-        throw new NoSuchElementException();
+        throw new NoSuchElementException(UNREGISTERED_REPORT_TYPE.getMessage());
     }
 }

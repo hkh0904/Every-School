@@ -1,0 +1,11 @@
+[[calling-cancel]]
+=== 전화 취소 API
+
+==== HTTP Request
+include::{snippets}/calling-cancel/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/calling-cancel/http-response.adoc[]
+include::{snippets}/calling-cancel/response-fields.adoc[]
+

@@ -1,5 +1,10 @@
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/page/community/postlist_page.dart';
+import 'package:everyschool/page/community/post_detail.dart';
+import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class CommunityBoard extends StatefulWidget {
   const CommunityBoard({super.key});
@@ -9,17 +14,70 @@ class CommunityBoard extends StatefulWidget {
 }
 
 class _CommunityBoardState extends State<CommunityBoard> {
-  var boardList = [
-    {'boardId': 1, 'title': '짧은공지제목', 'date': '2023.10.30.11:23'},
-    {'boardId': 2, 'title': '짧은공지제목짧은공지제목', 'date': '2023.10.30.10:43'},
-    {'boardId': 3, 'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.30.09:23'},
-    {'boardId': 4, 'title': '긴공지제목긴공지제목긴공지제목', 'date': '2023.10.29.23:01'},
-    {
-      'boardId': 5,
-      'title': '아주긴공지제목아주긴공지제목아주긴공지제목아주긴공지제목아주긴공지제목',
-      'date': '2023.10.28.16:33'
-    },
-  ];
+  final CommunityApi communityApi = CommunityApi();
+  List<dynamic> boardList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBoardData();
+  }
+
+  Future<void> _loadBoardData() async {
+    final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
+    try {
+      var response = await communityApi.getBoardList(schoolId);
+      if (response != null && response['content'] != null) {
+        setState(() {
+          boardList = response['content'];
+        });
+      }
+    } catch (e) {
+      print('데이터 로딩 중 오류 발생: $e');
+    }
+  }
+
+  String formatDateTime(String dateTimeStr) {
+    tz.TZDateTime postDateTime;
+    try {
+      postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
+    } catch (e) {
+      print('DateTime parsing error: $e');
+      return dateTimeStr;
+    }
+
+    tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    Duration difference = now.difference(postDateTime);
+
+    if (difference.inDays == 0) {
+      if (difference.inHours == 0) {
+        if (difference.inMinutes > 5) {
+          return '${difference.inMinutes}분 전';
+        } else {
+          return '방금 전';
+        }
+      } else {
+        return '${difference.inHours}시간 전';
+      }
+    } else {
+      return '${postDateTime.month.toString().padLeft(2, '0')}/${postDateTime.day.toString().padLeft(2, '0')}';
+    }
+  }
+
+  bool isWithinHour(String dateTimeStr) {
+    tz.TZDateTime postDateTime;
+    try {
+      postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
+    } catch (e) {
+      print('DateTime parsing error: $e');
+      return false; // 오류 발생 시 false 반환
+    }
+
+    tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    Duration difference = now.difference(postDateTime);
+
+    return difference.inHours == 0 && difference.inMinutes < 60;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +88,30 @@ class _CommunityBoardState extends State<CommunityBoard> {
       child: Container(
         // padding: EdgeInsets.all(0),
         margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PostlistPage()),
-              );
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: const [
-                Text(
-                  '자유 게시판 새글',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-                ),
-                Text('더보기', style: TextStyle(fontSize: 15, color: Colors.grey)),
-              ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PostlistPage()),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: const [
+                  Text(
+                    '자유 게시판 새글',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                  ),
+                  Text('더보기',
+                      style: TextStyle(fontSize: 15, color: Colors.grey)),
+                ],
+              ),
             ),
-          ),
-          Container(
+            Container(
               height: 200,
               margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
               decoration: BoxDecoration(
@@ -61,35 +122,74 @@ class _CommunityBoardState extends State<CommunityBoard> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: boardList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 38,
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: Text(
-                                (boardList[index]['title'] as String).length >
-                                        15
-                                    ? '${(boardList[index]['title'] as String).substring(0, 15)}...'
-                                    : boardList[index]['title'] as String,
-                                style: TextStyle(fontSize: 17),
-                              ),
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: boardList.length,
+                itemBuilder: (context, index) {
+                  int? boardId = boardList[index]['boardId'] as int?;
+                  String dateTimeString =
+                      boardList[index]['createdDate'] as String;
+                  String displayTime = formatDateTime(dateTimeString);
+
+                  // 현재 시각과의 차이를 계산하여 1시간 이내인지 확인
+                  bool isWithinAnHour = isWithinHour(dateTimeString);
+
+                  return Container(
+                    height: 38,
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: GestureDetector(
+                      onTapDown: (TapDownDetails details) {
+                        setState(() {
+                          boardList[index]['isTapped'] = true;
+                        });
+                      },
+                      onTapCancel: () {
+                        setState(() {
+                          boardList[index]['isTapped'] = false;
+                        });
+                      },
+                      onTapUp: (TapUpDetails details) {
+                        setState(() {
+                          boardList[index]['isTapped'] = false;
+                        });
+                        if (boardId != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  PostDetail(boardId: boardId),
                             ),
-                            // Text(
-                            //   boardList[index]['date'] as String,
-                            //   style: TextStyle(color: Color(0xff999999)),
-                            // ),
-                            Image.asset('assets/images/community/new.png'),
-                          ]),
-                    );
-                  })),
-        ]),
+                          );
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Text(
+                              (boardList[index]['title'] as String).length > 15
+                                  ? '${(boardList[index]['title'] as String).substring(0, 15)}...'
+                                  : boardList[index]['title'] as String,
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                          if (isWithinAnHour)
+                            Image.asset('assets/images/community/new.png')
+                          else
+                            Text(
+                              displayTime,
+                              style: TextStyle(color: Color(0xff999999)),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

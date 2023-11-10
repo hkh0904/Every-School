@@ -1,5 +1,6 @@
 import 'package:everyschool/page/report/report_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReportCard extends StatefulWidget {
   const ReportCard({super.key, this.state, this.reportingList});
@@ -33,6 +34,12 @@ class _ReportCardState extends State<ReportCard> {
     }
   }
 
+  String _formatDate(String dateString) {
+    DateTime dateTime = DateTime.parse(dateString);
+    String formattedDate = DateFormat('yyyy.MM.dd  HH:mm').format(dateTime);
+    return formattedDate;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -46,7 +53,7 @@ class _ReportCardState extends State<ReportCard> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ReportDetail()));
+                        builder: (context) => ReportDetail(item: item)));
               },
               child: Container(
                 height: 100,
@@ -85,7 +92,7 @@ class _ReportCardState extends State<ReportCard> {
                               if (item['name'] != null)
                                 Text(item['name'] as String),
                               Text(
-                                item['dateTime'] as String,
+                                item['createdDate'] as String,
                                 style: TextStyle(color: Color(0xff999999)),
                               ),
                             ],

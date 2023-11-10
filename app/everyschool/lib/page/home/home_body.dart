@@ -59,7 +59,7 @@ class _HomeBodyState extends State<HomeBody> {
         ),
         SliverToBoxAdapter(
           child: Container(
-              // height: 60,
+              height: 85,
               margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
               child: MenuButtons()),
         ),

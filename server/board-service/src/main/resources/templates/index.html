@@ -451,6 +451,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#overview-http-status-codes">HTTP status codes</a></li>
 </ul>
 </li>
+<li><a href="#Web-Board-API">Web Board API</a>
+<ul class="sectlevel2">
+<li><a href="#web-create-notice-board">공지사항 작성 API</a></li>
+<li><a href="#web-create-communication-board">가정통신문 작성 API</a></li>
+</ul>
+</li>
 <li><a href="#Free-Board-API">Free Board API</a>
 <ul class="sectlevel2">
 <li><a href="#create-free-board">자유 게시판 작성 API</a></li>
@@ -461,7 +467,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#Notice-Board-API">Notice Board API</a>
 <ul class="sectlevel2">
-<li><a href="#create-notice-board">공지사항 작성 API</a></li>
 <li><a href="#search-notice-boards">공지사항 목록 조회 API</a></li>
 <li><a href="#search-notice-board">공지사항 상세 조회 API</a></li>
 <li><a href="#search-new-notice-boards">공지사항 새 글 조회 API</a></li>
@@ -469,7 +474,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#Communication-Board-API">Communication Board API</a>
 <ul class="sectlevel2">
-<li><a href="#create-communication-board">가정통신문 작성 API</a></li>
 <li><a href="#search-communication-boards">가정통신문 목록 조회 API</a></li>
 <li><a href="#search-communication-board">가정통신문 상세 조회 API</a></li>
 <li><a href="#search-new-communication-boards">가정통신문 새 글 조회 API</a></li>
@@ -505,10 +509,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-left valign-top"><p class="tableblock">등록</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>302 Found</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">리다랙션 상태</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>400 Bad Request</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">잘못된 요청</p></td>
 </tr>
@@ -534,18 +534,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="Free-Board-API"><a class="link" href="#Free-Board-API">Free Board API</a></h2>
+<h2 id="Web-Board-API"><a class="link" href="#Web-Board-API">Web Board API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="create-free-board"><a class="link" href="#create-free-board">자유 게시판 작성 API</a></h3>
+<h3 id="web-create-notice-board"><a class="link" href="#web-create-notice-board">공지사항 작성 API</a></h3>
 <div class="sect3">
 <h4 id="_http_request"><a class="link" href="#_http_request">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board-service/v1/schools/1/boards/frees HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board-service/v1/web/2023/schools/100000/boards/notices HTTP/1.1
 Content-Type: multipart/form-data
-Content-Length: 137
-Host: every-school/api
+Content-Length: 132
+Host: everyschool.com/api
 
 {
   "title" : "리온이가 너무 귀여워요!",
@@ -607,7 +607,7 @@ Host: every-school/api
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 310
+Content-Length: 299
 
 {
   "code" : 201,
@@ -619,7 +619,7 @@ Content-Length: 310
     "title" : "리온이가 너무 귀여워요!",
     "isUsedComment" : false,
     "fileCount" : 0,
-    "createdDate" : [ 2023, 11, 2, 9, 58, 3, 666797600 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 731441000 ]
   }
 }</code></pre>
 </div>
@@ -696,23 +696,346 @@ Content-Length: 310
 </div>
 </div>
 <div class="sect2">
-<h3 id="search-free-boards"><a class="link" href="#search-free-boards">자유 게시판 목록 조회 API</a></h3>
+<h3 id="web-create-communication-board"><a class="link" href="#web-create-communication-board">가정통신문 작성 API</a></h3>
 <div class="sect3">
 <h4 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/frees?page=1 HTTP/1.1
-Host: every-school/api</code></pre>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board-service/v1/web/2023/schools/100000/boards/communications HTTP/1.1
+Content-Type: multipart/form-data
+Content-Length: 132
+Host: everyschool.com/api
+
+{
+  "title" : "리온이가 너무 귀여워요!",
+  "content" : "애교쟁이에요!",
+  "isUsedComment" : false,
+  "files" : [ ]
+}</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_2"><a class="link" href="#_request_fields_2">Request Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isUsedComment</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 사용 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>files</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 파일</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_http_response_2"><a class="link" href="#_http_response_2">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Content-Type: application/json
+Content-Length: 299
+
+{
+  "code" : 201,
+  "status" : "CREATED",
+  "message" : "CREATED",
+  "data" : {
+    "boardId" : 1,
+    "category" : "자유게시판",
+    "title" : "리온이가 너무 귀여워요!",
+    "isUsedComment" : false,
+    "fileCount" : 0,
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 714419000 ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.boardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.isUsedComment</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 댓글 작성 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.fileCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 파일수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.createdDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성일시</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="Free-Board-API"><a class="link" href="#Free-Board-API">Free Board API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="create-free-board"><a class="link" href="#create-free-board">자유 게시판 작성 API</a></h3>
+<div class="sect3">
+<h4 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board-service/v1/schools/1/boards/frees HTTP/1.1
+Content-Type: multipart/form-data
+Content-Length: 132
+Host: everyschool.com/api
+
+{
+  "title" : "리온이가 너무 귀여워요!",
+  "content" : "애교쟁이에요!",
+  "isUsedComment" : false,
+  "files" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isUsedComment</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 사용 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>files</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 파일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_3"><a class="link" href="#_http_response_3">HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
+Content-Type: application/json
+Content-Length: 299
+
+{
+  "code" : 201,
+  "status" : "CREATED",
+  "message" : "CREATED",
+  "data" : {
+    "boardId" : 1,
+    "category" : "자유게시판",
+    "title" : "리온이가 너무 귀여워요!",
+    "isUsedComment" : false,
+    "fileCount" : 0,
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 669290000 ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.boardId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.category</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 카테고리</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.isUsedComment</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 댓글 작성 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.fileCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 파일수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.createdDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성일시</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="search-free-boards"><a class="link" href="#search-free-boards">자유 게시판 목록 조회 API</a></h3>
+<div class="sect3">
+<h4 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/frees?page=1 HTTP/1.1
+Host: everyschool.com/api</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 833
+Content-Length: 885
 
 {
   "code" : 200,
@@ -724,19 +1047,22 @@ Content-Length: 833
       "title" : "자유 게시판 제목 1",
       "content" : "자유 게시판 내용 1",
       "commentCount" : 3,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 589797700 ]
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 530678000 ],
+      "isTapped" : false
     }, {
       "boardId" : 2,
       "title" : "자유 게시판 제목 2",
       "content" : "자유 게시판 내용 2",
       "commentCount" : 0,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 589797700 ]
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 530675000 ],
+      "isTapped" : false
     }, {
       "boardId" : 3,
       "title" : "자유 게시판 제목 3",
       "content" : "자유 게시판 내용 3",
       "commentCount" : 10,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 589797700 ]
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 530663000 ],
+      "isTapped" : false
     } ],
     "currentPage" : 1,
     "size" : 10,
@@ -748,7 +1074,7 @@ Content-Length: 833
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h4>
+<h4 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -809,6 +1135,11 @@ Content-Length: 833
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성일</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].isTapped</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">탭 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.currentPage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
@@ -835,21 +1166,21 @@ Content-Length: 833
 <div class="sect2">
 <h3 id="search-free-board"><a class="link" href="#search-free-board">자유 게시판 상세 조회 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_3"><a class="link" href="#_http_request_3">HTTP Request</a></h4>
+<h4 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/frees/1 HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_3"><a class="link" href="#_http_response_3">HTTP Response</a></h4>
+<h4 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1309
+Content-Length: 1270
 
 {
   "code" : 200,
@@ -861,7 +1192,7 @@ Content-Length: 1309
     "content" : "슬슬 뛰어 놀때가 된거같아요ㅜㅜ",
     "commentCount" : 4,
     "isMine" : true,
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 891797300 ],
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 624797000 ],
     "imageUrls" : [ "imageUrl1", "imageUrl2" ],
     "comments" : [ {
       "commentId" : 1,
@@ -869,21 +1200,21 @@ Content-Length: 1309
       "content" : "저도 가고 싶어요ㅜㅜ",
       "depth" : 1,
       "isMine" : false,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 890797600 ],
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 624625000 ],
       "reComments" : [ {
         "commentId" : 2,
         "sender" : 0,
         "content" : "내년에 같이가요!",
         "depth" : 2,
         "isMine" : true,
-        "createdDate" : [ 2023, 11, 2, 9, 58, 4, 889797100 ]
+        "createdDate" : [ 2023, 11, 8, 20, 6, 49, 624458000 ]
       }, {
         "commentId" : 3,
         "sender" : 1,
         "content" : "좋아요!",
         "depth" : 2,
         "isMine" : false,
-        "createdDate" : [ 2023, 11, 2, 9, 58, 4, 889797100 ]
+        "createdDate" : [ 2023, 11, 8, 20, 6, 49, 624473000 ]
       } ]
     }, {
       "commentId" : 4,
@@ -891,7 +1222,7 @@ Content-Length: 1309
       "content" : "저는 12월에 올나잇 갈꺼에요!",
       "depth" : 1,
       "isMine" : false,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 890797600 ],
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 624636000 ],
       "reComments" : [ ]
     } ]
   }
@@ -900,7 +1231,7 @@ Content-Length: 1309
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h4>
+<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1047,21 +1378,21 @@ Content-Length: 1309
 <div class="sect2">
 <h3 id="search-new-free-boards"><a class="link" href="#search-new-free-boards">자유 게시판 새 글 조회 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h4>
+<h4 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/new-free HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h4>
+<h4 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 421
+Content-Length: 401
 
 {
   "code" : 200,
@@ -1088,7 +1419,7 @@ Content-Length: 421
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h4>
+<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1143,182 +1474,23 @@ Content-Length: 421
 <h2 id="Notice-Board-API"><a class="link" href="#Notice-Board-API">Notice Board API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="create-notice-board"><a class="link" href="#create-notice-board">공지사항 작성 API</a></h3>
-<div class="sect3">
-<h4 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board-service/v1/schools/1/boards/notices HTTP/1.1
-Content-Type: multipart/form-data
-Content-Length: 137
-Host: every-school/api
-
-{
-  "title" : "리온이가 너무 귀여워요!",
-  "content" : "애교쟁이에요!",
-  "isUsedComment" : false,
-  "files" : [ ]
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_fields_2"><a class="link" href="#_request_fields_2">Request Fields</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isUsedComment</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 사용 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>files</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 파일</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Content-Type: application/json
-Content-Length: 310
-
-{
-  "code" : 201,
-  "status" : "CREATED",
-  "message" : "CREATED",
-  "data" : {
-    "boardId" : 1,
-    "category" : "자유게시판",
-    "title" : "리온이가 너무 귀여워요!",
-    "isUsedComment" : false,
-    "fileCount" : 0,
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 188796500 ]
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response Fields</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.boardId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 카테고리</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.isUsedComment</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 댓글 작성 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.fileCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 파일수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.createdDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성일시</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
 <h3 id="search-notice-boards"><a class="link" href="#search-notice-boards">공지사항 목록 조회 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP Request</a></h4>
+<h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/notices?page=1 HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP Response</a></h4>
+<h4 id="_http_response_7"><a class="link" href="#_http_response_7">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 604
+Content-Length: 635
 
 {
   "code" : 200,
@@ -1330,13 +1502,15 @@ Content-Length: 604
       "title" : "공지사항 제목 1",
       "content" : "공지사항 내용 1",
       "commentCount" : 0,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 461799200 ]
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 480973000 ],
+      "isTapped" : false
     }, {
       "boardId" : 2,
       "title" : "공지사항 제목 2",
       "content" : "공지사항 내용 2",
       "commentCount" : 10,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 461799200 ]
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 480954000 ],
+      "isTapped" : false
     } ],
     "currentPage" : 1,
     "size" : 10,
@@ -1348,7 +1522,7 @@ Content-Length: 604
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h4>
+<h4 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1409,6 +1583,11 @@ Content-Length: 604
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성일</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].isTapped</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">탭 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.currentPage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
@@ -1435,21 +1614,21 @@ Content-Length: 604
 <div class="sect2">
 <h3 id="search-notice-board"><a class="link" href="#search-notice-board">공지사항 상세 조회 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP Request</a></h4>
+<h4 id="_http_request_8"><a class="link" href="#_http_request_8">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/notice/1 HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_7"><a class="link" href="#_http_response_7">HTTP Response</a></h4>
+<h4 id="_http_response_8"><a class="link" href="#_http_response_8">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1103
+Content-Length: 1070
 
 {
   "code" : 200,
@@ -1461,7 +1640,7 @@ Content-Length: 1103
     "content" : "11월 2일부터 교내 배수로 보수 공사에 들어갑니다.",
     "commentCount" : 3,
     "isMine" : false,
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 826798400 ],
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 604968000 ],
     "imageUrls" : [ "imageUrl1", "imageUrl2" ],
     "comments" : [ {
       "commentId" : 1,
@@ -1469,14 +1648,14 @@ Content-Length: 1103
       "content" : "공사는 언제 끝나나요?",
       "depth" : 1,
       "isMine" : true,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 826798400 ],
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 604950000 ],
       "reComments" : [ {
         "commentId" : 2,
         "sender" : 0,
         "content" : "일주일 소요 예정입니다.",
         "depth" : 2,
         "isMine" : false,
-        "createdDate" : [ 2023, 11, 2, 9, 58, 4, 826798400 ]
+        "createdDate" : [ 2023, 11, 8, 20, 6, 49, 604936000 ]
       } ]
     }, {
       "commentId" : 3,
@@ -1484,7 +1663,7 @@ Content-Length: 1103
       "content" : "알겠습니다.",
       "depth" : 1,
       "isMine" : true,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 826798400 ],
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 604955000 ],
       "reComments" : [ ]
     } ]
   }
@@ -1493,7 +1672,7 @@ Content-Length: 1103
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response Fields</a></h4>
+<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1640,21 +1819,21 @@ Content-Length: 1103
 <div class="sect2">
 <h3 id="search-new-notice-boards"><a class="link" href="#search-new-notice-boards">공지사항 새 글 조회 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_8"><a class="link" href="#_http_request_8">HTTP Request</a></h4>
+<h4 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/new-notice HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_http_response_8"><a class="link" href="#_http_response_8">HTTP Response</a></h4>
+<h4 id="_http_response_9"><a class="link" href="#_http_response_9">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 586
+Content-Length: 569
 
 {
   "code" : 200,
@@ -1663,26 +1842,26 @@ Content-Length: 586
   "data" : [ {
     "boardId" : 4,
     "title" : "공지사항 제목 4",
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 398796700 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 454974000 ]
   }, {
     "boardId" : 3,
     "title" : "공지사항 제목 3",
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 398796700 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 455000000 ]
   }, {
     "boardId" : 2,
     "title" : "공지사항 제목 2",
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 398796700 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 455005000 ]
   }, {
     "boardId" : 1,
     "title" : "공지사항 제목 1",
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 398796700 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 455008000 ]
   } ]
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response Fields</a></h4>
+<h4 id="_response_fields_9"><a class="link" href="#_response_fields_9">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1742,172 +1921,13 @@ Content-Length: 586
 <h2 id="Communication-Board-API"><a class="link" href="#Communication-Board-API">Communication Board API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="create-communication-board"><a class="link" href="#create-communication-board">가정통신문 작성 API</a></h3>
-<div class="sect3">
-<h4 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /board-service/v1/schools/1/boards/communications HTTP/1.1
-Content-Type: multipart/form-data
-Content-Length: 137
-Host: every-school/api
-
-{
-  "title" : "리온이가 너무 귀여워요!",
-  "content" : "애교쟁이에요!",
-  "isUsedComment" : false,
-  "files" : [ ]
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-<col style="width: 25%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Optional</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isUsedComment</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글 사용 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>files</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 파일</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_http_response_9"><a class="link" href="#_http_response_9">HTTP Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Content-Type: application/json
-Content-Length: 310
-
-{
-  "code" : 201,
-  "status" : "CREATED",
-  "message" : "CREATED",
-  "data" : {
-    "boardId" : 1,
-    "category" : "자유게시판",
-    "title" : "리온이가 너무 귀여워요!",
-    "isUsedComment" : false,
-    "fileCount" : 0,
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 109798900 ]
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_fields_9"><a class="link" href="#_response_fields_9">Response Fields</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.boardId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.category</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 카테고리</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 제목</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.isUsedComment</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 댓글 작성 여부</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.fileCount</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 파일수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.createdDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">게시물 작성일시</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
 <h3 id="search-communication-boards"><a class="link" href="#search-communication-boards">가정통신문 목록 조회 API</a></h3>
 <div class="sect3">
 <h4 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/communications?page=1 HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
@@ -1917,7 +1937,7 @@ Host: every-school/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 616
+Content-Length: 647
 
 {
   "code" : 200,
@@ -1929,13 +1949,15 @@ Content-Length: 616
       "title" : "가정통신문 제목 1",
       "content" : "가정통신문 내용 1",
       "commentCount" : 0,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 647799600 ]
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 550170000 ],
+      "isTapped" : false
     }, {
       "boardId" : 2,
       "title" : "가정통신문 제목 2",
       "content" : "가정통신문 내용 2",
       "commentCount" : 10,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 647799600 ]
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 550158000 ],
+      "isTapped" : false
     } ],
     "currentPage" : 1,
     "size" : 10,
@@ -2008,6 +2030,11 @@ Content-Length: 616
 <td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성일</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].isTapped</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">탭 여부</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.currentPage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">현재 페이지 번호</p></td>
@@ -2038,7 +2065,7 @@ Content-Length: 616
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/communications/1 HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
@@ -2048,7 +2075,7 @@ Host: every-school/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 855
+Content-Length: 829
 
 {
   "code" : 200,
@@ -2060,7 +2087,7 @@ Content-Length: 855
     "content" : "제주도로 수학 여행을 떠날 예정입니다.",
     "commentCount" : 1,
     "isMine" : false,
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 714796600 ],
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 569593000 ],
     "imageUrls" : [ "imageUrl1", "imageUrl2" ],
     "comments" : [ {
       "commentId" : 1,
@@ -2068,14 +2095,14 @@ Content-Length: 855
       "content" : "우리 아이 사진 많이 찍어주세요.",
       "depth" : 1,
       "isMine" : false,
-      "createdDate" : [ 2023, 11, 2, 9, 58, 4, 713796000 ],
+      "createdDate" : [ 2023, 11, 8, 20, 6, 49, 569403000 ],
       "reComments" : [ {
         "commentId" : 2,
         "sender" : 0,
         "content" : "알겠습니다.",
         "depth" : 2,
         "isMine" : false,
-        "createdDate" : [ 2023, 11, 2, 9, 58, 4, 710796700 ]
+        "createdDate" : [ 2023, 11, 8, 20, 6, 49, 569121000 ]
       } ]
     } ]
   }
@@ -2235,7 +2262,7 @@ Content-Length: 855
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /board-service/v1/schools/1/boards/new-communication HTTP/1.1
-Host: every-school/api</code></pre>
+Host: everyschool.com/api</code></pre>
 </div>
 </div>
 </div>
@@ -2245,7 +2272,7 @@ Host: every-school/api</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 469
+Content-Length: 455
 
 {
   "code" : 200,
@@ -2254,15 +2281,15 @@ Content-Length: 469
   "data" : [ {
     "boardId" : 3,
     "title" : "가정통신문 제목 3",
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 538796300 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 511316000 ]
   }, {
     "boardId" : 2,
     "title" : "가정통신문 제목 2",
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 538796300 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 511332000 ]
   }, {
     "boardId" : 1,
     "title" : "가정통신문 제목 1",
-    "createdDate" : [ 2023, 11, 2, 9, 58, 4, 538796300 ]
+    "createdDate" : [ 2023, 11, 8, 20, 6, 49, 511336000 ]
   } ]
 }</code></pre>
 </div>
@@ -2329,7 +2356,7 @@ Content-Length: 469
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-02 09:54:07 +0900
+Last updated 2023-11-06 19:41:03 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

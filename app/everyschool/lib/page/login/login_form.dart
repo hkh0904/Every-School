@@ -1,7 +1,10 @@
 import 'package:everyschool/api/firebase_api.dart';
-import 'package:everyschool/api/login_api.dart';
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key, this.emailAddress, this.password});
@@ -14,7 +17,9 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  void loginSuccess() {
+  final storage = FlutterSecureStorage();
+
+  void loginSuccess() async {
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (_) => Main(),
     ));
@@ -92,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () async {
                         final deviceToken =
                             await FirebaseApi().getMyDeviceToken();
-                        int response = await LoginApi().login(
+                        int response = await UserApi().login(
                             widget.emailAddress, widget.password, deviceToken);
                         if (response == 1) {
                           loginSuccess();

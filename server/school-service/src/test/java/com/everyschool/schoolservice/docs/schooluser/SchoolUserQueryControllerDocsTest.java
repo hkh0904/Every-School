@@ -28,6 +28,7 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
 
     private final SchoolUserQueryService schoolUserQueryService = mock(SchoolUserQueryService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
+    private static final String BASE_URL = "/school-service/v1/web/{schoolYear}/schools/{schoolId}/classes/{schoolClassId}";
 
     @Override
     protected Object initController() {
@@ -59,7 +60,7 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
-                get("/school-service/v1/schools/{schoolId}/classes/{schoolYear}/students", 1L, 2023)
+                get(BASE_URL + "/students", 2023, 100000, 2)
                     .header("Authorization", "Bearer Access Token")
             )
             .andDo(print())
@@ -115,7 +116,7 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
-                get("/school-service/v1/schools/{schoolId}/classes/{schoolYear}/parents", 1L, 2023)
+                get(BASE_URL + "/parents", 2023, 100000, 2)
                     .header("Authorization", "Bearer Access Token")
             )
             .andDo(print())

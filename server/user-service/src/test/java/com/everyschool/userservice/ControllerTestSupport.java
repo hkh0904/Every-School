@@ -1,5 +1,7 @@
 package com.everyschool.userservice;
 
+import com.everyschool.userservice.api.app.controller.user.UserAppQueryController;
+import com.everyschool.userservice.api.app.service.user.UserAppQueryService;
 import com.everyschool.userservice.api.controller.codedetail.CodeDetailController;
 import com.everyschool.userservice.api.controller.codedetail.CodeDetailQueryController;
 import com.everyschool.userservice.api.controller.codegroup.CodeGroupController;
@@ -11,6 +13,7 @@ import com.everyschool.userservice.api.service.codegroup.CodeGroupQueryService;
 import com.everyschool.userservice.api.service.codegroup.CodeGroupService;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.api.service.user.UserService;
+import com.everyschool.userservice.utils.TokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,7 +23,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = {AccountController.class,
     CodeGroupController.class, CodeGroupQueryController.class,
-    CodeDetailController.class, CodeDetailQueryController.class
+    CodeDetailController.class, CodeDetailQueryController.class,
+    UserAppQueryController.class
 })
 @WithMockUser
 public abstract class ControllerTestSupport {
@@ -30,6 +34,9 @@ public abstract class ControllerTestSupport {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
+    @MockBean
+    private TokenUtils tokenUtils;
 
     @MockBean
     private CodeGroupService codeGroupService;
@@ -48,4 +55,7 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     private CodeDetailQueryService codeDetailQueryService;
+
+    @MockBean
+    private UserAppQueryService userAppQueryService;
 }

@@ -1,0 +1,11 @@
+[[fcm-calling]]
+=== 통화 알림 전송 API
+
+==== HTTP Request
+include::{snippets}/fcm-calling/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/fcm-calling/http-response.adoc[]
+include::{snippets}/fcm-calling/response-fields.adoc[]
+
