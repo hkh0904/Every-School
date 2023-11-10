@@ -20,7 +20,7 @@ class _ReportPageState extends State<ReportPage> {
   String? _locationInput;
   String? _suspectInput;
   String? _detailInput;
-  final List<File> _filePaths = [];
+  List<File> _filePaths = [];
   final TextEditingController _fileController = TextEditingController();
 
   postFile() async {
