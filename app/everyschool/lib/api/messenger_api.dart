@@ -230,4 +230,19 @@ class CallingApi {
       print(e);
     }
   }
+
+  Future<dynamic> getCallList() async {
+    var userKey = await storage.read(key: 'userKey');
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/call-service/v1/calls/$userKey',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('겟콜리스트 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }
