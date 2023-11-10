@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static com.everyschool.userservice.message.ResponseMessage.SUCCESS_EDIT_PASSWORD;
+import static com.everyschool.userservice.message.ResponseMessage.SUCCESS_WITHDRAWAL;
+
 /**
  * 회원 명령 API 컨트롤러
  *
@@ -38,7 +41,7 @@ public class UserController {
 
         UserResponse response = userService.editPwd(userKey, request.getCurrentPwd(), request.getNewPwd());
 
-        return ApiResponse.of(HttpStatus.OK, "비밀번호가 변경되었습니다.", null);
+        return ApiResponse.of(HttpStatus.OK, SUCCESS_EDIT_PASSWORD.getMessage(), null);
     }
 
     /**
@@ -53,6 +56,6 @@ public class UserController {
 
         WithdrawalResponse response = userService.withdrawal(userKey, request.getPwd());
 
-        return ApiResponse.of(HttpStatus.OK, "회원 탈퇴가 되었습니다.", response);
+        return ApiResponse.of(HttpStatus.OK, SUCCESS_WITHDRAWAL.getMessage(), response);
     }
 }
