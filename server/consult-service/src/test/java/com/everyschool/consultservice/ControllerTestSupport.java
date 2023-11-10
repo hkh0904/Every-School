@@ -2,8 +2,6 @@ package com.everyschool.consultservice;
 
 import com.everyschool.consultservice.api.app.controller.consult.ConsultAppController;
 import com.everyschool.consultservice.api.app.service.consult.ConsultAppService;
-import com.everyschool.consultservice.api.service.consult.ConsultQueryService;
-import com.everyschool.consultservice.api.service.consult.ConsultService;
 import com.everyschool.consultservice.utils.TokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +19,7 @@ public abstract class ControllerTestSupport {
     protected ObjectMapper objectMapper;
 
     @MockBean
-    protected ConsultService consultService;
-
-    @MockBean
     protected TokenUtils tokenUtils;
-
-    @MockBean
-    protected ConsultQueryService consultQueryService;
 
     @MockBean
     protected ConsultAppService consultAppService;
