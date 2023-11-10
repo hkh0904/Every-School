@@ -21,27 +21,26 @@ public class DoNotDisturbQueryRepositoryTest extends IntegrationTestSupport {
     private DoNotDisturbQueryRepository doNotDisturbQueryRepository;
 
 
-    @DisplayName("방해 금지 목록 가져오기")
+    @DisplayName("최근 등록한 방해 금지 가져오기")
     @Test
-    void findAllByUserId() {
+    void findByUserId() {
         // given
-        DoNotDisturb doNotDisturb1 = saveDoNot(1L, LocalDateTime.now(), LocalDateTime.now(), true);
-        DoNotDisturb doNotDisturb2 = saveDoNot(1L, LocalDateTime.now(), LocalDateTime.now(), false);
-        DoNotDisturb doNotDisturb3 = saveDoNot(1L, LocalDateTime.now(), LocalDateTime.now(), true);
-        DoNotDisturb doNotDisturb4 = saveDoNot(1L, LocalDateTime.now(), LocalDateTime.now(), true);
+        DoNotDisturb doNotDisturb1 = saveDoNot(Long.valueOf("1"), 1L, LocalDateTime.now(), LocalDateTime.now(), true);
+        DoNotDisturb doNotDisturb2 = saveDoNot(Long.valueOf("2"), 1L, LocalDateTime.now(), LocalDateTime.now(), false);
+        DoNotDisturb doNotDisturb3 = saveDoNot(Long.valueOf("3"), 1L, LocalDateTime.now(), LocalDateTime.now(), true);
+        DoNotDisturb doNotDisturb4 = saveDoNot(Long.valueOf("4"), 1L, LocalDateTime.now(), LocalDateTime.now(), true);
 
         // when
-        List<DoNotDisturbResponse> responses = doNotDisturbQueryRepository.findAllByUserId(1L);
+        DoNotDisturbResponse response = doNotDisturbQueryRepository.findByUserId(1L);
 
         // then
-        assertThat(responses).hasSize(4);
-        assertThat(responses)
-                .extracting("isActivate")
-                .containsExactlyInAnyOrder(true, false, true, true);
+        assertThat(response.getDoNotDisturbId()).isEqualTo(doNotDisturb4.getId());
+        assertThat(response.isActivate()).isTrue();
     }
 
-    private DoNotDisturb saveDoNot(Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate) {
+    private DoNotDisturb saveDoNot(Long id, Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate) {
         DoNotDisturb doNotDisturb = DoNotDisturb.builder()
+                .id(id)
                 .teacherId(teacherId)
                 .startTime(startTime)
                 .endTime(endTime)
