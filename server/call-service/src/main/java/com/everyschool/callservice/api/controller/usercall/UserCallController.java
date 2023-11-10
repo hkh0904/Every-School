@@ -68,7 +68,7 @@ public class UserCallController {
         log.debug("token={}", token);
 
         RecordStopInfo res = voiceAiServiceClient.recordStop(request);
-        log.debug("RecordStartInfo={}", res);
+        log.debug("RecordStopInfo={}", res);
 
         userCallService.createCallInfo(request.toDto(), request.getOtherUserKey(), token);
 

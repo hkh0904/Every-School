@@ -31,6 +31,7 @@ public class UserCallQueryService {
     public List<UserCallResponse> searchMyCalls(String userKey) {
         log.debug("call UserCallQueryService#searchMyCalls");
         UserInfo user = getUser(userKey);
+        log.debug("user = {}", user);
 
         if (user.getUserType() == 'T') {
             return userCallQueryRepository.findAllByTeacherId(user.getUserId());
