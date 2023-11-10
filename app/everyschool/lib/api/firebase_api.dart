@@ -174,11 +174,11 @@ class FirebaseApi {
   }
 
   Future<void> getIncomingCall(context) async {
-    await FlutterCallkitIncoming.onEvent.listen((event) {
+    FlutterCallkitIncoming.onEvent.listen((event) {
       print('이벤트 $event');
       print('바디는 ${event!.body['extra']['userId']}');
-      String? channelName = event!.body['extra']['userId'];
-      switch (event!.event) {
+      String? channelName = event.body['extra']['userId'];
+      switch (event.event) {
         case Event.actionCallIncoming:
           // TODO: received an incoming call
           print('전화옴');

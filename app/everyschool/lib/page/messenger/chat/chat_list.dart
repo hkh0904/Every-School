@@ -15,8 +15,10 @@ class ChatList extends StatefulWidget {
 class _ChatListState extends State<ChatList> {
   final storage = FlutterSecureStorage();
 
-  String formatText(String text) {
-    if (text.length > 10) {
+  String formatText(text) {
+    if (text.runtimeType == Null) {
+      return '';
+    } else if (text.length > 10) {
       text = '${text.substring(0, 10)}...';
     }
     // 이미 문자열이 30자를 초과하더라도, 10자가 넘으면 여전히 줄바꿈을 적용합니다.
@@ -128,8 +130,8 @@ class _ChatListState extends State<ChatList> {
                                 children: [
                                   Container(
                                     child: Text(
-                                      widget.chatList[index]['roomTitle']
-                                          as String,
+                                      widget.chatList?[index]
+                                          ['opponentUserName'],
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700,
@@ -138,9 +140,8 @@ class _ChatListState extends State<ChatList> {
                                   ),
                                   SizedBox(
                                     child: Text(
-                                      // formatText(widget.chatList[index]
-                                      //     ['lastMessage'] as String),
-                                      '갈아 끼워야함',
+                                      formatText(widget.chatList?[index]
+                                          ['lastMessage']),
                                       style: TextStyle(fontSize: 13),
                                     ),
                                   ),
@@ -149,7 +150,7 @@ class _ChatListState extends State<ChatList> {
                             ),
                           ),
                           Text(formatDateTime(
-                              widget.chatList[index]['updateTime'] as String)),
+                              widget.chatList?[index]['updateTime'])),
                         ],
                       ),
                     ),

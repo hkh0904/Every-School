@@ -13,14 +13,14 @@ class MessengerApi {
       final response = await dio.post('${socketApi.httpURL}/v1/chat-rooms',
           data: {
             //상대방 키
-            "userkey": userKey,
+            "opponentUserKey": userKey,
             //상대방 이름 직급
-            "username": userName,
+            "opponentUserName": userName,
             //상대방 유저 타입
-            "usertype": userType,
+            "opponentUserType": userType,
             //아래 두개는 내 정보
-            "mytype": mytype,
-            "myclassId": myclassId,
+            "loginUserType": mytype,
+            "schoolClassId": myclassId,
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print(response.data);
@@ -60,6 +60,10 @@ class MessengerApi {
 
   //채팅 전송 전 필터링
   Future<dynamic> chatFilter(token, chatRoomId, senderUserkey, message) async {
+    print(chatRoomId);
+    print(senderUserkey);
+    print(message);
+
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/filters/chat',
           data: {
