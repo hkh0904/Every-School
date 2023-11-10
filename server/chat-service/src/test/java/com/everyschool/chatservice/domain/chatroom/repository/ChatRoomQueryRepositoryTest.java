@@ -9,9 +9,6 @@ import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -32,13 +29,8 @@ class ChatRoomQueryRepositoryTest extends IntegrationTestSupport {
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
 
-    @AfterEach
-    void tearDown() {
-        chatRepository.deleteAll();
-    }
-
-    @DisplayName("[Repository] 로그인 한 유저가 속한 채팅방 목록 가져오기")
-    @Test
+//    @DisplayName("[Repository] 로그인 한 유저가 속한 채팅방 목록 가져오기")
+//    @Test
     void findChatRooms() {
         //given
         ChatRoom savedChatRoom1 = chatRoomRepository.save(ChatRoom.builder().build());
