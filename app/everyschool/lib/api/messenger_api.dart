@@ -51,11 +51,17 @@ class MessengerApi {
       final response = await dio.get(
           '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('채팅 룸 내역 조회 성공');
       print(response.data);
 
       return response.data['data'];
-    } catch (e) {
+    } on DioException catch (e) {
+      print('채팅 룸 내역 조회 실패');
+
       print(e);
+      print(e.response);
+      print(e.response?.data);
+      return e.response?.data;
     }
   }
 

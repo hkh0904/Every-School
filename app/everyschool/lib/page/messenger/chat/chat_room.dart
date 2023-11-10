@@ -113,11 +113,6 @@ class _ChatRoomState extends State<ChatRoom> {
           }),
           headers: {});
 
-      context.read<ChatController>().addNewMessage(Chat(
-            message: context.read<ChatController>().textEditingController.text,
-            sender: myKey!,
-            time: DateTime.now(),
-          ));
       context.read<ChatController>().onFieldSubmitted();
     } else {
       print('문제가 있어 보내지 않았습니다');

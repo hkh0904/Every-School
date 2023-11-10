@@ -13,7 +13,6 @@ class ChatController extends ChangeNotifier {
 
   /* Intents */
   Future<void> onFieldSubmitted() async {
-    print(1);
     if (!isTextFieldEnable) return;
 
     // 2. 스크롤 최적화 위치
@@ -40,7 +39,6 @@ class ChatController extends ChangeNotifier {
   void addNewMessage(Chat message) {
     chatList.add(message);
     notifyListeners();
-    print(chatList);
   }
 
   /* Getters */
