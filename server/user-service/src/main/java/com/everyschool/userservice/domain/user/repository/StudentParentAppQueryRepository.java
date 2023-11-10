@@ -25,7 +25,7 @@ public class StudentParentAppQueryRepository {
         return queryFactory
             .select(studentParent.student)
             .from(studentParent)
-            .join(studentParent.student, student).fetchJoin()
+            .join(studentParent.student, student)
             .where(studentParent.parent.id.eq(parentId))
             .fetch();
     }

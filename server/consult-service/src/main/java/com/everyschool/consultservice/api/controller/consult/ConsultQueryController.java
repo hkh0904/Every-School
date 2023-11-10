@@ -21,23 +21,6 @@ public class ConsultQueryController {
     private final ConsultQueryService consultQueryService;
     private final TokenUtils tokenUtils;
 
-    @GetMapping
-    public ApiResponse<Result<WebConsultResponse>> searchConsults(
-        @PathVariable Integer schoolYear,
-        @PathVariable String schoolId,
-        @RequestParam Integer status
-    ) {
-        log.debug("call ConsultQueryController#searchConsults");
-
-        String userKey = tokenUtils.getUserKey();
-        log.debug("userKey={}", userKey);
-
-        List<WebConsultResponse> response = consultQueryService.searchConsults(userKey, schoolYear, status);
-        log.debug("results={}", response);
-
-        return ApiResponse.ok(Result.of(response));
-    }
-
     @GetMapping("/{consultId}")
     public ApiResponse<ConsultDetailResponse> searchConsult(
         @PathVariable Integer schoolYear,

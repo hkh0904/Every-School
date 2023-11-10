@@ -1,7 +1,7 @@
-package com.everyschool.boardservice.docs.board;
+package com.everyschool.boardservice.docs.app;
 
-import com.everyschool.boardservice.api.controller.FileStore;
 import com.everyschool.boardservice.api.app.controller.board.BoardAppController;
+import com.everyschool.boardservice.api.controller.FileStore;
 import com.everyschool.boardservice.api.controller.board.request.CreateBoardRequest;
 import com.everyschool.boardservice.api.controller.board.response.CreateBoardResponse;
 import com.everyschool.boardservice.api.service.board.BoardService;
@@ -17,20 +17,26 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.everyschool.boardservice.domain.board.Category.FREE;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class BoardControllerDocsTest extends RestDocsSupport {
+public class BoardAppControllerDocsTest extends RestDocsSupport {
 
     private final BoardService boardService = mock(BoardService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
     private final FileStore fileStore = mock(FileStore.class);
+    private static final String BASE_URL = "/board-service/v1/app/{schoolYear}/schools/{schoolId}";
 
     @Override
     protected Object initController() {
@@ -62,23 +68,24 @@ public class BoardControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                post("/board-service/v1/schools/{schoolId}/boards/frees", 1L)
-                    .content(objectMapper.writeValueAsString(request))
+                post(BASE_URL + "/free-boards", 2023, 100000)
+                    .param("title", request.getTitle())
+                    .param("content", request.getContent())
+                    .param("isUsedComment", String.valueOf(request.getIsUsedComment()))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
             .andExpect(status().isCreated())
             .andDo(document("create-free-board",
-                preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                requestFields(
-                    fieldWithPath("title").type(JsonFieldType.STRING)
+                requestParameters(
+                    parameterWithName("title")
                         .description("제목"),
-                    fieldWithPath("content").type(JsonFieldType.STRING)
+                    parameterWithName("content")
                         .description("내용"),
-                    fieldWithPath("isUsedComment").type(JsonFieldType.BOOLEAN)
+                    parameterWithName("isUsedComment")
                         .description("댓글 사용 여부"),
-                    fieldWithPath("files").type(JsonFieldType.ARRAY)
+                    parameterWithName("files")
                         .optional()
                         .description("이미지 파일")
                 ),
