@@ -80,13 +80,15 @@ public class UserCallService {
 
     }
 
-    private UserCall insertCall(CreateUserCallDto dto, Long teacherId, Long otherUserId, String senderName, String receiverName) {
+    private UserCall insertCall(CreateUserCallDto dto, Long teacherId, Long otherUserId, String senderName,
+                                String receiverName) {
         UserCall userCall = UserCall.builder()
                 .teacherId(teacherId)
                 .otherUserId(otherUserId)
                 .sender(dto.getSender())
                 .senderName(senderName)
                 .receiverName(receiverName)
+                .receiveCall("Y")
                 .startDateTime(dto.getStartDateTime())
                 .endDateTime(dto.getEndDateTime())
                 .uploadFileName(dto.getUploadFileName())

@@ -28,7 +28,8 @@ public class FCMNotificationController {
      */
     @PostMapping("/calling")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<String> sendNotificationByToken(@RequestBody OtherUserFcmRequest request) throws FirebaseMessagingException {
+    public ApiResponse<String> sendNotificationByToken(@RequestBody OtherUserFcmRequest request)
+            throws FirebaseMessagingException {
         log.debug("call FCMNotificationController#sendNotificationByToken");
         log.debug("search request = {}", request);
 

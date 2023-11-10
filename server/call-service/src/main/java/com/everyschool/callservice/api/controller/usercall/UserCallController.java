@@ -54,10 +54,10 @@ public class UserCallController {
     }
 
     /**
-     * 통화 녹음 시작 API
+     * 통화 녹음 종료 API
      *
      * @param request 통화 녹음에 필요한 정보들
-     * @return 녹음 시작
+     * @return 종료 정보
      */
     @PostMapping("/record/stop")
     @ResponseStatus(HttpStatus.CREATED)
