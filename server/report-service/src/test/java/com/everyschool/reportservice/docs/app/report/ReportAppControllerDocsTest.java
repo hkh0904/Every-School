@@ -62,7 +62,7 @@ public class ReportAppControllerDocsTest extends RestDocsSupport {
 
         CreateReportResponse response = CreateReportResponse.builder()
             .reportId(1L)
-            .title("20201 동팔이")
+            .witness("20201 동팔이")
             .createdDate(LocalDateTime.now())
             .build();
 
@@ -97,7 +97,7 @@ public class ReportAppControllerDocsTest extends RestDocsSupport {
                         .description("응답 데이터"),
                     fieldWithPath("data.reportId").type(JsonFieldType.NUMBER)
                         .description("신고 id"),
-                    fieldWithPath("data.title").type(JsonFieldType.STRING)
+                    fieldWithPath("data.witness").type(JsonFieldType.STRING)
                         .description("신고자"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("신고 일시")
