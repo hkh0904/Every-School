@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ChatRepository extends MongoRepository<Chat, Long> {
@@ -13,4 +14,8 @@ public interface ChatRepository extends MongoRepository<Chat, Long> {
     List<Chat> findTop20ChatsByChatRoomIdAndStatusAndIdLessThanOrderByIdDesc(Long chatRoomId, int status, Long id);
 
     List<Chat> findByCreatedDateBetween(LocalDateTime startTime, LocalDateTime endTime);
+
+    List<Chat> findChatsByChatRoomIdAndCreatedDateBetweenAndStatus(Long chatRoomId, LocalDateTime startTime, LocalDateTime endTime, int status);
+
+    Optional<Chat> findChatById(Long id);
 }
