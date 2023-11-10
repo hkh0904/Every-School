@@ -61,39 +61,5 @@ public class ConsultService {
         return CreateConsultResponse.of(savedConsult, teacherInfo, schoolClassInfo);
     }
 
-    public ApproveConsultResponse approveConsult(Long consultId) {
-        Optional<Consult> findConsult = consultRepository.findById(consultId);
-        if (findConsult.isEmpty()) {
-            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
-        }
-        Consult consult = findConsult.get();
 
-        Consult editedConsult = consult.approval();
-
-        return ApproveConsultResponse.of(editedConsult);
-    }
-
-    public FinishConsultResponse finishConsult(Long consultId, String resultContent) {
-        Optional<Consult> findConsult = consultRepository.findById(consultId);
-        if (findConsult.isEmpty()) {
-            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
-        }
-        Consult consult = findConsult.get();
-
-        Consult editedConsult = consult.finish(resultContent);
-
-        return FinishConsultResponse.of(editedConsult);
-    }
-
-    public RejectConsultResponse rejectConsult(Long consultId, String rejectedReason) {
-        Optional<Consult> findConsult = consultRepository.findById(consultId);
-        if (findConsult.isEmpty()) {
-            throw new NoSuchElementException(NO_SUCH_CONSULT.getMessage());
-        }
-        Consult consult = findConsult.get();
-
-        Consult editedConsult = consult.reject(rejectedReason);
-
-        return RejectConsultResponse.of(editedConsult);
-    }
 }

@@ -1,4 +1,4 @@
-package com.everyschool.consultservice.docs.consult;
+package com.everyschool.consultservice.docs.web.consult;
 
 import com.everyschool.consultservice.api.web.controller.consult.ConsultWebController;
 import com.everyschool.consultservice.api.controller.consult.request.FinishConsultRequest;
@@ -6,9 +6,8 @@ import com.everyschool.consultservice.api.controller.consult.request.RejectConsu
 import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.FinishConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
-import com.everyschool.consultservice.api.service.consult.ConsultService;
+import com.everyschool.consultservice.api.web.service.consult.ConsultWebService;
 import com.everyschool.consultservice.docs.RestDocsSupport;
-import com.everyschool.consultservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -30,12 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ConsultWebControllerDocsTest extends RestDocsSupport {
 
-    private final ConsultService consultService = mock(ConsultService.class);
+    private final ConsultWebService consultWebService = mock(ConsultWebService.class);
     private final String URL = "/consult-service/v1/web/{schoolYear}/schools/{schoolId}/consults";
 
     @Override
     protected Object initController() {
-        return new ConsultWebController(consultService);
+        return new ConsultWebController(consultWebService);
     }
 
     @DisplayName("[교직원] 상담 승인 API")
@@ -48,7 +47,7 @@ public class ConsultWebControllerDocsTest extends RestDocsSupport {
             .consultDateTime(LocalDateTime.now())
             .build();
 
-        given(consultService.approveConsult(anyLong()))
+        given(consultWebService.approveConsult(anyLong()))
             .willReturn(response);
 
         mockMvc.perform(
@@ -94,7 +93,7 @@ public class ConsultWebControllerDocsTest extends RestDocsSupport {
             .resultContent("학습 지도를 하였습니다.")
             .build();
 
-        given(consultService.finishConsult(anyLong(), anyString()))
+        given(consultWebService.finishConsult(anyLong(), anyString()))
             .willReturn(response);
 
         mockMvc.perform(
@@ -149,7 +148,7 @@ public class ConsultWebControllerDocsTest extends RestDocsSupport {
             .rejectedReason("교직원 연수 일정으로 상담이 불가합니다.")
             .build();
 
-        given(consultService.rejectConsult(anyLong(), anyString()))
+        given(consultWebService.rejectConsult(anyLong(), anyString()))
             .willReturn(response);
 
         mockMvc.perform(

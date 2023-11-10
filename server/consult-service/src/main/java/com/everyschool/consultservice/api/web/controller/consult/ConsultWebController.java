@@ -6,7 +6,7 @@ import com.everyschool.consultservice.api.controller.consult.request.RejectConsu
 import com.everyschool.consultservice.api.controller.consult.response.ApproveConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.FinishConsultResponse;
 import com.everyschool.consultservice.api.controller.consult.response.RejectConsultResponse;
-import com.everyschool.consultservice.api.service.consult.ConsultService;
+import com.everyschool.consultservice.api.web.service.consult.ConsultWebService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/consult-service/v1/web/{schoolYear}/schools/{schoolId}/consults")
 public class ConsultWebController {
 
-    private final ConsultService consultService;
+    private final ConsultWebService consultWebService;
 
     /**
      * 상담 신청 승인 API
@@ -42,7 +42,7 @@ public class ConsultWebController {
     ) {
         log.debug("call ConsultWebController#approveConsult");
 
-        ApproveConsultResponse response = consultService.approveConsult(consultId);
+        ApproveConsultResponse response = consultWebService.approveConsult(consultId);
         log.debug("ApproveConsultResponse={}", response);
 
         return ApiResponse.ok(response);
@@ -66,7 +66,7 @@ public class ConsultWebController {
     ) {
         log.debug("call ConsultWebController#finishConsult");
 
-        FinishConsultResponse response = consultService.finishConsult(consultId, request.getResultContent());
+        FinishConsultResponse response = consultWebService.finishConsult(consultId, request.getResultContent());
         log.debug("FinishConsultResponse={}", response);
 
         return ApiResponse.ok(response);
@@ -90,7 +90,7 @@ public class ConsultWebController {
     ) {
         log.debug("call ConsultWebController#rejectConsult");
 
-        RejectConsultResponse response = consultService.rejectConsult(consultId, request.getRejectedReason());
+        RejectConsultResponse response = consultWebService.rejectConsult(consultId, request.getRejectedReason());
         log.debug("ApproveConsultResponse={}", response);
 
         return ApiResponse.ok(response);

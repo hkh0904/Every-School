@@ -22,7 +22,7 @@ import static com.everyschool.consultservice.error.ErrorMessage.*;
  */
 @RequiredArgsConstructor
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class ConsultWebQueryService {
 
     private final ConsultWebQueryRepository consultWebQueryRepository;
