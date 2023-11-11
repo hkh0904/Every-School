@@ -35,10 +35,16 @@ class _ReportCardState extends State<ReportCard> {
     }
   }
 
-  String _formatDate(String dateString) {
-    DateTime dateTime = DateTime.parse(dateString);
-    String formattedDate = DateFormat('yyyy.MM.dd  HH:mm').format(dateTime);
-    return formattedDate;
+  String formatConsultDateTime(String consultDateTime) {
+    DateTime dateTime = DateTime.parse(consultDateTime);
+
+    String formattedDateTime =
+        "${dateTime.year}/${dateTime.month}/${dateTime.day} "
+        "${dateTime.hour < 12 ? '오전 ' : '오후 '}"
+        "${(dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12)}:"
+        "${dateTime.minute.toString().padLeft(2, '0')} ";
+
+    return formattedDateTime;
   }
 
   @override
@@ -96,7 +102,7 @@ class _ReportCardState extends State<ReportCard> {
                                       height: 3,
                                     ),
                                     Text(
-                                      item['date'] as String,
+                                      formatConsultDateTime(item['date']),
                                       style:
                                           TextStyle(color: Color(0xff999999)),
                                     ),

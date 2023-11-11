@@ -9,7 +9,7 @@ class ConsultingCardDetail {
     DateTime dateTime = DateTime.parse(consultDateTime);
 
     String formattedDateTime =
-        "${dateTime.year}년 ${dateTime.month}월 ${dateTime.day}일 "
+        "${dateTime.year}/${dateTime.month}/${dateTime.day} "
         "${dateTime.hour < 12 ? '오전 ' : '오후 '}"
         "${(dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12)}:"
         "${dateTime.minute.toString().padLeft(2, '0')} ";
