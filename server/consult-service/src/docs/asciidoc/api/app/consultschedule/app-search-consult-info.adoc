@@ -1,0 +1,12 @@
+[[app-search-consult-info]]
+=== 상담 스케줄 조회 API
+
+==== HTTP Request
+
+include::{snippets}/app-search-consult-info/http-request.adoc[]
+include::{snippets}/app-search-consult-info/request-headers.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/app-search-consult-info/http-response.adoc[]
+include::{snippets}/app-search-consult-info/response-fields.adoc[]

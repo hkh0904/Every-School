@@ -20,6 +20,10 @@ include::api/app/consult/search-consult-by-parent.adoc[]
 include::api/app/consult/search-consults-by-teacher.adoc[]
 include::api/app/consult/search-consult-by-teacher.adoc[]
 
+[[App-Consult-Schedule-API]]
+== App Consult Schedule API
+
+include::api/app/consultschedule/app-search-consult-info.adoc[]
 
 [[Web-Consult-API]]
 == Web Consult API
