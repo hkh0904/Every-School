@@ -15,8 +15,13 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.everyschool.reportservice.error.ErrorMessage.UNREGISTERED_REPORT;
+import static com.everyschool.reportservice.error.ErrorMessage.NO_SUCH_REPORT;
 
+/**
+ * 웹 신고 조회용 서비스
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -26,25 +31,51 @@ public class ReportWebQueryService {
     private final ReportWebQueryRepository reportWebQueryRepository;
     private final FileStore fileStore;
 
-    public List<ReportResponse> searchReports(Long schoolId, int schoolYear, int status) {
-        List<Report> reports = reportWebQueryRepository.findByCond(schoolId, schoolYear, status);
+    /**
+     * 신고 내역 목록 조회
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param status     조회할 신고 처리 상태
+     * @return 조회된 신고 내역 목록
+     */
+    public List<ReportResponse> searchReports(int schoolYear, Long schoolId, int status) {
+
+        List<Report> reports = reportWebQueryRepository.findByStatus(schoolId, schoolYear, status);
 
         return reports.stream()
             .map(ReportResponse::of)
             .collect(Collectors.toList());
     }
 
+    /**
+     * 신고 내역 상세 조회
+     *
+     * @param reportId 신고 아이디
+     * @return 조회된 신고 내역
+     */
     public ReportDetailResponse searchReport(Long reportId) {
-        Optional<Report> findReport = reportRepository.findById(reportId);
-        if (findReport.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_REPORT.getMessage());
-        }
-        Report report = findReport.get();
+        Report report = getReportEntity(reportId);
 
         List<String> files = report.getFiles().stream()
             .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
             .collect(Collectors.toList());
 
         return ReportDetailResponse.of(report, files);
+    }
+
+    /**
+     * 신고 엔티티 조회
+     *
+     * @param reportId 신고 아이디
+     * @return 조회된 신고 엔티티
+     * @throws NoSuchElementException 등록되지 않은 신고를 조회하는 경우 발생
+     */
+    private Report getReportEntity(Long reportId) {
+        Optional<Report> findReport = reportRepository.findById(reportId);
+        if (findReport.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_REPORT.getMessage());
+        }
+        return findReport.get();
     }
 }
