@@ -43,7 +43,7 @@ public class ReportWebController {
         @Valid @RequestBody EditStatusRequest request
     ) {
 
-        validateReportType(request.hashCode());
+        validateProgressStatus(request.getStatus());
 
         EditReportResponse response = reportWebService.editStatus(reportId, request.getStatus());
 
@@ -72,11 +72,11 @@ public class ReportWebController {
     }
 
     /**
-     * 신고 타입 코드 검증
+     * 신고 처리 상태 코드 검증
      *
      * @param code 신고 타입 코드
      */
-    private void validateReportType(int code) {
-        ReportType.getText(code);
+    private void validateProgressStatus(int code) {
+        ProgressStatus.getText(code);
     }
 }

@@ -5,6 +5,7 @@ import com.everyschool.reportservice.api.Result;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebQueryService;
+import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.everyschool.reportservice.domain.report.ReportType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class ReportWebQueryController {
         @RequestParam Integer status
     ) {
 
-        validateReportType(status);
+        validateProgressStatus(status);
 
         List<ReportResponse> response = reportWebQueryService.searchReports(schoolYear, schoolId, status);
 
@@ -68,11 +69,11 @@ public class ReportWebQueryController {
     }
 
     /**
-     * 신고 타입 코드 검증
+     * 신고 처리 상태 코드 검증
      *
      * @param code 신고 타입 코드
      */
-    private void validateReportType(int code) {
-        ReportType.getText(code);
+    private void validateProgressStatus(int code) {
+        ProgressStatus.getText(code);
     }
 }
