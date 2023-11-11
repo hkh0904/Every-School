@@ -36,8 +36,7 @@ class _SplashState extends State<Splash> {
     checkAndNavigationCallingPage();
 
     Future.delayed(Duration(seconds: 3), () async {
-      if (token != null && token!.isNotEmpty) {
-        var token = await storage.read(key: 'token');
+      if (token != null && token!.length > 0) {
         var userKey = await storage.read(key: 'userKey');
         var userInfo = await UserApi().getUserRegisterInfo(token);
         print(userInfo);
@@ -71,6 +70,10 @@ class _SplashState extends State<Splash> {
             builder: (_) => Main(),
           ));
         }
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => LoginPage(),
+        ));
       }
     });
   }
