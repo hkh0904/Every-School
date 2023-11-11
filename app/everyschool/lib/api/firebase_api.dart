@@ -17,29 +17,26 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     DateTime currentTime = DateTime.now();
     var time = await CallingApi().muteTimeInquiry();
 
-    String startTimeString = time[0]['startTime'];
-    String endTimeString = time[0]['endTime'];
+    DateTime startTime = DateTime.parse(time['startTime']);
+    DateTime endTime = DateTime.parse(time['endTime']);
 
-    DateTime startTime = DateTime.parse(startTimeString.split('T')[1]);
-    DateTime endTime = DateTime.parse(endTimeString.split('T')[1]);
-
-    startTime = DateTime(currentTime.year, currentTime.month, currentTime.day,
-        startTime.hour, startTime.minute, startTime.second);
-    endTime = DateTime(currentTime.year, currentTime.month, currentTime.day,
-        endTime.hour, endTime.minute, endTime.second);
-
-    if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime) && time[0]['isActivate'] == true) {
-      print('현재 시간이 방해 금지 시간에 속하지 않습니다.');
+    if (currentTime.isAfter(startTime) &&
+        currentTime.isBefore(endTime) &&
+        time['isActivate'] == true) {
+      print('현재 시간이 방해 금지 시간에 속합니다.');
     } else {
-      // 현재 시간이 startTime과 endTime 사이에 없으면 알림을 보내지 않습니다.
+      print('현재 시간이 방해 금지 시간에 속하지않습니다.');
       var name = message.notification!.title;
       var phoneNumber = message.notification!.body;
       var channelName = message.data['cname'];
       showCallkitIncoming(
-          '10', name as String, phoneNumber as String, channelName as String);
+        '10',
+        name as String,
+        phoneNumber as String,
+        channelName as String,
+      );
     }
-
-  } else if(message.data['type'] == 'cancel') {
+  } else if (message.data['type'] == 'cancel') {
     FlutterCallkitIncoming.endAllCalls();
   }
 }
@@ -129,12 +126,12 @@ class FirebaseApi {
         DateTime currentTime = DateTime.now();
         var time = await CallingApi().muteTimeInquiry();
 
-        DateTime startTime = DateTime.parse(time[0]['startTime']);
-        DateTime endTime = DateTime.parse(time[0]['endTime']);
+        DateTime startTime = DateTime.parse(time['startTime']);
+        DateTime endTime = DateTime.parse(time['endTime']);
 
         if (currentTime.isAfter(startTime) &&
             currentTime.isBefore(endTime) &&
-            time[0]['isActivate'] == true) {
+            time['isActivate'] == true) {
           print('현재 시간이 방해 금지 시간에 속합니다.');
         } else {
           print('현재 시간이 방해 금지 시간에 속하지않습니다.');
@@ -166,8 +163,6 @@ class FirebaseApi {
       );
     }
   }
-
-
 
   void initializeNotifications(context) async {
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();

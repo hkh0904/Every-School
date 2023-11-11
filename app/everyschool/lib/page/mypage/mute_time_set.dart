@@ -26,29 +26,32 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
 
   Future<void> getMuteTime() async {
     var time = await CallingApi().muteTimeInquiry();
-    print(time[0]);
+    print(time);
 
     DateTime startTime;
     DateTime endTime;
 
-    if (time[0]['startTime'].runtimeType == String) {
-      startTime = DateTime.parse(time[0]['startTime']);
-      endTime = DateTime.parse(time[0]['endTime']);
+    if (time['startTime'].runtimeType == String) {
+      startTime = DateTime.parse(time['startTime']);
+      endTime = DateTime.parse(time['endTime']);
     } else {
-      startTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0);
-      endTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0);
+      startTime = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0);
+      endTime = DateTime(
+          DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0);
     }
 
     setState(() {
       this.startTime = startTime;
       this.endTime = endTime;
-      isMuteEnabled = time[0]['isActivate'];
+      isMuteEnabled = time['isActivate'];
       startController.text = _formatTime(startTime);
       endController.text = _formatTime(endTime);
     });
   }
 
-  Future<void> _selectTime(BuildContext context, TextEditingController controller, bool isStart) async {
+  Future<void> _selectTime(BuildContext context,
+      TextEditingController controller, bool isStart) async {
     DateTime? selectedTime = await showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
@@ -74,7 +77,8 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
     return DateFormat('hh:mm a').format(time);
   }
 
-  Widget _buildBottomSheet(BuildContext context, TextEditingController controller, bool isStart) {
+  Widget _buildBottomSheet(
+      BuildContext context, TextEditingController controller, bool isStart) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -106,160 +110,170 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '방해금지 설정',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-          ),
-          leading: BackButton(),
-          backgroundColor: Colors.grey[200],
-          elevation: 0,
+      appBar: AppBar(
+        title: Text(
+          '방해금지 설정',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
         ),
-        body: Container(
-          padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-          color: Colors.grey[200],
-          child: Column(
-            children: [
-          Container(
-          decoration: BoxDecoration(
-          color: Colors.grey[50],
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('방해금지', style: TextStyle(fontSize: 16,)),
-              Switch(
-                value: isMuteEnabled,
-                onChanged: (value) {
-                  setState(() {
-                    isMuteEnabled = value;
-                  });
-                },
+        leading: BackButton(),
+        backgroundColor: Colors.grey[200],
+        elevation: 0,
+      ),
+      body: Container(
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+        color: Colors.grey[200],
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(8.0),
               ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Text('시간 설정하기')),
-        SizedBox(
-          height: 5,
-        ),
-        Container(
-          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-          decoration: BoxDecoration(
-            color: Colors.grey[50],
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Column(
-            children: [
-              Row(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('시작 시간', style: TextStyle(fontSize: 16,)),
-                  Container(
-                    width: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.zero
-                      ),
-                      textAlign: TextAlign.center,
-                      controller: startController,
-                      readOnly: true,
-                      onTap: isMuteEnabled ? () => _selectTime(context, startController, true) : null,
-                    ),
+                  Text('방해금지',
+                      style: TextStyle(
+                        fontSize: 16,
+                      )),
+                  Switch(
+                    value: isMuteEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        isMuteEnabled = value;
+                      });
+                    },
                   ),
                 ],
               ),
-              SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Align(alignment: Alignment.centerLeft, child: Text('시간 설정하기')),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Column(
                 children: [
-                  Text('종료 시간', style: TextStyle(fontSize: 16,)),
-                  Container(
-                    width: 100,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.zero
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('시작 시간',
+                          style: TextStyle(
+                            fontSize: 16,
+                          )),
+                      Container(
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.zero),
+                          textAlign: TextAlign.center,
+                          controller: startController,
+                          readOnly: true,
+                          onTap: isMuteEnabled
+                              ? () =>
+                                  _selectTime(context, startController, true)
+                              : null,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                      controller: endController,
-                      readOnly: true,
-                      onTap: isMuteEnabled ? () => _selectTime(context, endController, false) : null,
-                    ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('종료 시간',
+                          style: TextStyle(
+                            fontSize: 16,
+                          )),
+                      Container(
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.zero),
+                          textAlign: TextAlign.center,
+                          controller: endController,
+                          readOnly: true,
+                          onTap: isMuteEnabled
+                              ? () => _selectTime(context, endController, false)
+                              : null,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        GestureDetector(
-        onTap: () {
-
-        List<int> startTimeList = [
-          startTime!.year,
-          startTime!.month,
-          startTime!.day,
-          startTime!.hour,
-          startTime!.minute,
-          startTime!.second,
-          startTime!.millisecond,
-        ];
-
-        List<int> endTimeList = [
-          endTime!.year,
-          endTime!.month,
-          endTime!.day,
-          endTime!.hour,
-          endTime!.minute,
-          endTime!.second,
-          endTime!.millisecond,
-        ];
-
-        print('Selected Start Time: $startTimeList');
-        print('Selected End Time: $endTimeList');
-        print('Is Mute Enabled: $isMuteEnabled');
-        CallingApi().muteTimeSet(startTimeList, endTimeList, isMuteEnabled);
-
-        },
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.grey[50],
-              borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Center(
-              child: Text(
-                '설정 완료',
-                style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+            SizedBox(
+              height: 20,
+            ),
+            GestureDetector(
+              onTap: () {
+                List<int> startTimeList = [
+                  startTime!.year,
+                  startTime!.month,
+                  startTime!.day,
+                  startTime!.hour,
+                  startTime!.minute,
+                  startTime!.second,
+                  startTime!.millisecond,
+                ];
+
+                List<int> endTimeList = [
+                  endTime!.year,
+                  endTime!.month,
+                  endTime!.day,
+                  endTime!.hour,
+                  endTime!.minute,
+                  endTime!.second,
+                  endTime!.millisecond,
+                ];
+
+                print('Selected Start Time: $startTimeList');
+                print('Selected End Time: $endTimeList');
+                print('Is Mute Enabled: $isMuteEnabled');
+                CallingApi()
+                    .muteTimeSet(startTimeList, endTimeList, isMuteEnabled);
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[50],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Center(
+                  child: Text(
+                    '설정 완료',
+                    style: TextStyle(fontSize: 16, color: Colors.blueAccent),
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
-            ],
-          ),
-        ),
+      ),
     );
   }
 }
-
