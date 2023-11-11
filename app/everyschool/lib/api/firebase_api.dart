@@ -1,3 +1,4 @@
+import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
@@ -13,12 +14,29 @@ import 'package:uuid/uuid.dart';
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (message.data['type'] == 'call') {
-    var name = message.notification!.title;
-    var phoneNumber = message.notification!.body;
-    var channelName = message.data['cname'];
-    showCallkitIncoming(
-        '10', name as String, phoneNumber as String, channelName as String);
-  } else if(message.data['type'] == 'cancel') {
+    DateTime currentTime = DateTime.now();
+    var time = await CallingApi().muteTimeInquiry();
+
+    DateTime startTime = DateTime.parse(time['startTime']);
+    DateTime endTime = DateTime.parse(time['endTime']);
+
+    if (currentTime.isAfter(startTime) &&
+        currentTime.isBefore(endTime) &&
+        time['isActivate'] == true) {
+      print('현재 시간이 방해 금지 시간에 속합니다.');
+    } else {
+      print('현재 시간이 방해 금지 시간에 속하지않습니다.');
+      var name = message.notification!.title;
+      var phoneNumber = message.notification!.body;
+      var channelName = message.data['cname'];
+      showCallkitIncoming(
+        '10',
+        name as String,
+        phoneNumber as String,
+        channelName as String,
+      );
+    }
+  } else if (message.data['type'] == 'cancel') {
     FlutterCallkitIncoming.endAllCalls();
   }
 }
@@ -97,7 +115,7 @@ class FirebaseApi {
   }
 
 // 포그라운드 메세지 처리
-  void foregroundMessage(RemoteMessage message) {
+  void foregroundMessage(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
 
     print('메세지!!!!! 노티피케이션 ${message.notification}');
@@ -105,28 +123,44 @@ class FirebaseApi {
 
     if (notification != null) {
       if (message.data['type'] == 'call') {
-        var name = message.notification!.title;
-        var phoneNumber = message.notification!.body;
-        var channelName = message.data['cname'];
-        showCallkitIncoming(
-            '10', name as String, phoneNumber as String, channelName as String);
-        // getIncomingCall();
-      } else if(message.data['type'] == 'cancel') {
+        DateTime currentTime = DateTime.now();
+        var time = await CallingApi().muteTimeInquiry();
+
+        DateTime startTime = DateTime.parse(time['startTime']);
+        DateTime endTime = DateTime.parse(time['endTime']);
+
+        if (currentTime.isAfter(startTime) &&
+            currentTime.isBefore(endTime) &&
+            time['isActivate'] == true) {
+          print('현재 시간이 방해 금지 시간에 속합니다.');
+        } else {
+          print('현재 시간이 방해 금지 시간에 속하지않습니다.');
+          var name = message.notification!.title;
+          var phoneNumber = message.notification!.body;
+          var channelName = message.data['cname'];
+          showCallkitIncoming(
+            '10',
+            name as String,
+            phoneNumber as String,
+            channelName as String,
+          );
+        }
+      } else if (message.data['type'] == 'cancel') {
         FlutterCallkitIncoming.endAllCalls();
       }
       FlutterLocalNotificationsPlugin().show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'high_importance_channel',
-              'high_importance_notification',
-              importance: Importance.max,
-            ),
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'high_importance_channel',
+            'high_importance_notification',
+            importance: Importance.max,
           ),
-          // 메세지 전달은 이렇게하는거라는데...
-          payload: message.data['id']);
+        ),
+        payload: message.data['id'],
+      );
     }
   }
 

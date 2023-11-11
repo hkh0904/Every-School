@@ -174,10 +174,12 @@ class _CallButtonState extends State<CallButton> {
   stopRecording() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
-    final myInfo = await context.read<UserStore>().userInfo;
+
+    String sender = "O";
+
     endDateTime = datetimeToCustomList();
     await CallingApi().callRecordingStop(token, channelName, uid, resourceId,
-        sid, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
+        sid, contact['userKey'], sender, startDateTime, endDateTime);
   }
 
   Future<void> setupVoiceSDKEngine() async {
@@ -232,7 +234,6 @@ class _CallButtonState extends State<CallButton> {
             UserOfflineReasonType reason) async {
           showMessage("Remote user uid:$remoteUid left the channel");
           print('전화끊음');
-          await stopRecording();
           leave();
           setState(() {
             this.remoteUid = null;
@@ -253,7 +254,8 @@ class _CallButtonState extends State<CallButton> {
         token, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
   }
 
-  void leave() {
+  void leave() async {
+    await stopRecording();
     setState(() {
       isJoined = false;
       remoteUid = null;
