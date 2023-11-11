@@ -24,6 +24,7 @@ class ConsultingApi {
     try {
       final response = await dio.get('${serverApi.serverURL}$lastUrl',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('주소 ${serverApi.serverURL}$lastUrl');
       return response.data['data'];
     } catch (e) {
       print(e);

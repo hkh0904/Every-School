@@ -50,6 +50,18 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
     }
   }
 
+  String formatConsultDateTime(String consultDateTime) {
+    DateTime dateTime = DateTime.parse(consultDateTime);
+
+    String formattedDateTime =
+        "${dateTime.year}/${dateTime.month}/${dateTime.day} "
+        "${dateTime.hour < 12 ? '오전 ' : '오후 '}"
+        "${(dateTime.hour % 12 == 0 ? 12 : dateTime.hour % 12)}:"
+        "${dateTime.minute.toString().padLeft(2, '0')} ";
+
+    return formattedDateTime;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -168,8 +180,7 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
                                             )),
                                         // Text(snapshot.data[index]['info'] as String),
                                         Text(
-                                            snapshot.data[index]
-                                                ['consultDateTime'] as String,
+                                            '신청시간 : ${formatConsultDateTime(snapshot.data[index]['consultDateTime']) as String}',
                                             style: TextStyle(
                                                 color: Color(0xff999999))),
                                       ],
