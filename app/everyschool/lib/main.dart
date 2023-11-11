@@ -1,5 +1,6 @@
 import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/page/global_variable.dart';
 import 'package:everyschool/page/messenger/chat/chat_controller.dart';
 import 'package:everyschool/page/category/category_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
@@ -49,6 +50,7 @@ void main() async {
       ChangeNotifierProvider(create: (c) => UserStore()),
     ],
     child: MaterialApp(
+        navigatorKey: CandyGlobalVariable.naviagatorState,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             fontFamily: "Pretendard",

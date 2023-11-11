@@ -184,7 +184,7 @@ class CallingApi {
 
   Future<dynamic> deniedCall(userKey, senderName, startDateTime) async {
     String? token = await storage.read(key: 'token');
-    print('취소 $userKey $senderName $startDateTime');
+    print('거절 $userKey $senderName $startDateTime');
     DateTime dateTime = DateTime.parse(startDateTime);
     var startTime = [
       dateTime.year,

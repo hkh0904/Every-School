@@ -1,6 +1,7 @@
 import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
+import 'package:everyschool/page/global_variable.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,6 +21,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     DateTime currentTime = DateTime.now();
     var userType = await storage.read(key: 'usertype');
 
+    print(message.data);
+
     if (userType == "1003") {
       var time = await CallingApi().muteTimeInquiry();
 
@@ -34,31 +37,26 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         var name = message.notification!.title;
         var phoneNumber = message.notification!.body;
         var channelName = message.data['cname'];
-        showCallkitIncoming(
-          '10',
-          name as String,
-          phoneNumber as String,
-          channelName as String,
-        );
+        showCallkitIncoming('10', name as String, phoneNumber as String,
+            channelName as String, message.data['senderUserKey']);
       }
     } else {
       var name = message.notification!.title;
       var phoneNumber = message.notification!.body;
       var channelName = message.data['cname'];
-      showCallkitIncoming(
-        '10',
-        name as String,
-        phoneNumber as String,
-        channelName as String,
-      );
+      showCallkitIncoming('10', name as String, phoneNumber as String,
+          channelName as String, message.data['senderUserKey']);
     }
   } else if (message.data['type'] == 'cancel') {
     FlutterCallkitIncoming.endAllCalls();
+  } else if (message.data['type'] == 'denied') {
+    Navigator.pop(
+        CandyGlobalVariable.naviagatorState.currentContext as BuildContext);
   }
 }
 
-Future<void> showCallkitIncoming(
-    String uuid, String name, String phoneNumber, String channelName) async {
+Future<void> showCallkitIncoming(String uuid, String name, String phoneNumber,
+    String channelName, String senderUserKey) async {
   String startTime = DateTime.now().toString();
   var userKey = await storage.read(key: 'userKey');
   final params = CallKitParams(
@@ -80,7 +78,7 @@ Future<void> showCallkitIncoming(
       extra: <String, dynamic>{
         'userId': channelName,
         'startTime': startTime,
-        'otherUserKey': userKey
+        'otherUserKey': senderUserKey
       },
       headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
       android: const AndroidParams(
@@ -163,26 +161,21 @@ class FirebaseApi {
             var name = message.notification!.title;
             var phoneNumber = message.notification!.body;
             var channelName = message.data['cname'];
-            showCallkitIncoming(
-              '10',
-              name as String,
-              phoneNumber as String,
-              channelName as String,
-            );
+            showCallkitIncoming('10', name as String, phoneNumber as String,
+                channelName as String, message.data['senderUserKey'] as String);
           }
         } else {
           var name = message.notification!.title;
           var phoneNumber = message.notification!.body;
           var channelName = message.data['cname'];
-          showCallkitIncoming(
-            '10',
-            name as String,
-            phoneNumber as String,
-            channelName as String,
-          );
+          showCallkitIncoming('10', name as String, phoneNumber as String,
+              channelName as String, message.data['senderUserKey']);
         }
       } else if (message.data['type'] == 'cancel') {
         FlutterCallkitIncoming.endAllCalls();
+      } else if (message.data['type'] == 'denied') {
+        Navigator.pop(
+            CandyGlobalVariable.naviagatorState.currentContext as BuildContext);
       }
       FlutterLocalNotificationsPlugin().show(
         notification.hashCode,
