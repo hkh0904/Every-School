@@ -41,7 +41,7 @@ public class ReportWebQueryService {
      */
     public List<ReportResponse> searchReports(int schoolYear, Long schoolId, int status) {
 
-        List<Report> reports = reportWebQueryRepository.findByStatus(schoolId, schoolYear, status);
+        List<Report> reports = reportWebQueryRepository.findByStatus(schoolYear, schoolId, status);
 
         return reports.stream()
             .map(ReportResponse::of)
