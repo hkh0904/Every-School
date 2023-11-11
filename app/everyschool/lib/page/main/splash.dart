@@ -3,6 +3,7 @@ import 'package:everyschool/main.dart';
 import 'package:everyschool/page/login/approve_waiting.dart';
 import 'package:everyschool/page/login/login_page.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
+import 'package:everyschool/page/mypage/add_child.dart';
 import 'package:everyschool/page/mypage/select_school.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,18 +56,21 @@ class _SplashState extends State<Splash> {
               builder: (_) => ApproveWaiting(),
             ));
           }
+        } else if (userKey == "1002") {
+          if (userInfo['data']['descendants'].length > 0) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => Main(),
+            ));
+          } else {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => AddChild(),
+            ));
+          }
         } else {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (_) => Main(),
           ));
         }
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const Main(),
-        ));
-      } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const LoginPage(),
-        ));
       }
     });
   }

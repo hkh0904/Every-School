@@ -2,6 +2,7 @@ import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/login/approve_waiting.dart';
+import 'package:everyschool/page/mypage/add_child.dart';
 import 'package:everyschool/page/mypage/select_school.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,16 @@ class _LoginFormState extends State<LoginForm> {
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => ApproveWaiting(),
+        ));
+      }
+    } else if (userKey == "1002") {
+      if (userInfo['data']['descendants'].length > 0) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => Main(),
+        ));
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => AddChild(),
         ));
       }
     } else {
