@@ -11,4 +11,5 @@ public interface SchoolServiceClient {
     @PostMapping("/{schoolId}/{schoolYear}")
     Integer searchStudentNumber(@PathVariable(name = "schoolId") Long schoolId, @PathVariable(name = "schoolYear") Integer schoolYear);
 
+    Long searchTeacherId(Long schoolClassId);
 }
