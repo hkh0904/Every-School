@@ -43,25 +43,50 @@ class ConsultingCardDetail {
                           ),
                           Text('담당자',
                               style: TextStyle(fontWeight: FontWeight.w600)),
-                          Text(cardInfo['consultant']),
+                          Text(cardInfo['teacherInfo']),
                           SizedBox(
                             height: 10,
                           ),
                           Text('신청자',
                               style: TextStyle(fontWeight: FontWeight.w600)),
-                          Text(cardInfo['applicant']),
+                          Text(cardInfo['parentInfo']),
                           SizedBox(
                             height: 10,
                           ),
                           Text('상담 신청 날짜',
                               style: TextStyle(fontWeight: FontWeight.w600)),
-                          Text(cardInfo['dateTime']),
+                          Text(cardInfo['consultDateTime']),
                           SizedBox(
                             height: 10,
                           ),
                           Text('상담 사유',
                               style: TextStyle(fontWeight: FontWeight.w600)),
-                          Text(cardInfo['detail']),
+                          Text(cardInfo['message']),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          if (cardInfo['rejectReason'] != null)
+                            Column(
+                              children: [
+                                Text('거절 사유',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.red)),
+                                Text(cardInfo['rejectReason']),
+                              ],
+                            ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          if (cardInfo['resultContent'] != null)
+                            Column(
+                              children: [
+                                Text('상담 내용',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600)),
+                                Text(cardInfo['resultContent']),
+                              ],
+                            ),
                         ],
                       ),
                     ),

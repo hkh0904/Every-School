@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/base_api.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -63,6 +65,11 @@ class UserApi {
           key: 'userKey', value: response.headers['userKey']?[0]);
       await storage.write(
           key: 'usertype', value: response.headers['usertype']?[0]);
+      var userInfo = await getUserInfo(response.headers['token']?[0]);
+      if (userInfo['userType'] == '1002') {
+        await storage.write(
+            key: 'descendant', value: jsonEncode(userInfo['descendants'][0]));
+      }
       print('액세스토큰 ${response.headers['token']?[0]}');
       return 1;
     } catch (e) {
