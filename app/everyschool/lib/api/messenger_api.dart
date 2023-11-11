@@ -121,19 +121,19 @@ class CallingApi {
 
   // 전화걸때
   Future<dynamic> callOthers(token, userKey, senderName, cname) async {
-    var uuu = await storage.read(key: 'userKey') ?? "";
-    print('내 유저키 전화 $uuu');
+    var myUserKey = await storage.read(key: 'userKey') ?? "";
+    print('내 유저키 전화 $myUserKey');
     print('전화걸때 $userKey $senderName $cname');
     try {
-      final response = await dio.post(
-        '${serverApi.serverURL}/call-service/v1/calls/calling',
-        data: {
-          "otherUserKey": userKey,
-          "senderName": senderName,
-          "cname": cname
-        },
-        // options: Options(headers: {'Authorization': 'Bearer $token'})
-      );
+      final response =
+          await dio.post('${serverApi.serverURL}/call-service/v1/calls/calling',
+              data: {
+                "otherUserKey": userKey,
+                "myUserKey": myUserKey,
+                "senderName": senderName,
+                "cname": cname
+              },
+              options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('걸었어용 ${response.data}');
       print('전화걸음^^~');
       return response.data['data'];
@@ -147,7 +147,7 @@ class CallingApi {
     print('부재중 $userKey $senderName $startDateTime $endDateTime');
     try {
       final response = await dio.post(
-          '${serverApi.serverURL}/call-service/v1/calls/calling/denied',
+          '${serverApi.serverURL}/call-service/v1/calls/calling/miss',
           data: {
             "otherUserKey": userKey,
             "senderName": senderName,
@@ -176,6 +176,49 @@ class CallingApi {
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('취소 리스폰스 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> deniedCall(userKey, senderName, startDateTime) async {
+    String? token = await storage.read(key: 'token');
+    print('취소 $userKey $senderName $startDateTime');
+    DateTime dateTime = DateTime.parse(startDateTime);
+    var startTime = [
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+      dateTime.hour,
+      dateTime.minute,
+      dateTime.second,
+      dateTime.millisecond
+    ];
+    print(startTime);
+
+    DateTime endTime = DateTime.now();
+    var endTimeList = [
+      endTime.year,
+      endTime.month,
+      endTime.day,
+      endTime.hour,
+      endTime.minute,
+      endTime.second,
+      endTime.millisecond
+    ];
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/calling/denied',
+          data: {
+            "otherUserKey": userKey,
+            "senderName": senderName,
+            "startDateTime": startTime,
+            "endDateTime": endTimeList
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('거절 리스폰스 ${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -267,9 +310,9 @@ class CallingApi {
       final response = await dio.post(
           '${serverApi.serverURL}/call-service/v1/do-not-disturbs/',
           data: {
-            "startTime" : startTime,
-            "endTime" : endTime,
-            "isActivate" : isActivate
+            "startTime": startTime,
+            "endTime": endTime,
+            "isActivate": isActivate
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('방해금지시간설정 ${response.data}');
