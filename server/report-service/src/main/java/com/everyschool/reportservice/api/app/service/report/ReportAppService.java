@@ -45,12 +45,12 @@ public class ReportAppService {
         UserInfo userInfo = userServiceClient.searchByUserKey(userKey);
 
         //학급 정보 조회
-        SchoolUserInfo studentInfo = schoolServiceClient.searchByUserId(userInfo.getUserId());
+        SchoolUserInfo schoolUserInfo = schoolServiceClient.searchByUserId(userInfo.getUserId());
 
         ReportContent content = dto.toContent();
 
         //신고자 정보 제작
-        String witness = generateWitnessInfo(studentInfo, userInfo.getUserName());
+        String witness = generateWitnessInfo(schoolUserInfo, userInfo.getUserName());
 
         //신고 엔티티 생성
         Report report = Report.createReport(witness, dto.getDescription(), content, schoolYear, dto.getTypeId(), schoolId, userInfo.getUserId(), uploadFiles);
