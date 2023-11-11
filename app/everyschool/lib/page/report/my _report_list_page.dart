@@ -39,7 +39,7 @@ class _ReportListPageState extends State<ReportListPage> {
       "repList": allList,
       "completeList": completeList['content']
     };
-    // print(reportInfo);
+    print(reportInfo);
     return reportInfo;
   }
 

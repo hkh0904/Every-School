@@ -18,7 +18,7 @@ class ReportApi {
           options: Options(contentType: 'multipart/form-data', headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data);
+      // print(response.data);
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -52,6 +52,23 @@ class ReportApi {
             'Authorization': 'Bearer $token',
           }));
 
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<dynamic> teacherGetReportList(year, schoolId, reportType) async {
+    String? token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/report-service/v1/web/$year/schools/$schoolId/reports?status=$reportType',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
       print(e);
