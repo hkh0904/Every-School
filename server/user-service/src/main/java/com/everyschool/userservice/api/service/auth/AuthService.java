@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.everyschool.userservice.error.ErrorMessage.*;
+import static com.everyschool.userservice.message.ErrorMessage.*;
 
 @RequiredArgsConstructor
 @Service

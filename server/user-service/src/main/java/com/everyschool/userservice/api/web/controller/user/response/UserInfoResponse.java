@@ -1,5 +1,7 @@
 package com.everyschool.userservice.api.web.controller.user.response;
 
+import com.everyschool.userservice.api.client.school.response.SchoolClassInfo;
+import com.everyschool.userservice.domain.user.Teacher;
 import lombok.Builder;
 import lombok.Data;
 
@@ -27,6 +29,18 @@ public class UserInfoResponse {
         this.joinDate = joinDate;
     }
 
+    public static UserInfoResponse of(Teacher teacher, School school, SchoolClass schoolClass) {
+        return UserInfoResponse.builder()
+            .userType(teacher.getUserCodeId())
+            .email(teacher.getEmail())
+            .name(teacher.getName())
+            .birth(teacher.getBirth())
+            .school(school)
+            .schoolClass(schoolClass)
+            .joinDate(teacher.getCreatedDate())
+            .build();
+    }
+
     @Data
     public static class School {
 
@@ -37,6 +51,13 @@ public class UserInfoResponse {
         private School(Long schoolId, String name) {
             this.schoolId = schoolId;
             this.name = name;
+        }
+
+        public static School of(Long schoolId, String name) {
+            return School.builder()
+                .schoolId(schoolId)
+                .name(name)
+                .build();
         }
     }
 
@@ -52,6 +73,14 @@ public class UserInfoResponse {
             this.schoolClassId = schoolClassId;
             this.grade = grade;
             this.classNum = classNum;
+        }
+
+        public static SchoolClass of(Long schoolClassId, SchoolClassInfo schoolClassInfo) {
+            return SchoolClass.builder()
+                .schoolClassId(schoolClassId)
+                .grade(schoolClassInfo.getGrade())
+                .classNum(schoolClassInfo.getClassNum())
+                .build();
         }
     }
 }

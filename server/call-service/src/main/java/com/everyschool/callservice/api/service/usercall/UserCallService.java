@@ -29,18 +29,21 @@ public class UserCallService {
 
     public UserCallResponse createCallInfo(CreateUserCallDto dto, String otherUserKey, String token) {
 
-        UserInfo otherUser = userServiceClient.searchUserInfoByUserKey(otherUserKey);
-        UserInfo teacher = userServiceClient.searchUserInfo(token);
+        UserInfo receiver = userServiceClient.searchUserInfoByUserKey(otherUserKey);
+        UserInfo sender = userServiceClient.searchUserInfo(token);
 
-        String senderName = otherUser.getUserName();
-        String receiverName = teacher.getUserName();
+        String senderName = sender.getUserName();
+        String receiverName = receiver.getUserName();
 
-        if (dto.getSender().equals("T")) {
-            receiverName = otherUser.getUserName();
-            senderName = teacher.getUserName();
+        Long teacherId = sender.getUserId();
+        Long otherUserId = receiver.getUserId();
+
+        if (dto.getSender().equals("O")) {
+            teacherId = receiver.getUserId();
+            otherUserId = sender.getUserId();
         }
 
-        UserCall savedUserCall = insertCall(dto, teacher.getUserId(), otherUser.getUserId(), senderName, receiverName);
+        UserCall savedUserCall = insertCall(dto, teacherId, otherUserId, senderName, receiverName);
         return UserCallResponse.of(savedUserCall);
     }
 
@@ -58,6 +61,7 @@ public class UserCallService {
 
             System.out.println(updatedUserCall);
             List<UserCallDetails> userCallDetails = new ArrayList<>();
+
             res.getDetailsResult().forEach(e -> {
                 System.out.println(e);
                 UserCallDetails callDetails = UserCallDetails.builder()
@@ -80,13 +84,15 @@ public class UserCallService {
 
     }
 
-    private UserCall insertCall(CreateUserCallDto dto, Long teacherId, Long otherUserId, String senderName, String receiverName) {
+    private UserCall insertCall(CreateUserCallDto dto, Long teacherId, Long otherUserId, String senderName,
+                                String receiverName) {
         UserCall userCall = UserCall.builder()
                 .teacherId(teacherId)
                 .otherUserId(otherUserId)
                 .sender(dto.getSender())
                 .senderName(senderName)
                 .receiverName(receiverName)
+                .receiveCall("Y")
                 .startDateTime(dto.getStartDateTime())
                 .endDateTime(dto.getEndDateTime())
                 .uploadFileName(dto.getUploadFileName())

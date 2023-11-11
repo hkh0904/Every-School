@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 회원 앱 정보 조회 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -22,6 +27,11 @@ public class UserInfoAppQueryController {
     private final UserAppQueryService userAppQueryService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 학생 회원 정보 조회 API
+     *
+     * @return 조회된 회원 정보
+     */
     @GetMapping("/info/student")
     public ApiResponse<StudentInfoResponse> searchStudentInfo() {
 
@@ -40,6 +50,11 @@ public class UserInfoAppQueryController {
         return ApiResponse.ok(response);
     }
 
+    /**
+     * 학부모 회원 정보 조회 API
+     *
+     * @return 조회된 회원 정보
+     */
     @GetMapping("/info/parent")
     public ApiResponse<ParentInfoResponse> searchParentInfo() {
 
@@ -50,6 +65,11 @@ public class UserInfoAppQueryController {
         return ApiResponse.ok(response);
     }
 
+    /**
+     * 교직원 회원 정보 조회 API
+     *
+     * @return 조회된 회원 정보
+     */
     @GetMapping("/info/teacher")
     public ApiResponse<TeacherInfoResponse> searchTeacherInfo() {
 

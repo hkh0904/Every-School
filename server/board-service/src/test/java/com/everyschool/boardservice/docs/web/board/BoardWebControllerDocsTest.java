@@ -27,6 +27,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,7 +70,9 @@ public class BoardWebControllerDocsTest extends RestDocsSupport {
 
         mockMvc.perform(
                 post(BASE_URL + "/notice-boards", 2023, 100000)
-                    .content(objectMapper.writeValueAsString(request))
+                    .param("title", request.getTitle())
+                    .param("content", request.getContent())
+                    .param("isUsedComment", String.valueOf(request.getIsUsedComment()))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
@@ -76,14 +80,14 @@ public class BoardWebControllerDocsTest extends RestDocsSupport {
             .andDo(document("web-create-notice-board",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                requestFields(
-                    fieldWithPath("title").type(JsonFieldType.STRING)
+                requestParameters(
+                    parameterWithName("title")
                         .description("제목"),
-                    fieldWithPath("content").type(JsonFieldType.STRING)
+                    parameterWithName("content")
                         .description("내용"),
-                    fieldWithPath("isUsedComment").type(JsonFieldType.BOOLEAN)
+                    parameterWithName("isUsedComment")
                         .description("댓글 사용 여부"),
-                    fieldWithPath("files").type(JsonFieldType.ARRAY)
+                    parameterWithName("files")
                         .optional()
                         .description("이미지 파일")
                 ),
@@ -138,22 +142,23 @@ public class BoardWebControllerDocsTest extends RestDocsSupport {
 
         mockMvc.perform(
                 post(BASE_URL + "/communication-boards", 2023, 100000)
-                    .content(objectMapper.writeValueAsString(request))
+                    .param("title", request.getTitle())
+                    .param("content", request.getContent())
+                    .param("isUsedComment", String.valueOf(request.getIsUsedComment()))
                     .contentType(MediaType.MULTIPART_FORM_DATA)
             )
             .andDo(print())
             .andExpect(status().isCreated())
             .andDo(document("web-create-communication-board",
-                preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                requestFields(
-                    fieldWithPath("title").type(JsonFieldType.STRING)
+                requestParameters(
+                    parameterWithName("title")
                         .description("제목"),
-                    fieldWithPath("content").type(JsonFieldType.STRING)
+                    parameterWithName("content")
                         .description("내용"),
-                    fieldWithPath("isUsedComment").type(JsonFieldType.BOOLEAN)
+                    parameterWithName("isUsedComment")
                         .description("댓글 사용 여부"),
-                    fieldWithPath("files").type(JsonFieldType.ARRAY)
+                    parameterWithName("files")
                         .optional()
                         .description("이미지 파일")
                 ),

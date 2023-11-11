@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### Firebase Secret Key ###
-everyschool-firebase-adminSDK.json
+./everyschool-firebase-adminSDK.json

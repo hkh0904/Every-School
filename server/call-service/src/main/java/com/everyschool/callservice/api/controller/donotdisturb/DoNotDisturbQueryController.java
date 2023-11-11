@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -23,16 +21,16 @@ public class DoNotDisturbQueryController {
     /**
      * (교사용) 방해 금지 타임 조회 API
      *
-     * @return 요청 정보 리스트
+     * @return 가장 최근에 등록한 방해 금지 타임
      */
     @GetMapping("/")
-    public ApiResponse<List<DoNotDisturbResponse>> searchDoNotDisturbs(@RequestHeader("Authorization") String token) {
-        log.debug("call DoNotDisturbQueryController#searchDoNotDisturbs");
+    public ApiResponse<DoNotDisturbResponse> searchDoNotDisturb(@RequestHeader("Authorization") String token) {
+        log.debug("call DoNotDisturbQueryController#searchDoNotDisturb");
         log.debug("token={}", token);
 
-        List<DoNotDisturbResponse> responses = doNotDisturbQueryService.searchMyDoNotDisturbs(token);
-        log.debug("search results = {}", responses);
+        DoNotDisturbResponse response = doNotDisturbQueryService.searchMyDoNotDisturb(token);
+        log.debug("search results = {}", response);
 
-        return ApiResponse.ok(responses);
+        return ApiResponse.ok(response);
     }
 }

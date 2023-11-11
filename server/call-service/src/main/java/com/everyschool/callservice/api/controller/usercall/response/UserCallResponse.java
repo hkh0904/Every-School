@@ -16,28 +16,32 @@ public class UserCallResponse {
     private Long userCallId;
     private String senderName;
     private String receiverName;
+    private String receiveCall;
     private String sender;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private Boolean isBad;
 
     @Builder
-    public UserCallResponse(Long userCallId, String senderName, String receiverName, String sender, LocalDateTime startDateTime,
-                            LocalDateTime endDateTime, Boolean isBad) {
+    public UserCallResponse(Long userCallId, String senderName, String receiverName, String receiveCall, String sender,
+                            LocalDateTime startDateTime, LocalDateTime endDateTime, Boolean isBad) {
         this.userCallId = userCallId;
         this.senderName = senderName;
         this.receiverName = receiverName;
+        this.receiveCall = receiveCall;
         this.sender = sender;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.isBad = isBad;
     }
 
+
     public static UserCallResponse of(UserCall userCall) {
         return UserCallResponse.builder()
                 .userCallId(userCall.getId())
                 .senderName(userCall.getSenderName())
                 .receiverName(userCall.getReceiverName())
+                .receiveCall(userCall.getReceiveCall())
                 .sender(userCall.getSender())
                 .startDateTime(userCall.getStartDateTime())
                 .endDateTime(userCall.getEndDateTime())

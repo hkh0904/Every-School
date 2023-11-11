@@ -20,7 +20,17 @@ class CommunityApi {
   Future<dynamic> getNoticeList(schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/new-notice');
+          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/notices?page=1');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getHomeNoticeList(schoolId) async {
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/communications?page=1');
       return response.data['data'];
     } catch (e) {
       print(e);

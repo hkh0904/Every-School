@@ -47,4 +47,8 @@ public class SchoolApplyService {
 
         return CreateSchoolApplyResponse.of(savedSchoolApply);
     }
+
+    public void createParentSchoolApply(Long parentId, Long studentId, Long schoolClassId) {
+        // TODO: 11/11/23 구현 예정
+    }
 }

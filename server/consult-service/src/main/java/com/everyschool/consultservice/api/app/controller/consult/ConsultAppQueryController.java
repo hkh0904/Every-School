@@ -30,7 +30,7 @@ public class ConsultAppQueryController {
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        List<ConsultResponse> responses = consultAppQueryService.searchConsultsByParent(userKey, schoolYear);
+        List<ConsultResponse> responses = consultAppQueryService.searchConsultsByParent(userKey, schoolYear, schoolId);
 
         return ApiResponse.ok(responses);
     }
@@ -54,7 +54,7 @@ public class ConsultAppQueryController {
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        List<ConsultResponse> responses = consultAppQueryService.searchConsultsByTeacher(userKey, schoolYear);
+        List<ConsultResponse> responses = consultAppQueryService.searchConsultsByTeacher(userKey, schoolYear, schoolId);
 
         return ApiResponse.ok(responses);
     }

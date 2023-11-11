@@ -48,7 +48,7 @@ public class UserAppQueryControllerDocsTest extends RestDocsSupport {
             .name("이예리")
             .build();
 
-        given(userAppQueryService.searchContactInfo(anyInt(), anyString()))
+        given(userAppQueryService.searchContactInfo(anyString(), anyInt()))
             .willReturn(response);
 
         mockMvc.perform(
@@ -98,7 +98,7 @@ public class UserAppQueryControllerDocsTest extends RestDocsSupport {
 
         response.getParents().add(parent);
 
-        given(userAppQueryService.searchContactInfos(anyInt(), anyString()))
+        given(userAppQueryService.searchContactInfos(anyString(), anyInt()))
             .willReturn(List.of(response));
 
         mockMvc.perform(

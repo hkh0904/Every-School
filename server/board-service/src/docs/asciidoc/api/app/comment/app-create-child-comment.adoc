@@ -1,0 +1,11 @@
+[[app-create-child-comment]]
+=== 대댓글 등록 API
+
+==== HTTP Request
+include::{snippets}/app-create-child-comment/http-request.adoc[]
+include::{snippets}/app-create-child-comment/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/app-create-child-comment/http-response.adoc[]
+include::{snippets}/app-create-child-comment/response-fields.adoc[]

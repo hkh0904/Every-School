@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:everyschool/page/community/school_schedule.dart';
 
 class CommunityMenu extends StatefulWidget {
@@ -9,6 +10,22 @@ class CommunityMenu extends StatefulWidget {
 }
 
 class _CommunityMenuState extends State<CommunityMenu> {
+  // Future<void> _launchURL(String urlString) async {
+  //   final Uri url = Uri.parse(urlString);
+  //   if (await canLaunchUrl(url)) {
+  //     await launchUrl(url);
+  //   } else {
+  //     throw 'Could not launch $urlString';
+  //   }
+  // }
+
+  Future<void> _launchURL(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> columns = [
@@ -45,17 +62,22 @@ class _CommunityMenuState extends State<CommunityMenu> {
       ),
       Column(
         children: [
-          Container(
-            height: 55,
-            width: 55,
-            margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-            decoration: BoxDecoration(
-              color: Color(0xffF1F1F1),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('assets/images/community/annouce.png'),
+          GestureDetector(
+            onTap: () {
+              _launchURL('https://www.google.com');
+            },
+            child: Container(
+              height: 55,
+              width: 55,
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+              decoration: BoxDecoration(
+                color: Color(0xffF1F1F1),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset('assets/images/community/annouce.png'),
+              ),
             ),
           ),
           Text(

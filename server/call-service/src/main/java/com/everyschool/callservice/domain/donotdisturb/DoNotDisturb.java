@@ -36,11 +36,16 @@ public class DoNotDisturb extends BaseEntity {
     }
 
     @Builder
-    private DoNotDisturb(Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate) {
+    private DoNotDisturb(Long id, Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate) {
         this();
+        this.id = id;
         this.teacherId = teacherId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.isActivate = isActivate;
+    }
+
+    public void updateIsActivate() {
+        this.isActivate = !this.isActivate;
     }
 }
