@@ -6,7 +6,8 @@ import 'package:everyschool/page/community/post_detail.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class PostList extends StatefulWidget {
-  const PostList({super.key});
+  final String pageTitle;
+  const PostList({Key? key, required this.pageTitle}) : super(key: key);
 
   @override
   State<PostList> createState() => _PostListState();
@@ -18,9 +19,16 @@ class _PostListState extends State<PostList> {
 
   Future<void> _loadPostData() async {
     final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
-    print(context.read<UserStore>().userInfo);
+    var response;
     try {
-      var response = await communityApi.getBoardList(schoolId);
+      if (widget.pageTitle == '자유 게시판') {
+        response = await communityApi.getBoardList(schoolId);
+      } else if (widget.pageTitle == '학사 공지') {
+        response = await communityApi.getNoticeList(schoolId);
+      } else if (widget.pageTitle == '가정통신문') {
+        response = await communityApi.getHomeNoticeList(schoolId);
+      }
+
       if (response != null && response['content'] != null) {
         setState(() {
           postList = response['content'];
@@ -85,7 +93,6 @@ class _PostListState extends State<PostList> {
       itemCount: postList.length,
       itemBuilder: (context, index) {
         int? boardId = postList[index]['boardId'] as int?;
-
         return GestureDetector(
           onTapDown: (TapDownDetails details) {
             setState(() {
