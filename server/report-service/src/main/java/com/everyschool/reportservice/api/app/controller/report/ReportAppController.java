@@ -55,7 +55,7 @@ public class ReportAppController {
 
         List<UploadFile> uploadFiles = fileStore.storeFiles(request.getFiles());
 
-        CreateReportResponse response = reportAppService.createReport(userKey, schoolId, schoolYear, request.toDto(), uploadFiles);
+        CreateReportResponse response = reportAppService.createReport(userKey, schoolYear, schoolId, request.toDto(), uploadFiles);
 
         return ApiResponse.created(response);
     }
@@ -68,5 +68,4 @@ public class ReportAppController {
     private void validateReportType(int code) {
         ReportType.getText(code);
     }
-
 }
