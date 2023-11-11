@@ -36,7 +36,7 @@ class ChatController extends ChangeNotifier {
   }
 
   void setChatList(message) {
-    chatList = message;
+    chatList = [...chatList, ...message];
     notifyListeners();
   }
 

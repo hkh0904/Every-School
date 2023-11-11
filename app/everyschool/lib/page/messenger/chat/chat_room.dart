@@ -42,6 +42,8 @@ class _ChatRoomState extends State<ChatRoom> {
   int? myclassId;
   String mykey = '';
   Map<String, dynamic>? createRoomInfo = {};
+
+  int? chatLastIdx;
   getkey() async {
     final kkk = await storage.read(key: 'userKey');
     setState(() {
@@ -57,23 +59,24 @@ class _ChatRoomState extends State<ChatRoom> {
     token = await storage.read(key: 'token') ?? "";
 
     final response = await MessengerApi().getChatListItem(
-      token,
-      widget.roomInfo == null
-          ? createRoomInfo!['roomId']
-          : widget.roomInfo['roomId'],
-    );
+        token,
+        widget.roomInfo == null
+            ? createRoomInfo!['roomId']
+            : widget.roomInfo['roomId'],
+        chatLastIdx);
     print('이게 정말 채팅 내역');
-    print(response);
+    print(response[response.length - 1]['chatId']);
     if (response.length != 0) {
-      final newList = response
-          .map((chat) => Chat(
-              message: chat['content'],
-              sender: chat['mine'] == true ? mykey : '',
-              time: DateTime.parse(chat['sendTime'])))
-          .toList();
+      final newList = List<Chat>.from(response.map((chat) => Chat(
+          message: chat['content'],
+          sender: chat['mine'] == true ? mykey : '',
+          time: DateTime.parse(chat['sendTime']))));
       print(newList);
 
-      context.read<ChatController>().setChatList(newList.cast<Chat>());
+      context.read<ChatController>().setChatList(newList);
+      print(chatLastIdx);
+      chatLastIdx = response[response.length - 1]['chatId'];
+      print(chatLastIdx);
     }
   }
 
@@ -165,6 +168,12 @@ class _ChatRoomState extends State<ChatRoom> {
     );
   }
 
+  void _handleScrollToTop() {
+    print(' 또 신청한다 ! !');
+    getChat();
+    // 원하는 함수를 여기에 추가
+  }
+
   late StompClient stompClient = StompClient(
       config: StompConfig(
           url: socketURL,
@@ -174,7 +183,19 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void initState() {
     context.read<ChatController>().clearChatList();
-
+    context.read<ChatController>().scrollController.addListener(() {
+      print(context.read<ChatController>().scrollController.position.pixels);
+      // Scroll이 맨 위에 도달하면 특정 함수 실행
+      if (context.read<ChatController>().scrollController.position.pixels ==
+          context
+              .read<ChatController>()
+              .scrollController
+              .position
+              .maxScrollExtent) {
+        print('도달');
+        _handleScrollToTop();
+      }
+    });
     getChat();
     getkey();
     getToken();

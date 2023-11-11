@@ -49,13 +49,15 @@ class MessengerApi {
   }
 
   //채팅룸 내역 조회
-  Future<dynamic> getChatListItem(token, chatRoomId) async {
+  Future<dynamic> getChatListItem(token, chatRoomId, idx) async {
     try {
       final response = await dio.get(
-          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId',
+          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId?',
+          queryParameters: {'idx': idx},
           options: Options(headers: {'Authorization': 'Bearer $token'}));
+
       print('채팅 룸 내역 조회 성공');
-      print(response.data);
+      print(response.data['data']);
 
       return response.data['data'];
     } on DioException catch (e) {
