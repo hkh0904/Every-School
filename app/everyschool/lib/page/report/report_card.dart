@@ -35,13 +35,6 @@ class _ReportCardState extends State<ReportCard> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print(widget.reportingList);
-  }
-
   String _formatDate(String dateString) {
     DateTime dateTime = DateTime.parse(dateString);
     String formattedDate = DateFormat('yyyy.MM.dd  HH:mm').format(dateTime);
