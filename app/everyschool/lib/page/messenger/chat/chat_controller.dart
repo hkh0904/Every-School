@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 
 class ChatController extends ChangeNotifier {
+  List chatroomList = [];
+
   List<Chat> chatList = [];
 
   /* Controllers */
@@ -27,9 +29,19 @@ class ChatController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setChatList(message) {
-    chatList = [message];
+  //채팅방 목록 요청하는 트리거
+  changechatroomList(roomList) {
+    chatroomList = roomList;
     notifyListeners();
+  }
+
+  void setChatList(message) {
+    chatList = message;
+    notifyListeners();
+  }
+
+  void clearChatList() {
+    chatList.clear();
   }
 
   void onFieldChanged(String term) {
@@ -37,7 +49,7 @@ class ChatController extends ChangeNotifier {
   }
 
   void addNewMessage(Chat message) {
-    chatList.add(message);
+    chatList = [message, ...chatList];
     notifyListeners();
   }
 

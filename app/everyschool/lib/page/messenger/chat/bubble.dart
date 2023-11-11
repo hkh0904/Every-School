@@ -1,7 +1,6 @@
 library flutter_chat_bubble;
 
 import 'package:everyschool/page/messenger/chat/chat.dart';
-import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
 import 'package:everyschool/page/messenger/chat/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
@@ -24,26 +23,12 @@ class _BubbleState extends State<Bubble> {
   String? senderKey;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('여기가 버블1');
-    print('여기가 버블1');
-    print('여기가 버블12');
-    print('여기가 버블3');
-    print('여기가 버블4');
-    print('여기가 버블5');
-    print('여기가 버블7');
-    print(widget.myKey);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: alignmentOnType,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.chat.sender == ChatMessageType.received)
+        if (widget.chat.sender != widget.myKey)
           const CircleAvatar(
             backgroundImage: AssetImage("assets/images/avatar_1.png"),
           ),
@@ -92,9 +77,9 @@ class _BubbleState extends State<Bubble> {
 
   Color get bgColorOnType {
     if (widget.chat.sender == widget.myKey) {
-      return const Color(0xFFE7E7ED);
+      return Color(0XFF15075F);
     } else {
-      return const Color(0xff15075F);
+      return Color.fromARGB(255, 255, 255, 255);
     }
   }
 
