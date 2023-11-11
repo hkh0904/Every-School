@@ -42,7 +42,7 @@ public class ReportAppQueryController {
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        List<ReportResponse> response = reportAppQueryService.searchReports(userKey, schoolYear);
+        List<ReportResponse> response = reportAppQueryService.searchReports(userKey, schoolYear, schoolId);
 
         return ApiResponse.ok(response);
     }
