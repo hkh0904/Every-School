@@ -13,6 +13,7 @@ class UserApi {
     if (userType == '1001') {
       lastAdd = '/v1/app/info/student';
     } else if (userType == '1002') {
+      print('학부모조회');
       lastAdd = '/v1/app/info/parent';
     } else {
       lastAdd = '/v1/app/info/teacher';
@@ -22,7 +23,28 @@ class UserApi {
           '${serverApi.serverURL}/user-service$lastAdd',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       return response.data['data'];
-    } catch (e) {
+    } on DioException catch (e) {
+      print(e);
+      return 0;
+    }
+  }
+
+  Future<dynamic> getUserRegisterInfo(token) async {
+    var userType = await storage.read(key: 'usertype');
+    String lastAdd;
+    if (userType == '1001') {
+      lastAdd = '/v1/app/info/student';
+    } else if (userType == '1002') {
+      lastAdd = '/v1/app/info/parent';
+    } else {
+      lastAdd = '/v1/app/info/teacher';
+    }
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/user-service$lastAdd',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      return response.data;
+    } on DioException catch (e) {
       print(e);
       return 0;
     }
