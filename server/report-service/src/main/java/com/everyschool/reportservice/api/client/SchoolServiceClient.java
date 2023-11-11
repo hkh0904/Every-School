@@ -20,5 +20,5 @@ public interface SchoolServiceClient {
      * @return 학년, 반, 학번(존재하지 않으면 null)
      */
     @GetMapping("/school-service/client/v1/student-info/{userId}")
-    SchoolUserInfo searchByUserId(@PathVariable Long userId);
+    SchoolUserInfo searchByUserId(@PathVariable(name = "userId") Long userId);
 }
