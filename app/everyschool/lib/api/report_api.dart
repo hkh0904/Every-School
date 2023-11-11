@@ -26,12 +26,12 @@ class ReportApi {
     }
   }
 
-  Future<dynamic> getReportList(year, schoolId) async {
+  Future<dynamic> getReportList(year, schoolId, reportType) async {
     String? token = await storage.read(key: 'token');
 
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/report-service/v1/app/$year/schools/$schoolId/reports',
+          '${serverApi.serverURL}/report-service/v1/web/$year/schools/$schoolId/reports?status=$reportType',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));

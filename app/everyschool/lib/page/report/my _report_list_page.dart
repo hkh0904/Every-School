@@ -23,11 +23,23 @@ class _ReportListPageState extends State<ReportListPage> {
     final myInfo = context.read<UserStore>().userInfo;
     final year = context.read<UserStore>().year;
 
-    var response =
-        await ReportApi().getReportList(year, myInfo['school']['schoolId']);
+    var repList = await ReportApi()
+        .getReportList(year, myInfo['school']['schoolId'], 7001);
 
-    var reportInfo = {"userType": int.parse(userType), "repList": response};
-    print(reportInfo);
+    var ingList = await ReportApi()
+        .getReportList(year, myInfo['school']['schoolId'], 7002);
+
+    var completeList = await ReportApi()
+        .getReportList(year, myInfo['school']['schoolId'], 7003);
+
+    var allList = repList['content'] + ingList['content'];
+
+    var reportInfo = {
+      "userType": int.parse(userType),
+      "repList": allList,
+      "completeList": completeList['content']
+    };
+    // print(reportInfo);
     return reportInfo;
   }
 
@@ -160,8 +172,9 @@ class _ReportListPageState extends State<ReportListPage> {
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             )),
-                        // ReportCard(
-                        //     state: 'past', reportingList: pastReportingList),
+                        ReportCard(
+                            state: 'past',
+                            reportingList: snapshot.data['completeList']),
                       ],
                     ),
                   ),
