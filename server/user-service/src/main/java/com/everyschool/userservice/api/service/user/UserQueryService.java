@@ -19,8 +19,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.everyschool.userservice.error.ErrorMessage.UNREGISTERED_USER;
+import static com.everyschool.userservice.message.ErrorMessage.NO_SUCH_USER;
 
+/**
+ * 회원 조회 서비스
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -78,7 +83,7 @@ public class UserQueryService {
     public UserInfo searchUserInfo(String userKey) {
         Optional<User> findUser = userQueryRepository.findUserInfoByUserKey(userKey);
         if (findUser.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_USER.getMessage());
+            throw new NoSuchElementException(NO_SUCH_USER.getMessage());
         }
         User user = findUser.get();
 
@@ -99,7 +104,7 @@ public class UserQueryService {
     public UserInfo searchUserInfoById(Long userId) {
         Optional<User> findUser = userRepository.findById(userId);
         if (findUser.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_USER.getMessage());
+            throw new NoSuchElementException(NO_SUCH_USER.getMessage());
         }
         User user = findUser.get();
 

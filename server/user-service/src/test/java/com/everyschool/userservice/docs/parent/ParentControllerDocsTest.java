@@ -53,7 +53,7 @@ public class ParentControllerDocsTest extends RestDocsSupport {
         given(tokenUtils.getUserKey())
             .willReturn(UUID.randomUUID().toString());
 
-        given(studentParentService.createStudentParent(anyString(), anyString()))
+        given(studentParentService.checkStudentParent(anyString(), anyString()))
             .willReturn(response);
 
         mockMvc.perform(
