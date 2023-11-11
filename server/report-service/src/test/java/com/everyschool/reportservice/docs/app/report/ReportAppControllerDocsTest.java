@@ -6,7 +6,6 @@ import com.everyschool.reportservice.api.app.controller.report.response.CreateRe
 import com.everyschool.reportservice.api.app.service.report.ReportAppService;
 import com.everyschool.reportservice.api.FileStore;
 import com.everyschool.reportservice.docs.RestDocsSupport;
-import com.everyschool.reportservice.domain.report.ReportType;
 import com.everyschool.reportservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,7 +65,7 @@ public class ReportAppControllerDocsTest extends RestDocsSupport {
             .createdDate(LocalDateTime.now())
             .build();
 
-        given(reportAppService.createReport(anyString(), anyLong(), anyInt(), any(), anyList()))
+        given(reportAppService.createReport(anyString(), anyInt(), anyLong(), any(), anyList()))
             .willReturn(response);
 
         mockMvc.perform(

@@ -45,7 +45,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
         ReportResponse response1 = createReportResponse(1L, VIOLENCE.getCode(), REGISTER.getCode());
         ReportResponse response2 = createReportResponse(2L, ETC.getCode(), REGISTER.getCode());
 
-        given(reportWebQueryService.searchReports(anyLong(), anyInt(), anyInt()))
+        given(reportWebQueryService.searchReports(anyInt(), anyLong(), anyInt()))
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(

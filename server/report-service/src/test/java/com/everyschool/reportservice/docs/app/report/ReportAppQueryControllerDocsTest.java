@@ -51,7 +51,7 @@ public class ReportAppQueryControllerDocsTest extends RestDocsSupport {
             .createdDate(LocalDateTime.now())
             .build();
 
-        given(reportAppQueryService.searchReports(anyString(), anyInt()))
+        given(reportAppQueryService.searchReports(anyString(), anyInt(), anyLong()))
             .willReturn(List.of(response));
 
         mockMvc.perform(
