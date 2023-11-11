@@ -36,8 +36,8 @@ public class ReportAppController {
      * 신고 등록 API
      *
      * @param schoolYear 학년도
-     * @param schoolId 학교 아이디
-     * @param request 신고 등록 요청 정보
+     * @param schoolId   학교 아이디
+     * @param request    신고 등록 요청 정보
      * @return 등록된 신고 정보
      * @throws IOException S3에 파일 업로드 실패 시 발생
      */
@@ -49,7 +49,7 @@ public class ReportAppController {
         @Valid @ModelAttribute CreateReportRequest request
     ) throws IOException {
 
-        ReportType.getText(request.getTypeId());
+        validateReportType(request.getTypeId());
 
         String userKey = tokenUtils.getUserKey();
 
@@ -58,6 +58,15 @@ public class ReportAppController {
         CreateReportResponse response = reportAppService.createReport(userKey, schoolId, schoolYear, request.toDto(), uploadFiles);
 
         return ApiResponse.created(response);
+    }
+
+    /**
+     * 신고 타입 코드 검증
+     *
+     * @param code 신고 타입 코드
+     */
+    private void validateReportType(int code) {
+        ReportType.getText(code);
     }
 
 }
