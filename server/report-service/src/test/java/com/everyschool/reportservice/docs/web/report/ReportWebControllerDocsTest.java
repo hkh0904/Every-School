@@ -18,6 +18,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -65,6 +67,10 @@ public class ReportWebControllerDocsTest extends RestDocsSupport {
             .andDo(document("edit-status",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
                 requestFields(
                     fieldWithPath("status").type(JsonFieldType.NUMBER)
                         .description("처리 상태 코드")
@@ -118,6 +124,10 @@ public class ReportWebControllerDocsTest extends RestDocsSupport {
             .andDo(document("edit-result",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
                 requestFields(
                     fieldWithPath("result").type(JsonFieldType.STRING)
                         .description("신고 처리 결과")

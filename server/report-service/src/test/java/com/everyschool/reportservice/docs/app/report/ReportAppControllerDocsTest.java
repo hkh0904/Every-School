@@ -19,6 +19,8 @@ import java.util.UUID;
 import static com.everyschool.reportservice.domain.report.ReportType.VIOLENCE;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -61,7 +63,7 @@ public class ReportAppControllerDocsTest extends RestDocsSupport {
 
         CreateReportResponse response = CreateReportResponse.builder()
             .reportId(1L)
-            .witness("20201 동팔이")
+            .witness("2학년 2반 1번 동팔이")
             .createdDate(LocalDateTime.now())
             .build();
 
@@ -85,6 +87,10 @@ public class ReportAppControllerDocsTest extends RestDocsSupport {
             .andExpect(status().isCreated())
             .andDo(document("create-report",
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),

@@ -18,6 +18,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -57,6 +59,10 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .andExpect(status().isOk())
             .andDo(document("search-reports",
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
                 requestParameters(
                     parameterWithName("status")
                         .description("신고 처리 상태 코드")
@@ -92,7 +98,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .schoolYear(2023)
             .typeId(VIOLENCE.getCode())
             .statusId(REGISTER.getCode())
-            .witness("10301 문동은")
+            .witness("1학년 3반 21번 문동은")
             .who("10302 박연진")
             .when("2023-11-04 11시경")
             .where("학교 체육관")
@@ -113,6 +119,10 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .andExpect(status().isOk())
             .andDo(document("search-report",
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
