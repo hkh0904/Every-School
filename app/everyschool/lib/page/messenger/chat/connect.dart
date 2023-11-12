@@ -295,7 +295,7 @@ class _ConnectState extends State<Connect> {
   void initState() {
     super.initState();
     getChannelName(16);
-    // setupVoiceSDKEngine();
+    setupVoiceSDKEngine();
   }
 
   List<bool> showParentList = List<bool>.generate(50, (index) => false);
