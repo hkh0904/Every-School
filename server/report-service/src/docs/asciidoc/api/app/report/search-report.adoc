@@ -5,6 +5,7 @@
 
 include::{snippets}/search-report/http-request.adoc[]
 include::{snippets}/search-report/request-headers.adoc[]
+include::{snippets}/search-report/path-parameters.adoc[]
 
 
 ==== HTTP Response

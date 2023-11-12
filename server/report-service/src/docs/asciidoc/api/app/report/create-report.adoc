@@ -5,6 +5,7 @@
 
 include::{snippets}/create-report/http-request.adoc[]
 include::{snippets}/create-report/request-headers.adoc[]
+include::{snippets}/create-report/path-parameters.adoc[]
 
 
 ==== HTTP Response

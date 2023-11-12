@@ -5,6 +5,7 @@
 
 include::{snippets}/edit-status/http-request.adoc[]
 include::{snippets}/edit-status/request-headers.adoc[]
+include::{snippets}/edit-status/path-parameters.adoc[]
 include::{snippets}/edit-status/request-fields.adoc[]
 
 

@@ -5,6 +5,7 @@
 
 include::{snippets}/search-reports/http-request.adoc[]
 include::{snippets}/search-reports/request-headers.adoc[]
+include::{snippets}/search-reports/path-parameters.adoc[]
 include::{snippets}/search-reports/request-parameters.adoc[]
 
 
