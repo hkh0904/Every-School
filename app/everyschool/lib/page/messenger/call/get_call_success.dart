@@ -34,13 +34,10 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
           SizedBox(
             height: 20,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Image.asset(
-              'assets/images/contact/call.gif',
-              height: 150,
-              width: 150,
-            ),
+          Image.asset(
+            'assets/images/contact/call.gif',
+            height: 150,
+            width: 150,
           ),
           SizedBox(
             height: 15,
