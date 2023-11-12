@@ -69,7 +69,9 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SelectChild()),
+                                      builder: (context) => SelectChild(
+                                          descendants:
+                                              snapshot.data['descendants'])),
                                 )
                               },
                               style: OutlinedButton.styleFrom(

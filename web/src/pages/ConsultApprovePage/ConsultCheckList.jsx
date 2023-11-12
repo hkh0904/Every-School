@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styles from './ConsultCheckList.module.css';
 import { useEffect } from 'react';
-import RefuseModal from './RefuseModal';
 import { approveConsulting } from '../../api/ConsultingAPI/consultingAPI';
 
 export default function ConsultCheckList({ csltList, setIsModalOpen, setRejectNum }) {
   const [groupCslt, setGroupCslt] = useState([]);
+  console.log(csltList);
 
   function groupByYearMonth(list) {
     const grouped = {};
@@ -50,10 +50,13 @@ export default function ConsultCheckList({ csltList, setIsModalOpen, setRejectNu
                             src={process.env.PUBLIC_URL + '/assets/consult/consultcheck.png'}
                             alt=''
                           />
-                          <p className={styles.childName}>{item.studentInfo.split(' ')[1]} 학생</p>
+                          <p className={styles.childName}>
+                            {item.parentInfo.split(' ')[0]} {item.parentInfo.split(' ')[1]}{' '}
+                            {item.parentInfo.split(' ')[2]}
+                          </p>
                           <p className={styles.parentName}>
-                            {item.parentInfo.split(' ')[0]}
-                            {item.parentInfo.split(' ')[1] === '어머님' ? <span>(모)</span> : <span>(부)</span>}
+                            {item.parentInfo.split(' ')[3]}&nbsp;
+                            {item.parentInfo.split(' ')[4]}
                           </p>
                         </div>
                         <div className={styles.reasonBox}>

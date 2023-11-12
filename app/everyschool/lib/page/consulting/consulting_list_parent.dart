@@ -27,6 +27,7 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
     var response = await ConsultingApi()
         .getConsultingList(selectDescendant['school']['schoolId'], year);
     print(response);
+    print('정보 $selectDescendant');
     return response;
   }
 
