@@ -8,7 +8,9 @@ import com.everyschool.openaiservice.api.client.response.chat.CheckingChatRespon
 import com.everyschool.openaiservice.api.client.response.dto.Message;
 import com.everyschool.openaiservice.api.service.dto.Chat;
 import com.everyschool.openaiservice.messagequeue.KafkaProducer;
+import com.everyschool.openaiservice.messagequeue.dto.ChatReviewSaveDto;
 import com.everyschool.openaiservice.messagequeue.dto.ChatUpdateDto;
+import com.everyschool.openaiservice.messagequeue.dto.KafkaTestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -31,17 +34,16 @@ public class OpenAiService {
 
     @Scheduled(cron = "0 0 2 * * ?")
     public void doChecking() {
-        // TODO: 2023-11-08 채팅방 id 가져오기
         LocalDate checkDate = LocalDate.now().minusDays(1);
+        // 채팅방 id 가져오기
         List<Long> roomIds = chatServiceClient.searchChatRoomIdByDate(checkDate);
-        // TODO: 2023-11-08 반복문 안에서 채팅 목록 가져오기
         CheckingChatResponse chatListResponse;
         for (Long roomId : roomIds) {
+            // 채팅 목록 가져오기
             chatListResponse = chatServiceClient.searchChatByDateAndChatRoomId(checkDate, roomId);
-            // TODO: 2023-11-08 발신자 정리해서 GPT 보내기
-            method(chatListResponse);
+            // 발신자 정리해서 GPT 보내기
+            doChatReview(chatListResponse);
         }
-        // TODO: 2023-11-08 문제 채팅 카프카로 저장하기
     }
 
     @Scheduled(fixedRate = 600000)
@@ -51,14 +53,25 @@ public class OpenAiService {
         log.debug("[AI 실행] 채팅 서비스 요청하기");
         List<Long> roomIds = chatServiceClient.searchChatRoomIdByDate(checkDate);
         log.debug("[AI 실행] 채팅 서비스에서 목록 불러옴. 크기 = {}", roomIds.size());
+
+
+        GptResponse gptResponse = gptServiceClient.requestGpt(
+                "Bearer ",
+                generateGptRequest("안녕하세요 해봐"));
+
+        String content = gptResponse.getChoices().get(0).getMessage().getContent();
+        log.debug("[AI 실행] gpt 실행되는지 응답 = {}", content);
+
+        log.debug("[AI 실행] 카프카 테스트");
+        kafkaProducer.test("kafka-test", KafkaTestDto.builder().content("이건 카프카 테스트임").build());
     }
 
-    private void method(CheckingChatResponse chatListResponse) {
+    private void doChatReview(CheckingChatResponse chatListResponse) {
         List<Chat> chats = chatListResponse.getChats();
         StringBuilder sb = new StringBuilder();
         Long teacherId = chatListResponse.getTeacherId();
         for (Chat chat : chats) {
-            if (chat.getUserId() == teacherId) {
+            if (Objects.equals(chat.getUserId(), teacherId)) {
                 sb.append("T(").append(chat.getId()).append("): ")
                         .append(chat.getContent()).append("\n");
             } else {
@@ -81,7 +94,8 @@ public class OpenAiService {
         if (result[0].equals("good")) {
             return;
         }
-        // TODO: 2023-11-10 문제 날짜 저장하기
+        // 문제 날짜 저장하기
+        kafkaProducer.saveReviewDate("save-chat-review", generateSaveChatReviewDto(chatListResponse, chats));
         for (int i = 1; i < result.length; i++) {
             //  채팅에 사유 업데이트 하기
             String[] reason = result[i].split(":");
@@ -90,6 +104,24 @@ public class OpenAiService {
                     .reason(reason[1])
                     .build());
         }
+    }
+
+    private ChatReviewSaveDto generateSaveChatReviewDto(CheckingChatResponse chatListResponse, List<Chat> chats) {
+        return ChatReviewSaveDto.builder()
+                .chatRoomId(chats.get(0).getChatRoomId())
+                .chatDate(chats.get(0).getCreatedDate().toLocalDate())
+                .title(generateTitle(chatListResponse.getTeacherName(), chatListResponse.getOtherUserName(), chatListResponse.getChildName()))
+                .build();
+    }
+
+    private String generateTitle(String teacherName, String otherUserName, String childName) {
+        if (childName.length() == 0) {
+            return teacherName + "선생님과 " +
+                    childName + "학생";
+        }
+        return teacherName + "선생님과 " +
+                childName + "학생의 학부모 " +
+                otherUserName;
     }
 
     private GptRequest generateGptRequest(String prompt) {
@@ -106,5 +138,3 @@ public class OpenAiService {
     }
 }
 
-
-// TODO: 2023-11-10 해야함
