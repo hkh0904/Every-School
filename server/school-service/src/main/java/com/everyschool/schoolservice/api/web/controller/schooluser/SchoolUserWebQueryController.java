@@ -1,9 +1,9 @@
-package com.everyschool.schoolservice.api.controller.schooluser;
+package com.everyschool.schoolservice.api.web.controller.schooluser;
 
 import com.everyschool.schoolservice.api.ApiResponse;
 import com.everyschool.schoolservice.api.Result;
-import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
-import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
+import com.everyschool.schoolservice.api.web.controller.schooluser.response.MyClassParentResponse;
+import com.everyschool.schoolservice.api.web.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
 import com.everyschool.schoolservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/school-service/v1/web/{schoolYear}/schools/{schoolId}/classes/{schoolClassId}")
-public class SchoolUserQueryController {
+public class SchoolUserWebQueryController {
 
     private final SchoolUserQueryService schoolUserQueryService;
     private final TokenUtils tokenUtils;

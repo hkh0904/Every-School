@@ -1,6 +1,5 @@
 package com.everyschool.schoolservice.messagequeue;
 
-import com.everyschool.schoolservice.api.service.schoolapply.SchoolApplyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
