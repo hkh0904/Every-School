@@ -1,6 +1,7 @@
 import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
+import 'package:everyschool/page/global_variable.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,41 +9,56 @@ import 'package:flutter/material.dart';
 import 'package:flutter_callkit_incoming/entities/entities.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+final storage = FlutterSecureStorage();
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (message.data['type'] == 'call') {
     DateTime currentTime = DateTime.now();
-    var time = await CallingApi().muteTimeInquiry();
+    var userType = await storage.read(key: 'usertype');
 
-    DateTime startTime = DateTime.parse(time['startTime']);
-    DateTime endTime = DateTime.parse(time['endTime']);
+    print(message.data);
 
-    if (currentTime.isAfter(startTime) &&
-        currentTime.isBefore(endTime) &&
-        time['isActivate'] == true) {
-      print('현재 시간이 방해 금지 시간에 속합니다.');
+    if (userType == "1003") {
+      var time = await CallingApi().muteTimeInquiry();
+
+      DateTime startTime = DateTime.parse(time['startTime']);
+      DateTime endTime = DateTime.parse(time['endTime']);
+      if (currentTime.isAfter(startTime) &&
+          currentTime.isBefore(endTime) &&
+          time['isActivate'] == true) {
+        print('현재 시간이 방해 금지 시간에 속합니다.');
+      } else {
+        print('현재 시간이 방해 금지 시간에 속하지않습니다.');
+        var name = message.notification!.title;
+        var phoneNumber = message.notification!.body;
+        var channelName = message.data['cname'];
+        showCallkitIncoming('10', name as String, phoneNumber as String,
+            channelName as String, message.data['senderUserKey']);
+      }
     } else {
-      print('현재 시간이 방해 금지 시간에 속하지않습니다.');
       var name = message.notification!.title;
       var phoneNumber = message.notification!.body;
       var channelName = message.data['cname'];
-      showCallkitIncoming(
-        '10',
-        name as String,
-        phoneNumber as String,
-        channelName as String,
-      );
+      showCallkitIncoming('10', name as String, phoneNumber as String,
+          channelName as String, message.data['senderUserKey']);
     }
   } else if (message.data['type'] == 'cancel') {
     FlutterCallkitIncoming.endAllCalls();
+  } else if (message.data['type'] == 'denied') {
+    Navigator.pop(
+        CandyGlobalVariable.naviagatorState.currentContext as BuildContext);
   }
 }
 
-Future<void> showCallkitIncoming(
-    String uuid, String name, String phoneNumber, String channelName) async {
+Future<void> showCallkitIncoming(String uuid, String name, String phoneNumber,
+    String channelName, String senderUserKey) async {
+  String startTime = DateTime.now().toString();
+  var userKey = await storage.read(key: 'userKey');
   final params = CallKitParams(
       id: uuid,
       nameCaller: name,
@@ -59,7 +75,11 @@ Future<void> showCallkitIncoming(
         subtitle: 'Missed call',
         callbackText: 'Call back',
       ),
-      extra: <String, dynamic>{'userId': channelName},
+      extra: <String, dynamic>{
+        'userId': channelName,
+        'startTime': startTime,
+        'otherUserKey': senderUserKey
+      },
       headers: <String, dynamic>{'apiKey': 'Abc@123!', 'platform': 'flutter'},
       android: const AndroidParams(
         isCustomNotification: true,
@@ -120,33 +140,42 @@ class FirebaseApi {
 
     print('메세지!!!!! 노티피케이션 ${message.notification}');
     print('메세지!!!!! 데이터 ${message.data}');
+    var userType = await storage.read(key: 'usertype');
 
     if (notification != null) {
       if (message.data['type'] == 'call') {
         DateTime currentTime = DateTime.now();
-        var time = await CallingApi().muteTimeInquiry();
+        var userType = await storage.read(key: 'usertype');
 
-        DateTime startTime = DateTime.parse(time['startTime']);
-        DateTime endTime = DateTime.parse(time['endTime']);
+        if (userType == "1003") {
+          var time = await CallingApi().muteTimeInquiry();
 
-        if (currentTime.isAfter(startTime) &&
-            currentTime.isBefore(endTime) &&
-            time['isActivate'] == true) {
-          print('현재 시간이 방해 금지 시간에 속합니다.');
+          DateTime startTime = DateTime.parse(time['startTime']);
+          DateTime endTime = DateTime.parse(time['endTime']);
+          if (currentTime.isAfter(startTime) &&
+              currentTime.isBefore(endTime) &&
+              time['isActivate'] == true) {
+            print('현재 시간이 방해 금지 시간에 속합니다.');
+          } else {
+            print('현재 시간이 방해 금지 시간에 속하지않습니다.');
+            var name = message.notification!.title;
+            var phoneNumber = message.notification!.body;
+            var channelName = message.data['cname'];
+            showCallkitIncoming('10', name as String, phoneNumber as String,
+                channelName as String, message.data['senderUserKey'] as String);
+          }
         } else {
-          print('현재 시간이 방해 금지 시간에 속하지않습니다.');
           var name = message.notification!.title;
           var phoneNumber = message.notification!.body;
           var channelName = message.data['cname'];
-          showCallkitIncoming(
-            '10',
-            name as String,
-            phoneNumber as String,
-            channelName as String,
-          );
+          showCallkitIncoming('10', name as String, phoneNumber as String,
+              channelName as String, message.data['senderUserKey']);
         }
       } else if (message.data['type'] == 'cancel') {
         FlutterCallkitIncoming.endAllCalls();
+      } else if (message.data['type'] == 'denied') {
+        Navigator.pop(
+            CandyGlobalVariable.naviagatorState.currentContext as BuildContext);
       }
       FlutterLocalNotificationsPlugin().show(
         notification.hashCode,
@@ -233,6 +262,8 @@ class FirebaseApi {
         case Event.actionCallDecline:
           // TODO: declined an incoming call
           print('안받음');
+          CallingApi().deniedCall(event.body['extra']['otherUserKey'],
+              event.body['nameCaller'], event.body['extra']['startTime']);
           break;
         case Event.actionCallEnded:
           // TODO: ended an incoming/outgoing call
