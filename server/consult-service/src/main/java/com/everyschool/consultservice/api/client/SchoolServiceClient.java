@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "school-service", url = "https://every-school.com/api")
 public interface SchoolServiceClient {
 
-    // TODO: 2023-11-09 학생 아이디와 학년도로 해당 학생의 학번을 조회
     @PostMapping("/school-service/client/v1/student-info")
     StudentSchoolClassInfo searchByUserId(@RequestBody Long userId);
 
