@@ -4,8 +4,10 @@ import com.everyschool.schoolservice.api.app.controller.school.SchoolAppQueryCon
 import com.everyschool.schoolservice.api.app.controller.schoolapply.SchoolApplyAppController;
 import com.everyschool.schoolservice.api.app.service.schoolapply.SchoolApplyAppService;
 import com.everyschool.schoolservice.api.service.school.SchoolAppQueryService;
+import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
 import com.everyschool.schoolservice.api.web.controller.schoolapply.SchoolApplyWebController;
 import com.everyschool.schoolservice.api.web.controller.schoolapply.SchoolApplyWebQueryController;
+import com.everyschool.schoolservice.api.web.controller.schooluser.SchoolUserWebQueryController;
 import com.everyschool.schoolservice.api.web.service.schoolapply.SchoolApplyWebQueryService;
 import com.everyschool.schoolservice.api.web.service.schoolapply.SchoolApplyWebService;
 import com.everyschool.schoolservice.utils.TokenUtils;
@@ -18,7 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = {SchoolAppQueryController.class,
     SchoolApplyAppController.class,
     SchoolApplyWebController.class,
-    SchoolApplyWebQueryController.class})
+    SchoolApplyWebQueryController.class,
+    SchoolUserWebQueryController.class})
 public abstract class ControllerTestSupport {
 
     @Autowired
@@ -40,5 +43,8 @@ public abstract class ControllerTestSupport {
     protected SchoolApplyWebService schoolApplyWebService;
 
     @MockBean
-    private SchoolApplyWebQueryService schoolApplyWebQueryService;
+    protected SchoolApplyWebQueryService schoolApplyWebQueryService;
+
+    @MockBean
+    protected SchoolUserQueryService schoolUserQueryService;
 }
