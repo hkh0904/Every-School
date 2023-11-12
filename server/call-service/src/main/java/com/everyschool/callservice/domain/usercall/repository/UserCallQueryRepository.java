@@ -39,6 +39,7 @@ public class UserCallQueryRepository {
                 .where(
                         userCall.teacherId.eq(userId)
                 )
+                .orderBy(userCall.startDateTime.desc())
                 .fetch();
     }
 
@@ -59,6 +60,7 @@ public class UserCallQueryRepository {
                 .where(
                         userCall.otherUserId.eq(userId)
                 )
+                .orderBy(userCall.startDateTime.desc())
                 .fetch();
     }
 
@@ -83,6 +85,7 @@ public class UserCallQueryRepository {
         return queryFactory
                 .select(Projections.constructor(
                         UserCallDetailsResponse.class,
+                        userCallDetails.fileName,
                         userCallDetails.content,
                         userCallDetails.start,
                         userCallDetails.length,
