@@ -74,11 +74,10 @@ public class SchoolQueryControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-list-school",
+            .andDo(document("app-search-schools",
                 preprocessResponse(prettyPrint()),
                 requestParameters(
                     parameterWithName("query")
-                        .optional()
                         .description("조회할 학교명")
                 ),
                 responseFields(
@@ -120,7 +119,7 @@ public class SchoolQueryControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-detail-school",
+            .andDo(document("app-search-school",
                 preprocessResponse(prettyPrint()),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)

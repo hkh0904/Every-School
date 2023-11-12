@@ -53,6 +53,7 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
             .willReturn(UUID.randomUUID().toString());
 
         CreateSchoolApplyResponse response = CreateSchoolApplyResponse.builder()
+            .schoolApplyId(1L)
             .schoolYear(2023)
             .grade(1)
             .classNum(3)
@@ -98,6 +99,8 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
                         .description("메시지"),
                     fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
+                    fieldWithPath("data.schoolApplyId").type(JsonFieldType.NUMBER)
+                        .description("신청 학년도"),
                     fieldWithPath("data.schoolYear").type(JsonFieldType.NUMBER)
                         .description("신청 학년도"),
                     fieldWithPath("data.grade").type(JsonFieldType.NUMBER)

@@ -1,4 +1,4 @@
-package com.everyschool.schoolservice.docs.schooluser;
+package com.everyschool.schoolservice.docs.web.schooluser;
 
 import com.everyschool.schoolservice.api.web.controller.schooluser.SchoolUserWebQueryController;
 import com.everyschool.schoolservice.api.web.controller.schooluser.response.MyClassParentResponse;
@@ -15,12 +15,16 @@ import java.util.UUID;
 
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,8 +69,20 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-my-class-students",
+            .andDo(document("web-search-my-class-students",
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디"),
+                    parameterWithName("schoolClassId")
+                        .description("학급 아이디")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
@@ -121,8 +137,20 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andDo(document("search-my-class-parents",
+            .andDo(document("web-search-my-class-parents",
                 preprocessResponse(prettyPrint()),
+            requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디"),
+                    parameterWithName("schoolClassId")
+                        .description("학급 아이디")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),
