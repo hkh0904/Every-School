@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.tuple;
 class SchoolQueryRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
-    private SchoolQueryRepository schoolQueryRepository;
+    private SchoolAppQueryRepository schoolQueryRepository;
 
     @Autowired
     private SchoolRepository schoolRepository;
@@ -36,7 +36,7 @@ class SchoolQueryRepositoryTest extends IntegrationTestSupport {
         school4.remove();
 
         // when
-        List<SchoolResponse> responses = schoolQueryRepository.findByName(query);
+        List<SchoolResponse> responses = schoolQueryRepository.findByNameLike(query);
 
         // then
         assertThat(responses.size()).isEqualTo(3);
