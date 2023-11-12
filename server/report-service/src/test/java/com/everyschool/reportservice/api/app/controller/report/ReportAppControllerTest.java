@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import java.util.ArrayList;
 
 import static com.everyschool.reportservice.domain.report.ReportType.VIOLENCE;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -556,11 +557,23 @@ class ReportAppControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.message").value("CREATED"));
     }
 
+    @DisplayName("신고 내역 삭제를 한다.")
+    @Test
+    void removeReport() throws Exception {
+        //given
+
+        //when //then
+        mockMvc.perform(
+                delete(BASE_URL + "/{reportId}", 2023, 100000, 1)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.code").value("200"))
+            .andExpect(jsonPath("$.status").value("OK"))
+            .andExpect(jsonPath("$.message").value("SUCCESS"));
+    }
+
     private String getText(int size) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < size; i++) {
-            builder.append("0");
-        }
-        return String.valueOf(builder);
+        return "0".repeat(Math.max(0, size));
     }
 }
