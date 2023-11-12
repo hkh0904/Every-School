@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 class SchoolClassQueryRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
-    private SchoolClassQueryRepository schoolClassQueryRepository;
+    private SchoolClassQueryAppRepository schoolClassQueryRepository;
 
     @Autowired
     private SchoolClassRepository schoolClassRepository;

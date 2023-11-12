@@ -7,7 +7,7 @@ import com.everyschool.schoolservice.api.service.schoolclass.dto.CreateSchoolCla
 import com.everyschool.schoolservice.domain.school.School;
 import com.everyschool.schoolservice.domain.school.repository.SchoolRepository;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
-import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassQueryRepository;
+import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassQueryAppRepository;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class SchoolClassService {
 
     private final SchoolClassRepository schoolClassRepository;
-    private final SchoolClassQueryRepository schoolClassQueryRepository;
+    private final SchoolClassQueryAppRepository schoolClassQueryRepository;
     private final SchoolRepository schoolRepository;
     private final UserServiceClient userServiceClient;
 
