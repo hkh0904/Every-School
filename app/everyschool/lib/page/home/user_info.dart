@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/home/select_child.dart';
@@ -13,11 +15,21 @@ class SchoolInfo extends StatefulWidget {
 
 class _SchoolInfoState extends State<SchoolInfo> {
   final storage = FlutterSecureStorage();
+  var descend;
 
   getMainUserInfo() async {
     var token = await storage.read(key: 'token') ?? "";
     var info = await UserApi().getUserInfo(token);
     print('정보 $info');
+
+    if (info['userType'] == 1002) {
+      print('여기');
+      var descendant = await storage.read(key: 'descendant') ?? "";
+      var selectDescendant = jsonDecode(descendant);
+      print(selectDescendant);
+      descend = selectDescendant;
+    }
+
     return info;
   }
 
@@ -53,15 +65,13 @@ class _SchoolInfoState extends State<SchoolInfo> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                    snapshot.data['descendants'][0]['school']
-                                        ['name'] as String,
+                                Text(descend['school']['name'] as String,
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700)),
                                 Text('학부모'),
                                 Text(
-                                    '${snapshot.data['descendants'][0]['schoolClass']['grade']}학년 ${snapshot.data['descendants'][0]['schoolClass']['classNum']}반'),
+                                    '${descend['schoolClass']['grade']}학년 ${descend['schoolClass']['classNum']}반'),
                               ],
                             ),
                             OutlinedButton(

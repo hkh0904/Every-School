@@ -13,7 +13,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class MessengerPage extends StatefulWidget {
-  const MessengerPage({super.key});
+  const MessengerPage({super.key, this.indexNum});
+  final indexNum;
 
   @override
   State<MessengerPage> createState() => _MessengerPageState();
@@ -34,12 +35,15 @@ class _MessengerPageState extends State<MessengerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return userType == 1003 ? ManagerTapBar() : UserTapBar();
+    return userType == 1003
+        ? ManagerTapBar(indexNum: widget.indexNum)
+        : UserTapBar(indexNum: widget.indexNum);
   }
 }
 
 class ManagerTapBar extends StatefulWidget {
-  ManagerTapBar({super.key});
+  ManagerTapBar({super.key, this.indexNum});
+  final indexNum;
 
   @override
   State<ManagerTapBar> createState() => _ManagerTapBarState();
@@ -83,6 +87,7 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
+      initialIndex: widget.indexNum,
       child: Scaffold(
         body: SafeArea(
           child: NestedScrollView(
@@ -153,7 +158,8 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
 }
 
 class UserTapBar extends StatefulWidget {
-  UserTapBar({super.key});
+  UserTapBar({super.key, this.indexNum});
+  final indexNum;
 
   @override
   State<UserTapBar> createState() => _UserTapBarState();
@@ -198,6 +204,7 @@ class _UserTapBarState extends State<UserTapBar> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+      initialIndex: widget.indexNum,
       child: Scaffold(
         body: SafeArea(
           child: NestedScrollView(
