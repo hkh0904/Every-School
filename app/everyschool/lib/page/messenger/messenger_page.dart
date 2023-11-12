@@ -65,9 +65,12 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
     final response = await MessengerApi().getChatList(token);
 
     final contact = await MessengerApi().getUserConnect(token);
-    await context
-        .read<ChatController>()
-        .changechatroomList(List<Map>.from(response));
+    if (response.runtimeType != Null) {
+      await context
+          .read<ChatController>()
+          .changechatroomList(List<Map>.from(response));
+    }
+
     setState(() {
       userConnect = contact;
     });
