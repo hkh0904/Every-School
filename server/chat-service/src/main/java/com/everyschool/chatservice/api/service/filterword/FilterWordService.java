@@ -9,6 +9,9 @@ import com.everyschool.chatservice.api.service.filterword.dto.CreateFilterWordDt
 import com.everyschool.chatservice.domain.chat.Chat;
 import com.everyschool.chatservice.domain.chat.ChatStatus;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
+import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
+import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserQueryRepository;
+import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
 import com.everyschool.chatservice.domain.filterword.FilterWord;
 import com.everyschool.chatservice.domain.filterword.Reason;
 import com.everyschool.chatservice.domain.filterword.repository.FilterWordRepository;
@@ -29,6 +32,8 @@ public class FilterWordService {
 
     private final FilterWordRepository filterWordRepository;
     private final ChatRepository chatRepository;
+    private final ChatRoomUserRepository chatRoomUserRepository;
+    private final ChatRoomUserQueryRepository chatRoomUserQueryRepository;
     private final ReasonRepository reasonRepository;
 
     private final SequenceGeneratorService sequenceGeneratorService;
@@ -64,13 +69,14 @@ public class FilterWordService {
         ChatStatus chatStatus = isBadChat(message, reasons);
 
         Chat chat = saveChat(message, senderUserInfo, chatStatus.getCode());
+        List<ChatRoomUser> roomUsers = chatRoomUserQueryRepository.findChatRoomUsersByChatRoomId(message.getChatRoomId());
 
-        ChatFilterResponse response = ChatFilterResponse.builder()
-                .isBad(false)
-                .reason("")
-                .build();
-        getFilterResultResponse(reasons, chatStatus, chat, response);
-        return response;
+        if (chatStatus == ChatStatus.PLANE) {
+            roomUsers.get(0).updateUpdateChat(message.getMessage());
+            roomUsers.get(1).updateUpdateChat(message.getMessage());
+        }
+
+        return getFilterResultResponse(reasons, chatStatus, chat);
     }
 
     private Chat saveChat(ChatMessage message, UserInfo senderUserInfo, int status) {
@@ -84,7 +90,11 @@ public class FilterWordService {
         return chatRepository.save(chat);
     }
 
-    private void getFilterResultResponse(List<String> reasons, ChatStatus chatStatus, Chat chat, ChatFilterResponse response) {
+    private ChatFilterResponse getFilterResultResponse(List<String> reasons, ChatStatus chatStatus, Chat chat) {
+        ChatFilterResponse response = ChatFilterResponse.builder()
+                .isBad(false)
+                .reason("")
+                .build();
         if (chatStatus == ChatStatus.BAD) {
             for (String reason : reasons) {
                 saveReason(chat, reason);
@@ -92,6 +102,7 @@ public class FilterWordService {
             response.setReason("비속어가 포함되어 있습니다.");
             response.setIsBad(true);
         }
+        return response;
     }
 
     private void saveReason(Chat chat, String reason) {
