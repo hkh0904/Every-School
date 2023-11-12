@@ -2,6 +2,7 @@ package com.everyschool.schoolservice.api.web.controller.schoolapply;
 
 import com.everyschool.schoolservice.api.ApiResponse;
 import com.everyschool.schoolservice.api.Result;
+import com.everyschool.schoolservice.api.web.controller.schoolapply.response.SchoolApplyDetailResponse;
 import com.everyschool.schoolservice.api.web.controller.schoolapply.response.SchoolApplyResponse;
 import com.everyschool.schoolservice.api.web.service.schoolapply.SchoolApplyWebQueryService;
 import com.everyschool.schoolservice.utils.TokenUtils;
@@ -75,13 +76,13 @@ public class SchoolApplyWebQueryController {
      * @return 조회된 신청 내역
      */
     @GetMapping("/apply/{schoolApplyId}")
-    public ApiResponse<SchoolApplyResponse> searchSchoolApply(
+    public ApiResponse<SchoolApplyDetailResponse> searchSchoolApply(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
         @PathVariable Long schoolApplyId
     ) {
 
-        SchoolApplyResponse response = schoolApplyWebQueryService.searchSchoolApply(schoolApplyId);
+        SchoolApplyDetailResponse response = schoolApplyWebQueryService.searchSchoolApply(schoolApplyId);
 
         return ApiResponse.ok(response);
     }

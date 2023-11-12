@@ -2,7 +2,7 @@ package com.everyschool.schoolservice.api.service.schooluser;
 
 import com.everyschool.schoolservice.IntegrationTestSupport;
 import com.everyschool.schoolservice.api.client.UserServiceClient;
-import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.web.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.domain.school.School;
@@ -60,13 +60,13 @@ class SchoolUserQueryServiceTest extends IntegrationTestSupport {
         given(userServiceClient.searchUserInfo(anyString()))
             .willReturn(userInfo);
 
-        StudentResponse response1 = StudentResponse.builder()
-            .studentId(1L)
+        UserResponse response1 = UserResponse.builder()
+            .userId(1L)
             .name("이예리")
             .birth("1998.04.12")
             .build();
-        StudentResponse response2 = StudentResponse.builder()
-            .studentId(2L)
+        UserResponse response2 = UserResponse.builder()
+            .userId(2L)
             .name("이리온")
             .birth("1998.12.10")
             .build();

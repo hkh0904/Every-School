@@ -1,7 +1,7 @@
 package com.everyschool.schoolservice.api.client;
 
 import com.everyschool.schoolservice.api.client.response.StudentParentInfo;
-import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +18,14 @@ public interface UserServiceClient {
     UserInfo searchUserInfo(@PathVariable(name = "userKey") String userKey);
 
     @PostMapping("/user-service/client/v1/student-info")
-    List<StudentResponse> searchByStudentIdIn(@RequestBody List<Long> studentIds);
+    List<UserResponse> searchByStudentIdIn(@RequestBody List<Long> studentIds);
 
     @GetMapping("/user-service/client/v1/student-parent/{schoolClassId}")
     List<StudentParentInfo> searchStudentParentBySchoolClassId(@PathVariable(name = "schoolClassId") Long schoolClassId);
 
     @GetMapping("/user-service/client/v1/user-info/{userId}/user-id")
     UserInfo searchUserInfoById(@PathVariable(name = "userId") Long userId);
+
+    @GetMapping("/user-service/client/v1/user-info/{userId}/user-response")
+    UserResponse searchUserById(@PathVariable(name = "userId") Long userId);
 }

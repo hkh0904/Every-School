@@ -16,4 +16,8 @@ public class SchoolClassQueryService {
     public SchoolClassInfo searchBySchoolClassId(Long schoolClassId) {
         return schoolClassQueryRepository.findInfoById(schoolClassId);
     }
+
+    public Long searchTeacherId(Long schoolClassId) {
+        return schoolClassQueryRepository.findTeacherById(schoolClassId);
+    }
 }

@@ -2,7 +2,7 @@ package com.everyschool.schoolservice.api.service.schooluser;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.StudentParentInfo;
-import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.web.controller.client.response.ConsultUserInfo;
 import com.everyschool.schoolservice.api.web.controller.client.response.DescendantInfo;
@@ -51,16 +51,16 @@ public class SchoolUserQueryService {
             .map(MyClassStudentDto::getStudentId)
             .collect(Collectors.toList());
 
-        List<StudentResponse> students = userServiceClient.searchByStudentIdIn(studentIds);
+        List<UserResponse> students = userServiceClient.searchByStudentIdIn(studentIds);
 
         Map<Long, Integer> map = myClassStudents.stream()
             .collect(Collectors.toMap(MyClassStudentDto::getStudentId, MyClassStudentDto::getStudentNumber, (a, b) -> b));
 
         List<MyClassStudentResponse> responses = new ArrayList<>();
-        for (StudentResponse student : students) {
+        for (UserResponse student : students) {
             MyClassStudentResponse response = MyClassStudentResponse.builder()
-                .userId(student.getStudentId())
-                .studentNumber(map.get(student.getStudentId()))
+                .userId(student.getUserId())
+                .studentNumber(map.get(student.getUserId()))
                 .name(student.getName())
                 .birth(student.getBirth())
                 .build();

@@ -2,6 +2,8 @@ package com.everyschool.schoolservice.api.web.service.schoolapply;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
+import com.everyschool.schoolservice.api.client.response.UserResponse;
+import com.everyschool.schoolservice.api.web.controller.schoolapply.response.SchoolApplyDetailResponse;
 import com.everyschool.schoolservice.api.web.controller.schoolapply.response.SchoolApplyResponse;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
 import com.everyschool.schoolservice.domain.schoolapply.repository.SchoolApplyRepository;
@@ -71,11 +73,31 @@ public class SchoolApplyWebQueryService {
      * @param schoolApplyId 신청 아이디
      * @return 조회된 신청 내역
      */
-    public SchoolApplyResponse searchSchoolApply(Long schoolApplyId) {
+    public SchoolApplyDetailResponse searchSchoolApply(Long schoolApplyId) {
+        SchoolApply schoolApply = getSchoolApply(schoolApplyId);
+
+        UserResponse student = userServiceClient.searchUserById(schoolApply.getStudentId());
+        UserResponse parent = null;
+        if (schoolApply.getParentId() != null) {
+            parent = userServiceClient.searchUserById(schoolApply.getParentId());
+        }
+
+        return SchoolApplyDetailResponse.builder()
+            .schoolApplyId(schoolApply.getId())
+            .applyType(schoolApply.getCodeId())
+            .parentName(parent == null ? null : parent.getName())
+            .parentBirth(parent == null ? null : parent.getBirth())
+            .studentInfo(schoolApply.getStudentInfo())
+            .studentBirth(student.getBirth())
+            .lastModifiedDate(schoolApply.getLastModifiedDate())
+            .build();
+    }
+
+    private SchoolApply getSchoolApply(Long schoolApplyId) {
         Optional<SchoolApply> findSchoolApply = schoolApplyRepository.findById(schoolApplyId);
         if (findSchoolApply.isEmpty()) {
             throw new NoSuchElementException(NO_SUCH_SCHOOL_APPLY.getMessage());
         }
-        return SchoolApplyResponse.of(findSchoolApply.get());
+        return findSchoolApply.get();
     }
 }

@@ -2,7 +2,7 @@ package com.everyschool.schoolservice.api.service.schoolapply;
 
 import com.everyschool.schoolservice.IntegrationTestSupport;
 import com.everyschool.schoolservice.api.client.UserServiceClient;
-import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schoolapply.response.SchoolApplyResponse;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
@@ -54,9 +54,9 @@ class SchoolApplyQueryServiceTest extends IntegrationTestSupport {
         given(userServiceClient.searchUserInfo(anyString()))
             .willReturn(userInfo);
 
-        StudentResponse response1 = createStudentResponse(1L, "이예리", "1998.04.12");
-        StudentResponse response2 = createStudentResponse(2L, "이리온", "1998.12.10");
-        StudentResponse response3 = createStudentResponse(3L, "임우택", "1998.01.03");
+        UserResponse response1 = createStudentResponse(1L, "이예리", "1998.04.12");
+        UserResponse response2 = createStudentResponse(2L, "이리온", "1998.12.10");
+        UserResponse response3 = createStudentResponse(3L, "임우택", "1998.01.03");
 
         given(userServiceClient.searchByStudentIdIn(anyList()))
             .willReturn(List.of(response1, response2, response3));
@@ -98,9 +98,9 @@ class SchoolApplyQueryServiceTest extends IntegrationTestSupport {
         return schoolApplyRepository.save(schoolApply);
     }
 
-    private StudentResponse createStudentResponse(long studentId, String name, String birth) {
-        return StudentResponse.builder()
-            .studentId(studentId)
+    private UserResponse createStudentResponse(long studentId, String name, String birth) {
+        return UserResponse.builder()
+            .userId(studentId)
             .name(name)
             .birth(birth)
             .build();

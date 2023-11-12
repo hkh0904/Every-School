@@ -90,4 +90,12 @@ public class SchoolClassQueryAppRepository {
             .where(schoolClass.id.eq(schoolClassId))
             .fetchFirst();
     }
+
+    public Long findTeacherById(Long schoolClassId) {
+        return queryFactory
+            .select(schoolClass.teacherId)
+            .from(schoolClass)
+            .where(schoolClass.id.eq(schoolClassId))
+            .fetchFirst();
+    }
 }

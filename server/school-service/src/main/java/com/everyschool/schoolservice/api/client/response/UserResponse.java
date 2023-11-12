@@ -4,15 +4,15 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class StudentResponse {
+public class UserResponse {
 
-    private Long studentId;
+    private Long userId;
     private String name;
     private String birth;
 
     @Builder
-    public StudentResponse(Long studentId, String name, String birth) {
-        this.studentId = studentId;
+    public UserResponse(Long userId, String name, String birth) {
+        this.userId = userId;
         this.name = name;
         this.birth = birth;
     }
