@@ -5,6 +5,8 @@ import com.everyschool.schoolservice.api.app.controller.schoolapply.SchoolApplyA
 import com.everyschool.schoolservice.api.app.service.schoolapply.SchoolApplyAppService;
 import com.everyschool.schoolservice.api.service.school.SchoolAppQueryService;
 import com.everyschool.schoolservice.api.web.controller.schoolapply.SchoolApplyWebController;
+import com.everyschool.schoolservice.api.web.controller.schoolapply.SchoolApplyWebQueryController;
+import com.everyschool.schoolservice.api.web.service.schoolapply.SchoolApplyWebQueryService;
 import com.everyschool.schoolservice.api.web.service.schoolapply.SchoolApplyWebService;
 import com.everyschool.schoolservice.utils.TokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = {SchoolAppQueryController.class,
     SchoolApplyAppController.class,
-    SchoolApplyWebController.class})
+    SchoolApplyWebController.class,
+    SchoolApplyWebQueryController.class})
 public abstract class ControllerTestSupport {
 
     @Autowired
@@ -35,4 +38,7 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     protected SchoolApplyWebService schoolApplyWebService;
+
+    @MockBean
+    private SchoolApplyWebQueryService schoolApplyWebQueryService;
 }
