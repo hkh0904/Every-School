@@ -1,23 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './MyPage.module.css';
+import { getUserInfo } from '../../api/UserAPI/userAPI';
+import ChangePassword from './ChangePassword';
 
 export default function MyPage() {
-  const dummy = {
-    name: '이지혁',
-    gender: 'M',
-    email: 'illu@ssafy.com',
-    birth: '2000-01-01',
-    school: '휘낭시에초등학교',
-    jobLevel: '담당 선생님',
-    grade: '3학년 2반'
-  };
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const newCsltData = await getCompliteConsulting();
-        // console.log(newCsltData);
-        // setCsltList(newCsltData);
+        const myInfo = await getUserInfo();
+        console.log(myInfo);
+        setUserInfo(myInfo);
       } catch (error) {
         console.error(error);
       }
@@ -25,6 +19,7 @@ export default function MyPage() {
 
     fetchData();
   }, []);
+
   return (
     <div className={styles.MyPage}>
       <div className={styles.title}>
@@ -38,24 +33,23 @@ export default function MyPage() {
           <div className={styles.userInformationContent}>
             <div className={styles.userInformationContentBox}>
               <p>이름</p>
-              <p>{dummy.name}</p>
+              <p>{userInfo.length !== 0 ? userInfo?.name : null}</p>
             </div>
             <hr />
             <div className={styles.userInformationContentBox}>
               <p>성별</p>
-              <p>{dummy.gender}</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>이메일</p>
-              <p>{dummy.email}</p>
+              <p>{userInfo.length !== 0 ? userInfo?.email : null}</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>생년월일</p>
-              <p>{dummy.birth}</p>
+              <p>{userInfo.length !== 0 ? userInfo?.birth : null}</p>
             </div>
           </div>
         </div>
@@ -66,19 +60,23 @@ export default function MyPage() {
           <div className={styles.userInformationContent}>
             <div className={styles.userInformationContentBox}>
               <p>학교</p>
-              <p>{dummy.school}</p>
+
+              <p>{userInfo.length !== 0 ? userInfo?.school?.name : null}</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>직급</p>
-              <p>{dummy.jobLevel}</p>
+              <p>담당선생님</p>
             </div>
             <hr />
 
             <div className={styles.userInformationContentBox}>
               <p>담당 학급</p>
-              <p>{dummy.grade}</p>
+              <p>
+                {userInfo.length !== 0 ? userInfo?.schoolClass?.grade : null}학년{' '}
+                {userInfo.length !== 0 ? userInfo?.schoolClass?.classNum : null}반
+              </p>
             </div>
           </div>
         </div>
@@ -95,7 +93,14 @@ export default function MyPage() {
 
             <div className={styles.userInformationContentButton}>
               <p>비밀번호</p>
-              <p>변경하기</p>
+              <p
+                className={styles.pwdchangetext}
+                onClick={() => {
+                  setIsModalOpen(true);
+                }}
+              >
+                변경하기
+              </p>
             </div>
             <hr />
 
@@ -105,6 +110,7 @@ export default function MyPage() {
           </div>
         </div>
       </div>
+      {isModalOpen ? <ChangePassword setIsModalOpen={setIsModalOpen} /> : null}
     </div>
   );
 }

@@ -78,3 +78,23 @@ export const userSignup = async function (e, data) {
     return err.message;
   }
 };
+
+export const changePassword = async (curpass, newpass) => {
+  console.log(curpass);
+  console.log(curpass);
+  try {
+    const response = await baseAxios.patch(
+      `/user-service/v1/pwd`,
+      { currentPwd: curpass, newPwd: newpass },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
+      }
+    );
+    console.log(response);
+    return response.data.status;
+  } catch (error) {
+    console.log(error);
+  }
+};

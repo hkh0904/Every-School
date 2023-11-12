@@ -76,3 +76,7 @@
   color: blue;
   text-decoration: underline;
 }
+
+.pwdchangetext:hover {
+  cursor: pointer;
+}
