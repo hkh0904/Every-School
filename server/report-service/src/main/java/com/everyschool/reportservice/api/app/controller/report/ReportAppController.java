@@ -3,6 +3,7 @@ package com.everyschool.reportservice.api.app.controller.report;
 import com.everyschool.reportservice.api.ApiResponse;
 import com.everyschool.reportservice.api.app.controller.report.request.CreateReportRequest;
 import com.everyschool.reportservice.api.app.controller.report.response.CreateReportResponse;
+import com.everyschool.reportservice.api.app.controller.report.response.RemoveReportResponse;
 import com.everyschool.reportservice.api.app.service.report.ReportAppService;
 import com.everyschool.reportservice.api.FileStore;
 import com.everyschool.reportservice.domain.report.ReportType;
@@ -58,6 +59,26 @@ public class ReportAppController {
         CreateReportResponse response = reportAppService.createReport(userKey, schoolYear, schoolId, request.toDto(), uploadFiles);
 
         return ApiResponse.created(response);
+    }
+
+    /**
+     * 신고 내역 삭제 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param reportId   신고 아이디
+     * @return 삭제된 신고 내역 정보
+     */
+    @DeleteMapping("/{reportId}")
+    public ApiResponse<?> removeReport(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @PathVariable Long reportId
+    ) {
+
+        RemoveReportResponse response = reportAppService.removeReport(reportId);
+
+        return ApiResponse.ok(response);
     }
 
     /**
