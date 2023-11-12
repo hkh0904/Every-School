@@ -20,6 +20,17 @@ include::api/web/schoolapply/search-wait-school-apply.adoc[]
 include::api/web/schoolapply/search-approve-school-apply.adoc[]
 include::api/web/schoolapply/search-detail-school-apply.adoc[]
 
+[[App-School-Apply-API]]
+== App School Apply API
+
+include::api/app/schoolapply/app-create-school-apply.adoc[]
+
+
+
+
+
+
+
 
 == 아래는 수정 중
 

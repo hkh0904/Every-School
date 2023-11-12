@@ -1,0 +1,14 @@
+[[app-create-school-apply]]
+=== 학교 소속 신청 API
+
+==== HTTP Request
+
+include::{snippets}/app-create-school-apply/http-request.adoc[]
+include::{snippets}/app-create-school-apply/request-headers.adoc[]
+include::{snippets}/app-create-school-apply/path-parameters.adoc[]
+include::{snippets}/app-create-school-apply/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/app-create-school-apply/http-response.adoc[]
+include::{snippets}/app-create-school-apply/response-fields.adoc[]
