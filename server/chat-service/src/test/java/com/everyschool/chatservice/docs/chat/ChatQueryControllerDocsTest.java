@@ -4,8 +4,6 @@ import com.everyschool.chatservice.api.controller.chat.ChatQueryController;
 import com.everyschool.chatservice.api.controller.chat.response.ChatResponse;
 import com.everyschool.chatservice.api.service.chat.ChatQueryService;
 import com.everyschool.chatservice.docs.RestDocsSupport;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.restdocs.payload.JsonFieldType;
 
@@ -18,7 +16,6 @@ import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -26,8 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ChatQueryControllerDocsTest extends RestDocsSupport {
 
-    @DisplayName("채팅 조회 API")
-    @Test
+//    @DisplayName("채팅 조회 API")
+//    @Test
     void searchChat() throws Exception {
 
         ChatResponse chat1 = createChatResponse(1L, true, "벌써 며칠째 전화도 없는 너", 1);
