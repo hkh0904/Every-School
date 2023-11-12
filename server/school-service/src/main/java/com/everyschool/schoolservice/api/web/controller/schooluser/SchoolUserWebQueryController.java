@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 웹 학교 유저 조회용 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -24,6 +29,14 @@ public class SchoolUserWebQueryController {
     private final SchoolUserQueryService schoolUserQueryService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 반 학생 정보 조회 API
+     *
+     * @param schoolYear    학년도
+     * @param schoolId      학교 아이디
+     * @param schoolClassId 학급 아이디
+     * @return 조회된 반 학생 정보 목록
+     */
     @GetMapping("/students")
     public ApiResponse<Result<MyClassStudentResponse>> searchMyClassStudents(
         @PathVariable Integer schoolYear,
@@ -41,6 +54,14 @@ public class SchoolUserWebQueryController {
         return ApiResponse.ok(Result.of(responses));
     }
 
+    /**
+     * 반 학부모 정보 조회 API
+     *
+     * @param schoolYear    학년도
+     * @param schoolId      학교 아이디
+     * @param schoolClassId 학급 아이디
+     * @return 조회된 반 학부모 정보 목록
+     */
     @GetMapping("/parents")
     public ApiResponse<Result<MyClassParentResponse>> searchMyClassParents(
         @PathVariable Integer schoolYear,
