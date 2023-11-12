@@ -3,7 +3,10 @@ import 'package:everyschool/page/community/post_list.dart';
 import 'package:everyschool/page/community/create_post.dart';
 
 class PostlistPage extends StatefulWidget {
-  const PostlistPage({Key? key}) : super(key: key);
+  final String pageTitle;
+
+  // 생성자에서 pageTitle 매개변수를 받습니다.
+  const PostlistPage({Key? key, required this.pageTitle}) : super(key: key);
 
   @override
   State<PostlistPage> createState() => _PostlistPageState();
@@ -30,7 +33,7 @@ class _PostlistPageState extends State<PostlistPage> {
             },
           ),
           title: Text(
-            '자유 게시판',
+            widget.pageTitle, // 여기에서 pageTitle을 사용합니다.
             style: TextStyle(
               color: Colors.black,
               fontSize: 24,
@@ -54,7 +57,7 @@ class _PostlistPageState extends State<PostlistPage> {
             ),
           ],
         ),
-        body: PostList(), // PostList 위젯을 직접 호출
+        body: PostList(pageTitle: widget.pageTitle), // PostList 위젯을 직접 호출
       ),
     );
   }

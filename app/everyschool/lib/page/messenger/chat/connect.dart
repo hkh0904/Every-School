@@ -176,10 +176,12 @@ class _ConnectState extends State<Connect> {
   stopRecording() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
-    final myInfo = context.read<UserStore>().userInfo;
+
+    String sender = "T";
+
     endDateTime = datetimeToCustomList();
     await CallingApi().callRecordingStop(token, channelName, uid, resourceId,
-        sid, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
+        sid, contact['userKey'], sender, startDateTime, endDateTime);
   }
 
   Future<void> setupVoiceSDKEngine() async {
@@ -234,7 +236,6 @@ class _ConnectState extends State<Connect> {
             UserOfflineReasonType reason) async {
           showMessage("Remote user uid:$remoteUid left the channel");
           print('전화끊음');
-          await stopRecording();
           leave();
           setState(() {
             this.remoteUid = null;
@@ -255,7 +256,8 @@ class _ConnectState extends State<Connect> {
         token, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
   }
 
-  void leave() {
+  void leave() async {
+    await stopRecording();
     setState(() {
       isJoined = false;
       remoteUid = null;

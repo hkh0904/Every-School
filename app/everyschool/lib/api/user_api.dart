@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/base_api.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,6 +15,7 @@ class UserApi {
     if (userType == '1001') {
       lastAdd = '/v1/app/info/student';
     } else if (userType == '1002') {
+      print('학부모조회');
       lastAdd = '/v1/app/info/parent';
     } else {
       lastAdd = '/v1/app/info/teacher';
@@ -22,7 +25,28 @@ class UserApi {
           '${serverApi.serverURL}/user-service$lastAdd',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       return response.data['data'];
-    } catch (e) {
+    } on DioException catch (e) {
+      print(e);
+      return 0;
+    }
+  }
+
+  Future<dynamic> getUserRegisterInfo(token) async {
+    var userType = await storage.read(key: 'usertype');
+    String lastAdd;
+    if (userType == '1001') {
+      lastAdd = '/v1/app/info/student';
+    } else if (userType == '1002') {
+      lastAdd = '/v1/app/info/parent';
+    } else {
+      lastAdd = '/v1/app/info/teacher';
+    }
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/user-service$lastAdd',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      return response.data;
+    } on DioException catch (e) {
       print(e);
       return 0;
     }
@@ -41,6 +65,11 @@ class UserApi {
           key: 'userKey', value: response.headers['userKey']?[0]);
       await storage.write(
           key: 'usertype', value: response.headers['usertype']?[0]);
+      var userInfo = await getUserInfo(response.headers['token']?[0]);
+      if (userInfo['userType'] == '1002') {
+        await storage.write(
+            key: 'descendant', value: jsonEncode(userInfo['descendants'][0]));
+      }
       print('액세스토큰 ${response.headers['token']?[0]}');
       return 1;
     } catch (e) {
@@ -112,6 +141,37 @@ class UserApi {
     } catch (e) {
       print(e);
       // rethrow;
+    }
+  }
+
+  //이메일 인증
+  Future<dynamic> authEmail(email) async {
+    print(email);
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.post(
+          '${serverApi.serverURL}/user-service/auth/email',
+          data: {'email': email});
+      print('실행');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      // rethrow;
+    }
+  }
+
+  Future<dynamic> checkAuthNumber(email, code) async {
+    print(email);
+    print(code);
+
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.post(
+          '${serverApi.serverURL}/user-service/auth/email/check',
+          data: {"email": email, "authCode": code.toString()});
+      return response.data;
+    } on DioException catch (e) {
+      return e.response?.data;
     }
   }
 }

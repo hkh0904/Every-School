@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,9 +26,9 @@ class DoNotDisturbQueryServiceTest extends IntegrationTestSupport {
     @Autowired
     private DoNotDisturbQueryService doNotDisturbQueryService;
 
-    @DisplayName("내 방해 금지 목록 불러오기")
+    @DisplayName("최근 등록한 방해 금지 목록 불러오기")
     @Test
-    void searchMyDoNotDisturbs() {
+    void searchMyDoNotDisturb() {
 
         // given
         UserInfo teacher = UserInfo.builder()
@@ -50,14 +49,15 @@ class DoNotDisturbQueryServiceTest extends IntegrationTestSupport {
         DoNotDisturb d4 = saveD(3L, LocalDateTime.now().minusMinutes(20), LocalDateTime.now().minusMinutes(10), false);
 
         // when
-        List<DoNotDisturbResponse> responses = doNotDisturbQueryService.searchMyDoNotDisturbs(token);
+        DoNotDisturbResponse response = doNotDisturbQueryService.searchMyDoNotDisturb(token);
 
         // then
-        assertThat(responses).hasSize(2);
+        assertThat(response.getDoNotDisturbId()).isEqualTo(d2.getId());
+        assertThat(response.isActivate()).isFalse();
 
     }
 
-    private DoNotDisturb saveD(Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate){
+    private DoNotDisturb saveD(Long teacherId, LocalDateTime startTime, LocalDateTime endTime, Boolean isActivate) {
         DoNotDisturb userD = DoNotDisturb.builder()
                 .teacherId(teacherId)
                 .startTime(startTime)

@@ -1,0 +1,11 @@
+[[update-isActivate]]
+=== 방해 금지 켜기/끄기 API
+
+==== HTTP Request
+include::{snippets}/update-isActivate/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/update-isActivate/http-response.adoc[]
+include::{snippets}/update-isActivate/response-fields.adoc[]
+

@@ -44,43 +44,72 @@ class _SchoolInfoState extends State<SchoolInfo> {
                   ),
                 );
               } else if (snapshot.data['userType'] == 1002) {
-                return SizedBox(
-                  height: 60,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(snapshot.data['school']['name'] as String,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700)),
-                          Text('학부모'),
-                          Text(
-                              '${snapshot.data['schoolClass']['grade']}학년 ${snapshot.data['schoolClass']['classNum']}반'),
-                        ],
-                      ),
-                      OutlinedButton(
-                        onPressed: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SelectChild()),
-                          )
-                        },
-                        style: OutlinedButton.styleFrom(
-                            minimumSize: Size.zero,
-                            padding: EdgeInsets.fromLTRB(13, 10, 13, 10),
-                            side: BorderSide(color: Colors.black, width: 0.5),
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(0)))),
-                        child:
-                            Text('변경', style: TextStyle(color: Colors.black)),
+                return snapshot.data['descendants'].length > 0
+                    ? SizedBox(
+                        height: 60,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    snapshot.data['descendants'][0]['school']
+                                        ['name'] as String,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700)),
+                                Text('학부모'),
+                                Text(
+                                    '${snapshot.data['descendants'][0]['schoolClass']['grade']}학년 ${snapshot.data['descendants'][0]['schoolClass']['classNum']}반'),
+                              ],
+                            ),
+                            OutlinedButton(
+                              onPressed: () => {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SelectChild()),
+                                )
+                              },
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: Size.zero,
+                                  padding: EdgeInsets.fromLTRB(13, 10, 13, 10),
+                                  side: BorderSide(
+                                      color: Colors.black, width: 0.5),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(0)))),
+                              child: Text('변경',
+                                  style: TextStyle(color: Colors.black)),
+                            )
+                          ],
+                        ),
                       )
-                    ],
-                  ),
-                );
+                    : SizedBox(
+                        height: 60,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('등록된 자녀가 없습니다',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600)),
+                            OutlinedButton(
+                              onPressed: () => {},
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: Size.zero,
+                                  padding: EdgeInsets.fromLTRB(13, 10, 13, 10),
+                                  side: BorderSide(
+                                      color: Colors.black, width: 0.5),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(0)))),
+                              child: Text('등록',
+                                  style: TextStyle(color: Colors.black)),
+                            )
+                          ],
+                        ),
+                      );
               } else {
                 return SizedBox(
                   height: 70,

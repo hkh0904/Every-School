@@ -1,4 +1,5 @@
 import 'package:everyschool/page/mypage/change_password.dart';
+import 'package:everyschool/page/mypage/mute_time_set.dart';
 import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/userinfo_correction.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +18,13 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
   var perMenulist = [
     ['학부모 등록하기', '좋아요한 글', '개인정보 수정', '비밀번호 변경'],
     ['자녀 등록하기', '좋아요한 글', '개인정보 수정', '비밀번호 변경'],
-    ['공지사항 관리', '비밀번호 변경']
+    ['공지사항 관리', '비밀번호 변경', '방해금지 설정']
   ];
 
   var perPagelist = [
     [MyLikePost(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
     [MyLikePost(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
-    [UserInfoCorrection(), ChangePassword()]
+    [UserInfoCorrection(), ChangePassword(), MuteTimeSet()]
   ];
 
   getuserType() async {
