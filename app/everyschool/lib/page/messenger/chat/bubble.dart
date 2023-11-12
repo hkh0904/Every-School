@@ -1,21 +1,26 @@
 library flutter_chat_bubble;
 
 import 'package:everyschool/page/messenger/chat/chat.dart';
-import 'package:everyschool/page/messenger/chat/chat_message_type.dart';
 import 'package:everyschool/page/messenger/chat/formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class Bubble extends StatelessWidget {
+class Bubble extends StatefulWidget {
+  const Bubble(
+      {super.key, this.margin, required this.chat, required this.myKey});
   final EdgeInsetsGeometry? margin;
   final Chat chat;
+  final String? myKey;
 
-  const Bubble({
-    super.key,
-    this.margin,
-    required this.chat,
-  });
+  @override
+  State<Bubble> createState() => _BubbleState();
+}
+
+class _BubbleState extends State<Bubble> {
+  final storage = FlutterSecureStorage();
+  String? senderKey;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +28,12 @@ class Bubble extends StatelessWidget {
       mainAxisAlignment: alignmentOnType,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (chat.type == ChatMessageType.received)
+        if (widget.chat.sender != widget.myKey)
           const CircleAvatar(
             backgroundImage: AssetImage("assets/images/avatar_1.png"),
           ),
         Container(
-          margin: margin ?? EdgeInsets.zero,
+          margin: widget.margin ?? EdgeInsets.zero,
           child: PhysicalShape(
             clipper: clipperOnType,
             elevation: 2,
@@ -43,14 +48,14 @@ class Bubble extends StatelessWidget {
                 crossAxisAlignment: crossAlignmentOnType,
                 children: [
                   Text(
-                    chat.message,
+                    widget.chat.message,
                     style: TextStyle(color: textColorOnType),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    Formatter.formatDateTime(chat.time),
+                    Formatter.formatDateTime(widget.chat.time),
                     style: TextStyle(color: textColorOnType, fontSize: 12),
                   )
                 ],
@@ -63,62 +68,55 @@ class Bubble extends StatelessWidget {
   }
 
   Color get textColorOnType {
-    switch (chat.type) {
-      case ChatMessageType.sent:
-        return Colors.white;
-      case ChatMessageType.received:
-        return const Color(0xFF0F0F0F);
+    if (widget.chat.sender == widget.myKey) {
+      return Colors.white;
+    } else {
+      return const Color(0xFF0F0F0F);
     }
   }
 
   Color get bgColorOnType {
-    switch (chat.type) {
-      case ChatMessageType.received:
-        return const Color(0xFFE7E7ED);
-      case ChatMessageType.sent:
-        return const Color(0xff15075F);
+    if (widget.chat.sender == widget.myKey) {
+      return Color(0XFF15075F);
+    } else {
+      return Color.fromARGB(255, 255, 255, 255);
     }
   }
 
   CustomClipper<Path> get clipperOnType {
-    switch (chat.type) {
-      case ChatMessageType.sent:
-        return ChatBubbleClipper1(type: BubbleType.sendBubble);
-      case ChatMessageType.received:
-        return ChatBubbleClipper1(type: BubbleType.receiverBubble);
+    if (widget.chat.sender == widget.myKey) {
+      return ChatBubbleClipper1(type: BubbleType.sendBubble);
+    } else {
+      return ChatBubbleClipper1(type: BubbleType.receiverBubble);
     }
   }
 
   CrossAxisAlignment get crossAlignmentOnType {
-    switch (chat.type) {
-      case ChatMessageType.sent:
-        return CrossAxisAlignment.end;
-      case ChatMessageType.received:
-        return CrossAxisAlignment.start;
+    if (widget.chat.sender == widget.myKey) {
+      return CrossAxisAlignment.end;
+    } else {
+      return CrossAxisAlignment.start;
     }
   }
 
   MainAxisAlignment get alignmentOnType {
-    switch (chat.type) {
-      case ChatMessageType.received:
-        return MainAxisAlignment.start;
-
-      case ChatMessageType.sent:
-        return MainAxisAlignment.end;
+    if (widget.chat.sender != widget.myKey) {
+      return MainAxisAlignment.start;
+    } else {
+      return MainAxisAlignment.end;
     }
   }
 
   EdgeInsets get paddingOnType {
-    switch (chat.type) {
-      case ChatMessageType.sent:
-        return const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 24);
-      case ChatMessageType.received:
-        return const EdgeInsets.only(
-          top: 10,
-          bottom: 10,
-          left: 24,
-          right: 10,
-        );
+    if (widget.chat.sender == widget.myKey) {
+      return const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 24);
+    } else {
+      return const EdgeInsets.only(
+        top: 10,
+        bottom: 10,
+        left: 24,
+        right: 10,
+      );
     }
   }
 }

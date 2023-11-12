@@ -10,6 +10,7 @@ class MessengerApi {
   //채팅방 만들기
   Future<dynamic> createChatRoom(
       token, userKey, userType, userName, mytype, myclassId) async {
+    print('여기가 1번');
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/chat-rooms',
           data: {
@@ -24,6 +25,8 @@ class MessengerApi {
             "schoolClassId": myclassId,
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('여기가 2번');
+
       print(response.data);
       print('채팅방 생성 실행');
       return response.data['data'];
@@ -46,16 +49,24 @@ class MessengerApi {
   }
 
   //채팅룸 내역 조회
-  Future<dynamic> getChatListItem(token, chatRoomId) async {
+  Future<dynamic> getChatListItem(token, chatRoomId, idx) async {
     try {
       final response = await dio.get(
-          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId',
+          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId?',
+          queryParameters: {'idx': idx},
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      print(response.data);
+
+      print('채팅 룸 내역 조회 성공');
+      print(response.data['data']);
 
       return response.data['data'];
-    } catch (e) {
+    } on DioException catch (e) {
+      print('채팅 룸 내역 조회 실패');
+
       print(e);
+      print(e.response);
+      print(e.response?.data);
+      return e.response?.data;
     }
   }
 

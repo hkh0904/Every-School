@@ -90,7 +90,7 @@ class UserApi {
         'birth': birth,
         "parentType": gender
       });
-      print('여기 회원가입 되돌리는,${response.data}');
+      print('여기 부모 회원가입');
       return response.data;
     } catch (e) {
       print(e);
@@ -100,15 +100,16 @@ class UserApi {
   Future<dynamic> studentSignUp(code, email, password, name, birth) async {
     try {
       final response = await dio
-          .post('${serverApi.serverURL}/user-service/join/parent', data: {
+          .post('${serverApi.serverURL}/user-service/join/student', data: {
         'userCode': code,
-        'email': email.text,
-        'password': password.text,
+        'email': email,
+        'password': password,
         'name': name,
         'birth': birth,
       });
+      print('여기 학생 회원가입');
 
-      return 1;
+      return response.data;
     } catch (e) {
       print(e);
     }
