@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.everyschool.reportservice.api.app.service.report.WitnessGenerator.*;
+
 /**
  * 신고 앱 명령 서비스
  *
@@ -50,7 +52,7 @@ public class ReportAppService {
         ReportContent content = dto.toContent();
 
         //신고자 정보 제작
-        String witness = generateWitnessInfo(schoolUserInfo, userInfo.getUserName());
+        String witness = createWitnessInfo(schoolUserInfo, userInfo.getUserName());
 
         //신고 엔티티 생성
         Report report = Report.createReport(witness, dto.getDescription(), content, schoolYear, dto.getTypeId(), schoolId, userInfo.getUserId(), uploadFiles);
@@ -59,41 +61,5 @@ public class ReportAppService {
         Report savedReport = reportRepository.save(report);
 
         return CreateReportResponse.of(savedReport);
-    }
-
-    /**
-     * 신고자 정보 생성
-     *
-     * @param info 학급 정보
-     * @param name 신고자 이름
-     * @return 신고자 정보
-     */
-    private String generateWitnessInfo(SchoolUserInfo info, String name) {
-        if (isExistStudentNumber(info)) {
-            int number = getNumber(info.getStudentNum());
-            return String.format("%d학년 %d반 %d번 %s 학생", info.getGrade(), info.getClassNum(), number, name);
-        }
-
-        return String.format("%d학년 %d반 %s 선생님", info.getGrade(), info.getClassNum(), name);
-    }
-
-    /**
-     * 학번 존재 여부 체크
-     *
-     * @param info 학급 정보
-     * @return 학번이 존재 하면 true
-     */
-    private static boolean isExistStudentNumber(SchoolUserInfo info) {
-        return info.getStudentNum() != null;
-    }
-
-    /**
-     * 학번에서 학생 고유 번호 추출
-     *
-     * @param studentNumber 학번
-     * @return 학생 고유 번호
-     */
-    private int getNumber(int studentNumber) {
-        return studentNumber % 100;
     }
 }
