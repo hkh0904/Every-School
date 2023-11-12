@@ -8,9 +8,10 @@ import 'package:provider/provider.dart';
 final assetsAudioPlayer = AssetsAudioPlayer();
 
 class GetCall extends StatefulWidget {
-  const GetCall({super.key, this.leave, this.startDateTime});
+  const GetCall({super.key, this.leave, this.startDateTime, this.userInfo});
   final leave;
   final startDateTime;
+  final userInfo;
 
   @override
   State<GetCall> createState() => _GetCallState();
@@ -25,6 +26,7 @@ class _GetCallState extends State<GetCall> {
       autoStart: true,
       loopMode: LoopMode.single,
     );
+    print('유저정보 ${widget.userInfo}');
   }
 
   @override
@@ -83,7 +85,7 @@ class _GetCallState extends State<GetCall> {
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.asset(
-              'assets/images/consulting/detail.png',
+              'assets/images/contact/call.gif',
               height: 150,
               width: 150,
             ),
@@ -92,12 +94,8 @@ class _GetCallState extends State<GetCall> {
             height: 15,
           ),
           Text(
-            '받는사람 정보',
+            widget.userInfo['name'],
             style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
-          ),
-          Text(
-            '유저설명',
-            style: TextStyle(fontSize: 18),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,
