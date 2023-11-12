@@ -1,5 +1,6 @@
 package com.everyschool.schoolservice.messagequeue;
 
+import com.everyschool.schoolservice.api.app.service.schoolapply.SchoolApplyAppService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +19,7 @@ import java.util.Map;
 @Transactional
 public class KafkaConsumer {
 
-    private final SchoolApplyService schoolApplyService;
+    private final SchoolApplyAppService schoolApplyService;
 
     /**
      * 학부모 학급 등록 신청
@@ -29,11 +30,11 @@ public class KafkaConsumer {
     public void createParentSchoolApply(String kafkaMessage) {
         Map<Object, Object> map = getMap(kafkaMessage);
 
-        Long parentId = (Long) map.get("parentId");
-        Long studentId = (Long) map.get("studentId");
-        Long schoolClassId = (Long) map.get("schoolClassId");
+        Integer parentId = (Integer) map.get("parentId");
+        Integer studentId = (Integer) map.get("studentId");
+        Integer schoolClassId = (Integer) map.get("schoolClassId");
 
-        schoolApplyService.createParentSchoolApply(parentId, studentId, schoolClassId);
+//        schoolApplyService.createParentSchoolApply(Long.valueOf(parentId), Long.valueOf(studentId), Long.valueOf(schoolClassId));
     }
 
     /**
