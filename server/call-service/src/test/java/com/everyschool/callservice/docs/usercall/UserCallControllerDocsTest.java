@@ -3,26 +3,25 @@ package com.everyschool.callservice.docs.usercall;
 import com.everyschool.callservice.api.client.VoiceAiServiceClient;
 import com.everyschool.callservice.api.client.response.RecordStartInfo;
 import com.everyschool.callservice.api.client.response.RecordStopInfo;
-import com.everyschool.callservice.api.controller.FileStore;
 import com.everyschool.callservice.api.controller.usercall.UserCallController;
-import com.everyschool.callservice.api.controller.usercall.request.CreateUserCallRequest;
 import com.everyschool.callservice.api.controller.usercall.request.RecordStartRequest;
 import com.everyschool.callservice.api.controller.usercall.request.RecordStopRequest;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.usercall.UserCallAnalysisService;
 import com.everyschool.callservice.api.service.usercall.UserCallService;
 import com.everyschool.callservice.api.service.usercall.dto.CreateUserCallDto;
 import com.everyschool.callservice.docs.RestDocsSupport;
-import com.everyschool.callservice.domain.usercall.UploadFile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -37,95 +36,12 @@ public class UserCallControllerDocsTest extends RestDocsSupport {
 
     private final UserCallService userCallService = mock(UserCallService.class);
     private final VoiceAiServiceClient voiceAiServiceClient = mock(VoiceAiServiceClient.class);
-    private final FileStore fileStore = mock(FileStore.class);
-    private final UserCallController userCallController = mock(UserCallController.class);
+
+    private final UserCallAnalysisService userCallAnalysisService = mock(UserCallAnalysisService.class);
 
     @Override
     protected Object initController() {
-        return new UserCallController(userCallService, fileStore, voiceAiServiceClient);
-    }
-
-    @DisplayName("선생님 통화 종료시 통화 내역 저장 API")
-    @Test
-    void createCallInfo() throws Exception {
-
-        CreateUserCallRequest request = CreateUserCallRequest.builder()
-                .otherUserKey(UUID.randomUUID().toString())
-                .sender("O")
-                .startDateTime(LocalDateTime.now().minusHours(12))
-                .endDateTime(LocalDateTime.now().minusHours(11))
-                .file(null)
-                .build();
-
-        UploadFile uploadFile = UploadFile.builder()
-                .uploadFileName("통화 원본")
-                .storeFileName(UUID.randomUUID().toString())
-                .build();
-
-
-        given(fileStore.storeFile(request.getFile()))
-                .willReturn(uploadFile);
-
-
-        CreateUserCallDto dto = request.toDto();
-        dto.setStoreFileName(uploadFile.getStoreFileName());
-        dto.setUploadFileName(uploadFile.getUploadFileName());
-        dto.setIsBad(false);
-
-        UserCallResponse r1 = UserCallResponse.builder()
-                .userCallId(1L)
-                .senderName("신성주")
-                .receiverName("임우택 선생님")
-                .sender("O")
-                .startDateTime(LocalDateTime.now().minusHours(10))
-                .endDateTime(LocalDateTime.now().minusHours(9))
-                .isBad(false)
-                .build();
-
-        given(userCallService.createCallInfo(dto, request.getOtherUserKey(), UUID.randomUUID().toString()))
-                .willReturn(r1);
-
-        Mockito.doNothing().when(userCallController).createRecordAnalysis(null, 2L);
-
-        mockMvc.perform(
-                        post("/call-service/v1/calls/")
-                                .header("Authorization", "Bearer Access Token")
-                                .content(objectMapper.writeValueAsString(request))
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andDo(document("create-userCall-info",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("otherUserKey").type(JsonFieldType.STRING)
-                                        .optional()
-                                        .description("선생님과 통화 하는 상대방"),
-                                fieldWithPath("sender").type(JsonFieldType.STRING)
-                                        .optional()
-                                        .description("발신자"),
-                                fieldWithPath("startDateTime").type(JsonFieldType.ARRAY)
-                                        .optional()
-                                        .description("통화 시작 시간"),
-                                fieldWithPath("endDateTime").type(JsonFieldType.ARRAY)
-                                        .optional()
-                                        .description("통화 종료 시간"),
-                                fieldWithPath("file").type(JsonFieldType.ARRAY)
-                                        .optional()
-                                        .description("파일 업로드")
-                        ),
-                        responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER)
-                                        .description("코드"),
-                                fieldWithPath("status").type(JsonFieldType.STRING)
-                                        .description("상태"),
-                                fieldWithPath("message").type(JsonFieldType.STRING)
-                                        .description("메시지"),
-                                fieldWithPath("data").type(JsonFieldType.STRING)
-                                        .description("응답 데이터")
-                        )
-                ));
+        return new UserCallController(userCallService, voiceAiServiceClient, userCallAnalysisService);
     }
 
     @DisplayName("통화 녹음 시작 API")
@@ -223,8 +139,35 @@ public class UserCallControllerDocsTest extends RestDocsSupport {
                 .uploadStatus("completed")
                 .build();
 
+        UserCallResponse userCall = UserCallResponse.builder()
+                .userCallId(1L)
+                .senderName("신성주")
+                .receiverName("홍경환")
+                .receiveCall("Y")
+                .sender("T")
+                .startDateTime(LocalDateTime.now())
+                .endDateTime(LocalDateTime.now())
+                .isBad(false)
+                .build();
+
+        CreateUserCallDto dto = CreateUserCallDto.builder()
+                .otherUserId(1L)
+                .teacherId(2L)
+                .sender("T")
+                .senderName("신성주")
+                .receiverName("홍경환")
+                .startDateTime(LocalDateTime.now())
+                .endDateTime(LocalDateTime.now())
+                .isBad(false)
+                .build();
+
         given(voiceAiServiceClient.recordStop(request))
                 .willReturn(res);
+
+        given(userCallService.createCallInfo(any(CreateUserCallDto.class), anyString(), anyString()))
+                .willReturn(userCall);
+
+        doNothing().when(userCallAnalysisService).analyze(anyLong(), anyString());
 
         mockMvc.perform(
                         post("/call-service/v1/calls/record/stop")
