@@ -1,5 +1,5 @@
 [[calling-cancel]]
-=== 전화 취소 API
+=== 발신자 전화 취소 API
 
 ==== HTTP Request
 include::{snippets}/calling-cancel/http-request.adoc[]

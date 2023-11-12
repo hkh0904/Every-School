@@ -1,16 +1,16 @@
 package com.everyschool.callservice.api.controller.usercall;
 
 import com.everyschool.callservice.api.ApiResponse;
+import com.everyschool.callservice.api.controller.FileStore;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
 import com.everyschool.callservice.api.service.usercall.UserCallQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,6 +20,7 @@ import java.util.List;
 public class UserCallQueryController {
 
     private final UserCallQueryService userCallQueryService;
+    private final FileStore fileStore;
 
     /**
      * 내 통화 내역 조회 API
@@ -52,4 +53,17 @@ public class UserCallQueryController {
         return ApiResponse.ok(response);
     }
 
+    /**
+     * 내 통화 다운로드
+     *
+     * @param  파일명
+     * @return 다운로드 파일
+     */
+    @GetMapping("/download")
+    public ResponseEntity<byte[]> download(@RequestParam String fileName) throws IOException {
+        log.debug("call UserCallQueryController#download");
+        log.debug("search results = {}", fileName);
+
+        return fileStore.getObject(fileName);
+    }
 }

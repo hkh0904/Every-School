@@ -22,20 +22,4 @@ def s3_connection():
 # S3 연결 준비
 s3 = s3_connection()
 
-@router.get("/v1/audiofiles")
-def list_s3_files(userKey: str, otherUserKey: str):
-    try:
-        # S3 버킷에서 객체 목록 가져오기
-        response = s3.list_objects(Bucket=os.getenv("S3_BUCKET"))
-
-        # 가져온 객체 목록을 출력
-        if 'Contents' in response:
-            findStr = userKey.replace("-","") + "/" + otherUserKey.replace("-","")
-            file_list = [obj['Key'] for obj in response['Contents'] if obj['Key'].startswith(findStr)]
-            return {"files": file_list}
-        else:
-            return {"message": "No files in the S3 bucket"}
-
-    except Exception as e:
-        return {"error": str(e)}
 

@@ -1,5 +1,6 @@
 package com.everyschool.callservice.docs.usercall;
 
+import com.everyschool.callservice.api.controller.FileStore;
 import com.everyschool.callservice.api.controller.usercall.UserCallQueryController;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallDetailsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
@@ -30,10 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserCallQueryControllerDocsTest extends RestDocsSupport {
     private final UserCallQueryService userCallQueryService = mock(UserCallQueryService.class);
+    private final FileStore fileStore = mock(FileStore.class);
 
     @Override
     protected Object initController() {
-        return new UserCallQueryController(userCallQueryService);
+        return new UserCallQueryController(userCallQueryService, fileStore);
     }
 
     @DisplayName("내 통화 내역 조회 API")
@@ -62,8 +64,8 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                 .build();
 
         List<UserCallResponse> rList = new ArrayList<>();
-        rList.add(r1);
         rList.add(r2);
+        rList.add(r1);
 
         given(userCallQueryService.searchMyCalls(anyString()))
                 .willReturn(rList);
@@ -116,6 +118,7 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                 .build();
 
         UserCallDetailsResponse detail1 = UserCallDetailsResponse.builder()
+                .fileName("fileName1")
                 .content("야!!! 너 내가 누군지 알아? 내가 임마 어?")
                 .start(0)
                 .length(26)
@@ -126,6 +129,7 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                 .build();
 
         UserCallDetailsResponse detail2 = UserCallDetailsResponse.builder()
+                .fileName("fileName2")
                 .content("느그 서장하고 어? 밥도 묵고 어? 싸우나도 가고 으어?")
                 .start(26)
                 .length(31)
@@ -136,6 +140,7 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                 .build();
 
         UserCallDetailsResponse detail3 = UserCallDetailsResponse.builder()
+                .fileName("fileName3")
                 .content("마 다했어 임마? 으어? 이짜식이 말이야 이거 풀어!")
                 .start(31)
                 .length(30)
@@ -178,6 +183,8 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                                         .description("전체 통화 부정 척도(퍼센트)"),
                                 fieldWithPath("data.details").type(JsonFieldType.ARRAY)
                                         .description("통화 세부 분석 리스트"),
+                                fieldWithPath("data.details[].fileName").type(JsonFieldType.STRING)
+                                        .description("파일 다운로드 Key"),
                                 fieldWithPath("data.details[].content").type(JsonFieldType.STRING)
                                         .description("한문장 내용"),
                                 fieldWithPath("data.details[].start").type(JsonFieldType.NUMBER)
@@ -196,5 +203,17 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
+    @DisplayName("통화 다운로드 API")
+    @Test
+    void download() throws Exception {
+        mockMvc.perform(
+                        get("/call-service/v1/calls/download")
+                                .param("fileName", "your_file_name")
+                                .header("Authorization", "Bearer Access Token")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("download-userCalls"));
+    }
 
 }

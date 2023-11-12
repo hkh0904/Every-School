@@ -28,8 +28,7 @@ public class FCMNotificationController {
      */
     @PostMapping("/calling")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<String> sendNotificationByToken(@RequestBody OtherUserFcmRequest request)
-            throws FirebaseMessagingException {
+    public ApiResponse<String> sendNotificationByToken(@RequestBody OtherUserFcmRequest request) throws FirebaseMessagingException {
         log.debug("call FCMNotificationController#sendNotificationByToken");
         log.debug("search request = {}", request);
 
@@ -43,13 +42,13 @@ public class FCMNotificationController {
      *
      * @param request 통화 건 상대방 정보와 시간
      * @return 부재중 저장 완료
-     *
      */
     @PostMapping("/calling/cancel")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<String> createUserCallClosed(@RequestBody CallDeniedRequest request,
+    public ApiResponse<String> createUserCallCancel(@RequestBody CallDeniedRequest request,
                                                     @RequestHeader("Authorization") String token) throws FirebaseMessagingException {
-
+        log.debug("call FCMNotificationController#createUserCallCancel");
+        log.debug("request = {}", request);
         Boolean result = fcmNotificationService.createUserCallCancel(request.toDto(), token);
 
         if (result) {
@@ -63,17 +62,38 @@ public class FCMNotificationController {
      *
      * @param request 통화 건 상대방 정보와 시간
      * @return 부재중 저장 완료
-     *
      */
-    @PostMapping("/calling/denied")
+    @PostMapping("/calling/miss")
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<String> createUserCallDenied(@RequestBody CallDeniedRequest request,
-                                                    @RequestHeader("Authorization") String token){
-
-        Boolean result = fcmNotificationService.createUserCallDenied(request.toDto(), token);
+    public ApiResponse<String> createUserCallMiss(@RequestBody CallDeniedRequest request,
+                                                  @RequestHeader("Authorization") String token) {
+        log.debug("call FCMNotificationController#createUserCallMiss");
+        log.debug("request = {}", request);
+        Boolean result = fcmNotificationService.createUserCallMiss(request.toDto(), token);
 
         if (result) {
             return ApiResponse.created("부재중 생성완료");
+        }
+        return ApiResponse.created("실패");
+    }
+
+    /**
+     * 상대방 거절 API
+     *
+     * @param request
+     * @return 부재중 저장 완료
+     */
+    @PostMapping("/calling/denied")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<String> createReceiverCallDenied(@RequestBody CallDeniedRequest request,
+                                                        @RequestHeader("Authorization") String token) throws FirebaseMessagingException {
+        log.debug("call FCMNotificationController#createReceiverCallDenied");
+        log.debug("request = {}", request);
+
+        Boolean result = fcmNotificationService.createReceiverCallDenied(request.toDto(), token);
+
+        if (result) {
+            return ApiResponse.created("상대방 거절 생성완료");
         }
         return ApiResponse.created("실패");
     }

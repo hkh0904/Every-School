@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class DetailResultInfo {
 
+    private String fileName;
     private String content;
     private int start;
     private int length;

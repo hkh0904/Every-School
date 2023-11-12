@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,8 +21,7 @@ public class UserCallDetails extends BaseEntity {
     @JoinColumn(name = "user_call_id")
     private UserCall userCall;
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String fileName;
     private String content;
     private int start;
     private int length;
@@ -37,9 +35,10 @@ public class UserCallDetails extends BaseEntity {
     }
 
     @Builder
-    public UserCallDetails(UserCall userCall, String content, int start, int length, String sentiment, Float neutral,
+    public UserCallDetails(String fileName, UserCall userCall, String content, int start, int length, String sentiment, Float neutral,
                            Float positive, Float negative) {
         this();
+        this.fileName = fileName;
         this.userCall = userCall;
         this.content = content;
         this.start = start;

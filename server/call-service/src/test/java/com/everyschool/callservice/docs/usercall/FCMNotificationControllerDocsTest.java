@@ -17,6 +17,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -44,6 +45,7 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
     void sendNotificationByToken() throws Exception {
 
         OtherUserFcmRequest request = OtherUserFcmRequest.builder()
+                .myUserKey(UUID.randomUUID().toString())
                 .otherUserKey(UUID.randomUUID().toString())
                 .senderName("오연주스")
                 .cname("전화좀 받아라")
@@ -54,6 +56,8 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                 .setBody("calling...")
                 .build();
 
+        given(userServiceClient.searchUserFcmByUserKey(request.getMyUserKey()))
+                .willReturn("ehfEDZqQQrSjVNTd8O1Ur1:APA91bHX2xyspcdF01k5BNlfe9tF6bsw23m0zu38As_doANeFbaG3vAFMWsanc3XgL4NZEbYbZ883Hami54Y6NwOXHzjUKomRp2qqL3XzeGGjGzdirxEfeF4-QwPjivY4V4xeOyVmmuM");
         given(userServiceClient.searchUserFcmByUserKey(request.getOtherUserKey()))
                 .willReturn("ehfEDZqQQrSjVNTd8O1Ur1:APA91bHX2xyspcdF01k5BNlfe9tF6bsw23m0zu38As_doANeFbaG3vAFMWsanc3XgL4NZEbYbZ883Hami54Y6NwOXHzjUKomRp2qqL3XzeGGjGzdirxEfeF4-QwPjivY4V4xeOyVmmuM");
 
@@ -63,6 +67,8 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                 .setNotification(notification)
                 .putData("type", "call")
                 .putData("cname", request.getCname())
+                .putData("senderUserKey", UUID.randomUUID().toString())
+                .putData("senderName", anyString())
                 .build();
 
         given(firebaseMessaging.send(message))
@@ -83,9 +89,12 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
+                                fieldWithPath("myUserKey").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("전화 거는 사람 유저키 (수신자)"),
                                 fieldWithPath("otherUserKey").type(JsonFieldType.STRING)
                                         .optional()
-                                        .description("전화 요청할 상대방 유저키"),
+                                        .description("전화 요청할 상대방 유저키 (발신자)"),
                                 fieldWithPath("senderName").type(JsonFieldType.STRING)
                                         .optional()
                                         .description("전화 거는 사람 이름"),
@@ -106,9 +115,9 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
-    @DisplayName("부재중 API")
+    @DisplayName("부재중 요청")
     @Test
-    void createUserCallClosed() throws Exception{
+    void createUserCallMiss() throws Exception {
 
         CallDeniedRequest request = CallDeniedRequest.builder()
                 .otherUserKey(UUID.randomUUID().toString())
@@ -117,18 +126,18 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                 .endDateTime(LocalDateTime.now().minusHours(1))
                 .build();
 
-        given(fcmNotificationService.createUserCallDenied(request.toDto(), "token"))
+        given(fcmNotificationService.createUserCallMiss(request.toDto(), "token"))
                 .willReturn(Boolean.TRUE);
 
         mockMvc.perform(
-                        post("/call-service/v1/calls/calling/cancel")
+                        post("/call-service/v1/calls/calling/miss")
                                 .header("Authorization", "Bearer Access Token")
                                 .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andDo(document("calling-cancel",
+                .andDo(document("calling-miss",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -159,9 +168,9 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
 
     }
 
-    @DisplayName("전화 취소 API")
+    @DisplayName("전화 거는 사람이 취소 API")
     @Test
-    void createUserCallDenied() throws Exception{
+    void createUserCallCancel() throws Exception {
 
         CallDeniedRequest request = CallDeniedRequest.builder()
                 .otherUserKey(UUID.randomUUID().toString())
@@ -174,14 +183,14 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                 .willReturn(Boolean.TRUE);
 
         mockMvc.perform(
-                        post("/call-service/v1/calls/calling/denied")
+                        post("/call-service/v1/calls/calling/cancel")
                                 .header("Authorization", "Bearer Access Token")
                                 .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andDo(document("calling-denied",
+                .andDo(document("calling-cancel",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -209,6 +218,57 @@ public class FCMNotificationControllerDocsTest extends RestDocsSupport {
                                         .description("응답 데이터")
                         )
                 ));
+    }
 
+    @DisplayName("수신자 전화 거부 API")
+    @Test
+    void createReceiverCallDenied() throws Exception {
+
+        CallDeniedRequest request = CallDeniedRequest.builder()
+                .otherUserKey(UUID.randomUUID().toString())
+                .senderName("오연주 바보")
+                .startDateTime(LocalDateTime.now().minusHours(2))
+                .endDateTime(LocalDateTime.now().minusHours(1))
+                .build();
+
+        given(fcmNotificationService.createReceiverCallDenied(request.toDto(), "token"))
+                .willReturn(Boolean.TRUE);
+
+        mockMvc.perform(
+                        post("/call-service/v1/calls/calling/denied")
+                                .header("Authorization", "Bearer Access Token")
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andDo(document("calling-denied",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("otherUserKey").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("발신자 유저키 (지금은 수신자 입장이니까)"),
+                                fieldWithPath("senderName").type(JsonFieldType.STRING)
+                                        .optional()
+                                        .description("전화 온 사람 이름"),
+                                fieldWithPath("startDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("전화 온 시간"),
+                                fieldWithPath("endDateTime").type(JsonFieldType.ARRAY)
+                                        .optional()
+                                        .description("전화 거절한 시간")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.STRING)
+                                        .description("응답 데이터")
+                        )
+                ));
     }
 }
