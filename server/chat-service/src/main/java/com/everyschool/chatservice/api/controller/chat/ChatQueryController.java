@@ -2,12 +2,15 @@ package com.everyschool.chatservice.api.controller.chat;
 
 import com.everyschool.chatservice.api.ApiResponse;
 import com.everyschool.chatservice.api.controller.chat.response.ChatResponse;
+import com.everyschool.chatservice.api.controller.chat.response.ChatReviewResponse;
 import com.everyschool.chatservice.api.service.chat.ChatQueryService;
 import com.mongodb.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -33,4 +36,12 @@ public class ChatQueryController {
         List<ChatResponse> responses = chatQueryService.searchChat(chatRoomId, idx, token);
         return ApiResponse.ok(responses);
     }
+
+    @GetMapping("/chat-review")
+    public ApiResponse<List<ChatReviewResponse>> searchChatReviewDate(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        List<ChatReviewResponse> chatReviewResponses = chatQueryService.searchReviewChatDate(date);
+        return ApiResponse.ok(chatReviewResponses);
+    }
+
+    // TODO: 2023/11/13 채팅 상세 조회
 }
