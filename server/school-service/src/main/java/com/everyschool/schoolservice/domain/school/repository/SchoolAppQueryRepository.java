@@ -12,28 +12,41 @@ import java.util.Optional;
 
 import static com.everyschool.schoolservice.domain.school.QSchool.school;
 
+/**
+ * 앱 학교 조회용 저장소
+ *
+ * @author 임우택
+ */
 @Repository
-public class SchoolQueryRepository {
+public class SchoolAppQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public SchoolQueryRepository(EntityManager em) {
+    public SchoolAppQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<SchoolResponse> findByName(String query) {
+    /**
+     * 학교 이름이 포함된 학교 목록 조회
+     *
+     * @param query 쿼리 내용
+     * @return 조회된 학교 목록
+     */
+    public List<SchoolResponse> findByNameLike(String query) {
         return queryFactory
-            .select(Projections.constructor(
-                SchoolResponse.class,
-                school.id,
-                school.name,
-                school.address
-            ))
+            .select(
+                Projections.constructor(
+                    SchoolResponse.class,
+                    school.id,
+                    school.name,
+                    school.address
+                ))
             .from(school)
             .where(
-                school.name.like("%" + query + "%"),
-                school.isDeleted.isFalse()
+                school.isDeleted.isFalse(),
+                school.name.like(likeFormat(query))
             )
+            .orderBy(school.name.asc())
             .fetch();
     }
 
@@ -56,5 +69,9 @@ public class SchoolQueryRepository {
             .fetchOne();
 
         return Optional.ofNullable(content);
+    }
+
+    private String likeFormat(String query) {
+        return "%" + query + "%";
     }
 }
