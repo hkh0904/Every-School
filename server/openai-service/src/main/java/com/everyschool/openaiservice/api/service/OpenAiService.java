@@ -4,11 +4,14 @@ import com.everyschool.openaiservice.api.client.ChatServiceClient;
 import com.everyschool.openaiservice.api.client.GptServiceClient;
 import com.everyschool.openaiservice.api.client.request.GptRequest;
 import com.everyschool.openaiservice.api.client.response.GptResponse;
+import com.everyschool.openaiservice.api.client.response.chat.CheckingChatResponse;
 import com.everyschool.openaiservice.api.client.response.dto.Message;
 import com.everyschool.openaiservice.api.service.dto.Chat;
 import com.everyschool.openaiservice.messagequeue.KafkaProducer;
 import com.everyschool.openaiservice.messagequeue.dto.ChatUpdateDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,17 +22,20 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class OpenAiService {
 
     private final ChatServiceClient chatServiceClient;
     private final GptServiceClient gptServiceClient;
     private final KafkaProducer kafkaProducer;
 
+    @Scheduled(cron = "0 0 2 * * ?")
     public void doChecking() {
         // TODO: 2023-11-08 채팅방 id 가져오기
         LocalDate checkDate = LocalDate.now().minusDays(1);
         List<Long> roomIds = chatServiceClient.searchChatRoomIdByDate(checkDate);
         // TODO: 2023-11-08 반복문 안에서 채팅 목록 가져오기
+        CheckingChatResponse chatListResponse;
         for (Long roomId : roomIds) {
             chatListResponse = chatServiceClient.searchChatByDateAndChatRoomId(checkDate, roomId);
             // TODO: 2023-11-08 발신자 정리해서 GPT 보내기
@@ -38,8 +44,17 @@ public class OpenAiService {
         // TODO: 2023-11-08 문제 채팅 카프카로 저장하기
     }
 
-    private void method(chatListResponse) {
-        List<Chat> chats = chatListResponse.getChatList();
+    @Scheduled(fixedRate = 600000)
+    public void test() {
+        log.debug("[AI 실행] 서비스 실행 됨");
+        LocalDate checkDate = LocalDate.now().minusDays(1);
+        log.debug("[AI 실행] 채팅 서비스 요청하기");
+        List<Long> roomIds = chatServiceClient.searchChatRoomIdByDate(checkDate);
+        log.debug("[AI 실행] 채팅 서비스에서 목록 불러옴. 크기 = {}", roomIds.size());
+    }
+
+    private void method(CheckingChatResponse chatListResponse) {
+        List<Chat> chats = chatListResponse.getChats();
         StringBuilder sb = new StringBuilder();
         Long teacherId = chatListResponse.getTeacherId();
         for (Chat chat : chats) {
@@ -58,7 +73,7 @@ public class OpenAiService {
                 "'n: 사유'형태로 최대 5개까지 보내줘");
 
         GptResponse gptResponse = gptServiceClient.requestGpt(
-                "Bearer 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",
+                "Bearer ",
                 generateGptRequest(sb.toString()));
 
         String content = gptResponse.getChoices().get(0).getMessage().getContent();
