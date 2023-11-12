@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * 앱 학교 API 컨트롤러
+ * 앱 학교 소속 신청 API 컨트롤러
  *
  * @author 임우택
  */
@@ -43,7 +43,7 @@ public class SchoolApplyAppController {
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        CreateSchoolApplyResponse response = schoolApplyAppService.createSchoolApply(userKey, schoolId, schoolYear, request.toDto());
+        CreateSchoolApplyResponse response = schoolApplyAppService.createSchoolApply(userKey, schoolYear, schoolId, request.toDto());
 
         return ApiResponse.created(response);
     }

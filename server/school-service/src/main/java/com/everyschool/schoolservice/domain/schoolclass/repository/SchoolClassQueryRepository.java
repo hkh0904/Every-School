@@ -48,7 +48,7 @@ public class SchoolClassQueryRepository {
         return result != null;
     }
 
-    public Optional<SchoolClass> findByInfo(Long schoolId, Integer schoolYear, Integer grade, Integer classNum) {
+    public Optional<SchoolClass> findByInfo(int schoolYear, Long schoolId, int grade, int classNum) {
         SchoolClass result = queryFactory
             .select(schoolClass)
             .from(schoolClass)
