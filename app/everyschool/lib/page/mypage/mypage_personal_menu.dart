@@ -2,6 +2,8 @@ import 'package:everyschool/page/mypage/change_password.dart';
 import 'package:everyschool/page/mypage/mute_time_set.dart';
 import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/userinfo_correction.dart';
+import 'package:everyschool/page/mypage/register_parents.dart';
+import 'package:everyschool/page/mypage/register_child.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -22,14 +24,14 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
   ];
 
   var perPagelist = [
-    [MyLikePost(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
-    [MyLikePost(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
+    [RegisterParents(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
+    [RegisterChild(), MyLikePost(), UserInfoCorrection(), ChangePassword()],
     [UserInfoCorrection(), ChangePassword(), MuteTimeSet()]
   ];
 
   getuserType() async {
     var userType = await storage.read(key: 'usertype');
-    var intUserType = userType!.substring(userType!.length - 1);
+    var intUserType = userType!.substring(userType.length - 1);
 
     return int.parse(intUserType);
   }
