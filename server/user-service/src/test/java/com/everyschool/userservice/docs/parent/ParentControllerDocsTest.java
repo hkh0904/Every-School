@@ -2,38 +2,38 @@ package com.everyschool.userservice.docs.parent;
 
 import com.everyschool.userservice.api.controller.parent.ParentController;
 import com.everyschool.userservice.api.controller.parent.request.ConnectStudentParentRequest;
-import com.everyschool.userservice.api.controller.parent.response.CreateStudentParentResponse;
 import com.everyschool.userservice.api.service.user.StudentParentService;
 import com.everyschool.userservice.docs.RestDocsSupport;
+import com.everyschool.userservice.messagequeue.KafkaProducer;
+import com.everyschool.userservice.messagequeue.dto.ParentSchoolApplyDto;
 import com.everyschool.userservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ParentControllerDocsTest extends RestDocsSupport {
 
     private final StudentParentService studentParentService = mock(StudentParentService.class);
+    private final KafkaProducer kafkaProducer = mock(KafkaProducer.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
 
     @Override
     protected Object initController() {
-        return new ParentController(studentParentService, tokenUtils);
+        return new ParentController(studentParentService, kafkaProducer, tokenUtils);
     }
 
     @DisplayName("학부모 연결 코드 입력 API")
@@ -43,18 +43,20 @@ public class ParentControllerDocsTest extends RestDocsSupport {
             .connectCode("d2gHsd34")
             .build();
 
-        CreateStudentParentResponse response = CreateStudentParentResponse.builder()
-            .parentType("모")
-            .parentName("이예리")
-            .studentName("리온")
-            .createdDate(LocalDateTime.now())
+        ParentSchoolApplyDto dto = ParentSchoolApplyDto.builder()
+            .parentId(100L)
+            .studentId(200L)
+            .schoolClassId(300L)
             .build();
 
         given(tokenUtils.getUserKey())
             .willReturn(UUID.randomUUID().toString());
 
         given(studentParentService.checkStudentParent(anyString(), anyString()))
-            .willReturn(response);
+            .willReturn(dto);
+
+        given(kafkaProducer.parentSchoolApply(anyString(), any()))
+            .willReturn(dto);
 
         mockMvc.perform(
             post("/v1/connection")

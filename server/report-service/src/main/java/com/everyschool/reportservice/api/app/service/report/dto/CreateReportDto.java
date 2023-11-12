@@ -8,7 +8,6 @@ import lombok.Data;
 public class CreateReportDto {
 
     private Integer typeId;
-    private String title;
     private String description;
     private String who;
     private String when;
@@ -18,9 +17,8 @@ public class CreateReportDto {
     private String why;
 
     @Builder
-    private CreateReportDto(Integer typeId, String title, String description, String who, String when, String where, String what, String how, String why) {
+    private CreateReportDto(Integer typeId, String description, String who, String when, String where, String what, String how, String why) {
         this.typeId = typeId;
-        this.title = title;
         this.description = description;
         this.who = who;
         this.when = when;

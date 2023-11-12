@@ -18,14 +18,15 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,7 +46,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
         ReportResponse response1 = createReportResponse(1L, VIOLENCE.getCode(), REGISTER.getCode());
         ReportResponse response2 = createReportResponse(2L, ETC.getCode(), REGISTER.getCode());
 
-        given(reportWebQueryService.searchReports(anyLong(), anyInt(), anyInt()))
+        given(reportWebQueryService.searchReports(anyInt(), anyLong(), anyInt()))
             .willReturn(List.of(response1, response2));
 
         mockMvc.perform(
@@ -57,6 +58,16 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .andExpect(status().isOk())
             .andDo(document("search-reports",
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디")
+                ),
                 requestParameters(
                     parameterWithName("status")
                         .description("신고 처리 상태 코드")
@@ -92,7 +103,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .schoolYear(2023)
             .typeId(VIOLENCE.getCode())
             .statusId(REGISTER.getCode())
-            .witness("10301 문동은")
+            .witness("1학년 3반 21번 문동은")
             .who("10302 박연진")
             .when("2023-11-04 11시경")
             .where("학교 체육관")
@@ -113,6 +124,18 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .andExpect(status().isOk())
             .andDo(document("search-report",
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디"),
+                    parameterWithName("reportId")
+                        .description("신고 아이디")
+                ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
                         .description("코드"),

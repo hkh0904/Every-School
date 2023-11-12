@@ -10,7 +10,7 @@ export default function PeopleTable({ selectAll }) {
       try {
         const newList = await getParentList();
         console.log(newList);
-        setPatentList(newList);
+        setPatentList(newList.content);
       } catch (error) {
         console.error(error);
       }

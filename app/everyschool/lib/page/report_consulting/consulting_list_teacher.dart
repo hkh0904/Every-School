@@ -1,6 +1,8 @@
 import 'Package:flutter/material.dart';
 import 'package:everyschool/api/consulting_api.dart';
 import 'package:everyschool/page/consulting/consulting_card.dart';
+import 'package:everyschool/store/user_store.dart';
+import 'package:provider/provider.dart';
 
 class ConsultingListTeacher extends StatefulWidget {
   const ConsultingListTeacher({super.key});
@@ -11,7 +13,11 @@ class ConsultingListTeacher extends StatefulWidget {
 
 class _ConsultingListTeacherState extends State<ConsultingListTeacher> {
   consultingList() async {
-    var response = await ConsultingApi().getConsultingList(context);
+    var myInfo = context.read<UserStore>().userInfo;
+    final year = context.read<UserStore>().year;
+
+    var response = await ConsultingApi()
+        .getConsultingList(myInfo['school']['schoolId'], year);
     print(response);
 
     var upcomingConsulting = [];

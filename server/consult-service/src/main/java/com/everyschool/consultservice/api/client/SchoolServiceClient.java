@@ -1,6 +1,7 @@
 package com.everyschool.consultservice.api.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -11,4 +12,6 @@ public interface SchoolServiceClient {
     @PostMapping("/{schoolId}/{schoolYear}")
     Integer searchStudentNumber(@PathVariable(name = "schoolId") Long schoolId, @PathVariable(name = "schoolYear") Integer schoolYear);
 
+    @GetMapping("/{schoolClassId}")
+    Long searchTeacherId(@PathVariable(name = "schoolClassId") Long schoolClassId);
 }
