@@ -43,7 +43,7 @@ public class Board extends BaseEntity {
     private Boolean isUsedComment;
 
     @Column(nullable = false)
-    private Integer commentPeopleNum;
+    private Integer commentNumber;
 
     @Column(nullable = false)
     private Integer commentCount;
@@ -54,7 +54,7 @@ public class Board extends BaseEntity {
     protected Board() {
         super();
         this.hit = 0;
-        this.commentPeopleNum = 0;
+        this.commentNumber = 0;
         this.commentCount = 0;
         this.files = new ArrayList<>();
     }
@@ -90,5 +90,16 @@ public class Board extends BaseEntity {
         }
 
         return board;
+    }
+
+    //== 비즈니스 로직 ==//
+    public int increaseCommentCount() {
+        this.commentCount += 1;
+        return this.commentCount;
+    }
+
+    public int increaseCommentNumber() {
+        this.commentNumber += 1;
+        return this.commentNumber;
     }
 }

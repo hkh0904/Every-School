@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.everyschool.schoolservice.error.ErrorMessage.UNREGISTERED_SCHOOL_CLASS;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -23,29 +25,7 @@ public class SchoolApplyService {
 
     private final SchoolApplyRepository schoolApplyRepository;
     private final SchoolClassRepository schoolClassRepository;
-    private final SchoolClassQueryRepository schoolClassQueryRepository;
     private final UserServiceClient userServiceClient;
-
-    public CreateSchoolApplyResponse createSchoolApply(Long schoolId, String userKey, CreateSchoolApplyDto dto) {
-        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(schoolId, dto.getSchoolYear(), dto.getGrade(), dto.getClassNum());
-        if (findSchoolClass.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        SchoolClass schoolClass = findSchoolClass.get();
-
-        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
-
-        SchoolApply schoolApply = SchoolApply.builder()
-            .schoolYear(schoolClass.getSchoolYear())
-            .codeId(1)
-            .studentId(userInfo.getUserId())
-            .parentId(null)
-            .schoolClass(schoolClass)
-            .build();
-        SchoolApply savedSchoolApply = schoolApplyRepository.save(schoolApply);
-
-        return CreateSchoolApplyResponse.of(savedSchoolApply);
-    }
 
     public CreateSchoolApplyResponse createSchoolApply(Long schoolClassId, String userKey) {
         Optional<SchoolClass> findSchoolClass = schoolClassRepository.findById(schoolClassId);
@@ -66,5 +46,9 @@ public class SchoolApplyService {
         SchoolApply savedSchoolApply = schoolApplyRepository.save(schoolApply);
 
         return CreateSchoolApplyResponse.of(savedSchoolApply);
+    }
+
+    public void createParentSchoolApply(Long parentId, Long studentId, Long schoolClassId) {
+        // TODO: 11/11/23 구현 예정
     }
 }

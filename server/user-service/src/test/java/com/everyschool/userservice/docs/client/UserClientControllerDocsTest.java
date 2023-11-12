@@ -2,38 +2,39 @@ package com.everyschool.userservice.docs.client;
 
 import com.everyschool.userservice.api.controller.client.UserClientController;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
-import com.everyschool.userservice.api.controller.user.request.UserIdRequest;
-import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
+import com.everyschool.userservice.api.service.user.AccountService;
+import com.everyschool.userservice.api.service.user.StudentParentQueryService;
 import com.everyschool.userservice.api.service.user.UserQueryService;
 import com.everyschool.userservice.docs.RestDocsSupport;
 import com.everyschool.userservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserClientControllerDocsTest extends RestDocsSupport {
 
+    private final AccountService accountService = mock(AccountService.class);
     private final UserQueryService userQueryService = mock(UserQueryService.class);
+    private final StudentParentQueryService studentParentQueryService = mock(StudentParentQueryService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
 
     @Override
     protected Object initController() {
-        return new UserClientController(userQueryService, tokenUtils);
+        return new UserClientController(accountService, userQueryService, studentParentQueryService, tokenUtils);
     }
 
     @DisplayName("토큰으로 회원 정보 조회 API")

@@ -1,5 +1,7 @@
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/mypage/mypage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CategoryUserInfo extends StatefulWidget {
   const CategoryUserInfo({super.key});
@@ -9,78 +11,99 @@ class CategoryUserInfo extends StatefulWidget {
 }
 
 class _CategoryUserInfoState extends State<CategoryUserInfo> {
-  // 학생 학부모 선생님
-  var userNum = 2;
+  final storage = FlutterSecureStorage();
+
+  getCategoryUserInfo() async {
+    var token = await storage.read(key: 'token') ?? "";
+    var info = await UserApi().getUserInfo(token);
+    print('정보 $info');
+    return info;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
-          userImage(),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            '환영합니다. name님!',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MyPage()));
-            },
-            child: Container(
-                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xffd9d9d9), width: 0.5),
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Color(0xff15075F), Color(0xff594AAA)],
-                    )),
-                child: Text(
-                  '개인정보 수정',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: Colors.white),
-                )),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget userImage() {
-    String imageTxt;
-    if (userNum == 1) {
-      imageTxt = 'assets/images/mypage/student.png';
-    } else if (userNum == 2) {
-      imageTxt = 'assets/images/mypage/parent.png';
-    } else {
-      imageTxt = 'assets/images/mypage/teacher.png';
-    }
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffd9d9d9)),
-          borderRadius: BorderRadius.circular(100)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(100),
-        child: Image.asset(
-          imageTxt,
-          height: 100,
-          width: 100,
-        ),
-      ),
-    );
+    return FutureBuilder(
+        future: getCategoryUserInfo(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            String imageAsset;
+            if (snapshot.data['userType'] == 1001) {
+              imageAsset = 'assets/images/mypage/student.png';
+            } else if (snapshot.data['userType'] == 1002) {
+              imageAsset = 'assets/images/mypage/parent.png';
+            } else {
+              imageAsset = 'assets/images/mypage/teacher.png';
+            }
+            return Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xffd9d9d9)),
+                      borderRadius: BorderRadius.circular(100)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset(
+                      imageAsset,
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  '환영합니다. ${snapshot.data['name']}님!',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyPage()));
+                  },
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Color(0xffd9d9d9), width: 0.5),
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Color(0xff15075F), Color(0xff594AAA)],
+                          )),
+                      child: Text(
+                        '개인정보 수정',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white),
+                      )),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(fontSize: 15),
+              ),
+            );
+          } else {
+            return Container(
+              height: 208,
+            );
+          }
+        });
   }
 }

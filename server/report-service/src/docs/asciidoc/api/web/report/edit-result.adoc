@@ -1,0 +1,15 @@
+[[edit-result]]
+=== 신고 처리 결과 수정 API
+
+==== HTTP Request
+
+include::{snippets}/edit-result/http-request.adoc[]
+include::{snippets}/edit-result/request-headers.adoc[]
+include::{snippets}/edit-result/path-parameters.adoc[]
+include::{snippets}/edit-result/request-fields.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/edit-result/http-response.adoc[]
+include::{snippets}/edit-result/response-fields.adoc[]

@@ -7,12 +7,14 @@ import com.everyschool.chatservice.api.controller.filterword.response.ChatFilter
 import com.everyschool.chatservice.api.service.SequenceGeneratorService;
 import com.everyschool.chatservice.api.service.filterword.dto.CreateFilterWordDto;
 import com.everyschool.chatservice.domain.chat.Chat;
+import com.everyschool.chatservice.domain.chat.ChatStatus;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
 import com.everyschool.chatservice.domain.filterword.FilterWord;
 import com.everyschool.chatservice.domain.filterword.Reason;
 import com.everyschool.chatservice.domain.filterword.repository.FilterWordRepository;
 import com.everyschool.chatservice.domain.filterword.repository.ReasonRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class FilterWordService {
 
     private final FilterWordRepository filterWordRepository;
@@ -55,33 +58,34 @@ public class FilterWordService {
      * @return
      */
     public ChatFilterResponse sendMessage(ChatMessage message) {
+        log.debug("[Service] 채팅 필터링 senderUserKey = {}", message.getMessage());
         UserInfo senderUserInfo = userServiceClient.searchUserInfoByUserKey(message.getSenderUserKey());
         List<String> reasons = new ArrayList<>();
-        boolean isBad = isBadChat(message, reasons);
+        ChatStatus chatStatus = isBadChat(message, reasons);
 
-        Chat chat = saveChat(message, senderUserInfo, isBad);
+        Chat chat = saveChat(message, senderUserInfo, 8000);
 
         ChatFilterResponse response = ChatFilterResponse.builder()
                 .isBad(false)
                 .reason("")
                 .build();
-        getFilterResultResponse(reasons, isBad, chat, response);
+        getFilterResultResponse(reasons, chatStatus, chat, response);
         return response;
     }
 
-    private Chat saveChat(ChatMessage message, UserInfo senderUserInfo, boolean isBad) {
+    private Chat saveChat(ChatMessage message, UserInfo senderUserInfo, int status) {
         Chat chat = Chat.builder()
                 .id(sequenceGeneratorService.generateSequence(Chat.SEQUENCE_NAME))
                 .userId(senderUserInfo.getUserId())
                 .content(message.getMessage())
-                .isBad(isBad)
+                .status(status)
                 .chatRoomId(message.getChatRoomId())
                 .build();
         return chatRepository.save(chat);
     }
 
-    private void getFilterResultResponse(List<String> reasons, boolean isBad, Chat chat, ChatFilterResponse response) {
-        if (isBad) {
+    private void getFilterResultResponse(List<String> reasons, ChatStatus chatStatus, Chat chat, ChatFilterResponse response) {
+        if (chatStatus == ChatStatus.BAD) {
             for (String reason : reasons) {
                 saveReason(chat, reason);
             }
@@ -98,7 +102,7 @@ public class FilterWordService {
         reasonRepository.save(filterReason);
     }
 
-    private boolean isBadChat(ChatMessage message, List<String> reasons) {
+    private ChatStatus isBadChat(ChatMessage message, List<String> reasons) {
         boolean isBad = false;
         List<FilterWord> filters = filterWordRepository.findAll();
         for (FilterWord filter : filters) {
@@ -107,7 +111,10 @@ public class FilterWordService {
                 isBad = true;
             }
         }
-        return isBad;
+        if (isBad) {
+            return ChatStatus.BAD;
+        }
+        return ChatStatus.PLANE;
     }
 
     private FilterWord saveFilterWord(CreateFilterWordDto dto) {

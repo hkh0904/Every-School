@@ -56,4 +56,8 @@ public class SchoolApplyQueryService {
 
         return SchoolApplyResponse.of(schoolApply, studentInfos.get(0));
     }
+
+    public boolean existApply(Long studentId) {
+        return schoolApplyQueryRepository.existApply(studentId);
+    }
 }

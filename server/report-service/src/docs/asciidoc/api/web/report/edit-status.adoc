@@ -1,0 +1,15 @@
+[[edit-status]]
+=== 신고 처리 상태 수정 API
+
+==== HTTP Request
+
+include::{snippets}/edit-status/http-request.adoc[]
+include::{snippets}/edit-status/request-headers.adoc[]
+include::{snippets}/edit-status/path-parameters.adoc[]
+include::{snippets}/edit-status/request-fields.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/edit-status/http-response.adoc[]
+include::{snippets}/edit-status/response-fields.adoc[]

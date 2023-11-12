@@ -34,6 +34,12 @@ export default function AccordianMenu() {
       address: '/report/history'
     },
     {
+      title: '악성 민원 신고',
+      list: [],
+      icon: TbReport,
+      address: '/badcomplain/history'
+    },
+    {
       title: '마이페이지',
       list: [],
       icon: IoMdSettings,
@@ -56,7 +62,7 @@ export default function AccordianMenu() {
       {MenuList.map((menu, index) => (
         <div key={index}>
           <div className={styles.accordianTitle} onClick={() => handleToggle(index)}>
-            {index === 4 || index === 3 ? ( // 3은 "접수된 신고"의 인덱스입니다.
+            {index === 5 || index === 4  || index === 3 ? ( // 3은 "접수된 신고"의 인덱스입니다.
               <NavLink to={menu.address} className={({ isActive }) => [isActive ? styles.isActive : styles.titleLink]}>
                 {menu.icon()}
                 <p>{menu.title}</p>
@@ -71,7 +77,7 @@ export default function AccordianMenu() {
               {menu.list.length > 0 ? expandedIndex === index ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown /> : null}
             </p>
           </div>
-          {expandedIndex === index && (
+          {expandedIndex === index && menu.list.length > 0 && (
             <ul className={styles.accordionList}>
               {menu.list.map((item, itemIndex) => (
                 <li key={itemIndex}>

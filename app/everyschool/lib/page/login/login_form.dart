@@ -1,7 +1,13 @@
 import 'package:everyschool/api/firebase_api.dart';
-import 'package:everyschool/api/login_api.dart';
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
+import 'package:everyschool/page/login/approve_waiting.dart';
+import 'package:everyschool/page/mypage/add_child.dart';
+import 'package:everyschool/page/mypage/select_school.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key, this.emailAddress, this.password});
@@ -14,10 +20,43 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  void loginSuccess() {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (_) => Main(),
-    ));
+  final storage = FlutterSecureStorage();
+
+  void loginSuccess() async {
+    var token = await storage.read(key: 'token');
+    var userKey = await storage.read(key: 'userKey');
+    var userInfo = await UserApi().getUserRegisterInfo(token);
+    print(userInfo);
+
+    if (userKey == "1001") {
+      if (userInfo['message'] == '학급 신청 후 이용바랍니다.') {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => SelectSchool(),
+        ));
+      } else if (userInfo['message'] == 'SUCCESS') {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => Main(),
+        ));
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => ApproveWaiting(),
+        ));
+      }
+    } else if (userKey == "1002") {
+      if (userInfo['data']['descendants'].length > 0) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => Main(),
+        ));
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => AddChild(),
+        ));
+      }
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => Main(),
+      ));
+    }
   }
 
   void _showLoginFailureDialog(BuildContext context) {
@@ -92,7 +131,7 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () async {
                         final deviceToken =
                             await FirebaseApi().getMyDeviceToken();
-                        int response = await LoginApi().login(
+                        int response = await UserApi().login(
                             widget.emailAddress, widget.password, deviceToken);
                         if (response == 1) {
                           loginSuccess();

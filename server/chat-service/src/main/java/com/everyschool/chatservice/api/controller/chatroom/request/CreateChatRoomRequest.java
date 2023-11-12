@@ -14,27 +14,30 @@ public class CreateChatRoomRequest {
 
     @NotBlank
     private String opponentUserKey;
+    private String opponentUserName;
+    private String opponentUserType;
     @NotNull
-    private Character loginUserType;
+    private int loginUserType;
     @NotNull
     private Long schoolClassId;
-    @NotBlank
-    private String relation;
 
     @Builder
-    private CreateChatRoomRequest(String opponentUserKey, Character loginUserType, Long schoolClassId, String relation) {
+    private CreateChatRoomRequest(String opponentUserKey, String opponentUserName, String opponentUserType, int loginUserType, Long schoolClassId) {
         this.opponentUserKey = opponentUserKey;
+        this.opponentUserName = opponentUserName;
+        this.opponentUserType = opponentUserType;
         this.loginUserType = loginUserType;
         this.schoolClassId = schoolClassId;
-        this.relation = relation;
     }
 
     public CreateChatRoomDto toDto(String token) {
         return CreateChatRoomDto.builder()
                 .loginUserToken(token)
                 .opponentUserKey(this.opponentUserKey)
-                .relation(this.relation)
                 .schoolClassId(this.schoolClassId)
+                .opponentUserName(this.opponentUserName)
+                .opponentUserType(this.opponentUserType)
+                .loginUserType(this.loginUserType)
                 .build();
     }
 }

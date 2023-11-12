@@ -14,11 +14,20 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "S")
 public class Student extends User {
 
+    private Long schoolId;
     private Long schoolClassId;
 
     @Builder
-    private Student(String email, String pwd, String name, String birth, String userKey, int userCodeId, Long schoolClassId) {
+    private Student(String email, String pwd, String name, String birth, String userKey, int userCodeId, Long schoolId, Long schoolClassId) {
         super(email, pwd, name, birth, userKey, userCodeId);
+        this.schoolId = schoolId;
         this.schoolClassId = schoolClassId;
+    }
+
+    //== 비즈니스 로직 ==//
+    public Student editClassInfo(Long schoolId, Long schoolClassId) {
+        this.schoolId = schoolId;
+        this.schoolClassId = schoolClassId;
+        return this;
     }
 }

@@ -531,17 +531,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_http_request"><a class="link" href="#_http_request">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /chat-service/v1/chat-room HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /chat-service/v1/chat-rooms HTTP/1.1
 Content-Type: application/json
 Authorization: jwt
-Content-Length: 142
+Content-Length: 162
 Host: localhost:8080
 
 {
   "opponentUserKey" : "opponentUserKey",
-  "loginUserType" : "M",
-  "schoolClassId" : 1,
-  "relation" : "1학년 1반 임우택(모)"
+  "opponentUserName" : "봉미선",
+  "opponentUserType" : "M",
+  "loginUserType" : 1000,
+  "schoolClassId" : 1
 }</code></pre>
 </div>
 </div>
@@ -571,22 +572,28 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">상대방 유저 키</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>loginUserType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>opponentUserName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 유저 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>opponentUserType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 유저 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>loginUserType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">로그인 유저 타입</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>schoolClassId</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
+<td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">학급 ID</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>relation</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">필수</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상대유저 관계(학생, 누구의 부/모)</p></td>
 </tr>
 </tbody>
 </table>
@@ -597,7 +604,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 190
+Content-Length: 224
 
 {
   "code" : 201,
@@ -605,8 +612,9 @@ Content-Length: 190
   "message" : "CREATED",
   "data" : {
     "roomId" : 1,
-    "roomTitle" : "1학년 1반 임우택(모)",
-    "userName" : "신성주"
+    "opponentUserName" : "봉미선",
+    "opponentUserType" : "M",
+    "opponentUsersChildName" : "신짱구"
   }
 }</code></pre>
 </div>
@@ -654,14 +662,19 @@ Content-Length: 190
 <td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 ID</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.roomTitle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.opponentUserName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 제목</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대 유저 이름</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.opponentUserType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 이름</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.opponentUsersChildName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방이 부모일 때 자녀 이름</p></td>
 </tr>
 </tbody>
 </table>
@@ -673,7 +686,7 @@ Content-Length: 190
 <h4 id="_http_request_2"><a class="link" href="#_http_request_2">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /chat-service/v1/chat-room HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /chat-service/v1/chat-rooms HTTP/1.1
 Authorization: jwt
 Host: localhost:8080</code></pre>
 </div>
@@ -685,7 +698,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 483
+Content-Length: 592
 
 {
   "code" : 200,
@@ -693,14 +706,18 @@ Content-Length: 483
   "message" : "SUCCESS",
   "data" : [ {
     "roomId" : 1,
-    "roomTitle" : "1학년 2반 하현상 선생님",
-    "lastMessage" : "아이패드 에어4",
+    "opponentUserName" : "봉미선",
+    "opponentUserType" : "M",
+    "opponentUserChildName" : "신짱구",
+    "lastMessage" : "짱구 엄마입니다~",
     "updateTime" : [ 2023, 10, 10, 10, 10 ],
     "unreadMessageNum" : 3
   }, {
     "roomId" : 2,
-    "roomTitle" : "1학년 5반 임동규 선생님",
-    "lastMessage" : "아이패드 프로",
+    "opponentUserName" : "신짱아",
+    "opponentUserType" : "S",
+    "opponentUserChildName" : "",
+    "lastMessage" : "짱아입니다~",
     "updateTime" : [ 2023, 10, 10, 12, 10 ],
     "unreadMessageNum" : 0
   } ]
@@ -750,9 +767,19 @@ Content-Length: 483
 <td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 PK</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].roomTitle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].opponentUserName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 제목</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].opponentUserType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 회원 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].opponentUserChildName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상대방 자녀 이름</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].lastMessage</code></p></td>
@@ -785,7 +812,8 @@ Host: localhost:8080</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /chat-service/v1/chat-room/1 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /chat-service/v1/chat-rooms/1?idx=1 HTTP/1.1
+Authorization: jwt
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -796,7 +824,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 752
+Content-Length: 2777
 
 {
   "code" : 200,
@@ -804,29 +832,104 @@ Content-Length: 752
   "message" : "SUCCESS",
   "data" : [ {
     "chatId" : 1,
-    "content" : "선생님 오늘 퇴근 언제하시나요?",
-    "sendTime" : "오전 11:30",
+    "content" : "벌써 며칠째 전화도 없는 너",
+    "sendTime" : "오전 10:1",
     "mine" : true
   }, {
     "chatId" : 2,
-    "content" : "오늘 늦게 합니다",
-    "sendTime" : "오전 11:31",
-    "mine" : false
+    "content" : "얼마 후면 나의 생일이란 걸 아는지",
+    "sendTime" : "오전 10:2",
+    "mine" : true
   }, {
     "chatId" : 3,
-    "content" : "선생님 오늘 점심은 뭔가요?",
-    "sendTime" : "오전 11:35",
+    "content" : "눈치도 없이 시간은 자꾸만 흘러가고",
+    "sendTime" : "오전 10:3",
     "mine" : true
   }, {
     "chatId" : 4,
-    "content" : "선생님 피자는 안나오나요?",
-    "sendTime" : "오전 11:35",
+    "content" : "난 미움보다 걱정스런 맘에",
+    "sendTime" : "오전 10:4",
     "mine" : true
   }, {
     "chatId" : 5,
-    "content" : "오늘 밥 맛 없어요",
-    "sendTime" : "오전 11:50",
+    "content" : "무작정 찾아간 너의 골목 어귀에서",
+    "sendTime" : "오전 10:5",
+    "mine" : true
+  }, {
+    "chatId" : 6,
+    "content" : "생각지 못한 웃으며",
+    "sendTime" : "오전 10:6",
+    "mine" : true
+  }, {
+    "chatId" : 7,
+    "content" : "반기는 너를 봤어",
+    "sendTime" : "오전 10:7",
+    "mine" : true
+  }, {
+    "chatId" : 8,
+    "content" : "사실은 말야 나 많이 고민했어",
+    "sendTime" : "오전 10:8",
     "mine" : false
+  }, {
+    "chatId" : 9,
+    "content" : "네게 아무것도 해줄 수 없는걸",
+    "sendTime" : "오전 10:9",
+    "mine" : false
+  }, {
+    "chatId" : 10,
+    "content" : "아주 많이 모자라도 가진 것 없어도",
+    "sendTime" : "오전 10:10",
+    "mine" : false
+  }, {
+    "chatId" : 11,
+    "content" : "이런 나라도 받아 줄래",
+    "sendTime" : "오전 10:11",
+    "mine" : false
+  }, {
+    "chatId" : 12,
+    "content" : "너를 위해서 너만을 위해서",
+    "sendTime" : "오전 10:12",
+    "mine" : true
+  }, {
+    "chatId" : 13,
+    "content" : "난 세상 모든 걸",
+    "sendTime" : "오전 10:13",
+    "mine" : false
+  }, {
+    "chatId" : 14,
+    "content" : "다 안겨 주지는 못하지만",
+    "sendTime" : "오전 10:14",
+    "mine" : false
+  }, {
+    "chatId" : 15,
+    "content" : "오직 너를 위한 내가 될게",
+    "sendTime" : "오전 10:15",
+    "mine" : true
+  }, {
+    "chatId" : 16,
+    "content" : "Is only for you",
+    "sendTime" : "오전 10:16",
+    "mine" : true
+  }, {
+    "chatId" : 17,
+    "content" : "just wanna be for you",
+    "sendTime" : "오전 10:17",
+    "mine" : true
+  }, {
+    "chatId" : 18,
+    "content" : "넌 그렇게 지금 모습 그대로",
+    "sendTime" : "오전 10:18",
+    "mine" : false
+  }, {
+    "chatId" : 19,
+    "content" : "내 곁에 있으면 돼",
+    "sendTime" : "오전 10:19",
+    "mine" : false
+  }, {
+    "chatId" : 20,
+    "content" : "난 다시 태어나도",
+    "sendTime" : "오전 10:20",
+    "mine" : true
   } ]
 }</code></pre>
 </div>
@@ -1133,7 +1236,7 @@ Content-Length: 127
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-02 10:29:14 +0900
+Last updated 2023-11-06 20:40:30 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

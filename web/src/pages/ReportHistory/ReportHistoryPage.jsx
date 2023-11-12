@@ -1,22 +1,23 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import Table from '../../component/Table/Table';
 import styles from './ReportHistoryPage.module.css';
 import SvgIcon from '@mui/material/SvgIcon';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { receivedReportInfo } from '../../api/UserAPI/reportAPI';
 
 export default function ReportHistoryPage() {
   const columns = useMemo(
     () => [
       {
-        accessor: 'number',
+        accessor: 'reportId',
         Header: '번호'
       },
       {
-        accessor: 'category',
+        accessor: 'type',
         Header: '신고 종류'
       },
       {
-        accessor: 'time',
+        accessor: 'date',
         Header: '접수시간'
       },
       {
@@ -31,83 +32,38 @@ export default function ReportHistoryPage() {
     []
   );
 
-  const data = [
-    {
-      number: 1,
-      category: '학교폭력',
-      time: '23.10.17 17:00',
-      status: true,
-      detail: {
-        category: '학교 폭력',
-        reporter_class: '3학년 1반',
-        reporter: '미카엘',
-        report_status: true,
-        report_where: '학교 비품실',
-        report_when: '2020.03.03.12',
-        report_who: '오연주',
-        report_content:
-          '오연주 학생이 김휘낭 학생에게 휘낭시에를 강탈하여 이마들렌 학우에게 주었습니다. 김휘낭은 정체성을 이마들렌에게 빼았기게 되었고... 삶을 잃었습니다....'
-      }
-    },
-    {
-      number: 2,
-      category: '학교폭력',
-      time: '23.10.15 12:10',
-      status: false,
-      detail: {
-        category: '학교 폭력',
-        reporter_class: '3학년 1반',
-        reporter: '미카엘',
-        report_status: false,
-        report_where: '학교 비품실',
-        report_when: '2020.03.03.12',
-        report_who: '오연주',
-        report_content:
-          '오연주 학생이 김휘낭 학생에게 휘낭시에를 강탈하여 이마들렌 학우에게 주었습니다. 김휘낭은 정체성을 이마들렌에게 빼았기게 되었고... 삶을 잃었습니다....'
-      }
-    },
-    {
-      number: 3,
-      category: '메세지 신고',
-      time: '23.10.14 15:40',
-      status: true,
-      detail: {
-        category: '학교 폭력',
-        reporter_class: '3학년 1반',
-        reporter: '미카엘',
-        report_status: true,
-        report_where: '학교 비품실',
-        report_when: '2020.03.03.12',
-        report_who: '오연주',
-        report_content:
-          '오연주 학생이 김휘낭 학생에게 휘낭시에를 강탈하여 이마들렌 학우에게 주었습니다. 김휘낭은 정체성을 이마들렌에게 빼았기게 되었고... 삶을 잃었습니다....'
-      }
-    },
-    {
-      number: 4,
-      category: '학교폭력',
-      time: '23.10.13 12:00',
-      status: false,
-      detail: {
-        category: '학교 폭력',
-        reporter_class: '3학년 1반',
-        reporter: '미카엘',
-        report_status: false,
-        report_where: '학교 비품실',
-        report_when: '2020.03.03.12',
-        report_who: '오연주',
-        report_content:
-          '오연주 학생이 김휘낭 학생에게 휘낭시에를 강탈하여 이마들렌 학우에게 주었습니다.\n 김휘낭은 정체성을 이마들렌에게 빼았기게 되었고... 삶을 잃었습니다....'
-      }
-    }
-  ];
+  const [reports, setReports] = useState([]);
+  const [completeReports, setCompleteReports] = useState(0);
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      let rawData = await receivedReportInfo();
+      
+      const formattedData = rawData.map(item => {
+        const splitDateTime = item.date.split('T');
+        const time = `${parseInt(splitDateTime[1], 10)}시`;
+        const formattedDate = `${splitDateTime[0]} / ${time}`;
+        
+        return { ...item, date: formattedDate };
+      });
+  
+      setReports(formattedData); // 변환된 데이터로 상태를 업데이트합니다.
+      setCompleteReports(formattedData.length);
+    };
+    fetchReports();
+  }, []);
+  
+
+  console.log(reports);
 
   return (
     <div className={styles.container}>
       <div className={styles.row}>
         <div>
           <div className={styles.headText}>접수된 신고</div>
-          <div className={styles.underText}>처리 완료 : OO건</div>
+          <div className={styles.underText}>
+            처리 필요 : {reports.length - completeReports}건 / 처리 완료 : {completeReports}건
+          </div>
         </div>
         <div className={styles.plusButton}>
           <SvgIcon component={AddCircleIcon} inheritViewBox />
@@ -117,7 +73,7 @@ export default function ReportHistoryPage() {
       <hr />
       <div className={styles.tableBox}>
         <div className={styles.scrollContainer}>
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={reports} />
         </div>
       </div>
     </div>

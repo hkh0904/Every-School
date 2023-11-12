@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:everyschool/api/report_api.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,15 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
-  final _reportTypes = ['학칙위반(흡연, 절도, 기물파손 등)', '학교폭력', '기타', '악성민원'];
+  final List<Map<String, dynamic>> _reportTypes = [
+    {'title': '학칙위반(흡연, 기물파손 등)', 'number': 9003},
+    {'title': '학교폭력', 'number': 9001},
+    {'title': '도난, 절도', 'number': 9002},
+    {'title': '악성민원', 'number': 9004},
+    {'title': '기타', 'number': 9000}
+  ];
+
+  String? typeId;
   String? _selectedType;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
@@ -20,48 +29,90 @@ class _ReportPageState extends State<ReportPage> {
   String? _suspectInput;
   String? _detailInput;
   List<File> _filePaths = [];
-  TextEditingController _fileController = TextEditingController();
+  final TextEditingController _fileController = TextEditingController();
 
-  postFile(List<File> files) async {
-    const url = 'YOUR_API';
+  postFile() async {
     FormData formData = FormData.fromMap({
-      "attachments": files,
+      "typeId": typeId,
+      "files": _filePaths
+          .map((file) => MultipartFile.fromFileSync(file.path))
+          .toList(),
+      "description": _detailInput,
+      "who": _suspectInput,
+      "when": '${_selectedDate.toString()} ${_selectedTime.toString()}',
+      "where": _locationInput,
+      "what": _selectedType,
+      "how": null,
+      "why": null
     });
 
-    var dio = Dio();
-
-    try {
-      var response = await dio.post(
-        url,
-        data: formData,
+    var response = await ReportApi().writeReport(formData);
+    if (response.runtimeType != Null) {
+      showDialog(
+        context: context,
+        builder: ((context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 40,
+                ),
+                Center(
+                    child: Text("신고가 완료되었습니다.",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 18))),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                    child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Text("진행 사항은 신고 목록에서 확인 가능합니다.",
+                      style: TextStyle(fontSize: 16)),
+                )),
+                SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 50,
+                    color: Color(0xff15075f),
+                    child: Center(
+                      child: Text(
+                        "확인",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
       );
-
-      print("응답 ${response.data.toString()}");
-    } catch (eee) {
-      print("error occur");
+      setState(() {
+        typeId = null;
+        _selectedType = null;
+        _selectedDate = null;
+        _selectedTime = null;
+        _locationInput = null;
+        _suspectInput = null;
+        _detailInput = null;
+        _filePaths = [];
+      });
+      _fileController.text = _filePaths.isNotEmpty
+          ? _filePaths.map((file) => extractFileName(file.path)).join(", ")
+          : "첨부 파일이 없습니다";
     }
   }
-
-//   Future<void> postFiles(List<File> files) async {
-//   const url = 'YOUR_API_ENDPOINT';
-
-//   var dio = Dio();
-
-//   FormData formData = FormData.fromMap({
-//     "attachments": files.map((file) => MultipartFile.fromFileSync(file.path)),
-//   });
-
-//   try {
-//     var response = await dio.post(
-//       url,
-//       data: formData,
-//     );
-
-//     print("응답: ${response.data.toString()}");
-//   } catch (error) {
-//     print("에러 발생: $error");
-//   }
-// }
 
   String extractFileName(String filePath) {
     List<String> parts = filePath.split('/');
@@ -122,17 +173,21 @@ class _ReportPageState extends State<ReportPage> {
                     child: DropdownButton(
                       hint: Text('신고 분류를 선택해주세요'),
                       value: _selectedType,
-                      items: [
-                        ..._reportTypes
-                            .map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e),
-                                ))
-                            .toList(),
-                      ],
+                      items: _reportTypes
+                          .map<DropdownMenuItem<String>>(
+                              (type) => DropdownMenuItem<String>(
+                                    value: type['title'] as String,
+                                    child: Text(type['title'] as String),
+                                  ))
+                          .toList(),
                       onChanged: (value) {
+                        // 선택한 분류의 number를 typeId에 저장
                         setState(() {
                           _selectedType = value!;
+                          typeId = _reportTypes
+                              .firstWhere(
+                                  (type) => type['title'] == value)['number']
+                              .toString();
                         });
                       },
                       underline: Container(),
@@ -285,7 +340,7 @@ class _ReportPageState extends State<ReportPage> {
                         _detailInput = value;
                       });
                     },
-                    controller: TextEditingController(text: _detailInput),
+                    // controller: TextEditingController(text: _detailInput),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: '상세 내용을 입력해주세요',
@@ -356,6 +411,7 @@ class _ReportPageState extends State<ReportPage> {
           style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xff15075F), shape: LinearBorder()),
           onPressed: _selectedType != null &&
+                  typeId != null &&
                   _selectedDate != null &&
                   _selectedTime != null &&
                   _locationInput != null &&
@@ -363,15 +419,7 @@ class _ReportPageState extends State<ReportPage> {
                   _detailInput != null
               ? () {
                   // 버튼이 활성화된 경우 실행할 동작
-                  print(_selectedType);
-                  print(_selectedDate);
-                  print(_selectedTime);
-                  print(_locationInput);
-                  print(_detailInput);
-                  print(
-                    _filePaths
-                        .map((file) => MultipartFile.fromFileSync(file.path)),
-                  );
+                  postFile();
                 }
               : null,
           child: Text(

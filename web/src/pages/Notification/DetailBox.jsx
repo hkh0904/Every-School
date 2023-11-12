@@ -3,6 +3,7 @@ import styles from './DetailBox.module.css';
 export default function DetailBox({ setTitle, setContent, setFileName, fileName }) {
   const handleFileInputChange = (event) => {
     const newFiles = event.target.files;
+    console.log(newFiles);
     if (newFiles.length > 0) {
       setFileName(Array.from(newFiles));
     }

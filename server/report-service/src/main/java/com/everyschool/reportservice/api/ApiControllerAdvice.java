@@ -18,6 +18,7 @@ public class ApiControllerAdvice {
 
     /**
      * BindException 공통 처리 메서드
+     *
      * @param e BindException
      * @return 400 오류 메세지
      */
@@ -27,12 +28,13 @@ public class ApiControllerAdvice {
         return ApiResponse.of(
             HttpStatus.BAD_REQUEST,
             e.getBindingResult().getAllErrors().get(0).getDefaultMessage(),
-            null
+            e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
         );
     }
 
     /**
      * IllegalArgumentException 공통 처리 메서드
+     *
      * @param e IllegalArgumentException
      * @return 400 오류 메세지
      */
@@ -42,12 +44,13 @@ public class ApiControllerAdvice {
         return ApiResponse.of(
             HttpStatus.BAD_REQUEST,
             e.getMessage(),
-            null
+            e.getMessage()
         );
     }
 
     /**
      * NoSuchElementException 공통 처리 메서드
+     *
      * @param e NoSuchElementException
      * @return 400 오류 메세지
      */
@@ -57,7 +60,7 @@ public class ApiControllerAdvice {
         return ApiResponse.of(
             HttpStatus.BAD_REQUEST,
             e.getMessage(),
-            null
+            e.getMessage()
         );
     }
 }

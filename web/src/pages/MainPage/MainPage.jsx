@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import styles from './MainPage.module.css';
 import AccordianMenu from './AccordianMenu';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getUserInfo } from '../../api/UserAPI/userAPI';
 
 export default function MainPage() {

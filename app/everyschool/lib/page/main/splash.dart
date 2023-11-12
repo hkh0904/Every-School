@@ -1,8 +1,15 @@
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
+import 'package:everyschool/page/login/approve_waiting.dart';
 import 'package:everyschool/page/login/login_page.dart';
+import 'package:everyschool/page/messenger/call/answer_call.dart';
+import 'package:everyschool/page/mypage/add_child.dart';
+import 'package:everyschool/page/mypage/select_school.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:uuid/uuid.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -14,6 +21,11 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   String? token;
 
+  late final Uuid _uuid;
+  String? _currentUuid;
+  List? calls;
+  final storage = FlutterSecureStorage();
+
   @override
   void initState() {
     super.initState();
@@ -21,17 +33,76 @@ class _SplashState extends State<Splash> {
 
     getToken();
 
-    Future.delayed(Duration(seconds: 3), () {
-      if (token != null && token!.isNotEmpty) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const Main(),
-        ));
+    checkAndNavigationCallingPage();
+
+    Future.delayed(Duration(seconds: 3), () async {
+      if (token != null && token!.length > 0) {
+        var userKey = await storage.read(key: 'userKey');
+        var userInfo = await UserApi().getUserRegisterInfo(token);
+        print(userInfo);
+
+        if (userKey == "1001") {
+          if (userInfo['message'] == '학급 신청 후 이용바랍니다.') {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => SelectSchool(),
+            ));
+          } else if (userInfo['message'] == 'SUCCESS') {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => Main(),
+            ));
+          } else {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => ApproveWaiting(),
+            ));
+          }
+        } else if (userKey == "1002") {
+          if (userInfo['data']['descendants'].length > 0) {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => Main(),
+            ));
+          } else {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (_) => AddChild(),
+            ));
+          }
+        } else {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => Main(),
+          ));
+        }
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const LoginPage(),
+          builder: (_) => LoginPage(),
         ));
       }
     });
+  }
+
+  Future<dynamic> getCurrentCall() async {
+    //check current call from pushkit if possible
+    // var calls = await FlutterCallkitIncoming.activeCalls();
+    var calls = null;
+    if (calls is List) {
+      if (calls.isNotEmpty) {
+        print('DATA: $calls');
+        _currentUuid = calls[0]['id'];
+        return calls[0];
+      } else {
+        _currentUuid = "";
+        return null;
+      }
+    }
+  }
+
+  Future<void> checkAndNavigationCallingPage() async {
+    var currentCall = await getCurrentCall();
+    print('현재콜 $currentCall');
+    print('현재콜 ${currentCall.runtimeType}');
+
+    // if (currentCall.runtimeType != Null) {
+    //   Navigator.pushReplacement(
+    //       context, MaterialPageRoute(builder: (context) => const AnswerCall()));
+    // }
   }
 
   void getToken() async {

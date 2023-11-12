@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:everyschool/api/consulting_api.dart';
+import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/page/consulting/consulting_reason.dart';
 import 'package:everyschool/page/consulting/consulting_teacher_info.dart';
 import 'package:everyschool/page/consulting/select_date.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class ConsultingReservation extends StatefulWidget {
   const ConsultingReservation({super.key});
@@ -26,6 +33,26 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
     } else {
       print('입력 정보를 확인해주세요');
     }
+  }
+
+  getSchedule() async {
+    final storage = FlutterSecureStorage();
+
+    final year = await context.read<UserStore>().year;
+    final descendantInfo = await storage.read(key: 'descendant') ?? "";
+    var selectDescendant = jsonDecode(descendantInfo);
+
+    var schoolId = selectDescendant['school']['schoolId'];
+
+    var teacherInfo = await ConsultingApi().getTeacherId(year, schoolId);
+    print(teacherInfo);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSchedule();
   }
 
   @override

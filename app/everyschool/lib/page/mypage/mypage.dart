@@ -14,8 +14,10 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
   void logout() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (Route<dynamic> route) => false);
   }
 
   final storage = FlutterSecureStorage();
@@ -31,6 +33,8 @@ class _MyPageState extends State<MyPage> {
             GestureDetector(
               onTap: () async {
                 await storage.delete(key: 'token');
+                await storage.delete(key: 'userkey');
+                await storage.delete(key: 'usertype');
                 logout();
               },
               child: Text(

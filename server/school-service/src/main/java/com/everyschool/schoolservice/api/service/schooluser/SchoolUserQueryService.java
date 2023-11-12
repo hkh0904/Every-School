@@ -4,11 +4,13 @@ import com.everyschool.schoolservice.api.client.UserServiceClient;
 import com.everyschool.schoolservice.api.client.response.StudentParentInfo;
 import com.everyschool.schoolservice.api.client.response.StudentResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
-import com.everyschool.schoolservice.api.controller.client.response.ConsultUserInfo;
-import com.everyschool.schoolservice.api.controller.client.response.StudentInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.ConsultUserInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.DescendantInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
 import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
+import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfoCon;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
 import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassRepository;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
@@ -20,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.everyschool.schoolservice.ErrorMessage.NOT_EXIST_MY_SCHOOL_CLASS;
+import static com.everyschool.schoolservice.error.ErrorMessage.NOT_EXIST_MY_SCHOOL_CLASS;
 
 @RequiredArgsConstructor
 @Service
@@ -118,5 +120,49 @@ public class SchoolUserQueryService {
         return findSchoolUsers.stream()
             .map(ConsultUserInfo::of)
             .collect(Collectors.toList());
+    }
+
+    public List<DescendantInfo> searchDescendantInfo(List<Long> userIds) {
+        return schoolUserQueryRepository.findDescendantInfo(userIds);
+    }
+
+    public Long searchTeacherByUserId(Long userId, Integer schoolYear) {
+        //클래스 id 조회
+        Optional<Long> findSchoolClassId = schoolUserQueryRepository.findByUserIdAndSchoolYear(userId, schoolYear);
+        if (findSchoolClassId.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Long schoolClassId = findSchoolClassId.get();
+
+        Optional<SchoolUser> findTeacher = schoolUserQueryRepository.findTeacher(schoolClassId);
+        if (findTeacher.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+
+        SchoolUser teacher = findTeacher.get();
+
+        return teacher.getUserId();
+    }
+
+    public List<StudentInfoCon> searchStudentsByUserId(Long userId, Integer schoolYear) {
+        Optional<Long> findSchoolClassId = schoolUserQueryRepository.findByUserIdAndSchoolYear(userId, schoolYear);
+        if (findSchoolClassId.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        Long schoolClassId = findSchoolClassId.get();
+
+        List<SchoolUser> students = schoolUserQueryRepository.findStudent(schoolClassId);
+
+
+        List<StudentInfoCon> infos = new ArrayList<>();
+        for (SchoolUser student : students) {
+            StudentInfoCon info = StudentInfoCon.builder()
+                .userId(student.getUserId())
+                .studentNumber(student.getStudentNumber())
+                .build();
+            infos.add(info);
+        }
+
+        return infos;
     }
 }

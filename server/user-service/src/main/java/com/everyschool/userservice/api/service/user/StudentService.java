@@ -13,9 +13,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import static com.everyschool.userservice.message.ErrorMessage.NO_SUCH_USER;
 
 @RequiredArgsConstructor
 @Service
@@ -46,6 +50,16 @@ public class StudentService {
         operations.set(code, userKey, 3, TimeUnit.MINUTES);
 
         return code;
+    }
+
+    public void editClassInfo(Long studentId, Long schoolId, Long schoolClassId) {
+        Optional<Student> findStudent = studentRepository.findById(studentId);
+        if (findStudent.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_USER.getMessage());
+        }
+        Student student = findStudent.get();
+
+        Student editedStudent = student.editClassInfo(schoolId, schoolClassId);
     }
 
     public String createCode() {
