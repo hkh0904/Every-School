@@ -24,7 +24,14 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
   }
 
   Future<void> _loadBoardData() async {
-    final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
+    final userType = context.read<UserStore>().userInfo["userType"];
+    late final schoolId;
+    if (userType == 1002) {
+      schoolId = context.read<UserStore>().userInfo["descendants"][0]["school"]
+          ["schoolId"];
+    } else {
+      schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
+    }
     var response;
     try {
       response = await communityApi.getHomeNoticeList(schoolId);
