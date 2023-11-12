@@ -46,16 +46,13 @@ class _CallHistoryState extends State<CallHistory> {
   }
 
   String formatDateTime(DateTime dateTime) {
-    // 오늘 날짜인지 확인
     bool isToday = DateTime.now().day == dateTime.day &&
         DateTime.now().month == dateTime.month &&
         DateTime.now().year == dateTime.year;
 
     if (isToday) {
-      // 오늘인 경우 시간으로 포맷팅
       return DateFormat.jm().format(dateTime);
     } else {
-      // 오늘이 아닌 경우 날짜로 포맷팅
       return DateFormat('yyyy.MM.dd').format(dateTime);
     }
   }
@@ -79,8 +76,9 @@ class _CallHistoryState extends State<CallHistory> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      CallDetail(detail: detail)));
+                                  builder: (context) => CallDetail(
+                                      callInfo: snapshot.data[index],
+                                      detail: detail)));
                         },
                         child: Container(
                           padding: EdgeInsets.fromLTRB(20, 15, 20, 10),
