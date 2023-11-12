@@ -55,8 +55,10 @@ class _SelectChildBoxState extends State<SelectChildBox> {
               await storage.delete(key: 'descendant');
               await storage.write(
                   key: 'descendant', value: jsonEncode(widget.child));
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Main()));
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Main()),
+                  (route) => false);
             },
             child: Text(
               '선택하기',
