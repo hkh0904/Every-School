@@ -55,4 +55,35 @@ class ConsultingApi {
       return 0;
     }
   }
+
+  Future<dynamic> getTeacherId(year, schoolId) async {
+    String? token = await storage.read(key: 'token');
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/user-service/v1/app/$year/schools/$schoolId/students',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('성생님 연락처');
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getConsultSchedule(
+      schoolId, year, consultId, teacherId) async {
+    String? token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/consult-service/v1/app/$year/schools/$schoolId/consult-schedules/$teacherId',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      return 0;
+    }
+  }
 }

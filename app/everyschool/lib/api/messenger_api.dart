@@ -235,6 +235,9 @@ class CallingApi {
     var userKey = await storage.read(key: 'userKey');
     var token = await storage.read(key: 'token');
 
+    print(userKey);
+    print(token);
+
     try {
       final response = await dio.get(
           '${serverApi.serverURL}/call-service/v1/calls/$userKey',
@@ -267,9 +270,9 @@ class CallingApi {
       final response = await dio.post(
           '${serverApi.serverURL}/call-service/v1/do-not-disturbs/',
           data: {
-            "startTime" : startTime,
-            "endTime" : endTime,
-            "isActivate" : isActivate
+            "startTime": startTime,
+            "endTime": endTime,
+            "isActivate": isActivate
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('방해금지시간설정 ${response.data}');
