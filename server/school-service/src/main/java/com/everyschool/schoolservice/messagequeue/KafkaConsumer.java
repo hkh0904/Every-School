@@ -34,7 +34,7 @@ public class KafkaConsumer {
         Integer studentId = (Integer) map.get("studentId");
         Integer schoolClassId = (Integer) map.get("schoolClassId");
 
-//        schoolApplyService.createParentSchoolApply(Long.valueOf(parentId), Long.valueOf(studentId), Long.valueOf(schoolClassId));
+        schoolApplyService.createParentSchoolApply(Long.valueOf(parentId), Long.valueOf(studentId), Long.valueOf(schoolClassId));
     }
 
     /**
