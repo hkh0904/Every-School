@@ -66,7 +66,7 @@ class UserApi {
       await storage.write(
           key: 'usertype', value: response.headers['usertype']?[0]);
       var userInfo = await getUserInfo(response.headers['token']?[0]);
-      if (userInfo['userType'] == '1002') {
+      if (userInfo['userType'] == 1002) {
         await storage.write(
             key: 'descendant', value: jsonEncode(userInfo['descendants'][0]));
       }
