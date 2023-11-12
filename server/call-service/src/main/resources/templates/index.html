@@ -541,12 +541,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/do-not-disturbs/ HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Token
-Content-Length: 141
+Content-Length: 137
 Host: localhost:8080
 
 {
-  "startTime" : [ 2023, 11, 12, 22, 45, 11, 785162900 ],
-  "endTime" : [ 2023, 11, 13, 22, 45, 11, 785162900 ],
+  "startTime" : [ 2023, 11, 13, 0, 9, 25, 715169000 ],
+  "endTime" : [ 2023, 11, 14, 0, 9, 25, 716169500 ],
   "isActivate" : true
 }</code></pre>
 </div>
@@ -597,7 +597,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 257
+Content-Length: 256
 
 {
   "code" : 200,
@@ -605,8 +605,8 @@ Content-Length: 257
   "message" : "SUCCESS",
   "data" : {
     "doNotDisturbId" : 1,
-    "startTime" : [ 2023, 11, 12, 21, 45, 11, 785162900 ],
-    "endTime" : [ 2023, 11, 12, 22, 15, 11, 785162900 ],
+    "startTime" : [ 2023, 11, 12, 23, 9, 25, 716169500 ],
+    "endTime" : [ 2023, 11, 12, 23, 39, 25, 716169500 ],
     "isActivate" : false
   }
 }</code></pre>
@@ -699,8 +699,8 @@ Content-Length: 253
   "message" : "SUCCESS",
   "data" : {
     "doNotDisturbId" : 1,
-    "startTime" : [ 2023, 11, 11, 22, 45, 12, 2390000 ],
-    "endTime" : [ 2023, 11, 11, 23, 45, 12, 3390100 ],
+    "startTime" : [ 2023, 11, 12, 0, 9, 25, 925241300 ],
+    "endTime" : [ 2023, 11, 12, 1, 9, 25, 925241300 ],
     "isActivate" : false
   }
 }</code></pre>
@@ -785,7 +785,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 257
+Content-Length: 256
 
 {
   "code" : 200,
@@ -793,8 +793,8 @@ Content-Length: 257
   "message" : "SUCCESS",
   "data" : {
     "doNotDisturbId" : 1,
-    "startTime" : [ 2023, 11, 12, 21, 45, 11, 954219000 ],
-    "endTime" : [ 2023, 11, 12, 22, 15, 11, 954219000 ],
+    "startTime" : [ 2023, 11, 12, 23, 9, 25, 880351200 ],
+    "endTime" : [ 2023, 11, 12, 23, 39, 25, 880351200 ],
     "isActivate" : false
   }
 }</code></pre>
@@ -872,7 +872,7 @@ Content-Length: 257
 <h4 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /call-service/v1/calls/f1cc9f9b-bcf9-4992-8d92-47734e48e5ee HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /call-service/v1/calls/f1e94da0-19c4-41f2-aae7-877c406ba834 HTTP/1.1
 Authorization: Bearer Access Token
 Host: localhost:8080</code></pre>
 </div>
@@ -884,7 +884,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 688
+Content-Length: 684
 
 {
   "code" : 200,
@@ -896,8 +896,8 @@ Content-Length: 688
     "receiverName" : "임우택 선생님",
     "receiveCall" : "M",
     "sender" : "O",
-    "startDateTime" : [ 2023, 11, 12, 12, 45, 12, 406436100 ],
-    "endDateTime" : [ 2023, 11, 12, 13, 45, 12, 406436100 ],
+    "startDateTime" : [ 2023, 11, 12, 14, 9, 26, 269074400 ],
+    "endDateTime" : [ 2023, 11, 12, 15, 9, 26, 269074400 ],
     "isBad" : false
   }, {
     "userCallId" : 1,
@@ -905,8 +905,8 @@ Content-Length: 688
     "receiverName" : "임우택 선생님",
     "receiveCall" : "Y",
     "sender" : "O",
-    "startDateTime" : [ 2023, 11, 12, 12, 45, 12, 406436100 ],
-    "endDateTime" : [ 2023, 11, 12, 13, 45, 12, 406436100 ],
+    "startDateTime" : [ 2023, 11, 12, 14, 9, 26, 269074400 ],
+    "endDateTime" : [ 2023, 11, 12, 15, 9, 26, 269074400 ],
     "isBad" : false
   } ]
 }</code></pre>
@@ -1179,6 +1179,9 @@ Host: localhost:8080</code></pre>
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in api/call/download-userCalls.adoc - include::C:\SSAFY\everyschool\server\call-service\build\generated-snippets/download-userCalls/response-fields.adoc[]</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1197,8 +1200,8 @@ Host: localhost:8080
   "cname" : "test",
   "uid" : "123",
   "token" : "chatroomtoken",
-  "userKey" : "0704cd43-1462-4d9d-9813-4205a23a4c62",
-  "otherUserKey" : "c456973e-3a26-42fc-85c5-b9a52a0d3791"
+  "userKey" : "8d386e96-192b-4482-9e05-2028102c1540",
+  "otherUserKey" : "5ca12a89-d673-4fb0-8bf2-45bf527f3f12"
 }</code></pre>
 </div>
 </div>
@@ -1345,7 +1348,7 @@ Content-Length: 187
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/calls/record/stop HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 309
+Content-Length: 307
 Host: localhost:8080
 
 {
@@ -1355,8 +1358,8 @@ Host: localhost:8080
   "sid" : "chatroomsid",
   "otherUserKey" : "34d78c06-abcc-43a3-bfbd-551348bcb7ab",
   "sender" : "T",
-  "startDateTime" : [ 2023, 11, 12, 19, 45, 12, 274435300 ],
-  "endDateTime" : [ 2023, 11, 12, 20, 45, 12, 274435300 ]
+  "startDateTime" : [ 2023, 11, 12, 21, 9, 26, 169294600 ],
+  "endDateTime" : [ 2023, 11, 12, 22, 9, 26, 169294600 ]
 }</code></pre>
 </div>
 </div>
@@ -1537,8 +1540,8 @@ Content-Length: 190
 Host: localhost:8080
 
 {
-  "myUserKey" : "7346eb7d-9444-4af7-b120-7fdb4a4d9e6c",
-  "otherUserKey" : "416a05b0-e905-472c-9f36-376566c7346e",
+  "myUserKey" : "d59c8ac1-9887-4b8b-ae7d-bc0beb973490",
+  "otherUserKey" : "4493abba-bbc4-41ad-b4f5-011a29214c81",
   "senderName" : "오연주스",
   "cname" : "전화좀 받아라"
 }</code></pre>
@@ -1656,14 +1659,14 @@ Content-Length: 158
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/calls/calling/miss HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 223
+Content-Length: 221
 Host: localhost:8080
 
 {
-  "otherUserKey" : "dd8b431a-a952-4486-a207-a986999569e6",
+  "otherUserKey" : "3c3c7fd5-00e9-4809-a13f-cba6e479cbc1",
   "senderName" : "오연주 바보",
-  "startDateTime" : [ 2023, 11, 12, 20, 45, 12, 215753900 ],
-  "endDateTime" : [ 2023, 11, 12, 21, 45, 12, 215753900 ]
+  "startDateTime" : [ 2023, 11, 12, 22, 9, 26, 119361400 ],
+  "endDateTime" : [ 2023, 11, 12, 23, 9, 26, 119361400 ]
 }</code></pre>
 </div>
 </div>
@@ -1779,14 +1782,14 @@ Content-Length: 93
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/calls/calling/cancel HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 223
+Content-Length: 219
 Host: localhost:8080
 
 {
-  "otherUserKey" : "1fab585a-d523-4603-a6a9-0fb8271d06cc",
+  "otherUserKey" : "866065ac-7016-40fd-9392-f04fc22dbbca",
   "senderName" : "오연주 바보",
-  "startDateTime" : [ 2023, 11, 12, 20, 45, 12, 181123000 ],
-  "endDateTime" : [ 2023, 11, 12, 21, 45, 12, 181123000 ]
+  "startDateTime" : [ 2023, 11, 12, 22, 9, 26, 88137800 ],
+  "endDateTime" : [ 2023, 11, 12, 23, 9, 26, 88137800 ]
 }</code></pre>
 </div>
 </div>
@@ -1902,14 +1905,14 @@ Content-Length: 100
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /call-service/v1/calls/calling/denied HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 221
+Content-Length: 219
 Host: localhost:8080
 
 {
-  "otherUserKey" : "2c069b8a-6320-4de3-9587-6d8725eb94cf",
+  "otherUserKey" : "b2d47d00-1fbc-4d1b-8f3d-b5ea5c1d19d3",
   "senderName" : "오연주 바보",
-  "startDateTime" : [ 2023, 11, 12, 20, 45, 12, 97050800 ],
-  "endDateTime" : [ 2023, 11, 12, 21, 45, 12, 97050800 ]
+  "startDateTime" : [ 2023, 11, 12, 22, 9, 26, 14918500 ],
+  "endDateTime" : [ 2023, 11, 12, 23, 9, 26, 14918500 ]
 }</code></pre>
 </div>
 </div>
@@ -2022,7 +2025,7 @@ Content-Length: 93
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-12 21:56:54 +0900
+Last updated 2023-11-13 00:02:06 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
