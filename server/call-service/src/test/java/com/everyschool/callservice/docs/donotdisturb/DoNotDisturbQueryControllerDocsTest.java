@@ -38,6 +38,7 @@ public class DoNotDisturbQueryControllerDocsTest extends RestDocsSupport {
     void searchDoNotDisturb() throws Exception {
 
         DoNotDisturbResponse response = DoNotDisturbResponse.builder()
+                .doNotDisturbId(1L)
                 .startTime(LocalDateTime.now().minusDays(1))
                 .endTime(LocalDateTime.now().minusHours(23))
                 .isActivate(false)
@@ -63,6 +64,8 @@ public class DoNotDisturbQueryControllerDocsTest extends RestDocsSupport {
                                         .description("메시지"),
                                 fieldWithPath("data").type(JsonFieldType.OBJECT)
                                         .description("응답 데이터"),
+                                fieldWithPath("data.doNotDisturbId").type(JsonFieldType.NUMBER)
+                                        .description("방해금지모드 Id"),
                                 fieldWithPath("data.startTime").type(JsonFieldType.ARRAY)
                                         .description("시작 시간"),
                                 fieldWithPath("data.endTime").type(JsonFieldType.ARRAY)

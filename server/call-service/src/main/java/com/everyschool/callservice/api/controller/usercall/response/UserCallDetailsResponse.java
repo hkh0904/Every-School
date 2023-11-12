@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserCallDetailsResponse {
 
+    private String fileName;
     private String content;
     private Integer start;
     private Integer length;
@@ -19,8 +20,9 @@ public class UserCallDetailsResponse {
     private Float negative;
 
     @Builder
-    public UserCallDetailsResponse(String content, Integer start, Integer length, String sentiment, Float neutral,
+    public UserCallDetailsResponse(String fileName, String content, Integer start, Integer length, String sentiment, Float neutral,
                                    Float positive, Float negative) {
+        this.fileName = fileName;
         this.content = content;
         this.start = start;
         this.length = length;

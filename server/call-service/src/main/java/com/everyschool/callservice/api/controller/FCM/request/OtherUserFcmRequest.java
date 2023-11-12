@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 public class OtherUserFcmRequest {
+    @NotNull
+    private String myUserKey;
 
     @NotNull
     private String otherUserKey;
@@ -21,7 +23,8 @@ public class OtherUserFcmRequest {
     private String cname;
 
     @Builder
-    public OtherUserFcmRequest(String otherUserKey, String senderName, String cname) {
+    public OtherUserFcmRequest(String myUserKey, String otherUserKey, String senderName, String cname) {
+        this.myUserKey = myUserKey;
         this.otherUserKey = otherUserKey;
         this.senderName = senderName;
         this.cname = cname;
@@ -29,6 +32,7 @@ public class OtherUserFcmRequest {
 
     public OtherUserFcmDto toDto() {
         return OtherUserFcmDto.builder()
+                .myUserKey(this.myUserKey)
                 .otherUserKey(this.otherUserKey)
                 .senderName(this.senderName)
                 .cname(this.cname)
