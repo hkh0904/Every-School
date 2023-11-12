@@ -33,10 +33,10 @@ public class FCMNotificationService {
      */
     public String sendNotificationByToken(OtherUserFcmDto dto) throws FirebaseMessagingException {
         log.debug("call FCMNotificationService#sendNotificationByToken");
-        String fcmToken = userServiceClient.searchUserFcmByUserKey(dto.getOtherUserKey());
-        log.debug("fcmToken = {}", fcmToken);
+        String receiverFcmToken = userServiceClient.searchUserFcmByUserKey(dto.getOtherUserKey());
+        log.debug("receiverFcmToken = {}", receiverFcmToken);
 
-        if (fcmToken == null || fcmToken.isEmpty()) {
+        if (receiverFcmToken == null || receiverFcmToken.isEmpty()) {
             throw new NoSuchElementException("상대방이 로그인 되어 있지 않습니다.");
         }
 
@@ -46,10 +46,12 @@ public class FCMNotificationService {
                 .build();
 
         Message message = Message.builder()
-                .setToken(fcmToken)
+                .setToken(receiverFcmToken)
                 .setNotification(notification)
                 .putData("type", "call")
                 .putData("cname", dto.getCname())
+                .putData("senderUserKey", dto.getMyUserKey())
+                .putData("senderName", dto.getSenderName())
                 .build();
 
         return firebaseMessaging.send(message);
@@ -61,7 +63,7 @@ public class FCMNotificationService {
      * @param dto 상대방 정보
      * @return 부재중 생성 완료 메시지
      */
-    public Boolean createUserCallDenied(CallDeniedDto dto, String token) {
+    public Boolean createUserCallMiss(CallDeniedDto dto, String token) {
 
         UserInfo sender = getUserWithToken(token);
         UserInfo receiver = getUserWithUserKey(dto.getOtherUserKey());
@@ -107,9 +109,49 @@ public class FCMNotificationService {
         return true;
     }
 
+    /**
+     * (수신자 입장) 상대방 거절 생성
+     *
+     * @param dto 상대방 정보
+     * @return 부재중 생성 완료 메시지
+     */
+    public Boolean createReceiverCallDenied(CallDeniedDto dto, String token) throws FirebaseMessagingException {
+        log.debug("call FCMNotificationService#createReceiverCallDenied");
+
+        String senderFcmToken = userServiceClient.searchUserFcmByUserKey(dto.getOtherUserKey());
+        log.debug("senderFcmToken = {}", senderFcmToken);
+
+        if (senderFcmToken == null || senderFcmToken.isEmpty()) {
+            throw new NoSuchElementException("상대방이 로그인 되어 있지 않습니다.");
+        }
+
+        Notification notification = Notification.builder()
+                .setTitle(dto.getSenderName())
+                .setBody("calling denied")
+                .build();
+
+        Message message = Message.builder()
+                .setToken(senderFcmToken)
+                .setNotification(notification)
+                .putData("type", "denied")
+                .build();
+
+        firebaseMessaging.send(message);
+
+        UserInfo sender = getUserWithUserKey(dto.getOtherUserKey());
+        log.debug("sender = {}", sender);
+        UserInfo receiver = getUserWithToken(token);
+        log.debug("receiver = {}", receiver);
+
+        createUserCall(sender, receiver, dto, "D");
+
+        return true;
+    }
+
     UserInfo getUserWithToken(String token) {
         return userServiceClient.searchUserInfo(token);
     }
+
     UserInfo getUserWithUserKey(String userKey) {
         return userServiceClient.searchUserInfoByUserKey(userKey);
     }
@@ -139,4 +181,5 @@ public class FCMNotificationService {
 
         userCallRepository.save(userCall);
     }
+
 }
