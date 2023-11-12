@@ -6,7 +6,6 @@ import com.everyschool.schoolservice.api.web.controller.schoolapply.response.Sch
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
 import com.everyschool.schoolservice.domain.schoolapply.repository.SchoolApplyRepository;
 import com.everyschool.schoolservice.domain.schoolapply.repository.SchoolApplyWebQueryRepository;
-import com.everyschool.schoolservice.error.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +74,7 @@ public class SchoolApplyWebQueryService {
     public SchoolApplyResponse searchSchoolApply(Long schoolApplyId) {
         Optional<SchoolApply> findSchoolApply = schoolApplyRepository.findById(schoolApplyId);
         if (findSchoolApply.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_SCHOOL_APPLY.getMessage());
+            throw new NoSuchElementException(NO_SUCH_SCHOOL_APPLY.getMessage());
         }
         return SchoolApplyResponse.of(findSchoolApply.get());
     }
