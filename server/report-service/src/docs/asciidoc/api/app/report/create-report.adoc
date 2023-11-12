@@ -4,7 +4,7 @@
 ==== HTTP Request
 
 include::{snippets}/create-report/http-request.adoc[]
-include::{snippets}/create-report/request-fields.adoc[]
+include::{snippets}/create-report/request-headers.adoc[]
 
 
 ==== HTTP Response

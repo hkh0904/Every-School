@@ -1,10 +1,11 @@
 [[edit-status]]
-=== [교직원] 신고 처리 상태 수정 API
+=== 신고 처리 상태 수정 API
 
 ==== HTTP Request
 
 include::{snippets}/edit-status/http-request.adoc[]
-include::{snippets}/edit-status/request-parameters.adoc[]
+include::{snippets}/edit-status/request-headers.adoc[]
+include::{snippets}/edit-status/request-fields.adoc[]
 
 
 ==== HTTP Response
