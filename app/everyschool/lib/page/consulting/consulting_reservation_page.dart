@@ -45,7 +45,11 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
     var schoolId = selectDescendant['school']['schoolId'];
 
     var teacherInfo = await ConsultingApi().getTeacherId(year, schoolId);
-    print(teacherInfo);
+
+    var consultSchedule =
+        await ConsultingApi().getConsultSchedule(schoolId, year, schoolId, 1);
+
+    print(consultSchedule);
   }
 
   @override

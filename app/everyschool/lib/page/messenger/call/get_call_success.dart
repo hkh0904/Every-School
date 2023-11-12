@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class GetCallSuccess extends StatefulWidget {
-  const GetCallSuccess({super.key, this.leave});
+  const GetCallSuccess({super.key, this.leave, this.userInfo});
   final leave;
+  final userInfo;
 
   @override
   State<GetCallSuccess> createState() => _GetCallSuccessState();
@@ -36,7 +37,7 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.asset(
-              'assets/images/consulting/detail.png',
+              'assets/images/contact/call.gif',
               height: 150,
               width: 150,
             ),
@@ -45,7 +46,7 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
             height: 15,
           ),
           Text(
-            '받는사람 정보',
+            widget.userInfo['name'],
             style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
           ),
           Text(

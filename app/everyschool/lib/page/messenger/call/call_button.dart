@@ -18,7 +18,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class CallButton extends StatefulWidget {
-  const CallButton({super.key});
+  const CallButton({super.key, this.userInfo});
+  final userInfo;
 
   @override
   State<CallButton> createState() => _CallButtonState();
@@ -138,8 +139,10 @@ class _CallButtonState extends State<CallButton> {
   void _navigateToModalCallPage() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) =>
-            GetCall(leave: leave, startDateTime: startDateTime),
+        builder: (context) => GetCall(
+            leave: leave,
+            startDateTime: startDateTime,
+            userInfo: widget.userInfo),
       ),
     );
   }
@@ -218,7 +221,8 @@ class _CallButtonState extends State<CallButton> {
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation1,
                       Animation<double> animation2) =>
-                  GetCallSuccess(leave: leave) //변경 필요
+                  GetCallSuccess(
+                      leave: leave, userInfo: widget.userInfo) //변경 필요
               ,
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,

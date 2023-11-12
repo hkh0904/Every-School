@@ -257,7 +257,9 @@ class FirebaseApi {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => AnswerCall(channelName: channelName)));
+                  builder: (context) => AnswerCall(
+                      channelName: channelName,
+                      name: event.body['nameCaller'])));
           break;
         case Event.actionCallDecline:
           // TODO: declined an incoming call
