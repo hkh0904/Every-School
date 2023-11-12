@@ -59,7 +59,7 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
             .appliedDate(LocalDateTime.now())
             .build();
 
-        given(schoolApplyAppService.createSchoolApply(anyString(), anyLong(), anyInt(), any()))
+        given(schoolApplyAppService.createSchoolApply(anyString(), anyInt(), anyLong(), any()))
             .willReturn(response);
 
         mockMvc.perform(
