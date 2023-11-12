@@ -1,5 +1,6 @@
 package com.everyschool.openaiservice.api.client;
 
+import com.everyschool.openaiservice.api.client.response.chat.CheckingChatResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,7 @@ public interface ChatServiceClient {
     @GetMapping("/chat-service/client/v1/chat-rooms")
     List<Long> searchChatRoomIdByDate(@RequestParam(name = "date") LocalDate date);
 
-    // TODO: 2023-11-10 해야함
     @GetMapping("/chat-service/client/v1/chat-rooms/{chatRoomId}")
-    List<sldka> searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
-                                             @PathVariable(name = "chatRoomId") Long chatRoomId);
+    CheckingChatResponse searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
+                                                       @PathVariable(name = "chatRoomId") Long chatRoomId);
 }
