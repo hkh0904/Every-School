@@ -16,8 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AnswerCall extends StatefulWidget {
-  const AnswerCall({super.key, this.channelName});
+  const AnswerCall({super.key, this.channelName, this.name});
   final channelName;
+  final name;
 
   @override
   State<AnswerCall> createState() => _AnswerCallState();
@@ -196,7 +197,7 @@ class _AnswerCallState extends State<AnswerCall> {
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.asset(
-              'assets/images/consulting/detail.png',
+              'assets/images/contact/call.gif',
               height: 150,
               width: 150,
             ),
@@ -205,12 +206,8 @@ class _AnswerCallState extends State<AnswerCall> {
             height: 15,
           ),
           Text(
-            '받는사람 정보',
+            widget.name,
             style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
-          ),
-          Text(
-            '유저설명',
-            style: TextStyle(fontSize: 18),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,
