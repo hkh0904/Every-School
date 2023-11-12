@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * 상담 웹 명령 API 컨트롤러
+ * 웹 상담 API 컨트롤러
  *
  * @author 임우택
  */
