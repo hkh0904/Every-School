@@ -73,13 +73,14 @@ class ConsultingApi {
   Future<dynamic> getConsultSchedule(
       schoolId, year, consultId, teacherId) async {
     String? token = await storage.read(key: 'token');
+    print(
+        'consult-service/v1/app/$year/schools/$schoolId/consult-schedules/$teacherId');
 
     try {
       final response = await dio.get(
           '${serverApi.serverURL}/consult-service/v1/app/$year/schools/$schoolId/consult-schedules/$teacherId',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
-      print(response.data);
       return response.data['data'];
     } catch (e) {
       print(e);

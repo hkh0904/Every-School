@@ -124,7 +124,7 @@ class _MainState extends State<Main> {
                 return [
                   HomePage(),
                   ReportListPage(),
-                  MessengerPage(),
+                  MessengerPage(indexNum: 0),
                   CommunityPage(),
                   CategoryPage(),
                 ];
@@ -132,7 +132,7 @@ class _MainState extends State<Main> {
                 return [
                   HomePage(),
                   ConsultingListPage(),
-                  MessengerPage(),
+                  MessengerPage(indexNum: 0),
                   CommunityPage(),
                   CategoryPage(),
                 ];
@@ -140,7 +140,7 @@ class _MainState extends State<Main> {
                 return [
                   HomePage(),
                   ReportConsultingPage(index: 0),
-                  MessengerPage(),
+                  MessengerPage(indexNum: 0),
                   CommunityPage(),
                   CategoryPage(),
                 ];

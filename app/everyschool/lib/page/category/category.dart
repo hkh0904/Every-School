@@ -1,6 +1,9 @@
 import 'package:everyschool/page/category/category_report_consult.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
+import 'package:everyschool/page/messenger/call/call_history.dart';
+import 'package:everyschool/page/messenger/chat/connect.dart';
+import 'package:everyschool/page/messenger/messenger_page.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
 import 'package:everyschool/page/report/report_page.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
@@ -34,7 +37,7 @@ class _CategoryState extends State<Category> {
   var chattingList = [
     ['통화목록', '채팅목록'],
     ['통화목록', '채팅목록'],
-    ['연락처', '전화내역', '메세지 내역']
+    ['연락처', '통화목록', '채팅목록']
   ];
 
   var communityList = [
@@ -59,6 +62,16 @@ class _CategoryState extends State<Category> {
       ReportConsultingPage(index: 2)
     ]
   ];
+
+  var messengerListLink = [
+    [MessengerPage(indexNum: 1), MessengerPage(indexNum: 0)],
+    [MessengerPage(indexNum: 1), MessengerPage(indexNum: 0)],
+    [
+      MessengerPage(indexNum: 2),
+      MessengerPage(indexNum: 1),
+      MessengerPage(indexNum: 0)
+    ]
+  ] as List<List<StatefulWidget>>;
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +141,7 @@ class _CategoryState extends State<Category> {
                   CategoryRepnCslt(
                       userNum: userNum,
                       categoryList: chattingList,
+                      categoryListLink: messengerListLink,
                       titleTxt: _titleTxt2),
                   SizedBox(
                     height: 30,
