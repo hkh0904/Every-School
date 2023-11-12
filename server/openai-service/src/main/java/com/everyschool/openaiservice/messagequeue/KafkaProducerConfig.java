@@ -1,6 +1,7 @@
 package com.everyschool.openaiservice.messagequeue;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @EnableKafka
 @Configuration
+@Slf4j
 public class KafkaProducerConfig {
 
     private final Environment env;
@@ -26,6 +28,8 @@ public class KafkaProducerConfig {
         Map<String, Object> properties = new HashMap<>();
 
         String kafkaIP = env.getProperty("kafka.ip");
+
+        log.debug("[카프카 빈] kafkaIP = {}", kafkaIP);
 
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaIP);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

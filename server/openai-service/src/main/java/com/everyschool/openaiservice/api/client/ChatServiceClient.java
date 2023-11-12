@@ -18,4 +18,8 @@ public interface ChatServiceClient {
     @GetMapping("/chat-service/client/v1/chat-rooms/{chatRoomId}")
     CheckingChatResponse searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
                                                        @PathVariable(name = "chatRoomId") Long chatRoomId);
+
+
+    @GetMapping("/chat-service/client/v1/chat-rooms/test")
+    String test();
 }
