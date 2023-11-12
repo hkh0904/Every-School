@@ -14,6 +14,7 @@ import com.everyschool.chatservice.domain.filterword.Reason;
 import com.everyschool.chatservice.domain.filterword.repository.FilterWordRepository;
 import com.everyschool.chatservice.domain.filterword.repository.ReasonRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class FilterWordService {
 
     private final FilterWordRepository filterWordRepository;
@@ -56,6 +58,7 @@ public class FilterWordService {
      * @return
      */
     public ChatFilterResponse sendMessage(ChatMessage message) {
+        log.debug("[Service] 채팅 필터링 senderUserKey = {}", message.getMessage());
         UserInfo senderUserInfo = userServiceClient.searchUserInfoByUserKey(message.getSenderUserKey());
         List<String> reasons = new ArrayList<>();
         ChatStatus chatStatus = isBadChat(message, reasons);

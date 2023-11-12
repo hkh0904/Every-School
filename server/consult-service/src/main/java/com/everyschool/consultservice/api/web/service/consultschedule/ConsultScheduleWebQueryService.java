@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.everyschool.consultservice.error.ErrorMessage.UNREGISTERED_CONSULT_SCHEDULE;
+import static com.everyschool.consultservice.error.ErrorMessage.NO_SUCH_CONSULT_SCHEDULE;
 
 @RequiredArgsConstructor
 @Service
@@ -27,7 +27,7 @@ public class ConsultScheduleWebQueryService {
 
         Optional<ConsultSchedule> findConsultSchedule = consultScheduleRepository.findByTeacherId(userInfo.getUserId());
         if (findConsultSchedule.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_CONSULT_SCHEDULE.getMessage());
+            throw new NoSuchElementException(NO_SUCH_CONSULT_SCHEDULE.getMessage());
         }
         ConsultSchedule consultSchedule = findConsultSchedule.get();
 

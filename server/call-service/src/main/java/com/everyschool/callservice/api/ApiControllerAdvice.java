@@ -10,14 +10,13 @@ import java.util.NoSuchElementException;
 
 /**
  * Api 공통 예외 처리 컨트롤러
- *
- * @author 임우택
  */
 @RestControllerAdvice
 public class ApiControllerAdvice {
 
     /**
      * BindException 공통 처리 메서드
+     *
      * @param e BindException
      * @return 400 오류 메세지
      */
@@ -25,14 +24,15 @@ public class ApiControllerAdvice {
     @ExceptionHandler(BindException.class)
     public ApiResponse<Object> bindException(BindException e) {
         return ApiResponse.of(
-            HttpStatus.BAD_REQUEST,
-            e.getBindingResult().getAllErrors().get(0).getDefaultMessage(),
-            null
+                HttpStatus.BAD_REQUEST,
+                e.getBindingResult().getAllErrors().get(0).getDefaultMessage(),
+                e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
         );
     }
 
     /**
      * IllegalArgumentException 공통 처리 메서드
+     *
      * @param e IllegalArgumentException
      * @return 400 오류 메세지
      */
@@ -40,14 +40,15 @@ public class ApiControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     public ApiResponse<Object> illegalArgumentException(IllegalArgumentException e) {
         return ApiResponse.of(
-            HttpStatus.BAD_REQUEST,
-            e.getMessage(),
-            null
+                HttpStatus.BAD_REQUEST,
+                e.getMessage(),
+                e.getMessage()
         );
     }
 
     /**
      * NoSuchElementException 공통 처리 메서드
+     *
      * @param e NoSuchElementException
      * @return 400 오류 메세지
      */
@@ -55,9 +56,9 @@ public class ApiControllerAdvice {
     @ExceptionHandler(NoSuchElementException.class)
     public ApiResponse<Object> noSuchElementException(NoSuchElementException e) {
         return ApiResponse.of(
-            HttpStatus.BAD_REQUEST,
-            e.getMessage(),
-            null
+                HttpStatus.BAD_REQUEST,
+                e.getMessage(),
+                e.getMessage()
         );
     }
 }

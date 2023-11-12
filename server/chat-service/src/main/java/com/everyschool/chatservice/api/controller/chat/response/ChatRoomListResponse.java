@@ -9,15 +9,19 @@ import java.time.LocalDateTime;
 public class ChatRoomListResponse {
 
     private Long roomId;
-    private String roomTitle;
+    private String opponentUserName;
+    private String opponentUserType;
+    private String opponentUserChildName;
     private String lastMessage;
     private LocalDateTime updateTime;
     private int unreadMessageNum;
 
     @Builder
-    public ChatRoomListResponse(Long roomId, String roomTitle, String lastMessage, LocalDateTime updateTime, int unreadMessageNum) {
+    public ChatRoomListResponse(Long roomId, String opponentUserName, String opponentUserType, String opponentUserChildName, String lastMessage, LocalDateTime updateTime, int unreadMessageNum) {
         this.roomId = roomId;
-        this.roomTitle = roomTitle;
+        this.opponentUserName = opponentUserName;
+        this.opponentUserType = opponentUserType;
+        this.opponentUserChildName = opponentUserChildName;
         this.lastMessage = lastMessage;
         this.updateTime = updateTime;
         this.unreadMessageNum = unreadMessageNum;

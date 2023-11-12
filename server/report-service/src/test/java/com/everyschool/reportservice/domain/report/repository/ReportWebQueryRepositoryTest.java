@@ -5,7 +5,6 @@ import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.everyschool.reportservice.domain.report.Report;
 import com.everyschool.reportservice.domain.report.ReportContent;
 import com.everyschool.reportservice.domain.report.ReportType;
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ class ReportWebQueryRepositoryTest extends IntegrationTestSupport {
         report5.editStatus(ProgressStatus.FINISH.getCode());
 
         //when
-        List<Report> reports = reportWebQueryRepository.findByCond(100000L, 2023, ProgressStatus.REGISTER.getCode());
+        List<Report> reports = reportWebQueryRepository.findByStatus(2023, 100000L, ProgressStatus.REGISTER.getCode());
 
         //then
         assertThat(reports).hasSize(1)
@@ -61,7 +60,7 @@ class ReportWebQueryRepositoryTest extends IntegrationTestSupport {
             .build();
 
         Report report = Report.builder()
-            .title("title")
+            .witness("witness")
             .description("description")
             .content(content)
             .schoolYear(schoolYear)

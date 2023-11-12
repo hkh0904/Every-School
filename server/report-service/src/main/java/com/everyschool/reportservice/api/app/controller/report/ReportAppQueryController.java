@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 신고 App 조회용 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -23,6 +28,13 @@ public class ReportAppQueryController {
     private final ReportAppQueryService reportAppQueryService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 나의 신고 내역 목록 조회 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @return 조회된 신고 내역 목록
+     */
     @GetMapping
     public ApiResponse<List<ReportResponse>> searchReports(
         @PathVariable Integer schoolYear,
@@ -30,19 +42,27 @@ public class ReportAppQueryController {
     ) {
         String userKey = tokenUtils.getUserKey();
 
-        List<ReportResponse> response =  reportAppQueryService.searchReports(userKey, schoolYear);
+        List<ReportResponse> response = reportAppQueryService.searchReports(userKey, schoolYear, schoolId);
 
         return ApiResponse.ok(response);
     }
 
+    /**
+     * 나의 신고 내역 상세 조회 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param reportId   신고 아이디
+     * @return 조회된 신고 내역
+     */
     @GetMapping("/{reportId}")
-    public ApiResponse<?> searchReport(
+    public ApiResponse<ReportDetailResponse> searchReport(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
         @PathVariable Long reportId
     ) {
         ReportDetailResponse response = reportAppQueryService.searchReport(reportId);
 
-        return ApiResponse.ok(null);
+        return ApiResponse.ok(response);
     }
 }

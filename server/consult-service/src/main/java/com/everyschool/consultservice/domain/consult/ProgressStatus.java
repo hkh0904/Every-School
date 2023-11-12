@@ -2,6 +2,8 @@ package com.everyschool.consultservice.domain.consult;
 
 import lombok.Getter;
 
+import static com.everyschool.consultservice.error.ErrorMessage.NOT_REGISTERED_STATUS;
+
 @Getter
 public enum ProgressStatus {
 
@@ -25,6 +27,6 @@ public enum ProgressStatus {
             }
         }
 
-        throw new IllegalArgumentException("등록이 되지 않은 상담 진행 상태 코드입니다.");
+        throw new IllegalArgumentException(NOT_REGISTERED_STATUS.getMessage());
     }
 }

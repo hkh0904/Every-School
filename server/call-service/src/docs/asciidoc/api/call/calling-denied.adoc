@@ -1,0 +1,12 @@
+[[calling-denied]]
+=== 부재중 API
+
+==== HTTP Request
+include::{snippets}/calling-denied/http-request.adoc[]
+include::{snippets}/calling-denied/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/calling-denied/http-response.adoc[]
+include::{snippets}/calling-denied/response-fields.adoc[]
+

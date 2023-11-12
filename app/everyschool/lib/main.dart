@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/messenger/chat/chat_controller.dart';
@@ -25,8 +27,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'firebase_options.dart';
+// timezone
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -82,7 +89,7 @@ class _MainState extends State<Main> {
   @override
   void initState() {
     super.initState();
-
+    // storage.delete(key: 'token');
     FirebaseApi().getMyDeviceToken();
     FirebaseApi().setupInteractedMessage(context);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

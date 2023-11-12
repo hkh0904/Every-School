@@ -10,20 +10,20 @@ import java.time.LocalDateTime;
 public class CreateReportResponse {
 
     private Long reportId;
-    private String title;
+    private String witness;
     private LocalDateTime createdDate;
 
     @Builder
-    private CreateReportResponse(Long reportId, String title, LocalDateTime createdDate) {
+    private CreateReportResponse(Long reportId, String witness, LocalDateTime createdDate) {
         this.reportId = reportId;
-        this.title = title;
+        this.witness = witness;
         this.createdDate = createdDate;
     }
 
     public static CreateReportResponse of(Report report) {
         return CreateReportResponse.builder()
             .reportId(report.getId())
-            .title(report.getTitle())
+            .witness(report.getWitness())
             .createdDate(report.getCreatedDate())
             .build();
     }

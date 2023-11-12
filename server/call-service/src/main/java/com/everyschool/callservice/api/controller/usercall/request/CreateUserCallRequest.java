@@ -1,6 +1,6 @@
 package com.everyschool.callservice.api.controller.usercall.request;
 
-import com.everyschool.callservice.api.service.call.dto.CreateUserCallDto;
+import com.everyschool.callservice.api.service.usercall.dto.CreateUserCallDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;

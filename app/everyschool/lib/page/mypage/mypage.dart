@@ -1,4 +1,3 @@
-import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/login/login_page.dart';
 import 'package:everyschool/page/mypage/mypage_personal_menu.dart';
 import 'package:everyschool/page/mypage/mypage_userinfo.dart';

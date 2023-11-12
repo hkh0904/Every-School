@@ -3,6 +3,7 @@
 
 ==== HTTP Request
 include::{snippets}/create-userCall-info/http-request.adoc[]
+include::{snippets}/create-userCall-info/request-fields.adoc[]
 
 
 ==== HTTP Response

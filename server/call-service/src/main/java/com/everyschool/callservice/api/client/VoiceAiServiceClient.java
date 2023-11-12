@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-//@FeignClient(name = "voiceai-service", url = "http://k9c108.p.ssafy.io:8000/voiceai-service")
-@FeignClient(name = "voiceai-service", url = "http://every-school.com:8000/voiceai-service")
+//@FeignClient(name = "voiceai-service", url = "http://every-school.com:8000/voiceai-service")
+@FeignClient(name = "voiceai-service", url = "http://every-school.com:9002")
 public interface VoiceAiServiceClient {
 
     @PostMapping("/v1/record/start")

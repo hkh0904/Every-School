@@ -14,4 +14,11 @@ public class School {
         this.schoolId = schoolId;
         this.name = name;
     }
+
+    public static School of(Long schoolId, String name) {
+        return School.builder()
+            .schoolId(schoolId)
+            .name(name)
+            .build();
+    }
 }

@@ -1,54 +1,34 @@
 import { useEffect, useState } from 'react';
 import styles from './ConsultCompleteCard.module.css';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ConsultDetailModal from './ConsultDetailModal';
 
-export default function ConsultCompleteCard() {
-  const csltList = [
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2023, 10, 23, 16],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2023, 10, 23, 13],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강가누엘',
-      parentName: '이빛나라',
-      parentSex: 'F',
-      date: [2023, 11, 23, 16],
-      reason: '자녀의 진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강가누엘',
-      parentName: '이빛나라',
-      parentSex: 'F',
-      date: [2024, 1, 23, 16],
-      reason:
-        '자녀의진로상담어쩌고저쩌고자녀의자녀의진로상담어쩌고저쩌고자녀의 자녀의진로상담어쩌고저쩌고자녀의 자녀의진로상담어쩌고저쩌고자녀의  진로상담어쩌고저쩌고자녀의 진로상담어쩌고저쩌고자녀의 진로상담어쩌고저쩌고'
-    },
-    {
-      studentName: '강OO',
-      parentName: '김OO',
-      parentSex: 'F',
-      date: [2024, 1, 23, 16],
-      reason: '자녀의진로상담어쩌고저쩌고'
-    }
-  ];
-
+export default function ConsultCompleteCard({ recieveList }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(recieveList);
   const [groupCslt, setGroupCslt] = useState([]);
+  const [consultId, setConsultId] = useState();
 
   function groupByYearMonth(list) {
     const grouped = {};
+    console.log(`여기 리시ㅡ트 ${list}`);
 
-    list.forEach((item) => {
-      const year = item.date[0];
-      const month = item.date[1];
+    if (list.length !== 0) {
+      list.forEach((item) => {
+        const year = item?.consultDate[0];
+        const month = item?.consultDate[1];
+
+        if (!grouped[year]) {
+          grouped[year] = {};
+        }
+        if (!grouped[year][month]) {
+          grouped[year][month] = [];
+        }
+        grouped[year][month].push(item);
+      });
+    } else {
+      const year = '';
+      const month = '';
 
       if (!grouped[year]) {
         grouped[year] = {};
@@ -56,58 +36,87 @@ export default function ConsultCompleteCard() {
       if (!grouped[year][month]) {
         grouped[year][month] = [];
       }
-      grouped[year][month].push(item);
-    });
+      grouped[year][month].push('');
+    }
     return grouped;
   }
 
   useEffect(() => {
-    const groupedByYearMonth = groupByYearMonth(csltList);
+    const groupedByYearMonth = groupByYearMonth(recieveList);
     setGroupCslt(groupedByYearMonth);
-  }, []);
+  }, [recieveList]);
+
   return (
-    <div className={styles.ConsultCompleteCard}>
-      <div className={styles.year}>
-        {Object.keys(groupCslt).map((year) => (
-          <div key={year}>
-            {Object.keys(groupCslt[year]).map((month) => (
-              <div key={month} className={styles.listMonth}>
-                <p className={styles.yearNmonth}>
-                  {year}년 {month}월
-                </p>
-                <div className={styles.cardContainer}>
-                  {groupCslt[year][month].map((item, index) => (
-                    <div key={index} className={styles.csltCard}>
-                      <div className={styles.cardInfo}>
-                        <div>
-                          <img
-                            className={styles.cardImage}
-                            src={`${process.env.PUBLIC_URL}/assets/consult/consult_history.png`}
-                            alt=''
-                          />
-                          <p className={styles.childName}>{item.studentName} 학생</p>
-                          <p className={styles.parentName}>
-                            {item.parentName}
-                            {item.parentSex === 'F' ? <span>(모)</span> : <span>(부)</span>}
-                          </p>
+    <>
+      {recieveList.length === 0 ? (
+        <></>
+      ) : (
+        <div className={styles.ConsultCompleteCard}>
+          <div className={styles.year}>
+            {Object.keys(groupCslt)?.map((year) => (
+              <div key={year}>
+                {Object.keys(groupCslt[year])?.map((month) => (
+                  <div key={month} className={styles.listMonth}>
+                    <p className={styles.yearNmonth}>
+                      {year}년 {month}월
+                    </p>
+                    <div className={styles.cardContainer}>
+                      {groupCslt[year][month]?.map((item, index) => (
+                        <div key={index} className={styles.csltCard}>
+                          <div className={styles.cardInfo}>
+                            <div>
+                              <img
+                                className={styles.cardImage}
+                                src={`${process.env.PUBLIC_URL}/assets/consult/consult_history.png`}
+                                alt=''
+                              />
+                            </div>
+                            <div className={styles.reasonBox}>
+                              <p className={styles.parentName}>
+                                {item?.parentInfo}{' '}
+                                <span>
+                                  ({item?.studentInfo?.slice(0, 1)}학년{' '}
+                                  {item?.studentInfo?.slice(1, 2) === '0'
+                                    ? `${item?.studentInfo?.slice(2, 3)}반`
+                                    : `${item?.studentInfo?.slice(1, 3)}반`}{' '}
+                                  {item?.studentInfo?.slice(3, 4) === '0'
+                                    ? `${item?.studentInfo?.slice(4, 5)}번`
+                                    : `${item?.studentInfo?.slice(3, 5)}번`}{' '}
+                                  {item?.studentInfo?.split(' ')[1]} 학생)
+                                </span>
+                              </p>
+                              <p className={styles.reasonBoxP1}>상담 일자</p>
+                              <p className={styles.reasonBoxP2}>
+                                {item?.consultDate?.slice(0, 3).join('.')}{' '}
+                                {item?.consultDate ? item?.consultDate[3] : null}:00
+                              </p>
+                            </div>
+                            <div
+                              className={styles.seeMore}
+                              onClick={() => {
+                                setIsModalOpen(true);
+                                setConsultId(item.consultId);
+                              }}
+                            >
+                              <p>자세히 보기</p>
+                              <ArrowForwardIosIcon fontSize='small' />
+                            </div>
+                          </div>
                         </div>
-                        <div className={styles.reasonBox}>
-                          <p className={styles.reasonBoxP1}>상담 일자</p>
-                          <p className={styles.reasonBoxP2}>
-                            {item.date.slice(0, 3).join('.')} {item.date[3]}:00
-                          </p>
-                          <p className={styles.reasonBoxP3}>신청 사유</p>
-                          <p className={styles.reasonBoxP4}>{item.reason}</p>
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-        ))}
-      </div>
-    </div>
+          {isModalOpen ? (
+            <div className={styles.refModal}>
+              <ConsultDetailModal setIsModalOpen={setIsModalOpen} consultId={consultId} />
+            </div>
+          ) : null}
+        </div>
+      )}
+    </>
   );
 }

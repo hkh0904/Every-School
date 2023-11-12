@@ -2,6 +2,7 @@ package com.everyschool.reportservice.docs.web.report;
 
 import com.everyschool.reportservice.api.web.controller.report.ReportWebController;
 import com.everyschool.reportservice.api.web.controller.report.request.EditResultRequest;
+import com.everyschool.reportservice.api.web.controller.report.request.EditStatusRequest;
 import com.everyschool.reportservice.api.web.controller.report.response.EditReportResponse;
 import com.everyschool.reportservice.api.web.service.report.ReportWebService;
 import com.everyschool.reportservice.docs.RestDocsSupport;
@@ -17,12 +18,13 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,6 +41,10 @@ public class ReportWebControllerDocsTest extends RestDocsSupport {
     @DisplayName("신고 처리 상태 변경 API")
     @Test
     void editStatus() throws Exception {
+        EditStatusRequest request = EditStatusRequest.builder()
+            .status(PROCESS.getCode())
+            .build();
+
         EditReportResponse response = EditReportResponse.builder()
             .reportId(1L)
             .statusId(PROCESS.getCode())
@@ -52,15 +58,29 @@ public class ReportWebControllerDocsTest extends RestDocsSupport {
         mockMvc.perform(
                 patch(BASE_URL + "/{reportId}", 2023, 21617, 1)
                     .header("Authorization", "Bearer Access Token")
-                    .param("status", "7002")
+                    .content(objectMapper.writeValueAsString(request))
+                    .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
             .andDo(document("edit-status",
+                preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
-                requestParameters(
-                    parameterWithName("status")
-                        .description("신고 처리 상태 코드")
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디"),
+                    parameterWithName("reportId")
+                        .description("신고 아이디")
+                ),
+                requestFields(
+                    fieldWithPath("status").type(JsonFieldType.NUMBER)
+                        .description("처리 상태 코드")
                 ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -111,6 +131,18 @@ public class ReportWebControllerDocsTest extends RestDocsSupport {
             .andDo(document("edit-result",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디"),
+                    parameterWithName("reportId")
+                        .description("신고 아이디")
+                ),
                 requestFields(
                     fieldWithPath("result").type(JsonFieldType.STRING)
                         .description("신고 처리 결과")

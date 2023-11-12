@@ -23,4 +23,11 @@ public class Student extends User {
         this.schoolId = schoolId;
         this.schoolClassId = schoolClassId;
     }
+
+    //== 비즈니스 로직 ==//
+    public Student editClassInfo(Long schoolId, Long schoolClassId) {
+        this.schoolId = schoolId;
+        this.schoolClassId = schoolClassId;
+        return this;
+    }
 }

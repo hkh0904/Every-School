@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/base_api.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MessengerApi {
   Dio dio = Dio();
@@ -13,14 +14,14 @@ class MessengerApi {
       final response = await dio.post('${socketApi.httpURL}/v1/chat-rooms',
           data: {
             //상대방 키
-            "userkey": userKey,
+            "opponentUserKey": userKey,
             //상대방 이름 직급
-            "username": userName,
+            "opponentUserName": userName,
             //상대방 유저 타입
-            "usertype": userType,
+            "opponentUserType": userType,
             //아래 두개는 내 정보
-            "mytype": mytype,
-            "myclassId": myclassId,
+            "loginUserType": mytype,
+            "schoolClassId": myclassId,
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print(response.data);
@@ -60,6 +61,10 @@ class MessengerApi {
 
   //채팅 전송 전 필터링
   Future<dynamic> chatFilter(token, chatRoomId, senderUserkey, message) async {
+    print(chatRoomId);
+    print(senderUserkey);
+    print(message);
+
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/filters/chat',
           data: {
@@ -112,9 +117,12 @@ class MessengerApi {
 class CallingApi {
   Dio dio = Dio();
   ServerApi serverApi = ServerApi();
+  final storage = FlutterSecureStorage();
 
   // 전화걸때
   Future<dynamic> callOthers(token, userKey, senderName, cname) async {
+    var uuu = await storage.read(key: 'userKey') ?? "";
+    print('내 유저키 전화 $uuu');
     print('전화걸때 $userKey $senderName $cname');
     try {
       final response = await dio.post(
@@ -126,8 +134,159 @@ class CallingApi {
         },
         // options: Options(headers: {'Authorization': 'Bearer $token'})
       );
-      print(response.data);
+      print('걸었어용 ${response.data}');
       print('전화걸음^^~');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> missedCall(
+      token, userKey, senderName, startDateTime, endDateTime) async {
+    print('부재중 $userKey $senderName $startDateTime $endDateTime');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/calling/denied',
+          data: {
+            "otherUserKey": userKey,
+            "senderName": senderName,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('부재중 리스폰스 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> cancelCall(
+      token, userKey, senderName, startDateTime, endDateTime) async {
+    print('취소 $userKey $senderName $startDateTime $endDateTime');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/calling/cancel',
+          data: {
+            "otherUserKey": userKey,
+            "senderName": senderName,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('취소 리스폰스 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> callRecordingStart(
+      token, cname, uid, chatroomtoken, userKey, otherUserKey) async {
+    print(
+        '녹음시작 토큰 $token 유저키$userKey 채널이름 $cname 유저아이디 $uid 챗룸토큰 $chatroomtoken 내 유저키 $userKey 다른사람유저키 $otherUserKey ');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/record/start',
+          data: {
+            "cname": cname,
+            "uid": uid,
+            "token": chatroomtoken,
+            "userKey": userKey,
+            "otherUserKey": otherUserKey
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('녹음시작 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> callRecordingStop(token, cname, uid, resourceId, sid,
+      otherUserKey, sender, startDateTime, endDateTime) async {
+    print(
+        '녹음종료 토큰 $token 유아이디$uid 채널이름 $cname 리소스아이디 $resourceId 에스아이디 $sid 발신자 $sender 다른사람유저키 $otherUserKey 시작시간 $startDateTime 끝나는시간 $endDateTime');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/record/stop',
+          data: {
+            "cname": cname,
+            "uid": uid,
+            "resourceId": resourceId,
+            "sid": sid,
+            "otherUserKey": otherUserKey,
+            "sender": sender,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime,
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('녹음종료 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getCallList() async {
+    var userKey = await storage.read(key: 'userKey');
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/call-service/v1/calls/$userKey',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('겟콜리스트 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getCallDetail(userCallId) async {
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/call-service/v1/calls/detail/$userCallId',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('상세정보 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> muteTimeSet(startTime, endTime, isActivate) async {
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/do-not-disturbs/',
+          data: {
+            "startTime" : startTime,
+            "endTime" : endTime,
+            "isActivate" : isActivate
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('방해금지시간설정 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> muteTimeInquiry() async {
+    var token = await storage.read(key: 'token');
+
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/call-service/v1/do-not-disturbs/',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('방해금지시간조회 ${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);

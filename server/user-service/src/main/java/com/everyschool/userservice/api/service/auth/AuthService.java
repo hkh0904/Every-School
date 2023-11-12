@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.everyschool.userservice.message.ErrorMessage.*;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -38,18 +40,18 @@ public class AuthService {
         }
 
         if (storedAuthNumber == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(EXPIRE_AUTH_TIME.getMessage());
         }
 
         if (!storedAuthNumber.equals(authNumber)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(NOT_EQUAL_AUTH_NUMBER.getMessage());
         }
 
         redisTemplate.delete(email);
 
         boolean isExistEmail = userQueryRepository.existEmail(email);
         if (isExistEmail) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(DUPLICATE_EMAIL.getMessage());
         }
     }
 }

@@ -48,10 +48,27 @@
 }
 
 .parentName {
-  font-size: 21px;
+  padding: 0;
+  margin: 7px 0px 7px;
+  font-size: 18px;
   font-weight: 600;
 }
 
+.parentName > span {
+  font-size: 15px;
+}
+
+.seeMore {
+  padding: 0px 15px 0px 0px;
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+.seeMore > p {
+  padding-right: 5px;
+}
 .cardInfo > div:nth-child(1) {
   margin: 1rem 1rem 1rem 1rem;
   text-align: center;
@@ -73,7 +90,7 @@
 
 .reasonBoxP2 {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   margin-top: 0;
   margin-bottom: 6px;
 }
@@ -87,4 +104,11 @@
   font-size: 18px;
   font-weight: 700;
   margin-top: 0;
+}
+
+.refModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

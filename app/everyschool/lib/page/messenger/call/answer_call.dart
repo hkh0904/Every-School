@@ -87,16 +87,7 @@ class _AnswerCallState extends State<AnswerCall> {
       setState(() {
         isJoined = true;
       });
-      _navigateToModalCallPage();
     }
-  }
-
-  void _navigateToModalCallPage() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => GetCall(leave: leave),
-      ),
-    );
   }
 
   Future<void> setupVoiceSDKEngine() async {
@@ -128,11 +119,6 @@ class _AnswerCallState extends State<AnswerCall> {
           setState(() {
             this.remoteUid = remoteUid;
           });
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => GetCallSuccess(leave: leave),
-            ),
-          );
         },
         onError: (ErrorCodeType rtcError, String error) {
           print("Error code: ${rtcError.toString()}");
@@ -145,6 +131,7 @@ class _AnswerCallState extends State<AnswerCall> {
           setState(() {
             this.remoteUid = null;
           });
+          leave();
         },
       ),
     );
@@ -163,7 +150,6 @@ class _AnswerCallState extends State<AnswerCall> {
   void dispose() async {
     print('아고라 엔진 종료');
     super.dispose();
-    FlutterCallkitIncoming.endAllCalls();
     await agoraEngine.leaveChannel();
     await agoraEngine.release();
   }

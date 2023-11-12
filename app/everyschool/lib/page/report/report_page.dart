@@ -13,7 +13,15 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
-  final _reportTypes = ['학칙위반(흡연, 절도, 기물파손 등)', '학교폭력', '기타', '악성민원'];
+  final List<Map<String, dynamic>> _reportTypes = [
+    {'title': '학칙위반(흡연, 기물파손 등)', 'number': 9003},
+    {'title': '학교폭력', 'number': 9001},
+    {'title': '도난, 절도', 'number': 9002},
+    {'title': '악성민원', 'number': 9004},
+    {'title': '기타', 'number': 9000}
+  ];
+
+  String? typeId;
   String? _selectedType;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
@@ -21,11 +29,11 @@ class _ReportPageState extends State<ReportPage> {
   String? _suspectInput;
   String? _detailInput;
   List<File> _filePaths = [];
-  TextEditingController _fileController = TextEditingController();
+  final TextEditingController _fileController = TextEditingController();
 
   postFile() async {
     FormData formData = FormData.fromMap({
-      "typeId": 9001,
+      "typeId": typeId,
       "files": _filePaths
           .map((file) => MultipartFile.fromFileSync(file.path))
           .toList(),
@@ -38,7 +46,7 @@ class _ReportPageState extends State<ReportPage> {
       "why": null
     });
 
-    var response = ReportApi().writeReport(formData);
+    var response = await ReportApi().writeReport(formData);
     if (response.runtimeType != Null) {
       showDialog(
         context: context,
@@ -90,6 +98,19 @@ class _ReportPageState extends State<ReportPage> {
           );
         }),
       );
+      setState(() {
+        typeId = null;
+        _selectedType = null;
+        _selectedDate = null;
+        _selectedTime = null;
+        _locationInput = null;
+        _suspectInput = null;
+        _detailInput = null;
+        _filePaths = [];
+      });
+      _fileController.text = _filePaths.isNotEmpty
+          ? _filePaths.map((file) => extractFileName(file.path)).join(", ")
+          : "첨부 파일이 없습니다";
     }
   }
 
@@ -152,17 +173,21 @@ class _ReportPageState extends State<ReportPage> {
                     child: DropdownButton(
                       hint: Text('신고 분류를 선택해주세요'),
                       value: _selectedType,
-                      items: [
-                        ..._reportTypes
-                            .map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: Text(e),
-                                ))
-                            .toList(),
-                      ],
+                      items: _reportTypes
+                          .map<DropdownMenuItem<String>>(
+                              (type) => DropdownMenuItem<String>(
+                                    value: type['title'] as String,
+                                    child: Text(type['title'] as String),
+                                  ))
+                          .toList(),
                       onChanged: (value) {
+                        // 선택한 분류의 number를 typeId에 저장
                         setState(() {
                           _selectedType = value!;
+                          typeId = _reportTypes
+                              .firstWhere(
+                                  (type) => type['title'] == value)['number']
+                              .toString();
                         });
                       },
                       underline: Container(),
@@ -386,6 +411,7 @@ class _ReportPageState extends State<ReportPage> {
           style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xff15075F), shape: LinearBorder()),
           onPressed: _selectedType != null &&
+                  typeId != null &&
                   _selectedDate != null &&
                   _selectedTime != null &&
                   _locationInput != null &&

@@ -1,8 +1,9 @@
 package com.everyschool.callservice.api.controller.usercall;
 
 import com.everyschool.callservice.api.ApiResponse;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
-import com.everyschool.callservice.api.service.call.UserCallQueryService;
+import com.everyschool.callservice.api.service.usercall.UserCallQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,14 +42,14 @@ public class UserCallQueryController {
      *
      * @return 통화
      */
-//    @GetMapping("/detail/{callId}")
-//    public ApiResponse<List<UserCallResponse>> searchCallDetails(@PathVariable Long callId) {
-//        log.debug("call UserCallQueryController#searchMyCall");
-//
-//        UserCallResponse response = callQueryService.searchMyCall(callId);
-//        log.debug("search results = {}", response);
-//
-//        return ApiResponse.ok(response);
-//    }
+    @GetMapping("/detail/{userCallId}")
+    public ApiResponse<UserCallReportResponse> searchCallDetails(@PathVariable Long userCallId) {
+        log.debug("call UserCallQueryController#searchMyCall");
+
+        UserCallReportResponse response = userCallQueryService.searchMyCallDetails(userCallId);
+        log.debug("search results = {}", response);
+
+        return ApiResponse.ok(response);
+    }
 
 }

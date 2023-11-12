@@ -3,6 +3,7 @@
 
 ==== HTTP Request
 include::{snippets}/create-do-not-disturb/http-request.adoc[]
+include::{snippets}/create-do-not-disturb/request-fields.adoc[]
 
 
 ==== HTTP Response

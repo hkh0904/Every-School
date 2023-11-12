@@ -19,16 +19,21 @@ class MessengerPage extends StatefulWidget {
 }
 
 class _MessengerPageState extends State<MessengerPage> {
+  final storage = FlutterSecureStorage();
+  int? userType;
+
   @override
   void initState() {
     // TODO: implement initState
-  }
 
-  final userId = 2;
+    userType = context.read<UserStore>().userInfo['userType'];
+    print(userType);
+    // userType = 1003;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return userId == 1 ? ManagerTapBar() : UserTapBar();
+    return userType == 1003 ? ManagerTapBar() : UserTapBar();
   }
 }
 
@@ -41,6 +46,7 @@ class ManagerTapBar extends StatefulWidget {
 
 class _ManagerTapBarState extends State<ManagerTapBar> {
   final storage = FlutterSecureStorage();
+
   List? userConnect;
   List? chatList;
   List roomIdList = [];
@@ -50,17 +56,14 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
 
   _getChatList() async {
     final token = await storage.read(key: 'token') ?? "";
-    print(token);
+
     final response = await MessengerApi().getChatList(token);
-    print('여기가 리스폰즈 $response');
-    print('여기가 리스폰즈 ${response.runtimeType}');
+
     final contact = await MessengerApi().getUserConnect(token);
-    print('여기가 zjsxorzxm $contact');
 
     setState(() {
       chatList = List<Map>.from(response);
-      print('이게 챗 리스트');
-      print(chatList);
+
       userConnect = contact;
     });
     response.forEach((item) {
@@ -162,7 +165,7 @@ class _UserTapBarState extends State<UserTapBar> {
   final storage = FlutterSecureStorage();
 
   Map<String, dynamic>? teacherConnect;
-  List<dynamic> chatList = [];
+  List chatList = [];
   List roomIdList = [];
   int? roomId = 0;
 
@@ -258,9 +261,11 @@ class _UserTapBarState extends State<UserTapBar> {
                       if (snapshot.hasData) {
                         return ChatList(chatList: chatList);
                       } else if (snapshot.hasError) {
-                        return Text(
-                          'Error: ${snapshot.error}',
-                          style: TextStyle(fontSize: 15),
+                        return Center(
+                          child: Text(
+                            'Error: ${snapshot.error}',
+                            style: TextStyle(fontSize: 15),
+                          ),
                         );
                       } else {
                         return Container(
