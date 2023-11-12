@@ -1,8 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import Table from '../../component/Table/Table';
 import styles from './ManageMyclassPage.module.css';
-import SvgIcon from '@mui/material/SvgIcon';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { getStudentList } from '../../api/SchoolAPI/schoolAPI';
 
 export default function ManageMyclassPage() {
@@ -93,10 +91,6 @@ export default function ManageMyclassPage() {
         <div>
           <div className={styles.headText}>우리반 관리</div>
           <div className={styles.underText}>총원 : {totalStudents}명</div>
-        </div>
-        <div className={styles.plusButton}>
-          <SvgIcon component={AddCircleIcon} inheritViewBox />
-          <p>추가</p>
         </div>
       </div>
       <hr />

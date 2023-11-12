@@ -11,12 +11,17 @@ export default function Table({ columns, data }) {
     useGlobalFilter,
     useSortBy
   );
-  
+
   const navigate = useNavigate();
   const handleClick = (data) => {
-    const reportId = data
-    navigate('/report/detail', {state: { reportId: reportId }})
-  }
+    const reportId = data;
+    navigate('/report/detail', { state: { reportId: reportId } });
+  };
+
+  const handleComplain = (data) => {
+    const userCallId = data;
+    navigate('/badcomplain/detail', { state: { userCallId: userCallId } });
+  };
 
   return (
     <>
@@ -42,8 +47,25 @@ export default function Table({ columns, data }) {
                   if (cell.column.id === 'detail') {
                     return (
                       <td className={styles.tableEle} {...cell.getCellProps()}>
-                        <div className={styles.row} style={{cursor: 'pointer'}} onClick={() => handleClick(cell.row.values.reportId)}>
-                            <span className={styles.detailText}>상세내역 확인</span>
+                        <div
+                          className={styles.row}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleClick(cell.row.values.reportId)}
+                        >
+                          <span className={styles.detailText}>상세내역 확인</span>
+                          <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
+                        </div>
+                      </td>
+                    );
+                  } else if (cell.column.id === 'complainDetail') {
+                    return (
+                      <td className={styles.tableEle} {...cell.getCellProps()}>
+                        <div
+                          className={styles.row}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleComplain(cell.row.values.userCallId)}
+                        >
+                          <span className={styles.detailText}>상세내역 확인</span>
                           <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
                         </div>
                       </td>

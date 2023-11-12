@@ -20,26 +20,6 @@
   color: rgba(128, 128, 128, 0.651)
 }
 
-.plusButton {
-  display: flex;
-  width: 5rem;
-  height: 2.3rem;
-  color: white;
-  border-radius: 7px;
-  align-items: center;
-  justify-content: center;
-  background-color: #15075F;
-}
-
-.plusButton p {
-  margin-left: 0.3rem;
-}
-
-.plusButton:hover {
-  cursor: pointer;
-  background-color: #16075f8a;
-}
-
 .tableBox {
   padding: 8px;
   height: 70vh;

@@ -1,8 +1,6 @@
 import { useMemo, useEffect, useState } from 'react';
 import Table from '../../component/Table/Table';
 import styles from './ReportHistoryPage.module.css';
-import SvgIcon from '@mui/material/SvgIcon';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { receivedReportInfo } from '../../api/UserAPI/reportAPI';
 
 export default function ReportHistoryPage() {
@@ -38,21 +36,20 @@ export default function ReportHistoryPage() {
   useEffect(() => {
     const fetchReports = async () => {
       let rawData = await receivedReportInfo();
-      
-      const formattedData = rawData.map(item => {
+
+      const formattedData = rawData.map((item) => {
         const splitDateTime = item.date.split('T');
         const time = `${parseInt(splitDateTime[1], 10)}시`;
         const formattedDate = `${splitDateTime[0]} / ${time}`;
-        
+
         return { ...item, date: formattedDate };
       });
-  
-      setReports(formattedData); // 변환된 데이터로 상태를 업데이트합니다.
+
+      setReports(formattedData);
       setCompleteReports(formattedData.length);
     };
     fetchReports();
   }, []);
-  
 
   console.log(reports);
 
@@ -64,10 +61,6 @@ export default function ReportHistoryPage() {
           <div className={styles.underText}>
             처리 필요 : {reports.length - completeReports}건 / 처리 완료 : {completeReports}건
           </div>
-        </div>
-        <div className={styles.plusButton}>
-          <SvgIcon component={AddCircleIcon} inheritViewBox />
-          <p>추가</p>
         </div>
       </div>
       <hr />
