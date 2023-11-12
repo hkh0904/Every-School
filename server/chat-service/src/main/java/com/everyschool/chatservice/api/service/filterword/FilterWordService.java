@@ -97,7 +97,7 @@ public class FilterWordService {
                 .build();
         if (chatStatus == ChatStatus.BAD) {
             for (String reason : reasons) {
-                saveReason(chat, reason);
+                saveReason(reason, chat.getId());
             }
             response.setReason("비속어가 포함되어 있습니다.");
             response.setIsBad(true);
@@ -105,9 +105,9 @@ public class FilterWordService {
         return response;
     }
 
-    private void saveReason(Chat chat, String reason) {
+    public void saveReason(String reason, Long chatId) {
         Reason filterReason = Reason.builder()
-                .chatId(chat.getId())
+                .chatId(chatId)
                 .filterReason(reason)
                 .build();
         reasonRepository.save(filterReason);

@@ -1,6 +1,7 @@
 package com.everyschool.chatservice.messagequeue;
 
 import com.everyschool.chatservice.api.service.chat.ChatMongoService;
+import com.everyschool.chatservice.api.service.filterword.FilterWordService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class KafkaConsumer {
 
     private final ChatMongoService chatMongoService;
+    private final FilterWordService filterWordService;
 
     /**
      * 부적절 채팅 상태 업데이트
@@ -44,13 +46,9 @@ public class KafkaConsumer {
 
         chatMongoService.chatUpdate(chatId);
 
-        // TODO: 2023/11/12 이유 등록하기
-
-//        Member member = getMemberEntity(memberKey);
+        filterWordService.saveReason(reason, chatId);
 
         Integer exp = (Integer) map.get("exp");
-
-//        member.increaseExp(exp);
 
         // TODO: 2023-11-10 해야함
     }
