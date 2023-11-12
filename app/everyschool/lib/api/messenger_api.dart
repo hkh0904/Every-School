@@ -289,6 +289,9 @@ class CallingApi {
     var userKey = await storage.read(key: 'userKey');
     var token = await storage.read(key: 'token');
 
+    print(userKey);
+    print(token);
+
     try {
       final response = await dio.get(
           '${serverApi.serverURL}/call-service/v1/calls/$userKey',
