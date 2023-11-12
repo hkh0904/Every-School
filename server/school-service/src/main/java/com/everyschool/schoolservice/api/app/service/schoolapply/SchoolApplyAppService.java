@@ -7,9 +7,8 @@ import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
 import com.everyschool.schoolservice.domain.schoolapply.repository.SchoolApplyRepository;
 import com.everyschool.schoolservice.domain.schoolclass.SchoolClass;
-import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassQueryRepository;
+import com.everyschool.schoolservice.domain.schoolclass.repository.SchoolClassQueryAppRepository;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ import static com.everyschool.schoolservice.error.ErrorMessage.NO_SUCH_SCHOOL_CL
 public class SchoolApplyAppService {
 
     private final SchoolApplyRepository schoolApplyRepository;
-    private final SchoolClassQueryRepository schoolClassQueryRepository;
+    private final SchoolClassQueryAppRepository schoolClassAppQueryRepository;
     private final UserServiceClient userServiceClient;
 
     /**
@@ -84,7 +83,7 @@ public class SchoolApplyAppService {
      * @return 조회된 학급 엔티티
      */
     private SchoolClass getSchoolClass(int schoolYear, Long schoolId, CreateSchoolApplyDto dto) {
-        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(schoolYear, schoolId, dto.getGrade(), dto.getClassNum());
+        Optional<SchoolClass> findSchoolClass = schoolClassAppQueryRepository.findByInfo(schoolYear, schoolId, dto.getGrade(), dto.getClassNum());
         if (findSchoolClass.isEmpty()) {
             throw new NoSuchElementException(NO_SUCH_SCHOOL_CLASS.getMessage());
         }
