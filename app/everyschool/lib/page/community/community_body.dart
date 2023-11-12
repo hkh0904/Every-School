@@ -21,7 +21,12 @@ class _CommunityBodyState extends State<CommunityBody> {
     return Consumer<UserStore>(
       builder: (context, userStore, child) {
         final userType = userStore.userInfo["userType"];
-        final schoolName = userStore.userInfo["school"]["name"];
+        late final schoolName;
+        if (userType == 1002) {
+          schoolName = userStore.userInfo["descendants"][0]["school"]["name"];
+        } else {
+          schoolName = userStore.userInfo["school"]["name"];
+        }
         return CustomScrollView(
           slivers: [
             SliverAppBar(
