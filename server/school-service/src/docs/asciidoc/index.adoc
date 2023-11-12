@@ -11,50 +11,28 @@ endif::[]
 
 include::overview.adoc[]
 
-[[Web-School-Apply-API]]
-== Web School Apply API
+[[App-School-API]]
+== App School API
 
-include::api/web/schoolapply/approve-school-apply.adoc[]
-include::api/web/schoolapply/reject-school-apply.adoc[]
-include::api/web/schoolapply/search-wait-school-apply.adoc[]
-include::api/web/schoolapply/search-approve-school-apply.adoc[]
-include::api/web/schoolapply/search-detail-school-apply.adoc[]
+include::api/app/school/app-search-schools.adoc[]
+include::api/app/school/app-search-school.adoc[]
 
 [[App-School-Apply-API]]
 == App School Apply API
 
 include::api/app/schoolapply/app-create-school-apply.adoc[]
 
+[[Web-School-Apply-API]]
+== Web School Apply API
 
+include::api/web/schoolapply/web-approve-school-apply.adoc[]
+include::api/web/schoolapply/web-reject-school-apply.adoc[]
+include::api/web/schoolapply/web-search-approve-school-apply.adoc[]
+include::api/web/schoolapply/web-search-wait-school-apply.adoc[]
+include::api/web/schoolapply/web-search-detail-school-apply.adoc[]
 
+[[Web-School-User-API]]
+== Web School User API
 
-
-
-
-
-== 아래는 수정 중
-
-
-[[School-API]]
-== School API
-
-include::api/school/search-list-school.adoc[]
-include::api/school/search-detail-school.adoc[]
-
-
-[[School-Class-API]]
-== School Class API
-
-include::api/schoolclass/create-school-class.adoc[]
-
-
-[[School-User-API]]
-== School User API
-
-include::api/schooluser/search-my-class-students.adoc[]
-include::api/schooluser/search-my-class-parents.adoc[]
-
-[[School-Apply-API]]
-== School Apply API
-
-include::api/schoolapply/create-school-apply.adoc[]
+include::api/web/schooluser/web-search-my-class-students.adoc[]
+include::api/web/schooluser/web-search-my-class-parents.adoc[]

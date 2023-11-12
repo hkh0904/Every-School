@@ -1,0 +1,13 @@
+[[web-search-approve-school-apply]]
+=== 승인된 신청 목록 조회 API
+
+==== HTTP Request
+
+include::{snippets}/web-search-approve-school-apply/http-request.adoc[]
+include::{snippets}/web-search-approve-school-apply/request-headers.adoc[]
+include::{snippets}/web-search-approve-school-apply/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/web-search-approve-school-apply/http-response.adoc[]
+include::{snippets}/web-search-approve-school-apply/response-fields.adoc[]
