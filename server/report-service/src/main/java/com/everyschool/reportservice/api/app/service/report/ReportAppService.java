@@ -1,6 +1,7 @@
 package com.everyschool.reportservice.api.app.service.report;
 
 import com.everyschool.reportservice.api.app.controller.report.response.CreateReportResponse;
+import com.everyschool.reportservice.api.app.controller.report.response.RemoveReportResponse;
 import com.everyschool.reportservice.api.client.SchoolServiceClient;
 import com.everyschool.reportservice.api.client.UserServiceClient;
 import com.everyschool.reportservice.api.client.response.SchoolUserInfo;
@@ -15,8 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static com.everyschool.reportservice.api.app.service.report.WitnessGenerator.*;
+import static com.everyschool.reportservice.error.ErrorMessage.NO_SUCH_REPORT;
 
 /**
  * 신고 앱 명령 서비스
@@ -61,5 +65,34 @@ public class ReportAppService {
         Report savedReport = reportRepository.save(report);
 
         return CreateReportResponse.of(savedReport);
+    }
+
+    /**
+     * 신고 내역 삭제
+     *
+     * @param reportId 신고 아이디
+     * @return 삭제된 신고 정보
+     */
+    public RemoveReportResponse removeReport(Long reportId) {
+        Report report = getReportEntity(reportId);
+
+        report.remove();
+
+        return RemoveReportResponse.of(report);
+    }
+
+    /**
+     * 신고 엔티티 조회
+     *
+     * @param reportId 신고 아이디
+     * @return 조회된 신고 엔티티
+     * @throws NoSuchElementException 등록되지 않은 신고를 조회하는 경우 발생
+     */
+    private Report getReportEntity(Long reportId) {
+        Optional<Report> findReport = reportRepository.findById(reportId);
+        if (findReport.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_REPORT.getMessage());
+        }
+        return findReport.get();
     }
 }
