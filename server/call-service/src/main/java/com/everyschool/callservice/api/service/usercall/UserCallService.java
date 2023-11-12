@@ -10,6 +10,7 @@ import com.everyschool.callservice.domain.usercall.repository.UserCallRepository
 import com.everyschool.callservice.domain.usercalldetails.UserCallDetails;
 import com.everyschool.callservice.domain.usercalldetails.repository.UserCallDetailsRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class UserCallService {
 
     private final UserCallRepository userCallRepository;
@@ -48,8 +50,10 @@ public class UserCallService {
     }
 
     public void updateCallInfo(Long callId, RecordResultInfo res) {
-        // 데이터베이스에서 해당 엔티티를 가져옵니다.
+        log.debug("UserCall UserCallService#updateCallInfo");
+
         Optional<UserCall> optionalCall = userCallRepository.findById(callId);
+        log.debug("optionalCall = {}", optionalCall);
 
         if (optionalCall.isPresent()) {
             UserCall userCall = optionalCall.get();
@@ -58,14 +62,15 @@ public class UserCallService {
                     , res.getOverallResult().equals("negative"));
 
             UserCall updatedUserCall = userCallRepository.save(userCall);
+            log.debug("updatedUserCall = {}", updatedUserCall);
 
-            System.out.println(updatedUserCall);
             List<UserCallDetails> userCallDetails = new ArrayList<>();
 
             res.getDetailsResult().forEach(e -> {
                 System.out.println(e);
                 UserCallDetails callDetails = UserCallDetails.builder()
                         .userCall(userCall)
+                        .fileName(e.getFileName())
                         .content(e.getContent())
                         .start(e.getStart())
                         .length(e.getLength())
@@ -95,8 +100,6 @@ public class UserCallService {
                 .receiveCall("Y")
                 .startDateTime(dto.getStartDateTime())
                 .endDateTime(dto.getEndDateTime())
-                .uploadFileName(dto.getUploadFileName())
-                .storeFileName(dto.getStoreFileName())
                 .isBad(false)
                 .build();
 
