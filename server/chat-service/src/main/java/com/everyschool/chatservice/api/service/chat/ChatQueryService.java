@@ -3,15 +3,18 @@ package com.everyschool.chatservice.api.service.chat;
 import com.everyschool.chatservice.api.client.UserServiceClient;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chat.response.ChatResponse;
+import com.everyschool.chatservice.api.controller.chat.response.ChatReviewResponse;
 import com.everyschool.chatservice.domain.chat.Chat;
 import com.everyschool.chatservice.domain.chat.ChatStatus;
 import com.everyschool.chatservice.domain.chat.repository.ChatRepository;
+import com.everyschool.chatservice.domain.chat.repository.ChatReviewQueryRepository;
 import com.mongodb.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +27,7 @@ public class ChatQueryService {
 
     private final ChatRepository chatRepository;
     private final UserServiceClient userServiceClient;
+    private final ChatReviewQueryRepository chatReviewQueryRepository;
 
     /**
      * 채팅 목록 가져오기
@@ -48,6 +52,13 @@ public class ChatQueryService {
             responses.add(response);
         }
         return responses;
+    }
+
+    /**
+     * 해당 날짜의 문제있던 채팅방 제목 불러오기
+     */
+    public List<ChatReviewResponse> searchReviewChatDate(LocalDate date) {
+        return chatReviewQueryRepository.searchReviewChatDate(date);
     }
 
     private static ChatResponse createChatResponse(UserInfo loginUser, Chat chat) {
