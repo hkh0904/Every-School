@@ -70,7 +70,7 @@ public class ReportAppController {
      * @return 삭제된 신고 내역 정보
      */
     @DeleteMapping("/{reportId}")
-    public ApiResponse<?> removeReport(
+    public ApiResponse<RemoveReportResponse> removeReport(
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId,
         @PathVariable Long reportId

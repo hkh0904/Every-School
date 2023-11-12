@@ -26,8 +26,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,6 +61,12 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
                 requestHeaders(
                     headerWithName("Authorization")
                         .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디")
                 ),
                 requestParameters(
                     parameterWithName("status")
@@ -122,6 +127,14 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
                 requestHeaders(
                     headerWithName("Authorization")
                         .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디"),
+                    parameterWithName("reportId")
+                        .description("신고 아이디")
                 ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
