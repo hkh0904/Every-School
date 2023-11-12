@@ -1,0 +1,11 @@
+[[app-search-school]]
+=== 학교 정보 조회 API
+
+==== HTTP Request
+
+include::{snippets}/app-search-school/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/app-search-school/http-response.adoc[]
+include::{snippets}/app-search-school/response-fields.adoc[]

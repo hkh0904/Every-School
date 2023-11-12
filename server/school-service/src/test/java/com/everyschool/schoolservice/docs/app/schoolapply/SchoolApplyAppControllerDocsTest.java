@@ -3,7 +3,7 @@ package com.everyschool.schoolservice.docs.app.schoolapply;
 import com.everyschool.schoolservice.api.app.controller.schoolapply.SchoolApplyAppController;
 import com.everyschool.schoolservice.api.app.controller.schoolapply.response.CreateSchoolApplyResponse;
 import com.everyschool.schoolservice.api.app.service.schoolapply.SchoolApplyAppService;
-import com.everyschool.schoolservice.api.controller.schoolapply.request.CreateSchoolApplyRequest;
+import com.everyschool.schoolservice.api.app.controller.schoolapply.request.CreateSchoolApplyRequest;
 import com.everyschool.schoolservice.docs.RestDocsSupport;
 import com.everyschool.schoolservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -17,12 +17,16 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +41,7 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
         return new SchoolApplyAppController(schoolApplyAppService, tokenUtils);
     }
 
-    @DisplayName("[학생] 학급 등록 신청 API")
+    @DisplayName("학교 소속 신청 API")
     @Test
     void createSchoolApply() throws Exception {
         CreateSchoolApplyRequest request = CreateSchoolApplyRequest.builder()
@@ -49,13 +53,14 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
             .willReturn(UUID.randomUUID().toString());
 
         CreateSchoolApplyResponse response = CreateSchoolApplyResponse.builder()
+            .schoolApplyId(1L)
             .schoolYear(2023)
             .grade(1)
             .classNum(3)
             .appliedDate(LocalDateTime.now())
             .build();
 
-        given(schoolApplyAppService.createSchoolApply(anyString(), anyLong(), anyInt(), any()))
+        given(schoolApplyAppService.createSchoolApply(anyString(), anyInt(), anyLong(), any()))
             .willReturn(response);
 
         mockMvc.perform(
@@ -66,15 +71,23 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isCreated())
-            .andDo(document("create-school-apply",
+            .andDo(document("app-create-school-apply",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디")
+                ),
                 requestFields(
                     fieldWithPath("grade").type(JsonFieldType.NUMBER)
-                        .optional()
                         .description("신청 학년"),
                     fieldWithPath("classNum").type(JsonFieldType.NUMBER)
-                        .optional()
                         .description("신청 반")
                 ),
                 responseFields(
@@ -86,6 +99,8 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
                         .description("메시지"),
                     fieldWithPath("data").type(JsonFieldType.OBJECT)
                         .description("응답 데이터"),
+                    fieldWithPath("data.schoolApplyId").type(JsonFieldType.NUMBER)
+                        .description("신청 학년도"),
                     fieldWithPath("data.schoolYear").type(JsonFieldType.NUMBER)
                         .description("신청 학년도"),
                     fieldWithPath("data.grade").type(JsonFieldType.NUMBER)

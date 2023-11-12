@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * 웹 학교 소속 신청 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -18,6 +23,14 @@ public class SchoolApplyWebController {
 
     private final SchoolApplyWebService schoolApplyWebService;
 
+    /**
+     * 학교 소속 신청 승인 API
+     *
+     * @param schoolYear    학년도
+     * @param schoolId      학교 아이디
+     * @param schoolApplyId 신청 아이디
+     * @return 승인된 신청 정보
+     */
     @PatchMapping("/{schoolApplyId}/approve")
     public ApiResponse<EditSchoolApplyResponse> approveSchoolApply(
         @PathVariable Integer schoolYear,
@@ -29,6 +42,15 @@ public class SchoolApplyWebController {
         return ApiResponse.ok(response);
     }
 
+    /**
+     * 학교 소속 신청 거절 API
+     *
+     * @param schoolYear    학년도
+     * @param schoolId      학교 아이디
+     * @param schoolApplyId 신청 아이디
+     * @param request       신청 거절 사유
+     * @return 거절된 신청 정보
+     */
     @PatchMapping("/{schoolApplyId}/reject")
     public ApiResponse<EditSchoolApplyResponse> rejectSchoolApply(
         @PathVariable Integer schoolYear,

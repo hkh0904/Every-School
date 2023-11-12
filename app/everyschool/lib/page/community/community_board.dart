@@ -6,6 +6,7 @@ import 'package:everyschool/page/community/post_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+
 class CommunityBoard extends StatefulWidget {
   const CommunityBoard({super.key});
 
@@ -25,7 +26,14 @@ class _CommunityBoardState extends State<CommunityBoard> {
 
   Future<void> _loadBoardData() async {
     final userType = context.read<UserStore>().userInfo["userType"];
-    final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
+    late final schoolId;
+
+    if (userType == 1002) {
+      schoolId = context.read<UserStore>().userInfo["descendants"][0]["school"]
+          ["schoolId"];
+    } else {
+      schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
+    }
     var response;
     try {
       if (userType == 1001) {
@@ -176,7 +184,10 @@ class _CommunityBoardState extends State<CommunityBoard> {
                                   builder: (context) =>
                                       PostDetail(boardId: boardId),
                                 ),
-                              );
+                              ).then((_) {
+                                // 사용자가 돌아왔을 때 게시글 목록을 새로고침
+                                _loadBoardData();
+                              });
                             }
                           },
                           child: Row(

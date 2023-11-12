@@ -42,23 +42,48 @@ export default function ManageMyclassPage() {
 
   const [students, setStudents] = useState([]);
   const [totalStudents, setTotalStudents] = useState(0);
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 3; // Set a max limit for retries
+
+  const fetchStudents = async () => {
+    try {
+      const data = await getStudentList();
+      if (data && Array.isArray(data.content)) {
+        const transformedData = data.content.map((student) => ({
+          grade: parseInt(student.studentNumber.toString().substring(0, 1)),
+          class: parseInt(student.studentNumber.toString().substring(1, 3)),
+          number: parseInt(student.studentNumber.toString().substring(3, 5)),
+          name: student.name,
+          birth: student.birth
+          // add other fields if necessary
+        }));
+        setStudents(transformedData);
+        setTotalStudents(data.count);
+      } else {
+        handleRetry();
+      }
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    }
+  };
+
+  const handleRetry = () => {
+    if (retryCount < maxRetries) {
+      setRetryCount(retryCount + 1);
+    } else {
+      // You might want to show an error message after max retries
+      console.error('Max retries reached. Unable to fetch students.');
+    }
+  };
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      const data = await getStudentList();
-      const transformedData = data.content.map((student) => ({
-        grade: parseInt(student.studentNumber.toString().substring(0, 1)),
-        class: parseInt(student.studentNumber.toString().substring(1, 3)),
-        number: parseInt(student.studentNumber.toString().substring(3, 5)),
-        name: student.name,
-        birth: student.birth
-        // tel: student.tel, // 서버 데이터에 포함되어 있다면 주석을 해제하고 추가
-        // parent: student.parent // 서버 데이터에 포함되어 있다면 주석을 해제하고 추가
-      }));
-      setStudents(transformedData);
-      setTotalStudents(data.count);
-    };
+    if (retryCount > 0) {
+      // Retry fetching students if retryCount is updated and less than maxRetries
+      fetchStudents();
+    }
+  }, [retryCount]);
 
+  useEffect(() => {
     fetchStudents();
   }, []);
 

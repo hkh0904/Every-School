@@ -3,18 +3,14 @@ import 'package:everyschool/page/home/select_child_box.dart';
 import 'package:flutter/material.dart';
 
 class SelectChild extends StatefulWidget {
-  const SelectChild({super.key});
+  const SelectChild({super.key, this.descendants});
+  final descendants;
 
   @override
   State<SelectChild> createState() => _SelectChildState();
 }
 
 class _SelectChildState extends State<SelectChild> {
-  var childList = [
-    {'school': '광주수완초등학교', 'grade': 1, 'class': 3, 'name': '김마마'},
-    {'school': '광주수완초등학교', 'grade': 5, 'class': 3, 'name': '김사사'},
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +39,9 @@ class _SelectChildState extends State<SelectChild> {
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: childList.length,
+                  itemCount: widget.descendants.length,
                   itemBuilder: (context, index) {
-                    return SelectChildBox(child: childList[index]);
+                    return SelectChildBox(child: widget.descendants[index]);
                   }),
             )
           ]),

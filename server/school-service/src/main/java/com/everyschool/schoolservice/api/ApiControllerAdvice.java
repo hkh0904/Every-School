@@ -27,7 +27,7 @@ public class ApiControllerAdvice {
         return ApiResponse.of(
             HttpStatus.BAD_REQUEST,
             e.getBindingResult().getAllErrors().get(0).getDefaultMessage(),
-            null
+            e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
         );
     }
 
@@ -42,7 +42,7 @@ public class ApiControllerAdvice {
         return ApiResponse.of(
             HttpStatus.BAD_REQUEST,
             e.getMessage(),
-            null
+            e.getMessage()
         );
     }
 
@@ -57,7 +57,7 @@ public class ApiControllerAdvice {
         return ApiResponse.of(
             HttpStatus.BAD_REQUEST,
             e.getMessage(),
-            null
+            e.getMessage()
         );
     }
 }

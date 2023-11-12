@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:everyschool/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SelectChildBox extends StatefulWidget {
   const SelectChildBox({super.key, this.child});
@@ -34,9 +38,10 @@ class _SelectChildBoxState extends State<SelectChildBox> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.child['school'],
+              Text(widget.child['school']['name'],
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-              Text('${widget.child['grade']}학년 ${widget.child['class']}반',
+              Text(
+                  '${widget.child['schoolClass']['grade']}학년 ${widget.child['schoolClass']['classNum']}반',
                   style: TextStyle(fontSize: 14, color: Color(0xff4A5056))),
               Text(
                 widget.child['name'],
@@ -44,9 +49,21 @@ class _SelectChildBoxState extends State<SelectChildBox> {
               )
             ],
           ),
-          Text(
-            '선택하기',
-            style: TextStyle(color: Color(0xff449D87), fontSize: 16),
+          GestureDetector(
+            onTap: () async {
+              final storage = FlutterSecureStorage();
+              await storage.delete(key: 'descendant');
+              await storage.write(
+                  key: 'descendant', value: jsonEncode(widget.child));
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Main()),
+                  (route) => false);
+            },
+            child: Text(
+              '선택하기',
+              style: TextStyle(color: Color(0xff449D87), fontSize: 16),
+            ),
           )
         ]),
       ),
