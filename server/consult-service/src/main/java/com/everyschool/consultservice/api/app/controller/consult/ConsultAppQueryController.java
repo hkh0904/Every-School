@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 앱 상담 조회용 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -23,6 +28,13 @@ public class ConsultAppQueryController {
     private final ConsultAppQueryService consultAppQueryService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 학부모용 상담 내역 목록 조회
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @return 조회된 상담 내역 목록
+     */
     @GetMapping("/parent")
     public ApiResponse<List<ConsultResponse>> searchConsultsByParent(
         @PathVariable Integer schoolYear,
@@ -35,6 +47,14 @@ public class ConsultAppQueryController {
         return ApiResponse.ok(responses);
     }
 
+    /**
+     * 학부보용 상담 내역 상세 조회
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param consultId  상담 아이디
+     * @return 조회된 상담 상세 내역
+     */
     @GetMapping("/parent/{consultId}")
     public ApiResponse<ConsultDetailResponse> searchConsultByParent(
         @PathVariable Integer schoolYear,
@@ -47,6 +67,13 @@ public class ConsultAppQueryController {
         return ApiResponse.ok(response);
     }
 
+    /**
+     * 교직원용 상담 내역 목록 조회
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @return 조회된 상담 내역 목록
+     */
     @GetMapping("/teacher")
     public ApiResponse<List<ConsultResponse>> searchConsultsByTeacher(
         @PathVariable Integer schoolYear,
@@ -59,6 +86,14 @@ public class ConsultAppQueryController {
         return ApiResponse.ok(responses);
     }
 
+    /**
+     * 교직원용 상담 내역 상세 조회
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param consultId  상담 아이디
+     * @return 조회된 상담 상세 내역
+     */
     @GetMapping("/teacher/{consultId}")
     public ApiResponse<ConsultDetailResponse> searchConsultByTeacher(
         @PathVariable Integer schoolYear,
