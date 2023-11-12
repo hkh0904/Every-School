@@ -1,5 +1,10 @@
+import 'package:everyschool/page/mypage/userinfo_parent_child.dart';
+import 'package:everyschool/page/mypage/userinfo_student_school.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/page/mypage/select_school.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 class UserInfoCorrection extends StatefulWidget {
   const UserInfoCorrection({super.key});
@@ -9,14 +14,9 @@ class UserInfoCorrection extends StatefulWidget {
 }
 
 class _UserInfoCorrectionState extends State<UserInfoCorrection> {
-  var userInfo = {
-    'id': 'abcd',
-    'name': '뭐라는거야',
-    'birth': '2008.01.01',
-    'school': '그러게요',
-    'grade': 3,
-    'class': 1
-  };
+  final storage = FlutterSecureStorage();
+  Map<String, dynamic> userInfo = {};
+  String? userType;
 
   TextStyle myTextStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
   TextStyle unabledTextStyle =
@@ -24,6 +24,22 @@ class _UserInfoCorrectionState extends State<UserInfoCorrection> {
   TextStyle unabledTitleTextStyle = TextStyle(
       fontSize: 18, color: Color(0xff868E96), fontWeight: FontWeight.bold);
   TextStyle enabledTitleTextStyle = TextStyle(fontSize: 18);
+
+  _getUserInfo() async {
+    final info = await context.read<UserStore>().userInfo;
+    final type = await storage.read(key: 'usertype') ?? "";
+    setState(() {
+      userInfo = info;
+      userType = type;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +70,7 @@ class _UserInfoCorrectionState extends State<UserInfoCorrection> {
                     bottom: BorderSide(width: 0.5, color: Color(0xff868E96)))),
             margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
             child: Text(
-              userInfo['id'] as String,
+              userInfo['email'] as String,
               style: unabledTextStyle,
             ),
           ),
@@ -114,92 +130,12 @@ class _UserInfoCorrectionState extends State<UserInfoCorrection> {
           SizedBox(
             height: 30,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text('학교', style: myTextStyle),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SelectSchool()),
-                  );
-                },
-                child: Text('학교 정보 설정'),
-              )
-            ],
-          ),
-          SizedBox(
-            height: 3,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
-            decoration: BoxDecoration(
-                border: Border.all(color: Color(0xff868E96)),
-                borderRadius: BorderRadius.circular(8)),
-            margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-            child: Text(
-              userInfo['school'] as String,
-              style: enabledTitleTextStyle,
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Text('학년 / 반', style: myTextStyle),
-          SizedBox(
-            height: 3,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(25, 15, 15, 15),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff868E96)),
-                      borderRadius: BorderRadius.circular(8)),
-                  margin: EdgeInsets.fromLTRB(0, 5, 5, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '${userInfo['grade']}',
-                        style: myTextStyle,
-                      ),
-                      Text(
-                        '학년',
-                        style: enabledTitleTextStyle,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(25, 15, 15, 15),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff868E96)),
-                      borderRadius: BorderRadius.circular(8)),
-                  margin: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '${userInfo['class']}',
-                        style: myTextStyle,
-                      ),
-                      Text(
-                        '반',
-                        style: enabledTitleTextStyle,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          if (userType == '1002')
+            ParentChildInfo(userInfo: userInfo)
+          else if (userType == '1001')
+            StudentSchoolInfo(userInfo: userInfo)
+          else
+            Container(),
           SizedBox(
             height: 40,
           ),

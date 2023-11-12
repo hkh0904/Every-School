@@ -67,12 +67,6 @@ class _MypageUserInfoState extends State<MypageUserInfo> {
                                       child: Icon(Icons.arrow_back, size: 25),
                                     ),
                                   ),
-                                  Text(
-                                    '내정보',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700),
-                                  )
                                 ]),
                             Container(
                                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
@@ -162,12 +156,6 @@ class _MypageUserInfoState extends State<MypageUserInfo> {
                                       child: Icon(Icons.arrow_back, size: 25),
                                     ),
                                   ),
-                                  Text(
-                                    '내정보',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700),
-                                  )
                                 ]),
                             Container(
                                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
