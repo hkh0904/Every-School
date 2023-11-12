@@ -1,5 +1,5 @@
 [[calling-denied]]
-=== 부재중 API
+=== 수신자 전화 거절 API
 
 ==== HTTP Request
 include::{snippets}/calling-denied/http-request.adoc[]
