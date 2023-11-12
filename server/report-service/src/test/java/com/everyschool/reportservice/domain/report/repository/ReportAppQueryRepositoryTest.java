@@ -42,7 +42,7 @@ class ReportAppQueryRepositoryTest extends IntegrationTestSupport {
         Report report6 = saveReport(2023, 2L);
 
         //when
-        List<ReportResponse> responses = reportAppQueryRepository.findByUserId(1L, 2023);
+        List<ReportResponse> responses = reportAppQueryRepository.findByUserId(1L, 2023, 100000L);
 
         //then
         assertThat(responses).hasSize(3)

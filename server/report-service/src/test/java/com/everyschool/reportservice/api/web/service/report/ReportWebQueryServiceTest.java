@@ -3,12 +3,10 @@ package com.everyschool.reportservice.api.web.service.report;
 import com.everyschool.reportservice.IntegrationTestSupport;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportDetailResponse;
 import com.everyschool.reportservice.api.web.controller.report.response.ReportResponse;
-import com.everyschool.reportservice.domain.report.ProgressStatus;
 import com.everyschool.reportservice.domain.report.Report;
 import com.everyschool.reportservice.domain.report.ReportContent;
 import com.everyschool.reportservice.domain.report.ReportType;
 import com.everyschool.reportservice.domain.report.repository.ReportRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +41,7 @@ class ReportWebQueryServiceTest extends IntegrationTestSupport {
         report5.editStatus(FINISH.getCode());
 
         //when
-        List<ReportResponse> responses = reportWebQueryService.searchReports(100000L, 2023, REGISTER.getCode());
+        List<ReportResponse> responses = reportWebQueryService.searchReports(2023, 100000L, REGISTER.getCode());
 
         //then
         assertThat(responses).hasSize(1)

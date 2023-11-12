@@ -18,6 +18,7 @@ include::overview.adoc[]
 include::api/app/report/create-report.adoc[]
 include::api/app/report/search-reports.adoc[]
 include::api/app/report/search-report.adoc[]
+include::api/app/report/remove-report.adoc[]
 
 
 [[Web-Report-API]]
