@@ -81,6 +81,7 @@ public class SchoolApplyAppService {
      * @param schoolId   학교 아이디
      * @param dto        학년, 반 정보
      * @return 조회된 학급 엔티티
+     * @throws NoSuchElementException 정보가 일치하는 학급이 존재하지 않는 경우 발생
      */
     private SchoolClass getSchoolClass(int schoolYear, Long schoolId, CreateSchoolApplyDto dto) {
         Optional<SchoolClass> findSchoolClass = schoolClassAppQueryRepository.findByInfo(schoolYear, schoolId, dto.getGrade(), dto.getClassNum());
