@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.everyschool.schoolservice.api.app.service.schoolapply.InformationGenerator.*;
 import static com.everyschool.schoolservice.domain.schoolapply.ApplyType.*;
 import static com.everyschool.schoolservice.error.ErrorMessage.NO_SUCH_SCHOOL_CLASS;
 
@@ -48,8 +49,9 @@ public class SchoolApplyAppService {
         //학급 정보 조회
         SchoolClass schoolClass = getSchoolClass(schoolYear, schoolId, dto);
 
+        String info = createInformation(schoolClass.getGrade(), schoolClass.getClassNum(), studentInfo.getUserName());
         //학교 신청 엔티티 생성
-        SchoolApply schoolApply = createSchoolApplyEntity(schoolYear, studentInfo.getUserId(), schoolClass);
+        SchoolApply schoolApply = createSchoolApplyEntity(schoolYear, studentInfo.getUserId(), schoolClass, info);
 
         SchoolApply savedSchoolApply = schoolApplyRepository.save(schoolApply);
 
@@ -64,9 +66,10 @@ public class SchoolApplyAppService {
      * @param schoolClass 학급 엔티티
      * @return 생성된 학교 신청 엔티티
      */
-    private SchoolApply createSchoolApplyEntity(int schoolYear, Long userId, SchoolClass schoolClass) {
+    private SchoolApply createSchoolApplyEntity(int schoolYear, Long userId, SchoolClass schoolClass, String info) {
         return SchoolApply.builder()
             .schoolYear(schoolYear)
+            .studentInfo(info)
             .codeId(STUDENT.getCode())
             .studentId(userId)
             .parentId(null)
