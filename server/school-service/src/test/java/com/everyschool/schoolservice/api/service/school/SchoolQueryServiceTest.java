@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 class SchoolQueryServiceTest extends IntegrationTestSupport {
 
     @Autowired
-    private SchoolQueryService schoolQueryService;
+    private SchoolAppQueryService schoolQueryService;
 
     @Autowired
     private SchoolRepository schoolRepository;
@@ -58,7 +58,7 @@ class SchoolQueryServiceTest extends IntegrationTestSupport {
         //when //then
         assertThatThrownBy(() -> schoolQueryService.searchSchoolInfo(1L))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("학교 정보가 존재하지 않습니다.");
+            .hasMessage("등록이 되지 않은 학교입니다.");
     }
 
     @DisplayName("조회된 학교가 삭제된 학교라면 예외가 발생한다.")
@@ -71,7 +71,7 @@ class SchoolQueryServiceTest extends IntegrationTestSupport {
         //when //then
         assertThatThrownBy(() -> schoolQueryService.searchSchoolInfo(school.getId()))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("학교 정보가 존재하지 않습니다.");
+            .hasMessage("등록이 되지 않은 학교입니다.");
     }
 
     @DisplayName("학교 PK로 학교 정보를 조회할 수 있다.")

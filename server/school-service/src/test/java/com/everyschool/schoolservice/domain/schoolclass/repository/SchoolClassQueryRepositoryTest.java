@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 class SchoolClassQueryRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
-    private SchoolClassQueryRepository schoolClassQueryRepository;
+    private SchoolClassQueryAppRepository schoolClassQueryRepository;
 
     @Autowired
     private SchoolClassRepository schoolClassRepository;
@@ -59,7 +59,7 @@ class SchoolClassQueryRepositoryTest extends IntegrationTestSupport {
         SchoolClass schoolClass = saveSchoolClass(school);
 
         //when
-        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(school.getId(), 2023, 1, 3);
+        Optional<SchoolClass> findSchoolClass = schoolClassQueryRepository.findByInfo(2023, school.getId(), 1, 3);
 
         //then
         assertThat(findSchoolClass).isPresent();

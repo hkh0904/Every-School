@@ -1,0 +1,14 @@
+[[web-reject-school-apply]]
+=== 등록 신청 거절 API
+
+==== HTTP Request
+
+include::{snippets}/web-reject-school-apply/http-request.adoc[]
+include::{snippets}/web-reject-school-apply/request-headers.adoc[]
+include::{snippets}/web-reject-school-apply/path-parameters.adoc[]
+include::{snippets}/web-reject-school-apply/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/web-reject-school-apply/http-response.adoc[]
+include::{snippets}/web-reject-school-apply/response-fields.adoc[]

@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 웹 학교 소속 신청 조회용 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -23,6 +28,13 @@ public class SchoolApplyWebQueryController {
     private final SchoolApplyWebQueryService schoolApplyWebQueryService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 승인 대기 중인 신청 목록 조회 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @return 조회된 신청 목록
+     */
     @GetMapping("/wait-apply")
     public ApiResponse<Result<SchoolApplyResponse>> searchWaitSchoolApply(
         @PathVariable Integer schoolYear,
@@ -35,6 +47,13 @@ public class SchoolApplyWebQueryController {
         return ApiResponse.ok(Result.of(response));
     }
 
+    /**
+     * 승인된 신청 목록 조회 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @return 조회된 신청 목록
+     */
     @GetMapping("/approve-apply")
     public ApiResponse<Result<SchoolApplyResponse>> searchApproveSchoolApply(
         @PathVariable Integer schoolYear,
@@ -47,6 +66,14 @@ public class SchoolApplyWebQueryController {
         return ApiResponse.ok(Result.of(response));
     }
 
+    /**
+     * 신청 내역 상세 조회 API
+     *
+     * @param schoolYear    학년도
+     * @param schoolId      학교 아이디
+     * @param schoolApplyId 신청 아이디
+     * @return 조회된 신청 내역
+     */
     @GetMapping("/apply/{schoolApplyId}")
     public ApiResponse<SchoolApplyResponse> searchSchoolApply(
         @PathVariable Integer schoolYear,

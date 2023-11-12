@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.everyschool.schoolservice.error.ErrorMessage.UNREGISTERED_SCHOOL_APPLY;
+import static com.everyschool.schoolservice.error.ErrorMessage.NO_SUCH_SCHOOL_APPLY;
 
 @RequiredArgsConstructor
 @Service
@@ -38,7 +38,7 @@ public class SchoolApplyWebService {
     private SchoolApply getSchoolApplyEntity(Long schoolApplyId) {
         Optional<SchoolApply> findSchoolApply = schoolApplyRepository.findById(schoolApplyId);
         if (findSchoolApply.isEmpty()) {
-            throw new NoSuchElementException(UNREGISTERED_SCHOOL_APPLY.getMessage());
+            throw new NoSuchElementException(NO_SUCH_SCHOOL_APPLY.getMessage());
         }
         return findSchoolApply.get();
     }
