@@ -1,8 +1,8 @@
 package com.everyschool.schoolservice.docs.schooluser;
 
-import com.everyschool.schoolservice.api.controller.schooluser.SchoolUserQueryController;
-import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassParentResponse;
-import com.everyschool.schoolservice.api.controller.schooluser.response.MyClassStudentResponse;
+import com.everyschool.schoolservice.api.web.controller.schooluser.SchoolUserWebQueryController;
+import com.everyschool.schoolservice.api.web.controller.schooluser.response.MyClassParentResponse;
+import com.everyschool.schoolservice.api.web.controller.schooluser.response.MyClassStudentResponse;
 import com.everyschool.schoolservice.api.service.schooluser.SchoolUserQueryService;
 import com.everyschool.schoolservice.docs.RestDocsSupport;
 import com.everyschool.schoolservice.utils.TokenUtils;
@@ -32,7 +32,7 @@ public class SchoolUserQueryControllerDocsTest extends RestDocsSupport {
 
     @Override
     protected Object initController() {
-        return new SchoolUserQueryController(schoolUserQueryService, tokenUtils);
+        return new SchoolUserWebQueryController(schoolUserQueryService, tokenUtils);
     }
 
     @DisplayName("나의 학급 학생 조회 API")

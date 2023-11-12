@@ -3,7 +3,7 @@ package com.everyschool.schoolservice.docs.app.schoolapply;
 import com.everyschool.schoolservice.api.app.controller.schoolapply.SchoolApplyAppController;
 import com.everyschool.schoolservice.api.app.controller.schoolapply.response.CreateSchoolApplyResponse;
 import com.everyschool.schoolservice.api.app.service.schoolapply.SchoolApplyAppService;
-import com.everyschool.schoolservice.api.controller.schoolapply.request.CreateSchoolApplyRequest;
+import com.everyschool.schoolservice.api.app.controller.schoolapply.request.CreateSchoolApplyRequest;
 import com.everyschool.schoolservice.docs.RestDocsSupport;
 import com.everyschool.schoolservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
