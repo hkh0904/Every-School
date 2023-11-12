@@ -48,6 +48,8 @@ class _ConnectState extends State<Connect> {
 
   String? chatroomtoken;
 
+  var userInfo;
+
   void startTimer() {
     timer = Timer(Duration(seconds: timerDurationInSeconds as int), () {
       if (remoteUid == null) {
@@ -140,8 +142,8 @@ class _ConnectState extends State<Connect> {
     print('갑니다');
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) =>
-            GetCall(leave: leave, startDateTime: startDateTime),
+        builder: (context) => GetCall(
+            leave: leave, startDateTime: startDateTime, userInfo: userInfo),
       ),
     );
   }
@@ -220,7 +222,7 @@ class _ConnectState extends State<Connect> {
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation1,
                       Animation<double> animation2) =>
-                  GetCallSuccess(leave: leave) //변경 필요
+                  GetCallSuccess(leave: leave, userInfo: userInfo) //변경 필요
               ,
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,
@@ -296,6 +298,7 @@ class _ConnectState extends State<Connect> {
     super.initState();
     getChannelName(16);
     setupVoiceSDKEngine();
+    print('유저정보 ${widget.userConnect}');
   }
 
   List<bool> showParentList = List<bool>.generate(50, (index) => false);
@@ -450,6 +453,8 @@ class _ConnectState extends State<Connect> {
                                       if (channelName != null)
                                         GestureDetector(
                                           onTap: () {
+                                            userInfo =
+                                                widget.userConnect[index];
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {

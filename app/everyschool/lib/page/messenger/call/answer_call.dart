@@ -194,21 +194,18 @@ class _AnswerCallState extends State<AnswerCall> {
           SizedBox(
             height: 20,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Image.asset(
-              'assets/images/contact/call.gif',
-              height: 150,
-              width: 150,
-            ),
+          Image.asset(
+            'assets/images/contact/call.gif',
+            height: 150,
+            width: 150,
           ),
           SizedBox(
             height: 15,
           ),
-          Text(
-            widget.name,
-            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
-          ),
+          // Text(
+          //   widget.name,
+          //   style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
+          // ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,
           ),
