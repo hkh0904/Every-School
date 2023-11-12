@@ -40,4 +40,10 @@ public class ChatRoomClientController {
                                                               @PathVariable(name = "chatRoomId") Long chatRoomId) {
         return chatService.searchChatListForContentCheck(chatRoomId, date);
     }
+
+
+    @GetMapping("/test")
+    public String test(){
+        return "채팅서버 소통 됨";
+    }
 }
