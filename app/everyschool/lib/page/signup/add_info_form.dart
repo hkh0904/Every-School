@@ -102,6 +102,9 @@ class _AddInfoFormState extends State<AddInfoForm> {
                 child: TextField(
                   controller: name,
                   decoration: InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1.5, color: Color(0xff15075F))),
                       counterText: '',
                       border: UnderlineInputBorder(),
                       isDense: true,
@@ -142,7 +145,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                             }
                           },
                           controller: year,
-                          cursorColor: Color(0xffA1CBA1),
+                          cursorColor: Color(0xff15075F),
                           decoration: InputDecoration(
                               enabledBorder: yearcheck
                                   ? UnderlineInputBorder(
@@ -156,7 +159,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                 borderSide: BorderSide(
                                     width: 1.5,
                                     color: yearcheck
-                                        ? Color(0xffA1CBA1)
+                                        ? Color(0xff15075F)
                                         : Colors.red),
                               ),
                               counterText: '',
@@ -164,7 +167,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 14.0, horizontal: 10.0),
-                              focusColor: Color(0xffA1CBA1)),
+                              focusColor: Color(0xff15075F)),
                           keyboardType: TextInputType.datetime,
                         )),
                     Flexible(
@@ -190,7 +193,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                             }
                           },
                           controller: month,
-                          cursorColor: Color(0xffA1CBA1),
+                          cursorColor: Color(0xff15075F),
                           decoration: InputDecoration(
                               enabledBorder: monthcheck
                                   ? UnderlineInputBorder(
@@ -204,7 +207,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                 borderSide: BorderSide(
                                     width: 1.5,
                                     color: monthcheck
-                                        ? Color(0xffA1CBA1)
+                                        ? Color(0xff15075F)
                                         : Colors.red),
                               ),
                               counterText: '',
@@ -212,7 +215,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 14.0, horizontal: 10.0),
-                              focusColor: Color(0xffA1CBA1)),
+                              focusColor: Color(0xff15075F)),
                           keyboardType: TextInputType.datetime,
                         )),
                     Flexible(
@@ -237,7 +240,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                             }
                           },
                           maxLength: 2,
-                          cursorColor: Color(0xffA1CBA1),
+                          cursorColor: Color(0xff15075F),
                           controller: day,
                           decoration: InputDecoration(
                               enabledBorder: daycheck
@@ -252,7 +255,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                 borderSide: BorderSide(
                                     width: 1.5,
                                     color: daycheck
-                                        ? Color(0xffA1CBA1)
+                                        ? Color(0xff15075F)
                                         : Colors.red),
                               ),
                               counterText: '',
@@ -260,7 +263,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               isDense: true,
                               contentPadding: EdgeInsets.symmetric(
                                   vertical: 14.0, horizontal: 10.0),
-                              focusColor: Color(0xffA1CBA1)),
+                              focusColor: Color(0xff15075F)),
                           keyboardType: TextInputType.datetime,
                         )),
                     Flexible(
@@ -296,7 +299,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                         ),
                         menuStyle: MenuStyle(
                             shadowColor:
-                                MaterialStatePropertyAll(Colors.green)),
+                                MaterialStatePropertyAll(Color(0xff15075F))),
                         initialSelection: GenderLabel.male,
                         controller: genderController,
                         dropdownMenuEntries: genderList,
@@ -366,6 +369,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                       child: TextButton(
                           onPressed: yearcheck && monthcheck && daycheck
                               ? () async {
+                                  print(widget.type);
                                   if (month.text.length == 1) {
                                     month.text = '0${month.text}';
                                   }
@@ -375,13 +379,21 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                   birthday.text =
                                       '${year.text}-${month.text}-${day.text}';
 
-                                  final response = await UserApi().parentSignUp(
-                                      widget.type,
-                                      widget.email.text,
-                                      widget.password.text,
-                                      name.text,
-                                      birthday.text,
-                                      finalGender);
+                                  final response = widget.type == '1002'
+                                      ? await UserApi().parentSignUp(
+                                          widget.type,
+                                          widget.email.text,
+                                          widget.password.text,
+                                          name.text,
+                                          birthday.text,
+                                          finalGender)
+                                      : await UserApi().studentSignUp(
+                                          widget.type,
+                                          widget.email.text,
+                                          widget.password.text,
+                                          name.text,
+                                          birthday.text);
+
                                   print('여기는 나와서 ${response['data']}');
                                   if (response['data'] is Map) {
                                     showDialog(
@@ -436,7 +448,7 @@ class _AddInfoFormState extends State<AddInfoForm> {
                               backgroundColor: yearcheck &&
                                       monthcheck &&
                                       daycheck
-                                  ? MaterialStatePropertyAll(Color(0xffA1CBA1))
+                                  ? MaterialStatePropertyAll(Color(0xff15075F))
                                   : MaterialStatePropertyAll(Colors.grey)),
                           child: SizedBox(
                             height: 30,

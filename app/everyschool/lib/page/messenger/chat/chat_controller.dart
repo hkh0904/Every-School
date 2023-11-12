@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp.dart';
 
 class ChatController extends ChangeNotifier {
+  List chatroomList = [];
+
   List<Chat> chatList = [];
 
   /* Controllers */
@@ -13,7 +15,6 @@ class ChatController extends ChangeNotifier {
 
   /* Intents */
   Future<void> onFieldSubmitted() async {
-    print(1);
     if (!isTextFieldEnable) return;
 
     // 2. 스크롤 최적화 위치
@@ -24,17 +25,23 @@ class ChatController extends ChangeNotifier {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
-    print(22);
     textEditingController.clear();
-    print(33);
-
     notifyListeners();
-    print(44);
+  }
+
+  //채팅방 목록 요청하는 트리거
+  changechatroomList(roomList) {
+    chatroomList = roomList;
+    notifyListeners();
   }
 
   void setChatList(message) {
-    chatList = [message];
+    chatList = [...chatList, ...message];
     notifyListeners();
+  }
+
+  void clearChatList() {
+    chatList.clear();
   }
 
   void onFieldChanged(String term) {
@@ -42,9 +49,8 @@ class ChatController extends ChangeNotifier {
   }
 
   void addNewMessage(Chat message) {
-    chatList.add(message);
+    chatList = [message, ...chatList];
     notifyListeners();
-    print(chatList);
   }
 
   /* Getters */

@@ -3,6 +3,7 @@ import 'package:everyschool/page/messenger/call/call_button.dart';
 import 'package:everyschool/page/messenger/call/call_history.dart';
 
 import 'package:everyschool/page/messenger/call/call_page.dart';
+import 'package:everyschool/page/messenger/chat/chat_controller.dart';
 import 'package:everyschool/page/messenger/chat/chat_list.dart';
 import 'package:everyschool/page/messenger/chat/chat_room.dart';
 import 'package:everyschool/page/messenger/chat/connect.dart';
@@ -48,7 +49,7 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
   final storage = FlutterSecureStorage();
 
   List? userConnect;
-  List? chatList;
+
   List roomIdList = [];
   int? roomId = 0;
 
@@ -60,27 +61,22 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
     final response = await MessengerApi().getChatList(token);
 
     final contact = await MessengerApi().getUserConnect(token);
-
+    await context
+        .read<ChatController>()
+        .changechatroomList(List<Map>.from(response));
     setState(() {
-      chatList = List<Map>.from(response);
-
       userConnect = contact;
-    });
-    response.forEach((item) {
-      if (item.containsKey("roomId")) {
-        roomIdList.add(item["roomId"]);
-      }
     });
 
     return response;
   }
 
-  Future<dynamic>? chatListFuture;
+  Future<dynamic>? chatroomListFuture;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    chatListFuture = _getChatList();
+    chatroomListFuture = _getChatList();
   }
 
   @override
@@ -124,13 +120,15 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
             body: TabBarView(
               children: [
                 FutureBuilder(
-                    future: chatListFuture,
+                    future: chatroomListFuture,
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
-                        return ChatList(chatList: chatList);
+                        return ChatList(
+                            chatroomList:
+                                context.read<ChatController>().chatroomList);
                       } else if (snapshot.hasError) {
                         print(snapshot.error);
-                        print(chatList);
+
                         return Text(
                           '에러뜨니까 확인해 Error: ${snapshot.error}',
                           style: TextStyle(fontSize: 15),
@@ -165,8 +163,8 @@ class _UserTapBarState extends State<UserTapBar> {
   final storage = FlutterSecureStorage();
 
   Map<String, dynamic>? teacherConnect;
-  List chatList = [];
-  List roomIdList = [];
+  List chatroomList = [];
+
   int? roomId = 0;
 
   TextStyle tapBarTextStyle = TextStyle(fontSize: 16, color: Colors.black);
@@ -175,29 +173,25 @@ class _UserTapBarState extends State<UserTapBar> {
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
     final contact = await MessengerApi().getTeacherConnect(token);
-    print('내정보${context.read<UserStore>().userInfo}');
-    print('상대정보 $contact');
-    print(contact.runtimeType);
-
+    await context
+        .read<ChatController>()
+        .changechatroomList(List<Map>.from(response));
     setState(() {
-      chatList = response;
       teacherConnect = contact;
     });
-    response.forEach((item) {
-      if (item.containsKey("roomId")) {
-        roomIdList.add(item["roomId"]);
-      }
+    setState(() {
+      teacherConnect = contact;
     });
 
     return response;
   }
 
-  Future<dynamic>? chatListFuture;
+  Future<dynamic>? chatroomListFuture;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    chatListFuture = _getChatList();
+    chatroomListFuture = _getChatList();
   }
 
   @override
@@ -256,10 +250,10 @@ class _UserTapBarState extends State<UserTapBar> {
             body: TabBarView(
               children: [
                 FutureBuilder(
-                    future: chatListFuture,
+                    future: chatroomListFuture,
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
-                        return ChatList(chatList: chatList);
+                        return ChatList(chatroomList: chatroomList);
                       } else if (snapshot.hasError) {
                         return Center(
                           child: Text(

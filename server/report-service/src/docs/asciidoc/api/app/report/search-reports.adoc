@@ -1,9 +1,11 @@
 [[search-reports]]
-=== 신고 목록 조회 API
+=== 신고 내역 목록 조회 API
 
 ==== HTTP Request
 
 include::{snippets}/search-reports/http-request.adoc[]
+include::{snippets}/search-reports/request-headers.adoc[]
+include::{snippets}/search-reports/path-parameters.adoc[]
 
 
 ==== HTTP Response

@@ -10,6 +10,7 @@ class MessengerApi {
   //채팅방 만들기
   Future<dynamic> createChatRoom(
       token, userKey, userType, userName, mytype, myclassId) async {
+    print('여기가 1번');
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/chat-rooms',
           data: {
@@ -24,6 +25,8 @@ class MessengerApi {
             "schoolClassId": myclassId,
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('여기가 2번');
+
       print(response.data);
       print('채팅방 생성 실행');
       return response.data['data'];
@@ -46,16 +49,24 @@ class MessengerApi {
   }
 
   //채팅룸 내역 조회
-  Future<dynamic> getChatListItem(token, chatRoomId) async {
+  Future<dynamic> getChatListItem(token, chatRoomId, idx) async {
     try {
       final response = await dio.get(
-          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId',
+          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId?',
+          queryParameters: {'idx': idx},
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      print(response.data);
+
+      print('채팅 룸 내역 조회 성공');
+      print(response.data['data']);
 
       return response.data['data'];
-    } catch (e) {
+    } on DioException catch (e) {
+      print('채팅 룸 내역 조회 실패');
+
       print(e);
+      print(e.response);
+      print(e.response?.data);
+      return e.response?.data;
     }
   }
 
@@ -121,19 +132,19 @@ class CallingApi {
 
   // 전화걸때
   Future<dynamic> callOthers(token, userKey, senderName, cname) async {
-    var uuu = await storage.read(key: 'userKey') ?? "";
-    print('내 유저키 전화 $uuu');
+    var myUserKey = await storage.read(key: 'userKey') ?? "";
+    print('내 유저키 전화 $myUserKey');
     print('전화걸때 $userKey $senderName $cname');
     try {
-      final response = await dio.post(
-        '${serverApi.serverURL}/call-service/v1/calls/calling',
-        data: {
-          "otherUserKey": userKey,
-          "senderName": senderName,
-          "cname": cname
-        },
-        // options: Options(headers: {'Authorization': 'Bearer $token'})
-      );
+      final response =
+          await dio.post('${serverApi.serverURL}/call-service/v1/calls/calling',
+              data: {
+                "otherUserKey": userKey,
+                "myUserKey": myUserKey,
+                "senderName": senderName,
+                "cname": cname
+              },
+              options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('걸었어용 ${response.data}');
       print('전화걸음^^~');
       return response.data['data'];
@@ -147,7 +158,7 @@ class CallingApi {
     print('부재중 $userKey $senderName $startDateTime $endDateTime');
     try {
       final response = await dio.post(
-          '${serverApi.serverURL}/call-service/v1/calls/calling/denied',
+          '${serverApi.serverURL}/call-service/v1/calls/calling/miss',
           data: {
             "otherUserKey": userKey,
             "senderName": senderName,
@@ -176,6 +187,49 @@ class CallingApi {
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('취소 리스폰스 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> deniedCall(userKey, senderName, startDateTime) async {
+    String? token = await storage.read(key: 'token');
+    print('거절 $userKey $senderName $startDateTime');
+    DateTime dateTime = DateTime.parse(startDateTime);
+    var startTime = [
+      dateTime.year,
+      dateTime.month,
+      dateTime.day,
+      dateTime.hour,
+      dateTime.minute,
+      dateTime.second,
+      dateTime.millisecond
+    ];
+    print(startTime);
+
+    DateTime endTime = DateTime.now();
+    var endTimeList = [
+      endTime.year,
+      endTime.month,
+      endTime.day,
+      endTime.hour,
+      endTime.minute,
+      endTime.second,
+      endTime.millisecond
+    ];
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/calling/denied',
+          data: {
+            "otherUserKey": userKey,
+            "senderName": senderName,
+            "startDateTime": startTime,
+            "endDateTime": endTimeList
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('거절 리스폰스 ${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);

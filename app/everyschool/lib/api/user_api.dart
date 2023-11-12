@@ -90,7 +90,7 @@ class UserApi {
         'birth': birth,
         "parentType": gender
       });
-      print('여기 회원가입 되돌리는,${response.data}');
+      print('여기 부모 회원가입');
       return response.data;
     } catch (e) {
       print(e);
@@ -100,15 +100,16 @@ class UserApi {
   Future<dynamic> studentSignUp(code, email, password, name, birth) async {
     try {
       final response = await dio
-          .post('${serverApi.serverURL}/user-service/join/parent', data: {
+          .post('${serverApi.serverURL}/user-service/join/student', data: {
         'userCode': code,
-        'email': email.text,
-        'password': password.text,
+        'email': email,
+        'password': password,
         'name': name,
         'birth': birth,
       });
+      print('여기 학생 회원가입');
 
-      return 1;
+      return response.data;
     } catch (e) {
       print(e);
     }
@@ -140,6 +141,37 @@ class UserApi {
     } catch (e) {
       print(e);
       // rethrow;
+    }
+  }
+
+  //이메일 인증
+  Future<dynamic> authEmail(email) async {
+    print(email);
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.post(
+          '${serverApi.serverURL}/user-service/auth/email',
+          data: {'email': email});
+      print('실행');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+      // rethrow;
+    }
+  }
+
+  Future<dynamic> checkAuthNumber(email, code) async {
+    print(email);
+    print(code);
+
+    try {
+      // final deviceToken = getMyDeviceToken();
+      final response = await dio.post(
+          '${serverApi.serverURL}/user-service/auth/email/check',
+          data: {"email": email, "authCode": code.toString()});
+      return response.data;
+    } on DioException catch (e) {
+      return e.response?.data;
     }
   }
 }

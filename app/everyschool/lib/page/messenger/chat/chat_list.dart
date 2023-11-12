@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ChatList extends StatefulWidget {
-  const ChatList({super.key, this.chatList});
+  const ChatList({super.key, this.chatroomList});
 
-  final chatList;
+  final chatroomList;
 
   @override
   State<ChatList> createState() => _ChatListState();
@@ -71,16 +71,16 @@ class _ChatListState extends State<ChatList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('제발 쳇리스트 ${widget.chatList}');
+    print('제발 쳇리스트 ${widget.chatroomList}');
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.chatList == null
+    return widget.chatroomList == null
         ? Container()
         : Container(
             child: ListView.builder(
-                itemCount: widget.chatList.length,
+                itemCount: widget.chatroomList.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
@@ -88,7 +88,7 @@ class _ChatListState extends State<ChatList> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ChatRoom(roomInfo: widget.chatList[index]),
+                              ChatRoom(roomInfo: widget.chatroomList[index]),
                         ),
                       );
                     },
@@ -130,7 +130,7 @@ class _ChatListState extends State<ChatList> {
                                 children: [
                                   Container(
                                     child: Text(
-                                      widget.chatList?[index]
+                                      widget.chatroomList?[index]
                                           ['opponentUserName'],
                                       style: TextStyle(
                                         fontSize: 15,
@@ -140,7 +140,7 @@ class _ChatListState extends State<ChatList> {
                                   ),
                                   SizedBox(
                                     child: Text(
-                                      formatText(widget.chatList?[index]
+                                      formatText(widget.chatroomList?[index]
                                           ['lastMessage']),
                                       style: TextStyle(fontSize: 13),
                                     ),
@@ -150,7 +150,7 @@ class _ChatListState extends State<ChatList> {
                             ),
                           ),
                           Text(formatDateTime(
-                              widget.chatList?[index]['updateTime'])),
+                              widget.chatroomList?[index]['updateTime'])),
                         ],
                       ),
                     ),
