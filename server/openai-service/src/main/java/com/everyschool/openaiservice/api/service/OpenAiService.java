@@ -51,8 +51,8 @@ public class OpenAiService {
         log.debug("[AI 실행] 서비스 실행 됨");
         LocalDate checkDate = LocalDate.now().minusDays(1);
         log.debug("[AI 실행] 채팅 서비스 요청하기");
-        List<Long> roomIds = chatServiceClient.searchChatRoomIdByDate(checkDate);
-        log.debug("[AI 실행] 채팅 서비스에서 목록 불러옴. 크기 = {}", roomIds.size());
+        String roomIds = chatServiceClient.test();
+        log.debug("[AI 실행] 채팅 서비스 결과테 = {}", roomIds);
 
 
         GptResponse gptResponse = gptServiceClient.requestGpt(

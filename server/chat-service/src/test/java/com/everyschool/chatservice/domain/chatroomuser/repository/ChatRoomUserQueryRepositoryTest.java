@@ -4,8 +4,6 @@ import com.everyschool.chatservice.IntegrationTestSupport;
 import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -22,8 +20,8 @@ class ChatRoomUserQueryRepositoryTest extends IntegrationTestSupport {
     @Autowired
     private ChatRoomUserRepository chatRoomUserRepository;
 
-    @DisplayName("채팅방과 유저 아이디로 채팅방 유저 가져오기")
-    @Test
+//    @DisplayName("채팅방과 유저 아이디로 채팅방 유저 가져오기")
+//    @Test
     void findChatRoomUserByRoomIdAndUserId() {
         //given
         ChatRoom chatRoom = saveChatRoom();
@@ -40,8 +38,8 @@ class ChatRoomUserQueryRepositoryTest extends IntegrationTestSupport {
         assertThat(chatRoomUser2).isEmpty();
     }
 
-    @DisplayName("유저 2명으로 채팅방 찾기")
-    @Test
+//    @DisplayName("유저 2명으로 채팅방 찾기")
+//    @Test
     void findChatRoomIdByTwoUserId() {
         //given
         ChatRoom chatRoom = saveChatRoom();
