@@ -1,9 +1,9 @@
-package com.everyschool.schoolservice.docs.school;
+package com.everyschool.schoolservice.docs.app.school;
 
-import com.everyschool.schoolservice.api.controller.school.SchoolQueryController;
+import com.everyschool.schoolservice.api.app.controller.school.SchoolAppQueryController;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolDetailResponse;
 import com.everyschool.schoolservice.api.controller.school.response.SchoolResponse;
-import com.everyschool.schoolservice.api.service.school.SchoolQueryService;
+import com.everyschool.schoolservice.api.service.school.SchoolAppQueryService;
 import com.everyschool.schoolservice.docs.RestDocsSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,14 +28,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class SchoolQueryControllerDocsTest extends RestDocsSupport {
 
-    private final SchoolQueryService schoolQueryService = mock(SchoolQueryService.class);
+    private final SchoolAppQueryService schoolQueryService = mock(SchoolAppQueryService.class);
+    private static final String BASE_URL = "/school-service/v1/schools";
 
     @Override
     protected Object initController() {
-        return new SchoolQueryController(schoolQueryService);
+        return new SchoolAppQueryController(schoolQueryService);
     }
 
-    @DisplayName("학교 리스트 조회 API")
+    @DisplayName("학교 목록 조회 API")
     @Test
     void searchSchools() throws Exception {
         SchoolResponse response1 = SchoolResponse.builder()
@@ -68,7 +69,7 @@ public class SchoolQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(responses);
 
         mockMvc.perform(
-                get("/school-service/v1/schools")
+                get(BASE_URL)
                     .param("query", "수완")
             )
             .andDo(print())
@@ -115,7 +116,7 @@ public class SchoolQueryControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                get("/school-service/v1/schools/{schoolId}", 1L)
+                get(BASE_URL + "/{schoolId}", 1L)
             )
             .andDo(print())
             .andExpect(status().isOk())
