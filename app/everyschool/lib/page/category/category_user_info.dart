@@ -81,7 +81,7 @@ class _CategoryUserInfoState extends State<CategoryUserInfo> {
                             colors: [Color(0xff15075F), Color(0xff594AAA)],
                           )),
                       child: Text(
-                        '개인정보 수정',
+                        '내정보',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.white),
                       )),
