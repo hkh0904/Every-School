@@ -17,12 +17,16 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +41,7 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
         return new SchoolApplyAppController(schoolApplyAppService, tokenUtils);
     }
 
-    @DisplayName("[학생] 학급 등록 신청 API")
+    @DisplayName("학교 소속 신청 API")
     @Test
     void createSchoolApply() throws Exception {
         CreateSchoolApplyRequest request = CreateSchoolApplyRequest.builder()
@@ -66,15 +70,23 @@ public class SchoolApplyAppControllerDocsTest extends RestDocsSupport {
             )
             .andDo(print())
             .andExpect(status().isCreated())
-            .andDo(document("create-school-apply",
+            .andDo(document("app-create-school-apply",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestHeaders(
+                    headerWithName("Authorization")
+                        .description("Bearer Access Token")
+                ),
+                pathParameters(
+                    parameterWithName("schoolYear")
+                        .description("학년도"),
+                    parameterWithName("schoolId")
+                        .description("학교 아이디")
+                ),
                 requestFields(
                     fieldWithPath("grade").type(JsonFieldType.NUMBER)
-                        .optional()
                         .description("신청 학년"),
                     fieldWithPath("classNum").type(JsonFieldType.NUMBER)
-                        .optional()
                         .description("신청 반")
                 ),
                 responseFields(
