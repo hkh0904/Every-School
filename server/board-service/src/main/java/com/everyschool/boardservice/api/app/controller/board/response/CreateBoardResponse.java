@@ -1,4 +1,4 @@
-package com.everyschool.boardservice.api.controller.board.response;
+package com.everyschool.boardservice.api.app.controller.board.response;
 
 import com.everyschool.boardservice.domain.board.Board;
 import com.everyschool.boardservice.domain.board.Category;

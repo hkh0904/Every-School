@@ -127,6 +127,6 @@ public class UserQueryService {
     }
 
     public UserResponse searchUserById(Long userId) {
-        return null;
+        return userQueryRepository.findUserById(userId);
     }
 }
