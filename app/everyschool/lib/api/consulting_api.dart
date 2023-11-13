@@ -62,8 +62,6 @@ class ConsultingApi {
       final response = await dio.get(
           '${serverApi.serverURL}/user-service/v1/app/$year/schools/$schoolId/students',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      print('성생님 연락처');
-      print(response.data);
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -73,8 +71,6 @@ class ConsultingApi {
   Future<dynamic> getConsultSchedule(
       schoolId, year, consultId, teacherId) async {
     String? token = await storage.read(key: 'token');
-    print(
-        'consult-service/v1/app/$year/schools/$schoolId/consult-schedules/$teacherId');
 
     try {
       final response = await dio.get(
@@ -82,6 +78,32 @@ class ConsultingApi {
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       return response.data['data'];
+    } catch (e) {
+      print(e);
+      return 0;
+    }
+  }
+
+  Future<dynamic> registerConsult(year, schoolId, teacherKey, studentKey,
+      typeId, consultDateTime, message) async {
+    String? token = await storage.read(key: 'token');
+    var data = {
+      "teacherKey": teacherKey,
+      "studentKey": studentKey,
+      "typeId": typeId,
+      "consultDateTime": consultDateTime,
+      "message": message
+    };
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/consult-service/v1/app/$year/schools/$schoolId/consults',
+          data: data,
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      print(response.data);
+
+      return response.data;
     } catch (e) {
       print(e);
       return 0;
