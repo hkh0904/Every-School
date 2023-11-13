@@ -8,14 +8,18 @@ import java.time.LocalDate;
 @Data
 public class WarningChatReviewResponse {
 
-    private Long chatReviewId;
     private Long chatRoomId;
-    private LocalDate chatDate;
+    private Long reportId;
+    private String type;
+    private String reportedName;
+    private LocalDate reportedDate;
 
     @Builder
-    public WarningChatReviewResponse(Long chatReviewId, Long chatRoomId, LocalDate chatDate) {
-        this.chatReviewId = chatReviewId;
+    public WarningChatReviewResponse(Long chatReviewId, Long chatRoomId, LocalDate chatDate, String roomTitle) {
+        this.reportId = chatReviewId;
         this.chatRoomId = chatRoomId;
-        this.chatDate = chatDate;
+        this.type = "채팅";
+        this.reportedDate = chatDate;
+        this.reportedName = roomTitle;
     }
 }
