@@ -38,25 +38,27 @@ public class StompHandler implements ChannelInterceptor {
                 log.debug("[소켓] CONNECT");
                 break;
             case SUBSCRIBE:
+                log.debug("[소켓] SUBSCRIBE");
                 log.debug("[소켓] 채팅방 구독 해야함");
                 Long chatRoomId = connectToChatRoom(accessor, headers);
                 log.debug("[소켓] 채팅방 구독한 채팅 방 = {}", chatRoomId);
                 break;
             case SEND:
                 log.debug("[소켓] SEND");
-
+                break;
+            case UNSUBSCRIBE:
+                log.debug("[소켓] UNSUBSCRIBE");
+                unsubscribeToChatRoom(headers);
                 break;
             case DISCONNECT:
                 log.debug("[소켓] DISCONNECT");
-                log.debug("[소켓] 채팅방 인원수 감소");
-                disconnectToChatRoom(headers);
                 break;
         }
     }
 
-    private void disconnectToChatRoom(MessageHeaders headers) {
+    private void unsubscribeToChatRoom(MessageHeaders headers) {
         Long chatRoomId = getChatRoomNo(headers);
-        log.debug("[소켓] 인원수 감소. 채팅방 Id = {}", chatRoomId);
+        log.debug("[소켓] 구독 취소. 인원수 감소. 채팅방 Id = {}", chatRoomId);
         chatRoomService.disconnect(chatRoomId);
     }
 
@@ -79,7 +81,6 @@ public class StompHandler implements ChannelInterceptor {
         }
     }
 
-    // TODO: 2023-11-13 여기하는중 연결 끊어질때 정보 필요 디스커넷이 아니라 구독취소로 바꾸기
     private Long getChatRoomNo(MessageHeaders headers) {
         String roomId = getRoomId(Optional.ofNullable((String)
                 headers.get("simpDestination")).orElse("InvalidRoomId"));
