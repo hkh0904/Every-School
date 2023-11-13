@@ -61,8 +61,8 @@ public class ChatRoomUserQueryRepository {
         return Optional.ofNullable(queryFactory
                 .select(chatRoomUser.userId)
                 .from(chatRoomUser)
-                .join(chatRoom).on(chatRoom.id.eq(chatRoomId))
-                .where(chatRoomUser.userId.ne(senderUserId))
+                .where(chatRoomUser.chatRoom.id.eq(chatRoomId),
+                        chatRoomUser.userId.ne(senderUserId))
                 .fetchOne());
     }
 
