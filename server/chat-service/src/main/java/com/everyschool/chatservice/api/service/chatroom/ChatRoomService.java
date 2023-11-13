@@ -1,6 +1,8 @@
 package com.everyschool.chatservice.api.service.chatroom;
 
+import com.everyschool.chatservice.api.client.SchoolServiceClient;
 import com.everyschool.chatservice.api.client.UserServiceClient;
+import com.everyschool.chatservice.api.client.response.SchoolClassInfo;
 import com.everyschool.chatservice.api.client.response.UserInfo;
 import com.everyschool.chatservice.api.controller.chatroom.response.CreateChatRoomResponse;
 import com.everyschool.chatservice.api.service.chatroom.dto.CreateChatRoomDto;
@@ -29,6 +31,7 @@ public class ChatRoomService {
     private final ChatRoomUserQueryRepository chatRoomUserQueryRepository;
 
     private final UserServiceClient userServiceClient;
+    private final SchoolServiceClient schoolServiceClient;
 
     private final RedisUtils redisUtil;
 
@@ -54,7 +57,7 @@ public class ChatRoomService {
 
         // 채팅방 생성
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder().build());
-
+        // 채팅방 유저 생성
         ChatRoomUser opponentRoom = createChatRoomUser(loginUser.getUserName(), loginUser, dto.getSchoolClassId(), opponentUser.getUserId(), chatRoom);
         ChatRoomUser loginUserRoom = createChatRoomUser(opponentUser.getUserName(), opponentUser, dto.getSchoolClassId(), loginUser.getUserId(), chatRoom);
 
@@ -74,7 +77,7 @@ public class ChatRoomService {
         String childName = "";
         if (opponentUser.getUserType() == 'M' || opponentUser.getUserType() == 'F') {
             // 부모와 학급키로 학급에 다니는 자녀 이름 요청
-            childName = userServiceClient.searchChildName(opponentUser.getUserId(), dto.getSchoolClassId());
+            childName = userServiceClient.searchUsername(dto.getSchoolClassId(), opponentUser.getUserId());
         }
         return CreateChatRoomResponse.builder()
                 .roomId(findRoomId)
@@ -91,7 +94,7 @@ public class ChatRoomService {
      * @param userId
      */
     public void connectChatRoom(Long chatRoomId, Long userId) {
-        String chatRoomUserCountKey = "CHAR_ROOM_USER_COUNT_" + chatRoomId;
+        String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + chatRoomId;
         String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
         if (roomUserCount == null) {
             roomUserCount = String.valueOf(0);
@@ -119,10 +122,10 @@ public class ChatRoomService {
         String childName = "";
         if (opponentUser.getUserType() == 'M' || opponentUser.getUserType() == 'F') {
             // 부모와 학급키로 학급에 다니는 자녀 이름 요청
-            childName = userServiceClient.searchChildName(opponentUser.getUserId(), schoolClassId);
+            childName = userServiceClient.searchUsername(schoolClassId, opponentUser.getUserId());
         }
         return ChatRoomUser.builder()
-                .chatRoomTitle(title)
+                .chatRoomTitle(generateChatRoomTitle(opponentUser, schoolClassId))
                 .childName(childName)
                 .userId(userId)
                 .opponentUserType(String.valueOf(opponentUser.getUserType()))
@@ -132,13 +135,45 @@ public class ChatRoomService {
                 .build();
     }
 
+    private String generateChatRoomTitle(UserInfo opponentUser, Long schoolClassId) {
+        StringBuilder sb = new StringBuilder();
+        SchoolClassInfo schoolClassInfo = schoolServiceClient.searchSchoolClassInfo(schoolClassId);
+
+        char opponentUserUserType = opponentUser.getUserType();
+        if (opponentUserUserType == 'M' || opponentUserUserType == 'F') {
+            // 부모
+            String childName = userServiceClient.searchUsername(schoolClassId, opponentUser.getUserId());
+            sb.append(schoolClassInfo.getClassName())
+                    .append(childName);
+            if (opponentUserUserType == 'M') {
+                sb.append(" 아버지");
+            } else {
+                sb.append(" 어머니");
+            }
+        } else if (opponentUserUserType == 'S') {
+            // 학생
+            sb.append(schoolClassInfo.getClassName())
+                    .append(opponentUser.getUserName())
+                    .append(" 학생");
+        } else {
+            // 교사
+            sb.append(schoolClassInfo.getClassName())
+                    .append(opponentUser.getUserName())
+                    .append(" 선생님");
+        }
+        return sb.toString();
+    }
+
     public void disconnect(Long chatRoomId) {
-        String chatRoomUserCountKey = "CHAR_ROOM_USER_COUNT_" + chatRoomId;
+        log.debug("[소켓] 인원수 감소. ChatRoomService, disconnect. 채팅방 Id = {}", chatRoomId);
+        String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + chatRoomId;
         String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        log.debug("[소켓] 지금 채팅방 인원 수 = {}", roomUserCount);
         if (roomUserCount == null) {
             roomUserCount = String.valueOf(0);
         }
         int count = Integer.parseInt(roomUserCount) - 1;
         redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
+        log.debug("[소켓] 감소 후 채팅방 인원 수 = {}", redisUtil.getString(chatRoomUserCountKey));
     }
 }
