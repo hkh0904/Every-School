@@ -56,6 +56,7 @@ public class StompHandler implements ChannelInterceptor {
 
     private void disconnectToChatRoom(MessageHeaders headers) {
         Long chatRoomId = getChatRoomNo(headers);
+        log.debug("[소켓] 인원수 감소. 채팅방 Id = {}", chatRoomId);
         chatRoomService.disconnect(chatRoomId);
     }
 
@@ -78,6 +79,7 @@ public class StompHandler implements ChannelInterceptor {
         }
     }
 
+    // TODO: 2023-11-13 여기하는중 연결 끊어질때 정보 필요 디스커넷이 아니라 구독취소로 바꾸기
     private Long getChatRoomNo(MessageHeaders headers) {
         String roomId = getRoomId(Optional.ofNullable((String)
                 headers.get("simpDestination")).orElse("InvalidRoomId"));

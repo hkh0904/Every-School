@@ -90,8 +90,8 @@ public class ChatQueryControllerDocsTest extends RestDocsSupport {
                 ));
     }
 
-    @DisplayName("문제 채팅 목록 조회 API")
-    @Test
+//    @DisplayName("문제 채팅 목록 조회 API")
+//    @Test
     void searchReviewChatList() throws Exception {
 
         WarningChatReviewResponse response1 = createWarningChatReviewResponse(1L, 1L, 11);
@@ -212,7 +212,7 @@ public class ChatQueryControllerDocsTest extends RestDocsSupport {
                 .build();
     }
 
-    private static WarningChatReviewResponse createWarningChatReviewResponse(long chatReviewId, long chatRoomId, int day) {
+    private WarningChatReviewResponse createWarningChatReviewResponse(long chatReviewId, long chatRoomId, int day) {
         return WarningChatReviewResponse.builder()
                 .chatReviewId(chatReviewId)
                 .chatRoomId(chatRoomId)

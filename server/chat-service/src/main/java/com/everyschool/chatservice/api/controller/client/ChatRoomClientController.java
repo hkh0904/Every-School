@@ -43,7 +43,8 @@ public class ChatRoomClientController {
 
 
     @GetMapping("/test")
-    public String test(){
+    public String test() {
         return "채팅서버 소통 됨";
     }
+    // TODO: 2023-11-13 이거 왜 안됨? 
 }
