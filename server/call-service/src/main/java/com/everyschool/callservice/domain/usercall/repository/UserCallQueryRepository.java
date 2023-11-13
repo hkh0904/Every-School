@@ -6,7 +6,6 @@ import com.everyschool.callservice.api.controller.usercall.response.UserCallRepo
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -110,20 +109,21 @@ public class UserCallQueryRepository {
         return queryFactory
                 .select(Projections.constructor(
                         ReportCallsResponse.class,
-                        userCall.id.as("userCallId"),
-                        Expressions.asString("통화").as("type"),
+                        userCall.id,
+//                        Expressions.asString("통화").as("type"),
                         new CaseBuilder()
                             .when(userCall.sender.eq("O"))
                             .then(userCall.senderName)
                             .otherwise(userCall.receiverName)
                             .as("reportedName"),
-                        userCall.endDateTime.as("reportedTime")
+                        userCall.endDateTime
                 ))
                 .from(userCall)
                 .where(
                         userCall.teacherId.eq(userId),
                         userCall.isBad.isTrue()
                 )
+                .orderBy(userCall.endDateTime.desc())
                 .fetch();
     }
 }

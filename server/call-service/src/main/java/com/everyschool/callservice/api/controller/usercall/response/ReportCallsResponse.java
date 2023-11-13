@@ -1,10 +1,12 @@
 package com.everyschool.callservice.api.controller.usercall.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -12,16 +14,17 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReportCallsResponse {
 
+    @JsonProperty(namespace = "reportId")
     private Long userCallId;
     private String type;
     private String reportedName;
-    private LocalDateTime reportedTime;
+    private LocalDate reportedDate;
 
     @Builder
-    public ReportCallsResponse(Long userCallId, String type, String reportedName, LocalDateTime reportedTime) {
+    public ReportCallsResponse(Long userCallId, String reportedName, LocalDateTime reportedDate) {
         this.userCallId = userCallId;
-        this.type = type;
         this.reportedName = reportedName;
-        this.reportedTime = reportedTime;
+        this.reportedDate = reportedDate.toLocalDate();
+        this.type = "통화";
     }
 }

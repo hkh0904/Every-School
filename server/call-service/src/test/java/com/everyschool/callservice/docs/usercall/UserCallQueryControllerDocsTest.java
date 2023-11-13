@@ -208,21 +208,21 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
     void searchReportCalls() throws Exception {
         ReportCallsResponse response1 = ReportCallsResponse.builder()
                 .userCallId(1L)
-                .type("통화")
+//                .type("통화")
                 .reportedName("김민기")
-                .reportedTime(LocalDateTime.now().minusDays(5))
+                .reportedDate(LocalDateTime.now().minusDays(1))
                 .build();
         ReportCallsResponse response2 = ReportCallsResponse.builder()
                 .userCallId(2L)
-                .type("통화")
+//                .type("통화")
                 .reportedName("홍경환")
-                .reportedTime(LocalDateTime.now().minusDays(3))
+                .reportedDate(LocalDateTime.now().minusDays(2))
                 .build();
         ReportCallsResponse response3 = ReportCallsResponse.builder()
                 .userCallId(3L)
-                .type("통화")
+//                .type("통화")
                 .reportedName("오연주")
-                .reportedTime(LocalDateTime.now().minusHours(4))
+                .reportedDate(LocalDateTime.now().minusDays(3))
                 .build();
 
         List<ReportCallsResponse> responseList = List.of(response1, response2, response3);
@@ -248,12 +248,12 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                                 fieldWithPath("data").type(JsonFieldType.ARRAY)
                                         .description("응답 데이터"),
                                 fieldWithPath("data[].userCallId").type(JsonFieldType.NUMBER)
-                                        .description("통화 ID"),
+                                        .description("통화 신고 ID"),
                                 fieldWithPath("data[].type").type(JsonFieldType.STRING)
                                         .description("타입(통화)"),
                                 fieldWithPath("data[].reportedName").type(JsonFieldType.STRING)
                                         .description("민원인"),
-                                fieldWithPath("data[].reportedTime").type(JsonFieldType.ARRAY)
+                                fieldWithPath("data[].reportedDate").type(JsonFieldType.ARRAY)
                                         .description("신고된 날짜")
 
                         )
