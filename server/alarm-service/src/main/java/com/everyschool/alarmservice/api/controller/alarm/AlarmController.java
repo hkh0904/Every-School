@@ -2,10 +2,12 @@ package com.everyschool.alarmservice.api.controller.alarm;
 
 import com.everyschool.alarmservice.api.ApiResponse;
 import com.everyschool.alarmservice.api.controller.alarm.request.SendAlarmRequest;
+import com.everyschool.alarmservice.api.controller.alarm.response.AlarmResponse;
 import com.everyschool.alarmservice.api.controller.alarm.response.RemoveAlarmResponse;
 import com.everyschool.alarmservice.api.controller.alarm.response.SendAlarmResponse;
 import com.everyschool.alarmservice.api.service.alarm.AlarmMasterService;
 import com.everyschool.alarmservice.api.service.alarm.AlarmService;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,15 +28,24 @@ public class AlarmController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ApiResponse<SendAlarmResponse> sendAlarm(@Valid @RequestBody SendAlarmRequest request) {
-        log.debug("call senderUserKey#sendAlarm");
+    public ApiResponse<SendAlarmResponse> sendAlarm(@Valid @RequestHeader("Authorization") String token,
+                                                    @RequestBody SendAlarmRequest request) throws FirebaseMessagingException {
+        log.debug("call AlarmController#sendAlarm");
         log.debug("SendAlarmRequest={}", request);
 
-        // TODO: 2023-10-26 임우택 토큰에서 꺼내기
-        String senderUserKey = UUID.randomUUID().toString();
+        SendAlarmResponse response = alarmMasterService.createAlarm(token, request.toDto());
+        log.debug("SendAlarmResponse={}", response);
 
-        SendAlarmResponse response = alarmMasterService.createAlarm(senderUserKey, request.toDto());
-        log.debug("SendAlarmResponse={}", request);
+        return ApiResponse.created(response);
+    }
+
+    @PatchMapping("/{alarmId}")
+    public ApiResponse<AlarmResponse> updateIsRead(@PathVariable Long alarmId) {
+        log.debug("call AlarmController#updateIsRead");
+        log.debug("alarmId={}", alarmId);
+
+        AlarmResponse response = alarmMasterService.updateIsRead(alarmId);
+        log.debug("SendAlarmResponse={}", response);
 
         return ApiResponse.created(response);
     }
