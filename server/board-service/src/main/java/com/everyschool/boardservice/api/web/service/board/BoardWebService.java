@@ -13,6 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.everyschool.boardservice.domain.board.Category.COMMUNICATION;
 import static com.everyschool.boardservice.domain.board.Category.NOTICE;
 
+/**
+ * 웹 게시물 서비스
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -21,6 +26,14 @@ public class BoardWebService {
     private final BoardRepository boardRepository;
     private final UserServiceClient userServiceClient;
 
+    /**
+     * 공지사항 등록
+     *
+     * @param userKey  회원 고유키
+     * @param schoolId 학교 아이디
+     * @param dto      등록할 공지사항 정보
+     * @return 등록된 공지사항 정보
+     */
     public CreateBoardResponse createNoticeBoard(String userKey, Long schoolId, CreateBoardDto dto) {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
@@ -31,6 +44,14 @@ public class BoardWebService {
         return CreateBoardResponse.of(savedBoard);
     }
 
+    /**
+     * 가정통신문 등록
+     *
+     * @param userKey  회원 고유키
+     * @param schoolId 학교 아이디
+     * @param dto      등록할 가정통신문 정보
+     * @return 등록된 가정통신문 정보
+     */
     public CreateBoardResponse createCommunicationBoard(String userKey, Long schoolId, CreateBoardDto dto) {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 

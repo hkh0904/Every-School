@@ -1,7 +1,7 @@
 package com.everyschool.userservice.api.controller.client;
 
 import com.everyschool.userservice.api.controller.client.response.StudentParentInfo;
-import com.everyschool.userservice.api.controller.client.response.StudentResponse;
+import com.everyschool.userservice.api.controller.client.response.UserResponse;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
 import com.everyschool.userservice.api.service.user.AccountService;
 import com.everyschool.userservice.api.service.user.StudentParentQueryService;
@@ -69,10 +69,10 @@ public class UserClientController {
      * @return 학생 정보
      */
     @PostMapping("/student-info")
-    public List<StudentResponse> searchByStudentIdIn(@RequestBody List<Long> studentIds) {
+    public List<UserResponse> searchByStudentIdIn(@RequestBody List<Long> studentIds) {
         log.debug("call UserClientController#searchByStudentIdIn");
 
-        List<StudentResponse> response = userQueryService.searchByStudentIdIn(studentIds);
+        List<UserResponse> response = userQueryService.searchByStudentIdIn(studentIds);
         log.debug("results={}", response);
 
         return response;
@@ -123,5 +123,14 @@ public class UserClientController {
         log.debug("fcmToken={}", fcmToken);
 
         return fcmToken;
+    }
+
+    @GetMapping("/user-info/{userId}/user-response")
+    public UserResponse searchUserById(@PathVariable(name = "userId") Long userId) {
+
+        UserResponse response = userQueryService.searchUserById(userId);
+        log.debug("response={}", response);
+
+        return response;
     }
 }
