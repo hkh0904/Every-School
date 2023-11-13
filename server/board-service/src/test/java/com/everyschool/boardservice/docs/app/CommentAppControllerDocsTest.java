@@ -108,9 +108,9 @@ public class CommentAppControllerDocsTest extends RestDocsSupport {
 
         CreateCommentResponse response = CreateCommentResponse.builder()
             .commentId(2L)
-            .parentCommentId(null)
+            .parentCommentId(1L)
             .content("이예리 바보")
-            .depth(0)
+            .depth(1)
             .createdDate(LocalDateTime.now())
             .build();
 
@@ -118,7 +118,7 @@ public class CommentAppControllerDocsTest extends RestDocsSupport {
             .willReturn(response);
 
         mockMvc.perform(
-                post(BASE_URL, 2023, 100000, 1)
+                post(BASE_URL + "/{commentId}", 2023, 100000, 1, 1)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )

@@ -26,7 +26,7 @@ public class KafkaConsumer {
      *
      * @param kafkaMessage 카프카 큐잉 메세지
      */
-    @KafkaListener(topics = "apply-school-topic")
+    @KafkaListener(topics = "parent-school-apply")
     public void createParentSchoolApply(String kafkaMessage) {
         Map<Object, Object> map = getMap(kafkaMessage);
 
@@ -58,4 +58,3 @@ public class KafkaConsumer {
         return map;
     }
 }
-

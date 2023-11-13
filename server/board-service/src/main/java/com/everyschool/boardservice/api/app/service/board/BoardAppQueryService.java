@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.everyschool.boardservice.api.app.controller.board.response.FreeBoardDetailResponse.*;
 import static com.everyschool.boardservice.domain.board.Category.*;
+import static com.everyschool.boardservice.error.ErrorMessage.NO_SUCH_BOARD;
 
 /**
  * 앱 게시판 조회용 서비스
@@ -125,19 +127,14 @@ public class BoardAppQueryService {
     public FreeBoardDetailResponse searchFreeBoard(Long boardId, String userKey) {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
-        Optional<Board> findBoard = boardRepository.findById(boardId);
-        if (findBoard.isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        Board board = findBoard.get();
+        Board board = getBoardEntity(boardId);
 
-        List<String> imageUrls = board.getFiles().stream()
-            .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
-            .collect(Collectors.toList());
+        List<String> imageUrls = getFileUrls(board);
 
         List<Comment> comments = commentRepository.findByBoardId(boardId);
 
         List<Comment> parentComments = new ArrayList<>();
+
         Map<Long, List<Comment>> commentMap = new HashMap<>();
         for (Comment comment : comments) {
             if (comment.getParent().getId() != null) {
@@ -148,23 +145,23 @@ public class BoardAppQueryService {
             parentComments.add(comment);
         }
 
-        List<FreeBoardDetailResponse.CommentVo> commentVos = new ArrayList<>();
+        List<CommentVo> commentVos = new ArrayList<>();
+
         for (Comment comment : parentComments) {
             List<Comment> childComments = commentMap.getOrDefault(comment.getId(), List.of());
-            List<FreeBoardDetailResponse.ReCommentVo> reComments = new ArrayList<>();
-            for (Comment childComment : childComments) {
-                FreeBoardDetailResponse.ReCommentVo vo = FreeBoardDetailResponse.ReCommentVo.builder()
+
+            List<ReCommentVo> reComments = childComments.stream()
+                .map(childComment -> ReCommentVo.builder()
                     .commentId(childComment.getId())
                     .sender(childComment.getAnonymousNum())
                     .content(childComment.getContent())
                     .depth(childComment.getDepth())
                     .isMine(childComment.getUserId().equals(userInfo.getUserId()))
                     .createdDate(childComment.getCreatedDate())
-                    .build();
-                reComments.add(vo);
-            }
+                    .build())
+                .collect(Collectors.toList());
 
-            FreeBoardDetailResponse.CommentVo.builder()
+            CommentVo commentVo = CommentVo.builder()
                 .commentId(comment.getId())
                 .sender(comment.getAnonymousNum())
                 .content(comment.getContent())
@@ -173,12 +170,41 @@ public class BoardAppQueryService {
                 .createdDate(comment.getCreatedDate())
                 .reComments(reComments)
                 .build();
+
+            commentVos.add(commentVo);
         }
 
-        return FreeBoardDetailResponse.of(board, imageUrls, commentVos);
+        return of(board, imageUrls, commentVos);
     }
 
+    // TODO: 2023-11-13 조회 구현
     public BoardDetailResponse searchBoard(Long boardId, String userKey) {
         return null;
+    }
+
+    /**
+     * 게시물 아이디로 게시물 엔티티 조회
+     *
+     * @param boardId 게시물 아이디
+     * @return 조회된 게시물
+     */
+    private Board getBoardEntity(Long boardId) {
+        Optional<Board> findBoard = boardRepository.findById(boardId);
+        if (findBoard.isEmpty()) {
+            throw new NoSuchElementException(NO_SUCH_BOARD.getMessage());
+        }
+        return findBoard.get();
+    }
+
+    /**
+     * 파일 URL 조회
+     *
+     * @param board 게시물 엔티티
+     * @return 조회된 게시물 URL 목록
+     */
+    private List<String> getFileUrls(Board board) {
+        return board.getFiles().stream()
+            .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
+            .collect(Collectors.toList());
     }
 }

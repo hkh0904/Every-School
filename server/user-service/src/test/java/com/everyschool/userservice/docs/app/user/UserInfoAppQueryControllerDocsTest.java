@@ -133,6 +133,7 @@ public class UserInfoAppQueryControllerDocsTest extends RestDocsSupport {
             .build();
         ParentInfoResponse.Descendant descendant = ParentInfoResponse.Descendant.builder()
             .userId(2L)
+            .userKey(UUID.randomUUID().toString())
             .userType(STUDENT.getCode())
             .studentNumber(10301)
             .name("이리온")
@@ -182,6 +183,8 @@ public class UserInfoAppQueryControllerDocsTest extends RestDocsSupport {
                         .description("가입 일시"),
                     fieldWithPath("data.descendants[].userId").type(JsonFieldType.NUMBER)
                         .description("자식 회원 아이디"),
+                    fieldWithPath("data.descendants[].userKey").type(JsonFieldType.STRING)
+                        .description("자식 회원 고유키"),
                     fieldWithPath("data.descendants[].userType").type(JsonFieldType.NUMBER)
                         .description("자식 회원 유형 코드"),
                     fieldWithPath("data.descendants[].name").type(JsonFieldType.STRING)
