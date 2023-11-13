@@ -17,6 +17,7 @@ import MyPage from '../pages/MyPage/MyPage';
 import BadComplainHistoryPage from '../pages/BadComplainHistory/BadComplainHistory';
 import BadComplainDetail from '../pages/BadComplainDetail/BadComplainDetail';
 import ConsultSettingPage from "../pages/ConsultSetting/ConsultSettingPage";
+import NotiHistory from "../pages/Notification/NotiHistory";
 
 function RouteLink() {
   return (
@@ -41,7 +42,7 @@ function RouteLink() {
             <Route path='report/history' element={<ReportHistoryPage />} />
             <Route path='report/detail' element={<ReportDetailPage />} />
             {/* 고지서 등록 */}
-            <Route path='docs/register-noti' element={<RegisterNotiPage />} />
+            <Route path='docs/register-noti' element={<NotiHistory />} />
             <Route path='docs/register-payment' element={<RegisterPayPage />} />
             {/* 상담 */}
             <Route path='consult/approve' element={<ConsultApprovePage />} />

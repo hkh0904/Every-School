@@ -22,8 +22,8 @@ export default function AccordianMenu() {
       address: ['/consult/approve', '/consult/history', '/consult/setting']
     },
     {
-      title: '안내문 등록',
-      list: ['가정통신문 등록', '고지서 등록'],
+      title: '안내문 관리',
+      list: ['가정통신문 관리', '고지서 관리'],
       icon: AiFillNotification,
       address: ['/docs/register-noti', '/docs/register-payment']
     },
