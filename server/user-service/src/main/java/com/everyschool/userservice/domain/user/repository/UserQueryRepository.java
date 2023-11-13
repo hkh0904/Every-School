@@ -1,6 +1,6 @@
 package com.everyschool.userservice.domain.user.repository;
 
-import com.everyschool.userservice.api.controller.client.response.StudentResponse;
+import com.everyschool.userservice.api.controller.client.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
@@ -70,7 +70,7 @@ public class UserQueryRepository {
     /**
      * 이메일 정보 조회
      *
-     * @param name 조회할 회원의 이름
+     * @param name  조회할 회원의 이름
      * @param birth 조회할 회원의 생년월일
      * @return 이메일 정보
      */
@@ -118,10 +118,10 @@ public class UserQueryRepository {
         return Optional.ofNullable(content);
     }
 
-    public List<StudentResponse> findStudentByIdIn(List<Long> studentIds) {
+    public List<UserResponse> findStudentByIdIn(List<Long> studentIds) {
         return queryFactory
             .select(Projections.constructor(
-                StudentResponse.class,
+                UserResponse.class,
                 user.id,
                 user.name,
                 user.birth
@@ -129,5 +129,18 @@ public class UserQueryRepository {
             .from(user)
             .where(user.id.in(studentIds))
             .fetch();
+    }
+
+    public UserResponse findUserById(Long userId) {
+        return queryFactory
+            .select(Projections.constructor(
+                UserResponse.class,
+                user.id,
+                user.name,
+                user.birth
+            ))
+            .from(user)
+            .where(user.id.eq(userId))
+            .fetchFirst();
     }
 }

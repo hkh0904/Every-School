@@ -27,7 +27,7 @@ public class ParentController {
     private final TokenUtils tokenUtils;
 
     @PostMapping("/connection")
-    public ApiResponse<CreateStudentParentResponse> connectStudentParent(
+    public ApiResponse<ParentSchoolApplyDto> connectStudentParent(
         @Valid @RequestBody ConnectStudentParentRequest request
     ) {
         log.debug("call ParentController#connectStudentParent");
