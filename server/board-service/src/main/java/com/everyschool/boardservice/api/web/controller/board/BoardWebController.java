@@ -16,6 +16,11 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * 웹 게시물 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -26,6 +31,15 @@ public class BoardWebController {
     private final TokenUtils tokenUtils;
     private final FileStore fileStore;
 
+    /**
+     * 공지사항 등록 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param request    등록 정보
+     * @return 등록된 공지사항 정보
+     * @throws IOException 첨부파일을 S3 저장 오류 발생시
+     */
     @PostMapping("/notice-boards")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateBoardResponse> createNoticeBoard(
@@ -43,6 +57,15 @@ public class BoardWebController {
         return ApiResponse.created(response);
     }
 
+    /**
+     * 가정통신문 등록 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param request    등록 정보
+     * @return 등록된 공지사항 정보
+     * @throws IOException 첨부파일을 S3 저장 오류 발생시
+     */
     @PostMapping("/communication-boards")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateBoardResponse> createCommunicationBoard(
