@@ -3,8 +3,27 @@ import { baseAxios } from '../Axios.jsx';
 const schoolNum = sessionStorage.getItem('schoolId');
 const schoolYear = sessionStorage.getItem('year');
 
+// 세션 스토리지에 값이 설정될 때까지 대기하는 함수
+const waitForSessionValues = () => {
+  return new Promise((resolve) => {
+    const checkInterval = setInterval(() => {
+      const schoolYear = sessionStorage.getItem('year');
+      const schoolNum = sessionStorage.getItem('schoolId');
+      if (schoolYear && schoolNum) {
+        clearInterval(checkInterval);
+        resolve();
+      }
+    }, 500); // 0.5초 간격으로 체크
+  });
+};
+
 // 모든 신고 내역 조회
 export const receivedReportInfo = async () => {
+  await waitForSessionValues(); // 값이 설정될 때까지 기다립니다.
+
+  const schoolYear = sessionStorage.getItem('year');
+  const schoolNum = sessionStorage.getItem('schoolId');
+
   try {
     const statusCodes = ['7001', '7002', '7003'];
     const requests = statusCodes.map((code) =>

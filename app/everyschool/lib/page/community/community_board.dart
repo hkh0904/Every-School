@@ -5,7 +5,8 @@ import 'package:everyschool/page/community/postlist_page.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
-
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CommunityBoard extends StatefulWidget {
   const CommunityBoard({super.key});
@@ -27,10 +28,11 @@ class _CommunityBoardState extends State<CommunityBoard> {
   Future<void> _loadBoardData() async {
     final userType = context.read<UserStore>().userInfo["userType"];
     late final schoolId;
-
     if (userType == 1002) {
-      schoolId = context.read<UserStore>().userInfo["descendants"][0]["school"]
-          ["schoolId"];
+      final storage = FlutterSecureStorage();
+      final descendantInfo = await storage.read(key: 'descendant') ?? "";
+      var selectDescendant = jsonDecode(descendantInfo);
+      schoolId = selectDescendant["school"]["schoolId"];
     } else {
       schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
     }
@@ -113,7 +115,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    String pageTitle = userType == 1001 ? '자유 게시판' : '학사 공지';
+                    String pageTitle = userType == 1001 ? '자유게시판' : '학사 공지';
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -181,8 +183,10 @@ class _CommunityBoardState extends State<CommunityBoard> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      PostDetail(boardId: boardId),
+                                  builder: (context) => PostDetail(
+                                      boardId: boardId,
+                                      boardName:
+                                          userType == 1001 ? '자유게시판' : '학사 공지'),
                                 ),
                               ).then((_) {
                                 // 사용자가 돌아왔을 때 게시글 목록을 새로고침
