@@ -1,6 +1,5 @@
 import 'package:everyschool/page/messenger/chat/chat.dart';
 import 'package:flutter/material.dart';
-import 'package:stomp_dart_client/stomp.dart';
 
 class ChatController extends ChangeNotifier {
   List chatroomList = [];
@@ -35,12 +34,15 @@ class ChatController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setChatList(message) {
+  setChatList(message) {
+    print('이거 할거든?');
+    print(chatList);
     chatList = [...chatList, ...message];
+    print(chatList);
     notifyListeners();
   }
 
-  void clearChatList() {
+  clearChatList() {
     chatList.clear();
   }
 
@@ -49,7 +51,10 @@ class ChatController extends ChangeNotifier {
   }
 
   void addNewMessage(Chat message) {
-    chatList = [message, ...chatList];
+    final kkk = chatList;
+
+    chatList = [message, ...kkk];
+    print(chatList);
     notifyListeners();
   }
 

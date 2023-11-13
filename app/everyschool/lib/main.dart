@@ -14,7 +14,6 @@ import 'package:everyschool/page/community/community_page.dart';
 import 'package:everyschool/page/messenger/messenger_page.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
-import 'package:everyschool/store/chat_store.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,6 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (c) => ChatStore()),
       ChangeNotifierProvider(create: (c) => ChatController()),
       ChangeNotifierProvider(create: (c) => UserStore()),
     ],
