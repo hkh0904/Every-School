@@ -6,6 +6,7 @@ import com.everyschool.alarmservice.api.service.alarm.AlarmQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,11 +20,15 @@ public class AlarmQueryController {
 
     private final AlarmQueryService alarmQueryService;
 
+    /*
+    * 나의 모든 알림 조회
+    *
+    * */
     @GetMapping
-    public ApiResponse<List<AlarmResponse>> searchAlarm() {
-        log.debug("call AlarmQueryController#searchAlarm");
+    public ApiResponse<List<AlarmResponse>> searchMyAlarms(@RequestHeader("Authorization") String token) {
+        log.debug("call AlarmQueryController#searchMyAlarms");
 
-        List<AlarmResponse> responses = alarmQueryService.searchReceivedAlarm(1L);
+        List<AlarmResponse> responses = alarmQueryService.searchMyAlarms(token);
         log.debug("responses={}", responses);
 
         return ApiResponse.ok(responses);

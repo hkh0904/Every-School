@@ -1,5 +1,7 @@
 package com.everyschool.alarmservice.api.service.alarm;
 
+import com.everyschool.alarmservice.api.client.user.UserServiceClient;
+import com.everyschool.alarmservice.api.client.user.response.UserInfo;
 import com.everyschool.alarmservice.api.controller.alarm.response.AlarmResponse;
 import com.everyschool.alarmservice.domain.alarm.repository.AlarmQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +16,14 @@ import java.util.List;
 public class AlarmQueryService {
 
     private final AlarmQueryRepository alarmQueryRepository;
+    private final UserServiceClient userServiceClient;
 
-    public List<AlarmResponse> searchReceivedAlarm(Long recipientId) {
-        // TODO: 2023-10-26 임우택 user-service에서 보낸 사람 이름 조회
-        List<AlarmResponse> responses = alarmQueryRepository.findByRecipientId(recipientId);
+    public List<AlarmResponse> searchMyAlarms(String token) {
+        UserInfo recipient = userServiceClient.searchUserInfo(token);
+
+        List<AlarmResponse> responses = alarmQueryRepository.findByRecipientId(recipient.getUserId());
+
+        responses.forEach(r -> r.setSender(recipient.getUserName()));
 
         return responses;
     }
