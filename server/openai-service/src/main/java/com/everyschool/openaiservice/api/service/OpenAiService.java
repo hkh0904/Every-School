@@ -34,13 +34,20 @@ public class OpenAiService {
 
     @Scheduled(cron = "0 0 2 * * ?")
     public void doChecking() {
+        log.debug("[채팅 검토] 스케줄러 실행");
         LocalDate checkDate = LocalDate.now().minusDays(1);
+        log.debug("[채팅 검토] 검사 날짜 = {}", checkDate.toString());
         // 채팅방 id 가져오기
+        log.debug("[채팅 검토] 채팅방 Id 가져오기");
         List<Long> roomIds = chatServiceClient.searchChatRoomIdByDate(checkDate);
+        log.debug("[채팅 검토] 채팅방 Id 수 = {}", roomIds.size());
         CheckingChatResponse chatListResponse;
         for (Long roomId : roomIds) {
             // 채팅 목록 가져오기
+            log.debug("[채팅 검토] 채팅 목록 가져오기. 채팅방 Id = {}", roomId);
             chatListResponse = chatServiceClient.searchChatByDateAndChatRoomId(checkDate, roomId);
+            log.debug("[채팅 검토] 가져온 채팅방 리스트. 선생님 = {}, 상대방 = {}, 채팅 목록 수 = {}",
+                    chatListResponse.getTeacherName(), chatListResponse.getOtherUserName(), chatListResponse.getChats().size());
             // 발신자 정리해서 GPT 보내기
             doChatReview(chatListResponse);
         }
@@ -63,10 +70,11 @@ public class OpenAiService {
         log.debug("[AI 실행] gpt 실행되는지 응답 = {}", content);
 
         log.debug("[AI 실행] 카프카 테스트");
-        kafkaProducer.test("kafka-test", KafkaTestDto.builder().content("이건 카프카 테스트임 지피티 답은 >> "+content).build());
+        kafkaProducer.test("kafka-test", KafkaTestDto.builder().content("이건 카프카 테스트임 지피티 답은 >> " + content).build());
     }
 
     private void doChatReview(CheckingChatResponse chatListResponse) {
+
         List<Chat> chats = chatListResponse.getChats();
         StringBuilder sb = new StringBuilder();
         Long teacherId = chatListResponse.getTeacherId();
@@ -85,11 +93,14 @@ public class OpenAiService {
                 "만약 bad이면 그 이유가 되는 문장 숫자랑 그렇게 판단한 사유를 " +
                 "'n: 사유'형태로 최대 5개까지 보내줘");
 
+        String prompt = sb.toString();
+        log.debug("[채팅 검토] 전송 프롬프트 = {}", prompt);
         GptResponse gptResponse = gptServiceClient.requestGpt(
                 "Bearer ",
-                generateGptRequest(sb.toString()));
+                generateGptRequest(prompt));
 
         String content = gptResponse.getChoices().get(0).getMessage().getContent();
+        log.debug("[채팅 검토] 지피티 응답 = {}", content);
         String[] result = content.split("\n");
         if (result[0].equals("good")) {
             return;
@@ -116,12 +127,14 @@ public class OpenAiService {
 
     private String generateTitle(String teacherName, String otherUserName, String childName) {
         if (childName.length() == 0) {
-            return teacherName + "선생님과 " +
+//            return teacherName + "선생님과 " +
+            return
                     childName + "학생";
         }
-        return teacherName + "선생님과 " +
-                childName + "학생의 학부모 " +
-                otherUserName;
+//        return teacherName + "선생님과 " +
+        return
+                childName + "학생의 학부모 ";//+
+//                otherUserName;
     }
 
     private GptRequest generateGptRequest(String prompt) {
