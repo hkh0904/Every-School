@@ -4,7 +4,16 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SelectDate extends StatefulWidget {
-  SelectDate({super.key, this.onDateSelected, this.onTimeSelected});
+  SelectDate(
+      {Key? key,
+      this.selDate,
+      this.scheduleTimes,
+      this.onDateSelected,
+      this.onTimeSelected})
+      : super(key: key);
+
+  final selDate;
+  final scheduleTimes;
   final onDateSelected;
   final onTimeSelected;
 
@@ -18,12 +27,39 @@ class _SelectDateState extends State<SelectDate> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   String? _selectedTime;
 
-  var timelist = ['09:00', '10:00', '13:00', '14:00', '17:00'];
+  var timelist = [
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+  ];
 
   @override
   void initState() {
     super.initState();
     initializeDateFormatting('ko_KR', null);
+  }
+
+  List<String> getAvailableTimes() {
+    if (_selectedDay == null || widget.scheduleTimes == null) {
+      return ['날짜를 선택해주세요'];
+    }
+
+    var selectedDayOfWeek = DateFormat('EEEE').format(_selectedDay!);
+    var daySchedule = widget.scheduleTimes[selectedDayOfWeek.toLowerCase()];
+
+    if (daySchedule?.contains(true) != true) {
+      return ['상담 가능 시간이 없습니다'];
+    }
+
+    return timelist
+        .where(
+            (time) => daySchedule[timelist.indexOf(time) % daySchedule.length])
+        .toList();
   }
 
   bool _isWeekend(DateTime day) {
@@ -52,7 +88,7 @@ class _SelectDateState extends State<SelectDate> {
             return isSameDay(_selectedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
-            if (!_isWeekend(selectedDay)) {
+            if (!_isWeekend(selectedDay!)) {
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = selectedDay;
@@ -101,6 +137,8 @@ class _SelectDateState extends State<SelectDate> {
                     style: TextStyle(color: Colors.blueAccent),
                   ),
                 );
+              } else {
+                return null;
               }
             },
           ),
@@ -121,43 +159,73 @@ class _SelectDateState extends State<SelectDate> {
           ),
         ),
         Wrap(
-          children: timelist.map((time) {
-            bool isSelected = time == _selectedTime;
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _selectedTime = isSelected ? null : time;
-                });
-                widget.onTimeSelected(_selectedTime!);
-              },
-              child: Container(
-                margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                width: (MediaQuery.of(context).size.width - 60) * 0.3,
-                height: 33,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: isSelected ? Color(0xff8975EC) : Color(0xffBABABA),
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(30),
-                  color: isSelected ? Color(0xff8975EC) : Colors.grey[50],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      time,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: isSelected ? Colors.white : Colors.black,
-                      ),
+          children: (() {
+            var availableTimes = getAvailableTimes();
+            if (availableTimes.length == 1 &&
+                availableTimes[0] == '날짜를 선택해주세요') {
+              return [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                      '날짜를 선택해주세요',
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
+              ];
+            } else if (availableTimes.length == 1 &&
+                availableTimes[0] == '상담 가능 시간이 없습니다') {
+              return [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                      '상담 가능 시간이 없습니다',
+                    ),
+                  ),
+                ),
+              ];
+            } else {
+              return availableTimes.map((time) {
+                bool isSelected = time == _selectedTime;
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedTime = isSelected ? null : time;
+                    });
+                    widget.onTimeSelected(_selectedTime!);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                    width: (MediaQuery.of(context).size.width - 60) * 0.3,
+                    height: 33,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color:
+                            isSelected ? Color(0xff8975EC) : Color(0xffBABABA),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                      color: isSelected ? Color(0xff8975EC) : Colors.grey[50],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          time,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList();
+            }
+          })(),
         ),
       ],
     );
