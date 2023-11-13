@@ -1,8 +1,8 @@
 package com.everyschool.boardservice.docs.web.board;
 
-import com.everyschool.boardservice.api.controller.FileStore;
-import com.everyschool.boardservice.api.controller.board.request.CreateBoardRequest;
-import com.everyschool.boardservice.api.controller.board.response.CreateBoardResponse;
+import com.everyschool.boardservice.api.FileStore;
+import com.everyschool.boardservice.api.app.controller.board.request.CreateBoardRequest;
+import com.everyschool.boardservice.api.app.controller.board.response.CreateBoardResponse;
 import com.everyschool.boardservice.api.web.controller.board.BoardWebController;
 import com.everyschool.boardservice.api.web.service.board.BoardWebService;
 import com.everyschool.boardservice.docs.RestDocsSupport;
