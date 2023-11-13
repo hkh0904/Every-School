@@ -1,0 +1,11 @@
+[[search-warning-list]]
+=== 문제 채팅 목록 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-warning-list/http-request.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/search-warning-list/http-response.adoc[]
+include::{snippets}/search-warning-list/response-fields.adoc[]
