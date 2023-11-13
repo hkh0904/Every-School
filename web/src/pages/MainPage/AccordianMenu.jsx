@@ -11,7 +11,7 @@ export default function AccordianMenu() {
   const MenuList = [
     {
       title: '학급 관리',
-      list: ['우리반 보기', '학부모 보기', '학급 승인'],
+      list: ['우리반 관리', '학부모 관리', '학급 승인 관리'],
       icon: FaUserCog,
       address: ['/manage/myclass', '/manage/parents', '/manage/class/']
     },
