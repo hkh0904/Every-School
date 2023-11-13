@@ -173,6 +173,11 @@ spring:
         - id: chat-service
           uri: lb://CHAT-SERVICE
           predicates:
+            - Path=/chat-service/client/v1/**
+            - Method=GET, POST
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
             - Path=/chat-service/actuator/**
             - Method=GET,POST
           filters:
