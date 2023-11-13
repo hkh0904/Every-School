@@ -17,9 +17,9 @@ export default function AccordianMenu() {
     },
     {
       title: '상담 관리',
-      list: ['상담 확인', '상담 내역'],
+      list: ['상담 확인', '상담 내역', '상담 설정'],
       icon: IoMdChatbubbles,
-      address: ['/consult/approve', '/consult/history']
+      address: ['/consult/approve', '/consult/history', '/consult/setting']
     },
     {
       title: '안내문 등록',

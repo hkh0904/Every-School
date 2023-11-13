@@ -1,109 +1,94 @@
-import { useEffect, useState } from 'react';
-import styles from './ConsultApprovePage.module.css';
-import ConsultCheckList from './ConsultCheckList';
-import RefuseModal from './RefuseModal';
-import ConsultTime from './ConsultTime';
-import { getConsultingList, getConsultingMessage } from '../../api/ConsultingAPI/consultingAPI';
-import { modifyConsultMsg } from './../../api/ConsultingAPI/consultingAPI';
+import {useEffect, useMemo, useState} from 'react';
+import styles from './ConsultHistory.module.css';
+import {getConsultingList, getConsultingMessage, getConsults} from '../../api/ConsultingAPI/consultingAPI';
+import styles2 from "../ManageClassPage/ManageMyclassPage.module.css";
+import Table from "../../component/Table/Table";
 
 export default function ConsultApprovePage() {
-  const [message, setMessage] = useState('');
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [isTimeSet, setIsTimeSet] = useState(false);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [csltData, setCsltData] = useState([]);
-
-  const [rejectNum, setRejectNum] = useState();
-
-  const [consultScheduleId, setConsultScheduleId] = useState();
+  const [consults, setConsults] = useState([]);
+  const [totalConsults, setTotalConsults] = useState(0);
 
   useEffect(() => {
-    const consultingSchedule = async () => {
-      try {
-        const schedule = await getConsultingMessage();
-        console.log(schedule.description);
-        if (schedule.description) {
-          setMessage(schedule.description);
-        } else {
-          setMessage('상담 메세지를 설정하세요');
-        }
-        setConsultScheduleId(schedule.consultScheduleId);
-      } catch (error) {}
-    };
-
-    const fetchData = async () => {
-      try {
-        const newCsltData = await getConsultingList();
-        const formattedCsltData = newCsltData.map((cslt) => ({
-          ...cslt,
-          consultDate: [
-            new Date(cslt.consultDate).getFullYear(),
-            new Date(cslt.consultDate).getMonth() + 1,
-            new Date(cslt.consultDate).getDate(),
-            new Date(cslt.consultDate).getHours()
-          ]
-        }));
-        setCsltData(formattedCsltData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    consultingSchedule();
-    fetchData();
+    fetchConsults(5001);
   }, []);
 
+  const fetchConsults = async (pageIdx) => {
+    try {
+      const data = await getConsults(pageIdx);
+      if (data && Array.isArray(data.content)) {
+        const transformedData = data.content.map((consult) => ({
+          type: consult.type,
+          grade: consult.parentInfo.split(' ')[0],
+          class: consult.parentInfo.split(' ')[1],
+          number: consult.parentInfo.split(' ')[2],
+          name: consult.parentInfo.split(' ')[3],
+          relationship: consult.parentInfo.split(' ')[4] === '아버님' ? '부' : '모',
+          lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1],
+          // add other fields if necessary
+        }));
+        setConsults(transformedData);
+        setTotalConsults(data.count);
+      } else {
+        // handleRetry();
+      }
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    }
+  }
+
+  const columns = useMemo(
+    () => [
+      {
+        accessor: 'type',
+        Header: '상담 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'number',
+        Header: '번호'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'relationship',
+        Header: '관계'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '신청 일자'
+      },
+      {
+        accessor: 'approve',
+        Header: '승인'
+      },
+      {
+        accessor: 'reject',
+        Header: '거절'
+      }
+    ],
+    []
+  );
+
   return (
-    <div className={styles.ConsultApprove}>
+    <div className={styles.consultHistory}>
       <div className={styles.title}>
         <p>상담 확인</p>
-        <p>대기 중 : {csltData.length}건</p>
-        <div className={styles.csltMessage}>
-          <p>상담 설명 메세지 :&nbsp;</p>
-          {isCorrect ? (
-            <div className={styles.correctMsg}>
-              <input type='text' value={message} onChange={(e) => setMessage(e.target.value)} />
-              <p
-                className={styles.msgBtn}
-                onClick={() => {
-                  setIsCorrect(false);
-                  modifyConsultMsg(consultScheduleId, message);
-                }}
-              >
-                완료
-              </p>
-            </div>
-          ) : (
-            <div className={styles.setMsg}>
-              <p>{message}</p>
-              <p className={styles.msgBtn} onClick={() => setIsCorrect(true)}>
-                수정
-              </p>
-            </div>
-          )}
-        </div>
-        <div className={styles.timeSetBox}>
-          <div className={styles.setTime}>
-            <p className={styles.timeSetTitle}>상담 가능 시간 설정하기</p>
-            {isTimeSet ? null : (
-              <p className={styles.timeSetBtn} onClick={() => setIsTimeSet(true)}>
-                설정
-              </p>
-            )}
-          </div>
-          {isTimeSet ? <ConsultTime setIsTimeSet={setIsTimeSet} consultScheduleId={consultScheduleId} /> : null}
+        <p>상담 대기 : {totalConsults}건 </p>
+      </div>
+      <div className={styles.consultClass}>
+        <div className={styles2.scrollContainer}>
+          <Table columns={columns} data={consults}/>
         </div>
       </div>
-      {csltData.length === 0 && <p className={styles.nocslt}>상담 신청 내역이 존재하지 않습니다.</p>}
-      {csltData.length > 0 && (
-        <ConsultCheckList csltList={csltData} setIsModalOpen={setIsModalOpen} setRejectNum={setRejectNum} />
-      )}
-      {isModalOpen ? (
-        <div className={styles.refModal}>
-          <RefuseModal setIsModalOpen={setIsModalOpen} rejectNum={rejectNum} />
-        </div>
-      ) : null}
     </div>
   );
 }
