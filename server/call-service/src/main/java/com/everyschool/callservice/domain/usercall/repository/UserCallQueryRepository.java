@@ -1,9 +1,12 @@
 package com.everyschool.callservice.domain.usercall.repository;
 
+import com.everyschool.callservice.api.controller.usercall.response.ReportCallsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallDetailsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -102,4 +105,25 @@ public class UserCallQueryRepository {
     }
 
 
+    public List<ReportCallsResponse> findReportsById(Long userId) {
+        System.out.println(userId);
+        return queryFactory
+                .select(Projections.constructor(
+                        ReportCallsResponse.class,
+                        userCall.id.as("userCallId"),
+                        Expressions.asString("통화").as("type"),
+                        new CaseBuilder()
+                            .when(userCall.sender.eq("O"))
+                            .then(userCall.senderName)
+                            .otherwise(userCall.receiverName)
+                            .as("reportedName"),
+                        userCall.endDateTime.as("reportedTime")
+                ))
+                .from(userCall)
+                .where(
+                        userCall.teacherId.eq(userId),
+                        userCall.isBad.isTrue()
+                )
+                .fetch();
+    }
 }
