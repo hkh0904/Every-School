@@ -2,6 +2,7 @@ package com.everyschool.callservice.docs.usercall;
 
 import com.everyschool.callservice.api.controller.FileStore;
 import com.everyschool.callservice.api.controller.usercall.UserCallQueryController;
+import com.everyschool.callservice.api.controller.usercall.response.ReportCallsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallDetailsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
@@ -202,6 +203,63 @@ public class UserCallQueryControllerDocsTest extends RestDocsSupport {
                         )
                 ));
     }
+    @DisplayName("신고된 통화 목록 보기 API")
+    @Test
+    void searchReportCalls() throws Exception {
+        ReportCallsResponse response1 = ReportCallsResponse.builder()
+                .userCallId(1L)
+                .type("통화")
+                .reportedName("김민기")
+                .reportedTime(LocalDateTime.now().minusDays(5))
+                .build();
+        ReportCallsResponse response2 = ReportCallsResponse.builder()
+                .userCallId(2L)
+                .type("통화")
+                .reportedName("홍경환")
+                .reportedTime(LocalDateTime.now().minusDays(3))
+                .build();
+        ReportCallsResponse response3 = ReportCallsResponse.builder()
+                .userCallId(3L)
+                .type("통화")
+                .reportedName("오연주")
+                .reportedTime(LocalDateTime.now().minusHours(4))
+                .build();
+
+        List<ReportCallsResponse> responseList = List.of(response1, response2, response3);
+
+        given(userCallQueryService.searchReportCalls(anyString()))
+                .willReturn(responseList);
+
+        mockMvc.perform(
+                        get("/call-service/v1/calls/reports", anyLong())
+                                .header("Authorization", "Bearer Access Token")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("search-userCalls-reports",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+                                        .description("응답 데이터"),
+                                fieldWithPath("data[].userCallId").type(JsonFieldType.NUMBER)
+                                        .description("통화 ID"),
+                                fieldWithPath("data[].type").type(JsonFieldType.STRING)
+                                        .description("타입(통화)"),
+                                fieldWithPath("data[].reportedName").type(JsonFieldType.STRING)
+                                        .description("민원인"),
+                                fieldWithPath("data[].reportedTime").type(JsonFieldType.ARRAY)
+                                        .description("신고된 날짜")
+
+                        )
+                ));
+    }
+
 
     @DisplayName("통화 다운로드 API")
     @Test
