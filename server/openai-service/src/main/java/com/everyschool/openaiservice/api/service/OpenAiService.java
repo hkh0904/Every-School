@@ -63,7 +63,7 @@ public class OpenAiService {
         log.debug("[AI 실행] gpt 실행되는지 응답 = {}", content);
 
         log.debug("[AI 실행] 카프카 테스트");
-        kafkaProducer.test("kafka-test", KafkaTestDto.builder().content("이건 카프카 테스트임").build());
+        kafkaProducer.test("kafka-test", KafkaTestDto.builder().content("이건 카프카 테스트임 지피티 답은 >> "+content).build());
     }
 
     private void doChatReview(CheckingChatResponse chatListResponse) {
