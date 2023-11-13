@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import java.util.NoSuchElementException;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class ChatService {
 
     private final ChatRepository chatRepository;
@@ -87,15 +89,18 @@ public class ChatService {
     // TODO: 2023-11-09 리팩토링 하기 
     public void sendMessageProcessing(SendMessageDto dto) throws FirebaseMessagingException {
         // 채팅방 인원수 확인
-        String chatRoomUserCountKey = "CHAR_ROOM_USER_COUNT_" + dto.getChatRoomId();
+        String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + dto.getChatRoomId();
         String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        log.debug("[채팅 전송(소켓)] 채팅방 지금 인원수 = {}", roomUserCount);
 
         // 채팅방 1명임 > 상대한테 알림 보냄
         if (roomUserCount != null && Integer.parseInt(roomUserCount) == 1) {
             UserInfo senderUser = userServiceClient.searchUserInfoByUserKey(dto.getSenderUserKey());
+            log.debug("[채팅 전송(소켓)] 전송자 = {}", senderUser.getUserName());
             // 채팅방 다른 유저 가져오기
             Long opponentUserId = chatRoomUserQueryRepository.findOpponentUserId(dto.getChatRoomId(), senderUser.getUserId())
                     .orElseThrow(() -> new NoSuchElementException("상대 유저 정보를 찾을 수 없습니다."));
+            log.debug("[채팅 전송(소켓)] 수신자Id = {}", opponentUserId);
             String notificationMessage = dto.getMessage();
             if (notificationMessage.length() > 50) {
                 notificationMessage = notificationMessage.substring(0, 50) + "...";
@@ -113,26 +118,23 @@ public class ChatService {
                 childName = senderChatRoomUser.getChildName();
             }
 
-            String fcmToken = userServiceClient.searchFcmTokenByUserId(opponentUserId);
-            Message message = Message.builder()
-                    .setToken(fcmToken)
-                    .setNotification(notification)
-                    .putData("type", "chat")
-                    .putData("senderUserName", senderUser.getUserName())
-                    .putData("senderUserType", String.valueOf(senderUser.getUserType()))
-                    .putData("senderUserChildName", childName)
-                    .putData("chatRoomId", String.valueOf(dto.getChatRoomId()))
-                    .build();
-            firebaseMessaging.send(message);
-        }
-    }
+            try {
+                String fcmToken = userServiceClient.searchFcmTokenByUserId(opponentUserId);
+                Message message = Message.builder()
+                        .setToken(fcmToken)
+                        .setNotification(notification)
+                        .putData("type", "chat")
+                        .putData("senderUserName", senderUser.getUserName())
+                        .putData("senderUserType", String.valueOf(senderUser.getUserType()))
+                        .putData("senderUserChildName", childName)
+                        .putData("chatRoomId", String.valueOf(dto.getChatRoomId()))
+                        .build();
+                firebaseMessaging.send(message);
 
-    /**
-     * 부정적 채팅 데이터 업데이트
-     *
-     * @param chatId
-     * @param reason
-     */
-    public void chatUpdate(Long chatId, String reason) {
+                log.debug("[채팅 전송(소켓)] 알림 보냄");
+            } catch (Exception e) {
+                log.debug("[채팅 전송(소켓)] 알림 전송 실패. {}", e.getMessage());
+            }
+        }
     }
 }
