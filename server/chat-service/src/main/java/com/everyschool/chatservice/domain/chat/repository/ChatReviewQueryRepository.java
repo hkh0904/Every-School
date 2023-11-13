@@ -50,7 +50,8 @@ public class ChatReviewQueryRepository {
         return queryFactory.select(Projections.constructor(WarningChatReviewResponse.class,
                         chatReview.id,
                         chatReview.chatRoom.id,
-                        chatReview.chatDate))
+                        chatReview.chatDate,
+                        chatReview.title))
                 .from(chatReview)
                 .where(chatReview.chatRoom.id.in(roomIds))
                 .fetch();
