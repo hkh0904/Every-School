@@ -44,6 +44,7 @@ public class ParentInfoResponse {
     @Data
     public static class Descendant {
 
+        private Long userId;
         private int userType;
         private String name;
         private Integer studentNumber;
@@ -51,7 +52,8 @@ public class ParentInfoResponse {
         private SchoolClass schoolClass;
 
         @Builder
-        private Descendant(int userType, String name, Integer studentNumber, School school, SchoolClass schoolClass) {
+        private Descendant(Long userId, int userType, String name, Integer studentNumber, School school, SchoolClass schoolClass) {
+            this.userId = userId;
             this.userType = userType;
             this.name = name;
             this.studentNumber = studentNumber;
@@ -61,6 +63,7 @@ public class ParentInfoResponse {
 
         public static Descendant of(Student student, int studentNumber, School school, SchoolClass schoolClass) {
             return Descendant.builder()
+                .userId(student.getId())
                 .userType(student.getUserCodeId())
                 .name(student.getName())
                 .studentNumber(studentNumber)
