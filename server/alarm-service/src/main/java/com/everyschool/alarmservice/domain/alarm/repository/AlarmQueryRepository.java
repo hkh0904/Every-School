@@ -1,8 +1,6 @@
 package com.everyschool.alarmservice.domain.alarm.repository;
 
 import com.everyschool.alarmservice.api.controller.alarm.response.AlarmResponse;
-import com.everyschool.alarmservice.domain.alarm.QAlarm;
-import com.everyschool.alarmservice.domain.alarm.QAlarmMaster;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -31,14 +29,35 @@ public class AlarmQueryRepository {
                 alarm.alarmMaster.title,
                 alarm.alarmMaster.content,
                 alarm.alarmMaster.schoolYear,
+                alarm.isRead,
                 alarm.createdDate
             ))
             .from(alarm)
             .join(alarm.alarmMaster, alarmMaster)
             .where(
                 alarm.recipientId.eq(recipientId),
-                alarm.isOpen.isTrue()
+                alarm.isRead.isTrue()
             )
             .fetch();
+    }
+
+    public AlarmResponse findByAlarmId(Long alarmId) {
+        return queryFactory
+                .select(Projections.constructor(
+                        AlarmResponse.class,
+                        alarm.id,
+                        alarm.alarmMaster.title,
+                        alarm.alarmMaster.content,
+                        alarm.alarmMaster.schoolYear,
+                        alarm.isRead,
+                        alarm.createdDate
+                ))
+                .from(alarm)
+                .join(alarm.alarmMaster, alarmMaster)
+                .where(
+                        alarm.id.eq(alarmId),
+                        alarm.isRead.isTrue()
+                )
+                .fetchOne();
     }
 }
