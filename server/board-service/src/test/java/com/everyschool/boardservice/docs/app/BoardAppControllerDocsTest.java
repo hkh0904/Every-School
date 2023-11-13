@@ -4,7 +4,7 @@ import com.everyschool.boardservice.api.app.controller.board.BoardAppController;
 import com.everyschool.boardservice.api.controller.FileStore;
 import com.everyschool.boardservice.api.controller.board.request.CreateBoardRequest;
 import com.everyschool.boardservice.api.controller.board.response.CreateBoardResponse;
-import com.everyschool.boardservice.api.service.board.BoardService;
+import com.everyschool.boardservice.api.app.service.board.BoardAppService;
 import com.everyschool.boardservice.docs.RestDocsSupport;
 import com.everyschool.boardservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class BoardAppControllerDocsTest extends RestDocsSupport {
 
-    private final BoardService boardService = mock(BoardService.class);
+    private final BoardAppService boardService = mock(BoardAppService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
     private final FileStore fileStore = mock(FileStore.class);
     private static final String BASE_URL = "/board-service/v1/app/{schoolYear}/schools/{schoolId}";

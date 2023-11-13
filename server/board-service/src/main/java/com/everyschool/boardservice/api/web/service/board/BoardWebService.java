@@ -3,7 +3,7 @@ package com.everyschool.boardservice.api.web.service.board;
 import com.everyschool.boardservice.api.client.UserServiceClient;
 import com.everyschool.boardservice.api.client.response.UserInfo;
 import com.everyschool.boardservice.api.controller.board.response.CreateBoardResponse;
-import com.everyschool.boardservice.api.service.board.dto.CreateBoardDto;
+import com.everyschool.boardservice.api.app.service.board.dto.CreateBoardDto;
 import com.everyschool.boardservice.domain.board.Board;
 import com.everyschool.boardservice.domain.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;

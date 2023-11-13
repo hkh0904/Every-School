@@ -1,4 +1,4 @@
-package com.everyschool.boardservice.api.service.board.dto;
+package com.everyschool.boardservice.api.app.service.board.dto;
 
 import com.everyschool.boardservice.domain.board.UploadFile;
 import lombok.Builder;
