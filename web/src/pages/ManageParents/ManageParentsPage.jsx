@@ -1,8 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import Table from '../../component/Table/Table';
 import styles from './ManageParentsPage.module.css';
-import SvgIcon from '@mui/material/SvgIcon';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { getParentList } from '../../api/SchoolAPI/schoolAPI';
 
 export default function ManageParentsPage() {
@@ -69,10 +67,6 @@ export default function ManageParentsPage() {
         <div>
           <div className={styles.headText}>학부모 관리</div>
           <div className={styles.underText}>등록 인원 수 : {totalParents}명</div>
-        </div>
-        <div className={styles.plusButton}>
-          <SvgIcon component={AddCircleIcon} inheritViewBox />
-          <p>추가</p>
         </div>
       </div>
       <hr />

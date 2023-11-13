@@ -15,6 +15,7 @@ import PublicRouter from './PublicRouter';
 import PrivateRouter from './PrivateRouter';
 import MyPage from '../pages/MyPage/MyPage';
 import BadComplainHistoryPage from '../pages/BadComplainHistory/BadComplainHistory';
+import BadComplainDetail from '../pages/BadComplainDetail/BadComplainDetail';
 
 function RouteLink() {
   return (
@@ -46,6 +47,7 @@ function RouteLink() {
             <Route path='consult/history' element={<ConsultHistory />} />
             {/* 악성 민원 */}
             <Route path='badcomplain/history' element={<BadComplainHistoryPage />} />
+            <Route path='badcomplain/detail' element={<BadComplainDetail />} />
             {/* 개인정보 수정 */}
             <Route path='mypage' element={<MyPage />} />
           </Route>
