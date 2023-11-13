@@ -69,7 +69,7 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
                 .willReturn(loginUserInfo);
         given(userServiceClient.searchUserInfoByUserKey(anyString()))
                 .willReturn(opponentUserInfo);
-        given(userServiceClient.searchChildName(anyLong(), anyLong()))
+        given(userServiceClient.searchUsername(anyLong(), anyLong()))
                 .willReturn("임우택");
 
         CreateChatRoomDto dto = CreateChatRoomDto.builder()
@@ -120,7 +120,7 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
                 .willReturn(parent);
         given(userServiceClient.searchUserInfoByUserKey(anyString()))
                 .willReturn(teacher);
-        given(userServiceClient.searchChildName(anyLong(), anyLong()))
+        given(userServiceClient.searchUsername(anyLong(), anyLong()))
                 .willReturn("임우택");
         given(schoolServiceClient.searchSchoolClassInfo(anyLong()))
                 .willReturn(schoolClassInfo);
