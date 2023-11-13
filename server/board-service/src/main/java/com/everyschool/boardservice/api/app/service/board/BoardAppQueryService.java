@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static com.everyschool.boardservice.api.app.controller.board.response.FreeBoardDetailResponse.*;
 import static com.everyschool.boardservice.domain.board.Category.*;
+import static com.everyschool.boardservice.error.ErrorMessage.NO_SUCH_BOARD;
 
 /**
  * 앱 게시판 조회용 서비스
@@ -190,7 +191,7 @@ public class BoardAppQueryService {
     private Board getBoardEntity(Long boardId) {
         Optional<Board> findBoard = boardRepository.findById(boardId);
         if (findBoard.isEmpty()) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException(NO_SUCH_BOARD.getMessage());
         }
         return findBoard.get();
     }
