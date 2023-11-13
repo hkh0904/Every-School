@@ -76,7 +76,7 @@ class UserServiceTest extends IntegrationTestSupport {
         //when //then
         assertThatThrownBy(() -> userService.withdrawal(UUID.randomUUID().toString(), "ssafy1234@"))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("존재하지 않는 회원입니다.");
+            .hasMessage("등록이 되지 않은 회원입니다.");
     }
 
     @DisplayName("회원 탈퇴 시 입력 받은 비밀번호가 일치하지 않으면 예외가 발생한다.")

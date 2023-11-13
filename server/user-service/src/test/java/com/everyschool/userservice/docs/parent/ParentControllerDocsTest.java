@@ -65,7 +65,7 @@ public class ParentControllerDocsTest extends RestDocsSupport {
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andDo(print())
-            .andExpect(status().isCreated())
+            .andExpect(status().isOk())
             .andDo(document("create-student-parent",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
