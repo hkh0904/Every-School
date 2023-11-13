@@ -3,7 +3,7 @@ package com.everyschool.boardservice.docs.board;
 import com.everyschool.boardservice.api.SliceResponse;
 import com.everyschool.boardservice.api.app.controller.board.BoardAppQueryController;
 import com.everyschool.boardservice.api.app.controller.board.response.*;
-import com.everyschool.boardservice.api.service.board.BoardQueryService;
+import com.everyschool.boardservice.api.app.service.board.BoardAppQueryService;
 import com.everyschool.boardservice.docs.RestDocsSupport;
 import com.everyschool.boardservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class BoardQueryControllerDocsTest extends RestDocsSupport {
 
-    private final BoardQueryService boardQueryService = mock(BoardQueryService.class);
+    private final BoardAppQueryService boardQueryService = mock(BoardAppQueryService.class);
     private final TokenUtils tokenUtils = mock(TokenUtils.class);
     private static final String BASE_URL = "/board-service/v1/app/{schoolYear}/schools/{schoolId}";
 
