@@ -1,0 +1,11 @@
+[[search-userCalls-reports]]
+=== 신고된 통화 목록 조회 API
+
+==== HTTP Request
+include::{snippets}/search-userCalls-reports/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-userCalls-reports/http-response.adoc[]
+include::{snippets}/search-userCalls-reports/response-fields.adoc[]
+

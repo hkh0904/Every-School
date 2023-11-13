@@ -7,5 +7,4 @@ include::{snippets}/download-userCalls/http-request.adoc[]
 
 ==== HTTP Response
 include::{snippets}/download-userCalls/http-response.adoc[]
-include::{snippets}/download-userCalls/response-fields.adoc[]
 

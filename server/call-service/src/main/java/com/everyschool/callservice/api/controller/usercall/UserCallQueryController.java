@@ -1,7 +1,10 @@
 package com.everyschool.callservice.api.controller.usercall;
 
 import com.everyschool.callservice.api.ApiResponse;
+import com.everyschool.callservice.api.client.UserServiceClient;
+import com.everyschool.callservice.api.client.response.UserInfo;
 import com.everyschool.callservice.api.controller.FileStore;
+import com.everyschool.callservice.api.controller.usercall.response.ReportCallsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
 import com.everyschool.callservice.api.service.usercall.UserCallQueryService;
@@ -51,6 +54,21 @@ public class UserCallQueryController {
         log.debug("search results = {}", response);
 
         return ApiResponse.ok(response);
+    }
+
+    /**
+     * (선생님) 신고된 통화 리스트 조회 API
+     *
+     * @return 통화
+     */
+    @GetMapping("/reports")
+    public ApiResponse<List<ReportCallsResponse>> searchReportCalls(@RequestHeader("Authorization") String token){
+        log.debug("call UserCallQueryController#searchReportCalls");
+
+        List<ReportCallsResponse> responses = userCallQueryService.searchReportCalls(token);
+        log.debug("response = {}", responses);
+
+        return ApiResponse.ok(responses);
     }
 
     /**
