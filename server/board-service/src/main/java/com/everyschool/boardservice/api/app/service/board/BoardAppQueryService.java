@@ -21,6 +21,11 @@ import java.util.stream.Collectors;
 
 import static com.everyschool.boardservice.domain.board.Category.*;
 
+/**
+ * 앱 게시판 조회용 서비스
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -32,6 +37,12 @@ public class BoardAppQueryService {
     private final UserServiceClient userServiceClient;
     private final FileStore fileStore;
 
+    /**
+     * 신규 자유게시물 목록 조회
+     *
+     * @param schoolId 학교 아이디
+     * @return 조회된 자유게시물 목록
+     */
     public List<NewFreeBoardResponse> searchNewFreeBoards(Long schoolId) {
 
         List<NewFreeBoardResponse> responses = boardQueryRepository.findNewFreeBoardBySchoolId(schoolId, FREE);
@@ -39,6 +50,12 @@ public class BoardAppQueryService {
         return responses;
     }
 
+    /**
+     * 신규 공지사항 목록 조회
+     *
+     * @param schoolId 학교 아이디
+     * @return 조회된 공지사항 목록
+     */
     public List<NewNoticeResponse> searchNewNoticeBoards(Long schoolId) {
 
         List<NewNoticeResponse> responses = boardQueryRepository.findNewNoticeBySchoolId(schoolId, NOTICE);
@@ -46,6 +63,12 @@ public class BoardAppQueryService {
         return responses;
     }
 
+    /**
+     * 신규 가정통신문 목록 조회
+     *
+     * @param schoolId 학교 아이디
+     * @return 조회된 공지사항 목록
+     */
     public List<NewCommunicationResponse> searchNewCommunicationBoards(Long schoolId) {
 
         List<NewCommunicationResponse> responses = boardQueryRepository.findNewCommunicationBySchoolId(schoolId, COMMUNICATION);
@@ -53,24 +76,52 @@ public class BoardAppQueryService {
         return responses;
     }
 
+    /**
+     * 자유게시판 목록 조회
+     *
+     * @param schoolId 학교 아이디
+     * @param pageable 페이징 정보
+     * @return 조회된 자유게시판 목록
+     */
     public SliceResponse<BoardResponse> searchFreeBoards(Long schoolId, Pageable pageable) {
         Slice<BoardResponse> result = boardQueryRepository.findBoardBySchoolId(schoolId, FREE, pageable);
 
         return new SliceResponse<>(result);
     }
 
+    /**
+     * 공지사항 목록 조회
+     *
+     * @param schoolId 학교 아이디
+     * @param pageable 페이징 정보
+     * @return 조회된 공지사항 목록
+     */
     public SliceResponse<BoardResponse> searchNoticeBoards(Long schoolId, Pageable pageable) {
         Slice<BoardResponse> result = boardQueryRepository.findBoardBySchoolId(schoolId, NOTICE, pageable);
 
         return new SliceResponse<>(result);
     }
 
+    /**
+     * 가정통신문 목록 조회
+     *
+     * @param schoolId 학교 아이디
+     * @param pageable 페이징 정보
+     * @return 조회된 가정통신문 목록
+     */
     public SliceResponse<BoardResponse> searchCommunicationBoards(Long schoolId, Pageable pageable) {
         Slice<BoardResponse> result = boardQueryRepository.findBoardBySchoolId(schoolId, COMMUNICATION, pageable);
 
         return new SliceResponse<>(result);
     }
 
+    /**
+     * 자유게시판 상세 조회
+     *
+     * @param boardId 게시판 아이디
+     * @param userKey 회원 고유키
+     * @return 조회된 게시물 정보
+     */
     public FreeBoardDetailResponse searchFreeBoard(Long boardId, String userKey) {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
