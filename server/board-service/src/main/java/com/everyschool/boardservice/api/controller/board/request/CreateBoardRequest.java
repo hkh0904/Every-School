@@ -1,6 +1,6 @@
 package com.everyschool.boardservice.api.controller.board.request;
 
-import com.everyschool.boardservice.api.service.board.dto.CreateBoardDto;
+import com.everyschool.boardservice.api.app.service.board.dto.CreateBoardDto;
 import com.everyschool.boardservice.domain.board.UploadFile;
 import lombok.Builder;
 import lombok.Data;

@@ -2,7 +2,7 @@ package com.everyschool.boardservice;
 
 import com.everyschool.boardservice.api.app.controller.board.BoardAppController;
 import com.everyschool.boardservice.api.controller.FileStore;
-import com.everyschool.boardservice.api.service.board.BoardService;
+import com.everyschool.boardservice.api.app.service.board.BoardAppService;
 import com.everyschool.boardservice.utils.TokenUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ public abstract class ControllerTestSupport {
     protected ObjectMapper objectMapper;
 
     @MockBean
-    private TokenUtils tokenUtils;
+    protected TokenUtils tokenUtils;
 
     @MockBean
-    private FileStore fileStore;
+    protected FileStore fileStore;
 
     @MockBean
-    private BoardService boardService;
+    protected BoardAppService boardService;
 }
