@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 상담 웹 조회 API 컨트롤러
+ * 웹 상담 조회용 API 컨트롤러
  *
  * @author 임우택
  */

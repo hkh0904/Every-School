@@ -1,6 +1,6 @@
 package com.everyschool.schoolservice.api.controller.schoolapply.response;
 
-import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserResponse;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class SchoolApplyResponse {
         this.appliedDate = appliedDate;
     }
 
-    public static SchoolApplyResponse of(SchoolApply schoolApply, StudentResponse info) {
+    public static SchoolApplyResponse of(SchoolApply schoolApply, UserResponse info) {
         return SchoolApplyResponse.builder()
             .schoolApplyId(schoolApply.getId())
             .childInfo(String.format("%d학년 %d반 %s", schoolApply.getSchoolClass().getGrade(), schoolApply.getSchoolClass().getClassNum(), info.getName()))

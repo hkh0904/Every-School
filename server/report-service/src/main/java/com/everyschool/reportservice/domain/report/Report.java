@@ -91,6 +91,7 @@ public class Report extends BaseEntity {
     }
 
     public Report writeResult(String result) {
+        this.progressStatusId = ProgressStatus.FINISH.getCode();
         this.result = result;
         return this;
     }

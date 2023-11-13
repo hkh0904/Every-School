@@ -86,4 +86,13 @@ public class SchoolClientController {
 
         return result;
     }
+
+    @GetMapping("/classes/{schoolClassId}/teachers")
+    public Long searchTeacherId(@PathVariable Long schoolClassId) {
+
+        Long teacherId = schoolClassQueryService.searchTeacherId(schoolClassId);
+        log.debug("teacherId={}", teacherId);
+
+        return teacherId;
+    }
 }

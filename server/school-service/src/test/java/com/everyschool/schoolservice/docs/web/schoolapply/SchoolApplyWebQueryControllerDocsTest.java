@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.docs.web.schoolapply;
 
 import com.everyschool.schoolservice.api.web.controller.schoolapply.SchoolApplyWebQueryController;
+import com.everyschool.schoolservice.api.web.controller.schoolapply.response.SchoolApplyDetailResponse;
 import com.everyschool.schoolservice.api.web.controller.schoolapply.response.SchoolApplyResponse;
 import com.everyschool.schoolservice.api.web.service.schoolapply.SchoolApplyWebQueryService;
 import com.everyschool.schoolservice.docs.RestDocsSupport;
@@ -8,7 +9,6 @@ import com.everyschool.schoolservice.domain.schoolapply.ApplyType;
 import com.everyschool.schoolservice.utils.TokenUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.time.LocalDateTime;
@@ -173,10 +173,11 @@ public class SchoolApplyWebQueryControllerDocsTest extends RestDocsSupport {
     @DisplayName("학급 승인 상세 조회 API")
     @Test
     void searchSchoolApply() throws Exception {
-        SchoolApplyResponse response = SchoolApplyResponse.builder()
+        SchoolApplyDetailResponse response = SchoolApplyDetailResponse.builder()
             .schoolApplyId(1L)
-            .applyType(ApplyType.STUDENT.getText())
-            .studentInfo("10301 이예리")
+            .applyType(ApplyType.STUDENT.getCode())
+            .studentInfo("1학년 3반 13번 이예리")
+            .studentBirth("1998-04-12")
             .lastModifiedDate(LocalDateTime.now())
             .build();
 
@@ -216,8 +217,16 @@ public class SchoolApplyWebQueryControllerDocsTest extends RestDocsSupport {
                         .description("승인 신청 id"),
                     fieldWithPath("data.applyType").type(JsonFieldType.STRING)
                         .description("승인 신청 유형"),
+                    fieldWithPath("data.parentName").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("승인 신청 학부모 이름"),
+                    fieldWithPath("data.parentBirth").type(JsonFieldType.STRING)
+                        .optional()
+                        .description("승인 신청 학부모 생년월일"),
                     fieldWithPath("data.studentInfo").type(JsonFieldType.STRING)
                         .description("승인 신청 학생 정보"),
+                    fieldWithPath("data.studentBirth").type(JsonFieldType.STRING)
+                        .description("승인 신청 학생 생년월일"),
                     fieldWithPath("data.lastModifiedDate").type(JsonFieldType.ARRAY)
                         .description("승인 일시")
                 )

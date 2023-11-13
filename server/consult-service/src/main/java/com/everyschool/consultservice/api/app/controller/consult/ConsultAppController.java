@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * 앱 상담 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -21,6 +26,14 @@ public class ConsultAppController {
     private final ConsultAppService consultAppService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 상담 등록 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param request    상담 등록 정보
+     * @return 등록된 상담 정보
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateConsultResponse> createConsult(

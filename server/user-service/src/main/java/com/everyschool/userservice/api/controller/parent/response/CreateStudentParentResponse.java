@@ -23,7 +23,7 @@ public class CreateStudentParentResponse {
     }
 
     public static CreateStudentParentResponse of(StudentParent studentParent) {
-        String parentType = studentParent.getParent().getParentType().equals("M") ? "부" : "모";
+        String parentType = studentParent.getParent().getParentType().equals("M") ? "아버님" : "어머님";
 
         return CreateStudentParentResponse.builder()
             .parentType(parentType)

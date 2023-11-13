@@ -1,5 +1,5 @@
 [[web-search-detail-school-apply]]
-=== 승인된 신청 목록 조회 API
+=== 승인된 신청 상세 조회 API
 
 ==== HTTP Request
 

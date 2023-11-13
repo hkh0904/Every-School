@@ -20,7 +20,7 @@ import static com.everyschool.reportservice.error.ErrorMessage.*;
  */
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class ReportWebService {
 
     private final ReportRepository reportRepository;

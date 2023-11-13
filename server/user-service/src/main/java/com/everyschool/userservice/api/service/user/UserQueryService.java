@@ -1,6 +1,6 @@
 package com.everyschool.userservice.api.service.user;
 
-import com.everyschool.userservice.api.controller.client.response.StudentResponse;
+import com.everyschool.userservice.api.controller.client.response.UserResponse;
 import com.everyschool.userservice.api.controller.client.response.UserInfo;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
@@ -122,7 +122,11 @@ public class UserQueryService {
         return UserInfo.of(teacher);
     }
 
-    public List<StudentResponse> searchByStudentIdIn(List<Long> studentIds) {
+    public List<UserResponse> searchByStudentIdIn(List<Long> studentIds) {
         return userQueryRepository.findStudentByIdIn(studentIds);
+    }
+
+    public UserResponse searchUserById(Long userId) {
+        return null;
     }
 }

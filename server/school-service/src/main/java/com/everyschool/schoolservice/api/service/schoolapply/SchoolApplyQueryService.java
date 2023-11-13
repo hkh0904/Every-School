@@ -1,7 +1,7 @@
 package com.everyschool.schoolservice.api.service.schoolapply;
 
 import com.everyschool.schoolservice.api.client.UserServiceClient;
-import com.everyschool.schoolservice.api.client.response.StudentResponse;
+import com.everyschool.schoolservice.api.client.response.UserResponse;
 import com.everyschool.schoolservice.api.client.response.UserInfo;
 import com.everyschool.schoolservice.api.controller.schoolapply.response.SchoolApplyResponse;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
@@ -33,10 +33,10 @@ public class SchoolApplyQueryService {
             .map(SchoolApply::getStudentId)
             .collect(Collectors.toList());
 
-        List<StudentResponse> studentInfos = userServiceClient.searchByStudentIdIn(studentIds);
+        List<UserResponse> studentInfos = userServiceClient.searchByStudentIdIn(studentIds);
 
-        Map<Long, StudentResponse> map = studentInfos.stream()
-            .collect(Collectors.toMap(StudentResponse::getStudentId, studentInfo -> studentInfo, (a, b) -> b));
+        Map<Long, UserResponse> map = studentInfos.stream()
+            .collect(Collectors.toMap(UserResponse::getUserId, studentInfo -> studentInfo, (a, b) -> b));
 
         List<SchoolApplyResponse> responses = schoolApplies.stream()
             .map(schoolApply -> SchoolApplyResponse.of(schoolApply, map.get(schoolApply.getStudentId())))
@@ -52,7 +52,7 @@ public class SchoolApplyQueryService {
         }
         SchoolApply schoolApply = findSchoolApply.get();
 
-        List<StudentResponse> studentInfos = userServiceClient.searchByStudentIdIn(List.of(schoolApply.getStudentId()));
+        List<UserResponse> studentInfos = userServiceClient.searchByStudentIdIn(List.of(schoolApply.getStudentId()));
 
         return SchoolApplyResponse.of(schoolApply, studentInfos.get(0));
     }

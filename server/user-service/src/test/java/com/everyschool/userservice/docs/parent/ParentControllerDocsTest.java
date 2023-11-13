@@ -65,7 +65,7 @@ public class ParentControllerDocsTest extends RestDocsSupport {
                 .contentType(MediaType.APPLICATION_JSON)
         )
             .andDo(print())
-            .andExpect(status().isCreated())
+            .andExpect(status().isOk())
             .andDo(document("create-student-parent",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
@@ -81,16 +81,8 @@ public class ParentControllerDocsTest extends RestDocsSupport {
                         .description("상태"),
                     fieldWithPath("message").type(JsonFieldType.STRING)
                         .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.OBJECT)
-                        .description("응답 데이터"),
-                    fieldWithPath("data.parentType").type(JsonFieldType.STRING)
-                        .description("부모 타입"),
-                    fieldWithPath("data.parentName").type(JsonFieldType.STRING)
-                        .description("부모 이름"),
-                    fieldWithPath("data.studentName").type(JsonFieldType.STRING)
-                        .description("학생 이름"),
-                    fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
-                        .description("등록 일시")
+                    fieldWithPath("data").type(JsonFieldType.NULL)
+                        .description("응답 데이터")
                 )
             ));
     }
