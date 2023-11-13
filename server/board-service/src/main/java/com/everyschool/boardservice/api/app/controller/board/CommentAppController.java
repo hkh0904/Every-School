@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * 앱 댓글 API 컨트롤러
+ *
+ * @author 임우택
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -21,6 +26,15 @@ public class CommentAppController {
     private final CommentAppService commentAppService;
     private final TokenUtils tokenUtils;
 
+    /**
+     * 댓글 작성 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param boardId    게시물 아이디
+     * @param request    댓글 내용
+     * @return 작성된 댓글
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateCommentResponse> createComment(
@@ -36,6 +50,16 @@ public class CommentAppController {
         return ApiResponse.created(response);
     }
 
+    /**
+     * 대댓글 작성 API
+     *
+     * @param schoolYear 학년도
+     * @param schoolId   학교 아이디
+     * @param boardId    게시물 아이디
+     * @param commentId  댓글 아이디
+     * @param request    댓글 내용
+     * @return 작성된 댓글
+     */
     @PostMapping("/{commentId}")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CreateCommentResponse> createChildComment(

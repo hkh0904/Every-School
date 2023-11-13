@@ -1,9 +1,9 @@
-package com.everyschool.boardservice.api.controller.board;
+package com.everyschool.boardservice.api.app.controller.board;
 
 import com.everyschool.boardservice.api.ApiResponse;
 import com.everyschool.boardservice.api.SliceResponse;
-import com.everyschool.boardservice.api.controller.board.response.*;
-import com.everyschool.boardservice.api.service.board.BoardQueryService;
+import com.everyschool.boardservice.api.app.controller.board.response.*;
+import com.everyschool.boardservice.api.app.service.board.BoardAppQueryService;
 import com.everyschool.boardservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +21,9 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/board-service/v1/app/{schoolYear}/schools/{schoolId}")
-public class BoardQueryController {
+public class BoardAppQueryController {
 
-    private final BoardQueryService boardQueryService;
+    private final BoardAppQueryService boardQueryService;
     private final TokenUtils tokenUtils;
 
     /**

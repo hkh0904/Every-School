@@ -1,4 +1,4 @@
-package com.everyschool.boardservice.api.controller.docs;
+package com.everyschool.boardservice.api.web.controller.docs;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

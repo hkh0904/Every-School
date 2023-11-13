@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:timezone/timezone.dart' as tz;
-// import 'dart:convert';
-// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PostList extends StatefulWidget {
   final String pageTitle;
@@ -20,23 +20,19 @@ class _PostListState extends State<PostList> {
   List<dynamic> postList = [];
 
   Future<void> _loadPostData() async {
-    // final storage = FlutterSecureStorage();
-    // final descendantInfo = await storage.read(key: 'descendant') ?? "";
-    // print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2');
-    // var selectDescendant = jsonDecode(descendantInfo);
-    // print('===============================================$selectDescendant');
-
     final userType = context.read<UserStore>().userInfo["userType"];
     late final schoolId;
     if (userType == 1002) {
-      schoolId = context.read<UserStore>().userInfo["descendants"][0]["school"]
-          ["schoolId"];
+      final storage = FlutterSecureStorage();
+      final descendantInfo = await storage.read(key: 'descendant') ?? "";
+      var selectDescendant = jsonDecode(descendantInfo);
+      schoolId = selectDescendant["school"]["schoolId"];
     } else {
       schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
     }
     var response;
     try {
-      if (widget.pageTitle == '자유 게시판') {
+      if (widget.pageTitle == '자유게시판') {
         response = await communityApi.getBoardList(schoolId);
       } else if (widget.pageTitle == '학사 공지') {
         response = await communityApi.getNoticeList(schoolId);
@@ -127,7 +123,8 @@ class _PostListState extends State<PostList> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PostDetail(boardId: boardId),
+                  builder: (context) =>
+                      PostDetail(boardName: widget.pageTitle, boardId: boardId),
                 ),
               ).then((_) {
                 // 사용자가 돌아왔을 때 게시글 목록을 새로고침

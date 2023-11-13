@@ -173,7 +173,7 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      PostDetail(boardId: boardId),
+                                      PostDetail(boardName: '가정통신문', boardId: boardId),
                                 ),
                               );
                             }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class PostComments extends StatefulWidget {
   final List<dynamic> comments;
-
   // Constructor for receiving comments
   PostComments({Key? key, required this.comments}) : super(key: key);
 
@@ -11,27 +10,49 @@ class PostComments extends StatefulWidget {
 }
 
 class _PostCommentsState extends State<PostComments> {
+  TextEditingController commentController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    print(widget.comments);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      // SingleChildScrollView 추가
       child: Column(
         children: [
-          ListView.builder(
-            itemCount: widget.comments.length,
-            itemBuilder: (context, index) {
-              var comment = widget.comments[index];
-              return Column(
-                children: [
-                  _buildComment(comment, false), // for main comments
-                  ..._buildReComments(comment['reComment']), // for recomments
-                ],
-              );
-            },
-            shrinkWrap: true,
-            physics:
-                NeverScrollableScrollPhysics(), // ListView.builder의 스크롤 비활성화
+          Text('댓글 작성하기'),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextField(
+              controller: commentController,
+              decoration: InputDecoration(
+                hintText: '코멘트 입력...',
+                border: OutlineInputBorder(),
+              ),
+            ),
           ),
+          widget.comments.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text('아직 작성된 댓글이 없습니다'),
+                )
+              : ListView.builder(
+                  itemCount: widget.comments.length,
+                  itemBuilder: (context, index) {
+                    var comment = widget.comments[index];
+                    return Column(
+                      children: [
+                        _buildComment(comment, false), // for main comments
+                        ..._buildReComments(
+                            comment['reComment']), // for recomments
+                      ],
+                    );
+                  },
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                ),
         ],
       ),
     );
@@ -107,17 +128,14 @@ class _PostCommentsState extends State<PostComments> {
           20,
           5,
           20,
-          idx == reComments.length - 1 ? 10 : 5, // 마지막 요소인 경우 bottom margin 추가
+          idx == reComments.length - 1 ? 10 : 5,
         ),
         child: Column(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.subdirectory_arrow_right,
-                  size: 30,
-                ),
+                Icon(Icons.subdirectory_arrow_right, size: 30),
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
@@ -128,7 +146,7 @@ class _PostCommentsState extends State<PostComments> {
                   ),
                 ),
               ],
-            ), // for recomments
+            ),
           ],
         ),
       );

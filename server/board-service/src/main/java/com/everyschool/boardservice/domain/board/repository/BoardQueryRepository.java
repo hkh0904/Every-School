@@ -1,9 +1,9 @@
 package com.everyschool.boardservice.domain.board.repository;
 
-import com.everyschool.boardservice.api.controller.board.response.BoardResponse;
-import com.everyschool.boardservice.api.controller.board.response.NewCommunicationResponse;
-import com.everyschool.boardservice.api.controller.board.response.NewFreeBoardResponse;
-import com.everyschool.boardservice.api.controller.board.response.NewNoticeResponse;
+import com.everyschool.boardservice.api.app.controller.board.response.BoardResponse;
+import com.everyschool.boardservice.api.app.controller.board.response.NewCommunicationResponse;
+import com.everyschool.boardservice.api.app.controller.board.response.NewFreeBoardResponse;
+import com.everyschool.boardservice.api.app.controller.board.response.NewNoticeResponse;
 import com.everyschool.boardservice.domain.board.Category;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
