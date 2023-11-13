@@ -19,6 +19,9 @@ public class SendAlarmRequest {
     @NotBlank(message = "알림 내용은 필수입니다.")
     private String content;
 
+    @NotBlank(message = "타입은 필수입니다.")
+    private String type;
+
     @NotNull(message = "학년도는 필수입니다.")
     private Integer schoolYear;
 
@@ -26,9 +29,11 @@ public class SendAlarmRequest {
     private List<String> recipientUserKeys;
 
     @Builder
-    private SendAlarmRequest(String title, String content, Integer schoolYear, List<String> recipientUserKeys) {
+    private SendAlarmRequest(String title, String content, String type, Integer schoolYear,
+                             List<String> recipientUserKeys) {
         this.title = title;
         this.content = content;
+        this.type = type;
         this.schoolYear = schoolYear;
         this.recipientUserKeys = recipientUserKeys;
     }
@@ -37,6 +42,7 @@ public class SendAlarmRequest {
         return CreateAlarmDto.builder()
             .title(this.title)
             .content(this.content)
+            .type(this.type)
             .schoolYear(this.schoolYear)
             .recipientUserKeys(this.recipientUserKeys)
             .build();
