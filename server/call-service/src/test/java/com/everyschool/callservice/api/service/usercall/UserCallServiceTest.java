@@ -76,8 +76,6 @@ class UserCallServiceTest extends IntegrationTestSupport {
                 .startDateTime(LocalDateTime.now().minusHours(2))
                 .endDateTime(LocalDateTime.now().minusHours(1))
                 .receiveCall("Y")
-                .uploadFileName("이예리 폭언 녹음본")
-                .storeFileName("이예리 폭언 녹음본")
                 .isBad(true)
                 .build();
         return userCallRepository.save(userCall);
