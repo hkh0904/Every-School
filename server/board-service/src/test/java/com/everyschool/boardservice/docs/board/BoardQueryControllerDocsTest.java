@@ -1,8 +1,8 @@
 package com.everyschool.boardservice.docs.board;
 
 import com.everyschool.boardservice.api.SliceResponse;
-import com.everyschool.boardservice.api.controller.board.BoardQueryController;
-import com.everyschool.boardservice.api.controller.board.response.*;
+import com.everyschool.boardservice.api.app.controller.board.BoardAppQueryController;
+import com.everyschool.boardservice.api.app.controller.board.response.*;
 import com.everyschool.boardservice.api.service.board.BoardQueryService;
 import com.everyschool.boardservice.docs.RestDocsSupport;
 import com.everyschool.boardservice.utils.TokenUtils;
@@ -39,7 +39,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
 
     @Override
     protected Object initController() {
-        return new BoardQueryController(boardQueryService, tokenUtils);
+        return new BoardAppQueryController(boardQueryService, tokenUtils);
     }
 
     @DisplayName("자유 게시판 새 글 조회 API")

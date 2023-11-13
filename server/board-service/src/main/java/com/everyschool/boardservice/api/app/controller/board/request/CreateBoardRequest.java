@@ -1,4 +1,4 @@
-package com.everyschool.boardservice.api.controller.board.request;
+package com.everyschool.boardservice.api.app.controller.board.request;
 
 import com.everyschool.boardservice.api.app.service.board.dto.CreateBoardDto;
 import com.everyschool.boardservice.domain.board.UploadFile;

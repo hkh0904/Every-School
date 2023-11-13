@@ -1,10 +1,10 @@
 package com.everyschool.boardservice.api.service.board;
 
 import com.everyschool.boardservice.api.SliceResponse;
+import com.everyschool.boardservice.api.app.controller.board.response.*;
 import com.everyschool.boardservice.api.client.UserServiceClient;
 import com.everyschool.boardservice.api.client.response.UserInfo;
-import com.everyschool.boardservice.api.controller.FileStore;
-import com.everyschool.boardservice.api.controller.board.response.*;
+import com.everyschool.boardservice.api.FileStore;
 import com.everyschool.boardservice.domain.board.Board;
 import com.everyschool.boardservice.domain.board.Comment;
 import com.everyschool.boardservice.domain.board.repository.BoardQueryRepository;
