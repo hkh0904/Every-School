@@ -132,6 +132,7 @@ public class UserInfoAppQueryControllerDocsTest extends RestDocsSupport {
             .classNum(3)
             .build();
         ParentInfoResponse.Descendant descendant = ParentInfoResponse.Descendant.builder()
+            .userId(2L)
             .userType(STUDENT.getCode())
             .studentNumber(10301)
             .name("이리온")
