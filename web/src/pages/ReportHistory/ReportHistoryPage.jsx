@@ -33,21 +33,22 @@ export default function ReportHistoryPage() {
   const [reports, setReports] = useState([]);
   const [completeReports, setCompleteReports] = useState(0);
 
+  const fetchReports = async () => {
+    let rawData = await receivedReportInfo();
+
+    const formattedData = rawData.map((item) => {
+      const splitDateTime = item.date.split('T');
+      const time = `${parseInt(splitDateTime[1], 10)}시`;
+      const formattedDate = `${splitDateTime[0]} / ${time}`;
+
+      return { ...item, date: formattedDate };
+    });
+
+    setReports(formattedData);
+    setCompleteReports(formattedData.length);
+  };
+
   useEffect(() => {
-    const fetchReports = async () => {
-      let rawData = await receivedReportInfo();
-
-      const formattedData = rawData.map((item) => {
-        const splitDateTime = item.date.split('T');
-        const time = `${parseInt(splitDateTime[1], 10)}시`;
-        const formattedDate = `${splitDateTime[0]} / ${time}`;
-
-        return { ...item, date: formattedDate };
-      });
-
-      setReports(formattedData);
-      setCompleteReports(formattedData.length);
-    };
     fetchReports();
   }, []);
 

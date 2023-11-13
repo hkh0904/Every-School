@@ -9,6 +9,9 @@ import 'package:everyschool/page/report/report_page.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:everyschool/page/community/community_page.dart';
+import 'package:everyschool/page/community/postlist_page.dart';
+import 'package:everyschool/page/community/school_schedule.dart';
 
 class Category extends StatefulWidget {
   const Category({super.key});
@@ -41,9 +44,9 @@ class _CategoryState extends State<Category> {
   ];
 
   var communityList = [
-    ['커뮤니티 메인', '학사일정', '학사공지', '급식메뉴', '가정통신문', '자유게시판', '인기게시판', 'HOT게시판'],
-    ['커뮤니티 메인', '학사일정', '학사공지', '급식메뉴', '가정통신문'],
-    ['커뮤니티 메인', '학사일정', '학사공지', '급식메뉴', '가정통신문']
+    ['학사일정', '학사공지', '급식메뉴', '가정통신문', '자유게시판', '인기게시판', 'HOT게시판'],
+    ['학사일정', '학사공지', '급식메뉴', '가정통신문'],
+    ['학사일정', '학사공지', '급식메뉴', '가정통신문']
   ];
 
   var mypageList = [
@@ -71,7 +74,31 @@ class _CategoryState extends State<Category> {
       MessengerPage(indexNum: 1),
       MessengerPage(indexNum: 0)
     ]
-  ] as List<List<StatefulWidget>>;
+  ];
+
+  var communityListLink = [
+    [
+      SchoolSchedule(),
+      PostlistPage(pageTitle: '학사 공지'),
+      SchoolSchedule(), // 급식메뉴
+      PostlistPage(pageTitle: '가정통신문'),
+      PostlistPage(pageTitle: '자유게시판'),
+      PostlistPage(pageTitle: '자유게시판'), // 인기게
+      PostlistPage(pageTitle: '자유게시판') // 핫게
+    ],
+    [
+      SchoolSchedule(),
+      PostlistPage(pageTitle: '학사 공지'),
+      SchoolSchedule(), // 급식메뉴
+      PostlistPage(pageTitle: '가정통신문'),
+    ],
+    [
+      SchoolSchedule(),
+      PostlistPage(pageTitle: '학사 공지'),
+      SchoolSchedule(), // 급식메뉴
+      PostlistPage(pageTitle: '가정통신문'),
+    ]
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +176,7 @@ class _CategoryState extends State<Category> {
                   CategoryRepnCslt(
                       userNum: userNum,
                       categoryList: communityList,
+                      categoryListLink: communityListLink,
                       titleTxt: _titleTxt3),
                   SizedBox(
                     height: 30,

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:everyschool/api/user_api.dart';
 
 class RegisterChild extends StatefulWidget {
@@ -12,7 +11,6 @@ class RegisterChild extends StatefulWidget {
 
 class _RegisterChildState extends State<RegisterChild> {
   final UserApi userApi = UserApi();
-  var registerCode = '';
   late List<TextEditingController> controllers;
   late List<FocusNode> focusNodes;
 
@@ -30,24 +28,35 @@ class _RegisterChildState extends State<RegisterChild> {
     super.dispose();
   }
 
-  Future<void> _loadRegisterCode() async {
-    var response;
+  Future<void> _registeChild() async {
     try {
-      response = await userApi.registerParents();
-      setState(() {
-        registerCode = response;
-      });
+      String registerCode =
+          controllers.map((controller) => controller.text).join();
+      var result = await userApi.registerChild(registerCode);
+      if (result is String && result.startsWith('API Request Failed')) {
+        throw Exception(result); // 에러 메시지를 예외로 던집니다.
+      }
     } catch (e) {
       print('error: $e');
-    }
-  }
 
-  void _handleKeyEvent(RawKeyEvent event, int index) {
-    if (event is RawKeyDownEvent &&
-        event.logicalKey == LogicalKeyboardKey.backspace &&
-        index > 0 &&
-        controllers[index].text.isEmpty) {
-      focusNodes[index - 1].requestFocus();
+      // 에러 발생 시 대화 상자를 표시
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('등록 실패'),
+            content: Text('에러가 발생했습니다: $e'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('닫기'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // 대화 상자를 닫습니다.
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -146,7 +155,7 @@ class _RegisterChildState extends State<RegisterChild> {
             ),
             SizedBox(height: 30),
             ElevatedButton(
-              onPressed: _loadRegisterCode,
+              onPressed: _registeChild,
               style: ButtonStyle(
                 minimumSize:
                     MaterialStateProperty.all(Size(double.infinity, 36)),

@@ -131,6 +131,22 @@ class UserApi {
     }
   }
 
+  Future<dynamic> registerChild(code) async {
+    String? token = await storage.read(key: 'token');
+    try {
+      final response = await dio.post(
+        '${serverApi.serverURL}/user-service/v1/connection',
+        data: {'connectCode': code},
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      return response.data['data'];
+    } catch (e) {
+      print('API Error: $e');
+      // 에러 메시지를 반환합니다.
+      return 'API Request Failed: $e';
+    }
+  }
+
   // 학교 데이터 조회
   Future<dynamic> getSchoolList(schoolName) async {
     try {
@@ -153,7 +169,8 @@ class UserApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      return response.data['data'];
+      // return response.data['data'];
+      print(response.data);
     } catch (e) {
       print(e);
     }
