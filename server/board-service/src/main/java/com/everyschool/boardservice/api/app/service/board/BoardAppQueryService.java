@@ -1,4 +1,4 @@
-package com.everyschool.boardservice.api.service.board;
+package com.everyschool.boardservice.api.app.service.board;
 
 import com.everyschool.boardservice.api.SliceResponse;
 import com.everyschool.boardservice.api.app.controller.board.response.*;
@@ -24,7 +24,7 @@ import static com.everyschool.boardservice.domain.board.Category.*;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
-public class BoardQueryService {
+public class BoardAppQueryService {
 
     private final BoardRepository boardRepository;
     private final BoardQueryRepository boardQueryRepository;
