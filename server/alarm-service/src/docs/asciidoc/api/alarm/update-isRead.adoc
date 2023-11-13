@@ -1,0 +1,10 @@
+[[update-isRead]]
+=== 알림 읽음 확인 API
+
+==== HTTP Request
+include::{snippets}/update-isRead/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/update-isRead/http-response.adoc[]
+include::{snippets}/update-isRead/response-fields.adoc[]
