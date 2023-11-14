@@ -21,23 +21,27 @@ class _PostListState extends State<PostList> {
 
   Future<void> _loadPostData() async {
     final userType = context.read<UserStore>().userInfo["userType"];
+    late final schoolYear;
     late final schoolId;
     if (userType == 1002) {
       final storage = FlutterSecureStorage();
       final descendantInfo = await storage.read(key: 'descendant') ?? "";
       var selectDescendant = jsonDecode(descendantInfo);
       schoolId = selectDescendant["school"]["schoolId"];
+      schoolYear = selectDescendant["schoolClass"]["schoolYear"];
     } else {
       schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
+      schoolYear =
+          context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
     }
     var response;
     try {
       if (widget.pageTitle == '자유게시판') {
-        response = await communityApi.getBoardList(schoolId);
+        response = await communityApi.getBoardList(schoolYear, schoolId);
       } else if (widget.pageTitle == '학사 공지') {
-        response = await communityApi.getNoticeList(schoolId);
+        response = await communityApi.getNoticeList(schoolYear, schoolId);
       } else if (widget.pageTitle == '가정통신문') {
-        response = await communityApi.getHomeNoticeList(schoolId);
+        response = await communityApi.getHomeNoticeList(schoolYear, schoolId);
       }
 
       if (response != null && response['content'] != null) {

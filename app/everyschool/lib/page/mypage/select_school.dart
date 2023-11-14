@@ -1,6 +1,8 @@
 import 'package:everyschool/api/user_api.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:everyschool/store/user_store.dart';
+import 'package:provider/provider.dart';
 
 class School {
   final int schoolId;
@@ -31,9 +33,9 @@ class SelectSchool extends StatefulWidget {
 
 class _SelectSchoolState extends State<SelectSchool> {
   final UserApi userApi = UserApi();
+  late final userName;
   List<School> schoolData = [];
-
-  final TextEditingController _nameController = TextEditingController();
+  late TextEditingController _nameController;
   final TextEditingController _gradeController = TextEditingController();
   final TextEditingController _classController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
@@ -45,17 +47,20 @@ class _SelectSchoolState extends State<SelectSchool> {
   @override
   void initState() {
     super.initState();
+    userName = context.read<UserStore>().userInfo["name"];
     _searchController.addListener(_mayUpdateOverlay);
+    _nameController = TextEditingController();
+    _nameController.text = userName;
   }
 
   @override
   void dispose() {
+    _searchController.removeListener(_mayUpdateOverlay);
+    _searchController.dispose();
     _nameController.dispose();
     _gradeController.dispose();
     _classController.dispose();
-    _searchController.dispose();
     _overlayEntry?.remove();
-    _searchController.removeListener(_mayUpdateOverlay);
     super.dispose();
   }
 
@@ -190,9 +195,57 @@ class _SelectSchoolState extends State<SelectSchool> {
     );
   }
 
-  Future<void> _registerSchool() async {
+  Future<void> showResultDialog(BuildContext context, String message,
+      {bool barrierDismissible = true}) async {
+    return showDialog(
+      barrierDismissible: barrierDismissible,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 40),
+              Center(
+                child: Text(
+                  message,
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+              ),
+              SizedBox(height: 40),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop(); // 다이얼로그 닫기
+                  if (!barrierDismissible) {
+                    // 성공적인 작업 후 페이지를 빠져나갈 경우
+                    Navigator.of(context).pop(); // 추가적인 pop
+                  }
+                },
+                child: Container(
+                  height: 50,
+                  color: Color(0xff15075f),
+                  child: Center(
+                    child: Text(
+                      "확인",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _registerSchool(BuildContext context) async {
     if (_selectedSchoolId == null) {
-      print('학교를 선택해주세요.');
+      await showResultDialog(context, '학교를 선택해주세요.');
       return;
     }
 
@@ -200,17 +253,18 @@ class _SelectSchoolState extends State<SelectSchool> {
     final classNum = _classController.text;
 
     if (grade.isEmpty || classNum.isEmpty) {
-      print('학년과 반을 모두 입력해주세요.');
+      await showResultDialog(context, '학년과 반을 모두 입력해주세요.');
       return;
     }
 
     final result =
         await userApi.registSchool(_selectedSchoolId!, grade, classNum);
-
     if (result != null) {
-      print('등록 성공: $result');
+      // 등록 성공 시, 다이얼로그가 'barrierDismissible: false'로 설정됩니다.
+      await showResultDialog(context, '학교 등록 신청에 성공하였습니다.\n곧 서비스를 이용하실 수 있습니다.',
+          barrierDismissible: false);
     } else {
-      print('등록 실패');
+      await showResultDialog(context, '등록 실패');
     }
   }
 
@@ -305,11 +359,24 @@ class _SelectSchoolState extends State<SelectSchool> {
                 ),
               ),
               SizedBox(height: 10),
-              TextField(
-                controller: _nameController,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18),
-                decoration: getTextFieldDecoration('이름을 입력하세요'),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey, // 포커스 여부에 따라 색상 변경
+                    ),
+                  ),
+                ),
+                child: Text(
+                  _nameController.text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                ),
               ),
               SizedBox(height: 25),
               Text(
@@ -361,7 +428,7 @@ class _SelectSchoolState extends State<SelectSchool> {
                 children: <Widget>[
                   Expanded(
                     child: InkWell(
-                      onTap: _registerSchool,
+                      onTap: () => _registerSchool(context),
                       child: Container(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                         decoration: BoxDecoration(

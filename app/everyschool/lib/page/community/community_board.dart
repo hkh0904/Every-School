@@ -27,21 +27,24 @@ class _CommunityBoardState extends State<CommunityBoard> {
 
   Future<void> _loadBoardData() async {
     final userType = context.read<UserStore>().userInfo["userType"];
+    late final schoolYear;
     late final schoolId;
     if (userType == 1002) {
       final storage = FlutterSecureStorage();
       final descendantInfo = await storage.read(key: 'descendant') ?? "";
       var selectDescendant = jsonDecode(descendantInfo);
+      schoolYear = selectDescendant["schoolClass"]["schoolYear"];
       schoolId = selectDescendant["school"]["schoolId"];
     } else {
+      schoolYear = context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
       schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
     }
     var response;
     try {
       if (userType == 1001) {
-        response = await communityApi.getBoardList(schoolId);
+        response = await communityApi.getBoardList(schoolYear, schoolId);
       } else if (userType == 1002 || userType == 1003) {
-        response = await communityApi.getNoticeList(schoolId);
+        response = await communityApi.getNoticeList(schoolYear, schoolId);
       }
       if (response != null && response['content'] != null) {
         setState(() {
