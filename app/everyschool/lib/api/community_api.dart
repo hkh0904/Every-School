@@ -142,4 +142,50 @@ class CommunityApi {
       print(e);
     }
   }
+
+  Future<dynamic> getMyPost(year, schoolId) async {
+    var token = await storage.read(key: 'token') ?? "";
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/my/boards?category=6001',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print(response.data['data']);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getMyComment(year, schoolId) async {
+    var token = await storage.read(key: 'token');
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/my/comments',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print('${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getMyScrap(year, schoolId) async {
+    var token = await storage.read(key: 'token');
+    print('왜 안돼 $token');
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/scraps',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print('왜 안돼 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }

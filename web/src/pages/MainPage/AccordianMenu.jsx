@@ -24,7 +24,7 @@ export default function AccordianMenu() {
     },
     {
       title: '안내문 관리',
-      list: ['가정통신문 관리', '고지서 관리'],
+      list: ['가정통신문 관리', '공지사항 등록'],
       icon: AiFillNotification,
       address: ['/docs/register-noti', '/docs/register-payment']
     },
@@ -48,7 +48,7 @@ export default function AccordianMenu() {
     }
   ];
 
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState(0);
 
   const handleToggle = (index) => {
     if (expandedIndex === index) {
@@ -63,7 +63,7 @@ export default function AccordianMenu() {
       {MenuList.map((menu, index) => (
         <div key={index}>
           <div className={styles.accordianTitle} onClick={() => handleToggle(index)}>
-            {index === 5 || index === 4  || index === 3 ? ( // 3은 "접수된 신고"의 인덱스입니다.
+            {index === 5 || index === 4 || index === 3 ? ( // 3은 "접수된 신고"의 인덱스입니다.
               <NavLink to={menu.address} className={({ isActive }) => [isActive ? styles.isActive : styles.titleLink]}>
                 {menu.icon()}
                 <p>{menu.title}</p>

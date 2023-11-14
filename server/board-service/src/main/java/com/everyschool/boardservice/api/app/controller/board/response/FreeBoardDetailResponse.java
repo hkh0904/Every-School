@@ -14,29 +14,36 @@ public class FreeBoardDetailResponse {
     private String title;
     private String content;
     private int commentCount;
+    private int scrapCount;
     private Boolean isMine;
+    private Boolean isUsedComment;
     private LocalDateTime createdDate;
     private List<String> imageUrls;
     private List<CommentVo> comments;
 
     @Builder
-    private FreeBoardDetailResponse(Long boardId, String title, String content, int commentCount, Boolean isMine, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
+    private FreeBoardDetailResponse(Long boardId, String title, String content, int commentCount, int scrapCount, Boolean isMine, Boolean isUsedComment, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.commentCount = commentCount;
+        this.scrapCount = scrapCount;
         this.isMine = isMine;
+        this.isUsedComment = isUsedComment;
         this.createdDate = createdDate;
         this.imageUrls = imageUrls;
         this.comments = comments;
     }
 
-    public static FreeBoardDetailResponse of(Board board, List<String> imageUrls, List<CommentVo> comments) {
+    public static FreeBoardDetailResponse of(Board board, Long userId, List<String> imageUrls, List<CommentVo> comments) {
         return FreeBoardDetailResponse.builder()
             .boardId(board.getId())
             .title(board.getTitle())
             .content(board.getContent())
             .commentCount(board.getCommentCount())
+            .isMine(board.getUserId().equals(userId))
+            .isUsedComment(board.getIsUsedComment())
+            .scrapCount(board.getScrapCount())
             .createdDate(board.getCreatedDate())
             .imageUrls(imageUrls)
             .comments(comments)

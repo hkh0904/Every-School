@@ -35,6 +35,7 @@ public class ScrapAppService {
             .build();
 
         scrapRepository.save(scrap);
+        board.increaseScrapCount();
 
         return true;
     }

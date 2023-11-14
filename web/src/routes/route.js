@@ -16,9 +16,10 @@ import MyPage from '../pages/MyPage/MyPage';
 import BadComplainHistoryPage from '../pages/BadComplainHistory/BadComplainHistory';
 import BadCallComplain from '../pages/BadCallComplain/BadCallComplain';
 import BadChatComplain from '../pages/BadChatComplain/BadChatComplain';
-import ConsultSettingPage from "../pages/ConsultSetting/ConsultSettingPage";
-import NotiHistory from "../pages/Notification/NotiHistory";
-import NotiDetailPage from "../pages/Notification/NotiDetailPage";
+import ConsultSettingPage from '../pages/ConsultSetting/ConsultSettingPage';
+import NotiHistory from '../pages/Notification/NotiHistory';
+import NotiDetailPage from '../pages/Notification/NotiDetailPage';
+import RegisterNotiPage from './../pages/Notification/RegisterNotiPage';
 
 function RouteLink() {
   return (
@@ -44,6 +45,7 @@ function RouteLink() {
             <Route path='report/detail' element={<ReportDetailPage />} />
             {/* 고지서 등록 */}
             <Route path='docs/register-noti' element={<NotiHistory />} />
+            <Route path='docs/register-noti/write' element={<RegisterNotiPage />} />
             <Route path='docs/register-noti/detail' element={<NotiDetailPage />} />
             <Route path='docs/register-payment' element={<RegisterPayPage />} />
             {/* 상담 */}

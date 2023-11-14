@@ -1,9 +1,9 @@
-import {useEffect, useMemo, useState} from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './ManageClassPage.module.css';
 import styles2 from './ManageMyclassPage.module.css';
 import ApproveModal from './ApproveModal';
-import {getApplies} from '../../api/SchoolAPI/schoolAPI';
-import Table from "../../component/Table/Table";
+import { getApplies } from '../../api/SchoolAPI/schoolAPI';
+import Table from '../../component/Table/Table';
 
 //axios 요청하기
 export default function ManageClassPage() {
@@ -29,14 +29,20 @@ export default function ManageClassPage() {
   const fetchApplies = async (pageIdx) => {
     try {
       const data = await getApplies(pageIdx);
+      console.log(data);
       if (data && Array.isArray(data.content)) {
         const transformedData = data.content.map((apply) => ({
+          rejectedReason: '정보 불일치',
+          parentName: apply.parentName,
+          studentBirth: apply.studentBirth,
+          parentBirth: apply.parentBirth,
+          schoolApplyId: apply.schoolApplyId,
           type: apply.applyType,
           grade: apply.studentInfo.split(' ')[0].replace('학년', ''),
           class: apply.studentInfo.split(' ')[1].replace('반', ''),
-          number: apply.studentInfo.split(' ')[2].replace('번', ''),
-          name: apply.studentInfo.split(' ')[3],
-          lastModifiedDate: apply.lastModifiedDate.split('T')[0] + ' ' + apply.lastModifiedDate.split('T')[1],
+
+          name: apply.studentInfo.split(' ')[2],
+          lastModifiedDate: apply.lastModifiedDate.split('T')[0] + ' ' + apply.lastModifiedDate.split('T')[1]
           // add other fields if necessary
         }));
         setApplies(transformedData);
@@ -44,66 +50,121 @@ export default function ManageClassPage() {
       } else {
         // handleRetry();
       }
+      console.log(data);
     } catch (error) {
       console.error('Failed to fetch students:', error);
     }
   };
 
-  const columns = useMemo(
-    () => {
-      const column = [
-        {
-          accessor: 'type',
-          Header: '신청 유형'
-        },
-        {
-          accessor: 'grade',
-          Header: '학년'
-        },
-        {
-          accessor: 'class',
-          Header: '반'
-        },
-        {
-          accessor: 'number',
-          Header: '번호'
-        },
-        {
-          accessor: 'name',
-          Header: '학생 이름'
-        },
-        {
-          accessor: 'lastModifiedDate',
-          Header: '신청 일자'
-        },
-        {
-          accessor: 'complainDetail',
-          Header: '상세내역'
-        }
-      ]
-
-      if (pageIdx === 0) {
-        column[5].Header = '신청 일자'
+  const columns = [
+    [
+      {
+        accessor: 'type',
+        Header: '신청 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'studentBirth',
+        Header: '학생 생일'
+      },
+      {
+        accessor: 'parentName',
+        Header: '부모님 이름'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '신청 시간'
+      },
+      {
+        accessor: 'approve',
+        Header: '상세내역'
       }
-
-      if (pageIdx === 1) {
-        column[5].Header = '승인 일자'
+    ],
+    [
+      {
+        accessor: 'type',
+        Header: '신청 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'studentBirth',
+        Header: '학생 생일'
+      },
+      {
+        accessor: 'parentName',
+        Header: '부모님 이름'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '승인 시간'
       }
-
-      if (pageIdx === 2) {
-        column[5].Header = '거절 일자'
+    ],
+    [
+      {
+        accessor: 'type',
+        Header: '신청 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'studentBirth',
+        Header: '학생 생일'
+      },
+      {
+        accessor: 'parentName',
+        Header: '부모님 이름'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '거절 시간'
+      },
+      {
+        accessor: 'rejectedReason',
+        Header: '거절 사유'
       }
+    ]
+  ];
 
-      return column;
-    },
-    [pageIdx]
-  );
   const [applies, setApplies] = useState([]);
   return (
     <div className={styles.manageClass}>
       <div className={styles.title}>
         <p>승인 관리</p>
-        <p>{pageText} : {totalApplies}건 </p>
+        <p>
+          {pageText} : {totalApplies}건{' '}
+        </p>
       </div>
       <div className={styles.approveClass}>
         <div className={styles.approveTab}>
@@ -113,7 +174,7 @@ export default function ManageClassPage() {
               setActive(0);
             }}
           >
-            <p style={active === 0 ? {backgroundColor: 'white'} : null}>
+            <p style={active === 0 ? { backgroundColor: 'white' } : null}>
               <b>승인 대기</b>
             </p>
           </div>
@@ -123,7 +184,7 @@ export default function ManageClassPage() {
               setActive(1);
             }}
           >
-            <p style={active === 1 ? {backgroundColor: 'white'} : null}>
+            <p style={active === 1 ? { backgroundColor: 'white' } : null}>
               <b>승인 완료</b>
             </p>
           </div>
@@ -133,18 +194,18 @@ export default function ManageClassPage() {
               setActive(2);
             }}
           >
-            <p style={active === 2 ? {backgroundColor: 'white'} : null}>
+            <p style={active === 2 ? { backgroundColor: 'white' } : null}>
               <b>승인 거절</b>
             </p>
           </div>
         </div>
         <div className={styles2.scrollContainer}>
-          <Table columns={columns} data={applies}/>
+          <Table columns={columns[pageIdx]} data={applies} />
         </div>
       </div>
       {isModalOpen ? (
         <>
-          <ApproveModal setIsModalOpen={setIsModalOpen}/>
+          <ApproveModal setIsModalOpen={setIsModalOpen} />
         </>
       ) : null}
     </div>

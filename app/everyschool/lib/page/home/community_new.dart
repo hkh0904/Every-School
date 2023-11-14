@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:everyschool/api/community_api.dart';
+import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +28,10 @@ class _CommunityNewState extends State<CommunityNew> {
       var selectDescendant = jsonDecode(descendantInfo);
       schoolId = selectDescendant['school']['schoolId'];
     } else {
-      final myInfo = await context.read<UserStore>().userInfo;
-      schoolId = myInfo['school']['schoolId'];
+      var token = await storage.read(key: 'token') ?? "";
+      final userinfo = await UserApi().getUserInfo(token);
+
+      schoolId = userinfo['school']['schoolId'];
     }
     final year = context.read<UserStore>().year;
     var response = CommunityApi().getNewPostList(year, schoolId);
@@ -62,37 +66,32 @@ class _CommunityNewState extends State<CommunityNew> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                height: 50,
-                                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: index == snapshot.data.length - 1
-                                          ? 0
-                                          : 1,
-                                      color: index == snapshot.data.length - 1
-                                          ? Colors.transparent
-                                          : Color(0xffd9d9d9),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PostDetail(
+                                              boardName: '자유게시판',
+                                              boardId: snapshot.data[index]
+                                                  ['boardId'])));
+                                },
+                                child: Container(
+                                  height: 50,
+                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        width: index == snapshot.data.length - 1
+                                            ? 0
+                                            : 1,
+                                        color: index == snapshot.data.length - 1
+                                            ? Colors.transparent
+                                            : Color(0xffd9d9d9),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                child: GestureDetector(
-                                  onTapUp: (TapUpDetails details) {
-                                    if (snapshot.data[index]['boardId'] !=
-                                        null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PostDetail(
-                                              boardId: snapshot.data[index]
-                                                  ['boardId'],
-                                              boardName: '자유게시판'),
-                                        ),
-                                      );
-                                    }
-                                  },
                                   child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

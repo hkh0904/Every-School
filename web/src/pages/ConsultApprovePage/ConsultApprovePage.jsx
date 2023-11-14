@@ -1,8 +1,8 @@
-import {useEffect, useMemo, useState} from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './ConsultHistory.module.css';
-import {getConsults} from '../../api/ConsultingAPI/consultingAPI';
-import styles2 from "../ManageClassPage/ManageMyclassPage.module.css";
-import Table from "../../component/Table/Table";
+import { getConsultingList, getConsults } from '../../api/ConsultingAPI/consultingAPI';
+import styles2 from '../ManageClassPage/ManageMyclassPage.module.css';
+import Table from '../../component/Table/Table';
 
 export default function ConsultApprovePage() {
   const [consults, setConsults] = useState([]);
@@ -15,15 +15,19 @@ export default function ConsultApprovePage() {
   const fetchConsults = async (pageIdx) => {
     try {
       const data = await getConsults(pageIdx);
+      console.log('여ㅑ기 뎅');
+      console.log(data);
       if (data && Array.isArray(data.content)) {
         const transformedData = data.content.map((consult) => ({
+          consultId: consult.consultId,
           type: consult.type,
+          reason: '진로상담',
           grade: consult.parentInfo.split(' ')[0].replace('학년', ''),
           class: consult.parentInfo.split(' ')[1].replace('반', ''),
-          number: consult.parentInfo.split(' ')[2].replace('번', ''),
           name: consult.parentInfo.split(' ')[3],
           relationship: consult.parentInfo.split(' ')[4] === '아버님' ? '부' : '모',
-          lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1],
+          lastModifiedDate:
+            consult.consultDateTime.split('T')[0] + ' ' + consult.consultDateTime.split('T')[1].slice(0, 5)
           // add other fields if necessary
         }));
         setConsults(transformedData);
@@ -34,7 +38,7 @@ export default function ConsultApprovePage() {
     } catch (error) {
       console.error('Failed to fetch students:', error);
     }
-  }
+  };
 
   const columns = useMemo(
     () => [
@@ -51,10 +55,6 @@ export default function ConsultApprovePage() {
         Header: '반'
       },
       {
-        accessor: 'number',
-        Header: '번호'
-      },
-      {
         accessor: 'name',
         Header: '학생 이름'
       },
@@ -64,15 +64,15 @@ export default function ConsultApprovePage() {
       },
       {
         accessor: 'lastModifiedDate',
-        Header: '신청 일자'
+        Header: '상담 시간'
       },
       {
-        accessor: 'approve',
-        Header: '승인'
+        accessor: 'reason',
+        Header: '내용'
       },
       {
-        accessor: 'reject',
-        Header: '거절'
+        accessor: 'approvereject',
+        Header: '승인 / 거절'
       }
     ],
     []
@@ -86,7 +86,7 @@ export default function ConsultApprovePage() {
       </div>
       <div className={styles.consultClass}>
         <div className={styles2.scrollContainer}>
-          <Table columns={columns} data={consults}/>
+          <Table columns={columns} data={consults} />
         </div>
       </div>
     </div>

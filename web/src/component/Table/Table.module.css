@@ -23,7 +23,18 @@
 
 .detailText {
   margin-right: 3px;
-  color: #449d87;
+}
+
+.detailText > button {
+  margin: 0 4px;
+  border: none;
+  color: white;
+  width: 46px;
+}
+.detailText > button > p {
+  margin: 0;
+  padding: 3px 0;
+  font-weight: 700;
 }
 
 .formContainer {

@@ -17,7 +17,7 @@ export const clickNotiRegister = async (e, data) => {
 
   try {
     const response = await baseAxios.post(
-      `/board-service/v1/web/${schoolYear}/schools/${schoolNum}/boards/communications`,
+      `/board-service/v1/web/${schoolYear}/schools/${schoolNum}/communication-boards`,
       formData,
       {
         headers: {
@@ -27,7 +27,7 @@ export const clickNotiRegister = async (e, data) => {
       }
     );
     console.log(response.data);
-    return response.data;
+    return 1;
   } catch (error) {
     return 0;
   }
@@ -50,7 +50,7 @@ export const clickPayRegister = async (e, data) => {
 
   try {
     const response = await baseAxios.post(
-      `/board-service/v1/web/${schoolYear}/schools/${schoolNum}/boards/notices`,
+      `/board-service/v1/web/${schoolYear}/schools/${schoolNum}/notice-boards`,
       formData,
       {
         headers: {
@@ -60,7 +60,7 @@ export const clickPayRegister = async (e, data) => {
       }
     );
     console.log(response.data);
-    return response.data;
+    return 1;
   } catch (error) {
     return 0;
   }

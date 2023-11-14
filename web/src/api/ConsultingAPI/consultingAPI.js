@@ -27,11 +27,7 @@ export const approveConsulting = async (consultId) => {
     const response = await baseAxios.patch(
       `/consult-service/v1/web/${schoolYear}/schools/${schoolNum}/consults/${consultId}/approve`
     );
-    console.log(response.data);
-    if (response.data.message === 'SUCCESS') {
-      alert('상담 승인이 완료되었습니다.');
-      window.location.reload();
-    }
+
     return response.data;
   } catch (error) {
     return 0;
@@ -50,11 +46,7 @@ export const rejectConsulting = async (consultId, reason) => {
       `/consult-service/v1/web/${schoolYear}/schools/${schoolNum}/consults/${consultId}/reject`,
       rejectedReason
     );
-    console.log(response.data);
-    if (response.data.message === 'SUCCESS') {
-      alert('거절되었습니다.');
-      window.location.reload();
-    }
+
     return response.data;
   } catch (error) {
     return 0;
@@ -146,14 +138,14 @@ export const getConsults = async (status) => {
         }
       }
     );
-
+    console.log(response);
     return response.data.data;
   } catch (error) {
     return 0;
   }
 };
 
-//상담 내역
+//상담 완료 내역
 export const getCompliteConsulting = async () => {
   const schoolNum = sessionStorage.getItem('schoolId');
   const schoolYear = sessionStorage.getItem('year');
@@ -202,6 +194,27 @@ export const sendCompliteConsult = async (consultId, result) => {
   try {
     const response = await baseAxios.patch(
       `/consult-service/v1/web/${schoolYear}/schools/${schoolNum}/consults/${consultId}/finish`,
+      { resultContent: result },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return 0;
+  }
+};
+
+export const getConsultSchedule = async (consultId, result) => {
+  const schoolNum = sessionStorage.getItem('schoolId');
+  const schoolYear = sessionStorage.getItem('year');
+
+  try {
+    const response = await baseAxios.patch(
+      `/consult-service/v1/app/${schoolYear}/schools/${schoolNum}/consult-schedules/`,
       { resultContent: result },
       {
         headers: {

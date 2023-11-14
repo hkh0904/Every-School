@@ -11,11 +11,24 @@ export default function RegisterBtn({ title, content, fileName, type }) {
   return (
     <div
       className={styles.RegisterBtn}
-      onClick={(e) => {
+      onClick={async (e) => {
         if (type === 'noti') {
-          clickNotiRegister(e, data);
+          const response = await clickNotiRegister(e, data);
+          console.log(response);
+          if (response === 1) {
+            alert('등록이 완료되었습니다.');
+            window.location.reload();
+          } else {
+            alert('입력 정보를 확인해주세요.');
+          }
         } else {
-          clickPayRegister(e, data);
+          const response = await clickPayRegister(e, data);
+          if (response === 1) {
+            alert('등록이 완료되었습니다.');
+            window.location.reload();
+          } else {
+            alert('입력 정보를 확인해주세요.');
+          }
         }
       }}
     >
