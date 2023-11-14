@@ -14,7 +14,7 @@ export default function Table({ columns, data }) {
   );
 
   const navigate = useNavigate();
-
+  //핛급 신청 승인
   const handleClick = async (row) => {
     const applyId = await row.original.schoolApplyId;
 
@@ -27,26 +27,25 @@ export default function Table({ columns, data }) {
       alert('서버에 오류가 생겼습니다. 관리자에게 문의하세요.');
     }
   };
+  //핛급 신청 거절
+  const handleRejcetClick = async (row) => {
+    const applyId = await row.original.schoolApplyId;
 
-  const handleComplain = (complainId, reportedDate) => {
-    if (typeof complainId === 'string') {
-      navigate('/badcomplain/chat/detail', { state: { complainId, reportedDate } });
-    } else if (typeof complainId === 'number') {
-      navigate('/badcomplain/call/detail', { state: { complainId } });
+    const response = await rejectAccessClass(applyId);
+    console.log(response);
+    if (response['message'] === 'SUCCESS') {
+      alert('학급 신청을 거절하셨습니다.');
+    } else {
+      alert('서버에 오류가 생겼습니다. 관리자에게 문의하세요.');
     }
-    const handleRejcetClick = async (row) => {
-      const applyId = await row.original.schoolApplyId;
 
-      const response = await rejectAccessClass(applyId);
-      console.log(response);
-      if (response['message'] === 'SUCCESS') {
-        alert('학급 신청을 거절하셨습니다.');
-      } else {
-        alert('서버에 오류가 생겼습니다. 관리자에게 문의하세요.');
+    const handleComplain = (complainId, reportedDate) => {
+      if (typeof complainId === 'string') {
+        navigate('/badcomplain/chat/detail', { state: { complainId, reportedDate } });
+      } else if (typeof complainId === 'number') {
+        navigate('/badcomplain/call/detail', { state: { complainId } });
       }
     };
-
-    const handleComplain = (data) => {};
 
     const handleNotiDetail = (data) => {};
 
