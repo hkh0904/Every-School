@@ -57,6 +57,7 @@ public class MyBoardAppQueryRepository {
                     comment.board.title,
                     comment.board.content,
                     comment.board.commentCount,
+                    comment.board.scrapCount,
                     comment.board.createdDate
                 )
             )
