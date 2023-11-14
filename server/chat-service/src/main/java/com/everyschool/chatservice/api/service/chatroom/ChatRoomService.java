@@ -173,8 +173,11 @@ public class ChatRoomService {
         log.debug("[소켓] 지금 채팅방 인원 수 = {}", roomUserCount);
 
 //        int count = Integer.parseInt(roomUserCount) - 1;
-        roomUserCount = redisUtil.deleteSet(chatRoomUserCountKey, userKey);
-//        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
+        UserInfo userInfo = userServiceClient.searchUserInfoByUserKey(userKey);
+        log.debug("[소켓] 구독 취소하는 사람 이름 = {}", userInfo.getUserName());
+        Boolean contain = redisUtil.containSet(chatRoomUserCountKey, String.valueOf(userInfo.getUserId()));
+        log.debug("[소켓] 구독 중인가? = {}", contain);
+        roomUserCount = redisUtil.deleteSet(chatRoomUserCountKey, String.valueOf(userInfo.getUserId()));
         log.debug("[소켓] 감소 후 채팅방 인원 수 = {}", roomUserCount);
     }
 }
