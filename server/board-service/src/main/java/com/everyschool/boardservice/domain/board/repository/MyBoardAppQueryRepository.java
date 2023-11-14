@@ -4,6 +4,7 @@ import com.everyschool.boardservice.api.app.controller.board.response.BoardRespo
 import com.everyschool.boardservice.domain.board.QComment;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,6 +14,7 @@ import static com.everyschool.boardservice.domain.board.QBoard.board;
 import static com.everyschool.boardservice.domain.board.QComment.*;
 
 @Repository
+@Slf4j
 public class MyBoardAppQueryRepository {
 
     private final JPAQueryFactory queryFactory;
@@ -23,6 +25,7 @@ public class MyBoardAppQueryRepository {
 
 
     public List<BoardResponse> findMyBoardsByUserId(Long userId, int category) {
+        log.debug("[Repository] 나의 게시물 목록 조회.");
         return queryFactory
             .select(
                 Projections.constructor(
@@ -31,6 +34,7 @@ public class MyBoardAppQueryRepository {
                     board.title,
                     board.content,
                     board.commentCount,
+                    board.scrapCount,
                     board.createdDate
                 )
             )
