@@ -51,11 +51,14 @@ class _CreatePostBodyState extends State<CreatePostBody> {
     FormData formData = FormData.fromMap(data);
 
     final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
-    
+    final schoolYear =
+        context.read<UserStore>().userInfo['schoolClass']['schoolYear'];
+
     // API 호출
-    var response = communityApi.createPost(schoolId, formData);
+    var response = communityApi.createPost(schoolYear, schoolId, formData);
     if (response.runtimeType != Null) {
       bool shouldPop = await showDialog(
+        barrierDismissible: false,
         context: context,
         builder: ((context) {
           return AlertDialog(

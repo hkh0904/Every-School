@@ -24,14 +24,15 @@ class _SchoolNotiState extends State<SchoolNoti> {
     if (userType == '1002') {
       final descendantInfo = await storage.read(key: 'descendant') ?? "";
       var selectDescendant = jsonDecode(descendantInfo);
-      print('자식정보 $selectDescendant');
+
       schoolId = selectDescendant['school']['schoolId'];
     } else {
       final myInfo = await context.read<UserStore>().userInfo;
-      print('내정보 $myInfo');
+
       schoolId = myInfo['school']['schoolId'];
     }
-    var response = CommunityApi().getNewNoticeList(schoolId);
+    final year = context.read<UserStore>().year;
+    var response = CommunityApi().getNewNoticeList(year, schoolId);
     return response;
   }
 

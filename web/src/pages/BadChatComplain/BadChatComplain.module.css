@@ -14,6 +14,11 @@
   color: rgba(128, 128, 128, 0.651)
 }
 
+.noresultText {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
 .tableBox {
   padding: 8px;
   height: 70vh;
@@ -23,13 +28,40 @@
   background-color: white;
 }
 
+.chatRow {
+  margin: 0.5vw;
+}
+
+.teacherChatRow {
+  margin: 0.5vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-align: end;
+}
+
+.chatContent {
+  font-size: 1vw;
+}
+
+.chatTime {
+  
+}
+
+.chatReason {
+
+}
+
 .scrollContainer {
-  height: 100%;
+  height: 80%;
   padding: 4vw;
+  margin: 20px 30px;
   padding-top: 1.5vw;
   padding-bottom: 2vw;
   overflow-y: auto;
   box-sizing: border-box; 
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 /* 웹킷 브라우저용 스크롤바 스타일 */

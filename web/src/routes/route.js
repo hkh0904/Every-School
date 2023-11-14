@@ -14,7 +14,8 @@ import PublicRouter from './PublicRouter';
 import PrivateRouter from './PrivateRouter';
 import MyPage from '../pages/MyPage/MyPage';
 import BadComplainHistoryPage from '../pages/BadComplainHistory/BadComplainHistory';
-import BadComplainDetail from '../pages/BadComplainDetail/BadComplainDetail';
+import BadCallComplain from '../pages/BadCallComplain/BadCallComplain';
+import BadChatComplain from '../pages/BadChatComplain/BadChatComplain';
 import ConsultSettingPage from "../pages/ConsultSetting/ConsultSettingPage";
 import NotiHistory from "../pages/Notification/NotiHistory";
 import NotiDetailPage from "../pages/Notification/NotiDetailPage";
@@ -51,7 +52,8 @@ function RouteLink() {
             <Route path='consult/setting' element={<ConsultSettingPage />} />
             {/* 악성 민원 */}
             <Route path='badcomplain/history' element={<BadComplainHistoryPage />} />
-            <Route path='badcomplain/detail' element={<BadComplainDetail />} />
+            <Route path='badcomplain/call/detail' element={<BadCallComplain />} />
+            <Route path='badcomplain/chat/detail' element={<BadChatComplain />} />
             {/* 개인정보 수정 */}
             <Route path='mypage' element={<MyPage />} />
           </Route>

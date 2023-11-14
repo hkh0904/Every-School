@@ -28,7 +28,8 @@ class _CommunityNewState extends State<CommunityNew> {
       final myInfo = await context.read<UserStore>().userInfo;
       schoolId = myInfo['school']['schoolId'];
     }
-    var response = CommunityApi().getNewPostList(schoolId);
+    final year = context.read<UserStore>().year;
+    var response = CommunityApi().getNewPostList(year, schoolId);
     return response;
   }
 

@@ -7,23 +7,21 @@ class CommunityApi {
   Dio dio = Dio();
   ServerApi serverApi = ServerApi();
 
-  Future<dynamic> getBoardList(schoolId) async {
+  Future<dynamic> getBoardList(schoolYear, schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/frees?page=1');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/free-boards?page=1');
       return response.data['data'];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<dynamic> getPostDetail(schoolId, boardName, postId) async {
+  Future<dynamic> getPostDetail(schoolYear, schoolId, boardName, postId) async {
     String? token = await storage.read(key: 'token');
     try {
-      print(
-          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/$boardName/$postId');
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/$boardName/$postId',
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/$boardName-boards/$postId',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
@@ -33,31 +31,31 @@ class CommunityApi {
     }
   }
 
-  Future<dynamic> getNoticeList(schoolId) async {
+  Future<dynamic> getNoticeList(schoolYear, schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/notices?page=1');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/notice-boards?page=1');
       return response.data['data'];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<dynamic> getHomeNoticeList(schoolId) async {
+  Future<dynamic> getHomeNoticeList(schoolYear, schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/communications?page=1');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/communication-boards?page=1');
       return response.data['data'];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<dynamic> createPost(schoolId, formData) async {
+  Future<dynamic> createPost(schoolYear, schoolId, formData) async {
     String? token = await storage.read(key: 'token');
     try {
       final response = await dio.post(
-          '${serverApi.serverURL}/board-service/v1/schools/$schoolId/boards/frees',
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/free-boards',
           data: formData,
           options: Options(contentType: 'multipart/form-data', headers: {
             'Authorization': 'Bearer $token',
@@ -70,22 +68,43 @@ class CommunityApi {
     }
   }
 
-  Future<dynamic> getNewPostList(schoolId) async {
+  Future<dynamic> writeComment(boardId, schoolId, schoolYear, formData) async {
+    print(
+        '==============================$boardId, $schoolId, $schoolYear, $formData');
+    print(
+        '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments');
+    String? token = await storage.read(key: 'token');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments',
+          data: formData,
+          options: Options(contentType: 'multipart/form-data', headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print("에러임!!!!!!!! $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> getNewPostList(year, schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/${schoolId}/boards/new-free');
-      print(response.data);
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/free-boards/new');
+
       return response.data['data'];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<dynamic> getNewNoticeList(schoolId) async {
+  Future<dynamic> getNewNoticeList(year, schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/${schoolId}/boards/new-notice');
-      print(response.data);
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/notice-boards/new');
+      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
       print(e);

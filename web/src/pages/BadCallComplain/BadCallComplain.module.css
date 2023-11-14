@@ -1,0 +1,73 @@
+.container {
+  background-color: #F6F5F9;
+  height: 90vh;
+  padding: 5vw;
+}
+
+.headText {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.underText {
+  margin-top: 0.5rem;
+  color: rgba(128, 128, 128, 0.651)
+}
+
+.noresultText {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.tableBox {
+  padding: 8px;
+  height: 70vh;
+  overflow: hidden;
+  margin-top: 3vw;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.scrollContainer {
+  height: 80%;
+  padding: 4vw;
+  margin: 20px 30px;
+  padding-top: 1.5vw;
+  padding-bottom: 2vw;
+  overflow-y: auto;
+  box-sizing: border-box; 
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.overallBox {
+  display: flex;
+  justify-content: center;
+}
+
+.downloadBox {
+  text-align: center;
+  font-weight: bold;
+  color: black;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.downloadBox:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+/* 웹킷 브라우저용 스크롤바 스타일 */
+.scrollContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: #D9D9D9;
+  border-radius: 10px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}

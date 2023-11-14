@@ -95,11 +95,24 @@ export const completeReport = async (reportId, result) => {
   }
 };
 
-// 악성민원 리스트 조회
-export const BadComplainList = async () => {
+// 악성 전화 민원 리스트 조회
+export const BadCallComplain = async () => {
   try {
-    const response = await baseAxios.get(`/call-service/v1/calls/9cef3815-3850-49dd-ab4e-eec590e95965`, {
-      // const response = await baseAxios.get(`/call-service/v1/calls/${sessionStorage.getItem('userKey')}`, {
+    const response = await baseAxios.get(`/call-service/v1/calls/reports`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+      }
+    });
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 악성 채팅 민원 리스트 조회
+export const BadChatComplain = async () => {
+  try {
+    const response = await baseAxios.get(`/chat-service/v1/chat-review`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
@@ -111,9 +124,22 @@ export const BadComplainList = async () => {
 };
 
 // 악성민원 상세 조회
-export const ComplainDetail = async (userCallId) => {
+export const CallComplainDetail = async (userCallId) => {
   try {
     const response = await baseAxios.get(`/call-service/v1/calls/detail/${userCallId}`, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`
+      }
+    });
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const ChatComplainDetail = async (reportId, chatId, date) => {
+  try {
+    const response = await baseAxios.get(`/chat-service/v1/chat-review/${chatId}/${reportId}?date=${date}`, {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('token')}`
       }
