@@ -128,11 +128,11 @@ class _AnswerCallState extends State<AnswerCall> {
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
           showMessage("Remote user uid:$remoteUid left the channel");
+          leave();
           print('전화끊음');
           setState(() {
             this.remoteUid = null;
           });
-          leave();
         },
       ),
     );

@@ -18,7 +18,7 @@ public class Alarm extends BaseEntity {
     private String fcmToken;
 
     @Column(nullable = false)
-    private Boolean isOpen;
+    private Boolean isRead;
 
     @Column(nullable = false, updatable = false)
     private Long recipientId;
@@ -29,7 +29,7 @@ public class Alarm extends BaseEntity {
 
     protected Alarm() {
         super();
-        this.isOpen = false;
+        this.isRead = false;
     }
 
     @Builder
@@ -39,5 +39,9 @@ public class Alarm extends BaseEntity {
         this.recipientId = recipientId;
         this.alarmMaster = alarmMaster;
         this.alarmMaster.getAlarms().add(this);
+    }
+
+    public void updateIsRead() {
+        this.isRead = !this.isRead;
     }
 }

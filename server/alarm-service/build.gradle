@@ -78,6 +78,9 @@ dependencies {
 	//kafka
 	implementation 'org.springframework.kafka:spring-kafka'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+	// FCM
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
 }
 
 dependencyManagement {

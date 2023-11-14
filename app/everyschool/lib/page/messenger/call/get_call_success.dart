@@ -46,10 +46,6 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
             widget.userInfo['name'],
             style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
           ),
-          Text(
-            '유저설명',
-            style: TextStyle(fontSize: 18),
-          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,
           ),

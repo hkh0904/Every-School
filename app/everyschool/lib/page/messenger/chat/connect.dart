@@ -222,8 +222,7 @@ class _ConnectState extends State<Connect> {
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation1,
                       Animation<double> animation2) =>
-                  GetCallSuccess(leave: leave, userInfo: userInfo) //변경 필요
-              ,
+                  GetCallSuccess(leave: leave, userInfo: userInfo),
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,
             ),
