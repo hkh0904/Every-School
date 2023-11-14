@@ -54,6 +54,7 @@ public class ChatReviewQueryRepository {
                         chatReview.title))
                 .from(chatReview)
                 .where(chatReview.chatRoom.id.in(roomIds))
+                .orderBy(chatReview.id.desc())
                 .fetch();
 
     }

@@ -68,6 +68,7 @@ public class StompHandler implements ChannelInterceptor {
         String jwt = accessor.getFirstNativeHeader("Authorization");
         log.debug("[소켓 연결] jwt = {}", jwt);
         UserInfo userInfo = userServiceClient.searchUserInfo(jwt);
+        log.debug("[소켓 연결] 회원 이름 = {}", userInfo.getUserName());
         chatRoomService.connectChatRoom(chatRoomId, userInfo.getUserId());
         return chatRoomId;
     }

@@ -66,7 +66,7 @@ public class ChatQueryService {
         log.debug("[Service] 악성 의심 채팅 목록 불러오기 요청됨. 채팅방 Id = {}", chatRoomId);
         log.debug("[Service] 악성 의심 채팅 목록 불러오기 요청됨. 채팅 날짜 = {}", date.toString());
         UserInfo loginUser = userServiceClient.searchUserInfo(token);
-        List<Chat> chats = chatRepository.findByCreatedDateBetweenAndChatRoomIdAndStatusIsNotOrderByCreatedDateDesc(date.atStartOfDay(), date.plusDays(1).atStartOfDay(), chatRoomId, ChatStatus.BAD.getCode());
+        List<Chat> chats = chatRepository.findByCreatedDateBetweenAndChatRoomIdAndStatusIsNotOrderByCreatedDate(date.atStartOfDay(), date.plusDays(1).atStartOfDay(), chatRoomId, ChatStatus.BAD.getCode());
         log.debug("[Service] 악성 의심 채팅 목록 불러오기 요청됨. 채팅 리스트 수 = {}", chats.size());
         List<WarningChat> warningChats = new ArrayList<>();
         for (Chat chat : chats) {
@@ -110,7 +110,7 @@ public class ChatQueryService {
     }
 
     /**
-     * 사용자의 문제 의심 채팅 내역 불러오기
+     * 사용자의 문제 채팅방 목록 불러오기
      *
      * @param token
      * @return

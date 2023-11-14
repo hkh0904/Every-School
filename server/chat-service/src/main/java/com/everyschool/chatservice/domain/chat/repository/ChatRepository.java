@@ -22,4 +22,5 @@ public interface ChatRepository extends MongoRepository<Chat, Long> {
     Optional<Chat> findChatById(Long id);
 
     List<Chat> findByCreatedDateBetweenAndChatRoomIdAndStatusIsNotOrderByCreatedDateDesc(LocalDateTime start, LocalDateTime end, Long chatRoomId, int status);
+    List<Chat> findByCreatedDateBetweenAndChatRoomIdAndStatusIsNotOrderByCreatedDate(LocalDateTime start, LocalDateTime end, Long chatRoomId, int status);
 }
