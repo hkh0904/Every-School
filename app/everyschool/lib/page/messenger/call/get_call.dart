@@ -90,10 +90,10 @@ class _GetCallState extends State<GetCall> {
           SizedBox(
             height: 15,
           ),
-          Text(
-            widget.userInfo['name'],
-            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
-          ),
+          // Text(
+          //   widget.userInfo['name'],
+          //   style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
+          // ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,
           ),

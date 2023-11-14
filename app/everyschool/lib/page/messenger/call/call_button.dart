@@ -137,6 +137,7 @@ class _CallButtonState extends State<CallButton> {
   }
 
   void _navigateToModalCallPage() {
+    print('내정보 ${widget.userInfo}');
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => GetCall(
@@ -212,6 +213,7 @@ class _CallButtonState extends State<CallButton> {
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           print('상대방전화받았음');
+          print('아니 왜이래');
           setState(() {
             this.remoteUid = remoteUid;
             peopleGetCall = true;
@@ -236,6 +238,7 @@ class _CallButtonState extends State<CallButton> {
         },
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) async {
+          print('전화끊은 유저가 $remoteUid');
           showMessage("Remote user uid:$remoteUid left the channel");
           print('전화끊음');
           leave();
