@@ -74,7 +74,7 @@ class CommunityApi {
     try {
       final response = await dio.get(
           '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/free-boards/new');
-      print(response.data);
+
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -85,7 +85,7 @@ class CommunityApi {
     try {
       final response = await dio.get(
           '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/notice-boards/new');
-      print(response.data);
+      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
       print(e);
