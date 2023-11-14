@@ -16,10 +16,5 @@ public interface ChatServiceClient {
     List<Long> searchChatRoomIdByDate(@RequestParam(name = "date") LocalDate date);
 
     @GetMapping("/chat-service/client/v1/chat-rooms/{chatRoomId}")
-    CheckingChatResponse searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date,
-                                                       @PathVariable(name = "chatRoomId") Long chatRoomId);
-
-
-    @GetMapping("/chat-service/client/v1/chat-rooms/test")
-    String test();
+    CheckingChatResponse searchChatByDateAndChatRoomId(@RequestParam(name = "date") LocalDate date, @PathVariable(name = "chatRoomId") Long chatRoomId);
 }
