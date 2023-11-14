@@ -4,7 +4,6 @@ import ManageMyclassPage from '../pages/ManageMyclass/ManageMyclassPage';
 import ManageParentsPage from '../pages/ManageParents/ManageParentsPage';
 import ReportHistoryPage from '../pages/ReportHistory/ReportHistoryPage';
 import ReportDetailPage from '../pages/ReportDetail/ReportDetailPage';
-import RegisterNotiPage from '../pages/Notification/RegisterNotiPage';
 import RegisterPayPage from '../pages/Notification/RegisterPayPage';
 import ManageClassPage from '../pages/ManageClassPage/ManageClassPage';
 import ConsultApprovePage from '../pages/ConsultApprovePage/ConsultApprovePage';
@@ -16,6 +15,9 @@ import PrivateRouter from './PrivateRouter';
 import MyPage from '../pages/MyPage/MyPage';
 import BadComplainHistoryPage from '../pages/BadComplainHistory/BadComplainHistory';
 import BadComplainDetail from '../pages/BadComplainDetail/BadComplainDetail';
+import ConsultSettingPage from "../pages/ConsultSetting/ConsultSettingPage";
+import NotiHistory from "../pages/Notification/NotiHistory";
+import NotiDetailPage from "../pages/Notification/NotiDetailPage";
 
 function RouteLink() {
   return (
@@ -40,11 +42,13 @@ function RouteLink() {
             <Route path='report/history' element={<ReportHistoryPage />} />
             <Route path='report/detail' element={<ReportDetailPage />} />
             {/* 고지서 등록 */}
-            <Route path='docs/register-noti' element={<RegisterNotiPage />} />
+            <Route path='docs/register-noti' element={<NotiHistory />} />
+            <Route path='docs/register-noti/detail' element={<NotiDetailPage />} />
             <Route path='docs/register-payment' element={<RegisterPayPage />} />
             {/* 상담 */}
             <Route path='consult/approve' element={<ConsultApprovePage />} />
             <Route path='consult/history' element={<ConsultHistory />} />
+            <Route path='consult/setting' element={<ConsultSettingPage />} />
             {/* 악성 민원 */}
             <Route path='badcomplain/history' element={<BadComplainHistoryPage />} />
             <Route path='badcomplain/detail' element={<BadComplainDetail />} />

@@ -31,8 +31,8 @@ public class BoardDetailResponse {
         this.comments = comments;
     }
 
-    public static FreeBoardDetailResponse of(Board board, List<String> imageUrls, List<FreeBoardDetailResponse.CommentVo> comments) {
-        return FreeBoardDetailResponse.builder()
+    public static BoardDetailResponse of(Board board, List<String> imageUrls, List<CommentVo> comments) {
+        return BoardDetailResponse.builder()
             .boardId(board.getId())
             .title(board.getTitle())
             .content(board.getContent())

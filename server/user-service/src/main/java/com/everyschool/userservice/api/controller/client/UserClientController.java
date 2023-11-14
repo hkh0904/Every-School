@@ -133,4 +133,13 @@ public class UserClientController {
 
         return response;
     }
+
+    @GetMapping("/user/{schoolClassId}/name/{parentId}")
+    public String searchUsername(@PathVariable Long schoolClassId, @PathVariable Long parentId) {
+
+        String name = userQueryService.searchUsername(schoolClassId, parentId);
+        log.debug("name={}", name);
+
+        return name;
+    }
 }

@@ -45,7 +45,7 @@ public class ConsultWebQueryRepository {
                     consult.typeId,
                     consult.progressStatusId,
                     consult.title.parentTitle,
-                    consult.consultDateTime,
+                    consult.lastModifiedDate,
                     consult.rejectedReason
                 )
             )
