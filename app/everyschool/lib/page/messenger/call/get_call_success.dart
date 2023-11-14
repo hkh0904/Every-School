@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GetCallSuccess extends StatefulWidget {
-  const GetCallSuccess({super.key, this.leave, this.userInfo});
+  const GetCallSuccess({super.key, this.leave, this.userInfo, this.remoteUid});
   final leave;
   final userInfo;
+  final remoteUid;
 
   @override
   State<GetCallSuccess> createState() => _GetCallSuccessState();
@@ -14,8 +15,10 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('다른사람아이디 ${widget.remoteUid}');
   }
 
+  bool canClick = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +54,15 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
           ),
           Center(
             child: GestureDetector(
-              onTap: widget.leave,
+              onTap: () {
+                if (canClick) {
+                  setState(() {
+                    canClick = false;
+                  });
+
+                  widget.leave();
+                }
+              },
               child: Container(
                 height: 80,
                 width: 80,

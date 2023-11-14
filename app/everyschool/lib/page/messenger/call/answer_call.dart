@@ -116,6 +116,7 @@ class _AnswerCallState extends State<AnswerCall> {
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           print('상대방전화받았음');
+          print('리모트 $remoteUid');
 
           setState(() {
             this.remoteUid = remoteUid;
@@ -128,11 +129,12 @@ class _AnswerCallState extends State<AnswerCall> {
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
           showMessage("Remote user uid:$remoteUid left the channel");
-          leave();
-          print('전화끊음');
+          print('리모트 간다 $remoteUid');
           setState(() {
             this.remoteUid = null;
           });
+          leave();
+          print('전화끊음');
         },
       ),
     );
@@ -151,7 +153,7 @@ class _AnswerCallState extends State<AnswerCall> {
   void dispose() async {
     print('아고라 엔진 종료');
     super.dispose();
-    await agoraEngine.leaveChannel();
+    // await agoraEngine.leaveChannel();
     await agoraEngine.release();
   }
 
@@ -175,6 +177,8 @@ class _AnswerCallState extends State<AnswerCall> {
     fetchToken(uid, widget.channelName, tokenRole, serverUrl, tokenExpireTime,
         isTokenExpiring);
   }
+
+  bool canClick = true;
 
   @override
   Widget build(BuildContext context) {
@@ -209,24 +213,33 @@ class _AnswerCallState extends State<AnswerCall> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,
           ),
-          Center(
-            child: GestureDetector(
-              onTap: leave,
-              child: Container(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: Color(0xffFF3B3B),
-                ),
-                child: Icon(
-                  Icons.call_end,
-                  color: Colors.white,
-                  size: 35,
+          if (remoteUid != null)
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  if (canClick) {
+                    setState(() {
+                      canClick = false;
+                    });
+
+                    leave();
+                  }
+                },
+                child: Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Color(0xffFF3B3B),
+                  ),
+                  child: Icon(
+                    Icons.call_end,
+                    color: Colors.white,
+                    size: 35,
+                  ),
                 ),
               ),
-            ),
-          )
+            )
         ],
       ),
     ));

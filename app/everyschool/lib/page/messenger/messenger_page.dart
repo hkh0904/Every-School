@@ -220,6 +220,7 @@ class _UserTapBarState extends State<UserTapBar> {
   getTeacherInfo() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
+    print('왜안나와 $contact');
     return contact;
   }
 

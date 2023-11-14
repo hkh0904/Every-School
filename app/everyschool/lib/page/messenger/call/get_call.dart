@@ -102,7 +102,6 @@ class _GetCallState extends State<GetCall> {
               onTap: () {
                 checkCancelCall();
                 widget.leave;
-                Navigator.of(context).pop();
               },
               child: Container(
                 height: 80,
