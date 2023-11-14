@@ -30,10 +30,6 @@ export default function ManageParentsPage() {
         accessor: 'parentType',
         Header: '관계'
       }
-      // {
-      //   accessor: "tel",
-      //   Header: "연락처",
-      // },
     ],
     []
   );
