@@ -38,6 +38,7 @@ public class MyBoardAppController {
         @PathVariable Integer schoolYear,
         @PathVariable Long schoolId
     ) {
+        log.debug("[Controller] 나의 댓글 작성 게시물 조회. 요청 들어옴");
         String userKey = tokenUtils.getUserKey();
 
         List<BoardResponse> responses = myBoardAppQueryService.myComments(userKey);
