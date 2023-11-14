@@ -863,7 +863,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 242
+Content-Length: 243
 
 {
   "code" : 201,
@@ -874,7 +874,7 @@ Content-Length: 242
     "schoolYear" : 2023,
     "grade" : 1,
     "classNum" : 3,
-    "appliedDate" : [ 2023, 11, 13, 9, 23, 28, 571292300 ]
+    "appliedDate" : [ 2023, 11, 14, 14, 45, 18, 455386900 ]
   }
 }</code></pre>
 </div>
@@ -1013,7 +1013,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 259
+Content-Length: 260
 
 {
   "code" : 200,
@@ -1024,7 +1024,7 @@ Content-Length: 259
     "schoolYear" : 2023,
     "isApproved" : true,
     "rejectedReason" : null,
-    "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 873292200 ]
+    "lastModifiedDate" : [ 2023, 11, 14, 14, 45, 18, 684386400 ]
   }
 }</code></pre>
 </div>
@@ -1191,7 +1191,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 288
+Content-Length: 289
 
 {
   "code" : 200,
@@ -1202,7 +1202,7 @@ Content-Length: 288
     "schoolYear" : 2023,
     "isApproved" : false,
     "rejectedReason" : "학급 인원이 아닙니다.",
-    "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 790290500 ]
+    "lastModifiedDate" : [ 2023, 11, 14, 14, 45, 18, 624387500 ]
   }
 }</code></pre>
 </div>
@@ -1332,7 +1332,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 497
+Content-Length: 726
 
 {
   "code" : 200,
@@ -1342,14 +1342,20 @@ Content-Length: 497
     "count" : 2,
     "content" : [ {
       "schoolApplyId" : 1,
-      "applyType" : "학생 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 946292200 ]
+      "applyType" : "어머님 신청",
+      "parentName" : "이예리",
+      "parentBirth" : "1998-04-12",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 14, 45, 18, 740386000 ]
     }, {
-      "schoolApplyId" : 1,
-      "applyType" : "아버님 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 946292200 ]
+      "schoolApplyId" : 2,
+      "applyType" : "학생 신청",
+      "parentName" : "",
+      "parentBirth" : "",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 14, 45, 18, 740386000 ]
     } ]
   }
 }</code></pre>
@@ -1408,9 +1414,24 @@ Content-Length: 497
 <td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 유형</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 생년월일</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 학생 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">힉생 생년월일</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].lastModifiedDate</code></p></td>
@@ -1480,7 +1501,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 495
+Content-Length: 726
 
 {
   "code" : 200,
@@ -1490,14 +1511,20 @@ Content-Length: 495
     "count" : 2,
     "content" : [ {
       "schoolApplyId" : 1,
-      "applyType" : "학생 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 29, 95291800 ]
+      "applyType" : "어머님 신청",
+      "parentName" : "이예리",
+      "parentBirth" : "1998-04-12",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 14, 45, 18, 851386300 ]
     }, {
-      "schoolApplyId" : 1,
-      "applyType" : "아버님 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 29, 95291800 ]
+      "schoolApplyId" : 2,
+      "applyType" : "학생 신청",
+      "parentName" : "",
+      "parentBirth" : "",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 14, 45, 18, 851386300 ]
     } ]
   }
 }</code></pre>
@@ -1556,14 +1583,29 @@ Content-Length: 495
 <td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 유형</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 생년월일</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 학생 정보</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">힉생 생년월일</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].lastModifiedDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 일시</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승인 일시</p></td>
 </tr>
 </tbody>
 </table>
@@ -1632,7 +1674,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 354
+Content-Length: 356
 
 {
   "code" : 200,
@@ -1645,7 +1687,7 @@ Content-Length: 354
     "parentBirth" : null,
     "studentInfo" : "1학년 3반 13번 이예리",
     "studentBirth" : "1998-04-12",
-    "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 29, 20291600 ]
+    "lastModifiedDate" : [ 2023, 11, 14, 14, 45, 18, 800389600 ]
   }
 }</code></pre>
 </div>
