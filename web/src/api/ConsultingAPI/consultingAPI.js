@@ -215,3 +215,24 @@ export const sendCompliteConsult = async (consultId, result) => {
     return 0;
   }
 };
+
+export const getConsultSchedule = async (consultId, result) => {
+  const schoolNum = sessionStorage.getItem('schoolId');
+  const schoolYear = sessionStorage.getItem('year');
+
+  try {
+    const response = await baseAxios.patch(
+      `/consult-service/v1/app/${schoolYear}/schools/${schoolNum}/consult-schedules/`,
+      { resultContent: result },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
+      }
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return 0;
+  }
+};

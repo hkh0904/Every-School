@@ -16,19 +16,19 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
   final storage = FlutterSecureStorage();
 
   var menulist = [
-    ['작성한 댓글 보기', '작성한 글 보기'],
+    ['작성한 글 보기', '작성한 댓글 보기'],
     ['상담 신청 목록', '가정통신문'],
     ['상담 목록', '신고 목록'],
   ];
 
   var imagelist = [
-    ['consulting', 'search'],
+    ['search', 'consulting'],
     ['consulting', 'menu'],
     ['consulting', 'menu']
   ];
 
   var perPagelist = [
-    [MyLikePost(), MyWriteList()],
+    [MyWriteList(), MyLikePost()],
     [MyLikePost(), MyLikePost()],
     [ReportConsultingPage(index: 0), ReportConsultingPage(index: 1)],
   ];

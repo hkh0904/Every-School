@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:everyschool/api/community_api.dart';
+import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -25,8 +26,10 @@ class _CommunityNewState extends State<CommunityNew> {
       var selectDescendant = jsonDecode(descendantInfo);
       schoolId = selectDescendant['school']['schoolId'];
     } else {
-      final myInfo = await context.read<UserStore>().userInfo;
-      schoolId = myInfo['school']['schoolId'];
+      var token = await storage.read(key: 'token') ?? "";
+      final userinfo = await UserApi().getUserInfo(token);
+
+      schoolId = userinfo['school']['schoolId'];
     }
     final year = context.read<UserStore>().year;
     var response = CommunityApi().getNewPostList(year, schoolId);
