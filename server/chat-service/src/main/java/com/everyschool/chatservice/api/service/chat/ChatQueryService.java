@@ -52,7 +52,7 @@ public class ChatQueryService {
         if (idx == null) {
             idx = Long.MAX_VALUE;
         }
-        List<Chat> list = chatRepository.findTop20ChatsByChatRoomIdAndStatusAndIdLessThanOrderByIdDesc(chatRoomId, ChatStatus.PLANE.getCode(), idx);
+        List<Chat> list = chatRepository.findTop20ChatsByChatRoomIdAndStatusNotAndIdLessThanOrderByIdDesc(chatRoomId, ChatStatus.BAD.getCode(), idx);
         log.debug("[Service] 채팅 목록 불러오기 요청됨. 채팅 리스트 수 = {}", list.size());
         List<ChatResponse> responses = new ArrayList<>();
         for (Chat chat : list) {
