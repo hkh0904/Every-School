@@ -1,4 +1,5 @@
 import 'package:everyschool/api/community_api.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -74,13 +75,16 @@ class _MyLikePostState extends State<MyLikePost> {
                         snapshot.data['content'].length,
                         (index) {
                           return GestureDetector(
-                            // onTap: () {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => perPagelist[userNum - 1][index]),
-                            //   );
-                            // },
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PostDetail(
+                                        boardName: '자유게시판',
+                                        boardId: snapshot.data['content'][index]
+                                            ['boardId'])),
+                              );
+                            },
                             child: Container(
                               height: 80,
                               padding: EdgeInsets.fromLTRB(20, 15, 20, 10),

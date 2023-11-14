@@ -128,14 +128,13 @@ class CommunityApi {
 
   Future<dynamic> getMyComment(year, schoolId) async {
     var token = await storage.read(key: 'token');
-    print('왜 안돼 $token');
     try {
       final response = await dio.get(
           '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/my/comments',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print('왜 안돼 ${response.data}');
+      print('${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);
