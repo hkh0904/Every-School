@@ -22,6 +22,7 @@ include::api/donotdisturb/update-isActivate.adoc[]
 == Call API
 include::api/call/search-userCalls.adoc[]
 include::api/call/search-userCalls-details.adoc[]
+include::api/call/search-userCalls-reports.adoc[]
 include::api/call/download-userCalls.adoc[]
 include::api/call/userCall-record-start.adoc[]
 include::api/call/userCall-record-stop.adoc[]

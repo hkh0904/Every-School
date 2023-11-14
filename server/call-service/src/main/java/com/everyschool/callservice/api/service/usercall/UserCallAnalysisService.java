@@ -45,6 +45,7 @@ public class UserCallAnalysisService {
                     .collect(Collectors.toList());
 
             RecordResultInfo finalResult = getFinalInfo(tsFileNames, filDir);
+            log.debug("finalResult = {}", finalResult);
 
             userCallService.updateCallInfo(callId, finalResult);
         } catch (IOException e) {
@@ -57,14 +58,14 @@ public class UserCallAnalysisService {
         int index = finalOverallPercent.indexOf(maxPercent);
 
         if (index == 0) {
-            return "Neutral";
+            return "neutral";
         }
 
         if (index == 1) {
-            return "Positive";
+            return "positive";
         }
 
-        return "Negative";
+        return "negative";
     }
 
     private RecordResultInfo getFinalInfo(List<String> tsFileNames, String filDir) {

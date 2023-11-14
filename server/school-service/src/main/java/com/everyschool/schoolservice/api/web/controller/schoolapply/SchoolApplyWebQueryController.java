@@ -8,10 +8,7 @@ import com.everyschool.schoolservice.api.web.service.schoolapply.SchoolApplyWebQ
 import com.everyschool.schoolservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +25,19 @@ public class SchoolApplyWebQueryController {
 
     private final SchoolApplyWebQueryService schoolApplyWebQueryService;
     private final TokenUtils tokenUtils;
+
+    @GetMapping("/applies")
+    public ApiResponse<Result<SchoolApplyResponse>> searchSchoolApplies(
+        @PathVariable Integer schoolYear,
+        @PathVariable Long schoolId,
+        @RequestParam Integer status
+    ) {
+        String userKey = tokenUtils.getUserKey();
+
+        List<SchoolApplyResponse> response = schoolApplyWebQueryService.searchSchoolApplies(userKey, schoolYear, status);
+
+        return ApiResponse.ok(Result.of(response));
+    }
 
     /**
      * 승인 대기 중인 신청 목록 조회 API

@@ -19,12 +19,14 @@ import 'dart:convert';
 final socketURL = SocketApi().wsURL;
 
 class ChatRoom extends StatefulWidget {
-  ChatRoom({super.key, this.roomInfo, this.userInfo});
+  ChatRoom({
+    super.key,
+    this.roomInfo,
+  });
   // 여기는 채팅 리스트에서 오는거
   final roomInfo;
 
   // 여기는 네비게이션 버튼이랑 연락처에서 받아오는거 받아오는거
-  final userInfo;
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -41,9 +43,9 @@ class _ChatRoomState extends State<ChatRoom> {
   int? mytype;
   int? myclassId;
   String mykey = '';
-  Map<String, dynamic>? createRoomInfo = {};
 
   int? chatLastIdx;
+
   getkey() async {
     final kkk = await storage.read(key: 'userKey');
     setState(() {
@@ -58,58 +60,37 @@ class _ChatRoomState extends State<ChatRoom> {
   getChat() async {
     token = await storage.read(key: 'token') ?? "";
 
-    final response = await MessengerApi().getChatListItem(
-        token,
-        widget.roomInfo == null
-            ? createRoomInfo!['roomId']
-            : widget.roomInfo['roomId'],
-        chatLastIdx);
-    print('이게 정말 채팅 내역');
-    print(response[response.length - 1]['chatId']);
+    final response = await MessengerApi()
+        .getChatListItem(token, widget.roomInfo['roomId'], chatLastIdx);
     if (response.length != 0) {
       final newList = List<Chat>.from(response.map((chat) => Chat(
           message: chat['content'],
           sender: chat['mine'] == true ? mykey : '',
           time: DateTime.parse(chat['sendTime']))));
-      print(newList);
 
-      context.read<ChatController>().setChatList(newList);
-      print(chatLastIdx);
+      await context.read<ChatController>().setChatList(newList);
       chatLastIdx = response[response.length - 1]['chatId'];
-      print(chatLastIdx);
+      setState(() {});
     }
   }
 
   createChatroom() async {
-    print('이거 한번만해? 1');
-    token = await storage.read(key: 'token') ?? "";
-    print(token);
-    userKey = widget.userInfo?['userKey'];
-    userName = widget.userInfo?['name'];
-    userType = widget.userInfo['userType'];
+    print('크리에이트 실행');
+    print(widget.roomInfo['roomId']);
+    print(
+      widget.roomInfo['roomId'],
+    );
 
-    mytype = await context.read<UserStore>().userInfo['userType'];
-    myclassId = await context.read<UserStore>().userInfo['schoolClass']
-        ['schoolClassId'];
+    await getChat();
 
-    final result = await MessengerApi()
-        .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
-    print('여기 리절트$result');
-    createRoomInfo = result;
-    if (result['opponentUserType'] == 'T') {
-      position = '선생님';
-    } else if (result['opponentUserType'] == 'S') {
-      position = '학생';
-    } else {
-      position = '학부모님';
-    }
     stompClient.activate();
-    print('이거 한번만해? 2');
 
     return 0;
   }
 
   void sendMessage() async {
+    print('보냄');
+    print(widget.roomInfo['roomId']);
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
 
@@ -119,19 +100,16 @@ class _ChatRoomState extends State<ChatRoom> {
     final myKey = await storage.read(key: 'userKey');
     final filter = await MessengerApi().chatFilter(
         token,
-        widget.roomInfo == null
-            ? createRoomInfo!['roomId']
-            : widget.roomInfo['roomId'],
+        widget.roomInfo['roomId'],
         myKey,
         context.read<ChatController>().textEditingController.text);
-    print(filter);
+    print('필터링 보냄');
     if (filter['isBad'] == false) {
+      print('소래만들었을때');
       stompClient.send(
           destination: '/pub/chat.send',
           body: json.encode({
-            'chatRoomId': widget.roomInfo == null
-                ? createRoomInfo!['roomId']
-                : widget.roomInfo['roomId'],
+            'chatRoomId': widget.roomInfo['roomId'],
             'senderUserKey': myKey,
             "message":
                 context.read<ChatController>().textEditingController.text,
@@ -142,34 +120,30 @@ class _ChatRoomState extends State<ChatRoom> {
     } else {
       print('문제가 있어 보내지 않았습니다');
     }
+    setState(() {});
   }
 
   void onConnectCallback(StompFrame connectFrame) {
-    print('소켓연결');
-    print('/sub/${createRoomInfo!['roomId']}');
-    print('/sub/${widget.roomInfo?['roomId']}');
-
+    print('받음');
+    print(widget.roomInfo['roomId']);
     stompClient.subscribe(
-      destination: widget.roomInfo == null
-          ? '/sub/${createRoomInfo!['roomId']}'
-          : '/sub/${widget.roomInfo?['roomId']}',
+      destination: '/sub/${widget.roomInfo['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
-      callback: (frame) async {
+      callback: (frame) {
         print('메세지 보냈어');
-        print(json.decode(frame.body!));
-        print(json.decode(frame.body!)['senderUserKey']);
-
-        Provider.of<ChatController>(context, listen: false).addNewMessage(Chat(
-          message: json.decode(frame.body!)['message'],
-          sender: json.decode(frame.body!)['senderUserKey'],
-          time: DateTime.now(),
-        ));
+        print(frame.body!);
+        context.read<ChatController>().addNewMessage(Chat(
+              message: json.decode(frame.body!)['message'],
+              sender: json.decode(frame.body!)['senderUserKey'],
+              time: DateTime.now(),
+            ));
+        setState(() {});
       },
     );
+    print('저기2');
   }
 
   void _handleScrollToTop() {
-    print(' 또 신청한다 ! !');
     getChat();
     // 원하는 함수를 여기에 추가
   }
@@ -180,26 +154,7 @@ class _ChatRoomState extends State<ChatRoom> {
           webSocketConnectHeaders: {'Authorization': 'Bearer $token'},
           onConnect: onConnectCallback));
 
-  @override
-  void initState() {
-    context.read<ChatController>().clearChatList();
-    context.read<ChatController>().scrollController.addListener(() {
-      print(context.read<ChatController>().scrollController.position.pixels);
-      // Scroll이 맨 위에 도달하면 특정 함수 실행
-      if (context.read<ChatController>().scrollController.position.pixels ==
-          context
-              .read<ChatController>()
-              .scrollController
-              .position
-              .maxScrollExtent) {
-        print('도달');
-        _handleScrollToTop();
-      }
-    });
-    getChat();
-    getkey();
-    getToken();
-    super.initState();
+  _getChatList() async {
     if (widget.roomInfo != null) {
       if (widget.roomInfo['opponentUserType'] == 'T') {
         setState(() {
@@ -215,17 +170,38 @@ class _ChatRoomState extends State<ChatRoom> {
         });
       }
     }
+    await getChat();
+
+    stompClient.activate();
+
+    return 0;
   }
 
-  getInitstate() async {
-    stompClient.activate();
-    return 0;
+  teck() async {
+    getToken();
+    getkey();
+
+    // TODO: implement initState'
+    getInit = widget.roomInfo == null ? createChatroom() : _getChatList();
+  }
+
+  Future<dynamic>? getInit;
+  @override
+  void initState() {
+    teck();
+    super.initState();
   }
 
   @override
   void dispose() {
-    stompClient.deactivate();
-
+    stompClient.subscribe(
+        destination: '/sub/${widget.roomInfo['roomId']}',
+        headers: {'Authorization': 'Bearer $token'},
+        callback: (frame) {
+          // Received a frame for this subscription
+          print(frame.body);
+          print('구독 취소 완료');
+        });
     // dispose 메서드에서 리소스나 이벤트를 해제합니다.
     // 메모리 누수를 방지하기 위해 이곳에서 구독 해제 등의 정리 작업을 수행합니다.
     super.dispose();
@@ -234,17 +210,21 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: widget.roomInfo == null ? createChatroom() : getInitstate(),
+        future: getInit,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
-                leading: BackButton(color: Colors.black),
+                leading: BackButton(
+                  color: Colors.black,
+                  onPressed: () {
+                    context.watch<ChatController>().clearChatList();
+                    Navigator.pop(context);
+                  },
+                ),
                 title: Text(
-                  widget.roomInfo == null
-                      ? '${createRoomInfo!['opponentUserName']} $position'
-                      : '${widget.roomInfo?['opponentUserName']} $position',
+                  '${widget.roomInfo?['opponentUserName']} $position',
                   style: TextStyle(color: Colors.black),
                 ),
                 centerTitle: true,
@@ -352,10 +332,14 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
             );
           } else {
+            // return Container();
             return Scaffold(
               appBar: AppBar(
                 leading: BackButton(color: Colors.black),
-                title: Text(''),
+                title: Text(
+                  '',
+                  style: TextStyle(color: Colors.black),
+                ),
                 centerTitle: true,
                 backgroundColor: Colors.grey[50],
               ),

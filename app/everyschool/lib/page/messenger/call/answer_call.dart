@@ -128,11 +128,11 @@ class _AnswerCallState extends State<AnswerCall> {
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
           showMessage("Remote user uid:$remoteUid left the channel");
+          leave();
           print('전화끊음');
           setState(() {
             this.remoteUid = null;
           });
-          leave();
         },
       ),
     );
@@ -202,10 +202,10 @@ class _AnswerCallState extends State<AnswerCall> {
           SizedBox(
             height: 15,
           ),
-          // Text(
-          //   widget.name,
-          //   style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
-          // ),
+          Text(
+            widget.name,
+            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.25,
           ),

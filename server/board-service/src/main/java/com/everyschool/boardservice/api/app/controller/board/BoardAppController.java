@@ -1,10 +1,10 @@
 package com.everyschool.boardservice.api.app.controller.board;
 
 import com.everyschool.boardservice.api.ApiResponse;
-import com.everyschool.boardservice.api.controller.FileStore;
-import com.everyschool.boardservice.api.controller.board.request.CreateBoardRequest;
-import com.everyschool.boardservice.api.controller.board.response.CreateBoardResponse;
-import com.everyschool.boardservice.api.service.board.BoardService;
+import com.everyschool.boardservice.api.FileStore;
+import com.everyschool.boardservice.api.app.controller.board.request.CreateBoardRequest;
+import com.everyschool.boardservice.api.app.controller.board.response.CreateBoardResponse;
+import com.everyschool.boardservice.api.app.service.board.BoardAppService;
 import com.everyschool.boardservice.domain.board.UploadFile;
 import com.everyschool.boardservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 게시판 App API
+ * 앱 게시판 API 컨트롤러
  *
  * @author 임우택
  */
@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/board-service/v1/app/{schoolYear}/schools/{schoolId}")
 public class BoardAppController {
 
-    private final BoardService boardService;
+    private final BoardAppService boardAppService;
     private final TokenUtils tokenUtils;
     private final FileStore fileStore;
 
@@ -52,7 +52,7 @@ public class BoardAppController {
 
         List<UploadFile> uploadFiles = fileStore.storeFiles(request.getFiles());
 
-        CreateBoardResponse response = boardService.createFreeBoard(userKey, schoolId, request.toDto(uploadFiles));
+        CreateBoardResponse response = boardAppService.createFreeBoard(userKey, schoolId, request.toDto(uploadFiles));
 
         return ApiResponse.created(response);
     }

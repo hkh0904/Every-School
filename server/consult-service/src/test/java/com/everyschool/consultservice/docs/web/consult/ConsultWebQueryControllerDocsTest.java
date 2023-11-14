@@ -51,7 +51,7 @@ public class ConsultWebQueryControllerDocsTest extends RestDocsSupport {
             .type(ConsultType.CALL.getCode())
             .status(ProgressStatus.WAIT.getCode())
             .parentInfo("2학년 2반 14번 이예리 어머님")
-            .consultDate(LocalDateTime.now())
+            .lastModifiedDate(LocalDateTime.now())
             .rejectedReason("")
             .build();
 
@@ -60,7 +60,7 @@ public class ConsultWebQueryControllerDocsTest extends RestDocsSupport {
             .type(ConsultType.VISIT.getCode())
             .status(ProgressStatus.WAIT.getCode())
             .parentInfo("2학년 2반 8번 김민기 어머님")
-            .consultDate(LocalDateTime.now())
+            .lastModifiedDate(LocalDateTime.now())
             .rejectedReason("")
             .build();
 
@@ -99,7 +99,7 @@ public class ConsultWebQueryControllerDocsTest extends RestDocsSupport {
                         .description("상담 진행 상태"),
                     fieldWithPath("data.content[].parentInfo").type(JsonFieldType.STRING)
                         .description("학부모 정보"),
-                    fieldWithPath("data.content[].consultDate").type(JsonFieldType.ARRAY)
+                    fieldWithPath("data.content[].lastModifiedDate").type(JsonFieldType.ARRAY)
                         .description("상담 일시"),
                     fieldWithPath("data.content[].rejectedReason").type(JsonFieldType.STRING)
                         .optional()

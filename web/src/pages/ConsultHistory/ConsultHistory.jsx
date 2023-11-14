@@ -1,111 +1,143 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import styles from './ConsultHistory.module.css';
 
 import ConsultCompleteCard from './ConsultCompleteCard';
 import ConsultRejectCard from './ConsultRejectCard';
-import { getCompliteConsulting } from '../../api/ConsultingAPI/consultingAPI';
+import {getCompliteConsulting, getConsults} from '../../api/ConsultingAPI/consultingAPI';
+import styles2 from "../ManageClassPage/ManageMyclassPage.module.css";
+import Table from "../../component/Table/Table";
+import {getApplies} from "../../api/SchoolAPI/schoolAPI";
 
 export default function ConsultHistory() {
-  const [pageIdx, setPageIdx] = useState(0);
+  const [pageIdx, setPageIdx] = useState(5002);
+  const [pageText, setPageText] = useState('상담 예정');
+  const [consults, setConsults] = useState([]);
+  const [totalConsults, setTotalConsults] = useState(0);
 
-  const [approveList, setApproveList] = useState([]);
-  const [compliteLIst, setCompliteLIst] = useState([]);
-  const [rejectList, setRejectList] = useState([]);
-  const [csltList, setCsltList] = useState([
-    {
-      consultId: 1,
-      status: '승인 완료',
-      type: '방문상담',
-      studentInfo: '10301 하예솔 학생',
-      parentInfo: '하도영 아버님',
-      consultDate: [2023, 11, 4, 14, 0],
-      rejectedReason: ''
-    },
-    {
-      consultId: 2,
-      status: '상담 불가',
-      type: '방문상담',
-      studentInfo: '10301 하예솔 학생',
-      parentInfo: '박연진 어머님',
-      consultDate: [2023, 11, 4, 15, 0],
-      rejectedReason: '수업시간으로 인해 하지 못합니다. 제 상담시간을 확인해주시고 신청해주세요'
-    }
-  ]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const newCsltData = await getCompliteConsulting();
-        console.log(newCsltData);
-        setCsltList(newCsltData);
+    fetchConsults(pageIdx);
+  }, [pageIdx]);
 
-        let accessList = [];
-        let compliteList = [];
-        let rejectList = [];
-
-        for (const item of csltList) {
-          // <-- for...of 사용
-          if (item['status'] === '승인 완료') {
-            accessList.push(item);
-          } else if (item['status'] === '상담 완료') {
-            compliteList.push(item);
-          } else if (item['status'] === '상담 불가') {
-            rejectList.push(item);
-          }
-        }
-        setApproveList(accessList);
-        setCompliteLIst(compliteList);
-        setRejectList(rejectList);
-      } catch (error) {
-        console.error(error);
+  const fetchConsults = async (pageIdx) => {
+    try {
+      const data = await getConsults(pageIdx);
+      if (data && Array.isArray(data.content)) {
+        const transformedData = data.content.map((consult) => ({
+          type: consult.type,
+          grade: consult.parentInfo.split(' ')[0].replace('학년', ''),
+          class: consult.parentInfo.split(' ')[1].replace('반', ''),
+          number: consult.parentInfo.split(' ')[2].replace('번', ''),
+          name: consult.parentInfo.split(' ')[3],
+          relationship: consult.parentInfo.split(' ')[4] === '아버님' ? '부' : '모',
+          lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1],
+          // add other fields if necessary
+        }));
+        setConsults(transformedData);
+        setTotalConsults(data.count);
+      } else {
+        // handleRetry();
       }
-    };
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    }
+  }
 
-    fetchData();
-  }, []);
-  const pageList = [
-    <ConsultCompleteCard recieveList={approveList}></ConsultCompleteCard>,
-    <ConsultCompleteCard recieveList={compliteLIst}></ConsultCompleteCard>,
-    <ConsultRejectCard rejectList={rejectList}></ConsultRejectCard>
-  ];
-  const pagereturn = (index) => {
-    return pageList[index];
-  };
+  const columns = useMemo(
+    () => {
+      const column = [
+        {
+          accessor: 'type',
+          Header: '상담 유형'
+        },
+        {
+          accessor: 'grade',
+          Header: '학년'
+        },
+        {
+          accessor: 'class',
+          Header: '반'
+        },
+        {
+          accessor: 'number',
+          Header: '번호'
+        },
+        {
+          accessor: 'name',
+          Header: '학생 이름'
+        },
+        {
+          accessor: 'relationship',
+          Header: '관계'
+        },
+        {
+          accessor: 'lastModifiedDate',
+          Header: '신청 일자'
+        },
+        {
+          accessor: 'complainDetail',
+          Header: '상세내역'
+        }
+      ]
+
+      if (pageIdx === 5002) {
+        column[6].Header = '상담 승인 일자'
+        setPageText('상담 승인')
+      }
+
+      if (pageIdx === 5003) {
+        column[6].Header = '상담 완료 일자'
+        setPageText('상담 완료')
+      }
+
+      if (pageIdx === 5004) {
+        column[6].Header = '상담 거절 일자'
+        setPageText('상담 거절')
+      }
+
+      return column;
+    },
+    [pageIdx]
+  );
+
   return (
     <div className={styles.consultHistory}>
       <div className={styles.title}>
         <p>상담 내역</p>
+        <p>{pageText} : {totalConsults}건 </p>
       </div>
       <div className={styles.consultClass}>
         <div className={styles.consultTab}>
           <div
             onClick={() => {
-              setPageIdx(0);
+              setPageIdx(5002);
             }}
           >
-            <p style={0 === pageIdx ? { backgroundColor: 'white' } : null}>
-              <b>예정된 상담</b>
+            <p style={5002 === pageIdx ? {backgroundColor: 'white'} : null}>
+              <b>상담 예정</b>
             </p>
           </div>
           <div
             onClick={() => {
-              setPageIdx(1);
+              setPageIdx(5003);
             }}
           >
-            <p style={1 === pageIdx ? { backgroundColor: 'white' } : null}>
+            <p style={5003 === pageIdx ? {backgroundColor: 'white'} : null}>
               <b>상담 완료</b>
             </p>
           </div>
           <div
             onClick={() => {
-              setPageIdx(2);
+              setPageIdx(5004);
             }}
           >
-            <p style={2 === pageIdx ? { backgroundColor: 'white' } : null}>
+            <p style={5004 === pageIdx ? {backgroundColor: 'white'} : null}>
               <b>상담 거절</b>
             </p>
           </div>
         </div>
-        <div className={styles.consultCardBox}>{pagereturn(pageIdx)}</div>
+        <div className={styles2.scrollContainer}>
+          <Table columns={columns} data={consults}/>
+        </div>
       </div>
     </div>
   );

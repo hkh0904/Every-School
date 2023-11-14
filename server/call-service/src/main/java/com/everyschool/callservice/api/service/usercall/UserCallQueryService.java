@@ -2,6 +2,7 @@ package com.everyschool.callservice.api.service.usercall;
 
 import com.everyschool.callservice.api.client.UserServiceClient;
 import com.everyschool.callservice.api.client.response.UserInfo;
+import com.everyschool.callservice.api.controller.usercall.response.ReportCallsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallDetailsResponse;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
@@ -30,7 +31,7 @@ public class UserCallQueryService {
      */
     public List<UserCallResponse> searchMyCalls(String userKey) {
         log.debug("call UserCallQueryService#searchMyCalls");
-        UserInfo user = getUser(userKey);
+        UserInfo user = userServiceClient.searchUserInfoByUserKey(userKey);
         log.debug("user = {}", user);
 
         if (user.getUserType() == 'T') {
@@ -55,10 +56,17 @@ public class UserCallQueryService {
         return response;
     }
 
-    private UserInfo getUser(String userKey) {
-        UserInfo user = userServiceClient.searchUserInfoByUserKey(userKey);
+    public List<ReportCallsResponse> searchReportCalls(String token) {
+        log.debug("call UserCallQueryService#searchReportCalls");
+        log.debug("token = {}", token);
+        UserInfo user = userServiceClient.searchUserInfo(token);
         log.debug("get user from user-serivce = {}", user);
 
-        return user;
+        List<ReportCallsResponse> responses = userCallQueryRepository.findReportsById(user.getUserId());
+        System.out.println(responses);
+        log.debug("responses = {}", responses);
+
+        return responses;
     }
+
 }

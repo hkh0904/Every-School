@@ -1,4 +1,7 @@
+import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -8,6 +11,9 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  final storage = FlutterSecureStorage();
+  String? token;
+
   TextEditingController curPassword = TextEditingController();
   TextEditingController newPassword = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
@@ -41,7 +47,19 @@ class _ChangePasswordState extends State<ChangePassword> {
         passwordError = null; // 에러 없음
         newPwdValidation = true;
       });
+      if (newPassword.text != confirmPassword.text) {
+        setState(() {
+          samepasswordError = samepasswordMessage;
+          sameNewPwdValidation = false;
+        });
+      } else {
+        setState(() {
+          samepasswordError = null; // 에러 없음
+          sameNewPwdValidation = true;
+        });
+      }
     }
+
     properColor = newPwdValidation ? Color(0XFF15075F) : Colors.red;
   }
 
@@ -60,9 +78,14 @@ class _ChangePasswordState extends State<ChangePassword> {
     properColor = sameNewPwdValidation ? Color(0XFF15075F) : Colors.red;
   }
 
+  getToken() async {
+    token = await storage.read(key: 'token') ?? "";
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    getToken();
     super.initState();
   }
 
@@ -85,6 +108,30 @@ class _ChangePasswordState extends State<ChangePassword> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text('현재 비밀번호', style: myTextStyle),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+              child: TextField(
+                onChanged: passwordValidation,
+                maxLength: 20,
+
+                controller: curPassword,
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true, // 비밀번호 안보이도록 하는 것
+                decoration: InputDecoration(
+                    counterText: '',
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 16.0, horizontal: 10.0),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1.5, color: Color(0XFF15075F))),
+                    border: OutlineInputBorder(borderSide: BorderSide()),
+                    focusColor: Color(0XFF15075F)),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Text('새로운 비밀번호', style: myTextStyle),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -139,17 +186,53 @@ class _ChangePasswordState extends State<ChangePassword> {
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                 child: ButtonTheme(
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: newPwdValidation && sameNewPwdValidation
+                            ? () async {
+                                //비밀번호 변경 api
+                                final response = await UserApi().changePassword(
+                                    token, curPassword.text, newPassword.text);
+
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: Text('$response'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('닫기'),
+                                          onPressed: () {
+                                            if (response == '비밀번호가 변경되었습니다.') {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Main()),
+                                                  (Route<dynamic> route) =>
+                                                      false);
+                                            } else {
+                                              Navigator.of(context)
+                                                  .pop(); // 대화 상자를 닫습니다.
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            : null,
                         style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Color(0XFF15075F))),
+                            backgroundColor: newPwdValidation &&
+                                    sameNewPwdValidation
+                                ? MaterialStatePropertyAll(Color(0XFF15075F))
+                                : MaterialStatePropertyAll(Colors.grey)),
                         child: SizedBox(
                           height: 40,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               Text(
-                                '로그인',
+                                '비밀번호 변경',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,

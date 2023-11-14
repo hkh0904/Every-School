@@ -1,170 +1,150 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import styles from './ManageClassPage.module.css';
+import styles2 from './ManageMyclassPage.module.css';
 import ApproveModal from './ApproveModal';
-import { getClassAccess, getCpltAccessClassList } from '../../api/SchoolAPI/schoolAPI';
+import {getApplies} from '../../api/SchoolAPI/schoolAPI';
+import Table from "../../component/Table/Table";
 
 //axios 요청하기
 export default function ManageClassPage() {
-  const [accessList, setAccessList] = useState([
-    // { id: 0, type: 2, grade: 3, calss: 2, number: 16, name: '김휘낭' },
-    // { id: 1, type: 2, grade: 2, calss: 1, number: 11, name: '이마들' },
-    // { id: 2, type: 2, grade: 1, calss: 3, number: 1, name: '운남길' },
-    // { id: 3, type: 2, grade: 1, calss: 1, number: 14, name: '박파운' },
-    // { id: 4, type: 1, grade: 1, calss: 1, number: 12, gender: 'F', name: '오연주' },
-    // { id: 5, type: 1, grade: 2, calss: 2, number: 16, gender: 'M', name: '임우택' },
-    // { id: 6, type: 1, grade: 3, calss: 3, number: 16, gender: 'F', name: '이예리' },
-    // { id: 7, type: 1, grade: 1, calss: 3, number: 16, gender: 'M', name: '홍경환' }
-  ]);
-  const [completeList, setCompleteList] = useState([]);
   //SPA
   const [pageIdx, setPageIdx] = useState(0);
-  const [isActive, setIsActive] = useState(true);
+  const [pageText, setPageText] = useState('승인 대기');
+  const [active, setActive] = useState(0);
   //.모달
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [totalApplies, setTotalApplies] = useState(0);
 
-  // 승인대기 목록 조회
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const newAccessData = await getClassAccess();
-        console.log(newAccessData);
-        setAccessList(newAccessData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  // 승인 완료 목록
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const newAccessData = await getCpltAccessClassList();
-        console.log(newAccessData);
-        setCompleteList(newAccessData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const mode = [
-    {
-      id: 0,
-      component: (
-        <>
-          {accessList?.content?.length !== 0 ? (
-            accessList?.content?.map((data) => {
-              return (
-                <div className={styles.approveCard}>
-                  <img
-                    className={styles.preApproveImg}
-                    src={`${process.env.PUBLIC_URL}/assets/approve/pre_approve.png`}
-                    alt=''
-                  />
-                  <div className={styles.information}>
-                    <div>학생 신청</div>
-                    <div>{data?.studentInfo}</div>
-                    <div>관계</div>
-                    <div>학년 반 이름</div>
-                    <div>신청 날짜</div>
-                  </div>
-                  <div
-                    className={styles.confirm}
-                    onClick={() => {
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    확인하기 {'>'}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <>0</>
-          )}
-        </>
-      )
-    },
-    {
-      id: 1,
-      component: (
-        <>
-          {completeList?.content?.length !== 0 ? (
-            completeList?.content?.map((data) => {
-              return (
-                <div className={styles.approveCard}>
-                  <img
-                    className={styles.preApproveImg}
-                    src={`${process.env.PUBLIC_URL}/assets/approve/pre_approve.png`}
-                    alt=''
-                  />
-                  <div className={styles.information}>
-                    {data?.applyType === '학생 신청' ? <div>학생 신청</div> : <div>학부모 신청</div>}
-                    <div>
-                      {data?.studentInfo.slice(0, 1)}학년 {data?.studentInfo.slice(1, 3)}반{' '}
-                      {data?.studentInfo.slice(3, 5)}번 {data?.studentInfo.slice(-3)}
-                    </div>
-
-                    {data?.applyType === '학생 신청' ? null : <div>관계 : {data?.applyType.slice(0, 3)} </div>}
-
-                    <div>신청 시간 :</div>
-                  </div>
-                  <div
-                    className={styles.confirm}
-                    onClick={() => {
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    확인하기 {'>'}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <>0</>
-          )}
-        </>
-      )
+    if (pageIdx === 0) {
+      setPageText('승인 대기');
+    } else if (pageIdx === 1) {
+      setPageText('승인 완료');
+    } else {
+      setPageText('승인 거절');
     }
-  ];
+    fetchApplies(pageIdx);
+  }, [pageIdx]);
+
+  const fetchApplies = async (pageIdx) => {
+    try {
+      const data = await getApplies(pageIdx);
+      if (data && Array.isArray(data.content)) {
+        const transformedData = data.content.map((apply) => ({
+          type: apply.applyType,
+          grade: apply.studentInfo.split(' ')[0].replace('학년', ''),
+          class: apply.studentInfo.split(' ')[1].replace('반', ''),
+          number: apply.studentInfo.split(' ')[2].replace('번', ''),
+          name: apply.studentInfo.split(' ')[3],
+          lastModifiedDate: apply.lastModifiedDate.split('T')[0] + ' ' + apply.lastModifiedDate.split('T')[1],
+          // add other fields if necessary
+        }));
+        setApplies(transformedData);
+        setTotalApplies(data.count);
+      } else {
+        // handleRetry();
+      }
+    } catch (error) {
+      console.error('Failed to fetch students:', error);
+    }
+  };
+
+  const columns = useMemo(
+    () => {
+      const column = [
+        {
+          accessor: 'type',
+          Header: '신청 유형'
+        },
+        {
+          accessor: 'grade',
+          Header: '학년'
+        },
+        {
+          accessor: 'class',
+          Header: '반'
+        },
+        {
+          accessor: 'number',
+          Header: '번호'
+        },
+        {
+          accessor: 'name',
+          Header: '학생 이름'
+        },
+        {
+          accessor: 'lastModifiedDate',
+          Header: '신청 일자'
+        },
+        {
+          accessor: 'complainDetail',
+          Header: '상세내역'
+        }
+      ]
+
+      if (pageIdx === 0) {
+        column[5].Header = '신청 일자'
+      }
+
+      if (pageIdx === 1) {
+        column[5].Header = '승인 일자'
+      }
+
+      if (pageIdx === 2) {
+        column[5].Header = '거절 일자'
+      }
+
+      return column;
+    },
+    [pageIdx]
+  );
+  const [applies, setApplies] = useState([]);
   return (
     <div className={styles.manageClass}>
       <div className={styles.title}>
-        <p>학급승인</p>
-        <p>승인 대기 중 : {accessList?.count}건 </p>
+        <p>승인 관리</p>
+        <p>{pageText} : {totalApplies}건 </p>
       </div>
       <div className={styles.approveClass}>
         <div className={styles.approveTab}>
           <div
             onClick={() => {
               setPageIdx(0);
-              setIsActive(true);
+              setActive(0);
             }}
           >
-            <p style={isActive ? { backgroundColor: 'white' } : null}>
+            <p style={active === 0 ? {backgroundColor: 'white'} : null}>
               <b>승인 대기</b>
             </p>
           </div>
           <div
             onClick={() => {
               setPageIdx(1);
-              setIsActive(false);
+              setActive(1);
             }}
           >
-            <p style={!isActive ? { backgroundColor: 'white' } : null}>
-              <b>승인 내역</b>
+            <p style={active === 1 ? {backgroundColor: 'white'} : null}>
+              <b>승인 완료</b>
+            </p>
+          </div>
+          <div
+            onClick={() => {
+              setPageIdx(2);
+              setActive(2);
+            }}
+          >
+            <p style={active === 2 ? {backgroundColor: 'white'} : null}>
+              <b>승인 거절</b>
             </p>
           </div>
         </div>
-        <div className={styles.approveCardBox}>{mode[pageIdx].component}</div>
+        <div className={styles2.scrollContainer}>
+          <Table columns={columns} data={applies}/>
+        </div>
       </div>
       {isModalOpen ? (
         <>
-          <ApproveModal setIsModalOpen={setIsModalOpen} />
+          <ApproveModal setIsModalOpen={setIsModalOpen}/>
         </>
       ) : null}
     </div>

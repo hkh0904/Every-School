@@ -1,6 +1,7 @@
 package com.everyschool.schoolservice.domain.schoolapply.repository;
 
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,31 @@ public class SchoolApplyWebQueryRepository {
 
     public SchoolApplyWebQueryRepository(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    public List<SchoolApply> findAllByCond(Long schoolClassId, int schoolYear, int status) {
+        return queryFactory
+            .select(schoolApply)
+            .from(schoolApply)
+            .where(
+                schoolApply.isDeleted.isFalse(),
+                schoolApply.schoolClass.id.eq(schoolClassId),
+                schoolApply.schoolYear.eq(schoolYear),
+                status(status)
+            )
+            .fetch();
+    }
+
+    private BooleanExpression status(int status) {
+        if (status == 0) {
+            return schoolApply.isApproved.isFalse().and(schoolApply.rejectedReason.isNull());
+        }
+
+        if (status == 1) {
+            return schoolApply.isApproved.isTrue().and(schoolApply.rejectedReason.isNull());
+        }
+
+        return schoolApply.isApproved.isFalse().and(schoolApply.rejectedReason.isNotEmpty());
     }
 
     /**

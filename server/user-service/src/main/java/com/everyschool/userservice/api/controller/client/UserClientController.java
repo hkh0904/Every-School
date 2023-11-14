@@ -125,12 +125,21 @@ public class UserClientController {
         return fcmToken;
     }
 
-    @GetMapping("/user-service/client/v1/user-info/{userId}/user-response")
+    @GetMapping("/user-info/{userId}/user-response")
     public UserResponse searchUserById(@PathVariable(name = "userId") Long userId) {
 
         UserResponse response = userQueryService.searchUserById(userId);
         log.debug("response={}", response);
 
         return response;
+    }
+
+    @GetMapping("/user/{schoolClassId}/name/{parentId}")
+    public String searchUsername(@PathVariable Long schoolClassId, @PathVariable Long parentId) {
+
+        String name = userQueryService.searchUsername(schoolClassId, parentId);
+        log.debug("name={}", name);
+
+        return name;
     }
 }

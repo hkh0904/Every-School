@@ -222,8 +222,7 @@ class _ConnectState extends State<Connect> {
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation1,
                       Animation<double> animation2) =>
-                  GetCallSuccess(leave: leave, userInfo: userInfo) //변경 필요
-              ,
+                  GetCallSuccess(leave: leave, userInfo: userInfo),
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,
             ),
@@ -291,6 +290,29 @@ class _ConnectState extends State<Connect> {
     scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
       content: Text(message),
     ));
+  }
+
+  createRoom(index) async {
+    print('실행');
+    final token = await storage.read(key: 'token') ?? "";
+    final userKey = widget.userConnect[index]['userKey'];
+    final userName = widget.userConnect[index]['name'];
+    final userType = widget.userConnect[index]['userType'];
+    print(userKey);
+    print(userName);
+    print(userType);
+    final mytype = await context.read<UserStore>().userInfo['userType'];
+    final myclassId = await context.read<UserStore>().userInfo['schoolClass']
+        ['schoolClassId'];
+
+    final result = await MessengerApi()
+        .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
+    print('함수');
+    print(result);
+    final newInfo = result;
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChatRoom(roomInfo: newInfo)));
   }
 
   @override
@@ -371,13 +393,7 @@ class _ConnectState extends State<Connect> {
                                     ),
                                   GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => ChatRoom(
-                                                  roomInfo: null,
-                                                  userInfo: widget
-                                                      .userConnect[index])));
+                                      createRoom(index);
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.fromLTRB(
@@ -488,15 +504,7 @@ class _ConnectState extends State<Connect> {
                                         ),
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ChatRoom(
-                                                          roomInfo: null,
-                                                          userInfo: widget
-                                                                  .userConnect[
-                                                              index])));
+                                          createRoom(index);
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -596,8 +604,8 @@ class _ConnectState extends State<Connect> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ChatRoom(
-                                    roomInfo: null, userInfo: parent)));
+                                builder: (context) =>
+                                    ChatRoom(roomInfo: parent)));
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),

@@ -42,9 +42,6 @@ public class UserCall extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime endDateTime;
 
-    private String uploadFileName;
-    private String storeFileName;
-
     @ColumnDefault("false")
     private Boolean isBad;
 
@@ -59,8 +56,7 @@ public class UserCall extends BaseEntity {
 
     @Builder
     private UserCall(Long teacherId, Long otherUserId, String sender, String senderName, String receiverName,
-                     String receiveCall, LocalDateTime startDateTime, LocalDateTime endDateTime, String uploadFileName,
-                     String storeFileName, Boolean isBad) {
+                     String receiveCall, LocalDateTime startDateTime, LocalDateTime endDateTime, Boolean isBad) {
         this();
         this.teacherId = teacherId;
         this.otherUserId = otherUserId;
@@ -70,8 +66,6 @@ public class UserCall extends BaseEntity {
         this.receiveCall = receiveCall;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.uploadFileName = uploadFileName;
-        this.storeFileName = storeFileName;
         this.isBad = isBad;
     }
 

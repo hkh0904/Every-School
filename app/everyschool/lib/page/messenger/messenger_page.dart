@@ -70,7 +70,6 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
           .read<ChatController>()
           .changechatroomList(List<Map>.from(response));
     }
-
     setState(() {
       userConnect = contact;
     });
@@ -181,18 +180,41 @@ class _UserTapBarState extends State<UserTapBar> {
   _getChatList() async {
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
-    final contact = await MessengerApi().getTeacherConnect(token);
+
     await context
         .read<ChatController>()
         .changechatroomList(List<Map>.from(response));
-    setState(() {
-      teacherConnect = contact;
-    });
-    setState(() {
-      teacherConnect = contact;
-    });
 
+    setState(() {
+      chatroomList = response;
+    });
+    print(response);
     return response;
+  }
+
+  createRoom() async {
+    print('실행');
+    final token = await storage.read(key: 'token') ?? "";
+    final contact = await MessengerApi().getTeacherConnect(token);
+
+    final userKey = contact['userKey'];
+    final userName = contact['name'];
+    final userType = contact['userType'];
+    print(userKey);
+    print(userName);
+    print(userType);
+    final mytype = await context.read<UserStore>().userInfo['userType'];
+    final myclassId = await context.read<UserStore>().userInfo['schoolClass']
+        ['schoolClassId'];
+
+    final result = await MessengerApi()
+        .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
+    print('함수');
+    print(result);
+    final newInfo = result;
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChatRoom(roomInfo: newInfo)));
   }
 
   Future<dynamic>? chatroomListFuture;
@@ -223,15 +245,10 @@ class _UserTapBarState extends State<UserTapBar> {
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold))),
-                    CallButton(userInfo: teacherConnect),
+                    // CallButton(userInfo: teacherConnect),
                     IconButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => ChatRoom(
-                                      roomInfo: null,
-                                      userInfo: teacherConnect)));
+                          createRoom();
                         },
                         icon: Icon(Icons.message_sharp))
                   ],

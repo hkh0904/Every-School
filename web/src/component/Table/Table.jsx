@@ -23,6 +23,11 @@ export default function Table({ columns, data }) {
     navigate('/badcomplain/detail', { state: { userCallId: userCallId } });
   };
 
+  const handleNotiDetail = (data) => {
+    const boardId = data;
+    navigate('/docs/register-noti/detail', { state: { boardId: boardId } });
+  };
+
   return (
     <>
       <Search onSubmit={setGlobalFilter} />
@@ -69,6 +74,20 @@ export default function Table({ columns, data }) {
                           <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
                         </div>
                       </td>
+                    );
+                  } else if (cell.column.id === 'title') {
+                    return (
+                        <td className={styles.tableEle} {...cell.getCellProps()}>
+                          <div
+                              className={styles.row}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() => handleNotiDetail(cell.row.values.boardId)}
+                          >
+                            {cell.render('Cell')}
+                            {/*<span className={styles.detailText}>상세내역 확인</span>*/}
+                            {/*<SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />*/}
+                          </div>
+                        </td>
                     );
                   }
                   // 그 외의 열 처리

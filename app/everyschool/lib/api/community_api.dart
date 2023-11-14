@@ -88,4 +88,26 @@ class CommunityApi {
       return null;
     }
   }
+
+  Future<dynamic> getNewPostList(schoolId) async {
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/board-service/v1/schools/${schoolId}/boards/new-free');
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> getNewNoticeList(schoolId) async {
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/board-service/v1/schools/${schoolId}/boards/new-notice');
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }

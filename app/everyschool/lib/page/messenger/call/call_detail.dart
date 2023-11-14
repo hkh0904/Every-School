@@ -66,10 +66,10 @@ class _CallDetailState extends State<CallDetail> {
                     color: Color(0xffF4F6FD),
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      padding: const EdgeInsets.fromLTRB(10, 15, 5, 15),
                       child: Text('❗ '),
                     ),
                     Expanded(child: Text('해당 전화는 AI 판단 하에 악성민원으로 분류되었습니다.')),
@@ -128,16 +128,17 @@ class _CallDetailState extends State<CallDetail> {
             SizedBox(
               height: 10,
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: Color(0xffF4F6FD),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text('해당 전화는 AI 판단 하에 악성민원으로 분류되었습니다.'),
+            if (widget.detail['overallSentiment'] != 'positive')
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Color(0xffF4F6FD),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text('해당 전화는 AI 판단 하에 악성민원으로 분류되었습니다.'),
+                ),
               ),
-            ),
             SizedBox(
               height: 25,
             ),
@@ -182,30 +183,30 @@ class _CallDetailState extends State<CallDetail> {
               height: 25,
             ),
             // 더보기 버튼
-            // if (_visibleContentCount < widget.detail['details'].length)/
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    _visibleContentCount += 15;
-                    if (_visibleContentCount >=
-                        widget.detail['details'].length) {
-                      _visibleContentCount = widget.detail['details'].length;
-                    }
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(border: Border.all()),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '더보기',
-                      style: TextStyle(color: Colors.black),
+            if (_visibleContentCount < widget.detail['details'].length)
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _visibleContentCount += 15;
+                      if (_visibleContentCount >=
+                          widget.detail['details'].length) {
+                        _visibleContentCount = widget.detail['details'].length;
+                      }
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(border: Border.all()),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '더보기',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),

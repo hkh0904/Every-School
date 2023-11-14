@@ -100,4 +100,14 @@ public class SchoolApplyWebQueryService {
         }
         return findSchoolApply.get();
     }
+
+    public List<SchoolApplyResponse> searchSchoolApplies(String userKey, Integer schoolYear, Integer status) {
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
+
+        List<SchoolApply> schoolApplies = schoolApplyWebQueryRepository.findAllByCond(userInfo.getSchoolClassId(), schoolYear, status);
+
+        return schoolApplies.stream()
+            .map(SchoolApplyResponse::of)
+            .collect(Collectors.toList());
+    }
 }

@@ -17,6 +17,7 @@ class ConsultingListParent extends StatefulWidget {
 
 class _ConsultingListParentState extends State<ConsultingListParent> {
   final storage = FlutterSecureStorage();
+  bool updating = false;
 
   consultingList() async {
     final descendantInfo = await storage.read(key: 'descendant') ?? "";
@@ -29,6 +30,12 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
     print(response);
     print('정보 $selectDescendant');
     return response;
+  }
+
+  updatePage() {
+    setState(() {
+      updating = !updating;
+    });
   }
 
   @override
@@ -45,7 +52,7 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
       case '승인 완료':
         return Color(0xff77B6FF);
       case '상담 완료':
-        return Color(0xffFDCE01);
+        return Color.fromARGB(255, 28, 204, 42);
       default:
         return Colors.black;
     }
@@ -89,8 +96,8 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const ConsultingReservation()));
+                                builder: (context) => ConsultingReservation(
+                                    updatePage: updatePage)));
                       },
                       child: Container(
                         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
