@@ -32,6 +32,7 @@ export default function ManageClassPage() {
       console.log(data);
       if (data && Array.isArray(data.content)) {
         const transformedData = data.content.map((apply) => ({
+          rejectedReason: '정보 불일치',
           parentName: apply.parentName,
           studentBirth: apply.studentBirth,
           parentBirth: apply.parentBirth,
@@ -55,8 +56,8 @@ export default function ManageClassPage() {
     }
   };
 
-  const columns = useMemo(() => {
-    const column = [
+  const columns = [
+    [
       {
         accessor: 'type',
         Header: '신청 유형'
@@ -83,34 +84,79 @@ export default function ManageClassPage() {
       },
       {
         accessor: 'lastModifiedDate',
-        Header: '업데이트 시간'
+        Header: '신청 시간'
       },
       {
         accessor: 'approve',
         Header: '상세내역'
       }
-    ];
+    ],
+    [
+      {
+        accessor: 'type',
+        Header: '신청 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'studentBirth',
+        Header: '학생 생일'
+      },
+      {
+        accessor: 'parentName',
+        Header: '부모님 이름'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '승인 시간'
+      }
+    ],
+    [
+      {
+        accessor: 'type',
+        Header: '신청 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'studentBirth',
+        Header: '학생 생일'
+      },
+      {
+        accessor: 'parentName',
+        Header: '부모님 이름'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '거절 시간'
+      },
+      {
+        accessor: 'rejectedReason',
+        Header: '거절 사유'
+      }
+    ]
+  ];
 
-    if (pageIdx === 0) {
-      column[6].accessor = 'approve';
-      column[6].Header = '승인 / 거절';
-      column[5].Header = '신청 시간';
-    }
-
-    if (pageIdx === 1) {
-      column[6].accessor = 'approveday';
-      column[6].Header = '승인 일자';
-      column[5].Header = '승인 시간';
-    }
-
-    if (pageIdx === 2) {
-      column[6].accessor = 'rejectday';
-      column[6].Header = '거절 사유';
-      column[5].Header = '거절 시간';
-    }
-
-    return column;
-  }, [pageIdx]);
   const [applies, setApplies] = useState([]);
   return (
     <div className={styles.manageClass}>
@@ -154,7 +200,7 @@ export default function ManageClassPage() {
           </div>
         </div>
         <div className={styles2.scrollContainer}>
-          <Table columns={columns} data={applies} />
+          <Table columns={columns[pageIdx]} data={applies} />
         </div>
       </div>
       {isModalOpen ? (

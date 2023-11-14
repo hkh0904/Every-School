@@ -142,6 +142,7 @@ class _LoginFormState extends State<LoginForm> {
                             await FirebaseApi().getMyDeviceToken();
                         int response = await UserApi().login(
                             widget.emailAddress, widget.password, deviceToken);
+                        print('여기가 리스');
                         print(response);
                         if (response == 1) {
                           loginSuccess();
