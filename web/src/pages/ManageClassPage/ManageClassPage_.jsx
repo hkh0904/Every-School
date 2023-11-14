@@ -5,16 +5,7 @@ import { getClassAccess, getCpltAccessClassList } from '../../api/SchoolAPI/scho
 
 //axios 요청하기
 export default function ManageClassPage() {
-  const [accessList, setAccessList] = useState([
-    // { id: 0, type: 2, grade: 3, calss: 2, number: 16, name: '김휘낭' },
-    // { id: 1, type: 2, grade: 2, calss: 1, number: 11, name: '이마들' },
-    // { id: 2, type: 2, grade: 1, calss: 3, number: 1, name: '운남길' },
-    // { id: 3, type: 2, grade: 1, calss: 1, number: 14, name: '박파운' },
-    // { id: 4, type: 1, grade: 1, calss: 1, number: 12, gender: 'F', name: '오연주' },
-    // { id: 5, type: 1, grade: 2, calss: 2, number: 16, gender: 'M', name: '임우택' },
-    // { id: 6, type: 1, grade: 3, calss: 3, number: 16, gender: 'F', name: '이예리' },
-    // { id: 7, type: 1, grade: 1, calss: 3, number: 16, gender: 'M', name: '홍경환' }
-  ]);
+  const [accessList, setAccessList] = useState([]);
   const [completeList, setCompleteList] = useState([]);
   //SPA
   const [pageIdx, setPageIdx] = useState(0);

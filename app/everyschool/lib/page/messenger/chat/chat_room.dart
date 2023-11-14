@@ -34,6 +34,8 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   final storage = FlutterSecureStorage();
+  var subscription;
+
   String? position;
   int? roomNumber;
   String? token;
@@ -126,7 +128,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void onConnectCallback(StompFrame connectFrame) {
     print('받음');
     print(widget.roomInfo['roomId']);
-    stompClient.subscribe(
+    var subscription = stompClient.subscribe(
       destination: '/sub/${widget.roomInfo['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
       callback: (frame) {
@@ -140,6 +142,7 @@ class _ChatRoomState extends State<ChatRoom> {
         setState(() {});
       },
     );
+
     print('저기2');
   }
 
@@ -194,14 +197,14 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void dispose() {
-    stompClient.subscribe(
+    print('구독취소');
+    var unsubscribeFn = stompClient.subscribe(
         destination: '/sub/${widget.roomInfo['roomId']}',
         headers: {'Authorization': 'Bearer $token'},
-        callback: (frame) {
-          // Received a frame for this subscription
-          print(frame.body);
-          print('구독 취소 완료');
-        });
+        callback: (frame) {});
+
+    unsubscribeFn(unsubscribeHeaders: {'Authorization': 'Bearer $token'});
+    stompClient.deactivate();
     // dispose 메서드에서 리소스나 이벤트를 해제합니다.
     // 메모리 누수를 방지하기 위해 이곳에서 구독 해제 등의 정리 작업을 수행합니다.
     super.dispose();
