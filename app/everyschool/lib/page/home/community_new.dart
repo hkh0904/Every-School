@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -64,39 +65,51 @@ class _CommunityNewState extends State<CommunityNew> {
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                height: 50,
-                                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: index == snapshot.data.length - 1
-                                          ? 0
-                                          : 1,
-                                      color: index == snapshot.data.length - 1
-                                          ? Colors.transparent
-                                          : Color(0xffd9d9d9),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => PostDetail(
+                                              boardName: '자유게시판',
+                                              boardId: snapshot.data[index]
+                                                  ['boardId'])));
+                                },
+                                child: Container(
+                                  height: 50,
+                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        width: index == snapshot.data.length - 1
+                                            ? 0
+                                            : 1,
+                                        color: index == snapshot.data.length - 1
+                                            ? Colors.transparent
+                                            : Color(0xffd9d9d9),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.6,
-                                        child: Text(
-                                          snapshot.data[index]['title']
-                                              as String,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 15),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
+                                          child: Text(
+                                            snapshot.data[index]['title']
+                                                as String,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 15),
+                                          ),
                                         ),
-                                      ),
-                                    ]),
+                                      ]),
+                                ),
                               );
                             })),
                   ]),

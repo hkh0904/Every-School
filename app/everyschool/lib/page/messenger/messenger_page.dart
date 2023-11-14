@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/page/messenger/call/call_button.dart';
 import 'package:everyschool/page/messenger/call/call_history.dart';
@@ -203,12 +205,21 @@ class _UserTapBarState extends State<UserTapBar> {
     print(userKey);
     print(userName);
     print(userType);
+    dynamic _myclassId;
     final mytype = await context.read<UserStore>().userInfo['userType'];
-    final myclassId = await context.read<UserStore>().userInfo['schoolClass']
-        ['schoolClassId'];
+    if (mytype == 1002) {
+      final descendantInfo = await storage.read(key: 'descendant') ?? "";
+      var selectDescendant = jsonDecode(descendantInfo);
+      _myclassId = selectDescendant['schoolClass']['schoolClassId'];
+      print(_myclassId);
+    } else {
+      final myInfo = await context.read<UserStore>().userInfo;
+      _myclassId = myInfo['school']['schoolId'];
+      print(_myclassId);
+    }
 
     final result = await MessengerApi()
-        .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
+        .createChatRoom(token, userKey, userType, userName, mytype, _myclassId);
     print('함수');
     print(result);
     final newInfo = result;

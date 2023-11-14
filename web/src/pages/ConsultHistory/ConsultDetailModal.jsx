@@ -103,7 +103,7 @@ const ConsultDetailModal = ({ setIsModalOpen, consultId }) => {
                       alert('내용을 적어주세요');
                     } else {
                       const response = await sendCompliteConsult(detail.consultId, message);
-                      if (response.code == 200) {
+                      if (response.code === 200) {
                         alert('완료 되었습니다.');
                         setIsModalOpen(false);
                         window.location.reload();
