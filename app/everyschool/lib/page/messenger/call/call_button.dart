@@ -120,6 +120,7 @@ class _CallButtonState extends State<CallButton> {
     } else {
       // Join a channel.
       showMessage("Token received, joining a channel...");
+      _navigateToModalCallPage();
 
       print('여기는 $reNewToken, $channelId, $uid');
       print('채널은 $channelId');
@@ -132,7 +133,6 @@ class _CallButtonState extends State<CallButton> {
       setState(() {
         isJoined = true;
       });
-      _navigateToModalCallPage();
     }
   }
 
