@@ -5,6 +5,7 @@ import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md';
 import { IoMdChatbubbles, IoMdSettings } from 'react-icons/io';
 import { AiFillNotification } from 'react-icons/ai';
 import { TbReport } from 'react-icons/tb';
+import { MdReport } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 
 export default function AccordianMenu() {
@@ -36,7 +37,7 @@ export default function AccordianMenu() {
     {
       title: '악성 민원 신고',
       list: [],
-      icon: TbReport,
+      icon: MdReport,
       address: '/badcomplain/history'
     },
     {

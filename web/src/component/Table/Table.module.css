@@ -6,13 +6,13 @@
 
 .tableEle {
   padding: 1rem;
-  border-bottom: 2.5px solid #F2F2F2;
+  border-bottom: 2.5px solid #f2f2f2;
   text-align: center;
 }
 
 /* 테이블 헤더에 대한 스타일 추가 */
 .tableEle th {
-  background-color: #F6F5F9;
+  background-color: #f6f5f9;
 }
 
 .row {
@@ -23,7 +23,7 @@
 
 .detailText {
   margin-right: 3px;
-  color: #449D87;
+  color: #449d87;
 }
 
 .formContainer {
@@ -54,7 +54,7 @@
   padding-inline: 0.8em;
   border-radius: var(--border-radius);
   transition: border-radius 0.5s ease;
-  background: var(--input-bg,#fff);
+  background: var(--input-bg, #fff);
 }
 /* styling of Input */
 .input {
@@ -68,7 +68,7 @@
 }
 /* styling of animated border */
 .form:before {
-  content: "";
+  content: '';
   position: absolute;
   background: var(--border-color);
   transform: scaleX(0);
@@ -109,4 +109,19 @@ input:not(:placeholder-shown) ~ .reset {
 .form svg {
   width: 17px;
   margin-top: 3px;
+}
+
+.pagination {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.pageButton {
+  margin: 5px;
+  margin-bottom: 0;
+  font-size: 1vw;
+  font-weight: 600;
+  cursor: pointer;
+  color: #15075f;
 }

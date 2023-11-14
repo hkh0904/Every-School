@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Search from './Search';
 import styles from './Table.module.css';
 import SvgIcon from '@mui/material/SvgIcon';
+import FirstPage from '@mui/icons-material/FirstPage';
+import LastPage from '@mui/icons-material/LastPage';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 export default function Table({ columns, data }) {
@@ -16,11 +18,8 @@ export default function Table({ columns, data }) {
     setGlobalFilter,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     pageCount,
     gotoPage,
-    nextPage,
-    previousPage,
     state: { pageIndex }
   } = useTable(
     {
@@ -132,24 +131,22 @@ export default function Table({ columns, data }) {
       </table>
       {/* 페이지네이션 컨트롤 */}
       <div className={styles.pagination}>
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>{' '}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
-        </button>{' '}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
-        </button>{' '}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>{' '}
-        <span>
-          Page{' '}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
-        </span>
+        <div className={styles.pageButton} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          <SvgIcon component={FirstPage} inheritViewBox />
+        </div>
+        {Array.from({ length: pageCount }, (_, i) => i).map((pageNum) => (
+          <div
+            key={pageNum}
+            onClick={() => gotoPage(pageNum)}
+            disabled={pageIndex === pageNum}
+            className={styles.pageButton}
+          >
+            {pageNum + 1}
+          </div>
+        ))}
+        <div className={styles.pageButton} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          <SvgIcon component={LastPage} inheritViewBox />
+        </div>
       </div>
     </>
   );
