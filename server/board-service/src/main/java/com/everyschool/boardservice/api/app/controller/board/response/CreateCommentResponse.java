@@ -27,7 +27,7 @@ public class CreateCommentResponse {
     public static CreateCommentResponse of(Comment comment) {
         return CreateCommentResponse.builder()
             .commentId(comment.getId())
-            .parentCommentId(comment.getParent().getId())
+            .parentCommentId(comment.getParent() == null ? null : comment.getParent().getId())
             .content(comment.getContent())
             .depth(comment.getDepth())
             .createdDate(comment.getCreatedDate())

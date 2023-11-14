@@ -159,4 +159,21 @@ public class UserQueryRepository {
             )
             .fetchFirst();
     }
+
+    public List<UserResponse> findAllUserInfo(List<Long> userIds) {
+        return queryFactory
+            .select(
+                Projections.constructor(
+                    UserResponse.class,
+                    user.id,
+                    user.name,
+                    user.birth
+                )
+            )
+            .from(user)
+            .where(
+                user.id.in(userIds)
+            )
+            .fetch();
+    }
 }

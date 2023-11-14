@@ -50,15 +50,21 @@ public class SchoolApplyWebQueryControllerDocsTest extends RestDocsSupport {
 
         SchoolApplyResponse response1 = SchoolApplyResponse.builder()
             .schoolApplyId(1L)
-            .applyType(ApplyType.STUDENT.getText())
-            .studentInfo("10301 이예리")
+            .applyType(ApplyType.MOTHER.getText())
+            .parentName("이예리")
+            .parentBirth("1998-04-12")
+            .studentInfo("1학냔 3반 13번 이리온")
+            .studentBirth("2013-11-14")
             .lastModifiedDate(LocalDateTime.now())
             .build();
 
         SchoolApplyResponse response2 = SchoolApplyResponse.builder()
-            .schoolApplyId(1L)
-            .applyType(ApplyType.FATHER.getText())
-            .studentInfo("10301 이예리")
+            .schoolApplyId(2L)
+            .applyType(ApplyType.STUDENT.getText())
+            .parentName("")
+            .parentBirth("")
+            .studentInfo("1학냔 3반 13번 이리온")
+            .studentBirth("2013-11-14")
             .lastModifiedDate(LocalDateTime.now())
             .build();
 
@@ -98,10 +104,16 @@ public class SchoolApplyWebQueryControllerDocsTest extends RestDocsSupport {
                         .description("승인 신청 id"),
                     fieldWithPath("data.content[].applyType").type(JsonFieldType.STRING)
                         .description("승인 신청 유형"),
+                    fieldWithPath("data.content[].parentName").type(JsonFieldType.STRING)
+                        .description("학부모 이름"),
+                    fieldWithPath("data.content[].parentBirth").type(JsonFieldType.STRING)
+                        .description("학부모 생년월일"),
                     fieldWithPath("data.content[].studentInfo").type(JsonFieldType.STRING)
                         .description("승인 신청 학생 정보"),
+                    fieldWithPath("data.content[].studentBirth").type(JsonFieldType.STRING)
+                        .description("힉생 생년월일"),
                     fieldWithPath("data.content[].lastModifiedDate").type(JsonFieldType.ARRAY)
-                        .description("승인 신청 일시")
+                        .description("승인 일시")
                 )
             ));
     }
@@ -114,15 +126,21 @@ public class SchoolApplyWebQueryControllerDocsTest extends RestDocsSupport {
 
         SchoolApplyResponse response1 = SchoolApplyResponse.builder()
             .schoolApplyId(1L)
-            .applyType(ApplyType.STUDENT.getText())
-            .studentInfo("10301 이예리")
+            .applyType(ApplyType.MOTHER.getText())
+            .parentName("이예리")
+            .parentBirth("1998-04-12")
+            .studentInfo("1학냔 3반 13번 이리온")
+            .studentBirth("2013-11-14")
             .lastModifiedDate(LocalDateTime.now())
             .build();
 
         SchoolApplyResponse response2 = SchoolApplyResponse.builder()
-            .schoolApplyId(1L)
-            .applyType(ApplyType.FATHER.getText())
-            .studentInfo("10301 이예리")
+            .schoolApplyId(2L)
+            .applyType(ApplyType.STUDENT.getText())
+            .parentName("")
+            .parentBirth("")
+            .studentInfo("1학냔 3반 13번 이리온")
+            .studentBirth("2013-11-14")
             .lastModifiedDate(LocalDateTime.now())
             .build();
 
@@ -162,8 +180,14 @@ public class SchoolApplyWebQueryControllerDocsTest extends RestDocsSupport {
                         .description("승인 신청 id"),
                     fieldWithPath("data.content[].applyType").type(JsonFieldType.STRING)
                         .description("승인 신청 유형"),
+                    fieldWithPath("data.content[].parentName").type(JsonFieldType.STRING)
+                        .description("학부모 이름"),
+                    fieldWithPath("data.content[].parentBirth").type(JsonFieldType.STRING)
+                        .description("학부모 생년월일"),
                     fieldWithPath("data.content[].studentInfo").type(JsonFieldType.STRING)
                         .description("승인 신청 학생 정보"),
+                    fieldWithPath("data.content[].studentBirth").type(JsonFieldType.STRING)
+                        .description("힉생 생년월일"),
                     fieldWithPath("data.content[].lastModifiedDate").type(JsonFieldType.ARRAY)
                         .description("승인 일시")
                 )

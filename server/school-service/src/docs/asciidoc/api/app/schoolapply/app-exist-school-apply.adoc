@@ -1,0 +1,13 @@
+[[app-exist-school-apply]]
+=== 신청 확인 API
+
+==== HTTP Request
+
+include::{snippets}/app-exist-school-apply/http-request.adoc[]
+include::{snippets}/app-exist-school-apply/request-headers.adoc[]
+include::{snippets}/app-exist-school-apply/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/app-exist-school-apply/http-response.adoc[]
+include::{snippets}/app-exist-school-apply/response-fields.adoc[]
