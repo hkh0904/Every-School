@@ -1,30 +1,26 @@
 import { useMemo, useEffect, useState } from 'react';
 import Table from '../../component/Table/Table';
 import styles from './BadComplainHistory.module.css';
-import { BadComplainList } from '../../api/UserAPI/reportAPI';
+import { BadCallComplain, BadChatComplain } from '../../api/UserAPI/reportAPI';
 
 export default function BadComplainHistoryPage() {
   const columns = useMemo(
     () => [
       {
-        accessor: 'userCallId',
+        accessor: 'complainId',
         Header: '민원번호'
       },
       {
-        accessor: 'senderName',
-        Header: '발신자'
+        accessor: 'type',
+        Header: '민원 수단'
       },
       {
-        accessor: 'receiverName',
-        Header: '수신자'
+        accessor: 'reportedName',
+        Header: '민원인'
       },
       {
-        accessor: 'startDateTime',
-        Header: '통화 시작'
-      },
-      {
-        accessor: 'endDateTime',
-        Header: '통화 종료'
+        accessor: 'reportedDate',
+        Header: '민원 날짜'
       },
       {
         accessor: 'complainDetail',
@@ -35,52 +31,51 @@ export default function BadComplainHistoryPage() {
   );
 
   const [badComplains, setBadComplains] = useState([]);
-  const [completeBadComplains, setCompleteBadComplains] = useState(0);
 
-  function formatDateTime(dateTime) {
-    const date = new Date(dateTime);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hours = date.getHours().toString().padStart(2, '0'); 
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  
-    return `${month}월 ${day}일 ${hours}:${minutes.toString().padStart(2, '0')}`;
-  }
-  
-  const fetchBadComplains = async () => {
-    let rawData = await BadComplainList();
-  
-    // rawData 내의 각 항목에 대해 날짜 형식을 변환합니다.
-    const transformedData = rawData.map(item => ({
-      ...item,
-      startDateTime: formatDateTime(item.startDateTime),
-      endDateTime: formatDateTime(item.endDateTime)
-    }));
-  
-    setBadComplains(transformedData); // 변환된 데이터로 상태를 업데이트합니다.
-    setCompleteBadComplains(rawData.length);
+  const fetchAllBadComplains = async () => {
+    try {
+      // 두 API 요청을 동시에 수행
+      const [callData, chatData] = await Promise.all([BadCallComplain(), BadChatComplain()]);
+
+      // BadCallComplain 데이터 변환
+      const transformedCallData = callData.map((item) => {
+        const { userCallId, ...rest } = item;
+        return {
+          ...rest,
+          complainId: userCallId
+        };
+      });
+
+      // BadChatComplain 데이터 변환
+      const transformedChatData = chatData.map((item) => {
+        const { chatRoomId, reportId, ...rest } = item;
+        return {
+          ...rest,
+          complainId: `${reportId}-${chatRoomId}`
+        };
+      });
+      console.log(chatData)
+      // 두 데이터 배열을 병합
+      const combinedData = [...transformedCallData, ...transformedChatData];
+
+      // 병합된 데이터로 상태 업데이트
+      setBadComplains(combinedData);
+    } catch (error) {
+      console.error('Error fetching complains data:', error);
+    }
   };
-  
 
   useEffect(() => {
-    fetchBadComplains();
+    fetchAllBadComplains();
   }, []);
-
-  console.log(badComplains);
 
   return (
     <div className={styles.container}>
       <div className={styles.row}>
         <div>
           <div className={styles.headText}>신고된 악성 민원</div>
-          <div className={styles.underText}>
-            {/* 처리 필요 : {badComplains.length - completeBadComplains}건 / 처리 완료 : {completeBadComplains}건 */}
-          </div>
+          <div className={styles.underText}></div>
         </div>
-        {/* <div className={styles.plusButton}>
-          <SvgIcon component={AddCircleIcon} inheritViewBox />
-          <p>추가</p>
-        </div> */}
       </div>
       <hr />
       <div className={styles.tableBox}>
