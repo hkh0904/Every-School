@@ -137,7 +137,7 @@ public class BoardAppQueryService {
 
         Map<Long, List<Comment>> commentMap = new HashMap<>();
         for (Comment comment : comments) {
-            if (comment.getParent().getId() != null) {
+            if (comment.getParent() != null) {
                 List<Comment> childComments = commentMap.getOrDefault(comment.getParent().getId(), List.of());
                 childComments.add(comment);
                 continue;
@@ -174,7 +174,7 @@ public class BoardAppQueryService {
             commentVos.add(commentVo);
         }
 
-        return of(board, imageUrls, commentVos);
+        return of(board, userInfo.getUserId(), imageUrls, commentVos);
     }
 
     // TODO: 2023-11-13 조회 구현

@@ -372,6 +372,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .content("슬슬 뛰어 놀때가 된거같아요ㅜㅜ")
             .commentCount(4)
             .isMine(true)
+            .isUsedComment(true)
             .createdDate(LocalDateTime.now())
             .imageUrls(List.of("imageUrl1", "imageUrl2"))
             .comments(List.of(comment1, comment2))
@@ -406,6 +407,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글 댓글수"),
                     fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
                         .description("게시글 본인 작성 여부"),
+                    fieldWithPath("data.isUsedComment").type(JsonFieldType.BOOLEAN)
+                        .description("게시글 댓글 작성 여부"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일시"),
                     fieldWithPath("data.imageUrls").type(JsonFieldType.ARRAY)
