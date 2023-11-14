@@ -133,4 +133,8 @@ public class UserQueryService {
     public String searchUsername(Long schoolClassId, Long parentId) {
         return userQueryRepository.findName(schoolClassId, parentId);
     }
+
+    public List<UserResponse> searchUserInfos(List<Long> userIds) {
+        return userQueryRepository.findAllUserInfo(userIds);
+    }
 }
