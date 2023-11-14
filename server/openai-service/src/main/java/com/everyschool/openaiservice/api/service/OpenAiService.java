@@ -53,26 +53,6 @@ public class OpenAiService {
         }
     }
 
-    @Scheduled(fixedRate = 600000)
-    public void test() {
-        log.debug("[AI 실행] 서비스 실행 됨");
-        LocalDate checkDate = LocalDate.now().minusDays(1);
-        log.debug("[AI 실행] 채팅 서비스 요청하기");
-        String roomIds = chatServiceClient.test();
-        log.debug("[AI 실행] 채팅 서비스 결과테 = {}", roomIds);
-
-
-        GptResponse gptResponse = gptServiceClient.requestGpt(
-                "Bearer ",
-                generateGptRequest("안녕하세요 해봐"));
-
-        String content = gptResponse.getChoices().get(0).getMessage().getContent();
-        log.debug("[AI 실행] gpt 실행되는지 응답 = {}", content);
-
-        log.debug("[AI 실행] 카프카 테스트");
-        kafkaProducer.test("kafka-test", KafkaTestDto.builder().content("이건 카프카 테스트임 지피티 답은 >> " + content).build());
-    }
-
     private void doChatReview(CheckingChatResponse chatListResponse) {
 
         List<Chat> chats = chatListResponse.getChats();
@@ -120,16 +100,16 @@ public class OpenAiService {
     private ChatReviewSaveDto generateSaveChatReviewDto(CheckingChatResponse chatListResponse, List<Chat> chats) {
         return ChatReviewSaveDto.builder()
                 .chatRoomId(chats.get(0).getChatRoomId())
-                .chatDate(chats.get(0).getCreatedDate().toLocalDate())
+                .chatDate(chats.get(0).getCreatedDate())
                 .title(generateTitle(chatListResponse.getTeacherName(), chatListResponse.getOtherUserName(), chatListResponse.getChildName()))
                 .build();
     }
 
     private String generateTitle(String teacherName, String otherUserName, String childName) {
-        if (childName.length() == 0) {
+        if (childName == null || childName.length() == 0) {
 //            return teacherName + "선생님과 " +
             return
-                    childName + "학생";
+                    otherUserName + "학생";
         }
 //        return teacherName + "선생님과 " +
         return
