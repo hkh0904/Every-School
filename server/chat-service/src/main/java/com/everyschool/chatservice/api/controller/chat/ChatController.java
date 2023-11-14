@@ -44,7 +44,6 @@ public class ChatController {
      *
      * @return
      */
-    // TODO: 2023-11-14 구독 취소 해야됨 이거 하는중 
     @MessageMapping("/chat.unsub.{chatRoomId}")
     public void unsubscribe(@DestinationVariable Long chatRoomId,
                             UnsubscribeRequest request) {

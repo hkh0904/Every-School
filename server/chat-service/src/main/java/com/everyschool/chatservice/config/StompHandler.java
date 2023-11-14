@@ -47,25 +47,11 @@ public class StompHandler implements ChannelInterceptor {
                 log.debug("[소켓] SEND");
                 log.debug("[소켓] 메세지 맵핑 주소 = {}", accessor.getDestination());
                 break;
-            case UNSUBSCRIBE:
-                log.debug("[소켓] UNSUBSCRIBE");
-                log.debug("[소켓] 이거 실행될 필요 없음");
-//                unsubscribeToChatRoom();
-                break;
             case DISCONNECT:
                 log.debug("[소켓] DISCONNECT");
                 break;
         }
     }
-
-//    private void unsubscribeToChatRoom() {
-
-//        log.debug("[소켓] 이거 실행될 필요 없음");
-
-//        Long chatRoomId = getChatRoomNo(headers);
-//        log.debug("[소켓] 구독 취소. 인원수 감소. 채팅방 Id = {}", chatRoomId);
-//        chatRoomService.disconnect(chatRoomId, request.getUserKey());
-//    }
 
     private Long connectToChatRoom(StompHeaderAccessor accessor, MessageHeaders headers) {
         Long chatRoomId = getChatRoomNo(headers);
