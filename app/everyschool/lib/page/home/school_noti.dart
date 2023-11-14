@@ -31,7 +31,8 @@ class _SchoolNotiState extends State<SchoolNoti> {
       print('내정보 $myInfo');
       schoolId = myInfo['school']['schoolId'];
     }
-    var response = CommunityApi().getNewNoticeList(schoolId);
+    final year = context.read<UserStore>().year;
+    var response = CommunityApi().getNewNoticeList(year, schoolId);
     return response;
   }
 

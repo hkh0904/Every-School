@@ -1,4 +1,5 @@
 import 'package:everyschool/api/report_api.dart';
+import 'package:everyschool/page/report/my_report_card.dart';
 import 'package:everyschool/page/report/report_card.dart';
 import 'package:everyschool/page/report/report_page.dart';
 import 'package:everyschool/store/user_store.dart';
@@ -16,6 +17,13 @@ class ReportListPage extends StatefulWidget {
 
 class _ReportListPageState extends State<ReportListPage> {
   final storage = FlutterSecureStorage();
+  bool updating = false;
+
+  updateRepPage() {
+    setState(() {
+      updating = !updating;
+    });
+  }
 
   reportList() async {
     var userType = await storage.read(key: 'usertype') ?? "";
@@ -26,20 +34,11 @@ class _ReportListPageState extends State<ReportListPage> {
     var repList = await ReportApi()
         .getReportList(year, myInfo['school']['schoolId'], 7001);
 
-    var ingList = await ReportApi()
-        .getReportList(year, myInfo['school']['schoolId'], 7002);
-
-    var completeList = await ReportApi()
-        .getReportList(year, myInfo['school']['schoolId'], 7003);
-
-    var allList = repList['content'] + ingList['content'];
-
     var reportInfo = {
       "userType": int.parse(userType),
-      "repList": allList,
-      "completeList": completeList['content']
+      "repList": repList,
     };
-    print(reportInfo);
+
     return reportInfo;
   }
 
@@ -50,6 +49,7 @@ class _ReportListPageState extends State<ReportListPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
+                backgroundColor: Color(0xffF5F5F5),
                 appBar: snapshot.data['userType'] == 1001
                     ? AppBar(
                         backgroundColor: Colors.grey[50],
@@ -133,8 +133,8 @@ class _ReportListPageState extends State<ReportListPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ReportPage()));
+                                          builder: (context) => ReportPage(
+                                              updateRepPage: updateRepPage)));
                                 },
                                 child: Container(
                                   padding: EdgeInsets.fromLTRB(5, 5, 10, 5),
@@ -162,9 +162,12 @@ class _ReportListPageState extends State<ReportListPage> {
                               ),
                             ],
                           ),
-                        ReportCard(
-                            state: 'waiting',
-                            reportingList: snapshot.data['repList']),
+                        MyReportCard(
+                          state: 'waiting',
+                          reportingList: snapshot.data['repList']
+                              .where((report) => report['status'] != '처리 완료')
+                              .toList(),
+                        ),
                         Container(
                             margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
                             child: Text(
@@ -172,9 +175,12 @@ class _ReportListPageState extends State<ReportListPage> {
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             )),
-                        ReportCard(
-                            state: 'past',
-                            reportingList: snapshot.data['completeList']),
+                        MyReportCard(
+                          state: 'completed',
+                          reportingList: snapshot.data['repList']
+                              .where((report) => report['status'] == '처리 완료')
+                              .toList(),
+                        ),
                       ],
                     ),
                   ),

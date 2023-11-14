@@ -2,16 +2,16 @@ import 'package:everyschool/page/report/report_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ReportCard extends StatefulWidget {
-  const ReportCard({super.key, this.state, this.reportingList});
+class MyReportCard extends StatefulWidget {
+  const MyReportCard({super.key, this.state, this.reportingList});
   final state;
   final reportingList;
 
   @override
-  State<ReportCard> createState() => _ReportCardState();
+  State<MyReportCard> createState() => _MyReportCardState();
 }
 
-class _ReportCardState extends State<ReportCard> {
+class _MyReportCardState extends State<MyReportCard> {
   Color _getColorFromState(String state) {
     print(state);
     switch (state) {
@@ -109,7 +109,8 @@ class _ReportCardState extends State<ReportCard> {
                                       height: 3,
                                     ),
                                     Text(
-                                      formatConsultDateTime(item['date']),
+                                      formatConsultDateTime(
+                                          item['createdDate']),
                                       style:
                                           TextStyle(color: Color(0xff999999)),
                                     ),
