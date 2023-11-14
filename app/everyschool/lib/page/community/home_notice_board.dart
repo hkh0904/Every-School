@@ -5,6 +5,8 @@ import 'package:everyschool/page/community/postlist_page.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HomeNoticeBoard extends StatefulWidget {
   const HomeNoticeBoard({super.key});
@@ -25,16 +27,22 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
 
   Future<void> _loadBoardData() async {
     final userType = context.read<UserStore>().userInfo["userType"];
+    late final schoolYear;
     late final schoolId;
     if (userType == 1002) {
-      schoolId = context.read<UserStore>().userInfo["descendants"][0]["school"]
-          ["schoolId"];
+      final storage = FlutterSecureStorage();
+      final descendantInfo = await storage.read(key: 'descendant') ?? "";
+      var selectDescendant = jsonDecode(descendantInfo);
+      schoolId = selectDescendant["school"]["schoolId"];
+      schoolYear = selectDescendant["schoolClass"]["schoolYear"];
     } else {
       schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
+      schoolYear =
+          context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
     }
     var response;
     try {
-      response = await communityApi.getHomeNoticeList(schoolId);
+      response = await communityApi.getHomeNoticeList(schoolYear, schoolId);
       if (response != null && response['content'] != null) {
         setState(() {
           boardList = response['content'];
@@ -172,8 +180,8 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      PostDetail(boardName: '가정통신문', boardId: boardId),
+                                  builder: (context) => PostDetail(
+                                      boardName: '가정통신문', boardId: boardId),
                                 ),
                               );
                             }

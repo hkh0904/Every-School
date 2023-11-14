@@ -1,6 +1,5 @@
 import 'package:everyschool/page/community/post_detail_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:everyschool/page/community/create_post.dart';
 import 'package:everyschool/page/community/post_comments.dart';
 import 'package:everyschool/api/community_api.dart';
 import 'dart:convert';
@@ -22,6 +21,8 @@ class PostDetail extends StatefulWidget {
 class _PostDetailState extends State<PostDetail> {
   final CommunityApi communityApi = CommunityApi();
   Map<String, dynamic> postDetail = {};
+  late final schoolYear;
+  late final schoolId;
 
   @override
   void initState() {
@@ -31,31 +32,35 @@ class _PostDetailState extends State<PostDetail> {
 
   Future<void> _loadPostDetail() async {
     final userType = context.read<UserStore>().userInfo["userType"];
-    late final schoolId;
+
     if (userType == 1002) {
       final storage = FlutterSecureStorage();
       final descendantInfo = await storage.read(key: 'descendant') ?? "";
       var selectDescendant = jsonDecode(descendantInfo);
       schoolId = selectDescendant["school"]["schoolId"];
+      schoolYear = selectDescendant["schoolClass"]["schoolYear"];
     } else {
       schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
+      schoolYear =
+          context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
     }
     var response;
     try {
       if (widget.boardName == '자유게시판') {
-        response =
-            await communityApi.getPostDetail(schoolId, 'frees', widget.boardId);
+        response = await communityApi.getPostDetail(
+            schoolYear, schoolId, 'free', widget.boardId);
       } else if (widget.boardName == '학사 공지') {
         response = await communityApi.getPostDetail(
-            schoolId, 'notice', widget.boardId);
+            schoolYear, schoolId, 'notice', widget.boardId);
       } else if (widget.boardName == '가정통신문') {
         response = await communityApi.getPostDetail(
-            schoolId, 'communications', widget.boardId);
+            schoolYear, schoolId, 'communication', widget.boardId);
       }
 
       if (response != null) {
         setState(() {
           postDetail = response;
+          print(response);
         });
       }
     } catch (e) {
@@ -202,7 +207,11 @@ class _PostDetailState extends State<PostDetail> {
               ],
             ),
           ),
-          PostComments(comments: postDetail['comments']),
+          PostComments(
+              boardId: widget.boardId,
+              schoolId: schoolId,
+              schoolYear: schoolYear,
+              comments: postDetail['comments']),
         ],
       ),
     );

@@ -169,8 +169,7 @@ class UserApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      // return response.data['data'];
-      print(response.data);
+      return response.data;
     } catch (e) {
       print(e);
     }
