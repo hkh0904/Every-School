@@ -1,10 +1,13 @@
 package com.everyschool.chatservice.api.controller.chat;
 
 import com.everyschool.chatservice.api.controller.chat.request.ChatMessage;
+import com.everyschool.chatservice.api.controller.chat.request.UnsubscribeRequest;
 import com.everyschool.chatservice.api.service.chat.dto.ChatService;
+import com.everyschool.chatservice.api.service.chatroom.ChatRoomService;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ public class ChatController {
 
     private final SimpMessagingTemplate template;
     private final ChatService chatService;
+    private final ChatRoomService chatRoomService;
 
     /**
      * 채팅 전송
@@ -33,5 +37,21 @@ public class ChatController {
         log.debug("[채팅 전송(소켓)] 알림 보냈음.");
         template.convertAndSend("/sub/" + roomId, message);
         log.debug("[채팅 전송(소켓)] 소켓 전송 완료. message = {}", message.getMessage());
+    }
+
+    /**
+     * 채팅방 구독 취소
+     *
+     * @return
+     */
+    // TODO: 2023-11-14 구독 취소 해야됨 이거 하는중 
+    @MessageMapping("/chat.unsub.{chatRoomId}")
+    public void unsubscribe(@DestinationVariable Long chatRoomId,
+                            UnsubscribeRequest request) {
+
+        log.debug("[구독 취소] 요청 들어옴. 채팅방 Id = {}", chatRoomId);
+
+        chatRoomService.disconnect(chatRoomId, request.getUserKey());
+        log.debug("[구독 취소] 요청 들어옴. 채팅방 Id = {}", chatRoomId);
     }
 }

@@ -165,16 +165,16 @@ public class ChatRoomService {
         return sb.toString();
     }
 
-    public void disconnect(Long chatRoomId) {
+    public void disconnect(Long chatRoomId, String userKey) {
         log.debug("[소켓] 인원수 감소. ChatRoomService, disconnect. 채팅방 Id = {}", chatRoomId);
         String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + chatRoomId;
-        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+//        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        Long roomUserCount = redisUtil.getSetSize(chatRoomUserCountKey);
         log.debug("[소켓] 지금 채팅방 인원 수 = {}", roomUserCount);
-        if (roomUserCount == null) {
-            roomUserCount = String.valueOf(0);
-        }
-        int count = Integer.parseInt(roomUserCount) - 1;
-        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
-        log.debug("[소켓] 감소 후 채팅방 인원 수 = {}", redisUtil.getString(chatRoomUserCountKey));
+
+//        int count = Integer.parseInt(roomUserCount) - 1;
+        roomUserCount = redisUtil.deleteSet(chatRoomUserCountKey, userKey);
+//        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
+        log.debug("[소켓] 감소 후 채팅방 인원 수 = {}", roomUserCount);
     }
 }
