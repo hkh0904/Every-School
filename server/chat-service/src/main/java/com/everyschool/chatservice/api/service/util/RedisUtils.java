@@ -17,6 +17,30 @@ public class RedisUtils {
         redisTemplate.opsForList().size(key);
     }
 
+    public Long insertSet(String key, String value) {
+        redisTemplate.opsForSet().add(key, value);
+        return redisTemplate.opsForSet().size(key);
+    }
+
+    public Long getSetSize(String key) {
+        Long size = redisTemplate.opsForSet().size(key);
+        if (size == null || size == 0) {
+            redisTemplate.delete(key);
+            return 0L;
+        }
+        return size;
+    }
+
+    public Long deleteSet(String key, String value) {
+        redisTemplate.opsForSet().remove(key, value);
+        Long size = redisTemplate.opsForSet().size(key);
+        if (size == null || size == 0) {
+            redisTemplate.delete(key);
+            return 0L;
+        }
+        return size;
+    }
+
     public void insertString(String key, String value) {
         redisTemplate.delete(key);
         redisTemplate.opsForValue().append(key, value);
