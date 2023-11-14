@@ -50,7 +50,7 @@ export default function ManageParentsPage() {
         number: parseInt(parent.studentNumber.toString().substring(3, 5)),
         studentName: parent.studentName,
         name: parent.name,
-        parentType: parent.parentType
+        parentType: (parent.parentType === '아버님' ? '부' : '모'),
         // tel: student.tel, // 서버 데이터에 포함되어 있다면 주석을 해제하고 추가
         // parent: student.parent // 서버 데이터에 포함되어 있다면 주석을 해제하고 추가
       }));

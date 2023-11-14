@@ -133,6 +133,27 @@ export const modifyConsultTime = async (consultScheduleId, times) => {
 };
 
 //상담 내역
+export const getConsults = async (status) => {
+  const schoolNum = sessionStorage.getItem('schoolId');
+  const schoolYear = sessionStorage.getItem('year');
+
+  try {
+    const response = await baseAxios.get(
+      `/consult-service/v1/web/${schoolYear}/schools/${schoolNum}/consults?status=${status}`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`
+        }
+      }
+    );
+
+    return response.data.data;
+  } catch (error) {
+    return 0;
+  }
+};
+
+//상담 내역
 export const getCompliteConsulting = async () => {
   const schoolNum = sessionStorage.getItem('schoolId');
   const schoolYear = sessionStorage.getItem('year');
