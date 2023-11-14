@@ -6,6 +6,8 @@ import com.everyschool.alarmservice.api.client.user.resquest.UserIdRequest;
 import com.everyschool.alarmservice.api.controller.alarm.response.AlarmResponse;
 import com.everyschool.alarmservice.api.controller.alarm.response.RemoveAlarmResponse;
 import com.everyschool.alarmservice.api.controller.alarm.response.SendAlarmResponse;
+import com.everyschool.alarmservice.api.controller.client.request.SendTeacherAlarmRequest;
+import com.everyschool.alarmservice.api.controller.client.response.SendTeacherAlarmResponse;
 import com.everyschool.alarmservice.api.service.alarm.dto.CreateAlarmDto;
 import com.everyschool.alarmservice.api.service.fcm.FCMNotificationService;
 import com.everyschool.alarmservice.domain.alarm.Alarm;
@@ -47,7 +49,7 @@ public class AlarmMasterService {
         }
         log.debug("recipientsInfo = {}", recipientsInfo);
 
-        String result = fcmNotificationService.sendNotification(new ArrayList<>(recipientsInfo.values()), dto.getTitle(),
+        String result = fcmNotificationService.sendMultiNotification(new ArrayList<>(recipientsInfo.values()), dto.getTitle(),
                 dto.getContent(), dto.getType(), sender.getUserName());
         log.debug("fcm alarm result = {}", result);
 
@@ -59,6 +61,24 @@ public class AlarmMasterService {
 
         return SendAlarmResponse.of(savedAlarmMaster);
     }
+
+    public SendTeacherAlarmResponse sendTeacherAlarm(CreateAlarmDto dto, String teacherUserKey, Long objectId) throws FirebaseMessagingException {
+        log.debug("Alarm AlarmMasterService#sendTeacherAlarm");
+        UserInfo teacher = userServiceClient.searchUserInfoByUserKey(teacherUserKey);
+        String teacherFcm = userServiceClient.searchUserFcmByUserKey(teacherUserKey);
+
+        String result = fcmNotificationService.sendNotification(teacherFcm, dto.getTitle(), dto.getContent(),
+                dto.getType(), objectId);
+        log.debug("fcm alarm result = {}", result);
+
+        AlarmMaster alarmMaster = AlarmMaster.createAlarmMaster(dto.getTitle(), dto.getContent(), dto.getType(),
+                dto.getSchoolYear(), null, Map.of(teacher.getUserId(), teacherUserKey));
+
+        AlarmMaster savedAlarmMaster = alarmMasterRepository.save(alarmMaster);
+        return SendTeacherAlarmResponse.of(savedAlarmMaster);
+
+    }
+
 
     public AlarmResponse updateIsRead(Long alarmId) {
         log.debug("Alarm AlarmMasterService#updateIsRead");
