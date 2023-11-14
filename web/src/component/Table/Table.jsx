@@ -1,4 +1,5 @@
-import { useTable, useGlobalFilter, useSortBy } from 'react-table';
+import React from 'react';
+import { useTable, useGlobalFilter, useSortBy, usePagination } from 'react-table';
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
 import styles from './Table.module.css';
@@ -6,16 +7,38 @@ import SvgIcon from '@mui/material/SvgIcon';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 export default function Table({ columns, data }) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter } = useTable(
-    { columns, data },
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    setGlobalFilter,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    state: { pageIndex }
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageSize: 15 } // 페이지당 15개의 행을 보여줍니다.
+    },
     useGlobalFilter,
-    useSortBy
+    useSortBy,
+    usePagination // usePagination 훅 추가
   );
 
   const navigate = useNavigate();
+
+  // 핸들러 함수들
   const handleClick = (data) => {
     const reportId = data;
-    navigate('/report/detail', { state: { reportId: reportId } });
+    navigate('/report/detail', { state: { reportId } });
   };
 
   const handleComplain = (complainId, reportedDate) => {
@@ -28,7 +51,7 @@ export default function Table({ columns, data }) {
 
   const handleNotiDetail = (data) => {
     const boardId = data;
-    navigate('/docs/register-noti/detail', { state: { boardId: boardId } });
+    navigate('/docs/register-noti/detail', { state: { boardId } });
   };
 
   return (
@@ -47,7 +70,7 @@ export default function Table({ columns, data }) {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <tr className={styles.tableEle} {...row.getRowProps()}>
@@ -107,6 +130,27 @@ export default function Table({ columns, data }) {
           })}
         </tbody>
       </table>
+      {/* 페이지네이션 컨트롤 */}
+      <div className={styles.pagination}>
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {'<<'}
+        </button>{' '}
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {'<'}
+        </button>{' '}
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {'>'}
+        </button>{' '}
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {'>>'}
+        </button>{' '}
+        <span>
+          Page{' '}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{' '}
+        </span>
+      </div>
     </>
   );
 }

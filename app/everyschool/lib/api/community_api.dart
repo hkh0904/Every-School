@@ -70,21 +70,19 @@ class CommunityApi {
 
   Future<dynamic> writeComment(boardId, schoolId, schoolYear, formData) async {
     print(
-        '==============================$boardId, $schoolId, $schoolYear, $formData');
-    print(
         '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments');
     String? token = await storage.read(key: 'token');
     try {
       final response = await dio.post(
           '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments',
           data: formData,
-          options: Options(contentType: 'multipart/form-data', headers: {
+          options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
       print(response.data);
       return response.data['data'];
     } catch (e) {
-      print("에러임!!!!!!!! $e");
+      print("에러 발생 $e");
       return null;
     }
   }
