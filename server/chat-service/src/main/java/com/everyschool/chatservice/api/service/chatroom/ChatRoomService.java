@@ -94,6 +94,7 @@ public class ChatRoomService {
      * @param userId
      */
     public void connectChatRoom(Long chatRoomId, Long userId) {
+        log.debug("[소켓 연결] 레디스. 채팅방 번호 = {}", chatRoomId);
         String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + chatRoomId;
         String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
         if (roomUserCount == null) {
