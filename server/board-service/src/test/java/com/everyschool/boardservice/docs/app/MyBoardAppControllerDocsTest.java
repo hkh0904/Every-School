@@ -49,6 +49,7 @@ public class MyBoardAppControllerDocsTest extends RestDocsSupport {
             .title("너무 힘들어요...")
             .content("API가 너무 많아요...")
             .commentCount(3)
+            .scrapCount(0)
             .createdDate(LocalDateTime.now())
             .build();
 
@@ -95,6 +96,8 @@ public class MyBoardAppControllerDocsTest extends RestDocsSupport {
                         .description("게시물 내용"),
                     fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
                         .description("게시물 댓글 수"),
+                    fieldWithPath("data[].scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시물 스크랩 수"),
                     fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시물 작성 일시"),
                     fieldWithPath("data[].isTapped").type(JsonFieldType.BOOLEAN)
@@ -114,6 +117,7 @@ public class MyBoardAppControllerDocsTest extends RestDocsSupport {
             .title("너무 힘들어요...")
             .content("API가 너무 많아요...")
             .commentCount(3)
+            .scrapCount(0)
             .createdDate(LocalDateTime.now())
             .build();
 
@@ -155,6 +159,8 @@ public class MyBoardAppControllerDocsTest extends RestDocsSupport {
                         .description("게시물 내용"),
                     fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
                         .description("게시물 댓글 수"),
+                    fieldWithPath("data[].scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시물 스크랩 수"),
                     fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시물 작성 일시"),
                     fieldWithPath("data[].isTapped").type(JsonFieldType.BOOLEAN)

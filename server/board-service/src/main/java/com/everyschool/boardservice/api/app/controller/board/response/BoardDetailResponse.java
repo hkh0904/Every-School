@@ -14,17 +14,19 @@ public class BoardDetailResponse {
     private String title;
     private String content;
     private int commentCount;
+    private int scrapCount;
     private Boolean isMine;
     private LocalDateTime createdDate;
     private List<String> imageUrls;
     private List<CommentVo> comments;
 
     @Builder
-    private BoardDetailResponse(Long boardId, String title, String content, int commentCount, Boolean isMine, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
+    private BoardDetailResponse(Long boardId, String title, String content, int commentCount, int scrapCount, Boolean isMine, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.commentCount = commentCount;
+        this.scrapCount = scrapCount;
         this.isMine = isMine;
         this.createdDate = createdDate;
         this.imageUrls = imageUrls;
@@ -37,6 +39,7 @@ public class BoardDetailResponse {
             .title(board.getTitle())
             .content(board.getContent())
             .commentCount(board.getCommentCount())
+            .scrapCount(board.getScrapCount())
             .createdDate(board.getCreatedDate())
             .imageUrls(imageUrls)
             .comments(comments)

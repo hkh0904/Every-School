@@ -37,7 +37,7 @@ public class Board extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private Integer hit;
+    private Integer scrapCount;
 
     @Column(nullable = false)
     private Boolean isUsedComment;
@@ -53,7 +53,7 @@ public class Board extends BaseEntity {
 
     protected Board() {
         super();
-        this.hit = 0;
+        this.scrapCount = 0;
         this.commentNumber = 0;
         this.commentCount = 0;
         this.files = new ArrayList<>();
@@ -101,5 +101,13 @@ public class Board extends BaseEntity {
     public int increaseCommentNumber() {
         this.commentNumber += 1;
         return this.commentNumber;
+    }
+
+    public void increaseScrapCount() {
+        this.scrapCount += 1;
+    }
+
+    public void decreaseScrapCount() {
+        this.scrapCount -= 1;
     }
 }

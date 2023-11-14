@@ -111,6 +111,7 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
             .how("")
             .why("")
             .description("박연진이 고데기 열을 체크해달라며 제 팔에 댔습니다. 현재 화상을 입은 상태입니다.")
+            .result(null)
             .files(List.of("file_url1", "file_url2"))
             .build();
 
@@ -168,6 +169,9 @@ public class ReportWebQueryControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("data.why").type(JsonFieldType.STRING)
                         .description("왜"),
                     fieldWithPath("data.description").type(JsonFieldType.STRING)
+                        .description("신고 설명"),
+                    fieldWithPath("data.result").type(JsonFieldType.STRING)
+                        .optional()
                         .description("신고 설명"),
                     fieldWithPath("data.files").type(JsonFieldType.ARRAY)
                         .description("첨부 파일")
