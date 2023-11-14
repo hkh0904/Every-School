@@ -77,6 +77,7 @@ class _CallButtonState extends State<CallButton> {
     setState(() {
       channelName = newChannelName;
     });
+    return newChannelName;
   }
 
   Future<void> fetchToken(int uid, String channelName, int tokenRole,
@@ -94,6 +95,7 @@ class _CallButtonState extends State<CallButton> {
 
       String newToken = response.data['rtcToken'];
       debugPrint('Token Received: $newToken');
+      _navigateToModalCallPage();
       // Use the token to join a channel or renew an expiring token
       setToken(newToken, channelId, isTokenExpiring, uid);
       chatroomtoken = newToken;
@@ -120,7 +122,6 @@ class _CallButtonState extends State<CallButton> {
     } else {
       // Join a channel.
       showMessage("Token received, joining a channel...");
-      _navigateToModalCallPage();
 
       print('여기는 $reNewToken, $channelId, $uid');
       print('채널은 $channelId');
@@ -137,6 +138,7 @@ class _CallButtonState extends State<CallButton> {
   }
 
   void _navigateToModalCallPage() {
+    print('선생님정보 ${widget.userInfo}');
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => GetCall(
@@ -212,6 +214,7 @@ class _CallButtonState extends State<CallButton> {
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           print('상대방전화받았음');
+          print('아니 왜이래 $remoteUid');
           setState(() {
             this.remoteUid = remoteUid;
             peopleGetCall = true;
@@ -236,12 +239,13 @@ class _CallButtonState extends State<CallButton> {
         },
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) async {
-          showMessage("Remote user uid:$remoteUid left the channel");
-          print('전화끊음');
-          leave();
+          print('전화끊은 유저가 $remoteUid');
           setState(() {
             this.remoteUid = null;
           });
+          showMessage("Remote user uid:$remoteUid left the channel");
+          print('전화끊음');
+          leave();
         },
       ),
     );
@@ -265,18 +269,19 @@ class _CallButtonState extends State<CallButton> {
       remoteUid = null;
     });
     agoraEngine.leaveChannel();
-    Navigator.of(context).pop();
+
     if (peopleGetCall == false) {
       missedCallCheck();
     }
     cancelTimer();
+    Navigator.of(context).pop();
   }
 
   @override
   void dispose() async {
     print('아고라 엔진 종료');
     super.dispose();
-    await agoraEngine.leaveChannel();
+    // await agoraEngine.leaveChannel();
     await agoraEngine.release();
   }
 
@@ -304,14 +309,15 @@ class _CallButtonState extends State<CallButton> {
   Widget build(BuildContext context) {
     if (channelName != null) {
       return IconButton(
-        onPressed: () {
+        onPressed: () async {
+          var cName = await getChannelName(16);
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return CallModal(
                 join: fetchToken,
                 uid: uid,
-                channelName: channelName,
+                channelName: cName,
                 tokenRole: tokenRole,
                 serverUrl: serverUrl,
                 tokenExpireTime: tokenExpireTime,

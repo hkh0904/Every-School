@@ -36,7 +36,7 @@ class _ConnectState extends State<Connect> {
   int tokenExpireTime = 6000; // Expire time in Seconds.
   bool isTokenExpiring = false; // Set to true when the token is about to expire
   String? channelName; // To access the TextField
-  int uid = 1;
+  int uid = 11;
 
   bool peopleGetCall = false;
 
@@ -213,6 +213,7 @@ class _ConnectState extends State<Connect> {
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           print('상대방전화받았음');
+          print('리모트 $remoteUid');
           setState(() {
             this.remoteUid = remoteUid;
             peopleGetCall = true;
@@ -222,7 +223,8 @@ class _ConnectState extends State<Connect> {
             PageRouteBuilder(
               pageBuilder: (BuildContext context, Animation<double> animation1,
                       Animation<double> animation2) =>
-                  GetCallSuccess(leave: leave, userInfo: userInfo),
+                  GetCallSuccess(
+                      leave: leave, userInfo: userInfo, remoteUid: remoteUid),
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,
             ),
@@ -235,12 +237,14 @@ class _ConnectState extends State<Connect> {
         },
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) async {
+          await stopRecording();
           showMessage("Remote user uid:$remoteUid left the channel");
+          print('리모트 간다 $remoteUid');
           print('전화끊음');
-          leave();
           setState(() {
             this.remoteUid = null;
           });
+          leave();
         },
       ),
     );
@@ -258,24 +262,23 @@ class _ConnectState extends State<Connect> {
   }
 
   void leave() async {
-    await stopRecording();
     setState(() {
       isJoined = false;
       remoteUid = null;
     });
-    agoraEngine.leaveChannel();
-    Navigator.of(context).pop();
     if (peopleGetCall == false) {
       missedCallCheck();
     }
     cancelTimer();
+    agoraEngine.leaveChannel();
+    Navigator.of(context).pop();
   }
 
   @override
   void dispose() async {
     print('아고라 엔진 종료');
     super.dispose();
-    await agoraEngine.leaveChannel();
+    // await agoraEngine.leaveChannel();
     await agoraEngine.release();
   }
 
@@ -365,13 +368,14 @@ class _ConnectState extends State<Connect> {
                                   if (channelName != null)
                                     GestureDetector(
                                       onTap: () {
+                                        var cNname = getChannelName(16);
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
                                             return CallModal(
                                               join: fetchToken,
                                               uid: uid,
-                                              channelName: channelName,
+                                              channelName: cNname,
                                               tokenRole: tokenRole,
                                               serverUrl: serverUrl,
                                               tokenExpireTime: tokenExpireTime,

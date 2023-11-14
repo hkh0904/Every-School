@@ -9,9 +9,8 @@ export default function ConsultSettingPage() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [isTimeSet, setIsTimeSet] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [csltData, setCsltData] = useState([]);
+  const [csltSchedule, setCsltSchedule] = useState([]);
 
   const [rejectNum, setRejectNum] = useState();
 
@@ -84,7 +83,7 @@ export default function ConsultSettingPage() {
           <div className={styles.setTime}>
             <p className={styles.timeSetTitle}>상담 가능 시간 설정하기</p>
           </div>
-          <ConsultTime setIsTimeSet={setIsTimeSet} consultScheduleId={consultScheduleId}/>
+          <ConsultTime setIsTimeSet={setIsTimeSet} consultScheduleId={consultScheduleId} />
         </div>
       </div>
       {csltData.length === 0 && <p className={styles.nocslt}>상담 신청 내역이 존재하지 않습니다.</p>}

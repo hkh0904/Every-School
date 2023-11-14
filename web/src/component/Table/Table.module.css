@@ -121,3 +121,18 @@ input:not(:placeholder-shown) ~ .reset {
   width: 17px;
   margin-top: 3px;
 }
+
+.pagination {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.pageButton {
+  margin: 5px;
+  margin-bottom: 0;
+  font-size: 1vw;
+  font-weight: 600;
+  cursor: pointer;
+  color: #15075f;
+}

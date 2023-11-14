@@ -96,12 +96,10 @@ public class ChatRoomService {
     public void connectChatRoom(Long chatRoomId, Long userId) {
         log.debug("[소켓 연결] 레디스. 채팅방 번호 = {}", chatRoomId);
         String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + chatRoomId;
-        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
-        if (roomUserCount == null) {
-            roomUserCount = String.valueOf(0);
-        }
-        int count = Integer.parseInt(roomUserCount) + 1;
-        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
+        Long roomUserCount = redisUtil.getSetSize(chatRoomUserCountKey);
+        log.debug("[소켓 연결] 기존 채팅방 구독한 사람 수 = {}", roomUserCount);
+        roomUserCount = redisUtil.insertSet(chatRoomUserCountKey, String.valueOf(userId));
+        log.debug("[소켓 연결] 구독 후 채팅방 사람 수 = {}", roomUserCount);
 
         //채팅 읽음 처리
         ChatRoomUser chatRoomUser = chatRoomUserQueryRepository.findChatRoomUserByRoomIdAndUserId(chatRoomId, userId)
@@ -165,16 +163,17 @@ public class ChatRoomService {
         return sb.toString();
     }
 
-    public void disconnect(Long chatRoomId) {
+    public void disconnect(Long chatRoomId, String userKey) {
         log.debug("[소켓] 인원수 감소. ChatRoomService, disconnect. 채팅방 Id = {}", chatRoomId);
         String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + chatRoomId;
-        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        Long roomUserCount = redisUtil.getSetSize(chatRoomUserCountKey);
         log.debug("[소켓] 지금 채팅방 인원 수 = {}", roomUserCount);
-        if (roomUserCount == null) {
-            roomUserCount = String.valueOf(0);
-        }
-        int count = Integer.parseInt(roomUserCount) - 1;
-        redisUtil.insertString(chatRoomUserCountKey, String.valueOf(count));
-        log.debug("[소켓] 감소 후 채팅방 인원 수 = {}", redisUtil.getString(chatRoomUserCountKey));
+
+        UserInfo userInfo = userServiceClient.searchUserInfoByUserKey(userKey);
+        log.debug("[소켓] 구독 취소하는 사람 이름 = {}", userInfo.getUserName());
+        Boolean contain = redisUtil.containSet(chatRoomUserCountKey, String.valueOf(userInfo.getUserId()));
+        log.debug("[소켓] 구독 중인가? = {}", contain);
+        roomUserCount = redisUtil.deleteSet(chatRoomUserCountKey, String.valueOf(userInfo.getUserId()));
+        log.debug("[소켓] 감소 후 채팅방 인원 수 = {}", roomUserCount);
     }
 }

@@ -1,8 +1,11 @@
-import { useTable, useGlobalFilter, useSortBy } from 'react-table';
+import React from 'react';
+import { useTable, useGlobalFilter, useSortBy, usePagination } from 'react-table';
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
 import styles from './Table.module.css';
 import SvgIcon from '@mui/material/SvgIcon';
+import FirstPage from '@mui/icons-material/FirstPage';
+import LastPage from '@mui/icons-material/LastPage';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { accessClass, rejectAccessClass } from '../../api/SchoolAPI/schoolAPI';
 import { approveConsulting, rejectConsulting } from '../../api/ConsultingAPI/consultingAPI';
@@ -10,12 +13,35 @@ import ConsultDetailModal from '../../pages/ConsultHistory/ConsultDetailModal';
 import { useState } from 'react';
 
 export default function Table({ columns, data }) {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter } = useTable(
-    { columns, data },
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    setGlobalFilter,
+    canPreviousPage,
+    canNextPage,
+    pageCount,
+    gotoPage,
+    state: { pageIndex }
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageSize: 15 } // 페이지당 15개의 행을 보여줍니다.
+    },
     useGlobalFilter,
-    useSortBy
+    useSortBy,
+    usePagination // usePagination 훅 추가
   );
   const navigate = useNavigate();
+
+  // 핸들러 함수들
+  const handleClick = (data) => {
+    const reportId = data;
+    navigate('/report/detail', { state: { reportId } });
+  };
 
   const handleComplain = (complainId, reportedDate) => {
     if (typeof complainId === 'string') {
@@ -27,7 +53,65 @@ export default function Table({ columns, data }) {
 
   const handleNotiDetail = (data) => {
     const boardId = data;
-    navigate('/docs/register-noti/detail', { state: { boardId: boardId } });
+    navigate('/docs/register-noti/detail', { state: { boardId } });
+  };
+
+  const handleClick = (data) => {
+    const reportId = data;
+    navigate('/report/detail', { state: { reportId: reportId } });
+  };
+
+  //핛급 신청 승인
+  const handleAccessClick = async (row) => {
+    const applyId = await row.original.schoolApplyId;
+
+    const response = await accessClass(applyId);
+    console.log(response);
+
+    if (response['message'] === 'SUCCESS') {
+      alert('학급 신청을 승인하셨습니다.');
+    } else {
+      alert('서버에 오류가 생겼습니다. 관리자에게 문의하세요.');
+    }
+  };
+  //핛급 신청 거절
+  const handleRejcetClick = async (row) => {
+    const applyId = await row.original.schoolApplyId;
+
+    const response = await rejectAccessClass(applyId);
+    console.log(response);
+    if (response['message'] === 'SUCCESS') {
+      alert('학급 신청을 거절하셨습니다.');
+    } else {
+      alert('서버에 오류가 생겼습니다. 관리자에게 문의하세요.');
+    }
+  };
+
+  //상담 신청 승인
+  const consultAccessClick = async (row) => {
+    const applyId = await row.original.consultId;
+    console.log(applyId);
+
+    const response = await approveConsulting(applyId);
+    console.log(response);
+
+    if (response['message'] === 'SUCCESS') {
+      alert('상담을 승인하셨습니다.');
+    } else {
+      alert('서버에 오류가 생겼습니다. 관리자에게 문의하세요.');
+    }
+  };
+  //상담 신청 거절
+  const consultRejcetClick = async (row) => {
+    const applyId = await row.original.consultId;
+    console.log(applyId);
+    const response = await rejectConsulting(applyId);
+    console.log(response);
+    if (response['message'] === 'SUCCESS') {
+      alert('상담을 거절하셨습니다.');
+    } else {
+      alert('서버에 오류가 생겼습니다. 관리자에게 문의하세요.');
+    }
   };
 
   const handleClick = (data) => {
@@ -104,7 +188,7 @@ export default function Table({ columns, data }) {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
 
             return (
@@ -214,6 +298,25 @@ export default function Table({ columns, data }) {
           })}
         </tbody>
       </table>
+      {/* 페이지네이션 컨트롤 */}
+      <div className={styles.pagination}>
+        <div className={styles.pageButton} onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          <SvgIcon component={FirstPage} inheritViewBox />
+        </div>
+        {Array.from({ length: pageCount }, (_, i) => i).map((pageNum) => (
+          <div
+            key={pageNum}
+            onClick={() => gotoPage(pageNum)}
+            disabled={pageIndex === pageNum}
+            className={styles.pageButton}
+          >
+            {pageNum + 1}
+          </div>
+        ))}
+        <div className={styles.pageButton} onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          <SvgIcon component={LastPage} inheritViewBox />
+        </div>
+      </div>
     </>
   );
 }

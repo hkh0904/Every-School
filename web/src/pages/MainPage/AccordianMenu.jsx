@@ -5,6 +5,7 @@ import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md';
 import { IoMdChatbubbles, IoMdSettings } from 'react-icons/io';
 import { AiFillNotification } from 'react-icons/ai';
 import { TbReport } from 'react-icons/tb';
+import { MdReport } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 
 export default function AccordianMenu() {
@@ -23,7 +24,7 @@ export default function AccordianMenu() {
     },
     {
       title: '안내문 관리',
-      list: ['가정통신문 관리', '고지서 관리'],
+      list: ['가정통신문 관리', '공지사항 등록'],
       icon: AiFillNotification,
       address: ['/docs/register-noti', '/docs/register-payment']
     },
@@ -36,7 +37,7 @@ export default function AccordianMenu() {
     {
       title: '악성 민원 신고',
       list: [],
-      icon: TbReport,
+      icon: MdReport,
       address: '/badcomplain/history'
     },
     {

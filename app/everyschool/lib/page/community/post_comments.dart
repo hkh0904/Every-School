@@ -6,14 +6,16 @@ class PostComments extends StatefulWidget {
   final int schoolId;
   final int schoolYear;
   final List<dynamic> comments;
-  // Constructor for receiving comments
-  PostComments(
-      {Key? key,
-      required this.boardId,
-      required this.schoolId,
-      required this.schoolYear,
-      required this.comments})
-      : super(key: key);
+  final VoidCallback onCommentAdded;
+
+  PostComments({
+    Key? key,
+    required this.boardId,
+    required this.schoolId,
+    required this.schoolYear,
+    required this.comments,
+    required this.onCommentAdded,
+  }) : super(key: key);
 
   @override
   State<PostComments> createState() => _PostCommentsState();
@@ -29,7 +31,10 @@ class _PostCommentsState extends State<PostComments> {
       var formData = {'content': commentController.text};
       response = await communityApi.writeComment(
           widget.boardId, widget.schoolId, widget.schoolYear, formData);
-      print(response);
+      if (response != null) {
+        widget.onCommentAdded();
+        commentController.text = '';
+      }
     } catch (e) {
       print(e);
     }
@@ -48,12 +53,17 @@ class _PostCommentsState extends State<PostComments> {
         children: [
           Text('댓글 작성하기'),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(10.0),
             child: TextField(
               controller: commentController,
               decoration: InputDecoration(
-                hintText: '코멘트 입력...',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10), // 여기에서 테두리 둥근 정도를 조절
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.purple), // 포커스 시 보라색 테두리
+                ),
               ),
               onSubmitted: (value) {
                 _writeComment();
@@ -145,7 +155,9 @@ class _PostCommentsState extends State<PostComments> {
     );
   }
 
-  List<Widget> _buildReComments(List<dynamic> reComments) {
+  List<Widget> _buildReComments(List<dynamic>? reComments) {
+    // reComments가 null이면 빈 리스트를 반환
+    if (reComments == null) return [];
     return reComments.asMap().entries.map((entry) {
       int idx = entry.key;
       var reComment = entry.value;

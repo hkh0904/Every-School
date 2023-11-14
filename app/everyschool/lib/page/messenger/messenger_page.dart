@@ -228,6 +228,13 @@ class _UserTapBarState extends State<UserTapBar> {
         MaterialPageRoute(builder: (context) => ChatRoom(roomInfo: newInfo)));
   }
 
+  getTeacherInfo() async {
+    final token = await storage.read(key: 'token') ?? "";
+    final contact = await MessengerApi().getTeacherConnect(token);
+    print('왜안나와 $contact');
+    return contact;
+  }
+
   Future<dynamic>? chatroomListFuture;
   @override
   void initState() {
@@ -256,7 +263,26 @@ class _UserTapBarState extends State<UserTapBar> {
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold))),
-                    // CallButton(userInfo: teacherConnect),
+                    FutureBuilder(
+                        future: getTeacherInfo(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return CallButton(userInfo: snapshot.data);
+                          } else if (snapshot.hasError) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Error: ${snapshot.error}',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              height: 800,
+                            );
+                          }
+                        }),
                     IconButton(
                         onPressed: () {
                           createRoom();

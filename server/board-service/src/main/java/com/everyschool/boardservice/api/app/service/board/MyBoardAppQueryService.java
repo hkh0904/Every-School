@@ -5,6 +5,7 @@ import com.everyschool.boardservice.api.client.UserServiceClient;
 import com.everyschool.boardservice.api.client.response.UserInfo;
 import com.everyschool.boardservice.domain.board.repository.MyBoardAppQueryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class MyBoardAppQueryService {
 
     private final MyBoardAppQueryRepository myBoardAppQueryRepository;
@@ -20,7 +22,7 @@ public class MyBoardAppQueryService {
 
     public List<BoardResponse> myBoards(String userKey, int category) {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
-
+        log.debug("[Service] 나의 게시물 목록 조회. ");
         return myBoardAppQueryRepository.findMyBoardsByUserId(userInfo.getUserId(), category);
     }
 

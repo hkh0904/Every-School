@@ -193,6 +193,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글 내용"),
                     fieldWithPath("data.content[].commentCount").type(JsonFieldType.NUMBER)
                         .description("게시글에 달린 댓글수"),
+                    fieldWithPath("data.content[].scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 스크랩 수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
                     fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
@@ -250,6 +252,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글 내용"),
                     fieldWithPath("data.content[].commentCount").type(JsonFieldType.NUMBER)
                         .description("게시글에 달린 댓글수"),
+                    fieldWithPath("data.content[].scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 스크랩 수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
                     fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
@@ -307,6 +311,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글 내용"),
                     fieldWithPath("data.content[].commentCount").type(JsonFieldType.NUMBER)
                         .description("게시글에 달린 댓글수"),
+                    fieldWithPath("data.content[].scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 스크랩 수"),
                     fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일"),
                     fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
@@ -371,7 +377,9 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .title("흠뻑쇼 또 가고싶다...")
             .content("슬슬 뛰어 놀때가 된거같아요ㅜㅜ")
             .commentCount(4)
+            .scrapCount(0)
             .isMine(true)
+            .isUsedComment(true)
             .createdDate(LocalDateTime.now())
             .imageUrls(List.of("imageUrl1", "imageUrl2"))
             .comments(List.of(comment1, comment2))
@@ -404,8 +412,12 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글 내용"),
                     fieldWithPath("data.commentCount").type(JsonFieldType.NUMBER)
                         .description("게시글 댓글수"),
+                    fieldWithPath("data.scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 스크랩 수"),
                     fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
                         .description("게시글 본인 작성 여부"),
+                    fieldWithPath("data.isUsedComment").type(JsonFieldType.BOOLEAN)
+                        .description("게시글 댓글 작성 여부"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
                         .description("게시글 작성일시"),
                     fieldWithPath("data.imageUrls").type(JsonFieldType.ARRAY)
@@ -482,6 +494,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .title("학교 시설 보수")
             .content("11월 2일부터 교내 배수로 보수 공사에 들어갑니다.")
             .commentCount(3)
+            .scrapCount(0)
             .isMine(false)
             .createdDate(LocalDateTime.now())
             .imageUrls(List.of("imageUrl1", "imageUrl2"))
@@ -515,6 +528,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글 내용"),
                     fieldWithPath("data.commentCount").type(JsonFieldType.NUMBER)
                         .description("게시글 댓글수"),
+                    fieldWithPath("data.scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 스크랩 수"),
                     fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
                         .description("게시글 본인 작성 여부"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
@@ -583,6 +598,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .title("수학 여행")
             .content("제주도로 수학 여행을 떠날 예정입니다.")
             .commentCount(1)
+            .scrapCount(0)
             .isMine(false)
             .createdDate(LocalDateTime.now())
             .imageUrls(List.of("imageUrl1", "imageUrl2"))
@@ -616,6 +632,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                         .description("게시글 내용"),
                     fieldWithPath("data.commentCount").type(JsonFieldType.NUMBER)
                         .description("게시글 댓글수"),
+                    fieldWithPath("data.scrapCount").type(JsonFieldType.NUMBER)
+                        .description("게시글 스크랩 수"),
                     fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
                         .description("게시글 본인 작성 여부"),
                     fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
@@ -660,6 +678,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
             .title(title)
             .content(content)
             .commentCount(commentCount)
+            .scrapCount(0)
             .createdDate(LocalDateTime.now())
             .build();
     }

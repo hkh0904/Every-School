@@ -26,14 +26,6 @@ export default function ManageMyclassPage() {
         accessor: 'birth',
         Header: '생년월일'
       }
-      // {
-      //   accessor: 'tel',
-      //   Header: '연락처'
-      // },
-      // {
-      //   accessor: 'parent',
-      //   Header: '학부모 연락처'
-      // }
     ],
     []
   );
