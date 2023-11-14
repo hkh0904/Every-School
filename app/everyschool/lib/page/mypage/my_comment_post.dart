@@ -5,19 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class MyWriteList extends StatefulWidget {
-  const MyWriteList({super.key});
+class MyCommentPost extends StatefulWidget {
+  const MyCommentPost({super.key});
 
   @override
-  State<MyWriteList> createState() => _MyWriteListState();
+  State<MyCommentPost> createState() => _MyCommentPostState();
 }
 
-class _MyWriteListState extends State<MyWriteList> {
-  getPost() async {
+class _MyCommentPostState extends State<MyCommentPost> {
+  getCommentPost() async {
     final year = context.read<UserStore>().year;
     final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
+    print('$year $schoolId');
 
-    var response = await CommunityApi().getMyPost(year, schoolId);
+    var response = await CommunityApi().getMyComment(year, schoolId);
     return response;
   }
 
@@ -30,7 +31,7 @@ class _MyWriteListState extends State<MyWriteList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getPost(),
+        future: getCommentPost(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return Scaffold(

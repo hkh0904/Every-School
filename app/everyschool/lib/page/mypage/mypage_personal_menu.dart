@@ -18,8 +18,8 @@ class _MypagePersonalMenuState extends State<MypagePersonalMenu> {
   final storage = FlutterSecureStorage();
 
   var perMenulist = [
-    ['학부모 등록하기', '좋아요한 글', '개인정보 수정', '비밀번호 변경'],
-    ['자녀 등록하기', '좋아요한 글', '개인정보 수정', '비밀번호 변경'],
+    ['학부모 등록하기', '스크랩한 글', '개인정보 수정', '비밀번호 변경'],
+    ['자녀 등록하기', '스크랩한 글', '개인정보 수정', '비밀번호 변경'],
     ['공지사항 관리', '비밀번호 변경', '방해금지 설정']
   ];
 

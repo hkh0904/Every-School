@@ -4,6 +4,11 @@ import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/messenger/call/call_history.dart';
 import 'package:everyschool/page/messenger/chat/connect.dart';
 import 'package:everyschool/page/messenger/messenger_page.dart';
+import 'package:everyschool/page/mypage/change_password.dart';
+import 'package:everyschool/page/mypage/my_comment_post.dart';
+import 'package:everyschool/page/mypage/my_like_post.dart';
+import 'package:everyschool/page/mypage/my_write_list.dart';
+import 'package:everyschool/page/mypage/userinfo_correction.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
 import 'package:everyschool/page/report/report_page.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
@@ -52,7 +57,7 @@ class _CategoryState extends State<Category> {
   var mypageList = [
     ['작성한 글 보기', '작성한 댓글 보기', '스크랩한 글', '개인정보 수정', '비밀번호 변경'],
     ['스크랩한 글', '개인정보 수정', '비밀번호 변경'],
-    ['공지사항 관리', '비밀번호 변경']
+    ['비밀번호 변경']
   ];
 
   var repncsltListLink = [
@@ -98,6 +103,18 @@ class _CategoryState extends State<Category> {
       SchoolSchedule(), // 급식메뉴
       PostlistPage(pageTitle: '가정통신문'),
     ]
+  ];
+
+  var myPageListLink = [
+    [
+      MyWriteList(),
+      MyCommentPost(),
+      MyLikePost(),
+      UserInfoCorrection(),
+      ChangePassword()
+    ],
+    [MyLikePost(), UserInfoCorrection(), ChangePassword()],
+    [ChangePassword()]
   ];
 
   @override
@@ -184,6 +201,7 @@ class _CategoryState extends State<Category> {
                   CategoryRepnCslt(
                       userNum: userNum,
                       categoryList: mypageList,
+                      categoryListLink: myPageListLink,
                       titleTxt: _titleTxt4),
                 ],
               ),
