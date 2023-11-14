@@ -95,6 +95,7 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
             );
           },
         );
+
         setState(() {
           selectedType = null;
           selDate = null;

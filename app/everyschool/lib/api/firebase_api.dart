@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:everyschool/api/messenger_api.dart';
 import 'package:everyschool/main.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/global_variable.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
+import 'package:everyschool/page/messenger/chat/chat_room.dart';
+import 'package:everyschool/page/report/report_detail.dart';
+import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +39,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           time['isActivate'] == true) {
         print('현재 시간이 방해 금지 시간에 속합니다.');
       } else {
-        print('현재 시간이 방해 금지 시간에 속하지않습니다.');
+        print('현재 시간이 방해 금지 시간에 속하지 않습니다.');
         var name = message.notification!.title;
         var phoneNumber = message.notification!.body;
         var channelName = message.data['cname'];
@@ -52,6 +58,38 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   } else if (message.data['type'] == 'denied') {
     Navigator.pop(
         CandyGlobalVariable.naviagatorState.currentContext as BuildContext);
+  } else if (message.data['type'] == 'report') {
+    print('열받는다고...');
+    Navigator.push(
+        CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
+        MaterialPageRoute(
+            builder: (context) =>
+                ReportDetail(item: {'reportId': message.data['reportId']})));
+  } else if (message.data['type'] == "consult") {
+    Navigator.push(
+        CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
+        MaterialPageRoute(
+            builder: (context) => ReportConsultingPage(index: 0)));
+  } else if (message.data['type'] == 'chat') {
+    Navigator.push(
+        CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
+        MaterialPageRoute(
+            builder: (context) => ChatRoom(
+                  roomInfo: {
+                    "roomId": int.parse(message.data['chatRoomId']),
+                    "opponentUserName": message.data['senderUserName'],
+                    "opponentUserType": message.data['senderUserType'],
+                    "opponentUserChildName":
+                        message.data['senderUserChildName'],
+                  },
+                )));
+  } else if (message.data['type'] == 'noti') {
+    Navigator.push(
+        CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
+        MaterialPageRoute(
+            builder: (context) => PostDetail(
+                boardName: '가정통신문',
+                boardId: int.parse(message.data['boardId']))));
   }
 }
 
@@ -124,14 +162,58 @@ class FirebaseApi {
 
     // 스트림 구독
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      _handleMessage(message, context);
+      if (message.data['type'] == 'report') {
+        _handleMessage(message, context);
+      } else if (message.data['type'] == 'consult') {
+        _handleConsult(message, context);
+      } else if (message.data['type'] == 'chat') {
+        _handleChat(message, context);
+      } else if (message.data['type'] == 'noti') {
+        _handleNoti(message, context);
+      }
     });
   }
 
   // 여는 창 예시
   void _handleMessage(initialMessage, context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const ConsultingListPage()));
+    print('열받네...!');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ReportDetail(item: {
+                  'reportId': int.parse(initialMessage.data['reportId'])
+                })));
+  }
+
+  void _handleConsult(initialMessage, context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ReportConsultingPage(index: 0)));
+  }
+
+  void _handleChat(initialMessage, context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChatRoom(
+                  roomInfo: {
+                    "roomId": int.parse(initialMessage.data['chatRoomId']),
+                    "opponentUserName": initialMessage.data['senderUserName'],
+                    "opponentUserType": initialMessage.data['senderUserType'],
+                    "opponentUserChildName":
+                        initialMessage.data['senderUserChildName'],
+                  },
+                )));
+  }
+
+  void _handleNoti(initialMessage, context) {
+    Navigator.push(
+        CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
+        MaterialPageRoute(
+            builder: (context) => PostDetail(
+                boardName: '학사 공지',
+                boardId: int.parse(initialMessage.data['boardId']))));
   }
 
 // 포그라운드 메세지 처리
@@ -176,20 +258,75 @@ class FirebaseApi {
       } else if (message.data['type'] == 'denied') {
         Navigator.pop(
             CandyGlobalVariable.naviagatorState.currentContext as BuildContext);
-      }
-      FlutterLocalNotificationsPlugin().show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'high_importance_channel',
-            'high_importance_notification',
-            importance: Importance.max,
+      } else if (message.data['type'] == 'report') {
+        FlutterLocalNotificationsPlugin().show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'high_importance_channel',
+              'high_importance_notification',
+              importance: Importance.max,
+            ),
           ),
-        ),
-        payload: message.data['id'],
-      );
+          payload: jsonEncode({
+            'type': message.data['type'],
+            'reportId': message.data['reportId'],
+          }),
+        );
+      } else if (message.data['type'] == 'consult') {
+        FlutterLocalNotificationsPlugin().show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                'high_importance_channel',
+                'high_importance_notification',
+                importance: Importance.max,
+              ),
+            ),
+            payload: jsonEncode({
+              'type': message.data['type'],
+            }));
+      } else if (message.data['type'] == 'chat') {
+        FlutterLocalNotificationsPlugin().show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                'high_importance_channel',
+                'high_importance_notification',
+                importance: Importance.max,
+              ),
+            ),
+            payload: jsonEncode({
+              'type': message.data['type'],
+              'roomId': message.data['chatRoomId'],
+              'opponentUserName': message.data['senderUserName'],
+              'opponentUserType': message.data['senderUserType'],
+              'opponentUserChildName': message.data['senderUserChildName'],
+            }));
+      } else if (message.data['type'] == 'noti') {
+        FlutterLocalNotificationsPlugin().show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                'high_importance_channel',
+                'high_importance_notification',
+                importance: Importance.max,
+              ),
+            ),
+            payload: jsonEncode({
+              'type': message.data['type'],
+              'boardName': message.data['boardName'],
+              'boardId': message.data['boardId'],
+            }));
+      }
     }
   }
 
@@ -208,8 +345,42 @@ class FirebaseApi {
         ),
         // foreground일때 알림 눌렀을때(detail에 상담 payload값이 들어있음 details.payload 이렇게 받음)
         onDidReceiveNotificationResponse: (NotificationResponse details) async {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ConsultingListPage()));
+      if (details.payload != null) {
+        var payloadMap = jsonDecode(details.payload as String);
+        if (payloadMap['type'] == "report") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ReportDetail(
+                      item: {'reportId': int.parse(payloadMap['reportId'])})));
+        } else if (payloadMap['type'] == "consult") {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ReportConsultingPage(index: 0)));
+        } else if (payloadMap['type'] == 'chat') {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatRoom(
+                        roomInfo: {
+                          "roomId": int.parse(payloadMap['roomId']),
+                          "opponentUserName": payloadMap['opponentUserName'],
+                          "opponentUserType": payloadMap['opponentUserType'],
+                          "opponentUserChildName":
+                              payloadMap['opponentUserChildName'],
+                        },
+                      )));
+        } else if (payloadMap['type'] == 'noti') {
+          print('들어와?');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PostDetail(
+                      boardName: '학사 공지',
+                      boardId: int.parse(payloadMap['boardId']))));
+        }
+      }
     });
 
     await FirebaseMessaging.instance
@@ -223,15 +394,14 @@ class FirebaseApi {
         await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) {
       if (message.data['type'] == 'call') {
-        // var name = message.notification!.title;
-        // var phoneNumber = message.notification!.body;
-        // showCallkitIncoming('10', name as String, phoneNumber as String);
-        // getIncomingCall();
-      } else {
+      } else if (message.data['type'] == 'report') {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const ConsultingListPage()));
+                builder: (context) => ReportDetail(
+                    item: {'reportId': int.parse(message.data['reportId'])})));
+      } else {
+        print('열받네...?');
       }
     }
   }
