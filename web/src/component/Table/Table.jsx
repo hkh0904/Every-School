@@ -18,9 +18,12 @@ export default function Table({ columns, data }) {
     navigate('/report/detail', { state: { reportId: reportId } });
   };
 
-  const handleComplain = (data) => {
-    const userCallId = data;
-    navigate('/badcomplain/detail', { state: { userCallId: userCallId } });
+  const handleComplain = (complainId, reportedDate) => {
+    if (typeof complainId === 'string') {
+      navigate('/badcomplain/chat/detail', { state: { complainId, reportedDate } });
+    } else if (typeof complainId === 'number') {
+      navigate('/badcomplain/call/detail', { state: { complainId } });
+    }
   };
 
   const handleNotiDetail = (data) => {
@@ -68,7 +71,7 @@ export default function Table({ columns, data }) {
                         <div
                           className={styles.row}
                           style={{ cursor: 'pointer' }}
-                          onClick={() => handleComplain(cell.row.values.userCallId)}
+                          onClick={() => handleComplain(cell.row.values.complainId, cell.row.values.reportedDate)}
                         >
                           <span className={styles.detailText}>상세내역 확인</span>
                           <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
@@ -77,17 +80,17 @@ export default function Table({ columns, data }) {
                     );
                   } else if (cell.column.id === 'title') {
                     return (
-                        <td className={styles.tableEle} {...cell.getCellProps()}>
-                          <div
-                              className={styles.row}
-                              style={{ cursor: 'pointer' }}
-                              onClick={() => handleNotiDetail(cell.row.values.boardId)}
-                          >
-                            {cell.render('Cell')}
-                            {/*<span className={styles.detailText}>상세내역 확인</span>*/}
-                            {/*<SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />*/}
-                          </div>
-                        </td>
+                      <td className={styles.tableEle} {...cell.getCellProps()}>
+                        <div
+                          className={styles.row}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleNotiDetail(cell.row.values.boardId)}
+                        >
+                          {cell.render('Cell')}
+                          {/*<span className={styles.detailText}>상세내역 확인</span>*/}
+                          {/*<SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />*/}
+                        </div>
+                      </td>
                     );
                   }
                   // 그 외의 열 처리
