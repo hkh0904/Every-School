@@ -27,9 +27,11 @@ public class ChatController {
     public void sendMessage(ChatMessage message) throws FirebaseMessagingException {
 
         Long roomId = message.getChatRoomId();
+        log.debug("[채팅 전송(소켓)] 채팅방 Id = {}", roomId);
 
         chatService.sendMessageProcessing(message.toDto());
-
+        log.debug("[채팅 전송(소켓)] 알림 보냈음.");
         template.convertAndSend("/sub/" + roomId, message);
+        log.debug("[채팅 전송(소켓)] 소켓 전송 완료. message = {}", message.getMessage());
     }
 }

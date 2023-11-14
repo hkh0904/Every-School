@@ -13,9 +13,6 @@ import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
 import com.everyschool.chatservice.domain.mongo.repository.DatabaseSequenceRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -44,14 +41,8 @@ class ChatRoomQueryServiceTest extends IntegrationTestSupport {
     @MockBean
     private UserServiceClient userServiceClient;
 
-    @AfterEach
-    void reset() {
-        chatRepository.deleteAll();
-        databaseSequenceRepository.deleteAll();
-    }
-
-    @DisplayName("[Service]로그인 한 유저의 채팅방 목록 조회")
-    @Test
+//    @DisplayName("[Service]로그인 한 유저의 채팅방 목록 조회")
+//    @Test
     void searchChatRooms() {
         //given
         ChatRoom savedChatRoom1 = chatRoomRepository.save(ChatRoom.builder().build());

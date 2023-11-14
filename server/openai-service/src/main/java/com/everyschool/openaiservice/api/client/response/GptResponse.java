@@ -2,10 +2,13 @@ package com.everyschool.openaiservice.api.client.response;
 
 import com.everyschool.openaiservice.api.client.response.dto.Choices;
 import com.everyschool.openaiservice.api.client.response.dto.Usage;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
-public abstract class GptResponse {
+@Data
+public class GptResponse {
     private String id;
     private String object;
     private int created;
@@ -13,27 +16,13 @@ public abstract class GptResponse {
     private List<Choices> choices;
     private Usage usage;
 
-    public Usage getUsage() {
-        return usage;
-    }
-
-    public List<Choices> getChoices() {
-        return choices;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public int getCreated() {
-        return created;
-    }
-
-    public String getObject() {
-        return object;
-    }
-
-    public String getId() {
-        return id;
+    @Builder
+    private GptResponse(String id, String object, int created, String model, List<Choices> choices, Usage usage) {
+        this.id = id;
+        this.object = object;
+        this.created = created;
+        this.model = model;
+        this.choices = choices;
+        this.usage = usage;
     }
 }

@@ -38,24 +38,27 @@ public class StompHandler implements ChannelInterceptor {
                 log.debug("[소켓] CONNECT");
                 break;
             case SUBSCRIBE:
+                log.debug("[소켓] SUBSCRIBE");
                 log.debug("[소켓] 채팅방 구독 해야함");
                 Long chatRoomId = connectToChatRoom(accessor, headers);
                 log.debug("[소켓] 채팅방 구독한 채팅 방 = {}", chatRoomId);
                 break;
             case SEND:
                 log.debug("[소켓] SEND");
-
+                break;
+            case UNSUBSCRIBE:
+                log.debug("[소켓] UNSUBSCRIBE");
+                unsubscribeToChatRoom(headers);
                 break;
             case DISCONNECT:
                 log.debug("[소켓] DISCONNECT");
-                log.debug("[소켓] 채팅방 인원수 감소");
-                disconnectToChatRoom(headers);
                 break;
         }
     }
 
-    private void disconnectToChatRoom(MessageHeaders headers) {
+    private void unsubscribeToChatRoom(MessageHeaders headers) {
         Long chatRoomId = getChatRoomNo(headers);
+        log.debug("[소켓] 구독 취소. 인원수 감소. 채팅방 Id = {}", chatRoomId);
         chatRoomService.disconnect(chatRoomId);
     }
 
@@ -65,6 +68,7 @@ public class StompHandler implements ChannelInterceptor {
         String jwt = accessor.getFirstNativeHeader("Authorization");
         log.debug("[소켓 연결] jwt = {}", jwt);
         UserInfo userInfo = userServiceClient.searchUserInfo(jwt);
+        log.debug("[소켓 연결] 회원 이름 = {}", userInfo.getUserName());
         chatRoomService.connectChatRoom(chatRoomId, userInfo.getUserId());
         return chatRoomId;
     }

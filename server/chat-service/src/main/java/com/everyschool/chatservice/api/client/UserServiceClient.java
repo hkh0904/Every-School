@@ -19,9 +19,9 @@ public interface UserServiceClient {
     @GetMapping("/user-service/client/v1/user-info/{userKey}")
     UserInfo searchUserInfoByUserKey(@PathVariable(name = "userKey") String userKey);
 
-    @GetMapping
-    String searchChildName(@RequestParam(name = "userId") Long userId, @RequestParam(name = "schoolClassId") Long schoolClassId);
+    @GetMapping("/user-service/client/v1/user/{schoolClassId}/name/{parentId}")
+    String searchUsername(@PathVariable(name = "schoolClassId") Long schoolClassId, @PathVariable(name = "parentId") Long parentId);
 
-    @GetMapping("/")
-    String searchFcmTokenByUserId(Long UserId);
+    @GetMapping("/user-service/client/v1/user-fcm-info/{userId}/user-id")
+    String searchFcmTokenByUserId(@PathVariable Long userId);
 }
