@@ -1,0 +1,13 @@
+[[search-my-scrap]]
+=== 나의 스크랩 목록 조회 API
+
+==== HTTP Request
+
+include::{snippets}/search-my-scrap/http-request.adoc[]
+include::{snippets}/search-my-scrap/request-headers.adoc[]
+include::{snippets}/search-my-scrap/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/search-my-scrap/http-response.adoc[]
+include::{snippets}/search-my-scrap/response-fields.adoc[]
