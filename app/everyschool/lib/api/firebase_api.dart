@@ -88,7 +88,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
         MaterialPageRoute(
             builder: (context) => PostDetail(
-                boardName: '학사 공지',
+                boardName: '가정통신문',
                 boardId: int.parse(message.data['boardId']))));
   }
 }
