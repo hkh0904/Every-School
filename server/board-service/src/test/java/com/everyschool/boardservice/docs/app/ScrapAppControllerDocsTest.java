@@ -40,41 +40,83 @@ public class ScrapAppControllerDocsTest extends RestDocsSupport {
     @Test
     void createScrap() throws Exception {
         given(tokenUtils.getUserKey())
-            .willReturn(UUID.randomUUID().toString());
+                .willReturn(UUID.randomUUID().toString());
 
         given(scrapAppService.createScrap(anyString(), anyLong()))
-            .willReturn(true);
+                .willReturn(true);
 
         mockMvc.perform(
-                post(BASE_URL, 2023, 100000, 1)
-                    .header("Authorization", "Bearer Access Token")
-            )
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document("create-scrap",
-                preprocessResponse(prettyPrint()),
-                requestHeaders(
-                    headerWithName("Authorization")
-                        .description("Bearer Access Token")
-                ),
-                pathParameters(
-                    parameterWithName("schoolYear")
-                        .description("학년도"),
-                    parameterWithName("schoolId")
-                        .description("학교 아이디"),
-                    parameterWithName("boardId")
-                        .description("게시물 아이디")
-                ),
-                responseFields(
-                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-                        .description("코드"),
-                    fieldWithPath("status").type(JsonFieldType.STRING)
-                        .description("상태"),
-                    fieldWithPath("message").type(JsonFieldType.STRING)
-                        .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.BOOLEAN)
-                        .description("응답 데이터")
+                        post(BASE_URL, 2023, 100000, 1)
+                                .header("Authorization", "Bearer Access Token")
                 )
-            ));
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("create-scrap",
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization")
+                                        .description("Bearer Access Token")
+                        ),
+                        pathParameters(
+                                parameterWithName("schoolYear")
+                                        .description("학년도"),
+                                parameterWithName("schoolId")
+                                        .description("학교 아이디"),
+                                parameterWithName("boardId")
+                                        .description("게시물 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN)
+                                        .description("응답 데이터")
+                        )
+                ));
+    }
+
+    @DisplayName("스크랩 취소 API")
+    @Test
+    void unscraps() throws Exception {
+        given(tokenUtils.getUserKey())
+                .willReturn(UUID.randomUUID().toString());
+
+        given(scrapAppService.unscraps(anyString(), anyLong()))
+                .willReturn(true);
+
+        mockMvc.perform(
+                        post(BASE_URL + "/unscraps", 2023, 100000, 1)
+                                .header("Authorization", "Bearer Access Token")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("delete-scrap",
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization")
+                                        .description("Bearer Access Token")
+                        ),
+                        pathParameters(
+                                parameterWithName("schoolYear")
+                                        .description("학년도"),
+                                parameterWithName("schoolId")
+                                        .description("학교 아이디"),
+                                parameterWithName("boardId")
+                                        .description("게시물 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.BOOLEAN)
+                                        .description("응답 데이터")
+                        )
+                ));
     }
 }

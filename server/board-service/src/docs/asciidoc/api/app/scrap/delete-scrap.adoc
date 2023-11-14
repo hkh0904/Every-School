@@ -1,0 +1,13 @@
+[[delete-scrap]]
+=== 스크랩 취소 API
+
+==== HTTP Request
+
+include::{snippets}/delete-scrap/http-request.adoc[]
+include::{snippets}/delete-scrap/request-headers.adoc[]
+include::{snippets}/delete-scrap/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/delete-scrap/http-response.adoc[]
+include::{snippets}/delete-scrap/response-fields.adoc[]

@@ -1,6 +1,7 @@
 package com.everyschool.boardservice.domain.board.repository;
 
 import com.everyschool.boardservice.api.app.controller.scrap.response.MyScrapResponse;
+import com.everyschool.boardservice.domain.board.Scrap;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Pageable;
@@ -26,24 +27,24 @@ public class ScrapQueryRepository {
 
     public Slice<MyScrapResponse> findByUserId(Long userId, Pageable pageable) {
         List<MyScrapResponse> content = queryFactory
-            .select(
-                Projections.constructor(
-                    MyScrapResponse.class,
-                    scrap.board.id,
-                    scrap.board.categoryId,
-                    scrap.board.title,
-                    scrap.board.content,
-                    scrap.board.commentCount,
-                    scrap.board.createdDate
+                .select(
+                        Projections.constructor(
+                                MyScrapResponse.class,
+                                scrap.board.id,
+                                scrap.board.categoryId,
+                                scrap.board.title,
+                                scrap.board.content,
+                                scrap.board.commentCount,
+                                scrap.board.createdDate
+                        )
                 )
-            )
-            .from(scrap)
-            .join(scrap.board, board)
-            .where(scrap.userId.eq(userId))
-            .orderBy(scrap.lastModifiedDate.desc())
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize() + 1)
-            .fetch();
+                .from(scrap)
+                .join(scrap.board, board)
+                .where(scrap.userId.eq(userId))
+                .orderBy(scrap.lastModifiedDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
+                .fetch();
 
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {
@@ -52,5 +53,14 @@ public class ScrapQueryRepository {
         }
 
         return new SliceImpl<>(content, pageable, hasNext);
+    }
+
+    public Scrap findByBoardAndUserId(Long boardId, Long userId) {
+        return queryFactory
+                .select(scrap)
+                .from(scrap)
+                .where(scrap.userId.eq(userId)
+                        , scrap.board.id.eq(boardId))
+                .fetchOne();
     }
 }
