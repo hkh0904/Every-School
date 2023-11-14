@@ -1,3 +1,4 @@
+import 'package:everyschool/page/mypage/my_comment_post.dart';
 import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/my_write_list.dart';
 import 'package:everyschool/page/report_consulting/consulting_list_teacher.dart';
@@ -28,7 +29,7 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
   ];
 
   var perPagelist = [
-    [MyWriteList(), MyLikePost()],
+    [MyWriteList(), MyCommentPost()],
     [MyLikePost(), MyLikePost()],
     [ReportConsultingPage(index: 0), ReportConsultingPage(index: 1)],
   ];
