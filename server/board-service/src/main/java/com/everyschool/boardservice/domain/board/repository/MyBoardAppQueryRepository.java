@@ -34,6 +34,7 @@ public class MyBoardAppQueryRepository {
                     board.title,
                     board.content,
                     board.commentCount,
+                    board.scrapCount,
                     board.createdDate
                 )
             )
