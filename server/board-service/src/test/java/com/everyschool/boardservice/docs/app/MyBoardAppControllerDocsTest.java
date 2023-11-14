@@ -121,11 +121,11 @@ public class MyBoardAppControllerDocsTest extends RestDocsSupport {
             .createdDate(LocalDateTime.now())
             .build();
 
-        given(myBoardAppQueryService.myBoards(anyString(), anyInt()))
+        given(myBoardAppQueryService.myComments(anyString()))
             .willReturn(List.of(response));
 
         mockMvc.perform(
-                get(BASE_URL + "/boards", 2023, 100000)
+                get(BASE_URL + "/comments", 2023, 100000)
                     .header("Authorization", "Bearer Access Token")
             )
             .andDo(print())
