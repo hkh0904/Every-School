@@ -23,10 +23,11 @@ public class ReportDetailResponse {
     private String how;
     private String why;
     private String description;
+    private String result;
     private List<String> files;
 
     @Builder
-    public ReportDetailResponse(Long reportId, Integer schoolYear, int typeId, int statusId, String witness, String who, String when, String where, String what, String how, String why, String description, List<String> files) {
+    public ReportDetailResponse(Long reportId, Integer schoolYear, int typeId, int statusId, String witness, String who, String when, String where, String what, String how, String why, String description, String result, List<String> files) {
         this.reportId = reportId;
         this.schoolYear = schoolYear;
         this.type = ReportType.getText(typeId);
@@ -39,6 +40,7 @@ public class ReportDetailResponse {
         this.how = how;
         this.why = why;
         this.description = description;
+        this.result = result;
         this.files = files;
     }
 
@@ -56,6 +58,7 @@ public class ReportDetailResponse {
             .how(report.getContent().getReportHow())
             .why(report.getContent().getReportWhy())
             .description(report.getDescription())
+            .result(report.getResult())
             .files(files)
             .build();
     }

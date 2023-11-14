@@ -13,6 +13,7 @@ public class BoardResponse {
     private String title;
     private String content;
     private int commentCount;
+    private int scrapCount;
     private LocalDateTime createdDate;
     private Boolean isTapped;
 
@@ -22,6 +23,7 @@ public class BoardResponse {
         this.title = title;
         this.content = content;
         this.commentCount = commentCount;
+        this.scrapCount = scrapCount;
         this.createdDate = createdDate;
         this.isTapped = false;
     }
@@ -32,6 +34,7 @@ public class BoardResponse {
             .title(board.getTitle())
             .content(board.getContent())
             .commentCount(board.getCommentCount())
+            .scrapCount(board.getScrapCount())
             .createdDate(board.getCreatedDate())
             .build();
     }
