@@ -46,6 +46,7 @@ public class CommentAppService {
 
         //댓글 작성한 게시물
         Board board = getBoardEntity(boardId);
+        board.increaseCommentCount();
 
         //대댓글은 깊이 증가
         int depth = 0;
@@ -58,13 +59,13 @@ public class CommentAppService {
         int anonymousNum = getAnonymousNum(board, userInfo, boardId);
 
         Comment comment = Comment.builder()
-            .content(content)
-            .anonymousNum(anonymousNum)
-            .depth(depth)
-            .userId(userInfo.getUserId())
-            .board(board)
-            .parent(parentComment)
-            .build();
+                .content(content)
+                .anonymousNum(anonymousNum)
+                .depth(depth)
+                .userId(userInfo.getUserId())
+                .board(board)
+                .parent(parentComment)
+                .build();
 
         Comment savedComment = commentRepository.save(comment);
 
