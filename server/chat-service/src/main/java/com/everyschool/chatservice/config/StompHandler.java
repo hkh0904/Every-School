@@ -45,6 +45,7 @@ public class StompHandler implements ChannelInterceptor {
                 break;
             case SEND:
                 log.debug("[소켓] SEND");
+                log.debug("[소켓] 메세지 맵핑 주소 = {}", accessor.getDestination());
                 break;
             case UNSUBSCRIBE:
                 log.debug("[소켓] UNSUBSCRIBE");

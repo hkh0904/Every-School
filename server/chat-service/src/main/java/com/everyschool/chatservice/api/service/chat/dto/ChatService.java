@@ -90,11 +90,12 @@ public class ChatService {
     public void sendMessageProcessing(SendMessageDto dto) throws FirebaseMessagingException {
         // 채팅방 인원수 확인
         String chatRoomUserCountKey = "CHAT_ROOM_USER_COUNT_" + dto.getChatRoomId();
-        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+//        String roomUserCount = redisUtil.getString(chatRoomUserCountKey);
+        Long roomUserCount = redisUtil.getSetSize(chatRoomUserCountKey);
         log.debug("[채팅 전송(소켓)] 채팅방 지금 인원수 = {}", roomUserCount);
 
         // 채팅방 1명임 > 상대한테 알림 보냄
-        if (roomUserCount != null && Integer.parseInt(roomUserCount) == 1) {
+        if (roomUserCount == 1) {
             UserInfo senderUser = userServiceClient.searchUserInfoByUserKey(dto.getSenderUserKey());
             log.debug("[채팅 전송(소켓)] 전송자 = {}", senderUser.getUserName());
             // 채팅방 다른 유저 가져오기
