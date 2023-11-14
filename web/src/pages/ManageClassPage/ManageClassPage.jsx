@@ -9,7 +9,7 @@ import Table from "../../component/Table/Table";
 export default function ManageClassPage() {
   //SPA
   const [pageIdx, setPageIdx] = useState(0);
-  const [pageText, setPageText] = useState('승인 대기 중');
+  const [pageText, setPageText] = useState('승인 대기');
   const [active, setActive] = useState(0);
   //.모달
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,9 +32,9 @@ export default function ManageClassPage() {
       if (data && Array.isArray(data.content)) {
         const transformedData = data.content.map((apply) => ({
           type: apply.applyType,
-          grade: apply.studentInfo.split(' ')[0],
-          class: apply.studentInfo.split(' ')[1],
-          number: apply.studentInfo.split(' ')[2],
+          grade: apply.studentInfo.split(' ')[0].replace('학년', ''),
+          class: apply.studentInfo.split(' ')[1].replace('반', ''),
+          number: apply.studentInfo.split(' ')[2].replace('번', ''),
           name: apply.studentInfo.split(' ')[3],
           lastModifiedDate: apply.lastModifiedDate.split('T')[0] + ' ' + apply.lastModifiedDate.split('T')[1],
           // add other fields if necessary

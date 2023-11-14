@@ -10,7 +10,7 @@ export default function NotiHistory() {
   const columns = useMemo(
     () => [
       {
-        accessor: 'no',
+        accessor: 'boardId',
         Header: '번호'
       },
       {
@@ -41,7 +41,6 @@ export default function NotiHistory() {
       const data = await getNotices();
       if (data && Array.isArray(data)) {
         const transformedData = data.map((board) => ({
-          no: 0,
           boardId: board.boardId,
           title: board.title,
           writer: board.writer,

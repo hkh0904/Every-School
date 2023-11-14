@@ -179,7 +179,13 @@ public class BoardAppQueryService {
 
     // TODO: 2023-11-13 조회 구현
     public BoardDetailResponse searchBoard(Long boardId, String userKey) {
-        return null;
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
+
+        Board board = getBoardEntity(boardId);
+
+        List<String> imageUrls = getFileUrls(board);
+
+        return BoardDetailResponse.of(board, imageUrls, new ArrayList<>());
     }
 
     /**

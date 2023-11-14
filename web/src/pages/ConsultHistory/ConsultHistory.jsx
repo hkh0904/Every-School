@@ -24,9 +24,9 @@ export default function ConsultHistory() {
       if (data && Array.isArray(data.content)) {
         const transformedData = data.content.map((consult) => ({
           type: consult.type,
-          grade: consult.parentInfo.split(' ')[0],
-          class: consult.parentInfo.split(' ')[1],
-          number: consult.parentInfo.split(' ')[2],
+          grade: consult.parentInfo.split(' ')[0].replace('학년', ''),
+          class: consult.parentInfo.split(' ')[1].replace('반', ''),
+          number: consult.parentInfo.split(' ')[2].replace('번', ''),
           name: consult.parentInfo.split(' ')[3],
           relationship: consult.parentInfo.split(' ')[4] === '아버님' ? '부' : '모',
           lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1],

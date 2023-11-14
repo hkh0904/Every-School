@@ -204,6 +204,20 @@ spring:
             - Path=/voiceai-service/v1/**
           filters:
             - RewritePath=/voiceai-service/(?<segment>.*), /$\{segment}
+        # alarm-service
+        - id: alarm-service
+          uri: lb://ALARM-SERVICE
+          predicates:
+            - Path=/alarm-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: alarm-service
+          uri: lb://ALARM-SERVICE
+          predicates:
+            - Path=/alarm-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/alarm-service/(?<segment>.*), /$\{segment}
 
 
 
