@@ -159,6 +159,17 @@ class UserApi {
     }
   }
 
+  // 학교 정보 조회
+  Future<dynamic> getSchoolData(schoolId) async {
+    try {
+      final response = await dio.get(
+          '${serverApi.serverURL}/school-service/v1/schools/$schoolId',);
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
   // 학급 등록 신청
   Future<dynamic> registSchool(schoolId, garde, classNum) async {
     String? token = await storage.read(key: 'token');

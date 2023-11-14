@@ -69,13 +69,47 @@ class CommunityApi {
   }
 
   Future<dynamic> writeComment(boardId, schoolId, schoolYear, formData) async {
-    print(
-        '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments');
     String? token = await storage.read(key: 'token');
     try {
       final response = await dio.post(
           '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments',
           data: formData,
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print("에러 발생 $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> writeRecomment(
+      boardId, schoolId, schoolYear, commentId, formData) async {
+    print(
+        '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments/$commentId');
+    String? token = await storage.read(key: 'token');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments/$commentId',
+          data: formData,
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print(response.data);
+      return response.data['data'];
+    } catch (e) {
+      print("에러 발생 $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> scrapPost(boardId, schoolId, schoolYear) async {
+    String? token = await storage.read(key: 'token');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/scraps',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));

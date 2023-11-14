@@ -52,7 +52,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
         });
       }
     } catch (e) {
-      print('데이터 로딩 중 오류 발생: $e');
+      print('커뮤니티 보드 에러: $e');
     }
   }
 

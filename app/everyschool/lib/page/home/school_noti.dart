@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/store/user_store.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
@@ -105,30 +106,46 @@ class _SchoolNotiState extends State<SchoolNoti> {
                                       ),
                                     ),
                                   ),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.6,
-                                          child: Text(
-                                            snapshot.data[index]['title']
-                                                as String,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 15),
+                                  child: GestureDetector(
+                                    onTapUp: (TapUpDetails details) {
+                                      if (snapshot.data[index]['boardId'] !=
+                                          null) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => PostDetail(
+                                                boardId: snapshot.data[index]
+                                                    ['boardId'],
+                                                boardName: '학사 공지'),
                                           ),
-                                        ),
-                                        Text(
-                                          extractDate(snapshot.data[index]
-                                              ['createdDate']),
-                                          style: TextStyle(
-                                              color: Color(0xff999999)),
-                                        )
-                                      ]),
+                                        );
+                                      }
+                                    },
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.6,
+                                            child: Text(
+                                              snapshot.data[index]['title']
+                                                  as String,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                          ),
+                                          Text(
+                                            extractDate(snapshot.data[index]
+                                                ['createdDate']),
+                                            style: TextStyle(
+                                                color: Color(0xff999999)),
+                                          )
+                                        ]),
+                                  ),
                                 );
                               })),
                     ]),

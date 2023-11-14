@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/store/user_store.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -77,23 +78,40 @@ class _CommunityNewState extends State<CommunityNew> {
                                     ),
                                   ),
                                 ),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.6,
-                                        child: Text(
-                                          snapshot.data[index]['title']
-                                              as String,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 15),
+                                child: GestureDetector(
+                                  onTapUp: (TapUpDetails details) {
+                                    if (snapshot.data[index]['boardId'] !=
+                                        null) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PostDetail(
+                                              boardId: snapshot.data[index]
+                                                  ['boardId'],
+                                              boardName: '자유게시판'),
                                         ),
-                                      ),
-                                    ]),
+                                      );
+                                    }
+                                  },
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
+                                          child: Text(
+                                            snapshot.data[index]['title']
+                                                as String,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                      ]),
+                                ),
                               );
                             })),
                   ]),

@@ -32,7 +32,7 @@ export default function ReportHistoryPage() {
 
   const [reports, setReports] = useState([]);
   const [completeReports, setCompleteReports] = useState(0);
-  
+
   const fetchReports = async () => {
     let rawData = await receivedReportInfo();
 
@@ -41,20 +41,18 @@ export default function ReportHistoryPage() {
       const time = `${parseInt(splitDateTime[1], 10)}시`;
       const formattedDate = `${splitDateTime[0]} / ${time}`;
       if (item.status === '처리 완료') {
-        setCompleteReports(completeReports + 1)
+        setCompleteReports(completeReports + 1);
       }
       return { ...item, date: formattedDate };
     });
-
+    formattedData.sort((a, b) => b.reportId - a.reportId);
     setReports(formattedData);
   };
 
   useEffect(() => {
     fetchReports();
   }, []);
-
-  console.log(reports);
-
+  
   return (
     <div className={styles.container}>
       <div className={styles.row}>

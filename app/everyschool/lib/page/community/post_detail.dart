@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:everyschool/store/user_store.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class PostDetail extends StatefulWidget {
   final String boardName;
@@ -68,7 +69,7 @@ class _PostDetailState extends State<PostDetail> {
       if (response != null) {
         setState(() {
           postDetail = response;
-          print(response);
+          print(postDetail);
         });
       }
     } catch (e) {
@@ -76,10 +77,35 @@ class _PostDetailState extends State<PostDetail> {
     }
   }
 
+  String formatDateTime(String dateTimeStr) {
+    tz.TZDateTime postDateTime;
+    try {
+      postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
+    } catch (e) {
+      print('DateTime parsing error: $e');
+      return dateTimeStr;
+    }
+
+    tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    Duration difference = now.difference(postDateTime);
+
+    if (difference.inDays == 0) {
+      if (difference.inHours == 0) {
+        if (difference.inMinutes > 5) {
+          return '${difference.inMinutes}분 전';
+        } else {
+          return '방금 전';
+        }
+      } else {
+        return '${difference.inHours}시간 전';
+      }
+    } else {
+      return '${postDateTime.month.toString().padLeft(2, '0')}/${postDateTime.day.toString().padLeft(2, '0')}';
+    }
+  }
+
   void refreshComments() {
     _loadPostDetail();
-    print('======================새로고침======================');
-    print(postDetail);
   }
 
   @override
@@ -174,17 +200,39 @@ class _PostDetailState extends State<PostDetail> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '익명',
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  '익명',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                if (widget.boardName != '자유게시판')
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      SizedBox(width: 220),
+                                      Icon(
+                                        Icons.favorite,
+                                        color: Color(0XFFF5A9E1),
+                                        size: 25,
+                                      ),
+                                      Text(
+                                        ' ${postDetail["scrapCount"]}',
+                                        style: TextStyle(
+                                            fontSize: 23,
+                                            color: Color(0XFFF5A9E1)),
+                                      ),
+                                    ],
+                                  ),
+                              ],
                             ),
                             SizedBox(
                               height: 5,
                             ),
-                            Text(postDetail["createdDate"])
+                            Text(formatDateTime(postDetail["createdDate"]))
                           ],
                         ),
                       ),
@@ -193,47 +241,65 @@ class _PostDetailState extends State<PostDetail> {
                   SizedBox(height: 20),
                   Text(
                     '${postDetail["title"]}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
                   ),
                   SizedBox(height: 20),
-                  if (postDetail['imageUrls'] != null)
+                  if (postDetail['imageUrls'] != null &&
+                      postDetail['imageUrls'].isNotEmpty) ...[
+                    Text(
+                      '첨부 이미지',
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
                     ...postDetail['imageUrls'].map((imageUrl) => Column(
                           children: [
                             Image.network(imageUrl),
                             SizedBox(height: 10),
                           ],
                         )),
+                  ],
                   Text(
                     '${postDetail["content"]}',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 20,
                     ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Row(children: [
-                    Image.asset(
-                      'assets/images/community/comment.png',
-                      width: 25,
-                      height: 25,
-                    ),
-                    Text(
-                      ' ${postDetail["commentCount"]}',
-                      style: TextStyle(fontSize: 15, color: Color(0XFF32D9FE)),
-                    ),
-                  ]),
+                  if (widget.boardName == '자유게시판')
+                    Row(children: [
+                      Image.asset(
+                        'assets/images/community/comment.png',
+                        height: 26,
+                      ),
+                      Text(
+                        ' ${postDetail["commentCount"]}',
+                        style:
+                            TextStyle(fontSize: 18, color: Color(0XFF32D9FE)),
+                      ),
+                      SizedBox(width: 5),
+                      Icon(
+                        Icons.favorite,
+                        color: Color(0XFFF5A9E1),
+                      ),
+                      Text(
+                        ' ${postDetail["scrapCount"]}',
+                        style:
+                            TextStyle(fontSize: 18, color: Color(0XFFF5A9E1)),
+                      ),
+                    ]),
                 ],
               ),
             ),
-            if (schoolId != null && schoolYear != null)
-              PostComments(
-                boardId: widget.boardId,
-                schoolId: schoolId!,
-                schoolYear: schoolYear!,
-                comments: postDetail['comments'],
-                onCommentAdded: refreshComments,
-              ),
+            if (widget.boardName == '자유게시판')
+              if (schoolId != null && schoolYear != null)
+                PostComments(
+                  boardId: widget.boardId,
+                  schoolId: schoolId!,
+                  schoolYear: schoolYear!,
+                  comments: postDetail['comments'],
+                  onCommentAdded: refreshComments,
+                ),
           ],
         ),
       ),
