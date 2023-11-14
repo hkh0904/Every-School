@@ -69,7 +69,7 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
                 .willReturn(loginUserInfo);
         given(userServiceClient.searchUserInfoByUserKey(anyString()))
                 .willReturn(opponentUserInfo);
-        given(userServiceClient.searchChildName(anyLong(), anyLong()))
+        given(userServiceClient.searchUsername(anyLong(), anyLong()))
                 .willReturn("임우택");
 
         CreateChatRoomDto dto = CreateChatRoomDto.builder()
@@ -90,20 +90,6 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
         assertThat(response.getOpponentUserType()).isEqualTo('M');
         assertThat(response.getOpponentUsersChildName()).isEqualTo("임우택");
 
-    }
-
-    private ChatRoomUser saveChatRoomUser(ChatRoom chatRoom, String opponentUserName, String opponentUserChildName, long userId, String opponentUserType) {
-        ChatRoomUser chatRoomUser = ChatRoomUser.builder()
-                .chatRoomTitle(opponentUserName)
-                .childName(opponentUserChildName)
-                .userId(userId)
-                .opponentUserType(opponentUserType)
-                .isAlarm(true)
-                .unreadCount(0)
-                .lastContent("")
-                .chatRoom(chatRoom)
-                .build();
-        return chatRoomUserRepository.save(chatRoomUser);
     }
 
     @DisplayName("채팅방 생성")
@@ -134,7 +120,7 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
                 .willReturn(parent);
         given(userServiceClient.searchUserInfoByUserKey(anyString()))
                 .willReturn(teacher);
-        given(userServiceClient.searchChildName(anyLong(), anyLong()))
+        given(userServiceClient.searchUsername(anyLong(), anyLong()))
                 .willReturn("임우택");
         given(schoolServiceClient.searchSchoolClassInfo(anyLong()))
                 .willReturn(schoolClassInfo);
@@ -155,5 +141,19 @@ class ChatRoomServiceTest extends IntegrationTestSupport {
         assertThat(response.getRoomId()).isPositive();
         assertThat(response.getOpponentUserName()).isEqualTo("오연주");
         assertThat(response.getOpponentUserType()).isEqualTo('T');
+    }
+
+    private ChatRoomUser saveChatRoomUser(ChatRoom chatRoom, String opponentUserName, String opponentUserChildName, long userId, String opponentUserType) {
+        ChatRoomUser chatRoomUser = ChatRoomUser.builder()
+                .chatRoomTitle(opponentUserName)
+                .childName(opponentUserChildName)
+                .userId(userId)
+                .opponentUserType(opponentUserType)
+                .isAlarm(true)
+                .unreadCount(0)
+                .lastContent("")
+                .chatRoom(chatRoom)
+                .build();
+        return chatRoomUserRepository.save(chatRoomUser);
     }
 }

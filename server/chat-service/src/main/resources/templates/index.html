@@ -464,6 +464,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#check-message-filter">채팅 전송 전 필터링 돌리기 API</a></li>
 </ul>
 </li>
+<li><a href="#review-API">Review API</a>
+<ul class="sectlevel2">
+<li><a href="#search-warning-list">문제 채팅 목록 조회 API</a></li>
+<li><a href="#search-warning-detail">문제 채팅 상세 조회 API</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -824,7 +830,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 2777
+Content-Length: 2957
 
 {
   "code" : 200,
@@ -833,102 +839,102 @@ Content-Length: 2777
   "data" : [ {
     "chatId" : 1,
     "content" : "벌써 며칠째 전화도 없는 너",
-    "sendTime" : "오전 10:1",
+    "sendTime" : [ 2023, 11, 1, 10, 1 ],
     "mine" : true
   }, {
     "chatId" : 2,
     "content" : "얼마 후면 나의 생일이란 걸 아는지",
-    "sendTime" : "오전 10:2",
+    "sendTime" : [ 2023, 11, 1, 10, 2 ],
     "mine" : true
   }, {
     "chatId" : 3,
     "content" : "눈치도 없이 시간은 자꾸만 흘러가고",
-    "sendTime" : "오전 10:3",
+    "sendTime" : [ 2023, 11, 1, 10, 3 ],
     "mine" : true
   }, {
     "chatId" : 4,
     "content" : "난 미움보다 걱정스런 맘에",
-    "sendTime" : "오전 10:4",
+    "sendTime" : [ 2023, 11, 1, 10, 4 ],
     "mine" : true
   }, {
     "chatId" : 5,
     "content" : "무작정 찾아간 너의 골목 어귀에서",
-    "sendTime" : "오전 10:5",
+    "sendTime" : [ 2023, 11, 1, 10, 5 ],
     "mine" : true
   }, {
     "chatId" : 6,
     "content" : "생각지 못한 웃으며",
-    "sendTime" : "오전 10:6",
+    "sendTime" : [ 2023, 11, 1, 10, 6 ],
     "mine" : true
   }, {
     "chatId" : 7,
     "content" : "반기는 너를 봤어",
-    "sendTime" : "오전 10:7",
+    "sendTime" : [ 2023, 11, 1, 10, 7 ],
     "mine" : true
   }, {
     "chatId" : 8,
     "content" : "사실은 말야 나 많이 고민했어",
-    "sendTime" : "오전 10:8",
+    "sendTime" : [ 2023, 11, 1, 10, 8 ],
     "mine" : false
   }, {
     "chatId" : 9,
     "content" : "네게 아무것도 해줄 수 없는걸",
-    "sendTime" : "오전 10:9",
+    "sendTime" : [ 2023, 11, 1, 10, 9 ],
     "mine" : false
   }, {
     "chatId" : 10,
     "content" : "아주 많이 모자라도 가진 것 없어도",
-    "sendTime" : "오전 10:10",
+    "sendTime" : [ 2023, 11, 1, 10, 10 ],
     "mine" : false
   }, {
     "chatId" : 11,
     "content" : "이런 나라도 받아 줄래",
-    "sendTime" : "오전 10:11",
+    "sendTime" : [ 2023, 11, 1, 10, 11 ],
     "mine" : false
   }, {
     "chatId" : 12,
     "content" : "너를 위해서 너만을 위해서",
-    "sendTime" : "오전 10:12",
+    "sendTime" : [ 2023, 11, 1, 10, 12 ],
     "mine" : true
   }, {
     "chatId" : 13,
     "content" : "난 세상 모든 걸",
-    "sendTime" : "오전 10:13",
+    "sendTime" : [ 2023, 11, 1, 10, 13 ],
     "mine" : false
   }, {
     "chatId" : 14,
     "content" : "다 안겨 주지는 못하지만",
-    "sendTime" : "오전 10:14",
+    "sendTime" : [ 2023, 11, 1, 10, 14 ],
     "mine" : false
   }, {
     "chatId" : 15,
     "content" : "오직 너를 위한 내가 될게",
-    "sendTime" : "오전 10:15",
+    "sendTime" : [ 2023, 11, 1, 10, 15 ],
     "mine" : true
   }, {
     "chatId" : 16,
     "content" : "Is only for you",
-    "sendTime" : "오전 10:16",
+    "sendTime" : [ 2023, 11, 1, 10, 16 ],
     "mine" : true
   }, {
     "chatId" : 17,
     "content" : "just wanna be for you",
-    "sendTime" : "오전 10:17",
+    "sendTime" : [ 2023, 11, 1, 10, 17 ],
     "mine" : true
   }, {
     "chatId" : 18,
     "content" : "넌 그렇게 지금 모습 그대로",
-    "sendTime" : "오전 10:18",
+    "sendTime" : [ 2023, 11, 1, 10, 18 ],
     "mine" : false
   }, {
     "chatId" : 19,
     "content" : "내 곁에 있으면 돼",
-    "sendTime" : "오전 10:19",
+    "sendTime" : [ 2023, 11, 1, 10, 19 ],
     "mine" : false
   }, {
     "chatId" : 20,
     "content" : "난 다시 태어나도",
-    "sendTime" : "오전 10:20",
+    "sendTime" : [ 2023, 11, 1, 10, 20 ],
     "mine" : true
   } ]
 }</code></pre>
@@ -988,7 +994,7 @@ Content-Length: 2777
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].sendTime</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">전송 시간</p></td>
 </tr>
 </tbody>
@@ -1232,11 +1238,294 @@ Content-Length: 127
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="review-API"><a class="link" href="#review-API">Review API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="search-warning-list"><a class="link" href="#search-warning-list">문제 채팅 목록 조회 API</a></h3>
+<div class="sect3">
+<h4 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /chat-service/v1/chat-review HTTP/1.1
+Authorization: jwt
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 354
+
+{
+  "code" : 200,
+  "status" : "OK",
+  "message" : "SUCCESS",
+  "data" : [ {
+    "chatReviewId" : 1,
+    "chatRoomId" : 1,
+    "chatDate" : [ 2023, 11, 11 ]
+  }, {
+    "chatReviewId" : 2,
+    "chatRoomId" : 2,
+    "chatDate" : [ 2023, 11, 9 ]
+  }, {
+    "chatReviewId" : 3,
+    "chatRoomId" : 1,
+    "chatDate" : [ 2023, 11, 10 ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].chatReviewId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅 검토 PK</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].chatRoomId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 Id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].chatDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">문제 채팅 날짜</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="search-warning-detail"><a class="link" href="#search-warning-detail">문제 채팅 상세 조회 API</a></h3>
+<div class="sect3">
+<h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /chat-service/v1/chat-review/{chatRoomId}/{reviewId}?date=2023-11-01 HTTP/1.1
+Authorization: jwt
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /chat-service/v1/chat-review/1/1?date=2023-11-01 HTTP/1.1
+Authorization: jwt
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_http_response_7"><a class="link" href="#_http_response_7">HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 2175
+
+{
+  "code" : 200,
+  "status" : "OK",
+  "message" : "SUCCESS",
+  "data" : {
+    "title" : "1학년 1반 선생님과 방망이의 대화",
+    "chatList" : [ {
+      "chatId" : 1,
+      "teacherSend" : false,
+      "content" : "방망이 안주면 옷 더럽게 한다",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "악성의심",
+      "reason" : "별 이유아닌 이유로 협박함"
+    }, {
+      "chatId" : 2,
+      "teacherSend" : true,
+      "content" : "너 진짜 나쁜아이구나",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "평범",
+      "reason" : ""
+    }, {
+      "chatId" : 3,
+      "teacherSend" : false,
+      "content" : "오빤 키도 작으면서",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "악성의심",
+      "reason" : "키공격함"
+    }, {
+      "chatId" : 4,
+      "teacherSend" : true,
+      "content" : "반말 쓰지마!",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "평범",
+      "reason" : ""
+    }, {
+      "chatId" : 5,
+      "teacherSend" : false,
+      "content" : "키도 작으면서요",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "악성의심",
+      "reason" : "킹받게함"
+    }, {
+      "chatId" : 6,
+      "teacherSend" : true,
+      "content" : "장난하니?",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "평범",
+      "reason" : ""
+    }, {
+      "chatId" : 7,
+      "teacherSend" : true,
+      "content" : "이쁘면 다냐?",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "악성의심",
+      "reason" : "혼내는척 예쁘다고 고급스킬 썼음"
+    }, {
+      "chatId" : 8,
+      "teacherSend" : false,
+      "content" : "나 이뻐서 다야",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "평범",
+      "reason" : ""
+    }, {
+      "chatId" : 9,
+      "teacherSend" : true,
+      "content" : "그래 너 다 해라!",
+      "sendTime" : [ 2023, 11, 1, 10, 10, 10 ],
+      "chatStatus" : "평범",
+      "reason" : ""
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.chatList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅방 Id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.chatList[].chatId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅 Id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.chatList[].teacherSend</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">선생님 전송 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.chatList[].content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.chatList[].sendTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅 전송 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.chatList[].chatStatus</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">채팅 상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.chatList[].reason</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">악성 판단 근거</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-06 20:40:30 +0900
+Last updated 2023-11-13 13:54:03 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

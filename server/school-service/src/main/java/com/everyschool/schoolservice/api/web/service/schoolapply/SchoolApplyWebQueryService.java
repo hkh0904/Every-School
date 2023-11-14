@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.everyschool.schoolservice.error.ErrorMessage.*;
@@ -106,8 +104,19 @@ public class SchoolApplyWebQueryService {
 
         List<SchoolApply> schoolApplies = schoolApplyWebQueryRepository.findAllByCond(userInfo.getSchoolClassId(), schoolYear, status);
 
+        Set<Long> ids = new HashSet<>();
+        for (SchoolApply schoolApply : schoolApplies) {
+            ids.add(schoolApply.getParentId());
+            ids.add(schoolApply.getStudentId());
+        }
+
+        List<UserResponse> infos = userServiceClient.searchUserByIdIn(new ArrayList<>(ids));
+
+        Map<Long, UserResponse> map = infos.stream()
+            .collect(Collectors.toMap(UserResponse::getUserId, info -> info, (a, b) -> b));
+
         return schoolApplies.stream()
-            .map(SchoolApplyResponse::of)
+            .map(schoolApply -> SchoolApplyResponse.of(schoolApply, map.get(schoolApply.getStudentId()), map.getOrDefault(schoolApply.getParentId(), null)))
             .collect(Collectors.toList());
     }
 }

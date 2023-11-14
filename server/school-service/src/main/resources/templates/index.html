@@ -460,6 +460,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#App-School-Apply-API">App School Apply API</a>
 <ul class="sectlevel2">
 <li><a href="#app-create-school-apply">학교 소속 신청 API</a></li>
+<li><a href="#app-exist-school-apply">신청 확인 API</a></li>
 </ul>
 </li>
 <li><a href="#Web-School-Apply-API">Web School Apply API</a>
@@ -863,7 +864,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 242
+Content-Length: 243
 
 {
   "code" : 201,
@@ -874,7 +875,7 @@ Content-Length: 242
     "schoolYear" : 2023,
     "grade" : 1,
     "classNum" : 3,
-    "appliedDate" : [ 2023, 11, 13, 9, 23, 28, 571292300 ]
+    "appliedDate" : [ 2023, 11, 14, 15, 17, 49, 611871000 ]
   }
 }</code></pre>
 </div>
@@ -945,6 +946,116 @@ Content-Length: 242
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="app-exist-school-apply"><a class="link" href="#app-exist-school-apply">신청 확인 API</a></h3>
+<div class="sect3">
+<h4 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/app/2023/schools/100000/applies/exist HTTP/1.1
+Authorization: Bearer Access Token
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bearer Access Token</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /school-service/v1/app/{schoolYear}/schools/{schoolId}/applies/exist</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>schoolYear</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학년도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>schoolId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학교 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 84
+
+{
+  "code" : 200,
+  "status" : "OK",
+  "message" : "SUCCESS",
+  "data" : null
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -953,7 +1064,7 @@ Content-Length: 242
 <div class="sect2">
 <h3 id="web-approve-school-apply"><a class="link" href="#web-approve-school-apply">등록 신청 승인 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_4"><a class="link" href="#_http_request_4">HTTP Request</a></h4>
+<h4 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /school-service/v1/web/2023/schools/100000/apply/1/approve HTTP/1.1
@@ -980,7 +1091,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. /school-service/v1/web/{schoolYear}/schools/{schoolId}/apply/{schoolApplyId}/approve</caption>
+<caption class="title">Table 3. /school-service/v1/web/{schoolYear}/schools/{schoolId}/apply/{schoolApplyId}/approve</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1008,12 +1119,12 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_4"><a class="link" href="#_http_response_4">HTTP Response</a></h4>
+<h4 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 259
+Content-Length: 260
 
 {
   "code" : 200,
@@ -1024,14 +1135,14 @@ Content-Length: 259
     "schoolYear" : 2023,
     "isApproved" : true,
     "rejectedReason" : null,
-    "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 873292200 ]
+    "lastModifiedDate" : [ 2023, 11, 14, 15, 17, 49, 903901700 ]
   }
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h4>
+<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1098,7 +1209,7 @@ Content-Length: 259
 <div class="sect2">
 <h3 id="web-reject-school-apply"><a class="link" href="#web-reject-school-apply">등록 신청 거절 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_5"><a class="link" href="#_http_request_5">HTTP Request</a></h4>
+<h4 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /school-service/v1/web/2023/schools/100000/apply/1/reject HTTP/1.1
@@ -1131,7 +1242,7 @@ Host: localhost:8080
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. /school-service/v1/web/{schoolYear}/schools/{schoolId}/apply/{schoolApplyId}/reject</caption>
+<caption class="title">Table 4. /school-service/v1/web/{schoolYear}/schools/{schoolId}/apply/{schoolApplyId}/reject</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1186,12 +1297,12 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_5"><a class="link" href="#_http_response_5">HTTP Response</a></h4>
+<h4 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 288
+Content-Length: 289
 
 {
   "code" : 200,
@@ -1202,14 +1313,14 @@ Content-Length: 288
     "schoolYear" : 2023,
     "isApproved" : false,
     "rejectedReason" : "학급 인원이 아닙니다.",
-    "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 790290500 ]
+    "lastModifiedDate" : [ 2023, 11, 14, 15, 17, 49, 835900000 ]
   }
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response Fields</a></h4>
+<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1276,7 +1387,7 @@ Content-Length: 288
 <div class="sect2">
 <h3 id="web-search-approve-school-apply"><a class="link" href="#web-search-approve-school-apply">승인된 신청 목록 조회 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_6"><a class="link" href="#_http_request_6">HTTP Request</a></h4>
+<h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/approve-apply HTTP/1.1
@@ -1303,155 +1414,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /school-service/v1/web/{schoolYear}/schools/{schoolId}/approve-apply</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>schoolYear</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">학년도</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>schoolId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">학교 아이디</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_http_response_6"><a class="link" href="#_http_response_6">HTTP Response</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 497
-
-{
-  "code" : 200,
-  "status" : "OK",
-  "message" : "SUCCESS",
-  "data" : {
-    "count" : 2,
-    "content" : [ {
-      "schoolApplyId" : 1,
-      "applyType" : "학생 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 946292200 ]
-    }, {
-      "schoolApplyId" : 1,
-      "applyType" : "아버님 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 28, 946292200 ]
-    } ]
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.count</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">승인 대기 중인 신청 수</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].schoolApplyId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 id</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].applyType</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 유형</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentInfo</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 학생 정보</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].lastModifiedDate</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">승인 일시</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="web-search-wait-school-apply"><a class="link" href="#web-search-wait-school-apply">승인 대기 중인 신청 목록 조회 API</a></h3>
-<div class="sect3">
-<h4 id="_http_request_7"><a class="link" href="#_http_request_7">HTTP Request</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/wait-apply HTTP/1.1
-Authorization: Bearer Access Token
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Bearer Access Token</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. /school-service/v1/web/{schoolYear}/schools/{schoolId}/wait-apply</caption>
+<caption class="title">Table 5. /school-service/v1/web/{schoolYear}/schools/{schoolId}/approve-apply</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1480,7 +1443,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 495
+Content-Length: 726
 
 {
   "code" : 200,
@@ -1490,14 +1453,20 @@ Content-Length: 495
     "count" : 2,
     "content" : [ {
       "schoolApplyId" : 1,
-      "applyType" : "학생 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 29, 95291800 ]
+      "applyType" : "어머님 신청",
+      "parentName" : "이예리",
+      "parentBirth" : "1998-04-12",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 15, 17, 49, 968900300 ]
     }, {
-      "schoolApplyId" : 1,
-      "applyType" : "아버님 신청",
-      "studentInfo" : "10301 이예리",
-      "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 29, 95291800 ]
+      "schoolApplyId" : 2,
+      "applyType" : "학생 신청",
+      "parentName" : "",
+      "parentBirth" : "",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 15, 17, 49, 968900300 ]
     } ]
   }
 }</code></pre>
@@ -1556,14 +1525,198 @@ Content-Length: 495
 <td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 유형</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 생년월일</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 학생 정보</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">힉생 생년월일</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].lastModifiedDate</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 일시</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승인 일시</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="web-search-wait-school-apply"><a class="link" href="#web-search-wait-school-apply">승인 대기 중인 신청 목록 조회 API</a></h3>
+<div class="sect3">
+<h4 id="_http_request_8"><a class="link" href="#_http_request_8">HTTP Request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/wait-apply HTTP/1.1
+Authorization: Bearer Access Token
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bearer Access Token</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. /school-service/v1/web/{schoolYear}/schools/{schoolId}/wait-apply</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>schoolYear</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학년도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>schoolId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학교 아이디</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_http_response_8"><a class="link" href="#_http_response_8">HTTP Response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 724
+
+{
+  "code" : 200,
+  "status" : "OK",
+  "message" : "SUCCESS",
+  "data" : {
+    "count" : 2,
+    "content" : [ {
+      "schoolApplyId" : 1,
+      "applyType" : "어머님 신청",
+      "parentName" : "이예리",
+      "parentBirth" : "1998-04-12",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 15, 17, 50, 88900000 ]
+    }, {
+      "schoolApplyId" : 2,
+      "applyType" : "학생 신청",
+      "parentName" : "",
+      "parentBirth" : "",
+      "studentInfo" : "1학냔 3반 13번 이리온",
+      "studentBirth" : "2013-11-14",
+      "lastModifiedDate" : [ 2023, 11, 14, 15, 17, 50, 88900000 ]
+    } ]
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상태</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승인 대기 중인 신청 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].schoolApplyId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].applyType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 유형</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].parentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">학부모 생년월일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승인 신청 학생 정보</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].studentBirth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">힉생 생년월일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].lastModifiedDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">승인 일시</p></td>
 </tr>
 </tbody>
 </table>
@@ -1572,7 +1725,7 @@ Content-Length: 495
 <div class="sect2">
 <h3 id="web-search-detail-school-apply"><a class="link" href="#web-search-detail-school-apply">승인된 신청 상세 조회 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_8"><a class="link" href="#_http_request_8">HTTP Request</a></h4>
+<h4 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/apply/1 HTTP/1.1
@@ -1599,7 +1752,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /school-service/v1/web/{schoolYear}/schools/{schoolId}/apply/{schoolApplyId}</caption>
+<caption class="title">Table 7. /school-service/v1/web/{schoolYear}/schools/{schoolId}/apply/{schoolApplyId}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1627,12 +1780,12 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_8"><a class="link" href="#_http_response_8">HTTP Response</a></h4>
+<h4 id="_http_response_9"><a class="link" href="#_http_response_9">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 354
+Content-Length: 355
 
 {
   "code" : 200,
@@ -1645,14 +1798,14 @@ Content-Length: 354
     "parentBirth" : null,
     "studentInfo" : "1학년 3반 13번 이예리",
     "studentBirth" : "1998-04-12",
-    "lastModifiedDate" : [ 2023, 11, 13, 9, 23, 29, 20291600 ]
+    "lastModifiedDate" : [ 2023, 11, 14, 15, 17, 50, 31899500 ]
   }
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response Fields</a></h4>
+<h4 id="_response_fields_9"><a class="link" href="#_response_fields_9">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1734,7 +1887,7 @@ Content-Length: 354
 <div class="sect2">
 <h3 id="web-search-my-class-students"><a class="link" href="#web-search-my-class-students">등록 신청 승인 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_9"><a class="link" href="#_http_request_9">HTTP Request</a></h4>
+<h4 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/classes/2/students HTTP/1.1
@@ -1761,7 +1914,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /school-service/v1/web/{schoolYear}/schools/{schoolId}/classes/{schoolClassId}/students</caption>
+<caption class="title">Table 8. /school-service/v1/web/{schoolYear}/schools/{schoolId}/classes/{schoolClassId}/students</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1789,7 +1942,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_9"><a class="link" href="#_http_response_9">HTTP Response</a></h4>
+<h4 id="_http_response_10"><a class="link" href="#_http_response_10">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1819,7 +1972,7 @@ Content-Length: 368
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_9"><a class="link" href="#_response_fields_9">Response Fields</a></h4>
+<h4 id="_response_fields_10"><a class="link" href="#_response_fields_10">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1886,7 +2039,7 @@ Content-Length: 368
 <div class="sect2">
 <h3 id="web-search-my-class-parents"><a class="link" href="#web-search-my-class-parents">등록 신청 승인 API</a></h3>
 <div class="sect3">
-<h4 id="_http_request_10"><a class="link" href="#_http_request_10">HTTP Request</a></h4>
+<h4 id="_http_request_11"><a class="link" href="#_http_request_11">HTTP Request</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /school-service/v1/web/2023/schools/100000/classes/2/parents HTTP/1.1
@@ -1913,7 +2066,7 @@ Host: localhost:8080</code></pre>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. /school-service/v1/web/{schoolYear}/schools/{schoolId}/classes/{schoolClassId}/parents</caption>
+<caption class="title">Table 9. /school-service/v1/web/{schoolYear}/schools/{schoolId}/classes/{schoolClassId}/parents</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1941,7 +2094,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_http_response_10"><a class="link" href="#_http_response_10">HTTP Response</a></h4>
+<h4 id="_http_response_11"><a class="link" href="#_http_response_11">HTTP Response</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
@@ -1973,7 +2126,7 @@ Content-Length: 448
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response_fields_10"><a class="link" href="#_response_fields_10">Response Fields</a></h4>
+<h4 id="_response_fields_11"><a class="link" href="#_response_fields_11">Response Fields</a></h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -2048,7 +2201,7 @@ Content-Length: 448
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-13 08:57:54 +0900
+Last updated 2023-11-14 15:18:23 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
