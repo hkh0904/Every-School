@@ -21,14 +21,27 @@ public class ScrapAppController {
 
     @PostMapping
     public ApiResponse<Boolean> createScrap(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @PathVariable Long boardId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @PathVariable Long boardId
     ) {
         String userKey = tokenUtils.getUserKey();
 
         boolean result = scrapAppService.createScrap(userKey, boardId);
 
         return ApiResponse.created(result);
+    }
+
+    @PostMapping("/unscraps")
+    public ApiResponse<Boolean> unscraps(
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @PathVariable Long boardId
+    ) {
+        String userKey = tokenUtils.getUserKey();
+
+        boolean result = scrapAppService.unscraps(userKey, boardId);
+
+        return ApiResponse.ok(result);
     }
 }
