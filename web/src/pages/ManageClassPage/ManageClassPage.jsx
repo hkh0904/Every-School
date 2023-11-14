@@ -33,6 +33,7 @@ export default function ManageClassPage() {
       if (data && Array.isArray(data.content)) {
         const transformedData = data.content.map((apply) => ({
           parentName: apply.parentName,
+          studentBirth: apply.studentBirth,
           parentBirth: apply.parentBirth,
           schoolApplyId: apply.schoolApplyId,
           type: apply.applyType,
@@ -71,6 +72,10 @@ export default function ManageClassPage() {
       {
         accessor: 'name',
         Header: '학생 이름'
+      },
+      {
+        accessor: 'studentBirth',
+        Header: '학생 생일'
       },
       {
         accessor: 'parentName',

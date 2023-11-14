@@ -195,16 +195,23 @@ class _ChatRoomState extends State<ChatRoom> {
     super.initState();
   }
 
+  disconnect() async {
+    final myKey = await storage.read(key: 'userKey');
+
+    print(widget.roomInfo['roomId']);
+    stompClient.send(
+        destination: '/chat.unsub.${widget.roomInfo['roomId']}',
+        body: json.encode({
+          'senderUserKey': myKey,
+        }),
+        headers: {});
+
+    stompClient.deactivate();
+  }
+
   @override
   void dispose() {
-    print('구독취소');
-    var unsubscribeFn = stompClient.subscribe(
-        destination: '/sub/${widget.roomInfo['roomId']}',
-        headers: {'Authorization': 'Bearer $token'},
-        callback: (frame) {});
-
-    unsubscribeFn(unsubscribeHeaders: {'Authorization': 'Bearer $token'});
-    stompClient.deactivate();
+    disconnect();
     // dispose 메서드에서 리소스나 이벤트를 해제합니다.
     // 메모리 누수를 방지하기 위해 이곳에서 구독 해제 등의 정리 작업을 수행합니다.
     super.dispose();
