@@ -25,6 +25,7 @@ public class MyBoardAppController {
         @PathVariable Long schoolId,
         @RequestParam(defaultValue = "6001") Integer category
     ) {
+        log.debug("[Controller] 나의 게시물 목록 조회. 요청 들어옴");
         String userKey = tokenUtils.getUserKey();
 
         List<BoardResponse> responses = myBoardAppQueryService.myBoards(userKey, category);
