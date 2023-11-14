@@ -28,76 +28,77 @@ public class BoardQueryRepository {
 
     public List<NewFreeBoardResponse> findNewFreeBoardBySchoolId(Long schoolId, Category category) {
         return queryFactory
-            .select(Projections.constructor(
-                NewFreeBoardResponse.class,
-                board.id,
-                board.title
-            ))
-            .from(board)
-            .where(
-                board.schoolId.eq(schoolId),
-                board.categoryId.eq(category.getCode())
-            )
-            .orderBy(board.createdDate.desc())
-            .limit(5)
-            .fetch();
+                .select(Projections.constructor(
+                        NewFreeBoardResponse.class,
+                        board.id,
+                        board.title
+                ))
+                .from(board)
+                .where(
+                        board.schoolId.eq(schoolId),
+                        board.categoryId.eq(category.getCode())
+                )
+                .orderBy(board.createdDate.desc())
+                .limit(5)
+                .fetch();
     }
 
     public List<NewNoticeResponse> findNewNoticeBySchoolId(Long schoolId, Category category) {
         return queryFactory
-            .select(Projections.constructor(
-                NewNoticeResponse.class,
-                board.id,
-                board.title,
-                board.createdDate
-            ))
-            .from(board)
-            .where(
-                board.schoolId.eq(schoolId),
-                board.categoryId.eq(category.getCode())
-            )
-            .orderBy(board.createdDate.desc())
-            .limit(4)
-            .fetch();
+                .select(Projections.constructor(
+                        NewNoticeResponse.class,
+                        board.id,
+                        board.title,
+                        board.createdDate
+                ))
+                .from(board)
+                .where(
+                        board.schoolId.eq(schoolId),
+                        board.categoryId.eq(category.getCode())
+                )
+                .orderBy(board.createdDate.desc())
+                .limit(4)
+                .fetch();
     }
 
     public List<NewCommunicationResponse> findNewCommunicationBySchoolId(Long schoolId, Category category) {
         return queryFactory
-            .select(Projections.constructor(
-                NewCommunicationResponse.class,
-                board.id,
-                board.title,
-                board.createdDate
-            ))
-            .from(board)
-            .where(
-                board.schoolId.eq(schoolId),
-                board.categoryId.eq(category.getCode())
-            )
-            .orderBy(board.createdDate.desc())
-            .limit(3)
-            .fetch();
+                .select(Projections.constructor(
+                        NewCommunicationResponse.class,
+                        board.id,
+                        board.title,
+                        board.createdDate
+                ))
+                .from(board)
+                .where(
+                        board.schoolId.eq(schoolId),
+                        board.categoryId.eq(category.getCode())
+                )
+                .orderBy(board.createdDate.desc())
+                .limit(3)
+                .fetch();
     }
 
     public Slice<BoardResponse> findBoardBySchoolId(Long schoolId, Category category, Pageable pageable) {
         List<BoardResponse> content = queryFactory
-            .select(Projections.constructor(
-                BoardResponse.class,
-                board.id,
-                board.title,
-                board.content,
-                board.commentCount,
-                board.createdDate
-            ))
-            .from(board)
-            .where(
-                board.schoolId.eq(schoolId),
-                board.categoryId.eq(category.getCode())
-            )
-            .orderBy(board.createdDate.desc())
-            .offset(pageable.getOffset())
-            .limit(pageable.getPageSize() + 1)
-            .fetch();
+                .select(Projections.constructor(
+                        BoardResponse.class,
+                        board.id,
+                        board.title,
+                        board.content,
+                        board.commentCount,
+                        board.scrapCount,
+                        board.createdDate
+                ))
+                .from(board)
+                .where(
+                        board.schoolId.eq(schoolId),
+                        board.categoryId.eq(category.getCode())
+                )
+                .orderBy(board.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
+                .fetch();
 
         boolean hasNext = false;
         if (content.size() > pageable.getPageSize()) {
