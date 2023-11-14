@@ -129,4 +129,8 @@ public class UserQueryService {
     public UserResponse searchUserById(Long userId) {
         return userQueryRepository.findUserById(userId);
     }
+
+    public String searchUsername(Long schoolClassId, Long parentId) {
+        return userQueryRepository.findName(schoolClassId, parentId);
+    }
 }

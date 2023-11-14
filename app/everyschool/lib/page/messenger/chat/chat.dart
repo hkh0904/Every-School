@@ -7,4 +7,9 @@ class Chat {
 
   factory Chat.sent({required message, required sender, required time}) =>
       Chat(message: message, sender: sender, time: time);
+
+  @override
+  String toString() {
+    return 'Chat{message: $message, sender: $sender, time: $time}';
+  }
 }

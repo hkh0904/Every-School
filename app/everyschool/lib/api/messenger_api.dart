@@ -52,7 +52,7 @@ class MessengerApi {
   Future<dynamic> getChatListItem(token, chatRoomId, idx) async {
     try {
       final response = await dio.get(
-          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId?',
+          '${socketApi.httpURL}/v1/chat-rooms/$chatRoomId',
           queryParameters: {'idx': idx},
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 

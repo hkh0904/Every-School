@@ -11,19 +11,19 @@ export default function AccordianMenu() {
   const MenuList = [
     {
       title: '학급 관리',
-      list: ['우리반 보기', '학부모 보기', '학급 승인'],
+      list: ['우리반 관리', '학부모 관리', '학급 승인 관리'],
       icon: FaUserCog,
       address: ['/manage/myclass', '/manage/parents', '/manage/class/']
     },
     {
       title: '상담 관리',
-      list: ['상담 확인', '상담 내역'],
+      list: ['상담 확인', '상담 내역', '상담 설정'],
       icon: IoMdChatbubbles,
-      address: ['/consult/approve', '/consult/history']
+      address: ['/consult/approve', '/consult/history', '/consult/setting']
     },
     {
-      title: '안내문 등록',
-      list: ['가정통신문 등록', '고지서 등록'],
+      title: '안내문 관리',
+      list: ['가정통신문 관리', '고지서 관리'],
       icon: AiFillNotification,
       address: ['/docs/register-noti', '/docs/register-payment']
     },

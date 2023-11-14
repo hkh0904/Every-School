@@ -30,7 +30,7 @@ class _BubbleState extends State<Bubble> {
       children: [
         if (widget.chat.sender != widget.myKey)
           const CircleAvatar(
-            backgroundImage: AssetImage("assets/images/avatar_1.png"),
+            backgroundImage: AssetImage("assets/images/home/noti3.png"),
           ),
         Container(
           margin: widget.margin ?? EdgeInsets.zero,

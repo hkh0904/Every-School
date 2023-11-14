@@ -1,16 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:everyschool/api/community_api.dart';
 
 class PostComments extends StatefulWidget {
+  final int boardId;
+  final int schoolId;
+  final int schoolYear;
   final List<dynamic> comments;
   // Constructor for receiving comments
-  PostComments({Key? key, required this.comments}) : super(key: key);
+  PostComments(
+      {Key? key,
+      required this.boardId,
+      required this.schoolId,
+      required this.schoolYear,
+      required this.comments})
+      : super(key: key);
 
   @override
   State<PostComments> createState() => _PostCommentsState();
 }
 
 class _PostCommentsState extends State<PostComments> {
+  final CommunityApi communityApi = CommunityApi();
   TextEditingController commentController = TextEditingController();
+
+  Future<void> _writeComment() async {
+    var response;
+    try {
+      var formData = {'content': commentController.text};
+      response = await communityApi.writeComment(
+          widget.boardId, widget.schoolId, widget.schoolYear, formData);
+      print(response);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -31,6 +55,9 @@ class _PostCommentsState extends State<PostComments> {
                 hintText: '코멘트 입력...',
                 border: OutlineInputBorder(),
               ),
+              onSubmitted: (value) {
+                _writeComment();
+              },
             ),
           ),
           widget.comments.isEmpty

@@ -4,6 +4,8 @@ import com.everyschool.userservice.api.controller.client.response.UserResponse;
 import com.everyschool.userservice.api.controller.user.response.UserClientResponse;
 import com.everyschool.userservice.api.controller.user.response.UserInfoResponse;
 import com.everyschool.userservice.api.service.user.dto.SearchEmailDto;
+import com.everyschool.userservice.domain.user.QStudent;
+import com.everyschool.userservice.domain.user.QStudentParent;
 import com.everyschool.userservice.domain.user.User;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -14,6 +16,8 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static com.everyschool.userservice.domain.user.QStudent.*;
+import static com.everyschool.userservice.domain.user.QStudentParent.*;
 import static com.everyschool.userservice.domain.user.QUser.user;
 
 /**
@@ -141,6 +145,18 @@ public class UserQueryRepository {
             ))
             .from(user)
             .where(user.id.eq(userId))
+            .fetchFirst();
+    }
+
+    public String findName(Long schoolClassId, Long parentId) {
+        return queryFactory
+            .select(studentParent.student.name)
+            .from(studentParent)
+            .join(studentParent.student, student)
+            .where(
+                studentParent.parent.id.eq(parentId),
+                studentParent.student.schoolClassId.eq(schoolClassId)
+            )
             .fetchFirst();
     }
 }

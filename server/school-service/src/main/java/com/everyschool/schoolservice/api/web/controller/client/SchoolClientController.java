@@ -31,6 +31,17 @@ public class SchoolClientController {
         return studentInfo;
     }
 
+    @GetMapping("/student-info/{userId}")
+    public StudentInfo searchByUserIdPath(@PathVariable Long userId) {
+        log.debug("call SchoolClientController#searchByUserIdPath");
+        log.debug("userId={}", userId);
+
+        StudentInfo studentInfo = schoolUserQueryService.searchStudentInfo(userId);
+        log.debug("studentInfo={}", studentInfo);
+
+        return studentInfo;
+    }
+
     @PostMapping("/consult-user-infos")
     public List<ConsultUserInfo> searchConsultUser(@RequestBody List<Long> userIds) {
         log.debug("call SchoolClientController#searchConsultUser");

@@ -173,6 +173,11 @@ spring:
         - id: chat-service
           uri: lb://CHAT-SERVICE
           predicates:
+            - Path=/chat-service/client/v1/**
+            - Method=GET, POST
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
             - Path=/chat-service/actuator/**
             - Method=GET,POST
           filters:
@@ -199,6 +204,20 @@ spring:
             - Path=/voiceai-service/v1/**
           filters:
             - RewritePath=/voiceai-service/(?<segment>.*), /$\{segment}
+        # alarm-service
+        - id: alarm-service
+          uri: lb://ALARM-SERVICE
+          predicates:
+            - Path=/alarm-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: alarm-service
+          uri: lb://ALARM-SERVICE
+          predicates:
+            - Path=/alarm-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/alarm-service/(?<segment>.*), /$\{segment}
 
 
 
