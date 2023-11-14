@@ -1,0 +1,13 @@
+[[create-scrap]]
+=== 스크랩 등록 API
+
+==== HTTP Request
+
+include::{snippets}/create-scrap/http-request.adoc[]
+include::{snippets}/create-scrap/request-headers.adoc[]
+include::{snippets}/create-scrap/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/create-scrap/http-response.adoc[]
+include::{snippets}/create-scrap/response-fields.adoc[]

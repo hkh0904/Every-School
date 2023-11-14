@@ -142,4 +142,13 @@ public class UserClientController {
 
         return name;
     }
+
+    @PostMapping("/user-info/user-responses")
+    public List<UserResponse> searchUserById(@RequestBody List<Long> userIds) {
+
+        List<UserResponse> responses = userQueryService.searchUserInfos(userIds);
+        log.debug("result size={}", responses.size());
+
+        return responses;
+    }
 }

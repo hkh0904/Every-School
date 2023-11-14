@@ -13,15 +13,19 @@ include::overview.adoc[]
 
 [[Web-Board-API]]
 == Web Board API
+
 include::api/web/board/web-create-notice-board.adoc[]
 include::api/web/board/web-create-communication-board.adoc[]
 
-
 [[App-Board-API]]
 == App Board API
+
 include::api/app/comment/app-create-comment.adoc[]
 include::api/app/comment/app-create-child-comment.adoc[]
-
+include::api/app/scrap/create-scrap.adoc[]
+include::api/app/scrap/search-my-scrap.adoc[]
+include::api/app/my/app-my-boards.adoc[]
+include::api/app/my/app-my-comments.adoc[]
 
 [[Free-Board-API]]
 == Free Board API
@@ -30,7 +34,8 @@ include::api/board/create-free-board.adoc[]
 include::api/board/search-free-boards.adoc[]
 include::api/board/search-free-board.adoc[]
 include::api/board/search-new-free-boards.adoc[]
-
+include::api/board/search-new-free-boards.adoc[]
+include::api/board/search-new-free-boards.adoc[]
 
 [[Notice-Board-API]]
 == Notice Board API
@@ -38,7 +43,6 @@ include::api/board/search-new-free-boards.adoc[]
 include::api/board/search-notice-boards.adoc[]
 include::api/board/search-notice-board.adoc[]
 include::api/board/search-new-notice-boards.adoc[]
-
 
 [[Communication-Board-API]]
 == Communication Board API

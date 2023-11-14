@@ -28,4 +28,7 @@ public interface UserServiceClient {
 
     @GetMapping("/user-service/client/v1/user-info/{userId}/user-response")
     UserResponse searchUserById(@PathVariable(name = "userId") Long userId);
+
+    @PostMapping("/user-service/client/v1/user-info/user-responses")
+    List<UserResponse> searchUserByIdIn(@RequestBody List<Long> userIds);
 }

@@ -12,18 +12,6 @@ class ReportDetail extends StatefulWidget {
 }
 
 class _ReportDetailState extends State<ReportDetail> {
-  var reportDetail = {
-    'classification': '악성민원',
-    'state': '접수중',
-    'date': '2023.10.12',
-    'time': '14:00',
-    'place': '학교 후문',
-    'suspect': '김OO',
-    'detail':
-        '충 이런 이유입니다.그래서  저쩌고입니다. 대충 이니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.충 이런 이유입니다.그래서 신고를 하고 어쩌고 저쩌고입니다. 대충 이런 이유입니다.',
-    'file': []
-  };
-
   detailList() async {
     final myInfo = context.read<UserStore>().userInfo;
     final year = context.read<UserStore>().year;
@@ -31,13 +19,6 @@ class _ReportDetailState extends State<ReportDetail> {
         year, myInfo['school']['schoolId'], widget.item['reportId']);
     print(response);
     return response;
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    detailList();
   }
 
   TextStyle labelStyle = TextStyle(
@@ -49,7 +30,7 @@ class _ReportDetailState extends State<ReportDetail> {
     switch (state) {
       case '처리 완료':
         return Color(0xff1FAD50);
-      case '접수중':
+      case '접수 완료':
         return Color(0xffFE0000);
       default:
         return Colors.black;
@@ -155,9 +136,9 @@ class _ReportDetailState extends State<ReportDetail> {
                 ),
                 bottomNavigationBar: Container(
                   height: 60,
-                  color: _getColorFromState(reportDetail['state'] as String),
+                  color: _getColorFromState(snapshot.data['status'] as String),
                   child: Center(
-                    child: Text(reportDetail['state'] as String,
+                    child: Text(snapshot.data['status'] as String,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,

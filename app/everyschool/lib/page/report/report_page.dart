@@ -2,11 +2,15 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:everyschool/api/report_api.dart';
+import 'package:everyschool/page/report/my%20_report_list_page.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ReportPage extends StatefulWidget {
-  const ReportPage({super.key});
+  const ReportPage({super.key, this.updateRepPage});
+  final updateRepPage;
 
   @override
   State<ReportPage> createState() => _ReportPageState();
@@ -46,7 +50,10 @@ class _ReportPageState extends State<ReportPage> {
       "why": null
     });
 
-    var response = await ReportApi().writeReport(formData);
+    final year = context.read<UserStore>().year;
+    final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
+
+    var response = await ReportApi().writeReport(year, schoolId, formData);
     if (response.runtimeType != Null) {
       showDialog(
         context: context,
@@ -77,6 +84,8 @@ class _ReportPageState extends State<ReportPage> {
                 ),
                 GestureDetector(
                   onTap: () {
+                    widget.updateRepPage();
+                    Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },
                   child: Container(
@@ -98,19 +107,6 @@ class _ReportPageState extends State<ReportPage> {
           );
         }),
       );
-      setState(() {
-        typeId = null;
-        _selectedType = null;
-        _selectedDate = null;
-        _selectedTime = null;
-        _locationInput = null;
-        _suspectInput = null;
-        _detailInput = null;
-        _filePaths = [];
-      });
-      _fileController.text = _filePaths.isNotEmpty
-          ? _filePaths.map((file) => extractFileName(file.path)).join(", ")
-          : "첨부 파일이 없습니다";
     }
   }
 
@@ -340,7 +336,7 @@ class _ReportPageState extends State<ReportPage> {
                         _detailInput = value;
                       });
                     },
-                    // controller: TextEditingController(text: _detailInput),
+                    // controller: TextEditingController(text: _detailInput ?? ""),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: '상세 내용을 입력해주세요',

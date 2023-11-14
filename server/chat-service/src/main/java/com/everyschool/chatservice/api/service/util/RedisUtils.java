@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RedisUtils {
-    private RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
     public void insertList(String key, String value) {
         redisTemplate.opsForList().rightPush(key, value);

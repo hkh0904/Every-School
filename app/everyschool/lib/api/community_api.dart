@@ -87,22 +87,22 @@ class CommunityApi {
     }
   }
 
-  Future<dynamic> getNewPostList(schoolId) async {
+  Future<dynamic> getNewPostList(year, schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/${schoolId}/boards/new-free');
-      print(response.data);
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/free-boards/new');
+
       return response.data['data'];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<dynamic> getNewNoticeList(schoolId) async {
+  Future<dynamic> getNewNoticeList(year, schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/schools/${schoolId}/boards/new-notice');
-      print(response.data);
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/notice-boards/new');
+      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
       print(e);

@@ -48,6 +48,13 @@ class _ReportCardState extends State<ReportCard> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('돌겠네 ${widget.reportingList}');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return widget.reportingList.length == 0
         ? Container(height: 50, child: Center(child: Text('등록된 신고가 없습니다.')))

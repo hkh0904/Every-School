@@ -1,0 +1,7 @@
+[source,http,options="nowrap"]
+----
+GET /chat-service/v1/chat-review/{chatRoomId}/{reviewId}?date=2023-11-01 HTTP/1.1
+Authorization: jwt
+Host: localhost:8080
+
+----

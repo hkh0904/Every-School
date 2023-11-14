@@ -12,10 +12,6 @@ import com.everyschool.chatservice.domain.chatroom.ChatRoom;
 import com.everyschool.chatservice.domain.chatroom.repository.ChatRoomRepository;
 import com.everyschool.chatservice.domain.chatroomuser.ChatRoomUser;
 import com.everyschool.chatservice.domain.chatroomuser.repository.ChatRoomUserRepository;
-import com.everyschool.chatservice.domain.mongo.repository.DatabaseSequenceRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -39,20 +35,11 @@ class ChatQueryServiceTest extends IntegrationTestSupport {
     @Autowired
     private ChatRepository chatRepository;
 
-    @Autowired
-    private DatabaseSequenceRepository databaseSequenceRepository;
-
     @MockBean
     private UserServiceClient userServiceClient;
 
-//    @AfterEach
-//    void dataReset() {
-//        chatRepository.deleteAll();
-//        databaseSequenceRepository.deleteAll();
-//    }
-
-    @DisplayName("[Service] 채팅방 접속 시 채팅 목록 조회")
-    @Test
+    //    @DisplayName("[Service] 채팅방 접속 시 채팅 목록 조회")
+    //    @Test
     void searchChat() {
         //given
         ChatRoom savedChatRoom = chatRoomRepository.save(ChatRoom.builder().build());

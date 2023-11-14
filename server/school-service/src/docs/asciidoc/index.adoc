@@ -21,6 +21,7 @@ include::api/app/school/app-search-school.adoc[]
 == App School Apply API
 
 include::api/app/schoolapply/app-create-school-apply.adoc[]
+include::api/app/schoolapply/app-exist-school-apply.adoc[]
 
 [[Web-School-Apply-API]]
 == Web School Apply API

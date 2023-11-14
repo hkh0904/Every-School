@@ -1,16 +1,19 @@
 package com.everyschool.openaiservice.api.client.request;
 
+import com.everyschool.openaiservice.api.client.response.dto.Message;
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.List;
 
-public abstract class GptRequest {
+@Data
+public class GptRequest {
     private String model;
-    private List<Messages> messages;
+    private List<Message> messages;
 
-    public List<Messages> getMessages() {
-        return messages;
-    }
-
-    public String getModel() {
-        return model;
+    @Builder
+    private GptRequest(String model, List<Message> messages) {
+        this.model = model;
+        this.messages = messages;
     }
 }

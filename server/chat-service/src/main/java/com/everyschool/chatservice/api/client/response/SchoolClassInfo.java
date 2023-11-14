@@ -20,6 +20,6 @@ public class SchoolClassInfo {
     }
 
     public String getClassName() {
-        return this.getGrade() + "학년 " + this.getClassNum() + "반";
+        return this.schoolYear + " " + this.getGrade() + "학년 " + this.getClassNum() + "반 ";
     }
 }

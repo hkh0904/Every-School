@@ -24,3 +24,9 @@ include::api/chat/search-chat.adoc[]
 
 include::api/filter/create-filter-word.adoc[]
 include::api/filter/check-message-filter.adoc[]
+
+[[review-API]]
+== Review API
+
+include::api/chat/search-warning-list.adoc[]
+include::api/chat/search-warning-detail.adoc[]
