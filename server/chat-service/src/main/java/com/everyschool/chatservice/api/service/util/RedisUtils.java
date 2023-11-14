@@ -31,6 +31,10 @@ public class RedisUtils {
         return size;
     }
 
+    public Boolean containSet(String key, String value) {
+        return redisTemplate.opsForSet().isMember(key,value);
+    }
+
     public Long deleteSet(String key, String value) {
         redisTemplate.opsForSet().remove(key, value);
         Long size = redisTemplate.opsForSet().size(key);
