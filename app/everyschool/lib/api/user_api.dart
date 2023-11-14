@@ -45,7 +45,7 @@ class UserApi {
       final response = await dio.get(
           '${serverApi.serverURL}/user-service$lastAdd',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      return response.data;
+      return response.data['data'];
     } on DioException catch (e) {
       print(e);
       return 0;

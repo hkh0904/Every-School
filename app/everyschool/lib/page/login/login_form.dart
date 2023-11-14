@@ -24,26 +24,35 @@ class _LoginFormState extends State<LoginForm> {
 
   void loginSuccess() async {
     var token = await storage.read(key: 'token');
-    var userKey = await storage.read(key: 'userKey');
+    var userType = await storage.read(key: 'usertype');
     var userInfo = await UserApi().getUserRegisterInfo(token);
+
+    print(token);
+    print(userType);
     print(userInfo);
 
-    if (userKey == "1001") {
-      if (userInfo['message'] == '학급 신청 후 이용바랍니다.') {
+    if (userType == '1001') {
+      print(userInfo);
+      if (userInfo['school']['schoolId'] == null) {
+        print('1111');
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => SelectSchool(),
         ));
-      } else if (userInfo['message'] == 'SUCCESS') {
+      } else if (userInfo['school']['schoolId'] != null) {
+        print('2222');
+
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => Main(),
         ));
       } else {
+        print('3333');
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => ApproveWaiting(),
         ));
       }
-    } else if (userKey == "1002") {
-      if (userInfo['data']['descendants'].length > 0) {
+    } else if (userType == "1002") {
+      print(userInfo);
+      if (userInfo['descendants'].length > 0) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => Main(),
         ));
