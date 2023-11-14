@@ -60,20 +60,20 @@ class UserApi {
         'password': password.text,
         'fcmToken': deviceToken
       });
+
       await storage.write(key: 'token', value: response.headers['token']?[0]);
       await storage.write(
           key: 'userKey', value: response.headers['userKey']?[0]);
       await storage.write(
           key: 'usertype', value: response.headers['usertype']?[0]);
       var userInfo = await getUserInfo(response.headers['token']?[0]);
-      if (userInfo['userType'] == 1002) {
+
+      if (userInfo['userType'] == 1002 && userInfo['descendants'].length != 0) {
         await storage.write(
             key: 'descendant', value: jsonEncode(userInfo['descendants'][0]));
-      }
-      print('액세스토큰 ${response.headers['token']?[0]}');
-      return 1;
-    } catch (e) {
-      print(e);
+      } else
+        return 1;
+    } on DioException {
       return 0;
     }
   }
@@ -204,6 +204,23 @@ class UserApi {
       return response.data;
     } on DioException catch (e) {
       return e.response?.data;
+    }
+  }
+
+  //비밀번호 변경
+  Future<dynamic> changePassword(token, curPwd, newPwd) async {
+    print(token);
+    try {
+      final response = await dio.patch(
+          '${serverApi.serverURL}/user-service/v1/pwd',
+          data: {'currentPwd': curPwd, 'newPwd': newPwd},
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      return response.data['message'];
+    } on DioException catch (e) {
+      print(e.response?.data);
+
+      return e.response?.data['data'];
     }
   }
 }

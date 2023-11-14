@@ -68,15 +68,8 @@ class _ChatListState extends State<ChatList> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('제발 쳇리스트 ${widget.chatroomList}');
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return widget.chatroomList == null
+    return widget.chatroomList == null || widget.chatroomList?.length == 0
         ? Container()
         : Container(
             child: ListView.builder(
