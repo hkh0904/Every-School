@@ -4,8 +4,6 @@ import 'package:everyschool/page/community/create_post.dart';
 
 class PostlistPage extends StatefulWidget {
   final String pageTitle;
-
-  // 생성자에서 pageTitle 매개변수를 받습니다.
   const PostlistPage({Key? key, required this.pageTitle}) : super(key: key);
 
   @override
@@ -13,11 +11,20 @@ class PostlistPage extends StatefulWidget {
 }
 
 class _PostlistPageState extends State<PostlistPage> {
+  // 새로고침을 위한 플래그
+  bool needRefresh = false;
+
+  void refreshPostList() {
+    setState(() {
+      needRefresh = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context); // 이전 페이지로 돌아가기
+        Navigator.pop(context, 'refresh'); // 이전 페이지로 돌아가기
         return true;
       },
       child: Scaffold(
@@ -29,7 +36,7 @@ class _PostlistPageState extends State<PostlistPage> {
             iconSize: 30,
             icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
             onPressed: () {
-              Navigator.pop(context); // 이전 페이지로 돌아가기
+              Navigator.pop(context, 'refresh'); // 이전 페이지로 돌아가기
             },
           ),
           title: Text(
@@ -52,12 +59,20 @@ class _PostlistPageState extends State<PostlistPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => CreatePost()), // CreatePost 페이지로 이동
-                );
+                ).then((check) {
+                  if (check == 'refresh') {
+                    refreshPostList();
+                  }
+                });
               },
             ),
           ],
         ),
-        body: PostList(pageTitle: widget.pageTitle), // PostList 위젯을 직접 호출
+        body: PostList(
+          key: UniqueKey(), // 새로고침을 위해 UniqueKey 사용
+          pageTitle: widget.pageTitle,
+          needRefresh: needRefresh,
+        ),
       ),
     );
   }

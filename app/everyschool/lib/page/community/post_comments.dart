@@ -59,6 +59,7 @@ class _PostCommentsState extends State<PostComments> {
   }
 
   Future<void> _writeReComment(commentId) async {
+    print(commentId);
     var response;
     try {
       var formData = {'content': recommentController.text};
@@ -76,6 +77,7 @@ class _PostCommentsState extends State<PostComments> {
   @override
   void initState() {
     super.initState();
+    print(widget.comments);
   }
 
   String formatDateTime(String dateTimeStr) {
@@ -153,7 +155,7 @@ class _PostCommentsState extends State<PostComments> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildComment(comment),
-                      ..._buildReComments(comment['reComment']),
+                      ..._buildReComments(comment['reComments']),
                     ],
                   );
                 },

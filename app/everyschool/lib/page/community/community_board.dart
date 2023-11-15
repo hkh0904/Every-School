@@ -1,5 +1,5 @@
-import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/page/community/postlist_page.dart';
 import 'package:everyschool/page/community/post_detail.dart';
@@ -36,15 +36,16 @@ class _CommunityBoardState extends State<CommunityBoard> {
       schoolYear = selectDescendant["schoolClass"]["schoolYear"];
       schoolId = selectDescendant["school"]["schoolId"];
     } else {
-      schoolYear = context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
+      schoolYear =
+          context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
       schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
     }
     var response;
     try {
       if (userType == 1001) {
-        response = await communityApi.getBoardList(schoolYear, schoolId);
+        response = await communityApi.getBoardList(schoolYear, schoolId, 1);
       } else if (userType == 1002 || userType == 1003) {
-        response = await communityApi.getNoticeList(schoolYear, schoolId);
+        response = await communityApi.getNoticeList(schoolYear, schoolId, 1);
       }
       if (response != null && response['content'] != null) {
         setState(() {
@@ -125,7 +126,12 @@ class _CommunityBoardState extends State<CommunityBoard> {
                         builder: (context) =>
                             PostlistPage(pageTitle: pageTitle),
                       ),
-                    );
+                    ).then((check) {
+                      print(check);
+                      if (check == 'refresh') {
+                        _loadBoardData();
+                      }
+                    });
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -7,10 +7,10 @@ class CommunityApi {
   Dio dio = Dio();
   ServerApi serverApi = ServerApi();
 
-  Future<dynamic> getBoardList(schoolYear, schoolId) async {
+  Future<dynamic> getBoardList(schoolYear, schoolId, page) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/free-boards?page=1');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/free-boards?page=$page');
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -31,20 +31,20 @@ class CommunityApi {
     }
   }
 
-  Future<dynamic> getNoticeList(schoolYear, schoolId) async {
+  Future<dynamic> getNoticeList(schoolYear, schoolId, page) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/notice-boards?page=1');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/notice-boards?page=$page');
       return response.data['data'];
     } catch (e) {
       print(e);
     }
   }
 
-  Future<dynamic> getHomeNoticeList(schoolYear, schoolId) async {
+  Future<dynamic> getHomeNoticeList(schoolYear, schoolId, page) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/communication-boards?page=1');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/communication-boards?page=$page');
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -88,6 +88,8 @@ class CommunityApi {
   Future<dynamic> writeRecomment(
       boardId, schoolId, schoolYear, commentId, formData) async {
     print(
+        '===============================================================================================');
+    print(
         '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments/$commentId');
     String? token = await storage.read(key: 'token');
     try {
@@ -100,7 +102,7 @@ class CommunityApi {
       print(response.data);
       return response.data['data'];
     } catch (e) {
-      print("에러 발생 $e");
+      print("답글 에러발생 $e");
       return null;
     }
   }
