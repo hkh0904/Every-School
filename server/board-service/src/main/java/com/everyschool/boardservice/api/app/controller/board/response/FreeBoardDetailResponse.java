@@ -15,6 +15,7 @@ public class FreeBoardDetailResponse {
     private String content;
     private int commentCount;
     private int scrapCount;
+    private Boolean inMyScrap;
     private Boolean isMine;
     private Boolean isUsedComment;
     private LocalDateTime createdDate;
@@ -22,12 +23,13 @@ public class FreeBoardDetailResponse {
     private List<CommentVo> comments;
 
     @Builder
-    private FreeBoardDetailResponse(Long boardId, String title, String content, int commentCount, int scrapCount, Boolean isMine, Boolean isUsedComment, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
+    private FreeBoardDetailResponse(Long boardId, String title, String content, int commentCount, int scrapCount, Boolean inMyScrap, Boolean isMine, Boolean isUsedComment, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.commentCount = commentCount;
         this.scrapCount = scrapCount;
+        this.inMyScrap = inMyScrap;
         this.isMine = isMine;
         this.isUsedComment = isUsedComment;
         this.createdDate = createdDate;
@@ -35,19 +37,20 @@ public class FreeBoardDetailResponse {
         this.comments = comments;
     }
 
-    public static FreeBoardDetailResponse of(Board board, Long userId, List<String> imageUrls, List<CommentVo> comments) {
+    public static FreeBoardDetailResponse of(Board board, Long userId, List<String> imageUrls, List<CommentVo> comments, Boolean inMyScrap) {
         return FreeBoardDetailResponse.builder()
-            .boardId(board.getId())
-            .title(board.getTitle())
-            .content(board.getContent())
-            .commentCount(board.getCommentCount())
-            .isMine(board.getUserId().equals(userId))
-            .isUsedComment(board.getIsUsedComment())
-            .scrapCount(board.getScrapCount())
-            .createdDate(board.getCreatedDate())
-            .imageUrls(imageUrls)
-            .comments(comments)
-            .build();
+                .boardId(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .commentCount(board.getCommentCount())
+                .isMine(board.getUserId().equals(userId))
+                .isUsedComment(board.getIsUsedComment())
+                .scrapCount(board.getScrapCount())
+                .inMyScrap(inMyScrap)
+                .createdDate(board.getCreatedDate())
+                .imageUrls(imageUrls)
+                .comments(comments)
+                .build();
     }
 
     @Data

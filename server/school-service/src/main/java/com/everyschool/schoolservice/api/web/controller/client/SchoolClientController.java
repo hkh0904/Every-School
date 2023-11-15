@@ -98,7 +98,7 @@ public class SchoolClientController {
         return result;
     }
 
-    @GetMapping("/applies/existParent")
+    @PostMapping("/applies/existParent")
     public boolean existApplyParent(@RequestBody Long parentId) {
 
         boolean result = schoolApplyQueryService.existApplyParent(parentId);
