@@ -498,6 +498,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                 .content("11월 2일부터 교내 배수로 보수 공사에 들어갑니다.")
                 .commentCount(3)
                 .scrapCount(0)
+                .inMyScrap(false)
                 .isMine(false)
                 .createdDate(LocalDateTime.now())
                 .imageUrls(List.of("imageUrl1", "imageUrl2"))
@@ -533,6 +534,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                                         .description("게시글 댓글수"),
                                 fieldWithPath("data.scrapCount").type(JsonFieldType.NUMBER)
                                         .description("게시글 스크랩 수"),
+                                fieldWithPath("data.inMyScrap").type(JsonFieldType.BOOLEAN)
+                                        .description("스크랩 여부"),
                                 fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
                                         .description("게시글 본인 작성 여부"),
                                 fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
@@ -602,6 +605,7 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                 .content("제주도로 수학 여행을 떠날 예정입니다.")
                 .commentCount(1)
                 .scrapCount(0)
+                .inMyScrap(true)
                 .isMine(false)
                 .createdDate(LocalDateTime.now())
                 .imageUrls(List.of("imageUrl1", "imageUrl2"))
@@ -637,6 +641,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                                         .description("게시글 댓글수"),
                                 fieldWithPath("data.scrapCount").type(JsonFieldType.NUMBER)
                                         .description("게시글 스크랩 수"),
+                                fieldWithPath("data.inMyScrap").type(JsonFieldType.BOOLEAN)
+                                        .description("내가 스크랩 했나?"),
                                 fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN)
                                         .description("게시글 본인 작성 여부"),
                                 fieldWithPath("data.createdDate").type(JsonFieldType.ARRAY)
