@@ -16,4 +16,14 @@ class UserStore extends ChangeNotifier {
     year = data;
     notifyListeners();
   }
+
+  bool policycheck = false;
+  changePolicyCheck() {
+    policycheck = !policycheck;
+    notifyListeners();
+  }
+
+  disposePolicyCheck() {
+    policycheck = false;
+  }
 }

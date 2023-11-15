@@ -1,5 +1,7 @@
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/login/login_page.dart';
+import 'package:everyschool/page/signup/private_policy.dart';
+import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -314,60 +316,62 @@ class _AddInfoFormState extends State<AddInfoForm> {
                   ],
                 ),
               ),
+              Padding(
+                  padding: EdgeInsets.all(1),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (context.read<UserStore>().policycheck) {
+                        context.read<UserStore>().changePolicyCheck();
+                        setState(() {});
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: ((context) {
+                            return AlertDialog(
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    context
+                                        .read<UserStore>()
+                                        .changePolicyCheck();
+                                    setState(() {});
 
-              // Padding(
-              //     padding: EdgeInsets.all(1),
-              //     child: GestureDetector(
-              //       onTap: () {
-              //         if (context.read<UserStore>().policycheck) {
-              //           context.read<UserStore>().changePolicyCheck();
-              //           setState(() {});
-              //         } else {
-              //           showDialog(
-              //             context: context,
-              //             builder: ((context) {
-              //               return AlertDialog(
-              //                 actions: <Widget>[
-              //                   TextButton(
-              //                     onPressed: () {
-              //                       context
-              //                           .read<UserStore>()
-              //                           .changePolicyCheck();
-              //                       setState(() {});
-
-              //                       Navigator.of(context).pop();
-              //                     },
-              //                     child: Text('동의'),
-              //                   ),
-              //                 ],
-              //                 title: Text('<채움> 개인정보 처리 방안'),
-              //                 content: SizedBox(
-              //                   height: 300,
-              //                   child: SingleChildScrollView(
-              //                     child: Policycheck(),
-              //                   ),
-              //                 ),
-              //               );
-              //             }),
-              //           );
-              //         }
-              //       },
-              //       child: Row(
-              //         children: [
-              //           Checkbox(
-              //               value: context.watch<UserStore>().policycheck,
-              //               onChanged: null),
-              //           Text('개인정보 처리방침에 동의합니다.'),
-              //         ],
-              //       ),
-              //     )),
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('동의'),
+                                ),
+                              ],
+                              title: Text('<채움> 개인정보 처리 방안'),
+                              content: SizedBox(
+                                height: 300,
+                                child: SingleChildScrollView(
+                                  child: Policycheck(),
+                                ),
+                              ),
+                            );
+                          }),
+                        );
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        Checkbox(
+                            value: context.watch<UserStore>().policycheck,
+                            onChanged: null),
+                        Text('개인정보 처리방침에 동의합니다.'),
+                      ],
+                    ),
+                  )),
               SizedBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Flexible(
                       child: TextButton(
-                          onPressed: yearcheck && monthcheck && daycheck
+                          onPressed: yearcheck &&
+                                  monthcheck &&
+                                  daycheck &&
+                                  context.watch<UserStore>().policycheck
                               ? () async {
                                   print(widget.type);
                                   if (month.text.length == 1) {
@@ -447,7 +451,8 @@ class _AddInfoFormState extends State<AddInfoForm> {
                           style: ButtonStyle(
                               backgroundColor: yearcheck &&
                                       monthcheck &&
-                                      daycheck
+                                      daycheck &&
+                                      context.watch<UserStore>().policycheck
                                   ? MaterialStatePropertyAll(Color(0xff15075F))
                                   : MaterialStatePropertyAll(Colors.grey)),
                           child: SizedBox(

@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { changeLoginId } from '../../slices/UserSlice';
 import { login } from '../../api/UserAPI/userAPI';
+import { Link } from 'react-router-dom';
 
 function Login() {
   const [id, setId] = useState('');
@@ -89,6 +90,9 @@ function Login() {
           </div>
         </form>
       </div>
+      <Link to='/policy' className={styles.policy}>
+        개인정보 처리방침
+      </Link>
     </div>
   );
 }
