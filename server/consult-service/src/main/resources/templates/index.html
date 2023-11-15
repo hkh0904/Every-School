@@ -546,14 +546,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /consult-service/v1/app/2023/schools/100000/consults HTTP/1.1
 Content-Type: application/json
-Content-Length: 275
+Content-Length: 282
 Host: localhost:8080
 
 {
-  "teacherKey" : "e66419b4-ae59-4aab-8435-1c9cd1603852",
-  "studentKey" : "23400e19-5bae-4908-87d1-501bbb38762d",
+  "teacherKey" : "a8a4a109-de45-46be-b945-919fe27af49e",
+  "studentKey" : "beaca021-cd72-4ac0-8f07-b696a5526261",
   "typeId" : 4001,
-  "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 530053000 ],
+  "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 241712500 ],
   "message" : "우리 아이 진로에 대해서 상담하고 싶습니다."
 }</code></pre>
 </div>
@@ -616,7 +616,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
 Content-Type: application/json
-Content-Length: 394
+Content-Length: 407
 
 {
   "code" : 201,
@@ -627,7 +627,7 @@ Content-Length: 394
     "type" : "방문상담",
     "teacherInfo" : "2학년 2반 정인재 선생님",
     "parentInfo" : "2학년 2반 3번 이리온 어머님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 530053000 ],
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 241712500 ],
     "message" : "우리 아이 진로에 대해서 상담하고 싶습니다."
   }
 }</code></pre>
@@ -722,7 +722,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 683
+Content-Length: 709
 
 {
   "code" : 200,
@@ -733,19 +733,19 @@ Content-Length: 683
     "type" : "방문상담",
     "status" : "승인 대기중",
     "info" : "2학년 3반 이예리 선생님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 572996000 ]
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 516711800 ]
   }, {
     "consultId" : 2,
     "type" : "방문상담",
     "status" : "상담 불가",
     "info" : "2학년 3반 이예리 선생님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 572993000 ]
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 516711800 ]
   }, {
     "consultId" : 3,
     "type" : "방문상담",
     "status" : "상담 완료",
     "info" : "2학년 3반 이예리 선생님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 572981000 ]
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 516711800 ]
   } ]
 }</code></pre>
 </div>
@@ -834,7 +834,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 498
+Content-Length: 514
 
 {
   "code" : 200,
@@ -846,7 +846,7 @@ Content-Length: 498
     "status" : "상담 완료",
     "teacherInfo" : "2학년 3반 이예리 선생님",
     "parentInfo" : "2학년 3반 18번 임우택 어머님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 598659000 ],
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 615714200 ],
     "message" : "우리 아이 진로 상담을 원합니다.",
     "resultContent" : "개발자의 길을 안내했습니다.",
     "rejectReason" : null
@@ -958,7 +958,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 701
+Content-Length: 727
 
 {
   "code" : 200,
@@ -969,19 +969,19 @@ Content-Length: 701
     "type" : "방문상담",
     "status" : "승인 대기중",
     "info" : "2학년 3반 13번 신성주 아버님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 559723000 ]
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 457712000 ]
   }, {
     "consultId" : 2,
     "type" : "방문상담",
     "status" : "상담 불가",
     "info" : "2학년 3반 17번 이예리 어머님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 559718000 ]
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 457712000 ]
   }, {
     "consultId" : 3,
     "type" : "방문상담",
     "status" : "상담 완료",
     "info" : "2학년 3반 18번 임우택 어머님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 559701000 ]
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 457712000 ]
   } ]
 }</code></pre>
 </div>
@@ -1070,7 +1070,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 498
+Content-Length: 514
 
 {
   "code" : 200,
@@ -1082,7 +1082,7 @@ Content-Length: 498
     "status" : "상담 완료",
     "teacherInfo" : "2학년 3반 이예리 선생님",
     "parentInfo" : "2학년 3반 18번 임우택 어머님",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 585739000 ],
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 567712000 ],
     "message" : "우리 아이 진로 상담을 원합니다.",
     "resultContent" : "개발자의 길을 안내했습니다.",
     "rejectReason" : null
@@ -1217,7 +1217,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 552
+Content-Length: 565
 
 {
   "code" : 200,
@@ -1355,7 +1355,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 763
+Content-Length: 907
 
 {
   "code" : 200,
@@ -1367,17 +1367,19 @@ Content-Length: 763
       "consultId" : 1,
       "type" : "전화상담",
       "status" : "승인 대기중",
-      "parentInfo" : "2학년 2반 14번 이예리 어머님",
-      "consultDateTime" : [ 2023, 11, 14, 23, 2, 16, 844716000 ],
-      "lastModifiedDate" : [ 2023, 11, 14, 23, 2, 16, 844728000 ],
+      "parentInfo" : "2학년 2반 14번 설인아 어머님",
+      "consultReason" : "인아가 너무 예뻐요",
+      "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 997711800 ],
+      "lastModifiedDate" : [ 2023, 11, 15, 10, 56, 48, 997711800 ],
       "rejectedReason" : ""
     }, {
       "consultId" : 2,
       "type" : "방문상담",
       "status" : "승인 대기중",
       "parentInfo" : "2학년 2반 8번 김민기 어머님",
-      "consultDateTime" : [ 2023, 11, 14, 23, 2, 16, 844740000 ],
-      "lastModifiedDate" : [ 2023, 11, 14, 23, 2, 16, 844743000 ],
+      "consultReason" : "민기가 인아를 좋아해요",
+      "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 997711800 ],
+      "lastModifiedDate" : [ 2023, 11, 15, 10, 56, 48, 997711800 ],
       "rejectedReason" : ""
     } ]
   }
@@ -1447,6 +1449,11 @@ Content-Length: 763
 <td class="tableblock halign-left valign-top"><p class="tableblock">학부모 정보</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].consultReason</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상담 신청 이유</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.content[].consultDateTime</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">상담 일시</p></td>
@@ -1483,7 +1490,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 513
+Content-Length: 529
 
 {
   "code" : 200,
@@ -1498,7 +1505,7 @@ Content-Length: 513
     "message" : "우리 아이가 고양이를 좋아해요.",
     "resultContent" : "리온이와 둘만의 시간을 주는걸 권장하였습니다.",
     "rejectedReason" : "",
-    "lastModifiesDate" : [ 2023, 11, 14, 23, 2, 16, 731303000 ]
+    "lastModifiesDate" : [ 2023, 11, 15, 10, 56, 48, 954715800 ]
   }
 }</code></pre>
 </div>
@@ -1606,7 +1613,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 233
+Content-Length: 244
 
 {
   "code" : 200,
@@ -1616,7 +1623,7 @@ Content-Length: 233
     "consultId" : 1,
     "type" : "방문상담",
     "progressStatus" : "승인 완료",
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 681588000 ]
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 888714800 ]
   }
 }</code></pre>
 </div>
@@ -1690,7 +1697,7 @@ Content-Length: 233
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /consult-service/v1/web/2023/schools/21617/consults/1/finish HTTP/1.1
 Content-Type: application/json
-Content-Length: 59
+Content-Length: 61
 Host: localhost:8080
 
 {
@@ -1732,7 +1739,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 292
+Content-Length: 304
 
 {
   "code" : 200,
@@ -1740,7 +1747,7 @@ Content-Length: 292
   "message" : "SUCCESS",
   "data" : {
     "consultId" : 1,
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 647197000 ],
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 763715100 ],
     "progressStatus" : "상담 완료",
     "type" : "전화상담",
     "resultContent" : "학습 지도를 하였습니다."
@@ -1822,7 +1829,7 @@ Content-Length: 292
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /consult-service/v1/web/2023/schools/21617/consults/1/reject HTTP/1.1
 Content-Type: application/json
-Content-Length: 83
+Content-Length: 85
 Host: localhost:8080
 
 {
@@ -1864,7 +1871,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 316
+Content-Length: 328
 
 {
   "code" : 200,
@@ -1872,7 +1879,7 @@ Content-Length: 316
   "message" : "SUCCESS",
   "data" : {
     "consultId" : 1,
-    "consultDateTime" : [ 2023, 11, 14, 23, 2, 18, 667740000 ],
+    "consultDateTime" : [ 2023, 11, 15, 10, 56, 48, 837716100 ],
     "progressStatus" : "승인 완료",
     "type" : "방문상담",
     "rejectedReason" : "교직원 연수 일정으로 상담이 불가합니다."
@@ -1969,7 +1976,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 606
+Content-Length: 621
 
 {
   "code" : 200,
@@ -1983,7 +1990,7 @@ Content-Length: 606
     "wednesday" : [ true, true, true, false, false, false, false, false ],
     "thursday" : [ true, true, true, false, false, false, false, false ],
     "friday" : [ true, true, true, false, false, false, false, false ],
-    "lastModifiedDate" : [ 2023, 11, 14, 23, 2, 18, 760114000 ]
+    "lastModifiedDate" : [ 2023, 11, 15, 10, 56, 49, 192713200 ]
   }
 }</code></pre>
 </div>
@@ -2078,7 +2085,7 @@ Content-Length: 606
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /consult-service/v1/app/2023/schools/100000/consult-schedules/1/description HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 67
+Content-Length: 69
 Host: localhost:8080
 
 {
@@ -2120,7 +2127,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 606
+Content-Length: 620
 
 {
   "code" : 200,
@@ -2134,7 +2141,7 @@ Content-Length: 606
     "wednesday" : [ true, true, true, false, false, false, false, false ],
     "thursday" : [ true, true, true, false, false, false, false, false ],
     "friday" : [ true, true, true, false, false, false, false, false ],
-    "lastModifiedDate" : [ 2023, 11, 14, 23, 2, 18, 721801000 ]
+    "lastModifiedDate" : [ 2023, 11, 15, 10, 56, 49, 76714600 ]
   }
 }</code></pre>
 </div>
@@ -2229,7 +2236,7 @@ Content-Length: 606
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /consult-service/v1/app/2023/schools/100000/consult-schedules/1/schedules HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer Access Token
-Content-Length: 358
+Content-Length: 364
 Host: localhost:8080
 
 {
@@ -2299,7 +2306,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 606
+Content-Length: 621
 
 {
   "code" : 200,
@@ -2313,7 +2320,7 @@ Content-Length: 606
     "wednesday" : [ true, true, true, false, false, false, false, false ],
     "thursday" : [ true, true, true, false, false, false, false, false ],
     "friday" : [ true, true, true, false, false, false, false, false ],
-    "lastModifiedDate" : [ 2023, 11, 14, 23, 2, 18, 737168000 ]
+    "lastModifiedDate" : [ 2023, 11, 15, 10, 56, 49, 125712300 ]
   }
 }</code></pre>
 </div>
@@ -2405,7 +2412,7 @@ Content-Length: 606
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2023-11-11 19:40:16 +0900
+Last updated 2023-11-15 09:20:12 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
