@@ -26,7 +26,7 @@ class _PostDetailState extends State<PostDetail> {
   int? userType;
   String? schoolName;
   late dynamic tempScrapCount;
-  late dynamic tempMyScrap;
+  late bool tempMyScrap;
 
   @override
   void initState() {
