@@ -23,6 +23,7 @@ import RegisterNotiPage from './../pages/Notification/RegisterNotiPage';
 import Payment from '../pages/Notification/Payment';
 import PayRegisterNotiPage from '../pages/Notification/PayRegisterNotiPage';
 import PayNotiDetailPage from '../pages/Notification/PayNotiDetailPage';
+import Policy from '../pages/LoginAndSignup/Policy';
 
 function RouteLink() {
   return (
@@ -33,6 +34,7 @@ function RouteLink() {
           {/* 회원 */}
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
+          <Route path='/policy' element={<Policy />} />
         </Route>
 
         {/* 로그인으로 보호받는 주소 */}
