@@ -30,17 +30,17 @@ public class SchoolApplyQueryService {
         List<SchoolApply> schoolApplies = schoolApplyQueryRepository.findByTeacherId(userInfo.getUserId(), status);
 
         List<Long> studentIds = schoolApplies.stream()
-            .map(SchoolApply::getStudentId)
-            .collect(Collectors.toList());
+                .map(SchoolApply::getStudentId)
+                .collect(Collectors.toList());
 
         List<UserResponse> studentInfos = userServiceClient.searchByStudentIdIn(studentIds);
 
         Map<Long, UserResponse> map = studentInfos.stream()
-            .collect(Collectors.toMap(UserResponse::getUserId, studentInfo -> studentInfo, (a, b) -> b));
+                .collect(Collectors.toMap(UserResponse::getUserId, studentInfo -> studentInfo, (a, b) -> b));
 
         List<SchoolApplyResponse> responses = schoolApplies.stream()
-            .map(schoolApply -> SchoolApplyResponse.of(schoolApply, map.get(schoolApply.getStudentId())))
-            .collect(Collectors.toList());
+                .map(schoolApply -> SchoolApplyResponse.of(schoolApply, map.get(schoolApply.getStudentId())))
+                .collect(Collectors.toList());
 
         return responses;
     }
@@ -59,5 +59,9 @@ public class SchoolApplyQueryService {
 
     public boolean existApply(Long studentId) {
         return schoolApplyQueryRepository.existApply(studentId);
+    }
+
+    public boolean existApplyParent(Long parentId) {
+        return schoolApplyQueryRepository.existApplyParent(parentId);
     }
 }
