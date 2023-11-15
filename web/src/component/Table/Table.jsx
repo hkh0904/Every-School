@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTable, useGlobalFilter, useSortBy, usePagination } from 'react-table';
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
@@ -10,7 +10,6 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { accessClass, rejectAccessClass } from '../../api/SchoolAPI/schoolAPI';
 import { approveConsulting, rejectConsulting } from '../../api/ConsultingAPI/consultingAPI';
 import ConsultDetailModal from '../../pages/ConsultHistory/ConsultDetailModal';
-import { useState } from 'react';
 
 export default function Table({ columns, data }) {
   const {
@@ -38,10 +37,12 @@ export default function Table({ columns, data }) {
   const navigate = useNavigate();
 
   // 핸들러 함수들
-
   const handleComplain = (complainId, reportedDate) => {
+    console.log(complainId);
     if (typeof complainId === 'string') {
-      navigate('/badcomplain/chat/detail', { state: { complainId, reportedDate } });
+      navigate('/badcomplain/chat/detail', {
+        state: { complainId, reportedDate }
+      });
     } else if (typeof complainId === 'number') {
       navigate('/badcomplain/call/detail', { state: { complainId } });
     }
@@ -150,8 +151,20 @@ export default function Table({ columns, data }) {
                         </div>
                       </td>
                     );
-
                     //상담 디테일
+                  } else if (cell.column.id === 'complainDetail') {
+                    return (
+                      <td className={styles.tableEle} {...cell.getCellProps()}>
+                        <div
+                          className={styles.row}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handleComplain(cell.row.values.complainId, cell.row.values.reportedDate)}
+                        >
+                          <span className={styles.detailText}>상세내역 확인</span>
+                          <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
+                        </div>
+                      </td>
+                    );
                   } else if (cell.column.id === 'approvereject') {
                     return (
                       <td className={styles.tableEle} {...cell.getCellProps()}>
@@ -183,19 +196,19 @@ export default function Table({ columns, data }) {
                         </div>
                       </td>
                     );
-                  } else if (cell.column.id === 'approveday') {
-                    return (
-                      <td className={styles.tableEle} {...cell.getCellProps()}>
-                        <div
-                          className={styles.row}
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => handleComplain(cell.row.values.complainId, cell.row.values.reportedDate)}
-                        >
-                          <span className={styles.detailText}>승인 날짜</span>
-                          <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
-                        </div>
-                      </td>
-                    );
+                    // } else if (cell.column.id === 'approveday') {
+                    //   return (
+                    //     <td className={styles.tableEle} {...cell.getCellProps()}>
+                    //       <div
+                    //         className={styles.row}
+                    //         style={{ cursor: 'pointer' }}
+                    //         onClick={() => handleComplain(cell.row.values.complainId, cell.row.values.reportedDate)}
+                    //       >
+                    //         <span className={styles.detailText}>승인 날짜</span>
+                    //         <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
+                    //       </div>
+                    //     </td>
+                    //   );
                   } else if (cell.column.id === 'titlepay') {
                     return (
                       <td className={styles.tableEle} {...cell.getCellProps()}>

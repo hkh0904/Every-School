@@ -54,28 +54,33 @@ class _PopularPostState extends State<PopularPost> {
           scoredPosts.take(2).map((e) => e['post']).toList();
 
       setState(() {
-        popPost = topPosts; // 상위 2개의 게시물을 popPost에 저장
+        popPost = topPosts;
+        print(popPost);
       });
     } catch (e) {
       print('커뮤니티 보드 에러: $e');
     }
   }
 
-  String formatText(String text) {
-    if (text.length > 30) {
-      text = '${text.substring(0, 30)}...';
+  String formatText(String content) {
+    // 줄바꿈을 공백으로 대체
+    String combinedText = content.replaceAll('\n', ' ');
+
+    // 합친 문자열이 30자를 초과하면 30자로 제한
+    if (combinedText.length > 45) {
+      combinedText = combinedText.substring(0, 45);
     }
 
-    // 이미 문자열이 30자를 초과하더라도, 10자가 넘으면 여전히 줄바꿈을 적용합니다.
-    if (text.length > 20) {
-      int breakIndex = text.indexOf(' ', 20);
+    // 20자 이상이면 줄바꿈을 적용
+    if (combinedText.length > 20) {
+      int breakIndex = combinedText.indexOf(' ', 20);
       if (breakIndex != -1) {
-        text =
-            '${text.substring(0, breakIndex)}\n${text.substring(breakIndex + 1)}';
+        combinedText =
+            '${combinedText.substring(0, breakIndex)}\n${combinedText.substring(breakIndex + 1)}...';
+        ;
       }
     }
-
-    return text;
+    return combinedText;
   }
 
   @override
@@ -94,7 +99,7 @@ class _PopularPostState extends State<PopularPost> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
             Container(
-              height: 340,
+              height: 255,
               margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
               decoration: BoxDecoration(
                 border: Border.all(
@@ -138,7 +143,7 @@ class _PopularPostState extends State<PopularPost> {
                       }
                     },
                     child: Container(
-                      height: 160,
+                      height: 120,
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(
@@ -147,34 +152,68 @@ class _PopularPostState extends State<PopularPost> {
                             height: 16,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                width: 24,
-                                height: 24,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6)),
-                                ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Image.asset(
-                                    'assets/images/community/user.png',
-                                    width: 18,
-                                    height: 18,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.asset(
+                                        'assets/images/community/user.png',
+                                        width: 18,
+                                        height: 18,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      '익명',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  '익명',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.comment_outlined,
+                                    color: Colors.cyan[400],
+                                    size: 22,
                                   ),
-                                ),
+                                  Text(
+                                    ' ${popPost[index]['commentCount'].toString()}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.cyan[400]),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Color.fromARGB(255, 255, 108, 152),
+                                    size: 22,
+                                  ),
+                                  SizedBox(width: 2),
+                                  Text(
+                                    '${popPost[index]['scrapCount'].toString()}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(255, 255, 108, 152)),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -212,35 +251,6 @@ class _PopularPostState extends State<PopularPost> {
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(
-                                Icons.comment_outlined,
-                                color: Colors.cyan[400],
-                                size: 22,
-                              ),
-                              Text(
-                                ' ${popPost[index]['commentCount'].toString()}',
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.cyan[400]),
-                              ),
-                              SizedBox(width: 5),
-                              Icon(
-                                Icons.favorite,
-                                color: Color.fromARGB(255, 255, 108, 152),
-                                size: 22,
-                              ),
-                              SizedBox(width: 2),
-                              Text(
-                                '${popPost[index]['scrapCount'].toString()}',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color.fromARGB(255, 255, 108, 152)),
-                              ),
-                            ],
                           ),
                         ],
                       ),

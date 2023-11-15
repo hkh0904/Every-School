@@ -46,23 +46,25 @@ class _PostlistPageState extends State<PostlistPage> {
             ),
           ),
           actions: [
-            IconButton(
-              iconSize: 25,
-              icon: Icon(
-                Icons.add,
+            if (widget.pageTitle == '자유게시판')
+              IconButton(
+                iconSize: 25,
+                icon: Icon(
+                  Icons.add,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CreatePost()), // CreatePost 페이지로 이동
+                  ).then((check) {
+                    if (check == 'refresh') {
+                      refreshPostList();
+                    }
+                  });
+                },
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreatePost()), // CreatePost 페이지로 이동
-                ).then((check) {
-                  if (check == 'refresh') {
-                    refreshPostList();
-                  }
-                });
-              },
-            ),
           ],
         ),
         body: PostList(
