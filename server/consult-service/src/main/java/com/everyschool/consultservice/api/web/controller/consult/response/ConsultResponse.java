@@ -14,16 +14,18 @@ public class ConsultResponse {
     private String type;
     private String status;
     private String parentInfo;
+    private String consultReason;
     private LocalDateTime consultDateTime;
     private LocalDateTime lastModifiedDate;
     private String rejectedReason;
 
     @Builder
-    public ConsultResponse(Long consultId, int type, int status, String parentInfo, LocalDateTime consultDateTime, LocalDateTime lastModifiedDate, String rejectedReason) {
+    public ConsultResponse(Long consultId, int type, int status, String parentInfo, String consultReason, LocalDateTime consultDateTime, LocalDateTime lastModifiedDate, String rejectedReason) {
         this.consultId = consultId;
         this.type = ConsultType.getText(type);
         this.status = ProgressStatus.getText(status);
         this.parentInfo = parentInfo;
+        this.consultReason = consultReason;
         this.consultDateTime = consultDateTime;
         this.lastModifiedDate = lastModifiedDate;
         this.rejectedReason = rejectedReason;
