@@ -62,13 +62,13 @@ class _PopularPostState extends State<PopularPost> {
   }
 
   String formatText(String text) {
-    if (text.length > 35) {
-      text = '${text.substring(0, 35)}...';
+    if (text.length > 30) {
+      text = '${text.substring(0, 30)}...';
     }
 
     // 이미 문자열이 30자를 초과하더라도, 10자가 넘으면 여전히 줄바꿈을 적용합니다.
-    if (text.length > 15) {
-      int breakIndex = text.indexOf(' ', 15);
+    if (text.length > 20) {
+      int breakIndex = text.indexOf(' ', 20);
       if (breakIndex != -1) {
         text =
             '${text.substring(0, breakIndex)}\n${text.substring(breakIndex + 1)}';
@@ -94,7 +94,7 @@ class _PopularPostState extends State<PopularPost> {
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
             ),
             Container(
-              height: 280,
+              height: 340,
               margin: EdgeInsets.fromLTRB(0, 15, 0, 10),
               decoration: BoxDecoration(
                 border: Border.all(
@@ -138,7 +138,7 @@ class _PopularPostState extends State<PopularPost> {
                       }
                     },
                     child: Container(
-                      height: 130,
+                      height: 160,
                       padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(
@@ -200,43 +200,44 @@ class _PopularPostState extends State<PopularPost> {
                           SizedBox(
                             height: 5,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
                                   formatText(
                                       popPost[index]['content'] as String),
                                   style: TextStyle(fontSize: 18),
                                 ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(
+                                Icons.comment_outlined,
+                                color: Colors.cyan[400],
+                                size: 22,
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.comment_outlined,
-                                    color: Colors.cyan[400],
-                                    size: 22,
-                                  ),
-                                  Text(
-                                    ' ${popPost[index]['commentCount'].toString()}',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.cyan[400]),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Icon(
-                                    Icons.favorite,
-                                    color: Color.fromARGB(255, 255, 108, 152),
-                                    size: 22,
-                                  ),
-                                  SizedBox(width: 2),
-                                  Text(
-                                    '${popPost[index]['scrapCount'].toString()}',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color:
-                                            Color.fromARGB(255, 255, 108, 152)),
-                                  ),
-                                ],
+                              Text(
+                                ' ${popPost[index]['commentCount'].toString()}',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.cyan[400]),
+                              ),
+                              SizedBox(width: 5),
+                              Icon(
+                                Icons.favorite,
+                                color: Color.fromARGB(255, 255, 108, 152),
+                                size: 22,
+                              ),
+                              SizedBox(width: 2),
+                              Text(
+                                '${popPost[index]['scrapCount'].toString()}',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 255, 108, 152)),
                               ),
                             ],
                           ),

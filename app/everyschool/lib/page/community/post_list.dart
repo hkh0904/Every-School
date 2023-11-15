@@ -85,12 +85,12 @@ class _PostListState extends State<PostList> {
   }
 
   String formatText(String text) {
-    if (text.length > 35) {
-      text = '${text.substring(0, 35)}...';
+    if (text.length > 45) {
+      text = '${text.substring(0, 45)}...';
     }
     // 이미 문자열이 30자를 초과하더라도, 10자가 넘으면 여전히 줄바꿈을 적용합니다.
-    if (text.length > 15) {
-      int breakIndex = text.indexOf(' ', 15);
+    if (text.length > 20) {
+      int breakIndex = text.indexOf(' ', 20);
       if (breakIndex != -1) {
         text =
             '${text.substring(0, breakIndex)}\n${text.substring(breakIndex + 1)}';
@@ -218,7 +218,9 @@ class _PostListState extends State<PostList> {
                           Container(
                             margin: EdgeInsets.only(bottom: 5),
                             child: Text(
-                              postList[index]['title'] as String,
+                              (postList[index]['title'] as String).length > 22
+                                  ? '${(postList[index]['title'] as String).substring(0, 22)}...'
+                                  : postList[index]['title'] as String,
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
@@ -227,7 +229,7 @@ class _PostListState extends State<PostList> {
                           ),
                           SizedBox(height: 3),
                           SizedBox(
-                            height: 35,
+                            height: 42,
                             child: Text(
                               formatText(postList[index]['content'] as String),
                               style: TextStyle(fontSize: 17),
