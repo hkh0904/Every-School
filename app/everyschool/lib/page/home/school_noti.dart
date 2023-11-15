@@ -50,6 +50,14 @@ class _SchoolNotiState extends State<SchoolNoti> {
     return formattedDate;
   }
 
+  String truncateWithEllipsis(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return '${text.substring(0, maxLength)}...';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -81,11 +89,10 @@ class _SchoolNotiState extends State<SchoolNoti> {
                             borderRadius: BorderRadius.circular(8),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black
-                                    .withOpacity(0.1), // 그림자 색상과 불투명도
-                                spreadRadius: 1, // 그림자 확산 정도
-                                blurRadius: 3, // 그림자의 흐림 정도
-                                offset: Offset(2, 3), // 그림자 위치 (가로, 세로)
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: Offset(2, 3),
                               ),
                             ],
                           ),
@@ -131,8 +138,9 @@ class _SchoolNotiState extends State<SchoolNoti> {
                                                     .width *
                                                 0.6,
                                             child: Text(
-                                              snapshot.data[index]['title']
-                                                  as String,
+                                              truncateWithEllipsis(
+                                                  snapshot.data[index]['title'],
+                                                  20),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 15),

@@ -372,7 +372,7 @@ class FirebaseApi {
 
     await flutterLocalNotificationsPlugin.initialize(
         const InitializationSettings(
-          android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+          android: AndroidInitializationSettings("@mipmap/launcher_icon"),
         ),
         // foreground일때 알림 눌렀을때(detail에 상담 payload값이 들어있음 details.payload 이렇게 받음)
         onDidReceiveNotificationResponse: (NotificationResponse details) async {
