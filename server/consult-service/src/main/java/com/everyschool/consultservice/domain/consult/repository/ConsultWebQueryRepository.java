@@ -38,28 +38,29 @@ public class ConsultWebQueryRepository {
      */
     public List<ConsultResponse> findByTeacherId(int schoolYear, Long schoolId, Long teacherId, int status) {
         return queryFactory
-            .select(
-                Projections.constructor(
-                    ConsultResponse.class,
-                    consult.id,
-                    consult.typeId,
-                    consult.progressStatusId,
-                    consult.title.parentTitle,
-                    consult.consultDateTime,
-                    consult.lastModifiedDate,
-                    consult.rejectedReason
+                .select(
+                        Projections.constructor(
+                                ConsultResponse.class,
+                                consult.id,
+                                consult.typeId,
+                                consult.progressStatusId,
+                                consult.title.parentTitle,
+                                consult.message,
+                                consult.consultDateTime,
+                                consult.lastModifiedDate,
+                                consult.rejectedReason
+                        )
                 )
-            )
-            .from(consult)
-            .where(
-                consult.isDeleted.isFalse(),
-                consult.schoolYear.eq(schoolYear),
-                consult.schoolId.eq(schoolId),
-                consult.teacherId.eq(teacherId),
-                consult.progressStatusId.eq(status)
-            )
-            .orderBy(consult.lastModifiedDate.desc())
-            .fetch();
+                .from(consult)
+                .where(
+                        consult.isDeleted.isFalse(),
+                        consult.schoolYear.eq(schoolYear),
+                        consult.schoolId.eq(schoolId),
+                        consult.teacherId.eq(teacherId),
+                        consult.progressStatusId.eq(status)
+                )
+                .orderBy(consult.lastModifiedDate.desc())
+                .fetch();
     }
 
     /**
@@ -70,25 +71,25 @@ public class ConsultWebQueryRepository {
      */
     public Optional<ConsultDetailResponse> findById(Long consultId) {
         ConsultDetailResponse content = queryFactory
-            .select(
-                Projections.constructor(
-                    ConsultDetailResponse.class,
-                    consult.id,
-                    consult.typeId,
-                    consult.progressStatusId,
-                    consult.title.parentTitle,
-                    consult.consultDateTime,
-                    consult.message,
-                    consult.resultContent,
-                    consult.rejectedReason,
-                    consult.lastModifiedDate
+                .select(
+                        Projections.constructor(
+                                ConsultDetailResponse.class,
+                                consult.id,
+                                consult.typeId,
+                                consult.progressStatusId,
+                                consult.title.parentTitle,
+                                consult.consultDateTime,
+                                consult.message,
+                                consult.resultContent,
+                                consult.rejectedReason,
+                                consult.lastModifiedDate
+                        )
                 )
-            )
-            .from(consult)
-            .where(
-                consult.id.eq(consultId)
-            )
-            .fetchOne();
+                .from(consult)
+                .where(
+                        consult.id.eq(consultId)
+                )
+                .fetchOne();
 
         return Optional.ofNullable(content);
     }
