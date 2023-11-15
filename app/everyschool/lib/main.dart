@@ -32,6 +32,9 @@ import 'firebase_options.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 void main() async {
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
@@ -52,6 +55,15 @@ void main() async {
       ChangeNotifierProvider(create: (c) => CallStore()),
     ],
     child: MaterialApp(
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate, // Add this line
+          GlobalWidgetsLocalizations.delegate, // Add this line
+          GlobalCupertinoLocalizations.delegate, // Add this line
+        ],
+        supportedLocales: const [
+          Locale('ko'),
+        ],
         navigatorKey: CandyGlobalVariable.naviagatorState,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -112,6 +124,28 @@ class _MainState extends State<Main> {
   }
 
   int userNum = 1003;
+  DateTime? currentBackPressTime;
+
+  Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null ||
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Color(0xff15075f),
+          content: Text(
+            '한번 더 뒤로가기를 누를 시 종료됩니다',
+            style: TextStyle(color: Colors.white),
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return Future.value(false);
+    }
+    SystemNavigator.pop();
+    return Future.value(true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,13 +183,16 @@ class _MainState extends State<Main> {
 
           if (snapshot.hasData) {
             List<Widget> pages = getPagesForUser(userNum);
-            return Scaffold(
-              body: pages[selectedIndex],
-              bottomNavigationBar: SizedBox(
-                  height: 70,
-                  child: BtmNav(
-                      selectedIndex: selectedIndex,
-                      onItemTapped: onItemTapped)),
+            return WillPopScope(
+              onWillPop: onWillPop,
+              child: Scaffold(
+                body: pages[selectedIndex],
+                bottomNavigationBar: SizedBox(
+                    height: 70,
+                    child: BtmNav(
+                        selectedIndex: selectedIndex,
+                        onItemTapped: onItemTapped)),
+              ),
             );
           } else if (snapshot.hasError) {
             return Padding(

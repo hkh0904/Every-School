@@ -107,6 +107,54 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
     );
   }
 
+  Future<void> _showSuccessDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: 40,
+              ),
+              Center(
+                  child: Text("시간 설정이 완료되었습니다.",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 18))),
+              SizedBox(
+                height: 40,
+              ),
+              GestureDetector(
+                onTap: () {
+                  try {
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    print("Error in GestureDetector onTap: $e");
+                  }
+                },
+                child: Container(
+                  height: 50,
+                  color: Color(0xff15075f),
+                  child: Center(
+                    child: Text(
+                      "확인",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,7 +277,7 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
               height: 20,
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 List<int> startTimeList = [
                   startTime!.year,
                   startTime!.month,
@@ -253,8 +301,11 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
                 print('Selected Start Time: $startTimeList');
                 print('Selected End Time: $endTimeList');
                 print('Is Mute Enabled: $isMuteEnabled');
-                CallingApi()
+                var response = await CallingApi()
                     .muteTimeSet(startTimeList, endTimeList, isMuteEnabled);
+                if (response['message'] == 'SUCCESS') {
+                  _showSuccessDialog();
+                }
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,

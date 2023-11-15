@@ -218,6 +218,23 @@ class _ReportPageState extends State<ReportPage> {
                           readOnly: true,
                           onTap: () async {
                             DateTime? selectedDate = await showDatePicker(
+                              builder: (context, child) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: ColorScheme.light(
+                                      primary: Color(0xff15075f),
+                                      onPrimary: Colors.white,
+                                      onSurface: Colors.black,
+                                    ),
+                                    textButtonTheme: TextButtonThemeData(
+                                      style: TextButton.styleFrom(
+                                          // button text color
+                                          ),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
@@ -256,6 +273,17 @@ class _ReportPageState extends State<ReportPage> {
                             TimeOfDay? selectedTime = await showTimePicker(
                               context: context,
                               initialTime: TimeOfDay.now(),
+                              builder: (context, child) {
+                                return Theme(
+                                  data: ThemeData.light().copyWith(
+                                    colorScheme: ColorScheme.light(
+                                      primary: Color(0xff15075f),
+                                      onPrimary: Color(0xff15075f),
+                                    ),
+                                  ),
+                                  child: child!,
+                                );
+                              },
                             );
 
                             if (selectedTime != null &&

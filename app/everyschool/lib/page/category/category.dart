@@ -5,6 +5,7 @@ import 'package:everyschool/page/messenger/call/call_history.dart';
 import 'package:everyschool/page/messenger/chat/connect.dart';
 import 'package:everyschool/page/messenger/messenger_page.dart';
 import 'package:everyschool/page/mypage/change_password.dart';
+import 'package:everyschool/page/mypage/mute_time_set.dart';
 import 'package:everyschool/page/mypage/my_comment_post.dart';
 import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/my_write_list.dart';
@@ -57,7 +58,7 @@ class _CategoryState extends State<Category> {
   var mypageList = [
     ['작성한 글 보기', '작성한 댓글 보기', '스크랩한 글', '개인정보 수정', '비밀번호 변경'],
     ['스크랩한 글', '개인정보 수정', '비밀번호 변경'],
-    ['비밀번호 변경']
+    ['비밀번호 변경', '방해금지 설정']
   ];
 
   var repncsltListLink = [
@@ -114,7 +115,7 @@ class _CategoryState extends State<Category> {
       ChangePassword()
     ],
     [MyLikePost(), UserInfoCorrection(), ChangePassword()],
-    [ChangePassword()]
+    [ChangePassword(), MuteTimeSet()]
   ];
 
   @override

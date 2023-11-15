@@ -370,7 +370,7 @@ class CallingApi {
           },
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('방해금지시간설정 ${response.data}');
-      return response.data['data'];
+      return response.data;
     } catch (e) {
       print(e);
     }
