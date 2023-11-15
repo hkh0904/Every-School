@@ -99,9 +99,9 @@ class _GetCallState extends State<GetCall> {
           ),
           Center(
             child: GestureDetector(
-              onTap: () {
-                checkCancelCall();
-                widget.leave;
+              onTap: () async {
+                await checkCancelCall();
+                widget.leave();
               },
               child: Container(
                 height: 80,

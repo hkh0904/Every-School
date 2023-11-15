@@ -1,4 +1,6 @@
+import 'package:everyschool/store/call_store.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class GetCallSuccess extends StatefulWidget {
   const GetCallSuccess({super.key, this.leave, this.userInfo, this.remoteUid});
@@ -54,8 +56,9 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
           ),
           Center(
             child: GestureDetector(
-              onTap: () {
-                if (canClick) {
+              onTap: () async {
+                final receiver = await context.read<CallStore>().receiver;
+                if (canClick && receiver) {
                   setState(() {
                     canClick = false;
                   });
