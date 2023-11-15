@@ -64,13 +64,22 @@ class _LoginFormState extends State<LoginForm> {
             builder: (BuildContext context) => Main(),
           ),
         );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => RegisterChild(),
-          ),
-        );
+      } else if (userInfo['data']['descendants'].length == 0) {
+        if (userInfo['message'] == '자녀 등록이 필요합니다.') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => RegisterChild(),
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => ApproveWaiting(),
+            ),
+          );
+        }
       }
     } else {
       Navigator.pushReplacement(

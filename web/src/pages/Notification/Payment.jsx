@@ -63,7 +63,7 @@ export default function Payment() {
       <div className={styles.row}>
         <div className={styles.titleAndBtn}>
           <div className={styles.headText}>공지사항 관리</div>
-          <div className={styles.btnAndWrite} onClick={() => navigate('/docs/register-noti/write')}>
+          <div className={styles.btnAndWrite} onClick={() => navigate('/docs/register-payment/write')}>
             <AddCircleOutlineIcon sx={{ color: 'white' }} />
             <div className={styles.buttonDiv}>작성하기</div>
           </div>
