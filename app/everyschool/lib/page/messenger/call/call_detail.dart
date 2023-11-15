@@ -17,7 +17,7 @@ class _CallDetailState extends State<CallDetail> {
     // TODO: implement initState
     super.initState();
     print(widget.callInfo);
-    print(widget.detail);
+    print('디테일 ${widget.detail}');
     calculateCallTime();
   }
 
@@ -59,24 +59,7 @@ class _CallDetailState extends State<CallDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.detail['overallSentiment'] != 'positive')
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Color(0xffF4F6FD),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 15, 5, 15),
-                      child: Text('❗ '),
-                    ),
-                    Expanded(child: Text('해당 전화는 AI 판단 하에 악성민원으로 분류되었습니다.')),
-                  ],
-                ),
-              ),
-            if (widget.detail['overallSentiment'] == 'positive')
+            if (widget.detail['isBad'] == false)
               Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
@@ -93,6 +76,23 @@ class _CallDetailState extends State<CallDetail> {
                       ],
                     ),
                   )),
+            if (widget.detail['isBad'] == true)
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Color(0xffF4F6FD),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 15, 5, 15),
+                      child: Text('❗ '),
+                    ),
+                    Expanded(child: Text('해당 전화는 AI 판단 하에 악성민원으로 분류되었습니다.')),
+                  ],
+                ),
+              ),
             SizedBox(
               height: 25,
             ),
@@ -128,7 +128,7 @@ class _CallDetailState extends State<CallDetail> {
             SizedBox(
               height: 10,
             ),
-            if (widget.detail['overallSentiment'] != 'positive')
+            if (widget.detail['isBad'] != false)
               Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -142,21 +142,29 @@ class _CallDetailState extends State<CallDetail> {
             SizedBox(
               height: 25,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children:
-                  widget.detail['details'].asMap().entries.map<Widget>((entry) {
-                int index = entry.key;
-                var detail = entry.value;
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
-                        decoration: BoxDecoration(
+            if (widget.detail['details'].length == 0)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Center(child: Text('통화 내용이 없습니다.')),
+              )
+            else
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: widget.detail['details']
+                    .asMap()
+                    .entries
+                    .map<Widget>((entry) {
+                  int index = entry.key;
+                  var detail = entry.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                          decoration: BoxDecoration(
                             border: (detail['sentiment'] == 'negative' &&
                                     detail['negative'] > 80)
                                 ? Border.all(color: Colors.red)
@@ -166,23 +174,24 @@ class _CallDetailState extends State<CallDetail> {
                                 ? Colors.red[400]
                                 : Color(0xff15075f),
                             borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(8),
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8))),
-                        child: Text(
-                          detail['content'],
-                          style: TextStyle(fontSize: 15, color: Colors.white),
+                              bottomRight: Radius.circular(8),
+                              topLeft: Radius.circular(8),
+                              topRight: Radius.circular(8),
+                            ),
+                          ),
+                          child: Text(
+                            detail['content'],
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
             SizedBox(
               height: 25,
             ),
-            // 더보기 버튼
             if (_visibleContentCount < widget.detail['details'].length)
               Center(
                 child: TextButton(

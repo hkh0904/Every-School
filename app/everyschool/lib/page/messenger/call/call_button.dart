@@ -169,6 +169,7 @@ class _CallButtonState extends State<CallButton> {
 
   String? sid;
   String? resourceId;
+  bool isRecordingStart = false;
 
   startRecording() async {
     final token = await storage.read(key: 'token') ?? "";
@@ -179,6 +180,7 @@ class _CallButtonState extends State<CallButton> {
         token, channelName, uid, chatroomtoken, userKey, contact['userKey']);
     sid = recordingDetail['sid'];
     resourceId = recordingDetail['resourceId'];
+    isRecordingStart = true;
   }
 
   stopRecording() async {
@@ -214,6 +216,7 @@ class _CallButtonState extends State<CallButton> {
             isJoined = true;
             startDateTime = datetimeToCustomList();
           });
+          print('시작시간 $startDateTime');
           startTimer();
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {

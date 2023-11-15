@@ -36,6 +36,7 @@ class _ReportConsultingPageState extends State<ReportConsultingPage>
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return [
               SliverAppBar(
+                floating: true,
                 title: Text(
                   '신고 및 상담',
                   style: TextStyle(
@@ -71,7 +72,7 @@ class _ReportConsultingPageState extends State<ReportConsultingPage>
                     )),
                   ],
                 ),
-                pinned: false,
+                pinned: true,
               ),
             ];
           },

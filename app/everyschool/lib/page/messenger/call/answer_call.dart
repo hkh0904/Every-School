@@ -84,16 +84,17 @@ class _AnswerCallState extends State<AnswerCall> {
       showMessage("Token received, joining a channel...");
 
       print('여기는 $reNewToken, $channelId, $uid');
-
-      await agoraEngine.joinChannel(
-        token: reNewToken,
-        channelId: channelId,
-        options: options,
-        uid: uid,
-      );
-      setState(() {
-        isJoined = true;
-      });
+      if ((reNewToken != null && channelId != null && uid != null)) {
+        await agoraEngine.joinChannel(
+          token: reNewToken,
+          channelId: channelId,
+          options: options,
+          uid: uid,
+        );
+        setState(() {
+          isJoined = true;
+        });
+      }
     }
   }
 
