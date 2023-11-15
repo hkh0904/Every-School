@@ -2,9 +2,6 @@ import 'package:everyschool/store/user_store.dart';
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:provider/provider.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class PopularPost extends StatefulWidget {
@@ -110,93 +107,141 @@ class _PopularPostState extends State<PopularPost> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: popPost.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: 130,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  'assets/images/community/user.png',
-                                  width: 20,
-                                  height: 20,
+                  return GestureDetector(
+                    onTapDown: (TapDownDetails details) {
+                      setState(() {
+                        popPost[index]['isTapped'] = true;
+                      });
+                    },
+                    onTapCancel: () {
+                      setState(() {
+                        popPost[index]['isTapped'] = false;
+                      });
+                    },
+                    onTapUp: (TapUpDetails details) {
+                      setState(() {
+                        popPost[index]['isTapped'] = false;
+                      });
+                      if (popPost[index]['boardId'] != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PostDetail(
+                                boardName: '자유게시판',
+                                boardId: popPost[index]['boardId']),
+                          ),
+                        ).then((check) {
+                          if (check == 'refresh') {
+                            _loadBoardData();
+                          }
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: 130,
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    'assets/images/community/user.png',
+                                    width: 20,
+                                    height: 20,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Text(
-                                '익명',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '익명',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                (popPost[index]['title'] as String).length > 15
-                                    ? '${(popPost[index]['title'] as String).substring(0, 15)}...'
-                                    : popPost[index]['title'] as String,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  (popPost[index]['title'] as String).length >
+                                          15
+                                      ? '${(popPost[index]['title'] as String).substring(0, 15)}...'
+                                      : popPost[index]['title'] as String,
+                                  style: TextStyle(
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                formatText(popPost[index]['content'] as String),
-                                style: TextStyle(fontSize: 15),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  formatText(
+                                      popPost[index]['content'] as String),
+                                  style: TextStyle(fontSize: 18),
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/images/community/comment.png',
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                Text(
-                                  (popPost[index]['commentCount'].toString()),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.comment_outlined,
+                                    color: Colors.cyan[400],
+                                    size: 22,
+                                  ),
+                                  Text(
+                                    ' ${popPost[index]['commentCount'].toString()}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.cyan[400]),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Color.fromARGB(255, 255, 108, 152),
+                                    size: 22,
+                                  ),
+                                  SizedBox(width: 2),
+                                  Text(
+                                    '${popPost[index]['scrapCount'].toString()}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(255, 255, 108, 152)),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
