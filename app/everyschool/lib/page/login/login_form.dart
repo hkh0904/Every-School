@@ -35,36 +35,53 @@ class _LoginFormState extends State<LoginForm> {
       print(userInfo);
       if (userInfo['school']['schoolId'] == null) {
         print('1111');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => SelectSchool(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => SelectSchool(),
+          ),
+        );
       } else if (userInfo['school']['schoolId'] != null) {
         print('2222');
-
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => Main(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => Main(),
+          ),
+        );
       } else {
         print('3333');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => ApproveWaiting(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => ApproveWaiting(),
+          ),
+        );
       }
     } else if (userType == "1002") {
       print(userInfo);
       if (userInfo['descendants'].length > 0) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => Main(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => Main(),
+          ),
+        );
       } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => AddChild(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => AddChild(),
+          ),
+        );
       }
     } else {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => Main(),
-      ));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Main(),
+        ),
+      );
     }
   }
 

@@ -45,7 +45,7 @@ class UserApi {
       final response = await dio.get(
           '${serverApi.serverURL}/user-service$lastAdd',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      return response.data['data'];
+      return response.data;
     } on DioException catch (e) {
       print(e);
       return 0;
@@ -165,7 +165,8 @@ class UserApi {
   Future<dynamic> getSchoolData(schoolId) async {
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/school-service/v1/schools/$schoolId',);
+        '${serverApi.serverURL}/school-service/v1/schools/$schoolId',
+      );
       return response.data['data'];
     } catch (e) {
       print(e);

@@ -47,7 +47,9 @@ class _SelectSchoolState extends State<SelectSchool> {
   @override
   void initState() {
     super.initState();
+
     userName = context.read<UserStore>().userInfo["name"];
+    print('유저이름 $userName');
     _searchController.addListener(_mayUpdateOverlay);
     _nameController = TextEditingController();
     _nameController.text = userName;

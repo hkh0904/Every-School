@@ -37,37 +37,39 @@ class _SplashState extends State<Splash> {
 
     Future.delayed(Duration(seconds: 3), () async {
       if (token != null && token!.length > 0) {
-        var userKey = await storage.read(key: 'userKey');
+        var usertype = await storage.read(key: 'usertype');
         var userInfo = await UserApi().getUserRegisterInfo(token);
-        print(userInfo);
+        print('유저정보 $userInfo');
+        print('유저정보 $userInfo');
+        print('유저정보 $userInfo');
 
-        if (userKey == "1001") {
+        if (usertype == "1001") {
           if (userInfo['message'] == '학급 신청 후 이용바랍니다.') {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => SelectSchool(),
+              builder: (context) => SelectSchool(),
             ));
           } else if (userInfo['message'] == 'SUCCESS') {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => Main(),
+              builder: (context) => Main(),
             ));
           } else {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => ApproveWaiting(),
+              builder: (context) => ApproveWaiting(),
             ));
           }
-        } else if (userKey == "1002") {
+        } else if (usertype == "1002") {
           if (userInfo['data']['descendants'].length > 0) {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => Main(),
+              builder: (context) => Main(),
             ));
           } else {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (_) => AddChild(),
+              builder: (context) => AddChild(),
             ));
           }
         } else {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => Main(),
+            builder: (context) => Main(),
           ));
         }
       } else {
