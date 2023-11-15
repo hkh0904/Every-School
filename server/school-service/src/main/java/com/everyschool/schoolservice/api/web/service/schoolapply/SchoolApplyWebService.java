@@ -4,6 +4,7 @@ import com.everyschool.schoolservice.api.web.controller.schoolapply.response.Edi
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
 import com.everyschool.schoolservice.domain.schoolapply.repository.SchoolApplyRepository;
 import com.everyschool.schoolservice.messagequeue.KafkaProducer;
+import com.everyschool.schoolservice.messagequeue.dto.CreateStudentParentDto;
 import com.everyschool.schoolservice.messagequeue.dto.EditStudentClassInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,13 @@ public class SchoolApplyWebService {
         SchoolApply schoolApply = getSchoolApplyEntity(schoolApplyId);
 
         SchoolApply approvedschoolApply = schoolApply.approve();
-        kafkaProducer.editStudentClassInfo("edit-student-class-info", createEditStudentClassInfoDto(schoolApply));
 
+        if (schoolApply.getParentId() == null) {
+            kafkaProducer.editStudentClassInfo("edit-student-class-info", createEditStudentClassInfoDto(schoolApply));
+            return EditSchoolApplyResponse.of(approvedschoolApply);
+        }
+
+        kafkaProducer.createStudentParent("create-student-parent", createCreateStudentParentDto(schoolApply));
         return EditSchoolApplyResponse.of(approvedschoolApply);
     }
 
@@ -52,6 +58,13 @@ public class SchoolApplyWebService {
                 .studentId(schoolApply.getStudentId())
                 .schoolId(schoolApply.getSchoolClass().getSchool().getId())
                 .schoolClassId(schoolApply.getSchoolClass().getId())
+                .build();
+    }
+
+    private static CreateStudentParentDto createCreateStudentParentDto(SchoolApply schoolApply) {
+        return CreateStudentParentDto.builder()
+                .studentId(schoolApply.getStudentId())
+                .parentId(schoolApply.getParentId())
                 .build();
     }
 }
