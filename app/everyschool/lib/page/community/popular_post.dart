@@ -1,3 +1,7 @@
+import 'package:everyschool/store/user_store.dart';
+import 'package:everyschool/api/community_api.dart';
+import 'package:everyschool/page/community/post_detail.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class PopularPost extends StatefulWidget {
@@ -8,18 +12,54 @@ class PopularPost extends StatefulWidget {
 }
 
 class _PopularPostState extends State<PopularPost> {
-  var popPost = [
-    {
-      'title': '선생님께 사과받고 싶습니다.',
-      'content': '아니 진짜 살다살다 제가 잘못한건가요 아니 진짜 살다살다 제가 잘못한건가요',
-      'comments': '22'
-    },
-    {
-      'title': '계단에서 애정행각 그만해주세요',
-      'content': '반으로 돌아가려는데 커플들 때문에 다른계단 아니 진짜 살다살다 제가 잘못한건가요',
-      'comments': '13'
-    },
-  ];
+  final CommunityApi communityApi = CommunityApi();
+  List<dynamic> popPost = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBoardData();
+  }
+
+  Future<void> _loadBoardData() async {
+    late final schoolYear =
+        context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
+    late final schoolId =
+        context.read<UserStore>().userInfo["school"]["schoolId"];
+
+    List<dynamic> combinedPosts = []; // 여러 페이지의 데이터를 저장할 리스트
+
+    try {
+      for (int i = 1; i <= 3; i++) {
+        // 1부터 3까지의 페이지를 순회
+        var response = await communityApi.getBoardList(schoolYear, schoolId, i);
+        if (response != null &&
+            response['content'] != null &&
+            response['content'].isNotEmpty) {
+          combinedPosts
+              .addAll(response['content']); // 각 페이지의 content를 combinedPosts에 추가
+        }
+      }
+      var scoredPosts = combinedPosts.map((post) {
+        int score =
+            (post['commentCount'] as int) * 3 + (post['scrapCount'] as int) * 2;
+        return {'post': post, 'score': score};
+      }).toList();
+
+      // 점수가 높은 순으로 정렬
+      scoredPosts.sort((a, b) => b['score'].compareTo(a['score']));
+
+      // 상위 2개의 게시물만 선택
+      List<dynamic> topPosts =
+          scoredPosts.take(2).map((e) => e['post']).toList();
+
+      setState(() {
+        popPost = topPosts; // 상위 2개의 게시물을 popPost에 저장
+      });
+    } catch (e) {
+      print('커뮤니티 보드 에러: $e');
+    }
+  }
 
   String formatText(String text) {
     if (text.length > 35) {
@@ -50,7 +90,7 @@ class _PopularPostState extends State<PopularPost> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '실시간 인기글 ✨',
+              '오늘의 인기글 ✨',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
             ),
             Container(
@@ -67,93 +107,141 @@ class _PopularPostState extends State<PopularPost> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: popPost.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: 130,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  'assets/images/community/user.png',
-                                  width: 20,
-                                  height: 20,
+                  return GestureDetector(
+                    onTapDown: (TapDownDetails details) {
+                      setState(() {
+                        popPost[index]['isTapped'] = true;
+                      });
+                    },
+                    onTapCancel: () {
+                      setState(() {
+                        popPost[index]['isTapped'] = false;
+                      });
+                    },
+                    onTapUp: (TapUpDetails details) {
+                      setState(() {
+                        popPost[index]['isTapped'] = false;
+                      });
+                      if (popPost[index]['boardId'] != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PostDetail(
+                                boardName: '자유게시판',
+                                boardId: popPost[index]['boardId']),
+                          ),
+                        ).then((check) {
+                          if (check == 'refresh') {
+                            _loadBoardData();
+                          }
+                        });
+                      }
+                    },
+                    child: Container(
+                      height: 130,
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                    'assets/images/community/user.png',
+                                    width: 20,
+                                    height: 20,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Text(
-                                '익명',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '익명',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                (popPost[index]['title'] as String).length > 15
-                                    ? '${(popPost[index]['title'] as String).substring(0, 15)}...'
-                                    : popPost[index]['title'] as String,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  (popPost[index]['title'] as String).length >
+                                          15
+                                      ? '${(popPost[index]['title'] as String).substring(0, 15)}...'
+                                      : popPost[index]['title'] as String,
+                                  style: TextStyle(
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                formatText(popPost[index]['content'] as String),
-                                style: TextStyle(fontSize: 15),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  formatText(
+                                      popPost[index]['content'] as String),
+                                  style: TextStyle(fontSize: 18),
+                                ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/images/community/comment.png',
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                Text(
-                                  popPost[index]['comments'] as String,
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.comment_outlined,
+                                    color: Colors.cyan[400],
+                                    size: 22,
+                                  ),
+                                  Text(
+                                    ' ${popPost[index]['commentCount'].toString()}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.cyan[400]),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Color.fromARGB(255, 255, 108, 152),
+                                    size: 22,
+                                  ),
+                                  SizedBox(width: 2),
+                                  Text(
+                                    '${popPost[index]['scrapCount'].toString()}',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(255, 255, 108, 152)),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

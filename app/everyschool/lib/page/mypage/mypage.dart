@@ -35,6 +35,8 @@ class _MyPageState extends State<MyPage> {
                 await storage.delete(key: 'token');
                 await storage.delete(key: 'userkey');
                 await storage.delete(key: 'usertype');
+                await storage.delete(key: 'userName');
+                await storage.delete(key: 'descendant');
                 logout();
               },
               child: Text(

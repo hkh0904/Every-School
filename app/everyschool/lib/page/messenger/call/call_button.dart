@@ -83,6 +83,8 @@ class _CallButtonState extends State<CallButton> {
   Future<void> fetchToken(int uid, String channelName, int tokenRole,
       String serverUrl, int tokenExpireTime, bool isTokenExpiring) async {
     final channelId = channelName;
+    print('전화시작화면');
+
     // Prepare the Url
     String url =
         '$serverUrl/rtc/$channelName/${tokenRole.toString()}/uid/${uid.toString()}?expiry=${tokenExpireTime.toString()}';
@@ -95,7 +97,6 @@ class _CallButtonState extends State<CallButton> {
 
       String newToken = response.data['rtcToken'];
       debugPrint('Token Received: $newToken');
-      _navigateToModalCallPage();
       // Use the token to join a channel or renew an expiring token
       setToken(newToken, channelId, isTokenExpiring, uid);
       chatroomtoken = newToken;
@@ -125,21 +126,25 @@ class _CallButtonState extends State<CallButton> {
 
       print('여기는 $reNewToken, $channelId, $uid');
       print('채널은 $channelId');
-      await agoraEngine.joinChannel(
-        token: reNewToken,
-        channelId: channelId,
-        options: options,
-        uid: uid,
-      );
-      setState(() {
-        isJoined = true;
-      });
+      if (reNewToken != null && channelId != null && uid != null) {
+        _navigateToModalCallPage();
+        await agoraEngine.joinChannel(
+          token: reNewToken,
+          channelId: channelId,
+          options: options,
+          uid: uid,
+        );
+        setState(() {
+          isJoined = true;
+        });
+      }
     }
   }
 
   void _navigateToModalCallPage() {
     print('선생님정보 ${widget.userInfo}');
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => GetCall(
             leave: leave,
@@ -268,12 +273,12 @@ class _CallButtonState extends State<CallButton> {
       isJoined = false;
       remoteUid = null;
     });
-    agoraEngine.leaveChannel();
-
     if (peopleGetCall == false) {
-      missedCallCheck();
+      await missedCallCheck();
     }
     cancelTimer();
+    agoraEngine.leaveChannel();
+
     Navigator.of(context).pop();
   }
 

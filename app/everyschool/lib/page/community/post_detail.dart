@@ -1,4 +1,3 @@
-import 'package:everyschool/page/community/post_detail_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/page/community/post_comments.dart';
 import 'package:everyschool/api/community_api.dart';
@@ -6,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:everyschool/store/user_store.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class PostDetail extends StatefulWidget {
   final String boardName;
@@ -24,6 +24,9 @@ class _PostDetailState extends State<PostDetail> {
   int? schoolYear; // nullable 타입으로 변경
   int? schoolId; // nullable 타입으로 변경
   int? userType;
+  String? schoolName;
+  late dynamic tempScrapCount;
+  late dynamic tempMyScrap;
 
   @override
   void initState() {
@@ -38,17 +41,19 @@ class _PostDetailState extends State<PostDetail> {
       userType = context.read<UserStore>().userInfo["userType"];
     }
 
-    if (schoolId == null || schoolYear == null) {
+    if (schoolId == null || schoolYear == null || schoolName == null) {
       if (userType == 1002) {
         final storage = FlutterSecureStorage();
         final descendantInfo = await storage.read(key: 'descendant') ?? "";
         var selectDescendant = jsonDecode(descendantInfo);
         schoolId = selectDescendant["school"]["schoolId"];
+        schoolName = selectDescendant["school"]["name"];
         schoolYear = selectDescendant["schoolClass"]["schoolYear"];
       } else {
         schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
         schoolYear =
             context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
+        schoolName = context.read<UserStore>().userInfo["school"]["name"];
       }
     }
 
@@ -68,7 +73,8 @@ class _PostDetailState extends State<PostDetail> {
       if (response != null) {
         setState(() {
           postDetail = response;
-          print(response);
+          tempMyScrap = response['inMyScrap'];
+          tempScrapCount = response['scrapCount'];
         });
       }
     } catch (e) {
@@ -76,10 +82,55 @@ class _PostDetailState extends State<PostDetail> {
     }
   }
 
+  Future<void> _toggleScrap(nowStatus) async {
+    try {
+      if (nowStatus == false) {
+        await communityApi.scrapPost(widget.boardId, schoolId, schoolYear);
+        setState(() {
+          tempMyScrap = true;
+          tempScrapCount += 1;
+        });
+      } else {
+        await communityApi.unScrapPost(widget.boardId, schoolId, schoolYear);
+        setState(() {
+          tempMyScrap = false;
+          tempScrapCount -= 1;
+        });
+      }
+    } catch (e) {
+      print('스크랩 에러 $e');
+    }
+  }
+
+  String formatDateTime(String dateTimeStr) {
+    tz.TZDateTime postDateTime;
+    try {
+      postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
+    } catch (e) {
+      print('DateTime parsing error: $e');
+      return dateTimeStr;
+    }
+
+    tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    Duration difference = now.difference(postDateTime);
+
+    if (difference.inDays == 0) {
+      if (difference.inHours == 0) {
+        if (difference.inMinutes > 5) {
+          return '${difference.inMinutes}분 전';
+        } else {
+          return '방금 전';
+        }
+      } else {
+        return '${difference.inHours}시간 전';
+      }
+    } else {
+      return '${postDateTime.month.toString().padLeft(2, '0')}/${postDateTime.day.toString().padLeft(2, '0')}';
+    }
+  }
+
   void refreshComments() {
     _loadPostDetail();
-    print('======================새로고침======================');
-    print(postDetail);
   }
 
   @override
@@ -89,7 +140,6 @@ class _PostDetailState extends State<PostDetail> {
     }
     return GestureDetector(
       onTap: () {
-        // 화면의 어느 곳을 탭해도 키보드를 숨깁니다.
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -106,7 +156,7 @@ class _PostDetailState extends State<PostDetail> {
                     iconSize: 30,
                     icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, 'refresh');
                     },
                   ),
                   Row(
@@ -124,116 +174,160 @@ class _PostDetailState extends State<PostDetail> {
                         ),
                       ),
                       SizedBox(width: 8), // 원하는 간격을 추가 (예: 8픽셀)
-                      IconButton(
-                        iconSize: 30,
-                        icon: Icon(Icons.more_vert, color: Color(0XFF15075F)),
-                        onPressed: () {
-                          // boardId와 title을 전달하여 PostDetailDialog를 호출
-                          PostDetailDialog(
-                                  boardId: widget.boardId,
-                                  title: postDetail["title"])
-                              .cardDetail(context);
-                        },
-                        padding: EdgeInsets.all(0),
-                        constraints: BoxConstraints(
-                          minWidth: 10,
-                          minHeight: 10,
-                        ),
-                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    // Row 위젯을 유지
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Image.asset(
-                            'assets/images/community/user.png',
-                            width: 40,
-                            height: 40,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          // Row 위젯을 유지
                           children: [
-                            Text(
-                              '익명',
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  'assets/images/community/user.png',
+                                  width: 40,
+                                  height: 40,
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              height: 5,
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        widget.boardName != '자유게시판'
+                                            ? schoolName as String
+                                            : '익명',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                      formatDateTime(postDetail["createdDate"]))
+                                ],
+                              ),
                             ),
-                            Text(postDetail["createdDate"])
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    '${postDetail["title"]}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                  ),
-                  SizedBox(height: 20),
-                  if (postDetail['imageUrls'] != null)
-                    ...postDetail['imageUrls'].map((imageUrl) => Column(
-                          children: [
-                            Image.network(imageUrl),
-                            SizedBox(height: 10),
-                          ],
-                        )),
-                  Text(
-                    '${postDetail["content"]}',
-                    style: TextStyle(
-                      fontSize: 16,
+                        GestureDetector(
+                          onTap: () => _toggleScrap(tempMyScrap),
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                            child: SizedBox(
+                              // width: textWidth + 35,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (tempMyScrap == true)
+                                    Icon(
+                                      Icons.favorite,
+                                      color: Color.fromARGB(255, 255, 108, 152),
+                                      size: 25,
+                                    ),
+                                  if (tempMyScrap == false)
+                                    Icon(
+                                      Icons.favorite_border,
+                                      color: Color.fromARGB(255, 255, 108, 152),
+                                      size: 25,
+                                    ),
+                                  Text(
+                                    ' $tempScrapCount',
+                                    style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 255, 108, 152),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(children: [
-                    Image.asset(
-                      'assets/images/community/comment.png',
-                      width: 25,
-                      height: 25,
-                    ),
+                    SizedBox(height: 20),
                     Text(
-                      ' ${postDetail["commentCount"]}',
-                      style: TextStyle(fontSize: 15, color: Color(0XFF32D9FE)),
+                      '${postDetail["title"]}',
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
                     ),
-                  ]),
-                ],
+                    SizedBox(height: 20),
+                    if (postDetail['imageUrls'] != null &&
+                        postDetail['imageUrls'].isNotEmpty) ...[
+                      Text(
+                        '첨부 이미지',
+                        style: TextStyle(color: Colors.grey[400]),
+                      ),
+                      ...postDetail['imageUrls'].map((imageUrl) => Column(
+                            children: [
+                              Image.network(imageUrl),
+                              SizedBox(height: 10),
+                            ],
+                          )),
+                    ],
+                    Text(
+                      '${postDetail["content"]}',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (widget.boardName == '자유게시판')
+                      Row(children: [
+                        // Icon(
+                        //   Icons.comment_outlined,
+                        //   color: Colors.cyan[400],
+                        // ),
+                        Text(
+                          '댓글 ${postDetail["commentCount"]}',
+                          style:
+                              TextStyle(fontSize: 20, color: Colors.cyan[400]),
+                        ),
+                      ]),
+                  ],
+                ),
               ),
             ),
-            if (schoolId != null && schoolYear != null)
-              PostComments(
-                boardId: widget.boardId,
-                schoolId: schoolId!,
-                schoolYear: schoolYear!,
-                comments: postDetail['comments'],
-                onCommentAdded: refreshComments,
-              ),
+            if (widget.boardName == '자유게시판')
+              if (schoolId != null && schoolYear != null)
+                PostComments(
+                  boardId: widget.boardId,
+                  schoolId: schoolId!,
+                  schoolYear: schoolYear!,
+                  comments: postDetail['comments'],
+                  onCommentAdded: refreshComments,
+                ),
           ],
         ),
       ),

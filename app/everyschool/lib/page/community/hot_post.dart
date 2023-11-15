@@ -1,3 +1,10 @@
+import 'package:everyschool/store/user_store.dart';
+import 'package:everyschool/api/community_api.dart';
+import 'package:everyschool/page/community/post_detail.dart';
+import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class HotPost extends StatefulWidget {
@@ -8,18 +15,35 @@ class HotPost extends StatefulWidget {
 }
 
 class _HotPostState extends State<HotPost> {
-  var hotPost = [
-    {
-      'title': '선생님께 사과받고 싶습니다.',
-      'content': '아니 진짜 살다살다 제가 잘못한건가요 아니 진짜 살다살다 제가 잘못한건가요',
-      'comments': '22'
-    },
-    {
-      'title': '계단에서 애정행각 그만해주세요',
-      'content': '반으로 돌아가려는데 커플들 때문에 다른계단 아니 진짜 살다살다 제가 잘못한건가요',
-      'comments': '13'
-    },
-  ];
+  final CommunityApi communityApi = CommunityApi();
+  List<dynamic> hotPost = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBoardData();
+  }
+
+  Future<void> _loadBoardData() async {
+    late final schoolYear;
+    late final schoolId;
+
+    schoolYear =
+        context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
+    schoolId = context.read<UserStore>().userInfo["school"]["schoolId"];
+
+    var response;
+    try {
+      response = await communityApi.getBoardList(schoolYear, schoolId, 1);
+      if (response != null && response['content'] != null) {
+        setState(() {
+          hotPost = response['content'];
+        });
+      }
+    } catch (e) {
+      print('커뮤니티 보드 에러: $e');
+    }
+  }
 
   String formatText(String text) {
     if (text.length > 35) {
@@ -146,7 +170,7 @@ class _HotPostState extends State<HotPost> {
                                   height: 25,
                                 ),
                                 Text(
-                                  hotPost[index]['comments'] as String,
+                                  hotPost[index]['commentCount'] as String,
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ],

@@ -57,6 +57,53 @@ public class FCMNotificationService {
         return firebaseMessaging.send(message);
     }
 
+    public String sendStopNotification(String otherUserKey) throws FirebaseMessagingException {
+        log.debug("call FCMNotificationService#sendStopNotification");
+        String receiverFcmToken = userServiceClient.searchUserFcmByUserKey(otherUserKey);
+        log.debug("receiverFcmToken = {}", receiverFcmToken);
+
+        if (receiverFcmToken == null || receiverFcmToken.isEmpty()) {
+            throw new NoSuchElementException("상대방이 로그인 되어 있지 않습니다.");
+        }
+
+        Notification notification = Notification.builder()
+                .setTitle("발신자 전화 끊기")
+                .setBody("calling stop...")
+                .build();
+
+        Message message = Message.builder()
+                .setToken(receiverFcmToken)
+                .setNotification(notification)
+                .putData("type", "sender")
+                .build();
+
+        return firebaseMessaging.send(message);
+    }
+
+    public String sendReceiverStopAlarm(String senderUserKey) throws FirebaseMessagingException {
+        log.debug("call FCMNotificationService#sendReceiverStopAlarm");
+        String senderFcmToken = userServiceClient.searchUserFcmByUserKey(senderUserKey);
+        log.debug("senderFcmToken = {}", senderFcmToken);
+
+        if (senderFcmToken == null || senderFcmToken.isEmpty()) {
+            throw new NoSuchElementException("상대방이 로그인 되어 있지 않습니다.");
+        }
+
+        Notification notification = Notification.builder()
+                .setTitle("수신자 전화 끊기")
+                .setBody("calling stop...")
+                .build();
+
+        Message message = Message.builder()
+                .setToken(senderFcmToken)
+                .setNotification(notification)
+                .putData("type", "receiver")
+                .build();
+
+        return firebaseMessaging.send(message);
+
+    }
+
     /**
      * 부재중 생성
      *
@@ -181,5 +228,6 @@ public class FCMNotificationService {
 
         userCallRepository.save(userCall);
     }
+
 
 }

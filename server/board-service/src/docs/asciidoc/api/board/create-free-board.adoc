@@ -3,7 +3,7 @@
 
 ==== HTTP Request
 include::{snippets}/create-free-board/http-request.adoc[]
-include::{snippets}/create-free-board/request-fields.adoc[]
+include::{snippets}/create-free-board/request-parameters.adoc[]
 
 
 ==== HTTP Response

@@ -3,6 +3,7 @@ import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/login/approve_waiting.dart';
 import 'package:everyschool/page/mypage/add_child.dart';
+import 'package:everyschool/page/mypage/register_child.dart';
 import 'package:everyschool/page/mypage/select_school.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
@@ -33,38 +34,51 @@ class _LoginFormState extends State<LoginForm> {
 
     if (userType == '1001') {
       print(userInfo);
-      if (userInfo['school']['schoolId'] == null) {
-        print('1111');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => SelectSchool(),
-        ));
-      } else if (userInfo['school']['schoolId'] != null) {
-        print('2222');
-
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => Main(),
-        ));
+      if (userInfo['data']['school']['schoolId'] == null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => SelectSchool(),
+          ),
+        );
+      } else if (userInfo['data']['school']['schoolId'] != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => Main(),
+          ),
+        );
       } else {
-        print('3333');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => ApproveWaiting(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => ApproveWaiting(),
+          ),
+        );
       }
     } else if (userType == "1002") {
-      print(userInfo);
-      if (userInfo['descendants'].length > 0) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => Main(),
-        ));
+      if (userInfo['data']['descendants'].length > 0) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => Main(),
+          ),
+        );
       } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => AddChild(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => RegisterChild(),
+          ),
+        );
       }
     } else {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => Main(),
-      ));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => Main(),
+        ),
+      );
     }
   }
 

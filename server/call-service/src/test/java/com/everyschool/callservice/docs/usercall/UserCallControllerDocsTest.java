@@ -7,6 +7,7 @@ import com.everyschool.callservice.api.controller.usercall.UserCallController;
 import com.everyschool.callservice.api.controller.usercall.request.RecordStartRequest;
 import com.everyschool.callservice.api.controller.usercall.request.RecordStopRequest;
 import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.FCM.FCMNotificationService;
 import com.everyschool.callservice.api.service.usercall.UserCallAnalysisService;
 import com.everyschool.callservice.api.service.usercall.UserCallService;
 import com.everyschool.callservice.api.service.usercall.dto.CreateUserCallDto;
@@ -36,12 +37,12 @@ public class UserCallControllerDocsTest extends RestDocsSupport {
 
     private final UserCallService userCallService = mock(UserCallService.class);
     private final VoiceAiServiceClient voiceAiServiceClient = mock(VoiceAiServiceClient.class);
-
     private final UserCallAnalysisService userCallAnalysisService = mock(UserCallAnalysisService.class);
+    private final FCMNotificationService fcmNotificationService = mock(FCMNotificationService.class);
 
     @Override
     protected Object initController() {
-        return new UserCallController(userCallService, voiceAiServiceClient, userCallAnalysisService);
+        return new UserCallController(userCallService, voiceAiServiceClient, userCallAnalysisService, fcmNotificationService);
     }
 
     @DisplayName("통화 녹음 시작 API")
@@ -170,7 +171,7 @@ public class UserCallControllerDocsTest extends RestDocsSupport {
         doNothing().when(userCallAnalysisService).analyze(anyLong(), anyString());
 
         mockMvc.perform(
-                        post("/call-service/v1/calls/record/stop")
+                        post("/call-service/v1/calls/record/sender-stop2")
                                 .header("Authorization", "Bearer Access Token")
                                 .content(objectMapper.writeValueAsString(request))
                                 .contentType(MediaType.APPLICATION_JSON)

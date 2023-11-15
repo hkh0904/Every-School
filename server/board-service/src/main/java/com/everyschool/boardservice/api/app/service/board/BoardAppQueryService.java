@@ -7,10 +7,13 @@ import com.everyschool.boardservice.api.client.response.UserInfo;
 import com.everyschool.boardservice.api.FileStore;
 import com.everyschool.boardservice.domain.board.Board;
 import com.everyschool.boardservice.domain.board.Comment;
+import com.everyschool.boardservice.domain.board.Scrap;
 import com.everyschool.boardservice.domain.board.repository.BoardQueryRepository;
 import com.everyschool.boardservice.domain.board.repository.BoardRepository;
 import com.everyschool.boardservice.domain.board.repository.CommentRepository;
+import com.everyschool.boardservice.domain.board.repository.ScrapQueryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,7 @@ import static com.everyschool.boardservice.error.ErrorMessage.NO_SUCH_BOARD;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class BoardAppQueryService {
 
     private final BoardRepository boardRepository;
@@ -38,6 +42,8 @@ public class BoardAppQueryService {
     private final CommentRepository commentRepository;
     private final UserServiceClient userServiceClient;
     private final FileStore fileStore;
+
+    private final ScrapQueryRepository scrapQueryRepository;
 
     /**
      * 신규 자유게시물 목록 조회
@@ -128,53 +134,66 @@ public class BoardAppQueryService {
         UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
 
         Board board = getBoardEntity(boardId);
+        log.debug("[Service] 자유게시판 상세조회. 게시판 Id = {}, 게시판 제목 = {}", board.getId(), board.getTitle());
 
         List<String> imageUrls = getFileUrls(board);
 
         List<Comment> comments = commentRepository.findByBoardId(boardId);
+        log.debug("[Service] 자유게시판 상세조회. 모든 댓글 수 = {}", comments.size());
 
         List<Comment> parentComments = new ArrayList<>();
 
         Map<Long, List<Comment>> commentMap = new HashMap<>();
         for (Comment comment : comments) {
+            log.debug("[Service] 자유게시판 상세조회. 댓글 Id = {}, 댓글 내용 = {}, 댓글 부모 = {}", comment.getId(), comment.getContent(), comment.getParent());
             if (comment.getParent() != null) {
-                List<Comment> childComments = commentMap.getOrDefault(comment.getParent().getId(), List.of());
-                childComments.add(comment);
+                log.debug("[Service] 자유게시판 상세조회. 대댓임. 부모 아이디 = {}", comment.getParent().getId());
+
+                if (!commentMap.containsKey(comment.getParent().getId())) {
+                    commentMap.put(comment.getParent().getId(), new ArrayList<>());
+                }
+                commentMap.get(comment.getParent().getId()).add(comment);
+
+//                List<Comment> childComments = commentMap.getOrDefault(comment.getParent().getId(), List.of());
+//                childComments.add(comment);
                 continue;
             }
+            log.debug("[Service] 자유게시판 상세조회. 대댓 아님.");
             parentComments.add(comment);
         }
 
         List<CommentVo> commentVos = new ArrayList<>();
 
         for (Comment comment : parentComments) {
-            List<Comment> childComments = commentMap.getOrDefault(comment.getId(), List.of());
+            List<Comment> childComments = commentMap.getOrDefault(comment.getId(), new ArrayList<>());
 
             List<ReCommentVo> reComments = childComments.stream()
-                .map(childComment -> ReCommentVo.builder()
-                    .commentId(childComment.getId())
-                    .sender(childComment.getAnonymousNum())
-                    .content(childComment.getContent())
-                    .depth(childComment.getDepth())
-                    .isMine(childComment.getUserId().equals(userInfo.getUserId()))
-                    .createdDate(childComment.getCreatedDate())
-                    .build())
-                .collect(Collectors.toList());
+                    .map(childComment -> ReCommentVo.builder()
+                            .commentId(childComment.getId())
+                            .sender(childComment.getAnonymousNum())
+                            .content(childComment.getContent())
+                            .depth(childComment.getDepth())
+                            .isMine(childComment.getUserId().equals(userInfo.getUserId()))
+                            .createdDate(childComment.getCreatedDate())
+                            .build())
+                    .collect(Collectors.toList());
 
             CommentVo commentVo = CommentVo.builder()
-                .commentId(comment.getId())
-                .sender(comment.getAnonymousNum())
-                .content(comment.getContent())
-                .depth(comment.getDepth())
-                .isMine(comment.getUserId().equals(userInfo.getUserId()))
-                .createdDate(comment.getCreatedDate())
-                .reComments(reComments)
-                .build();
+                    .commentId(comment.getId())
+                    .sender(comment.getAnonymousNum())
+                    .content(comment.getContent())
+                    .depth(comment.getDepth())
+                    .isMine(comment.getUserId().equals(userInfo.getUserId()))
+                    .createdDate(comment.getCreatedDate())
+                    .reComments(reComments)
+                    .build();
 
             commentVos.add(commentVo);
         }
 
-        return of(board, userInfo.getUserId(), imageUrls, commentVos);
+        Scrap scrap = scrapQueryRepository.findByBoardAndUserId(boardId, userInfo.getUserId());
+
+        return of(board, userInfo.getUserId(), imageUrls, commentVos, scrap != null);
     }
 
     // TODO: 2023-11-13 조회 구현
@@ -210,7 +229,7 @@ public class BoardAppQueryService {
      */
     private List<String> getFileUrls(Board board) {
         return board.getFiles().stream()
-            .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
-            .collect(Collectors.toList());
+                .map(file -> fileStore.getFullPath(file.getUploadFile().getStoreFileName()))
+                .collect(Collectors.toList());
     }
 }

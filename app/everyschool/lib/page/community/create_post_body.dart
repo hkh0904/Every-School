@@ -104,7 +104,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
       );
       // showDialog에서 true가 반환되면, 이전 페이지로 돌아갑니다.
       if (shouldPop) {
-        Navigator.of(_scaffoldKey.currentContext!).pop();
+        Navigator.of(_scaffoldKey.currentContext!).pop('refresh');
       }
     }
   }

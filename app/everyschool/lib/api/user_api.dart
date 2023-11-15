@@ -35,6 +35,7 @@ class UserApi {
     var userType = await storage.read(key: 'usertype');
     String lastAdd;
     if (userType == '1001') {
+      print('d여기로...');
       lastAdd = '/v1/app/info/student';
     } else if (userType == '1002') {
       lastAdd = '/v1/app/info/parent';
@@ -45,7 +46,7 @@ class UserApi {
       final response = await dio.get(
           '${serverApi.serverURL}/user-service$lastAdd',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      return response.data['data'];
+      return response.data;
     } on DioException catch (e) {
       print(e);
       return 0;
@@ -69,6 +70,8 @@ class UserApi {
           key: 'usertype', value: response.headers['usertype']?[0]);
       var userInfo = await getUserInfo(response.headers['token']?[0]);
       print(userInfo);
+      print(userInfo['name']);
+      await storage.write(key: 'userName', value: userInfo['name']);
 
       if (userInfo['userType'] == 1002 && userInfo['descendants'].length != 0) {
         await storage.write(
@@ -155,6 +158,18 @@ class UserApi {
       final response = await dio.get(
           '${serverApi.serverURL}/school-service/v1/schools?query=$schoolName',
           data: {'schoolName': schoolName});
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // 학교 정보 조회
+  Future<dynamic> getSchoolData(schoolId) async {
+    try {
+      final response = await dio.get(
+        '${serverApi.serverURL}/school-service/v1/schools/$schoolId',
+      );
       return response.data['data'];
     } catch (e) {
       print(e);

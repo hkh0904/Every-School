@@ -2,6 +2,7 @@ import 'package:everyschool/api/user_api.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/store/user_store.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 class School {
@@ -33,9 +34,9 @@ class SelectSchool extends StatefulWidget {
 
 class _SelectSchoolState extends State<SelectSchool> {
   final UserApi userApi = UserApi();
-  late final userName;
+  String? userName;
   List<School> schoolData = [];
-  late TextEditingController _nameController;
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _gradeController = TextEditingController();
   final TextEditingController _classController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
@@ -44,13 +45,24 @@ class _SelectSchoolState extends State<SelectSchool> {
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
 
+  final storage = FlutterSecureStorage();
+
+  findUserName() async {
+    final name = await storage.read(key: 'userName') ?? "";
+    print(name);
+    print(name.runtimeType);
+    setState(() {
+      userName = name;
+    });
+    _nameController.text = name;
+  }
+
   @override
   void initState() {
     super.initState();
-    userName = context.read<UserStore>().userInfo["name"];
+    findUserName();
+
     _searchController.addListener(_mayUpdateOverlay);
-    _nameController = TextEditingController();
-    _nameController.text = userName;
   }
 
   @override
@@ -218,7 +230,6 @@ class _SelectSchoolState extends State<SelectSchool> {
                 onTap: () {
                   Navigator.of(context).pop(); // 다이얼로그 닫기
                   if (!barrierDismissible) {
-                    // 성공적인 작업 후 페이지를 빠져나갈 경우
                     Navigator.of(context).pop(); // 추가적인 pop
                   }
                 },
@@ -309,13 +320,13 @@ class _SelectSchoolState extends State<SelectSchool> {
           backgroundColor: Colors.grey[50],
           elevation: 0,
           centerTitle: true,
-          leading: IconButton(
-            iconSize: 30,
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+          // leading: IconButton(
+          //   iconSize: 30,
+          //   icon: Icon(Icons.arrow_back, color: Colors.black),
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
           title: Text(
             '학교 등록하기',
             style: TextStyle(
