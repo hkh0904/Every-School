@@ -51,10 +51,10 @@ public class KafkaConsumer {
     public void createStudentParent(String kafkaMessage) {
         Map<Object, Object> map = getMap(kafkaMessage);
 
-        Long studentId = (Long) map.get("studentId");
-        Long parentId = (Long) map.get("parentId");
+        Integer studentId = (Integer) map.get("studentId");
+        Integer parentId = (Integer) map.get("parentId");
 
-        studentParentService.createStudentParent(studentId, parentId);
+        studentParentService.createStudentParent(Long.valueOf(studentId), Long.valueOf(parentId));
     }
 
     /**
