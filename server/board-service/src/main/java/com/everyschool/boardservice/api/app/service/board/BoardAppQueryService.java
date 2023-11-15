@@ -150,6 +150,7 @@ public class BoardAppQueryService {
                 } else {
                     commentMap.put(comment.getParent().getId(), new ArrayList<>());
                 }
+
 //                List<Comment> childComments = commentMap.getOrDefault(comment.getParent().getId(), List.of());
 //                childComments.add(comment);
                 continue;
