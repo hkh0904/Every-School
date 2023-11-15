@@ -42,8 +42,6 @@ class _SplashState extends State<Splash> {
         var usertype = await storage.read(key: 'usertype');
         var userInfo = await UserApi().getUserRegisterInfo(token);
         print('유저정보 $userInfo');
-        print('유저정보 $userInfo');
-        print('유저정보 $userInfo');
 
         if (usertype == "1001") {
           if (userInfo['message'] == '학급 신청 후 이용바랍니다.') {
@@ -140,6 +138,11 @@ class _SplashState extends State<Splash> {
 
   void getToken() async {
     final storage = FlutterSecureStorage();
+    // await storage.delete(key: 'token');
+    // await storage.delete(key: 'userkey');
+    // await storage.delete(key: 'usertype');
+    // await storage.delete(key: 'userName');
+    // await storage.delete(key: 'descendant');
     token = await storage.read(key: 'token') ?? "";
   }
 

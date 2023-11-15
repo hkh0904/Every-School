@@ -44,6 +44,23 @@ class _MenuButtonsState extends State<MenuButtons> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ReportListPage()));
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Text("서비스 준비중입니다."),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("확인"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       }
                     },
                     child: Container(
@@ -96,20 +113,29 @@ class _MenuButtonsState extends State<MenuButtons> {
               ),
               Column(
                 children: [
-                  Container(
-                    height: 55,
-                    width: 55,
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Color(0xffd9d9d9))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(9.0),
-                      child: Image.asset('assets/images/home/bill.png'),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  PostlistPage(pageTitle: '학사 공지')));
+                    },
+                    child: Container(
+                      height: 55,
+                      width: 55,
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: Color(0xffd9d9d9))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Image.asset('assets/images/home/noti2.png'),
+                      ),
                     ),
                   ),
                   Text(
-                    '고지서',
+                    '학사공지',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   )
                 ],
@@ -121,17 +147,37 @@ class _MenuButtonsState extends State<MenuButtons> {
                   0,
                   Column(
                     children: [
-                      Container(
-                          height: 55,
-                          width: 55,
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Color(0xffd9d9d9))),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Image.asset('assets/images/home/food.png'),
-                          )),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Text("서비스 준비중입니다."),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("확인"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                            height: 55,
+                            width: 55,
+                            margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(color: Color(0xffd9d9d9))),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Image.asset('assets/images/home/food.png'),
+                            )),
+                      ),
                       Text(
                         '오늘의 급식',
                         style: TextStyle(fontWeight: FontWeight.w600),

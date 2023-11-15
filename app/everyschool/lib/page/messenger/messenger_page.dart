@@ -122,7 +122,8 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
                       ))
                     ],
                   ),
-                  pinned: false,
+                  pinned: true,
+                  floating: true,
                 ),
               ];
             },
@@ -255,8 +256,10 @@ class _UserTapBarState extends State<UserTapBar> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
                 SliverAppBar(
+                  floating: true,
                   title: Text('메신저', style: TextStyle(color: Colors.black)),
                   backgroundColor: Colors.grey[50],
+                  pinned: true,
                   actions: [
                     Center(
                         child: Text('담임선생님',
@@ -307,7 +310,6 @@ class _UserTapBarState extends State<UserTapBar> {
                       )),
                     ],
                   ),
-                  pinned: false,
                 ),
               ];
             },
