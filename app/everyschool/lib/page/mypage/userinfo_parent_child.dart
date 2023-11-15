@@ -25,15 +25,6 @@ class _ParentChildInfoState extends State<ParentChildInfo> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text('자녀 정보', style: myTextStyle),
-            GestureDetector(
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => SelectSchool()),
-                // );
-              },
-              child: Text('자녀 정보 등록'),
-            )
           ],
         ),
         SizedBox(

@@ -129,8 +129,7 @@ class _RegisterChildState extends State<RegisterChild> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          iconSize: 30,
-          icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -139,7 +138,6 @@ class _RegisterChildState extends State<RegisterChild> {
           '자녀 등록하기',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -155,7 +153,7 @@ class _RegisterChildState extends State<RegisterChild> {
               '자녀 휴대폰에서\n받은 코드를 입력해주세요.',
               style: TextStyle(
                 fontSize: 20,
-                color: Colors.grey,
+                color: Colors.black,
               ),
               textAlign: TextAlign.center,
             ),
@@ -202,7 +200,7 @@ class _RegisterChildState extends State<RegisterChild> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: Colors.grey[600],
+                color: Colors.red,
               ),
             ),
             SizedBox(height: 30),
@@ -217,7 +215,7 @@ class _RegisterChildState extends State<RegisterChild> {
               child: Text(
                 '코드 등록하기',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
               ),

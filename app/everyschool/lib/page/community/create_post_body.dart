@@ -130,8 +130,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                 Text(
                   '제목',
                   style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -139,14 +138,13 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                 TextFormField(
                   controller: _titleController,
                   decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     hintText: '제목을 입력하세요',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
+                    border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
                       borderSide:
-                          BorderSide(color: Color(0XFF15075F), width: 2),
+                          BorderSide(color: Color(0XFF15075F), width: 1),
                     ),
                   ),
                 ),
@@ -154,8 +152,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                 Text(
                   '내용',
                   style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -163,14 +160,13 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                 TextFormField(
                   controller: _contentController,
                   decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     hintText: '내용을 입력하세요',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+                    border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
                       borderSide:
-                          BorderSide(color: Color(0XFF15075F), width: 2),
+                          BorderSide(color: Color(0XFF15075F), width: 1),
                     ),
                   ),
                   maxLines: 15,
@@ -182,8 +178,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                     Text(
                       '첨부파일',
                       style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -196,7 +191,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                             '댓글 허용',
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 20,
+                              fontSize: 16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -222,7 +217,6 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 0, 10, 0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       color: Colors.grey,
                       width: 1.0,
@@ -299,9 +293,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                                 _contentController.text.isNotEmpty
                             ? Color(0XFF15075F)
                             : Colors.grey[50],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                        shape: RoundedRectangleBorder(),
                         padding: EdgeInsets.symmetric(vertical: 13),
                       ),
                       child: Text(
@@ -311,7 +303,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                                   _contentController.text.isNotEmpty
                               ? Colors.white
                               : Colors.grey[700],
-                          fontSize: 28,
+                          fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

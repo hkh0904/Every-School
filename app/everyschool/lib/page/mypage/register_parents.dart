@@ -87,8 +87,7 @@ class _RegisterParentsState extends State<RegisterParents> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          iconSize: 30,
-          icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -97,7 +96,6 @@ class _RegisterParentsState extends State<RegisterParents> {
           '학부모 등록하기',
           style: TextStyle(
             color: Colors.black,
-            fontSize: 24,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -167,7 +165,7 @@ class _RegisterParentsState extends State<RegisterParents> {
                       child: Text(
                         '학부모 등록 코드',
                         style: TextStyle(
-                          fontSize: 25,
+                          fontSize: 23,
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,
@@ -191,7 +189,7 @@ class _RegisterParentsState extends State<RegisterParents> {
               child: Text(
                 '등록코드 재발급',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 21,
                   fontWeight: FontWeight.w600,
                 ),
               ),

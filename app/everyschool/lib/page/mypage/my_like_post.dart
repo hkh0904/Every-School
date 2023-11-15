@@ -40,7 +40,7 @@ class _MyLikePostState extends State<MyLikePost> {
                 leading: BackButton(color: Colors.black),
                 centerTitle: true,
                 title: Text(
-                  '내가 작성한 글',
+                  '내가 좋아요 한 글',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,

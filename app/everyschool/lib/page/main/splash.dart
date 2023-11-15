@@ -1,6 +1,7 @@
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/home/select_child.dart';
+import 'package:everyschool/page/home/waiting_page.dart';
 import 'package:everyschool/page/login/approve_waiting.dart';
 import 'package:everyschool/page/login/login_page.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
@@ -62,7 +63,7 @@ class _SplashState extends State<Splash> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (BuildContext context) => ApproveWaiting(),
+                builder: (BuildContext context) => WaitingPage(),
               ),
             );
           }
@@ -86,7 +87,7 @@ class _SplashState extends State<Splash> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => RegisterChild(),
+                    builder: (BuildContext context) => WaitingPage(),
                   ));
             }
           }
@@ -138,11 +139,11 @@ class _SplashState extends State<Splash> {
 
   void getToken() async {
     final storage = FlutterSecureStorage();
-    // await storage.delete(key: 'token');
-    // await storage.delete(key: 'userkey');
-    // await storage.delete(key: 'usertype');
-    // await storage.delete(key: 'userName');
-    // await storage.delete(key: 'descendant');
+    await storage.delete(key: 'token');
+    await storage.delete(key: 'userkey');
+    await storage.delete(key: 'usertype');
+    await storage.delete(key: 'userName');
+    await storage.delete(key: 'descendant');
     token = await storage.read(key: 'token') ?? "";
   }
 

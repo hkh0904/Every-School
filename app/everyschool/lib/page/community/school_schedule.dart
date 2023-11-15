@@ -104,20 +104,10 @@ class _SchoolScheduleState extends State<SchoolSchedule> {
             backgroundColor: Colors.grey[50],
             elevation: 1,
             centerTitle: true,
-            leading: IconButton(
-              iconSize: 30,
-              icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
             title: Text(
               '학사 일정',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-              ),
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
             ),
           ),
           body: Container(
@@ -129,19 +119,19 @@ class _SchoolScheduleState extends State<SchoolSchedule> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.arrow_back_ios),
-                      iconSize: 30,
+                      iconSize: 25,
                       onPressed: _decreaseMonth,
                     ),
                     SizedBox(width: 30),
                     Text(
                       '${currentDate.year}년 ${currentDate.month.toString().padLeft(2, '0')}월', // 날짜 형식을 '월'이 항상 두 자리 숫자로 표시되도록 조정
                       style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.w800),
+                          fontSize: 20, fontWeight: FontWeight.w800),
                     ),
                     SizedBox(width: 35),
                     IconButton(
                       icon: const Icon(Icons.arrow_forward_ios),
-                      iconSize: 30,
+                      iconSize: 25,
                       onPressed: _increaseMonth,
                     ),
                   ],
@@ -182,7 +172,7 @@ class _SchoolScheduleState extends State<SchoolSchedule> {
                                       event['endDate'] as String),
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.grey,
+                                    color: Colors.grey[600],
                                   ),
                                 ),
                                 Text(

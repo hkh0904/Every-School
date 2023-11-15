@@ -49,14 +49,14 @@ class _CategoryState extends State<Category> {
   ];
 
   var communityList = [
-    ['학사일정', '학사공지', '급식메뉴', '가정통신문', '자유게시판', '인기게시판', 'HOT게시판'],
-    ['학사일정', '학사공지', '급식메뉴', '가정통신문'],
-    ['학사일정', '학사공지', '급식메뉴', '가정통신문']
+    ['학사일정', '학사공지', '가정통신문', '자유게시판'],
+    ['학사일정', '학사공지', '가정통신문'],
+    ['학사일정', '학사공지', '가정통신문']
   ];
 
   var mypageList = [
     ['작성한 글 보기', '작성한 댓글 보기', '스크랩한 글', '개인정보 수정', '비밀번호 변경'],
-    ['스크랩한 글', '개인정보 수정', '비밀번호 변경'],
+    ['개인정보 수정', '비밀번호 변경'],
     ['비밀번호 변경']
   ];
 
@@ -85,22 +85,17 @@ class _CategoryState extends State<Category> {
     [
       SchoolSchedule(),
       PostlistPage(pageTitle: '학사 공지'),
-      SchoolSchedule(), // 급식메뉴
       PostlistPage(pageTitle: '가정통신문'),
       PostlistPage(pageTitle: '자유게시판'),
-      PostlistPage(pageTitle: '자유게시판'), // 인기게
-      PostlistPage(pageTitle: '자유게시판') // 핫게
     ],
     [
       SchoolSchedule(),
       PostlistPage(pageTitle: '학사 공지'),
-      SchoolSchedule(), // 급식메뉴
       PostlistPage(pageTitle: '가정통신문'),
     ],
     [
       SchoolSchedule(),
       PostlistPage(pageTitle: '학사 공지'),
-      SchoolSchedule(), // 급식메뉴
       PostlistPage(pageTitle: '가정통신문'),
     ]
   ];
@@ -113,7 +108,7 @@ class _CategoryState extends State<Category> {
       UserInfoCorrection(),
       ChangePassword()
     ],
-    [MyLikePost(), UserInfoCorrection(), ChangePassword()],
+    [UserInfoCorrection(), ChangePassword()],
     [ChangePassword()]
   ];
 

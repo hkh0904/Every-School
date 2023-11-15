@@ -33,39 +33,13 @@ class _CommunityBodyState extends State<CommunityBody> {
               elevation: 0,
               centerTitle: true,
               title: Image.asset('assets/images/home/title.png', height: 50),
-              actions: [
-                IconButton(
-                    icon: const Icon(Icons.notifications_none),
-                    visualDensity:
-                        const VisualDensity(horizontal: -4.0, vertical: -4.0),
-                    padding: const EdgeInsets.all(0),
-                    alignment: Alignment.center,
-                    splashRadius: 24.0,
-                    onPressed: () {}),
-                IconButton(
-                    icon: const Icon(Icons.settings),
-                    visualDensity:
-                        const VisualDensity(horizontal: -2.0, vertical: -4.0),
-                    padding: const EdgeInsets.all(0),
-                    alignment: Alignment.center,
-                    splashRadius: 24.0,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
-                    })
-              ],
-              actionsIconTheme: const IconThemeData(
-                color: Colors.black,
-              ),
             ),
             SliverToBoxAdapter(
               child: Container(
                 margin: EdgeInsets.fromLTRB(20, 15, 20, 15),
                 child: Text(
                   schoolName ?? '학교 이름 없음', // null 체크
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                 ),
               ),
             ),

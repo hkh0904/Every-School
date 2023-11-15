@@ -91,7 +91,7 @@ class _PopularPostState extends State<PopularPost> {
           children: [
             Text(
               '오늘의 인기글 ✨',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
             Container(
               height: 340,
@@ -144,25 +144,25 @@ class _PopularPostState extends State<PopularPost> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Container(
-                                width: 30,
-                                height: 30,
+                                width: 24,
+                                height: 24,
                                 decoration: BoxDecoration(
                                   color: Colors.grey,
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
+                                      BorderRadius.all(Radius.circular(6)),
                                 ),
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Image.asset(
                                     'assets/images/community/user.png',
-                                    width: 20,
-                                    height: 20,
+                                    width: 18,
+                                    height: 18,
                                   ),
                                 ),
                               ),
@@ -171,7 +171,7 @@ class _PopularPostState extends State<PopularPost> {
                                 child: Text(
                                   '익명',
                                   style: TextStyle(
-                                    fontSize: 17,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -190,7 +190,7 @@ class _PopularPostState extends State<PopularPost> {
                                       ? '${(popPost[index]['title'] as String).substring(0, 15)}...'
                                       : popPost[index]['title'] as String,
                                   style: TextStyle(
-                                    fontSize: 21,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -203,11 +203,12 @@ class _PopularPostState extends State<PopularPost> {
                           Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   formatText(
                                       popPost[index]['content'] as String),
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),

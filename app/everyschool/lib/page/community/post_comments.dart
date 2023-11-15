@@ -116,20 +116,19 @@ class _PostCommentsState extends State<PostComments> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: TextField(
             controller: commentController,
             decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(width: 2.5)),
+              border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(color: Color(0XFF15075f), width: 2.5),
+                borderSide: BorderSide(color: Color(0XFF15075f), width: 1),
               ),
               hintText: '댓글 작성하기',
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 10,
+              ),
             ),
             onSubmitted: (value) {
               _writeComment();
@@ -167,7 +166,7 @@ class _PostCommentsState extends State<PostComments> {
 
   Widget _buildComment(dynamic comment) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 15, 20, 10),
+      padding: EdgeInsets.fromLTRB(25, 10, 20, 10),
       decoration: BoxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +182,7 @@ class _PostCommentsState extends State<PostComments> {
                 child: Align(
                   alignment: Alignment.center,
                   child: Image.asset('assets/images/community/user.png',
-                      width: 20, height: 20),
+                      width: 16, height: 16),
                 ),
               ),
               Expanded(
@@ -195,7 +194,7 @@ class _PostCommentsState extends State<PostComments> {
                       Text(
                         comment['isMine'] ? '익명(글쓴이)' : '익명',
                         style: TextStyle(
-                            fontSize: 17,
+                            fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: comment['isMine']
                                 ? Colors.cyan[400]
@@ -204,7 +203,10 @@ class _PostCommentsState extends State<PostComments> {
                       if (comment['depth'] == 0)
                         GestureDetector(
                           onTap: () => toggleReplyField(comment['commentId']),
-                          child: Text('답글'),
+                          child: Text(
+                            '답글',
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          ),
                         ),
                     ],
                   ),

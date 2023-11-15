@@ -1,3 +1,6 @@
+import 'package:everyschool/page/community/post_list.dart';
+import 'package:everyschool/page/community/postlist_page.dart';
+import 'package:everyschool/page/consulting/consulting_list_parent.dart';
 import 'package:everyschool/page/mypage/my_comment_post.dart';
 import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/my_write_list.dart';
@@ -30,13 +33,18 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
 
   var perPagelist = [
     [MyWriteList(), MyCommentPost()],
-    [MyLikePost(), MyLikePost()],
+    [
+      ConsultingListParent(),
+      PostlistPage(
+        pageTitle: '가정통신문',
+      )
+    ],
     [ReportConsultingPage(index: 0), ReportConsultingPage(index: 1)],
   ];
 
   getuserType() async {
     var userType = await storage.read(key: 'usertype');
-    var intUserType = userType!.substring(userType!.length - 1);
+    var intUserType = userType!.substring(userType.length - 1);
 
     return int.parse(intUserType);
   }
