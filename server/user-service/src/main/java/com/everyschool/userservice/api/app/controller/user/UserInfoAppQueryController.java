@@ -5,6 +5,7 @@ import com.everyschool.userservice.api.app.controller.user.response.ParentInfoRe
 import com.everyschool.userservice.api.app.controller.user.response.StudentInfoResponse;
 import com.everyschool.userservice.api.app.controller.user.response.TeacherInfoResponse;
 import com.everyschool.userservice.api.app.service.user.UserAppQueryService;
+import com.everyschool.userservice.api.app.service.user.dto.ParentInfoResponseDto;
 import com.everyschool.userservice.utils.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +61,14 @@ public class UserInfoAppQueryController {
 
         String userKey = tokenUtils.getUserKey();
 
-        ParentInfoResponse response = userAppQueryService.searchParentInfo(userKey);
+        ParentInfoResponseDto dto = userAppQueryService.searchParentInfo(userKey);
+        ParentInfoResponse response = dto.getParentInfoResponse();
+
+        if (dto.getStatus() == 0) {
+            return ApiResponse.of(HttpStatus.OK, "자녀 등록 승인 대기 중 입니다.", response);
+        } else if (dto.getStatus() == -1) {
+            return ApiResponse.of(HttpStatus.OK, "자녀 등록이 필요합니다.", response);
+        }
 
         return ApiResponse.ok(response);
     }
