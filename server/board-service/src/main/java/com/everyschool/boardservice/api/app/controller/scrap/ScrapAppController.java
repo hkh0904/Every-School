@@ -21,9 +21,9 @@ public class ScrapAppController {
 
     @PostMapping
     public ApiResponse<Boolean> createScrap(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @PathVariable Long boardId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @PathVariable Long boardId
     ) {
         String userKey = tokenUtils.getUserKey();
 
