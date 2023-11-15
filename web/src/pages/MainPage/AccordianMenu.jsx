@@ -24,7 +24,7 @@ export default function AccordianMenu() {
     },
     {
       title: '안내문 관리',
-      list: ['가정통신문 관리', '공지사항 등록'],
+      list: ['가정통신문 관리', '학사공지 관리'],
       icon: AiFillNotification,
       address: ['/docs/register-noti', '/docs/register-payment']
     },

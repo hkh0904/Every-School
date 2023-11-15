@@ -5,7 +5,7 @@ import EditBtn from '../../component/Button/EditBtn';
 import { getNotice } from '../../api/BoardAPI/boardApi';
 import { useLocation } from 'react-router-dom';
 
-export default function NotiDetailPage() {
+export default function PayNotiDetailPage() {
   const location = useLocation();
   const boardId = location.state.boardId;
   const [title, setTitle] = useState('');
@@ -46,7 +46,7 @@ export default function NotiDetailPage() {
   return (
     <div className={styles.registerNoti}>
       <div className={styles.title}>
-        <p>가정통신문</p>
+        <p>공지사항</p>
       </div>
       <div className={styles.selectBox}>
         <DetailBox

@@ -101,7 +101,28 @@ class _LoginPageState extends State<LoginPage> {
                                                     const BorderRadius.all(
                                                   Radius.circular(35.0),
                                                 ),
-                                                onTap: () {},
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        content:
+                                                            Text("서비스 준비중입니다."),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text("확인"),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ),
@@ -121,7 +142,28 @@ class _LoginPageState extends State<LoginPage> {
                                                     const BorderRadius.all(
                                                   Radius.circular(35.0),
                                                 ),
-                                                onTap: () async {},
+                                                onTap: () async {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        content:
+                                                            Text("서비스 준비중입니다."),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: Text("확인"),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ),
@@ -168,14 +210,28 @@ class _LoginPageState extends State<LoginPage> {
                                           children: [
                                             GestureDetector(
                                               child: Text('비밀번호 찾기'),
-                                              // onTap: () {
-                                              //   Navigator.push(
-                                              //       context,
-                                              //       MaterialPageRoute(
-                                              //           builder: (BuildContext
-                                              //                   context) =>
-                                              //               FindPassword()));
-                                              // },
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      content:
+                                                          Text("서비스 준비중입니다."),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text("확인"),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
                                             ),
                                           ]),
                                     ),

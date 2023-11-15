@@ -45,7 +45,7 @@ class _RegisterChildState extends State<RegisterChild> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('등록 실패'),
-            content: Text('에러가 발생했습니다: $e'),
+            content: Text('에러가 발생했습니다'),
             actions: <Widget>[
               TextButton(
                 child: Text('닫기'),

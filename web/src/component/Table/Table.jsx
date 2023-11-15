@@ -51,6 +51,10 @@ export default function Table({ columns, data }) {
     const boardId = data;
     navigate('/docs/register-noti/detail', { state: { boardId } });
   };
+  const handlePayNotiDetail = (data) => {
+    const boardId = data;
+    navigate('/docs/register-payment/detail', { state: { boardId } });
+  };
 
   const handleClick = (data) => {
     const reportId = data;
@@ -189,6 +193,20 @@ export default function Table({ columns, data }) {
                         >
                           <span className={styles.detailText}>승인 날짜</span>
                           <SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />
+                        </div>
+                      </td>
+                    );
+                  } else if (cell.column.id === 'titlepay') {
+                    return (
+                      <td className={styles.tableEle} {...cell.getCellProps()}>
+                        <div
+                          className={styles.row}
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handlePayNotiDetail(cell.row.values.boardId)}
+                        >
+                          {cell.render('Cell')}
+                          {/*<span className={styles.detailText}>상세내역 확인</span>*/}
+                          {/*<SvgIcon component={KeyboardArrowRightIcon} inheritViewBox style={{ color: '#449D87' }} />*/}
                         </div>
                       </td>
                     );
