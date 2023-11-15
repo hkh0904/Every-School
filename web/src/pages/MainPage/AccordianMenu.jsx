@@ -48,7 +48,7 @@ export default function AccordianMenu() {
     }
   ];
 
-  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [expandedIndex, setExpandedIndex] = useState(0);
 
   const handleToggle = (index) => {
     if (expandedIndex === index) {

@@ -64,6 +64,9 @@ class _ReportCardState extends State<ReportCard> {
               margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
                 children: List<dynamic>.from(widget.reportingList).map((item) {
+                  if (item['type'] == '악성민원') {
+                    return SizedBox.shrink();
+                  }
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(

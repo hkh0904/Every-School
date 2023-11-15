@@ -34,6 +34,8 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   final storage = FlutterSecureStorage();
+  var subscription;
+
   String? position;
   int? roomNumber;
   String? token;
@@ -126,7 +128,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void onConnectCallback(StompFrame connectFrame) {
     print('받음');
     print(widget.roomInfo['roomId']);
-    stompClient.subscribe(
+    var subscription = stompClient.subscribe(
       destination: '/sub/${widget.roomInfo['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
       callback: (frame) {
@@ -140,6 +142,7 @@ class _ChatRoomState extends State<ChatRoom> {
         setState(() {});
       },
     );
+
     print('저기2');
   }
 
@@ -177,7 +180,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return 0;
   }
 
-  teck() async {
+  getinit() async {
     getToken();
     getkey();
 
@@ -188,20 +191,26 @@ class _ChatRoomState extends State<ChatRoom> {
   Future<dynamic>? getInit;
   @override
   void initState() {
-    teck();
+    getinit();
     super.initState();
+  }
+
+  disconnect(myKey) async {
+    print(widget.roomInfo['roomId']);
+    print(myKey);
+    stompClient.send(
+        destination: '/pub/chat.unsub.${widget.roomInfo['roomId']}',
+        body: json.encode({
+          'userKey': myKey,
+        }),
+        headers: {});
+
+    stompClient.deactivate();
   }
 
   @override
   void dispose() {
-    stompClient.subscribe(
-        destination: '/sub/${widget.roomInfo['roomId']}',
-        headers: {'Authorization': 'Bearer $token'},
-        callback: (frame) {
-          // Received a frame for this subscription
-          print(frame.body);
-          print('구독 취소 완료');
-        });
+    disconnect(mykey);
     // dispose 메서드에서 리소스나 이벤트를 해제합니다.
     // 메모리 누수를 방지하기 위해 이곳에서 구독 해제 등의 정리 작업을 수행합니다.
     super.dispose();
@@ -213,114 +222,123 @@ class _ChatRoomState extends State<ChatRoom> {
         future: getInit,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            return Scaffold(
-              resizeToAvoidBottomInset: true,
-              appBar: AppBar(
-                leading: BackButton(
-                  color: Colors.black,
-                  onPressed: () {
-                    context.watch<ChatController>().clearChatList();
-                    Navigator.pop(context);
-                  },
+            return WillPopScope(
+              onWillPop: () async {
+                await Provider.of<ChatController>(context, listen: false)
+                    .clearChatList();
+                return true;
+              },
+              child: Scaffold(
+                resizeToAvoidBottomInset: true,
+                appBar: AppBar(
+                  leading: BackButton(
+                    color: Colors.black,
+                    onPressed: () async {
+                      await Provider.of<ChatController>(context, listen: false)
+                          .clearChatList();
+                      Navigator.pop(context);
+                    },
+                  ),
+                  title: Text(
+                    '${widget.roomInfo?['opponentUserName']} $position',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  centerTitle: true,
+                  backgroundColor: Colors.grey[50],
                 ),
-                title: Text(
-                  '${widget.roomInfo?['opponentUserName']} $position',
-                  style: TextStyle(color: Colors.black),
-                ),
-                centerTitle: true,
-                backgroundColor: Colors.grey[50],
-              ),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.read<ChatController>().focusNode.unfocus();
-                      },
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Selector<ChatController, List<Chat>>(
-                          selector: (context, controller) =>
-                              controller.chatList.toList(),
-                          builder: (context, chatList, child) {
-                            return ListView.separated(
-                              shrinkWrap: true,
-                              reverse: true,
-                              padding: const EdgeInsets.only(
-                                      top: 12, bottom: 20) +
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              separatorBuilder: (_, __) => const SizedBox(
-                                height: 12,
-                              ),
+                body: Column(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          context.read<ChatController>().focusNode.unfocus();
+                        },
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Selector<ChatController, List<Chat>>(
+                            selector: (context, controller) =>
+                                controller.chatList.toList(),
+                            builder: (context, chatList, child) {
+                              return ListView.separated(
+                                shrinkWrap: true,
+                                reverse: true,
+                                padding: const EdgeInsets.only(
+                                        top: 12, bottom: 20) +
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                separatorBuilder: (_, __) => const SizedBox(
+                                  height: 12,
+                                ),
+                                controller: context
+                                    .read<ChatController>()
+                                    .scrollController,
+                                itemCount: chatList.length,
+                                itemBuilder: (context, index) {
+                                  return Bubble(
+                                      chat: chatList[index], myKey: mykey);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    SafeArea(
+                      bottom: true,
+                      child: Container(
+                        constraints: const BoxConstraints(minHeight: 48),
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              color: Color(0xFFE5E5EA),
+                            ),
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            TextField(
+                              focusNode:
+                                  context.read<ChatController>().focusNode,
+                              onChanged:
+                                  context.read<ChatController>().onFieldChanged,
                               controller: context
                                   .read<ChatController>()
-                                  .scrollController,
-                              itemCount: chatList.length,
-                              itemBuilder: (context, index) {
-                                return Bubble(
-                                    chat: chatList[index], myKey: mykey);
-                              },
-                            );
-                          },
+                                  .textEditingController,
+                              maxLines: null,
+                              textAlignVertical: TextAlignVertical.top,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: const EdgeInsets.only(
+                                  right: 42,
+                                  left: 16,
+                                  top: 18,
+                                ),
+                                hintText: 'message',
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                            ),
+                            // custom suffix btn
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: IconButton(
+                                icon: Icon(Icons.send),
+                                onPressed: sendMessage,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                  SafeArea(
-                    bottom: true,
-                    child: Container(
-                      constraints: const BoxConstraints(minHeight: 48),
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            color: Color(0xFFE5E5EA),
-                          ),
-                        ),
-                      ),
-                      child: Stack(
-                        children: [
-                          TextField(
-                            focusNode: context.read<ChatController>().focusNode,
-                            onChanged:
-                                context.read<ChatController>().onFieldChanged,
-                            controller: context
-                                .read<ChatController>()
-                                .textEditingController,
-                            maxLines: null,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: const EdgeInsets.only(
-                                right: 42,
-                                left: 16,
-                                top: 18,
-                              ),
-                              hintText: 'message',
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                          ),
-                          // custom suffix btn
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: IconButton(
-                              icon: Icon(Icons.send),
-                              onPressed: sendMessage,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           } else if (snapshot.hasError) {

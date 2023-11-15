@@ -1,12 +1,12 @@
-import {useEffect, useMemo, useState} from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './ConsultHistory.module.css';
 
 import ConsultCompleteCard from './ConsultCompleteCard';
 import ConsultRejectCard from './ConsultRejectCard';
-import {getCompliteConsulting, getConsults} from '../../api/ConsultingAPI/consultingAPI';
-import styles2 from "../ManageClassPage/ManageMyclassPage.module.css";
-import Table from "../../component/Table/Table";
-import {getApplies} from "../../api/SchoolAPI/schoolAPI";
+import { getCompliteConsulting, getConsults } from '../../api/ConsultingAPI/consultingAPI';
+import styles2 from '../ManageClassPage/ManageMyclassPage.module.css';
+import Table from '../../component/Table/Table';
+import { getApplies } from '../../api/SchoolAPI/schoolAPI';
 
 export default function ConsultHistory() {
   const [pageIdx, setPageIdx] = useState(5002);
@@ -21,15 +21,16 @@ export default function ConsultHistory() {
   const fetchConsults = async (pageIdx) => {
     try {
       const data = await getConsults(pageIdx);
+      console.log(data);
       if (data && Array.isArray(data.content)) {
         const transformedData = data.content.map((consult) => ({
           type: consult.type,
           grade: consult.parentInfo.split(' ')[0].replace('학년', ''),
           class: consult.parentInfo.split(' ')[1].replace('반', ''),
-          number: consult.parentInfo.split(' ')[2].replace('번', ''),
+
           name: consult.parentInfo.split(' ')[3],
           relationship: consult.parentInfo.split(' ')[4] === '아버님' ? '부' : '모',
-          lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1],
+          lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1]
           // add other fields if necessary
         }));
         setConsults(transformedData);
@@ -40,70 +41,109 @@ export default function ConsultHistory() {
     } catch (error) {
       console.error('Failed to fetch students:', error);
     }
-  }
+  };
 
-  const columns = useMemo(
-    () => {
-      const column = [
-        {
-          accessor: 'type',
-          Header: '상담 유형'
-        },
-        {
-          accessor: 'grade',
-          Header: '학년'
-        },
-        {
-          accessor: 'class',
-          Header: '반'
-        },
-        {
-          accessor: 'number',
-          Header: '번호'
-        },
-        {
-          accessor: 'name',
-          Header: '학생 이름'
-        },
-        {
-          accessor: 'relationship',
-          Header: '관계'
-        },
-        {
-          accessor: 'lastModifiedDate',
-          Header: '신청 일자'
-        },
-        {
-          accessor: 'complainDetail',
-          Header: '상세내역'
-        }
-      ]
-
-      if (pageIdx === 5002) {
-        column[6].Header = '상담 승인 일자'
-        setPageText('상담 승인')
+  const columns = [
+    [
+      {
+        accessor: 'type',
+        Header: '상담 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'relationship',
+        Header: '관계'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '신청 시간'
+      },
+      {
+        accessor: 'complainDetail',
+        Header: '상담 내용'
       }
-
-      if (pageIdx === 5003) {
-        column[6].Header = '상담 완료 일자'
-        setPageText('상담 완료')
+    ],
+    [
+      {
+        accessor: 'type',
+        Header: '상담 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'relationship',
+        Header: '관계'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '상담 완료 시간'
+      },
+      {
+        accessor: 'coplitecontent',
+        Header: '상담 내용'
       }
+    ],
+    [
+      {
+        accessor: 'type',
+        Header: '상담 유형'
+      },
+      {
+        accessor: 'grade',
+        Header: '학년'
+      },
+      {
+        accessor: 'class',
+        Header: '반'
+      },
 
-      if (pageIdx === 5004) {
-        column[6].Header = '상담 거절 일자'
-        setPageText('상담 거절')
+      {
+        accessor: 'name',
+        Header: '학생 이름'
+      },
+      {
+        accessor: 'relationship',
+        Header: '관계'
+      },
+      {
+        accessor: 'lastModifiedDate',
+        Header: '거절 시간'
+      },
+      {
+        accessor: 'rejectReason',
+        Header: '거절 사유'
       }
-
-      return column;
-    },
-    [pageIdx]
-  );
+    ]
+  ];
 
   return (
     <div className={styles.consultHistory}>
       <div className={styles.title}>
         <p>상담 내역</p>
-        <p>{pageText} : {totalConsults}건 </p>
+        <p>
+          {pageText} : {totalConsults}건{' '}
+        </p>
       </div>
       <div className={styles.consultClass}>
         <div className={styles.consultTab}>
@@ -112,7 +152,7 @@ export default function ConsultHistory() {
               setPageIdx(5002);
             }}
           >
-            <p style={5002 === pageIdx ? {backgroundColor: 'white'} : null}>
+            <p style={5002 === pageIdx ? { backgroundColor: 'white' } : null}>
               <b>상담 예정</b>
             </p>
           </div>
@@ -121,7 +161,7 @@ export default function ConsultHistory() {
               setPageIdx(5003);
             }}
           >
-            <p style={5003 === pageIdx ? {backgroundColor: 'white'} : null}>
+            <p style={5003 === pageIdx ? { backgroundColor: 'white' } : null}>
               <b>상담 완료</b>
             </p>
           </div>
@@ -130,13 +170,13 @@ export default function ConsultHistory() {
               setPageIdx(5004);
             }}
           >
-            <p style={5004 === pageIdx ? {backgroundColor: 'white'} : null}>
+            <p style={5004 === pageIdx ? { backgroundColor: 'white' } : null}>
               <b>상담 거절</b>
             </p>
           </div>
         </div>
         <div className={styles2.scrollContainer}>
-          <Table columns={columns} data={consults}/>
+          <Table columns={columns[pageIdx - 5002]} data={consults} />
         </div>
       </div>
     </div>

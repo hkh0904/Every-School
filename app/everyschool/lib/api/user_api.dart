@@ -45,7 +45,7 @@ class UserApi {
       final response = await dio.get(
           '${serverApi.serverURL}/user-service$lastAdd',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
-      return response.data;
+      return response.data['data'];
     } on DioException catch (e) {
       print(e);
       return 0;
@@ -60,19 +60,21 @@ class UserApi {
         'password': password.text,
         'fcmToken': deviceToken
       });
-
+      print('gkgkgk');
+      print(response.headers);
       await storage.write(key: 'token', value: response.headers['token']?[0]);
       await storage.write(
           key: 'userKey', value: response.headers['userKey']?[0]);
       await storage.write(
           key: 'usertype', value: response.headers['usertype']?[0]);
       var userInfo = await getUserInfo(response.headers['token']?[0]);
+      print(userInfo);
 
       if (userInfo['userType'] == 1002 && userInfo['descendants'].length != 0) {
         await storage.write(
             key: 'descendant', value: jsonEncode(userInfo['descendants'][0]));
-      } else
-        return 1;
+      }
+      return 1;
     } on DioException {
       return 0;
     }
