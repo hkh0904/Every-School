@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:everyschool/api/user_api.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:everyschool/page/home/waiting_page.dart';
 
 class RegisterChild extends StatefulWidget {
   const RegisterChild({super.key});
@@ -13,10 +15,12 @@ class _RegisterChildState extends State<RegisterChild> {
   final UserApi userApi = UserApi();
   late List<TextEditingController> controllers;
   late List<FocusNode> focusNodes;
+  bool childs = false;
 
   @override
   void initState() {
     super.initState();
+    _checkChild();
     controllers = List.generate(8, (_) => TextEditingController());
     focusNodes = List.generate(8, (_) => FocusNode());
   }
@@ -28,35 +32,83 @@ class _RegisterChildState extends State<RegisterChild> {
     super.dispose();
   }
 
+  void _checkChild() async {
+    final storage = FlutterSecureStorage();
+    final descendantInfo = await storage.read(key: 'descendant') ?? "";
+    if (descendantInfo != "") {
+      childs = true;
+    }
+  }
+
+  Future<void> showResultDialog(
+      BuildContext context, String message, String button,
+      {bool barrierDismissible = true}) async {
+    return showDialog(
+      barrierDismissible: barrierDismissible,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 40),
+              Center(
+                child: Text(
+                  message,
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+              ),
+              SizedBox(height: 40),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop(); // 다이얼로그 닫기
+                  if (!barrierDismissible) {
+                    if (childs) {
+                      Navigator.of(context).pop(); // 추가적인 pop
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => WaitingPage()),
+                      );
+                    }
+                  }
+                },
+                child: Container(
+                  height: 50,
+                  color: Color(0xff15075f),
+                  child: Center(
+                    child: Text(
+                      button,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> _registeChild() async {
     try {
       String registerCode =
           controllers.map((controller) => controller.text).join();
       var result = await userApi.registerChild(registerCode);
       if (result is String && result.startsWith('API Request Failed')) {
-        throw Exception(result); // 에러 메시지를 예외로 던집니다.
+        throw Exception(result);
       }
+      await showResultDialog(context, '자녀 등록 요청을 보냈습니다.', '확인',
+          barrierDismissible: false);
     } catch (e) {
       print('error: $e');
 
-      // 에러 발생 시 대화 상자를 표시
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('등록 실패'),
-            content: Text('에러가 발생했습니다'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('닫기'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // 대화 상자를 닫습니다.
-                },
-              ),
-            ],
-          );
-        },
-      );
+      await showResultDialog(context, '요청에 실패했습니다.\n등록코드를 확인해주세요.', '닫기');
     }
   }
 

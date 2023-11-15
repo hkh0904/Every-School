@@ -200,8 +200,8 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
                                       Text(
                                         (boardList[index]['title'] as String)
                                                     .length >
-                                                15
-                                            ? '${(boardList[index]['title'] as String).substring(0, 15)}...'
+                                                22
+                                            ? '${(boardList[index]['title'] as String).substring(0, 22)}...'
                                             : boardList[index]['title']
                                                 as String,
                                         style: TextStyle(

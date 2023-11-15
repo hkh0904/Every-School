@@ -8,6 +8,7 @@ import com.everyschool.userservice.domain.user.repository.StudentParentRepositor
 import com.everyschool.userservice.domain.user.repository.UserRepository;
 import com.everyschool.userservice.messagequeue.dto.ParentSchoolApplyDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import static com.everyschool.userservice.message.ErrorMessage.*;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class StudentParentService {
 
     private final StudentParentRepository studentParentRepository;
@@ -60,6 +62,7 @@ public class StudentParentService {
      * @param parentId  학부모 아이디
      */
     public void createStudentParent(Long studentId, Long parentId) {
+        log.debug("[Service] 부모 자녀 연결");
         User user = getUserById(parentId);
         Parent parent = convertToParent(user);
 

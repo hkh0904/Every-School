@@ -15,35 +15,38 @@ public class BoardDetailResponse {
     private String content;
     private int commentCount;
     private int scrapCount;
+    private Boolean inMyScrap;
     private Boolean isMine;
     private LocalDateTime createdDate;
     private List<String> imageUrls;
     private List<CommentVo> comments;
 
     @Builder
-    private BoardDetailResponse(Long boardId, String title, String content, int commentCount, int scrapCount, Boolean isMine, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
+    private BoardDetailResponse(Long boardId, String title, String content, int commentCount, int scrapCount, Boolean inMyScrap, Boolean isMine, LocalDateTime createdDate, List<String> imageUrls, List<CommentVo> comments) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
         this.commentCount = commentCount;
         this.scrapCount = scrapCount;
+        this.inMyScrap = inMyScrap;
         this.isMine = isMine;
         this.createdDate = createdDate;
         this.imageUrls = imageUrls;
         this.comments = comments;
     }
 
-    public static BoardDetailResponse of(Board board, List<String> imageUrls, List<CommentVo> comments) {
+    public static BoardDetailResponse of(Board board, List<String> imageUrls, List<CommentVo> comments, Boolean inMyScrap) {
         return BoardDetailResponse.builder()
-            .boardId(board.getId())
-            .title(board.getTitle())
-            .content(board.getContent())
-            .commentCount(board.getCommentCount())
-            .scrapCount(board.getScrapCount())
-            .createdDate(board.getCreatedDate())
-            .imageUrls(imageUrls)
-            .comments(comments)
-            .build();
+                .boardId(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .commentCount(board.getCommentCount())
+                .scrapCount(board.getScrapCount())
+                .inMyScrap(inMyScrap)
+                .createdDate(board.getCreatedDate())
+                .imageUrls(imageUrls)
+                .comments(comments)
+                .build();
     }
 
     @Data
