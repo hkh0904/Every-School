@@ -30,5 +30,5 @@ public interface SchoolServiceClient {
     boolean existApply(@PathVariable(name = "studentId") Long studentId);
 
     @GetMapping("/school-service/client/v1/applies/existParent")
-    boolean existApplyParent(Long parentId);
+    boolean existApplyParent(@RequestBody Long parentId);
 }
