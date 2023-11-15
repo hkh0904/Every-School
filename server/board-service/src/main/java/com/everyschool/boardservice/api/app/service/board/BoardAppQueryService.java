@@ -204,7 +204,9 @@ public class BoardAppQueryService {
 
         List<String> imageUrls = getFileUrls(board);
 
-        return BoardDetailResponse.of(board, imageUrls, new ArrayList<>());
+        Scrap scrap = scrapQueryRepository.findByBoardAndUserId(boardId, userInfo.getUserId());
+
+        return BoardDetailResponse.of(board, imageUrls, new ArrayList<>(), scrap != null);
     }
 
     /**

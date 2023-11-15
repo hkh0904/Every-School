@@ -36,9 +36,9 @@ public class BoardAppQueryController {
      */
     @GetMapping("/free-boards")
     public ApiResponse<SliceResponse<BoardResponse>> searchFreeBoards(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @RequestParam(defaultValue = "1") int page
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @RequestParam(defaultValue = "1") int page
     ) {
         log.debug("call BoardQueryController#searchFreeBoards");
 
@@ -59,9 +59,9 @@ public class BoardAppQueryController {
      */
     @GetMapping("/free-boards/{boardId}")
     public ApiResponse<FreeBoardDetailResponse> searchFreeBoard(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @PathVariable Long boardId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @PathVariable Long boardId
     ) {
         log.debug("call BoardQueryController#searchFreeBoard");
 
@@ -83,8 +83,8 @@ public class BoardAppQueryController {
      */
     @GetMapping("/free-boards/new")
     public ApiResponse<List<NewFreeBoardResponse>> searchNewFreeBoards(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId
     ) {
         log.debug("call BoardQueryController#searchNewFreeBoards");
 
@@ -104,9 +104,9 @@ public class BoardAppQueryController {
      */
     @GetMapping("/notice-boards")
     public ApiResponse<SliceResponse<BoardResponse>> searchNoticeBoards(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @RequestParam(defaultValue = "1") int page) {
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @RequestParam(defaultValue = "1") int page) {
         log.debug("call BoardQueryController#searchNoticeBoards");
 
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
@@ -126,9 +126,9 @@ public class BoardAppQueryController {
      */
     @GetMapping("/notice-boards/{boardId}")
     public ApiResponse<BoardDetailResponse> searchNoticeBoard(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @PathVariable Long boardId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @PathVariable Long boardId
     ) {
         log.debug("call BoardQueryController#searchNoticeBoard");
 
@@ -150,8 +150,8 @@ public class BoardAppQueryController {
      */
     @GetMapping("/notice-boards/new")
     public ApiResponse<List<NewNoticeResponse>> searchNewNoticeBoards(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId
     ) {
         log.debug("call BoardQueryController#searchNewNoticeBoards");
 
@@ -171,9 +171,9 @@ public class BoardAppQueryController {
      */
     @GetMapping("/communication-boards")
     public ApiResponse<SliceResponse<BoardResponse>> searchCommunicationBoards(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @RequestParam(defaultValue = "1") int page
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @RequestParam(defaultValue = "1") int page
     ) {
         log.debug("call BoardQueryController#searchCommunicationBoards");
 
@@ -194,9 +194,9 @@ public class BoardAppQueryController {
      */
     @GetMapping("/communication-boards/{boardId}")
     public ApiResponse<BoardDetailResponse> searchCommunicationBoard(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId,
-        @PathVariable Long boardId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId,
+            @PathVariable Long boardId
     ) {
         log.debug("call BoardQueryController#searchCommunicationBoard");
 
@@ -218,8 +218,8 @@ public class BoardAppQueryController {
      */
     @GetMapping("/communication-boards/new")
     public ApiResponse<List<NewCommunicationResponse>> searchNewCommunicationBoards(
-        @PathVariable Integer schoolYear,
-        @PathVariable Long schoolId
+            @PathVariable Integer schoolYear,
+            @PathVariable Long schoolId
     ) {
         log.debug("call BoardQueryController#searchNewCommunicationBoards");
 

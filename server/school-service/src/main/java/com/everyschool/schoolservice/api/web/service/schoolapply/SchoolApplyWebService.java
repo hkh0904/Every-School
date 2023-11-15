@@ -7,6 +7,7 @@ import com.everyschool.schoolservice.messagequeue.KafkaProducer;
 import com.everyschool.schoolservice.messagequeue.dto.CreateStudentParentDto;
 import com.everyschool.schoolservice.messagequeue.dto.EditStudentClassInfoDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import static com.everyschool.schoolservice.error.ErrorMessage.NO_SUCH_SCHOOL_AP
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class SchoolApplyWebService {
 
     private final SchoolApplyRepository schoolApplyRepository;
@@ -29,10 +31,12 @@ public class SchoolApplyWebService {
         SchoolApply approvedschoolApply = schoolApply.approve();
 
         if (schoolApply.getParentId() == null) {
+            log.debug("[자녀 학급 신청]");
             kafkaProducer.editStudentClassInfo("edit-student-class-info", createEditStudentClassInfoDto(schoolApply));
             return EditSchoolApplyResponse.of(approvedschoolApply);
         }
 
+        log.debug("[부모 자녀 연결] 부모 학급 신청임");
         kafkaProducer.createStudentParent("create-student-parent", createCreateStudentParentDto(schoolApply));
         return EditSchoolApplyResponse.of(approvedschoolApply);
     }
