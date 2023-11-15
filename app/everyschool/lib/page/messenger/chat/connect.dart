@@ -126,7 +126,7 @@ class _ConnectState extends State<Connect> {
 
       print('여기는 ');
       print('채널은 $reNewToken, $channelId, $uid $channelId');
-      if (reNewToken != null && channelId != null && uid != null) {
+      if (uid != null) {
         _navigateToModalCallPage();
         await agoraEngine.joinChannel(
           token: reNewToken,
@@ -558,6 +558,7 @@ class _ConnectState extends State<Connect> {
 
       return Container(
         decoration: BoxDecoration(
+          color: Colors.grey[100],
           border: Border(
             bottom: BorderSide(
               color: Color(0xffd9d9d9),
@@ -566,7 +567,7 @@ class _ConnectState extends State<Connect> {
           ),
         ),
         child: ListTile(
-          title: SizedBox(
+          title: Container(
             height: 55,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

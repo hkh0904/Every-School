@@ -128,7 +128,7 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
                       Text(
                         '가정통신문',
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w800),
+                            fontSize: 20, fontWeight: FontWeight.w700),
                       ),
                       Text('더보기',
                           style: TextStyle(fontSize: 15, color: Colors.grey)),
@@ -205,15 +205,15 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
                                             : boardList[index]['title']
                                                 as String,
                                         style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       SizedBox(height: 4),
                                       Text(
                                         displayTime,
                                         style: TextStyle(
                                             color: Color(0xff999999),
-                                            fontSize: 18),
+                                            fontSize: 15),
                                       ),
                                     ],
                                   ),

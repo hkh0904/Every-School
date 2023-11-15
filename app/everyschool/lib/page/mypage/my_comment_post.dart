@@ -41,7 +41,7 @@ class _MyCommentPostState extends State<MyCommentPost> {
                 leading: BackButton(color: Colors.black),
                 centerTitle: true,
                 title: Text(
-                  '내가 작성한 글',
+                  '댓글 게시글',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,

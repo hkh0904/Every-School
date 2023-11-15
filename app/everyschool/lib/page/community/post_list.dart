@@ -135,32 +135,31 @@ class _PostListState extends State<PostList> {
           // 리스트의 마지막 항목에서 '이전', '다음' 버튼 표시
           return Column(
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 3),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    iconSize: 20,
-                    icon: Icon(Icons.arrow_back_ios_rounded,
-                        color: Color(0XFF15075F)),
+                    iconSize: 18,
+                    icon: Icon(
+                      Icons.arrow_back_ios_rounded,
+                    ),
                     onPressed: previousPage,
                   ),
                   Text(
                     page.toString(),
-                    style: TextStyle(
-                        color: Color(0XFF15075F),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   IconButton(
-                    iconSize: 20,
-                    icon: Icon(Icons.arrow_forward_ios_rounded,
-                        color: Color(0XFF15075F)),
+                    iconSize: 18,
+                    icon: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                    ),
                     onPressed: nextPage,
                   ),
                 ],
               ),
-              SizedBox(height: 10)
+              SizedBox(height: 3)
             ],
           );
         }
@@ -222,17 +221,17 @@ class _PostListState extends State<PostList> {
                                   ? '${(postList[index]['title'] as String).substring(0, 22)}...'
                                   : postList[index]['title'] as String,
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),
                           SizedBox(height: 3),
                           SizedBox(
-                            height: 42,
+                            height: 38,
                             child: Text(
                               formatText(postList[index]['content'] as String),
-                              style: TextStyle(fontSize: 17),
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
                         ],
