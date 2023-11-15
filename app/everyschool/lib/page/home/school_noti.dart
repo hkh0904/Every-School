@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/page/community/postlist_page.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:flutter/material.dart';
@@ -76,10 +77,31 @@ class _SchoolNotiState extends State<SchoolNoti> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '학교 공지사항',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w700),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            '학교 공지사항',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w700),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PostlistPage(pageTitle: '가정통신문')),
+                                );
+                              },
+                              child: Text('더보기',
+                                  style: TextStyle(color: Colors.grey[600])),
+                            ),
+                          )
+                        ],
                       ),
                       Container(
                           height: 200,
