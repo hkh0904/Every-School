@@ -23,24 +23,24 @@ public class SchoolApplyQueryRepository {
 
     public List<SchoolApply> findByTeacherId(Long teacherId, String status) {
         return queryFactory
-            .select(schoolApply)
-            .from(schoolApply)
-            .join(schoolApply.schoolClass, schoolClass).fetchJoin()
-            .where(
-                schoolApply.schoolClass.teacherId.eq(teacherId),
-                statusCond(status)
-            )
-            .orderBy(schoolApply.createdDate.desc())
-            .fetch();
+                .select(schoolApply)
+                .from(schoolApply)
+                .join(schoolApply.schoolClass, schoolClass).fetchJoin()
+                .where(
+                        schoolApply.schoolClass.teacherId.eq(teacherId),
+                        statusCond(status)
+                )
+                .orderBy(schoolApply.createdDate.desc())
+                .fetch();
     }
 
     public Optional<SchoolApply> findById(Long schoolApplyId) {
         SchoolApply content = queryFactory
-            .select(schoolApply)
-            .from(schoolApply)
-            .join(schoolApply.schoolClass, schoolClass).fetchJoin()
-            .where(schoolApply.id.eq(schoolApplyId))
-            .fetchOne();
+                .select(schoolApply)
+                .from(schoolApply)
+                .join(schoolApply.schoolClass, schoolClass).fetchJoin()
+                .where(schoolApply.id.eq(schoolApplyId))
+                .fetchOne();
         return Optional.ofNullable(content);
     }
 
@@ -53,16 +53,29 @@ public class SchoolApplyQueryRepository {
 
     public boolean existApply(Long studentId) {
         Long content = queryFactory
-            .select(schoolApply.id)
-            .from(schoolApply)
-            .where(
-                schoolApply.isApproved.isFalse(),
-                schoolApply.rejectedReason.isNull(),
-                schoolApply.studentId.eq(studentId)
-            )
-            .orderBy(schoolApply.createdDate.desc())
-            .fetchOne();
+                .select(schoolApply.id)
+                .from(schoolApply)
+                .where(
+                        schoolApply.isApproved.isFalse(),
+                        schoolApply.rejectedReason.isNull(),
+                        schoolApply.studentId.eq(studentId)
+                )
+                .orderBy(schoolApply.createdDate.desc())
+                .fetchOne();
         return content != null;
     }
 
+    public boolean existApplyParent(Long parentId) {
+        Long content = queryFactory
+                .select(schoolApply.id)
+                .from(schoolApply)
+                .where(
+                        schoolApply.isApproved.isFalse(),
+                        schoolApply.rejectedReason.isNull(),
+                        schoolApply.parentId.eq(parentId)
+                )
+                .orderBy(schoolApply.createdDate.desc())
+                .fetchOne();
+        return content != null;
+    }
 }
