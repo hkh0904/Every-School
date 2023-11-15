@@ -145,11 +145,10 @@ public class BoardAppQueryService {
             if (comment.getParent() != null) {
                 log.debug("[Service] 자유게시판 상세조회. 대댓임. 부모 아이디 = {}", comment.getParent().getId());
 
-                if (commentMap.containsKey(comment.getParent().getId())) {
-                    commentMap.get(comment.getParent().getId()).add(comment);
-                } else {
+                if (!commentMap.containsKey(comment.getParent().getId())) {
                     commentMap.put(comment.getParent().getId(), new ArrayList<>());
                 }
+                commentMap.get(comment.getParent().getId()).add(comment);
 
 //                List<Comment> childComments = commentMap.getOrDefault(comment.getParent().getId(), List.of());
 //                childComments.add(comment);
