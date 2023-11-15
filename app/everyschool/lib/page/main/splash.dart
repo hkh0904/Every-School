@@ -1,9 +1,11 @@
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
+import 'package:everyschool/page/home/select_child.dart';
 import 'package:everyschool/page/login/approve_waiting.dart';
 import 'package:everyschool/page/login/login_page.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
 import 'package:everyschool/page/mypage/add_child.dart';
+import 'package:everyschool/page/mypage/register_child.dart';
 import 'package:everyschool/page/mypage/select_school.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,37 +47,66 @@ class _SplashState extends State<Splash> {
 
         if (usertype == "1001") {
           if (userInfo['message'] == '학급 신청 후 이용바랍니다.') {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => SelectSchool(),
-            ));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => SelectSchool(),
+              ),
+            );
           } else if (userInfo['message'] == 'SUCCESS') {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => Main(),
-            ));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => Main(),
+              ),
+            );
           } else {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => ApproveWaiting(),
-            ));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => ApproveWaiting(),
+              ),
+            );
           }
         } else if (usertype == "1002") {
           if (userInfo['data']['descendants'].length > 0) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => Main(),
-            ));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => Main(),
+              ),
+            );
           } else {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => AddChild(),
-            ));
+            if (userInfo['message'] == '자녀 등록이 필요합니다.') {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => RegisterChild(),
+                ),
+              );
+            } else {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => RegisterChild(),
+                  ));
+            }
           }
         } else {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => Main(),
-          ));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => Main(),
+            ),
+          );
         }
       } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => LoginPage(),
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => LoginPage(),
+          ),
+        );
       }
     });
   }

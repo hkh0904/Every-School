@@ -2,6 +2,7 @@
   margin-top: 1vw;
   border-collapse: collapse;
   width: 100%;
+  min-width: 768px;
 }
 
 .tableEle {

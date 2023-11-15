@@ -18,7 +18,7 @@ class ReportApi {
           options: Options(contentType: 'multipart/form-data', headers: {
             'Authorization': 'Bearer $token',
           }));
-      // print(response.data);
+      print('데이터 ${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);

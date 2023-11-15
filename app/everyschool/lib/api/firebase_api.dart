@@ -6,6 +6,7 @@ import 'package:everyschool/page/community/post_detail.dart';
 import 'package:everyschool/page/consulting/consulting_list_page.dart';
 import 'package:everyschool/page/global_variable.dart';
 import 'package:everyschool/page/messenger/call/answer_call.dart';
+import 'package:everyschool/page/messenger/chat/chat_controller.dart';
 import 'package:everyschool/page/messenger/chat/chat_room.dart';
 import 'package:everyschool/page/report/report_detail.dart';
 import 'package:everyschool/page/report_consulting/teacher_report_consulting_page.dart';
@@ -61,6 +62,16 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   } else if (message.data['type'] == 'denied') {
     Navigator.pop(
         CandyGlobalVariable.naviagatorState.currentContext as BuildContext);
+  } else if (message.data['type'] == 'sender') {
+    Provider.of<CallStore>(
+            CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
+            listen: false)
+        .setSender();
+  } else if (message.data['type'] == 'receiver') {
+    Provider.of<CallStore>(
+            CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
+            listen: false)
+        .setReceiver();
   } else if (message.data['type'] == 'report') {
     print('열받는다고...');
     Navigator.push(
@@ -306,6 +317,11 @@ class FirebaseApi {
               'type': message.data['type'],
             }));
       } else if (message.data['type'] == 'chat') {
+        Provider.of<ChatController>(
+                CandyGlobalVariable.naviagatorState.currentContext
+                    as BuildContext,
+                listen: false)
+            .setIsUpdated();
         FlutterLocalNotificationsPlugin().show(
             notification.hashCode,
             notification.title,

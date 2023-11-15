@@ -79,6 +79,7 @@ class _ConnectState extends State<Connect> {
     setState(() {
       channelName = newChannelName;
     });
+    return newChannelName;
   }
 
   Future<void> fetchToken(int uid, String channelName, int tokenRole,
@@ -374,14 +375,13 @@ class _ConnectState extends State<Connect> {
                                   if (channelName != null)
                                     GestureDetector(
                                       onTap: () async {
-                                        var cNname = await getChannelName(16);
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
                                             return CallModal(
                                               join: fetchToken,
                                               uid: uid,
-                                              channelName: cNname,
+                                              channelName: channelName,
                                               tokenRole: tokenRole,
                                               serverUrl: serverUrl,
                                               tokenExpireTime: tokenExpireTime,
@@ -478,12 +478,14 @@ class _ConnectState extends State<Connect> {
                                     children: [
                                       if (channelName != null)
                                         GestureDetector(
-                                          onTap: () {
+                                          onTap: () async {
                                             userInfo =
                                                 widget.userConnect[index];
+
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
+                                                print(channelName);
                                                 return CallModal(
                                                   join: fetchToken,
                                                   uid: uid,
@@ -584,7 +586,7 @@ class _ConnectState extends State<Connect> {
                   children: [
                     if (channelName != null)
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

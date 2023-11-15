@@ -3,6 +3,7 @@ import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/login/approve_waiting.dart';
 import 'package:everyschool/page/mypage/add_child.dart';
+import 'package:everyschool/page/mypage/register_child.dart';
 import 'package:everyschool/page/mypage/select_school.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:flutter/material.dart';
@@ -33,16 +34,14 @@ class _LoginFormState extends State<LoginForm> {
 
     if (userType == '1001') {
       print(userInfo);
-      if (userInfo['school']['schoolId'] == null) {
-        print('1111');
+      if (userInfo['data']['school']['schoolId'] == null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => SelectSchool(),
           ),
         );
-      } else if (userInfo['school']['schoolId'] != null) {
-        print('2222');
+      } else if (userInfo['data']['school']['schoolId'] != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -50,7 +49,6 @@ class _LoginFormState extends State<LoginForm> {
           ),
         );
       } else {
-        print('3333');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -59,8 +57,7 @@ class _LoginFormState extends State<LoginForm> {
         );
       }
     } else if (userType == "1002") {
-      print(userInfo);
-      if (userInfo['descendants'].length > 0) {
+      if (userInfo['data']['descendants'].length > 0) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -71,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => AddChild(),
+            builder: (BuildContext context) => RegisterChild(),
           ),
         );
       }
