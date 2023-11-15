@@ -75,6 +75,17 @@ class _CallModalState extends State<CallModal> {
                     onTap: () async {
                       final token = await storage.read(key: 'token') ?? "";
 
+                      await widget.join(
+                          widget.uid,
+                          widget.channelName,
+                          widget.tokenRole,
+                          widget.serverUrl,
+                          widget.tokenExpireTime,
+                          widget.isTokenExpiring);
+
+                      print('여기나갈거야');
+                      // Navigator.of(context).pop();
+
                       if (widget.getUserKey == null) {
                         final contact =
                             await MessengerApi().getTeacherConnect(token);
@@ -88,15 +99,6 @@ class _CallModalState extends State<CallModal> {
                         CallingApi().callOthers(token, widget.getUserKey,
                             myInfo['name'], widget.channelName);
                       }
-
-                      widget.join(
-                          widget.uid,
-                          widget.channelName,
-                          widget.tokenRole,
-                          widget.serverUrl,
-                          widget.tokenExpireTime,
-                          widget.isTokenExpiring);
-                      Navigator.of(context).pop();
                     },
                     child: Container(
                       color: Color(0xff15075F),

@@ -97,7 +97,7 @@ class _ConnectState extends State<Connect> {
       String newToken = response.data['rtcToken'];
       debugPrint('Token Received: $newToken');
       // Use the token to join a channel or renew an expiring token
-      setToken(newToken, channelId, isTokenExpiring, uid);
+      await setToken(newToken, channelId, isTokenExpiring, uid);
       chatroomtoken = newToken;
     } else {
       // If the server did not return an OK response,
@@ -107,7 +107,7 @@ class _ConnectState extends State<Connect> {
     }
   }
 
-  void setToken(String newToken, String channelId, isTokenExpiring, uid) async {
+  setToken(String newToken, String channelId, isTokenExpiring, uid) async {
     final reNewToken = newToken;
     ChannelMediaOptions options = const ChannelMediaOptions(
       clientRoleType: ClientRoleType.clientRoleBroadcaster,
@@ -123,24 +123,27 @@ class _ConnectState extends State<Connect> {
       // Join a channel.
       showMessage("Token received, joining a channel...");
 
-      print('여기는 $reNewToken, $channelId, $uid');
-      print('채널은 $channelId');
-      await agoraEngine.joinChannel(
-        token: reNewToken,
-        channelId: channelId,
-        options: options,
-        uid: uid,
-      );
-      setState(() {
-        isJoined = true;
-      });
-      _navigateToModalCallPage();
+      print('여기는 ');
+      print('채널은 $reNewToken, $channelId, $uid $channelId');
+      if (reNewToken != null && channelId != null && uid != null) {
+        _navigateToModalCallPage();
+        await agoraEngine.joinChannel(
+          token: reNewToken,
+          channelId: channelId,
+          options: options,
+          uid: uid,
+        );
+        setState(() {
+          isJoined = true;
+        });
+      }
     }
   }
 
   void _navigateToModalCallPage() {
     print('갑니다');
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => GetCall(
             leave: leave, startDateTime: startDateTime, userInfo: userInfo),
@@ -208,7 +211,7 @@ class _ConnectState extends State<Connect> {
             isJoined = true;
             startDateTime = datetimeToCustomList();
           });
-          startTimer();
+          // startTimer();
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
@@ -262,15 +265,18 @@ class _ConnectState extends State<Connect> {
   }
 
   void leave() async {
+    if (remoteUid != null) {
+      await stopRecording();
+    }
     setState(() {
       isJoined = false;
       remoteUid = null;
     });
     if (peopleGetCall == false) {
-      missedCallCheck();
+      await missedCallCheck();
     }
-    cancelTimer();
     agoraEngine.leaveChannel();
+    // cancelTimer();
     Navigator.of(context).pop();
   }
 
@@ -367,8 +373,8 @@ class _ConnectState extends State<Connect> {
                                 children: [
                                   if (channelName != null)
                                     GestureDetector(
-                                      onTap: () {
-                                        var cNname = getChannelName(16);
+                                      onTap: () async {
+                                        var cNname = await getChannelName(16);
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {

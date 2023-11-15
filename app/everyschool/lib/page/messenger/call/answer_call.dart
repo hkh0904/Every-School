@@ -1,3 +1,6 @@
+import 'package:everyschool/api/firebase_api.dart';
+import 'package:everyschool/api/messenger_api.dart';
+import 'package:everyschool/store/call_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 
@@ -13,12 +16,15 @@ import 'package:everyschool/page/messenger/call/get_call_success.dart';
 import 'package:everyschool/page/messenger/call/modal_call_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class AnswerCall extends StatefulWidget {
-  const AnswerCall({super.key, this.channelName, this.name});
+  const AnswerCall({super.key, this.channelName, this.name, this.otherUserKey});
   final channelName;
   final name;
+  final otherUserKey;
 
   @override
   State<AnswerCall> createState() => _AnswerCallState();
@@ -153,7 +159,9 @@ class _AnswerCallState extends State<AnswerCall> {
   void dispose() async {
     print('아고라 엔진 종료');
     super.dispose();
-    // await agoraEngine.leaveChannel();
+    if (remoteUid != null) {
+      await agoraEngine.leaveChannel();
+    }
     await agoraEngine.release();
   }
 
@@ -216,12 +224,16 @@ class _AnswerCallState extends State<AnswerCall> {
           if (remoteUid != null)
             Center(
               child: GestureDetector(
-                onTap: () {
-                  if (canClick) {
+                onTap: () async {
+                  final sender = await context.read<CallStore>().sender;
+                  if (canClick && sender) {
                     setState(() {
                       canClick = false;
                     });
-
+                    var storage = FlutterSecureStorage();
+                    var token = await storage.read(key: 'token') ?? "";
+                    await CallingApi()
+                        .callReceiverStop(token, widget.otherUserKey);
                     leave();
                   }
                 },

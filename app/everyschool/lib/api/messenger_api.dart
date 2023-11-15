@@ -266,7 +266,7 @@ class CallingApi {
 
     try {
       final response = await dio.post(
-          '${serverApi.serverURL}/call-service/v1/calls/record/stop',
+          '${serverApi.serverURL}/call-service/v1/calls/record/sender-stop1',
           data: {
             "cname": cname,
             "uid": uid,
@@ -277,6 +277,46 @@ class CallingApi {
             "startDateTime": startDateTime,
             "endDateTime": endDateTime,
           },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('녹음종료 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> callReceiverStopRecording(token, cname, uid, resourceId, sid,
+      otherUserKey, sender, startDateTime, endDateTime) async {
+    print(
+        '녹음종료 토큰 $token 유아이디$uid 채널이름 $cname 리소스아이디 $resourceId 에스아이디 $sid 발신자 $sender 다른사람유저키 $otherUserKey 시작시간 $startDateTime 끝나는시간 $endDateTime');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/record/sender-stop2',
+          data: {
+            "cname": cname,
+            "uid": uid,
+            "resourceId": resourceId,
+            "sid": sid,
+            "otherUserKey": otherUserKey,
+            "sender": sender,
+            "startDateTime": startDateTime,
+            "endDateTime": endDateTime,
+          },
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      print('녹음종료 ${response.data}');
+      return response.data['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<dynamic> callReceiverStop(token, otherUserKey) async {
+    print('수신자 종료 다른사람유저키 $otherUserKey');
+
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/call-service/v1/calls/record/receiver_stop/$otherUserKey',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
       print('녹음종료 ${response.data}');
       return response.data['data'];
