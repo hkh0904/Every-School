@@ -7,9 +7,11 @@ import com.everyschool.boardservice.api.client.response.UserInfo;
 import com.everyschool.boardservice.api.FileStore;
 import com.everyschool.boardservice.domain.board.Board;
 import com.everyschool.boardservice.domain.board.Comment;
+import com.everyschool.boardservice.domain.board.Scrap;
 import com.everyschool.boardservice.domain.board.repository.BoardQueryRepository;
 import com.everyschool.boardservice.domain.board.repository.BoardRepository;
 import com.everyschool.boardservice.domain.board.repository.CommentRepository;
+import com.everyschool.boardservice.domain.board.repository.ScrapQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +42,8 @@ public class BoardAppQueryService {
     private final CommentRepository commentRepository;
     private final UserServiceClient userServiceClient;
     private final FileStore fileStore;
+
+    private final ScrapQueryRepository scrapQueryRepository;
 
     /**
      * 신규 자유게시물 목록 조회
@@ -187,7 +191,9 @@ public class BoardAppQueryService {
             commentVos.add(commentVo);
         }
 
-        return of(board, userInfo.getUserId(), imageUrls, commentVos);
+        Scrap scrap = scrapQueryRepository.findByBoardAndUserId(boardId, userInfo.getUserId());
+
+        return of(board, userInfo.getUserId(), imageUrls, commentVos, scrap != null);
     }
 
     // TODO: 2023-11-13 조회 구현
