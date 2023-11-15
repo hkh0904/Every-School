@@ -1,5 +1,3 @@
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:everyschool/page/community/post_detail_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/page/community/post_comments.dart';
 import 'package:everyschool/api/community_api.dart';
@@ -23,11 +21,12 @@ class PostDetail extends StatefulWidget {
 class _PostDetailState extends State<PostDetail> {
   final CommunityApi communityApi = CommunityApi();
   Map<String, dynamic> postDetail = {};
-  late int tempScrapNum;
   int? schoolYear; // nullable 타입으로 변경
   int? schoolId; // nullable 타입으로 변경
   int? userType;
   String? schoolName;
+  late dynamic tempScrapCount;
+  late dynamic tempMyScrap;
 
   @override
   void initState() {
@@ -74,10 +73,32 @@ class _PostDetailState extends State<PostDetail> {
       if (response != null) {
         setState(() {
           postDetail = response;
+          tempMyScrap = response['inMyScrap'];
+          tempScrapCount = response['scrapCount'];
         });
       }
     } catch (e) {
       print('데이터 로딩 중 오류 발생: $e');
+    }
+  }
+
+  Future<void> _toggleScrap(nowStatus) async {
+    try {
+      if (nowStatus == false) {
+        await communityApi.scrapPost(widget.boardId, schoolId, schoolYear);
+        setState(() {
+          tempMyScrap = true;
+          tempScrapCount += 1;
+        });
+      } else {
+        await communityApi.unScrapPost(widget.boardId, schoolId, schoolYear);
+        setState(() {
+          tempMyScrap = false;
+          tempScrapCount -= 1;
+        });
+      }
+    } catch (e) {
+      print('스크랩 에러 $e');
     }
   }
 
@@ -119,7 +140,6 @@ class _PostDetailState extends State<PostDetail> {
     }
     return GestureDetector(
       onTap: () {
-        // 화면의 어느 곳을 탭해도 키보드를 숨깁니다.
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -217,23 +237,41 @@ class _PostDetailState extends State<PostDetail> {
                             ),
                           ],
                         ),
-                        if (widget.boardName != '자유게시판')
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              // SizedBox(width: 220),
-                              Icon(
-                                Icons.favorite,
-                                color: Color(0XFFF5A9E1),
-                                size: 25,
+                        GestureDetector(
+                          onTap: () => _toggleScrap(tempMyScrap),
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                            child: SizedBox(
+                              // width: textWidth + 35,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (tempMyScrap == true)
+                                    Icon(
+                                      Icons.favorite,
+                                      color: Color.fromARGB(255, 255, 108, 152),
+                                      size: 25,
+                                    ),
+                                  if (tempMyScrap == false)
+                                    Icon(
+                                      Icons.favorite_border,
+                                      color: Color.fromARGB(255, 255, 108, 152),
+                                      size: 25,
+                                    ),
+                                  Text(
+                                    ' $tempScrapCount',
+                                    style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 255, 108, 152),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
-                              Text(
-                                ' ${postDetail["scrapCount"]}',
-                                style: TextStyle(
-                                    fontSize: 23, color: Color(0XFFF5A9E1)),
-                              ),
-                            ],
+                            ),
                           ),
+                        ),
                       ],
                     ),
                     SizedBox(height: 20),
@@ -267,24 +305,14 @@ class _PostDetailState extends State<PostDetail> {
                     ),
                     if (widget.boardName == '자유게시판')
                       Row(children: [
-                        Image.asset(
-                          'assets/images/community/comment.png',
-                          height: 26,
-                        ),
+                        // Icon(
+                        //   Icons.comment_outlined,
+                        //   color: Colors.cyan[400],
+                        // ),
                         Text(
-                          ' ${postDetail["commentCount"]}',
+                          '댓글 ${postDetail["commentCount"]}',
                           style:
-                              TextStyle(fontSize: 18, color: Color(0XFF32D9FE)),
-                        ),
-                        SizedBox(width: 5),
-                        Icon(
-                          Icons.favorite,
-                          color: Color(0XFFF5A9E1),
-                        ),
-                        Text(
-                          ' ${postDetail["scrapCount"]}',
-                          style:
-                              TextStyle(fontSize: 18, color: Color(0XFFF5A9E1)),
+                              TextStyle(fontSize: 20, color: Colors.cyan[400]),
                         ),
                       ]),
                   ],

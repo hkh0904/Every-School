@@ -220,16 +220,17 @@ class _PostListState extends State<PostList> {
                             child: Text(
                               postList[index]['title'] as String,
                               style: TextStyle(
-                                fontSize: 19,
+                                fontSize: 22,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),
+                          SizedBox(height: 3),
                           SizedBox(
                             height: 35,
                             child: Text(
                               formatText(postList[index]['content'] as String),
-                              style: TextStyle(fontSize: 15),
+                              style: TextStyle(fontSize: 17),
                             ),
                           ),
                         ],
@@ -243,31 +244,51 @@ class _PostListState extends State<PostList> {
                     (postList[index]['commentCount'] as int) != 0
                         ? Row(
                             children: [
-                              Image.asset(
-                                'assets/images/community/comment.png',
-                                width: 25,
-                                height: 25,
+                              Icon(
+                                Icons.comment_outlined,
+                                color: Colors.cyan[400],
+                                size: 22,
                               ),
                               Text(
                                 ' ${postList[index]['commentCount'].toString()}',
                                 style: TextStyle(
-                                    fontSize: 15, color: Color(0XFF32D9FE)),
+                                    fontSize: 16, color: Colors.cyan[400]),
                               ),
                               Text(
-                                ' | ',
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 18),
+                                ' ',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ],
                           )
                         : Container(),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.favorite,
+                          color: Color.fromARGB(255, 255, 108, 152),
+                          size: 22,
+                        ),
+                        SizedBox(width: 2),
+                        Text(
+                          '${postList[index]['scrapCount'].toString()}',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 255, 108, 152)),
+                        ),
+                        Text(
+                          '   ',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
                     Text(formatDateTime(
                         postList[index]['createdDate'] as String)),
-                    Text(
-                      ' | ',
-                      style: TextStyle(color: Colors.grey, fontSize: 18),
-                    ),
-                    Text('익명'),
                   ],
                 ),
               ],

@@ -116,7 +116,21 @@ class CommunityApi {
             'Authorization': 'Bearer $token',
           }));
       print(response.data);
-      return response.data['data'];
+    } catch (e) {
+      print("에러 발생 $e");
+      return null;
+    }
+  }
+
+  Future<dynamic> unScrapPost(boardId, schoolId, schoolYear) async {
+    String? token = await storage.read(key: 'token');
+    try {
+      final response = await dio.post(
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/scraps/unscraps',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
+      print(response.data);
     } catch (e) {
       print("에러 발생 $e");
       return null;

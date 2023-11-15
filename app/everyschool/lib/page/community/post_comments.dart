@@ -27,6 +27,8 @@ class _PostCommentsState extends State<PostComments> {
   TextEditingController commentController = TextEditingController();
   TextEditingController recommentController = TextEditingController();
   int? activeCommentId; // 현재 활성화된 답글 입력 필드의 ID
+  int? tempScrapCount;
+  bool? tempMyScrap;
 
   // 답글 입력 필드를 토글하는 함수
   void toggleReplyField(int commentId) {
@@ -113,7 +115,6 @@ class _PostCommentsState extends State<PostComments> {
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 5),
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
           child: TextField(
@@ -200,10 +201,11 @@ class _PostCommentsState extends State<PostComments> {
                                 ? Colors.cyan[400]
                                 : Colors.black),
                       ),
-                      GestureDetector(
-                        onTap: () => toggleReplyField(comment['commentId']),
-                        child: Text('답글'),
-                      ),
+                      if (comment['depth'] == 0)
+                        GestureDetector(
+                          onTap: () => toggleReplyField(comment['commentId']),
+                          child: Text('답글'),
+                        ),
                     ],
                   ),
                 ),

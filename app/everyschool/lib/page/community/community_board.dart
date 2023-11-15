@@ -24,7 +24,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
     super.initState();
     _loadBoardData();
   }
-
+ 
   Future<void> _loadBoardData() async {
     final userType = context.read<UserStore>().userInfo["userType"];
     late final schoolYear;
