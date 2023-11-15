@@ -26,9 +26,9 @@ public interface SchoolServiceClient {
     @GetMapping("/school-service/client/v1/infos/{schoolYear}/users/{userId}/students")
     List<StudentInfo> searchStudentsByUserId(@PathVariable(name = "userId") Long userId, @PathVariable(name = "schoolYear") Integer schoolYear);
 
-    @PostMapping("/school-service/client/v1/applies/{studentId}/exist")
+    @GetMapping("/school-service/client/v1/applies/{studentId}/exist")
     boolean existApply(@PathVariable(name = "studentId") Long studentId);
 
-    @GetMapping("/school-service/client/v1/applies/existParent")
+    @PostMapping("/school-service/client/v1/applies/existParent")
     boolean existApplyParent(@RequestBody Long parentId);
 }
