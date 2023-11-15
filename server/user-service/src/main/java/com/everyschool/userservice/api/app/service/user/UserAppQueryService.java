@@ -3,6 +3,7 @@ package com.everyschool.userservice.api.app.service.user;
 import com.everyschool.userservice.api.app.controller.user.response.*;
 import com.everyschool.userservice.api.app.controller.user.response.info.School;
 import com.everyschool.userservice.api.app.controller.user.response.info.SchoolClass;
+import com.everyschool.userservice.api.app.service.user.dto.ParentInfoResponseDto;
 import com.everyschool.userservice.api.client.school.SchoolServiceClient;
 import com.everyschool.userservice.api.client.school.response.DescendantInfo;
 import com.everyschool.userservice.api.client.school.response.SchoolClassInfo;
@@ -14,6 +15,7 @@ import com.everyschool.userservice.domain.user.User;
 import com.everyschool.userservice.domain.user.repository.StudentParentAppQueryRepository;
 import com.everyschool.userservice.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ import static com.everyschool.userservice.message.ErrorMessage.*;
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class UserAppQueryService {
 
     private final UserRepository userRepository;
@@ -56,10 +59,24 @@ public class UserAppQueryService {
             if (result) {
                 //승인 X
                 School school = School.builder()
-                    .schoolId(null)
-                    .name("미승인")
-                    .build();
+                        .schoolId(null)
+                        .name("미승인")
+                        .build();
                 return StudentInfoResponse.builder()
+                        .userType(student.getUserCodeId())
+                        .email(student.getEmail())
+                        .name(student.getName())
+                        .birth(student.getBirth())
+                        .school(school)
+                        .schoolClass(null)
+                        .joinDate(student.getCreatedDate())
+                        .build();
+            }
+            School school = School.builder()
+                    .schoolId(null)
+                    .name("미신청")
+                    .build();
+            return StudentInfoResponse.builder()
                     .userType(student.getUserCodeId())
                     .email(student.getEmail())
                     .name(student.getName())
@@ -68,20 +85,6 @@ public class UserAppQueryService {
                     .schoolClass(null)
                     .joinDate(student.getCreatedDate())
                     .build();
-            }
-            School school = School.builder()
-                .schoolId(null)
-                .name("미신청")
-                .build();
-            return StudentInfoResponse.builder()
-                .userType(student.getUserCodeId())
-                .email(student.getEmail())
-                .name(student.getName())
-                .birth(student.getBirth())
-                .school(school)
-                .schoolClass(null)
-                .joinDate(student.getCreatedDate())
-                .build();
         }
 
         //학급 정보 조회
@@ -102,7 +105,7 @@ public class UserAppQueryService {
      * @param userKey 회원 고유키
      * @return 조회된 학부모 회원 정보
      */
-    public ParentInfoResponse searchParentInfo(String userKey) {
+    public ParentInfoResponseDto searchParentInfo(String userKey) {
         //회원 엔티티 조회
         User user = getUserByUserKey(userKey);
 
@@ -112,17 +115,33 @@ public class UserAppQueryService {
         //학부모와 연결된 학생(자식) 엔티티 조회
         List<Student> students = studentParentAppQueryRepository.findByParentId(parent.getId());
 
+        if (students.size() == 0) {
+            log.debug("자녀가 등록 안됨");
+            boolean result = schoolServiceClient.existApplyParent(parent.getId());
+            if (result) {
+                return ParentInfoResponseDto.builder()
+                        .parentInfoResponse(of(parent, new ArrayList<>()))
+                        .status(0)
+                        .build();
+            } else {
+                return ParentInfoResponseDto.builder()
+                        .parentInfoResponse(of(parent, new ArrayList<>()))
+                        .status(-1)
+                        .build();
+            }
+        }
+
         //학생 아이디 리스트로 변환
         List<Long> studentIds = students.stream()
-            .map(Student::getId)
-            .collect(Collectors.toList());
+                .map(Student::getId)
+                .collect(Collectors.toList());
 
         //학생(자식)의 학급 정보 조회
         List<DescendantInfo> descendantInfos = schoolServiceClient.searchByUserId(studentIds);
 
         //key: 학생 아이디, value: 학생(자식) 학급 정보
         Map<Long, DescendantInfo> map = descendantInfos.stream()
-            .collect(Collectors.toMap(DescendantInfo::getUserId, descendantInfo -> descendantInfo, (a, b) -> b));
+                .collect(Collectors.toMap(DescendantInfo::getUserId, descendantInfo -> descendantInfo, (a, b) -> b));
 
         //학생(자식) 회원 정보 생성
         List<Descendant> descendants = new ArrayList<>();
@@ -140,7 +159,10 @@ public class UserAppQueryService {
             descendants.add(descendant);
         }
 
-        return of(parent, descendants);
+        return ParentInfoResponseDto.builder()
+                .parentInfoResponse(of(parent, descendants))
+                .status(-1)
+                .build();
     }
 
     /**
@@ -200,7 +222,7 @@ public class UserAppQueryService {
 
         //key: 회원(학생) 아이디, value: 학번
         Map<Long, Integer> map = infos.stream()
-            .collect(Collectors.toMap(StudentInfo::getUserId, StudentInfo::getStudentNumber, (a, b) -> b));
+                .collect(Collectors.toMap(StudentInfo::getUserId, StudentInfo::getStudentNumber, (a, b) -> b));
 
         //회원(학생) 아이디를 리스트로 전환
         List<Long> temp = new ArrayList<>(map.keySet());
@@ -308,10 +330,10 @@ public class UserAppQueryService {
      */
     private StudentContactInfoResponse createStudentContactInfoResponse(Student student, int studentNumber) {
         return StudentContactInfoResponse.builder()
-            .userKey(student.getUserKey())
-            .name(student.getName())
-            .studentNumber(studentNumber)
-            .build();
+                .userKey(student.getUserKey())
+                .name(student.getName())
+                .studentNumber(studentNumber)
+                .build();
     }
 
     /**
@@ -322,9 +344,9 @@ public class UserAppQueryService {
      */
     private StudentContactInfoResponse.Parent createStudentContactInfoResponseInnerParent(Parent parent) {
         return StudentContactInfoResponse.Parent.builder()
-            .parentKey(parent.getUserKey())
-            .name(parent.getName())
-            .parentType(parent.getParentType())
-            .build();
+                .parentKey(parent.getUserKey())
+                .name(parent.getName())
+                .parentType(parent.getParentType())
+                .build();
     }
 }

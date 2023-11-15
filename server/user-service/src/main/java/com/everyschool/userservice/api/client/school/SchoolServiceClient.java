@@ -28,4 +28,7 @@ public interface SchoolServiceClient {
 
     @GetMapping("/school-service/client/v1/applies/{studentId}/exist")
     boolean existApply(@PathVariable(name = "studentId") Long studentId);
+
+    @GetMapping("/school-service/client/v1/applies/existParent")
+    boolean existApplyParent(@RequestBody Long parentId);
 }

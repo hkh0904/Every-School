@@ -98,6 +98,15 @@ public class SchoolClientController {
         return result;
     }
 
+    @GetMapping("/applies/existParent")
+    public boolean existApplyParent(@RequestBody Long parentId) {
+
+        boolean result = schoolApplyQueryService.existApplyParent(parentId);
+        log.debug("result={}", result);
+
+        return result;
+    }
+
     @GetMapping("/classes/{schoolClassId}/teachers")
     public Long searchTeacherId(@PathVariable Long schoolClassId) {
 
