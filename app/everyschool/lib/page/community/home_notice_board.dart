@@ -42,7 +42,7 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
     }
     var response;
     try {
-      response = await communityApi.getHomeNoticeList(schoolYear, schoolId);
+      response = await communityApi.getHomeNoticeList(schoolYear, schoolId, 1);
       if (response != null && response['content'] != null) {
         setState(() {
           boardList = response['content'];

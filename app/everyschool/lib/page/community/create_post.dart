@@ -13,7 +13,7 @@ class _CreatePostState extends State<CreatePost> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context); // 이전 페이지로 돌아가기
+        Navigator.pop(context, 'refresh'); // 이전 페이지로 돌아가기
         return true;
       },
       child: Scaffold(
@@ -25,7 +25,7 @@ class _CreatePostState extends State<CreatePost> {
             iconSize: 30,
             icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
             onPressed: () {
-              Navigator.pop(context); // 이전 페이지로 돌아가기
+              Navigator.pop(context, 'refresh');
             },
           ),
           title: Text(

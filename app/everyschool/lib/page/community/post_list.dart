@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/store/user_store.dart';
 import 'package:provider/provider.dart';
-import 'package:everyschool/api/community_api.dart';
-import 'package:everyschool/page/community/post_detail.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:convert';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 
 class PostList extends StatefulWidget {
   final String pageTitle;
-  const PostList({Key? key, required this.pageTitle}) : super(key: key);
+  final bool needRefresh;
+  const PostList({Key? key, required this.pageTitle, this.needRefresh = false})
+      : super(key: key);
 
   @override
   State<PostList> createState() => _PostListState();
@@ -18,8 +20,10 @@ class PostList extends StatefulWidget {
 class _PostListState extends State<PostList> {
   final CommunityApi communityApi = CommunityApi();
   List<dynamic> postList = [];
+  int page = 1;
 
-  Future<void> _loadPostData() async {
+  Future<void> _loadPostData([int requestedPage = 1]) async {
+    // 사용자 타입, 학년, 학교 ID를 가져옴
     final userType = context.read<UserStore>().userInfo["userType"];
     late final schoolYear;
     late final schoolId;
@@ -34,18 +38,25 @@ class _PostListState extends State<PostList> {
       schoolYear =
           context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
     }
+
     var response;
     try {
       if (widget.pageTitle == '자유게시판') {
-        response = await communityApi.getBoardList(schoolYear, schoolId);
+        response = await communityApi.getBoardList(
+            schoolYear, schoolId, requestedPage);
       } else if (widget.pageTitle == '학사 공지') {
-        response = await communityApi.getNoticeList(schoolYear, schoolId);
+        response = await communityApi.getNoticeList(
+            schoolYear, schoolId, requestedPage);
       } else if (widget.pageTitle == '가정통신문') {
-        response = await communityApi.getHomeNoticeList(schoolYear, schoolId);
+        response = await communityApi.getHomeNoticeList(
+            schoolYear, schoolId, requestedPage);
       }
 
-      if (response != null && response['content'] != null) {
+      if (response != null &&
+          response['content'] != null &&
+          response['content'].isNotEmpty) {
         setState(() {
+          page = requestedPage;
           postList = response['content'];
         });
       }
@@ -58,6 +69,19 @@ class _PostListState extends State<PostList> {
   void initState() {
     super.initState();
     _loadPostData();
+    if (widget.needRefresh) {
+      _loadPostData();
+    }
+  }
+
+  void nextPage() {
+    _loadPostData(page + 1);
+  }
+
+  void previousPage() {
+    if (page > 1) {
+      _loadPostData(page - 1);
+    }
   }
 
   String formatText(String text) {
@@ -105,8 +129,41 @@ class _PostListState extends State<PostList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: postList.length,
+      itemCount: postList.length + 1, // '이전', '다음' 버튼을 위해 +1
       itemBuilder: (context, index) {
+        if (index == postList.length) {
+          // 리스트의 마지막 항목에서 '이전', '다음' 버튼 표시
+          return Column(
+            children: [
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    iconSize: 20,
+                    icon: Icon(Icons.arrow_back_ios_rounded,
+                        color: Color(0XFF15075F)),
+                    onPressed: previousPage,
+                  ),
+                  Text(
+                    page.toString(),
+                    style: TextStyle(
+                        color: Color(0XFF15075F),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    iconSize: 20,
+                    icon: Icon(Icons.arrow_forward_ios_rounded,
+                        color: Color(0XFF15075F)),
+                    onPressed: nextPage,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10)
+            ],
+          );
+        }
         int? boardId = postList[index]['boardId'] as int?;
         return GestureDetector(
           onTapDown: (TapDownDetails details) {
@@ -130,9 +187,10 @@ class _PostListState extends State<PostList> {
                   builder: (context) =>
                       PostDetail(boardName: widget.pageTitle, boardId: boardId),
                 ),
-              ).then((_) {
-                // 사용자가 돌아왔을 때 게시글 목록을 새로고침
-                _loadPostData();
+              ).then((check) {
+                if (check == 'refresh') {
+                  _loadPostData();
+                }
               });
             }
           },
@@ -191,7 +249,7 @@ class _PostListState extends State<PostList> {
                                 height: 25,
                               ),
                               Text(
-                                ' ${postList[index]['comments'].toString()}',
+                                ' ${postList[index]['commentCount'].toString()}',
                                 style: TextStyle(
                                     fontSize: 15, color: Color(0XFF32D9FE)),
                               ),

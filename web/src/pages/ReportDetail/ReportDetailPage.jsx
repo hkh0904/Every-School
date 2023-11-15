@@ -15,7 +15,7 @@ export default function ReportDetailPage() {
   const [reportResult, setReportResult] = useState('');
   const selectOptions = [
     { value: 'receive', label: '접수 완료' },
-    { value: 'doing', label: '처리 중' },
+    { value: 'doing', label: '처리중' },
     { value: 'complete', label: '처리 완료' }
   ];
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export default function ReportDetailPage() {
     const fetchDetail = async () => {
       const detail = await reportDetailInfo(reportId);
       setData(detail);
-
+      console.log(detail)
       if (detail.status) {
         const value = selectOptions.find((option) => option.label === detail.status)?.value || '';
         setSelectedValue(value);

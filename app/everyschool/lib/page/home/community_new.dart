@@ -4,6 +4,7 @@ import 'package:everyschool/api/community_api.dart';
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/page/community/post_detail.dart';
 import 'package:everyschool/store/user_store.dart';
+import 'package:everyschool/page/community/post_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';

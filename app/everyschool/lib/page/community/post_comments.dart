@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:everyschool/api/community_api.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class PostComments extends StatefulWidget {
   final int boardId;
@@ -24,6 +25,23 @@ class PostComments extends StatefulWidget {
 class _PostCommentsState extends State<PostComments> {
   final CommunityApi communityApi = CommunityApi();
   TextEditingController commentController = TextEditingController();
+  TextEditingController recommentController = TextEditingController();
+  int? activeCommentId; // 현재 활성화된 답글 입력 필드의 ID
+
+  // 답글 입력 필드를 토글하는 함수
+  void toggleReplyField(int commentId) {
+    setState(() {
+      if (activeCommentId == commentId) {
+        // 이미 활성화된 답글 입력 필드를 다시 누른 경우, 닫고 초기화
+        activeCommentId = null;
+        recommentController.clear();
+      } else {
+        // 다른 답글 입력 필드를 누른 경우, 새로운 답글 입력 필드를 활성화
+        activeCommentId = commentId;
+        recommentController.clear();
+      }
+    });
+  }
 
   Future<void> _writeComment() async {
     var response;
@@ -40,74 +58,116 @@ class _PostCommentsState extends State<PostComments> {
     }
   }
 
+  Future<void> _writeReComment(commentId) async {
+    print(commentId);
+    var response;
+    try {
+      var formData = {'content': recommentController.text};
+      response = await communityApi.writeRecomment(widget.boardId,
+          widget.schoolId, widget.schoolYear, commentId, formData);
+      if (response != null) {
+        widget.onCommentAdded();
+        recommentController.text = '';
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     print(widget.comments);
   }
 
+  String formatDateTime(String dateTimeStr) {
+    tz.TZDateTime postDateTime;
+    try {
+      postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
+    } catch (e) {
+      print('DateTime parsing error: $e');
+      return dateTimeStr;
+    }
+
+    tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    Duration difference = now.difference(postDateTime);
+
+    if (difference.inDays == 0) {
+      if (difference.inHours == 0) {
+        if (difference.inMinutes > 5) {
+          return '${difference.inMinutes}분 전';
+        } else {
+          return '방금 전';
+        }
+      } else {
+        return '${difference.inHours}시간 전';
+      }
+    } else {
+      return '${postDateTime.month.toString().padLeft(2, '0')}/${postDateTime.day.toString().padLeft(2, '0')}';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Text('댓글 작성하기'),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: TextField(
-              controller: commentController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10), // 여기에서 테두리 둥근 정도를 조절
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.purple), // 포커스 시 보라색 테두리
-                ),
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+          child: TextField(
+            controller: commentController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide(width: 2.5)),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide(color: Color(0XFF15075f), width: 2.5),
               ),
-              onSubmitted: (value) {
-                _writeComment();
-              },
+              hintText: '댓글 작성하기',
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             ),
-          ),
-          widget.comments.isEmpty
-              ? Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Text('아직 작성된 댓글이 없습니다'),
-                )
-              : ListView.builder(
-                  itemCount: widget.comments.length,
-                  itemBuilder: (context, index) {
-                    var comment = widget.comments[index];
-                    return Column(
-                      children: [
-                        _buildComment(comment, false), // for main comments
-                        ..._buildReComments(
-                            comment['reComment']), // for recomments
-                      ],
-                    );
-                  },
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildComment(dynamic comment, bool isReComment) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(20, 15, 20, 10),
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: isReComment
-                ? Colors.transparent
-                : Colors.grey, // Remove top border for recomment
-            width: 1.0,
+            onSubmitted: (value) {
+              _writeComment();
+            },
           ),
         ),
-      ),
+        widget.comments.isEmpty
+            ? Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Center(
+                  child: Text(
+                    '아직 작성된 댓글이 없습니다',
+                    style: TextStyle(fontSize: 20, color: Colors.grey[500]),
+                  ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: widget.comments.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  var comment = widget.comments[index];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildComment(comment),
+                      ..._buildReComments(comment['reComments']),
+                    ],
+                  );
+                },
+              ),
+      ],
+    ));
+  }
+
+  Widget _buildComment(dynamic comment) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 15, 20, 10),
+      decoration: BoxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -121,35 +181,59 @@ class _PostCommentsState extends State<PostComments> {
                 ),
                 child: Align(
                   alignment: Alignment.center,
-                  child: Image.asset(
-                    'assets/images/community/user.png',
-                    width: 20,
-                    height: 20,
-                  ),
+                  child: Image.asset('assets/images/community/user.png',
+                      width: 20, height: 20),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Text(
-                  '익명',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        comment['isMine'] ? '익명(글쓴이)' : '익명',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            color: comment['isMine']
+                                ? Colors.cyan[400]
+                                : Colors.black),
+                      ),
+                      GestureDetector(
+                        onTap: () => toggleReplyField(comment['commentId']),
+                        child: Text('답글'),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ],
           ),
           SizedBox(height: 5),
-          Text(
-            comment['content'],
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
+          Text(comment['content'],
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
           SizedBox(height: 5),
-          Text(
-            comment['createdDate'],
-            style: TextStyle(color: Colors.grey),
-          )
+          Text(comment['createdDate'],
+              style: TextStyle(color: Colors.grey)), // 답글 입력 필드 조건부 표시
+          if (activeCommentId == comment['commentId'])
+            TextField(
+              controller: recommentController,
+              decoration: InputDecoration(
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(width: 2.5),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF15075f), width: 2.5),
+                ),
+                hintText: '답글 작성하기',
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              ),
+              onSubmitted: (value) {
+                _writeReComment(comment['commentId']);
+              },
+            ),
         ],
       ),
     );
@@ -164,11 +248,7 @@ class _PostCommentsState extends State<PostComments> {
 
       return Container(
         padding: EdgeInsets.fromLTRB(
-          20,
-          5,
-          20,
-          idx == reComments.length - 1 ? 10 : 5,
-        ),
+            20, 5, 20, idx == reComments.length - 1 ? 10 : 5),
         child: Column(
           children: [
             Row(
@@ -181,7 +261,7 @@ class _PostCommentsState extends State<PostComments> {
                       borderRadius: BorderRadius.circular(15),
                       color: Color(0XFFF4F4F4),
                     ),
-                    child: _buildComment(reComment, true),
+                    child: _buildComment(reComment),
                   ),
                 ),
               ],

@@ -1,3 +1,10 @@
+import 'package:everyschool/store/user_store.dart';
+import 'package:everyschool/api/community_api.dart';
+import 'package:everyschool/page/community/post_detail.dart';
+import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class PopularPost extends StatefulWidget {
@@ -8,18 +15,54 @@ class PopularPost extends StatefulWidget {
 }
 
 class _PopularPostState extends State<PopularPost> {
-  var popPost = [
-    {
-      'title': '선생님께 사과받고 싶습니다.',
-      'content': '아니 진짜 살다살다 제가 잘못한건가요 아니 진짜 살다살다 제가 잘못한건가요',
-      'comments': '22'
-    },
-    {
-      'title': '계단에서 애정행각 그만해주세요',
-      'content': '반으로 돌아가려는데 커플들 때문에 다른계단 아니 진짜 살다살다 제가 잘못한건가요',
-      'comments': '13'
-    },
-  ];
+  final CommunityApi communityApi = CommunityApi();
+  List<dynamic> popPost = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBoardData();
+  }
+
+  Future<void> _loadBoardData() async {
+    late final schoolYear =
+        context.read<UserStore>().userInfo["schoolClass"]["schoolYear"];
+    late final schoolId =
+        context.read<UserStore>().userInfo["school"]["schoolId"];
+
+    List<dynamic> combinedPosts = []; // 여러 페이지의 데이터를 저장할 리스트
+
+    try {
+      for (int i = 1; i <= 3; i++) {
+        // 1부터 3까지의 페이지를 순회
+        var response = await communityApi.getBoardList(schoolYear, schoolId, i);
+        if (response != null &&
+            response['content'] != null &&
+            response['content'].isNotEmpty) {
+          combinedPosts
+              .addAll(response['content']); // 각 페이지의 content를 combinedPosts에 추가
+        }
+      }
+      var scoredPosts = combinedPosts.map((post) {
+        int score =
+            (post['commentCount'] as int) * 3 + (post['scrapCount'] as int) * 2;
+        return {'post': post, 'score': score};
+      }).toList();
+
+      // 점수가 높은 순으로 정렬
+      scoredPosts.sort((a, b) => b['score'].compareTo(a['score']));
+
+      // 상위 2개의 게시물만 선택
+      List<dynamic> topPosts =
+          scoredPosts.take(2).map((e) => e['post']).toList();
+
+      setState(() {
+        popPost = topPosts; // 상위 2개의 게시물을 popPost에 저장
+      });
+    } catch (e) {
+      print('커뮤니티 보드 에러: $e');
+    }
+  }
 
   String formatText(String text) {
     if (text.length > 35) {
@@ -50,7 +93,7 @@ class _PopularPostState extends State<PopularPost> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '실시간 인기글 ✨',
+              '오늘의 인기글 ✨',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
             ),
             Container(
@@ -146,7 +189,7 @@ class _PopularPostState extends State<PopularPost> {
                                   height: 25,
                                 ),
                                 Text(
-                                  popPost[index]['comments'] as String,
+                                  (popPost[index]['commentCount'].toString()),
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ],

@@ -218,7 +218,6 @@ class _SelectSchoolState extends State<SelectSchool> {
                 onTap: () {
                   Navigator.of(context).pop(); // 다이얼로그 닫기
                   if (!barrierDismissible) {
-                    // 성공적인 작업 후 페이지를 빠져나갈 경우
                     Navigator.of(context).pop(); // 추가적인 pop
                   }
                 },
