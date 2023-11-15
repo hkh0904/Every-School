@@ -153,28 +153,10 @@ class _PostDetailState extends State<PostDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    iconSize: 30,
-                    icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
+                    icon: Icon(Icons.arrow_back),
                     onPressed: () {
                       Navigator.pop(context, 'refresh');
                     },
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        iconSize: 30,
-                        icon: Icon(Icons.restart_alt, color: Color(0XFF15075F)),
-                        onPressed: () {
-                          _loadPostDetail();
-                        },
-                        padding: EdgeInsets.all(0),
-                        constraints: BoxConstraints(
-                          minWidth: 10, // minWidth와 minHeight를 원하는 값으로 설정
-                          minHeight: 10,
-                        ),
-                      ),
-                      SizedBox(width: 8), // 원하는 간격을 추가 (예: 8픽셀)
-                    ],
                   ),
                 ],
               ),
@@ -278,9 +260,9 @@ class _PostDetailState extends State<PostDetail> {
                     Text(
                       '${postDetail["title"]}',
                       style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 6),
                     if (postDetail['imageUrls'] != null &&
                         postDetail['imageUrls'].isNotEmpty) ...[
                       Text(
@@ -297,7 +279,7 @@ class _PostDetailState extends State<PostDetail> {
                     Text(
                       '${postDetail["content"]}',
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                       ),
                     ),
                     SizedBox(
@@ -312,7 +294,7 @@ class _PostDetailState extends State<PostDetail> {
                         Text(
                           '댓글 ${postDetail["commentCount"]}',
                           style:
-                              TextStyle(fontSize: 20, color: Colors.cyan[400]),
+                              TextStyle(fontSize: 15, color: Colors.cyan[400]),
                         ),
                       ]),
                   ],

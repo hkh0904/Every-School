@@ -24,7 +24,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
     super.initState();
     _loadBoardData();
   }
- 
+
   Future<void> _loadBoardData() async {
     final userType = context.read<UserStore>().userInfo["userType"];
     late final schoolYear;
@@ -140,7 +140,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
                       Text(
                         userType == 1001 ? '자유 게시판' : '학사 공지',
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w800),
+                            fontSize: 20, fontWeight: FontWeight.w700),
                       ),
                       Text('더보기',
                           style: TextStyle(fontSize: 15, color: Colors.grey)),
@@ -214,7 +214,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
                                       ? '${(boardList[index]['title'] as String).substring(0, 15)}...'
                                       : boardList[index]['title'] as String,
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
@@ -224,7 +224,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
                                 Text(
                                   displayTime,
                                   style: TextStyle(
-                                      fontSize: 17, color: Color(0xff999999)),
+                                      fontSize: 15, color: Color(0xff999999)),
                                 ),
                             ],
                           ),

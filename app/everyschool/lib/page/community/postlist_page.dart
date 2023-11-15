@@ -33,8 +33,7 @@ class _PostlistPageState extends State<PostlistPage> {
           elevation: 1,
           centerTitle: true,
           leading: IconButton(
-            iconSize: 30,
-            icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context, 'refresh'); // 이전 페이지로 돌아가기
             },
@@ -43,16 +42,14 @@ class _PostlistPageState extends State<PostlistPage> {
             widget.pageTitle, // 여기에서 pageTitle을 사용합니다.
             style: TextStyle(
               color: Colors.black,
-              fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
           ),
           actions: [
             IconButton(
-              iconSize: 30,
+              iconSize: 25,
               icon: Icon(
                 Icons.add,
-                color: Color(0XFF15075F),
               ),
               onPressed: () {
                 Navigator.push(

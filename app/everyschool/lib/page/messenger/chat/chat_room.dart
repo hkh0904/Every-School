@@ -91,8 +91,6 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void sendMessage() async {
-    print('보냄');
-    print(widget.roomInfo['roomId']);
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
 
@@ -100,6 +98,7 @@ class _ChatRoomState extends State<ChatRoom> {
         .read<ChatController>()
         .changechatroomList(List<Map>.from(response));
     final myKey = await storage.read(key: 'userKey');
+    print(myKey);
     final filter = await MessengerApi().chatFilter(
         token,
         widget.roomInfo['roomId'],
@@ -345,7 +344,13 @@ class _ChatRoomState extends State<ChatRoom> {
                               right: 0,
                               child: IconButton(
                                 icon: Icon(Icons.send),
-                                onPressed: sendMessage,
+                                onPressed: context
+                                        .watch<ChatController>()
+                                        .textEditingController
+                                        .text
+                                        .isNotEmpty
+                                    ? sendMessage
+                                    : null,
                               ),
                             ),
                           ],

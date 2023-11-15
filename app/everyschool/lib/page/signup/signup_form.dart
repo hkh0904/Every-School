@@ -143,7 +143,7 @@ class _SignupFormState extends State<SignupForm> {
                                                 child: Text('닫기'))
                                           ],
                                           content: SingleChildScrollView(
-                                            child: Text('인증번호를 확인하세요.'),
+                                            child: Text('입력하신 이메일을\n확인하세요.'),
                                           ),
                                         );
                                       }));

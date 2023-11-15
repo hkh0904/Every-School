@@ -1,6 +1,7 @@
 import 'package:everyschool/api/firebase_api.dart';
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
+import 'package:everyschool/page/home/waiting_page.dart';
 import 'package:everyschool/page/login/approve_waiting.dart';
 import 'package:everyschool/page/mypage/add_child.dart';
 import 'package:everyschool/page/mypage/register_child.dart';
@@ -35,24 +36,26 @@ class _LoginFormState extends State<LoginForm> {
     if (userType == '1001') {
       print(userInfo);
       if (userInfo['data']['school']['schoolId'] == null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => SelectSchool(),
-          ),
-        );
+        if (userInfo['message'] == '학급 승인 대기중입니다.') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => WaitingPage(),
+            ),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => SelectSchool(),
+            ),
+          );
+        }
       } else if (userInfo['data']['school']['schoolId'] != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => Main(),
-          ),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => ApproveWaiting(),
           ),
         );
       }
@@ -76,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => ApproveWaiting(),
+              builder: (BuildContext context) => WaitingPage(),
             ),
           );
         }

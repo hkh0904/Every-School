@@ -22,8 +22,7 @@ class _CreatePostState extends State<CreatePost> {
           elevation: 0,
           centerTitle: true,
           leading: IconButton(
-            iconSize: 30,
-            icon: Icon(Icons.arrow_back, color: Color(0XFF15075F)),
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context, 'refresh');
             },
@@ -32,7 +31,6 @@ class _CreatePostState extends State<CreatePost> {
             '글쓰기',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
           ),

@@ -100,7 +100,13 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
               return [
                 SliverAppBar(
                   elevation: 8,
-                  title: Text('메신저', style: TextStyle(color: Colors.black)),
+                  title: Text(
+                    '메신저',
+                    style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
                   backgroundColor: Colors.grey[50],
                   bottom: TabBar(
                     indicatorColor: Color(0xff15075F),
@@ -122,7 +128,7 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
                       ))
                     ],
                   ),
-                  pinned: false,
+                  pinned: true,
                 ),
               ];
             },
@@ -255,8 +261,15 @@ class _UserTapBarState extends State<UserTapBar> {
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  title: Text('메신저', style: TextStyle(color: Colors.black)),
+                  title: Text(
+                    '메신저',
+                    style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
                   backgroundColor: Colors.grey[50],
+                  pinned: true,
                   actions: [
                     Center(
                         child: Text('담임선생님',
@@ -307,7 +320,6 @@ class _UserTapBarState extends State<UserTapBar> {
                       )),
                     ],
                   ),
-                  pinned: false,
                 ),
               ];
             },

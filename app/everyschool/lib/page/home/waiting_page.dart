@@ -11,7 +11,7 @@ class WaitingPage extends StatefulWidget {
 }
 
 class _WaitingPageState extends State<WaitingPage> {
-  late int userType;
+  String? userType;
   final storage = FlutterSecureStorage();
 
   @override
@@ -20,9 +20,11 @@ class _WaitingPageState extends State<WaitingPage> {
     _checkUser();
   }
 
-  Future<void> _checkUser() async {
-    userType = context.read<UserStore>().userInfo["userType"];
-    print('승인 대기 페이지 $userType');
+  _checkUser() async {
+    final usertype = await storage.read(key: "usertype");
+    setState(() {
+      userType = usertype;
+    });
   }
 
   @override
@@ -37,7 +39,7 @@ class _WaitingPageState extends State<WaitingPage> {
             Image.asset('assets/images/home/title.png'),
             SizedBox(height: 20),
             Text(
-              userType == 1001 ? '학급 등록 승인 대기 중 입니다.' : '자녀 등록 승인 대기 중 입니다.',
+              userType == '1001' ? '학급 등록 승인 대기 중 입니다.' : '자녀 등록 승인 대기 중 입니다.',
               style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.w700,

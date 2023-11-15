@@ -1,4 +1,5 @@
 import 'package:everyschool/api/user_api.dart';
+import 'package:everyschool/page/home/waiting_page.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/store/user_store.dart';
@@ -230,7 +231,12 @@ class _SelectSchoolState extends State<SelectSchool> {
                 onTap: () {
                   Navigator.of(context).pop(); // 다이얼로그 닫기
                   if (!barrierDismissible) {
-                    Navigator.of(context).pop(); // 추가적인 pop
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => WaitingPage(),
+                      ),
+                    );
                   }
                 },
                 child: Container(
@@ -331,7 +337,6 @@ class _SelectSchoolState extends State<SelectSchool> {
             '학교 등록하기',
             style: TextStyle(
               color: Color(0XFF15075F),
-              fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -344,7 +349,7 @@ class _SelectSchoolState extends State<SelectSchool> {
               Text(
                 '학교 선택하기',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -353,7 +358,7 @@ class _SelectSchoolState extends State<SelectSchool> {
                 link: _layerLink,
                 child: TextField(
                   controller: _searchController,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 17),
                   // onTap: () {
                   //   // 오버레이가 열릴 때 포커스를 잃지 않게 하기 위해서 onTap을 빈 콜백으로 오버라이드합니다.
                   // },
@@ -365,7 +370,7 @@ class _SelectSchoolState extends State<SelectSchool> {
               Text(
                 '이름',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -384,8 +389,8 @@ class _SelectSchoolState extends State<SelectSchool> {
                   _nameController.text,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
+                    fontSize: 18,
+                    color: Colors.grey,
                   ),
                 ),
               ),
@@ -393,7 +398,7 @@ class _SelectSchoolState extends State<SelectSchool> {
               Text(
                 '학년 / 반',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -441,15 +446,15 @@ class _SelectSchoolState extends State<SelectSchool> {
                     child: InkWell(
                       onTap: () => _registerSchool(context),
                       child: Container(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                        padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
                         decoration: BoxDecoration(
                           color: Color(0xFF15075F),
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(3.0)),
                         ),
                         child: Text(
                           '제출하기',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 20,
                               fontWeight: FontWeight.w800,
                               color: Colors.white),
                           textAlign: TextAlign.center, // 텍스트를 컨테이너 중앙에 위치시킴
