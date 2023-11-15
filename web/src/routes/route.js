@@ -20,6 +20,9 @@ import ConsultSettingPage from '../pages/ConsultSetting/ConsultSettingPage';
 import NotiHistory from '../pages/Notification/NotiHistory';
 import NotiDetailPage from '../pages/Notification/NotiDetailPage';
 import RegisterNotiPage from './../pages/Notification/RegisterNotiPage';
+import Payment from '../pages/Notification/Payment';
+import PayRegisterNotiPage from '../pages/Notification/PayRegisterNotiPage';
+import PayNotiDetailPage from '../pages/Notification/PayNotiDetailPage';
 
 function RouteLink() {
   return (
@@ -43,11 +46,14 @@ function RouteLink() {
             {/* 신고페이지 */}
             <Route path='report/history' element={<ReportHistoryPage />} />
             <Route path='report/detail' element={<ReportDetailPage />} />
-            {/* 고지서 등록 */}
+            {/* 가절통신문 등록 */}
             <Route path='docs/register-noti' element={<NotiHistory />} />
             <Route path='docs/register-noti/write' element={<RegisterNotiPage />} />
             <Route path='docs/register-noti/detail' element={<NotiDetailPage />} />
-            <Route path='docs/register-payment' element={<RegisterPayPage />} />
+            {/* 공지사항 등록 */}
+            <Route path='docs/register-payment' element={<Payment />} />
+            <Route path='docs/register-payment/write' element={<PayRegisterNotiPage />} />
+            <Route path='docs/register-payment/detail' element={<PayNotiDetailPage />} />
             {/* 상담 */}
             <Route path='consult/approve' element={<ConsultApprovePage />} />
             <Route path='consult/history' element={<ConsultHistory />} />

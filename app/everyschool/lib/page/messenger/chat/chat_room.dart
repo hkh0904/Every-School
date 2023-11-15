@@ -117,11 +117,26 @@ class _ChatRoomState extends State<ChatRoom> {
                 context.read<ChatController>().textEditingController.text,
           }),
           headers: {});
-
-      context.read<ChatController>().onFieldSubmitted();
     } else {
-      print('문제가 있어 보내지 않았습니다');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text('보낼 수 없는 단어가 포함되어 있습니다.\n\n언어 사용에 유의하세요.'),
+            actions: [
+              TextButton(
+                child: Text('닫기'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
     }
+    context.read<ChatController>().onFieldSubmitted();
+
     setState(() {});
   }
 

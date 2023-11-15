@@ -1,11 +1,13 @@
 .table {
-  margin-top: 1vw;
   border-collapse: collapse;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .tableEle {
-  padding: 1rem;
+  margin: 4px 0;
+  padding: 4px 5px;
   border-bottom: 2.5px solid #f2f2f2;
   text-align: center;
 }
@@ -13,6 +15,7 @@
 /* 테이블 헤더에 대한 스타일 추가 */
 .tableEle th {
   background-color: #f6f5f9;
+  padding: 6px 0px;
 }
 
 .row {
