@@ -35,6 +35,7 @@ class UserApi {
     var userType = await storage.read(key: 'usertype');
     String lastAdd;
     if (userType == '1001') {
+      print('d여기로...');
       lastAdd = '/v1/app/info/student';
     } else if (userType == '1002') {
       lastAdd = '/v1/app/info/parent';
@@ -69,6 +70,8 @@ class UserApi {
           key: 'usertype', value: response.headers['usertype']?[0]);
       var userInfo = await getUserInfo(response.headers['token']?[0]);
       print(userInfo);
+      print(userInfo['name']);
+      await storage.write(key: 'userName', value: userInfo['name']);
 
       if (userInfo['userType'] == 1002 && userInfo['descendants'].length != 0) {
         await storage.write(

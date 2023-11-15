@@ -60,4 +60,11 @@ class ChatController extends ChangeNotifier {
 
   /* Getters */
   bool get isTextFieldEnable => textEditingController.text.isNotEmpty;
+
+  bool isUpdated = false;
+
+  setIsUpdated() {
+    isUpdated = !isUpdated;
+    notifyListeners();
+  }
 }

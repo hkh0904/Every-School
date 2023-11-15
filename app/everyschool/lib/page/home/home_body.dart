@@ -5,6 +5,7 @@ import 'package:everyschool/page/home/school_noti.dart';
 import 'package:everyschool/page/home/user_info.dart';
 import 'package:everyschool/page/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -14,6 +15,13 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  void logout() {
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (Route<dynamic> route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -39,11 +47,14 @@ class _HomeBodyState extends State<HomeBody> {
                 padding: const EdgeInsets.all(0), // 패딩을 조절합니다.
                 alignment: Alignment.center, // 아이콘을 가운데 정렬합니다.
                 splashRadius: 24.0, // 클릭 시 스플래시 효과의 반지름을 조절합니다.
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
+                onPressed: () async {
+                  final storage = FlutterSecureStorage();
+                  await storage.delete(key: 'token');
+                  await storage.delete(key: 'userkey');
+                  await storage.delete(key: 'usertype');
+                  await storage.delete(key: 'userName');
+                  await storage.delete(key: 'descendant');
+                  logout();
                 })
           ],
           actionsIconTheme: const IconThemeData(
