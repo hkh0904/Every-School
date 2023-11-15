@@ -3,7 +3,7 @@ package com.everyschool.schoolservice.api.app.service.schoolapply;
 public class InformationGenerator {
 
     private static final String STUDENT_INFO_FORMAT = "%d학년 %d반 %s 학생";
-    private static final String PARENT_STUDENT_INFO_FORMAT = "%d학년 %d반 %d번 %s 학생";
+    private static final String PARENT_STUDENT_INFO_FORMAT = "%d학년 %d반 %s 학생";
 
     /**
      * 학생 정보 생성
@@ -28,7 +28,7 @@ public class InformationGenerator {
      */
     public static String createInformation(int grade, int classNum, int studentNum, String name) {
         int number = getStudentNumber(studentNum);
-        return String.format(PARENT_STUDENT_INFO_FORMAT, grade, classNum, number, name);
+        return String.format(PARENT_STUDENT_INFO_FORMAT, grade, classNum, name);
     }
 
     /**
