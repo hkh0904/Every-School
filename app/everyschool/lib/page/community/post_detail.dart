@@ -143,24 +143,18 @@ class _PostDetailState extends State<PostDetail> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.grey[50],
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, 'refresh'); // 이전 페이지로 돌아가기
+            },
+          ),
+        ),
         body: ListView(
           children: <Widget>[
-            // Custom AppBar
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              color: Colors.grey[50],
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context, 'refresh');
-                    },
-                  ),
-                ],
-              ),
-            ),
             Expanded(
               child: Container(
                 padding: EdgeInsets.fromLTRB(25, 10, 25, 10),

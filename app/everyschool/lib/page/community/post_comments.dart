@@ -112,56 +112,58 @@ class _PostCommentsState extends State<PostComments> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: TextField(
-            controller: commentController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0XFF15075f), width: 1),
-              ),
-              hintText: '댓글 작성하기',
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 10,
-              ),
-            ),
-            onSubmitted: (value) {
-              _writeComment();
-            },
-          ),
-        ),
-        widget.comments.isEmpty
-            ? Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Center(
-                  child: Text(
-                    '아직 작성된 댓글이 없습니다',
-                    style: TextStyle(fontSize: 20, color: Colors.grey[500]),
-                  ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: TextField(
+              controller: commentController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF15075f), width: 1),
                 ),
-              )
-            : ListView.builder(
-                itemCount: widget.comments.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  var comment = widget.comments[index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildComment(comment),
-                      ..._buildReComments(comment['reComments']),
-                    ],
-                  );
-                },
+                hintText: '댓글 작성하기',
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
               ),
-      ],
-    ));
+              onSubmitted: (value) {
+                _writeComment();
+              },
+            ),
+          ),
+          widget.comments.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(
+                    child: Text(
+                      '아직 작성된 댓글이 없습니다',
+                      style: TextStyle(fontSize: 20, color: Colors.grey[500]),
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: widget.comments.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    var comment = widget.comments[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildComment(comment),
+                        ..._buildReComments(comment['reComments']),
+                      ],
+                    );
+                  },
+                ),
+          SizedBox(height: 20)
+        ],
+      ),
+    );
   }
 
   Widget _buildComment(dynamic comment) {

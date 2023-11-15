@@ -100,7 +100,7 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
     return Consumer<UserStore>(
       builder: (context, userStore, child) {
         double containerHeight =
-            boardList.length < 5 ? boardList.length * 70.0 : 210.0;
+            boardList.length < 5 ? boardList.length * 60.0 : 195.0;
 
         return Container(
           decoration: BoxDecoration(
@@ -158,7 +158,7 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
                       bool isWithinAnHour = isWithinHour(dateTimeString);
 
                       return Container(
-                        height: 65,
+                        height: 60,
                         padding: EdgeInsets.fromLTRB(10, 15, 10, 0),
                         margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: GestureDetector(
@@ -200,8 +200,8 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
                                       Text(
                                         (boardList[index]['title'] as String)
                                                     .length >
-                                                22
-                                            ? '${(boardList[index]['title'] as String).substring(0, 22)}...'
+                                                25
+                                            ? '${(boardList[index]['title'] as String).substring(0, 25)}...'
                                             : boardList[index]['title']
                                                 as String,
                                         style: TextStyle(

@@ -13,6 +13,7 @@ export default function BadChatComplain() {
   }, []);
 
   const fetchComplainDetail = async () => {
+    // console.log(complainId)
     if (complainId) {
       const [reportIdStr, chatIdStr] = complainId.split('-');
       const reportId = parseInt(reportIdStr, 10); // 문자열을 정수로 변환

@@ -105,7 +105,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
       builder: (context, userStore, child) {
         final userType = userStore.userInfo["userType"];
         double containerHeight =
-            boardList.length < 5 ? boardList.length * 47.0 : 235.0;
+            boardList.length < 5 ? boardList.length * 35.0 : 180.0;
 
         return Container(
           decoration: BoxDecoration(
@@ -170,8 +170,8 @@ class _CommunityBoardState extends State<CommunityBoard> {
                       bool isWithinAnHour = isWithinHour(dateTimeString);
 
                       return Container(
-                        height: 45,
-                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        height: 35,
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
                         margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: GestureDetector(
                           onTapDown: (TapDownDetails details) {
@@ -210,8 +210,8 @@ class _CommunityBoardState extends State<CommunityBoard> {
                                 width: MediaQuery.of(context).size.width * 0.6,
                                 child: Text(
                                   (boardList[index]['title'] as String).length >
-                                          15
-                                      ? '${(boardList[index]['title'] as String).substring(0, 15)}...'
+                                          20
+                                      ? '${(boardList[index]['title'] as String).substring(0, 20)}...'
                                       : boardList[index]['title'] as String,
                                   style: TextStyle(
                                       fontSize: 16,
@@ -219,7 +219,10 @@ class _CommunityBoardState extends State<CommunityBoard> {
                                 ),
                               ),
                               if (isWithinAnHour)
-                                Image.asset('assets/images/community/new.png')
+                                Image.asset(
+                                  'assets/images/community/new.png',
+                                  width: 25,
+                                )
                               else
                                 Text(
                                   displayTime,
