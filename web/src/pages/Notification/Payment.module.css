@@ -1,7 +1,8 @@
 .container {
   background-color: #f6f5f9;
-  height: 90vh;
-  padding: 5vw;
+  min-height: calc(100vh - 60px);
+  padding: 3rem 4rem 0 4rem;
+  min-width: 1300px;
 }
 
 .row {

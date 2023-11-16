@@ -54,7 +54,7 @@ export default function BadComplainHistoryPage() {
           complainId: `${reportId}-${chatRoomId}`
         };
       });
-      console.log(chatData)
+      console.log(chatData);
       // 두 데이터 배열을 병합
       const combinedData = [...transformedCallData, ...transformedChatData];
 
