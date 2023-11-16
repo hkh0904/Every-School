@@ -126,17 +126,19 @@ class _ConnectState extends State<Connect> {
 
       print('여기는 ');
       print('채널은 $reNewToken, $channelId, $uid $channelId');
-      if (uid != null) {
-        _navigateToModalCallPage();
-        await agoraEngine.joinChannel(
-          token: reNewToken,
-          channelId: channelId,
-          options: options,
-          uid: uid,
-        );
-        setState(() {
-          isJoined = true;
-        });
+      if (reNewToken != null && channelId != null && uid != null) {
+        if (uid != null) {
+          _navigateToModalCallPage();
+          await agoraEngine.joinChannel(
+            token: reNewToken,
+            channelId: channelId,
+            options: options,
+            uid: uid,
+          );
+          setState(() {
+            isJoined = true;
+          });
+        }
       }
     }
   }
@@ -379,14 +381,18 @@ class _ConnectState extends State<Connect> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return CallModal(
-                                              join: fetchToken,
-                                              uid: uid,
-                                              channelName: channelName,
-                                              tokenRole: tokenRole,
-                                              serverUrl: serverUrl,
-                                              tokenExpireTime: tokenExpireTime,
-                                              isTokenExpiring: isTokenExpiring,
-                                            );
+                                                join: fetchToken,
+                                                uid: uid,
+                                                channelName: channelName,
+                                                tokenRole: tokenRole,
+                                                serverUrl: serverUrl,
+                                                tokenExpireTime:
+                                                    tokenExpireTime,
+                                                isTokenExpiring:
+                                                    isTokenExpiring,
+                                                getUserKey:
+                                                    widget.userConnect[index]
+                                                        ['userKey']);
                                           },
                                         );
                                       },
@@ -588,18 +594,19 @@ class _ConnectState extends State<Connect> {
                     if (channelName != null)
                       GestureDetector(
                         onTap: () async {
+                          userInfo = parent;
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return CallModal(
-                                join: fetchToken,
-                                uid: uid,
-                                channelName: channelName,
-                                tokenRole: tokenRole,
-                                serverUrl: serverUrl,
-                                tokenExpireTime: tokenExpireTime,
-                                isTokenExpiring: isTokenExpiring,
-                              );
+                                  join: fetchToken,
+                                  uid: uid,
+                                  channelName: channelName,
+                                  tokenRole: tokenRole,
+                                  serverUrl: serverUrl,
+                                  tokenExpireTime: tokenExpireTime,
+                                  isTokenExpiring: isTokenExpiring,
+                                  getUserKey: parent['userKey']);
                             },
                           );
                         },
