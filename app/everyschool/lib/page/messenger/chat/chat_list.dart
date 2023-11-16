@@ -138,6 +138,9 @@ class _ChatListState extends State<ChatList> {
                                       formatText(widget.chatroomList?[index]
                                           ['lastMessage']),
                                       style: TextStyle(fontSize: 13),
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      maxLines: 1,
                                     ),
                                   ),
                                 ],

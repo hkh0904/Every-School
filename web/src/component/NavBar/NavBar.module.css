@@ -1,5 +1,6 @@
 .navbar {
-  min-width: 1520px;
+  width: 100%;
+  min-width: 1670px;
   height: 60px;
   background-color: #15075f;
   color: white;

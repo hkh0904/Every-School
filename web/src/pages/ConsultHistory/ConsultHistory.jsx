@@ -30,7 +30,9 @@ export default function ConsultHistory() {
 
           name: consult.parentInfo.split(' ')[3],
           relationship: consult.parentInfo.split(' ')[4] === '아버님' ? '부' : '모',
-          lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1]
+          lastModifiedDate: consult.lastModifiedDate.split('T')[0] + ' ' + consult.lastModifiedDate.split('T')[1],
+          consultReason: '진로상담',
+          rejectReason: '수업으로 인한 거절'
           // add other fields if necessary
         }));
         setConsults(transformedData);
@@ -100,7 +102,7 @@ export default function ConsultHistory() {
         Header: '상담 완료 시간'
       },
       {
-        accessor: 'coplitecontent',
+        accessor: 'consultReason',
         Header: '상담 내용'
       }
     ],

@@ -161,10 +161,11 @@ export default function ManageClassPage() {
   return (
     <div className={styles.manageClass}>
       <div className={styles.title}>
-        <p>승인 관리</p>
-        <p>
+        <p className={styles.headText}>승인 관리</p>
+        <p className={styles.underText}>
           {pageText} : {totalApplies}건{' '}
         </p>
+        <hr />
       </div>
       <div className={styles.approveClass}>
         <div className={styles.approveTab}>

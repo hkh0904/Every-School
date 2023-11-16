@@ -2,20 +2,25 @@
   background-color: #f6f5f9;
   min-height: calc(100vh - 60px);
   padding: 3rem 4rem 0 4rem;
-  min-width: 1150px;
+  min-width: 1300px;
 }
 
 .title {
   min-width: 60rem;
-  border-bottom: 1px solid #d9d9d9;
+  /* border-bottom: 1px solid black; */
   margin-bottom: 1.5rem;
 }
 
-.title > p {
-  margin-top: 0;
-  font-weight: 700;
-  font-size: 21px;
-  margin-left: 0.625rem;
+.headText {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.underText {
+  margin-top: 0.5rem;
+  color: rgba(128, 128, 128, 0.651);
+  margin-bottom: 0;
 }
 .approveClass {
   min-height: 78vh;

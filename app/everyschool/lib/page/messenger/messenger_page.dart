@@ -219,7 +219,7 @@ class _UserTapBarState extends State<UserTapBar> {
       print(_myclassId);
     } else {
       final myInfo = await context.read<UserStore>().userInfo;
-      _myclassId = myInfo['school']['schoolId'];
+      _myclassId = myInfo['schoolClass']['schoolClassId'];
       print(_myclassId);
     }
 

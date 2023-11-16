@@ -318,7 +318,8 @@ class _ChatRoomState extends State<ChatRoom> {
                               controller: context
                                   .read<ChatController>()
                                   .textEditingController,
-                              maxLines: null,
+                              minLines: 1,
+                              maxLines: 3,
                               textAlignVertical: TextAlignVertical.top,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -327,7 +328,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                   left: 16,
                                   top: 18,
                                 ),
-                                hintText: 'message',
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius: BorderRadius.circular(8.0),
@@ -401,7 +401,8 @@ class _ChatRoomState extends State<ChatRoom> {
                             controller: context
                                 .read<ChatController>()
                                 .textEditingController,
-                            maxLines: null,
+                            minLines: 1,
+                            maxLines: 3,
                             textAlignVertical: TextAlignVertical.top,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -410,7 +411,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                 left: 16,
                                 top: 18,
                               ),
-                              hintText: 'message',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(8.0),
@@ -427,7 +427,13 @@ class _ChatRoomState extends State<ChatRoom> {
                             right: 0,
                             child: IconButton(
                               icon: Icon(Icons.send),
-                              onPressed: sendMessage,
+                              onPressed: context
+                                      .watch<ChatController>()
+                                      .textEditingController
+                                      .text
+                                      .isNotEmpty
+                                  ? sendMessage
+                                  : null,
                             ),
                           ),
                         ],

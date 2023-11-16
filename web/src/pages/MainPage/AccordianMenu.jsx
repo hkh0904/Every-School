@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './AccordianMenu.module.css';
 import { FaUserCog } from 'react-icons/fa';
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md';
@@ -47,14 +47,25 @@ export default function AccordianMenu() {
       address: '/mypage'
     }
   ];
-
   const [expandedIndex, setExpandedIndex] = useState(0);
+  useEffect(() => {
+    const menuIndex = sessionStorage.getItem('pageindex');
+    if (menuIndex === null) {
+      setExpandedIndex(0);
+    } else {
+      console.log(menuIndex);
+      console.log(typeof menuIndex);
+      setExpandedIndex(Number(menuIndex));
+    }
+  }, []);
 
   const handleToggle = (index) => {
     if (expandedIndex === index) {
       setExpandedIndex(null);
+      sessionStorage.setItem('pageindex', index);
     } else {
       setExpandedIndex(index);
+      sessionStorage.setItem('pageindex', index);
     }
   };
 
