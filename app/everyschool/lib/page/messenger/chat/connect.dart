@@ -128,7 +128,7 @@ class _ConnectState extends State<Connect> {
 
       print('여기는 ');
       print('채널은 $reNewToken, $channelId, $uid $channelId');
-      if (reNewToken != null && channelId != null && uid != null) {
+      if (uid != null) {
         if (uid != null) {
           _navigateToModalCallPage();
           await agoraEngine.joinChannel(
@@ -315,6 +315,9 @@ class _ConnectState extends State<Connect> {
     print(userKey);
     print(userName);
     print(userType);
+
+    final kkk = await context.read<UserStore>().userInfo;
+    print(kkk);
     final mytype = await context.read<UserStore>().userInfo['userType'];
     final myclassId = await context.read<UserStore>().userInfo['schoolClass']
         ['schoolClassId'];
