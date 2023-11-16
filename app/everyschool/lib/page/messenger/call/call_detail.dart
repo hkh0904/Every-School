@@ -128,7 +128,8 @@ class _CallDetailState extends State<CallDetail> {
             SizedBox(
               height: 10,
             ),
-            if (widget.detail['isBad'] != false)
+            if (widget.detail['details'].length > 0 &&
+                widget.detail['isBad'] != false)
               Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
