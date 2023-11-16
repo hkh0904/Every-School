@@ -20,6 +20,29 @@ class _CreatePostBodyState extends State<CreatePostBody> {
   bool _isCommentAllowed = true;
   final List<File> _filePaths = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool _isButtonEnabled = false; // 버튼 활성화 상태 관리 변수
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController.addListener(_updateButtonState);
+    _contentController.addListener(_updateButtonState);
+  }
+
+  @override
+  void dispose() {
+    _titleController.removeListener(_updateButtonState);
+    _contentController.removeListener(_updateButtonState);
+    super.dispose();
+  }
+
+  void _updateButtonState() {
+    // 텍스트 필드 값이 변경될 때 버튼 활성화 상태 업데이트
+    setState(() {
+      _isButtonEnabled = _titleController.text.isNotEmpty &&
+          _contentController.text.isNotEmpty;
+    });
+  }
 
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -285,10 +308,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                     Expanded(
                         // Expanded 위젯을 사용하여 버튼이 가능한 모든 공간을 차지하도록 합니다.
                         child: ElevatedButton(
-                      onPressed: _titleController.text.isNotEmpty &&
-                              _contentController.text.isNotEmpty
-                          ? sendPost
-                          : null,
+                      onPressed: _isButtonEnabled ? sendPost : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _titleController.text.isNotEmpty &&
                                 _contentController.text.isNotEmpty

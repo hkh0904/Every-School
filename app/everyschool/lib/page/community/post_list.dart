@@ -58,6 +58,7 @@ class _PostListState extends State<PostList> {
         setState(() {
           page = requestedPage;
           postList = response['content'];
+          print(postList);
         });
       }
     } catch (e) {
@@ -267,11 +268,18 @@ class _PostListState extends State<PostList> {
                         : Container(),
                     Row(
                       children: [
-                        Icon(
-                          Icons.favorite,
-                          color: Color.fromARGB(255, 255, 108, 152),
-                          size: 22,
-                        ),
+                        if (postList[index]['inMyScrap'] == true)
+                          Icon(
+                            Icons.favorite,
+                            color: Color.fromARGB(255, 255, 108, 152),
+                            size: 25,
+                          ),
+                        if (postList[index]['inMyScrap'] == false)
+                          Icon(
+                            Icons.favorite_border,
+                            color: Color.fromARGB(255, 255, 108, 152),
+                            size: 25,
+                          ),
                         SizedBox(width: 2),
                         Text(
                           '${postList[index]['scrapCount'].toString()}',

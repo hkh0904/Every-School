@@ -237,7 +237,21 @@ export default function Table({ columns, data }) {
                         </div>
                       </td>
                     );
+                  } else if (cell.column.id === 'status') {
+                    const cellClass =
+                      cell.value === '처리 완료'
+                        ? 'completedClass'
+                        : cell.value === '처리중'
+                        ? 'processingClass'
+                        : 'defaultClass';
+
+                    return (
+                      <td className={styles.tableEle} {...cell.getCellProps()}>
+                        <div className={`${styles[cellClass]}`}>{cell.render('Cell')}</div>
+                      </td>
+                    );
                   } else if (cell.column.id === 'title') {
+                    console.log(cell);
                     return (
                       <td className={styles.tableEle} {...cell.getCellProps()}>
                         <div

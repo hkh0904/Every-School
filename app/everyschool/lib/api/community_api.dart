@@ -8,9 +8,13 @@ class CommunityApi {
   ServerApi serverApi = ServerApi();
 
   Future<dynamic> getBoardList(schoolYear, schoolId, page) async {
+    String? token = await storage.read(key: 'token');
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/free-boards?page=$page');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/free-boards?page=$page',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -32,9 +36,13 @@ class CommunityApi {
   }
 
   Future<dynamic> getNoticeList(schoolYear, schoolId, page) async {
+    String? token = await storage.read(key: 'token');
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/notice-boards?page=$page');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/notice-boards?page=$page',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -42,9 +50,13 @@ class CommunityApi {
   }
 
   Future<dynamic> getHomeNoticeList(schoolYear, schoolId, page) async {
+    String? token = await storage.read(key: 'token');
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/communication-boards?page=$page');
+          '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/communication-boards?page=$page',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -87,10 +99,6 @@ class CommunityApi {
 
   Future<dynamic> writeRecomment(
       boardId, schoolId, schoolYear, commentId, formData) async {
-    print(
-        '===============================================================================================');
-    print(
-        '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/comments/$commentId');
     String? token = await storage.read(key: 'token');
     try {
       final response = await dio.post(
@@ -110,12 +118,11 @@ class CommunityApi {
   Future<dynamic> scrapPost(boardId, schoolId, schoolYear) async {
     String? token = await storage.read(key: 'token');
     try {
-      final response = await dio.post(
+      await dio.post(
           '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/scraps',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data);
     } catch (e) {
       print("에러 발생 $e");
       return null;
@@ -125,12 +132,11 @@ class CommunityApi {
   Future<dynamic> unScrapPost(boardId, schoolId, schoolYear) async {
     String? token = await storage.read(key: 'token');
     try {
-      final response = await dio.post(
+      await dio.post(
           '${serverApi.serverURL}/board-service/v1/app/$schoolYear/schools/$schoolId/boards/$boardId/scraps/unscraps',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data);
     } catch (e) {
       print("에러 발생 $e");
       return null;
@@ -138,10 +144,13 @@ class CommunityApi {
   }
 
   Future<dynamic> getNewPostList(year, schoolId) async {
+    String? token = await storage.read(key: 'token');
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/free-boards/new');
-
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/free-boards/new',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -149,9 +158,13 @@ class CommunityApi {
   }
 
   Future<dynamic> getNewNoticeList(year, schoolId) async {
+    String? token = await storage.read(key: 'token');
     try {
       final response = await dio.get(
-          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/notice-boards/new');
+          '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/notice-boards/new',
+          options: Options(headers: {
+            'Authorization': 'Bearer $token',
+          }));
       print(response.data['data']);
       return response.data['data'];
     } catch (e) {
