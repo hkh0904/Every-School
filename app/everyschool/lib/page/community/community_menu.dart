@@ -42,7 +42,6 @@ class _CommunityMenuState extends State<CommunityMenu> {
       setState(() {
         schoolData = response;
       });
-      print(response);
     } catch (e) {
       print('커뮤니티 메뉴 에러 : $e');
     }

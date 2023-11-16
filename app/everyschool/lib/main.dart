@@ -37,7 +37,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   tz.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+  var seoul = tz.getLocation('Asia/Seoul');
+  tz.setLocalLocation(seoul);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -195,12 +196,8 @@ class _MainState extends State<Main> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15),
-              ),
+            return Container(
+              height: 800,
             );
           } else {
             return Container(

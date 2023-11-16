@@ -112,12 +112,8 @@ class _CallHistoryState extends State<CallHistory> {
                                         if (snapshot.hasData) {
                                           return snapshot.data;
                                         } else if (snapshot.hasError) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Error: ${snapshot.error}',
-                                              style: TextStyle(fontSize: 15),
-                                            ),
+                                          return Container(
+                                            height: 800,
                                           );
                                         } else {
                                           return Container(
@@ -143,13 +139,8 @@ class _CallHistoryState extends State<CallHistory> {
                                           if (snapshot.hasData) {
                                             return snapshot.data;
                                           } else if (snapshot.hasError) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                'Error: ${snapshot.error}',
-                                                style: TextStyle(fontSize: 15),
-                                              ),
+                                            return Container(
+                                              height: 800,
                                             );
                                           } else {
                                             return Container(
@@ -184,12 +175,8 @@ class _CallHistoryState extends State<CallHistory> {
                   ),
                 );
         } else if (snapshot.hasError) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Error: ${snapshot.error}',
-              style: TextStyle(fontSize: 15),
-            ),
+          return Container(
+            height: 800,
           );
         } else {
           return Container(

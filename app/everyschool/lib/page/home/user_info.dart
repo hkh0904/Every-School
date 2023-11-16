@@ -49,7 +49,12 @@ class _SchoolInfoState extends State<SchoolInfo> {
                       Text(snapshot.data['school']['name'] as String,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w700)),
-                      Text('학생'),
+                      Row(
+                        children: [
+                          Text(snapshot.data['name']),
+                          Text(' 학생'),
+                        ],
+                      ),
                       Text(
                           '${snapshot.data['schoolClass']['grade']}학년 ${snapshot.data['schoolClass']['classNum']}반'),
                     ],
@@ -69,9 +74,9 @@ class _SchoolInfoState extends State<SchoolInfo> {
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700)),
-                                Text('학부모'),
                                 Text(
-                                    '${descend['schoolClass']['grade']}학년 ${descend['schoolClass']['classNum']}반'),
+                                    '${descend['schoolClass']['grade']}학년 ${descend['schoolClass']['classNum']}반 ${descend['name']}'),
+                                Text('학부모'),
                               ],
                             ),
                             OutlinedButton(
@@ -163,12 +168,8 @@ class _SchoolInfoState extends State<SchoolInfo> {
               );
             }
           } else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15),
-              ),
+            return Container(
+              height: 800,
             );
           } else {
             return Container(

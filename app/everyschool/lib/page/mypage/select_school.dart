@@ -50,8 +50,6 @@ class _SelectSchoolState extends State<SelectSchool> {
 
   findUserName() async {
     final name = await storage.read(key: 'userName') ?? "";
-    print(name);
-    print(name.runtimeType);
     setState(() {
       userName = name;
     });
@@ -136,7 +134,9 @@ class _SelectSchoolState extends State<SelectSchool> {
                       ),
                     );
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                    return Container(
+                      height: 800,
+                    );
                   } else if (snapshot.hasData) {
                     var schools = snapshot.data ?? [];
                     if (schools.isEmpty) {

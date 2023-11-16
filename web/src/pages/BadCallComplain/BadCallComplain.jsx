@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './BadCallComplain.module.css';
 import { CallComplainDetail } from '../../api/UserAPI/reportAPI';
+import SvgIcon from '@mui/material/SvgIcon';
+import Download from '@mui/icons-material/Download';
 
 export default function BadCallComplain() {
   const location = useLocation();
@@ -11,6 +13,10 @@ export default function BadCallComplain() {
   const fetchComplainDetail = async () => {
     let rawData = await CallComplainDetail(complainId);
     setComplains(rawData);
+  };
+
+  const handleDownload = (fileName) => {
+    window.location.href = `http://every-school.com:8000/call-service/v1/calls/download/?fileName=${fileName}`;
   };
 
   const formatName = (name) => {
@@ -53,12 +59,24 @@ export default function BadCallComplain() {
               <div className={styles.titleText}>통화 감정 결과 : {formatName(complains.overallSentiment)}</div>
             </div>
             <div className={styles.overallBox}>
-              {sentimentValues.map((item) => (
-                <div className={styles.subText} key={item.label}>
-                  {item.label} : {item.value}%
-                </div>
-              ))}
+              <div className={styles.overallBox}>
+                {sentimentValues.map((item) => (
+                  <div
+                    className={`${styles.subText} ${
+                      item.label === '긍정적'
+                        ? styles.positiveText
+                        : item.label === '중립적'
+                        ? styles.neutralText
+                        : styles.negativeText
+                    }`}
+                    key={item.label}
+                  >
+                    {item.label} : {item.value}%
+                  </div>
+                ))}
+              </div>
             </div>
+            <hr style={{ marginTop: 0, marginBottom: 0 }} />
             <div className={styles.scrollContainer}>
               {complains.details.map((detail, index) => (
                 <div key={index}>
@@ -69,13 +87,14 @@ export default function BadCallComplain() {
                         {formatName(detail.sentiment)} : {formatPercentage(detail[detail.sentiment])}%
                       </div>
                     </div>
-                    <div className={styles.downloadContainer}>
-                      <a
-                        className={styles.downloadBox}
-                        href={`http://every-school.com:8000/call-service/v1/calls/download/?fileName=${detail.fileName}`}
-                      >
-                        음성 파일 다운로드
-                      </a>
+                    <div className={styles.downloadBox}>
+                      <div className={styles.downloadText}>다운로드</div>
+                      <SvgIcon
+                        component={Download}
+                        inheritViewBox
+                        style={{ fontSize: '30px', color: '#15075F' }} // 필요에 따라 크기 조정
+                        onClick={() => handleDownload(detail.fileName)}
+                      />
                     </div>
                   </div>
                   <hr />
