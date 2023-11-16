@@ -160,10 +160,9 @@ class _SchoolNotiState extends State<SchoolNoti> {
                                                     .width *
                                                 0.6,
                                             child: Text(
-                                              truncateWithEllipsis(
-                                                  snapshot.data[index]['title'],
-                                                  20),
-                                              maxLines: 2,
+                                              snapshot.data[index]['title'],
+                                              maxLines: 1,
+                                              softWrap: false,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(fontSize: 15),
                                             ),

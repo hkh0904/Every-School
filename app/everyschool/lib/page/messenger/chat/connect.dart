@@ -33,10 +33,10 @@ class _ConnectState extends State<Connect> {
   int tokenRole = 1; // use 1 for Host/Broadcaster, 2 for Subscriber/Audience
   String serverUrl =
       "https://agora-token-server-gst8.onrender.com"; // The base URL to your token server, for example "https://agora-token-service-production-92ff.up.railway.app"
-  int tokenExpireTime = 6000; // Expire time in Seconds.
+  int tokenExpireTime = 600000; // Expire time in Seconds.
   bool isTokenExpiring = false; // Set to true when the token is about to expire
   String? channelName; // To access the TextField
-  int uid = 11;
+  int uid = 12947891;
 
   bool peopleGetCall = false;
 
@@ -91,6 +91,7 @@ class _ConnectState extends State<Connect> {
 
     // Send the request
     final response = await dio.get(url);
+    print('거는사람 $response');
 
     if (response.statusCode == 200) {
       // If the server returns an OK response, then parse the JSON.
@@ -119,6 +120,7 @@ class _ConnectState extends State<Connect> {
       // Renew the token
       agoraEngine.renewToken(reNewToken);
       isTokenExpiring = false;
+
       showMessage("Token renewed");
     } else {
       // Join a channel.
