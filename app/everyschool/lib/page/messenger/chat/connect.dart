@@ -587,9 +587,9 @@ class _ConnectState extends State<Connect> {
 
     return typedParents.map((parent) {
       String parentTypeText = '';
-      if (parent['parentType'] == 'F') {
+      if (parent['parentType'] == 'M') {
         parentTypeText = '아버님';
-      } else if (parent['parentType'] == 'M') {
+      } else if (parent['parentType'] == 'F') {
         parentTypeText = '어머님';
       }
 
