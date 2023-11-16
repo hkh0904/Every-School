@@ -2,8 +2,8 @@
 # 👩‍🏫everySCHOOL
 
 <div align="center">
-  <div style="font-size: xx-large; justify-items: center" >어플 한마디 에브리스쿨</div>
-  <img src="" alt="logo" height="200"> 
+  <div style="font-size: large; justify-items: center" >교사, 학생, 학부모가 함께 만들어가는 플랫폼</div>
+  <img src="./readme_assets/images/everyschoollogo.gif" alt="logo" height="200"> 
 </div>
 
 ---
