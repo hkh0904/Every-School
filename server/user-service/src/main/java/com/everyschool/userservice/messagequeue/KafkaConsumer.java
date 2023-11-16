@@ -35,11 +35,11 @@ public class KafkaConsumer {
     public void editStudentClassInfo(String kafkaMessage) {
         Map<Object, Object> map = getMap(kafkaMessage);
 
-        Long studentId = (Long) map.get("studentId");
-        Long schoolId = (Long) map.get("schoolId");
-        Long schoolClassId = (Long) map.get("schoolClassId");
+        Integer studentId = (Integer) map.get("studentId");
+        Integer schoolId = (Integer) map.get("schoolId");
+        Integer schoolClassId = (Integer) map.get("schoolClassId");
 
-        studentService.editClassInfo(studentId, schoolId, schoolClassId);
+        studentService.editClassInfo(Long.valueOf(studentId), Long.valueOf(schoolId), Long.valueOf(schoolClassId));
     }
 
     /**
