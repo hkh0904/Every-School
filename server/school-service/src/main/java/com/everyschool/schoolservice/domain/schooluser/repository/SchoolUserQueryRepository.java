@@ -4,7 +4,6 @@ import com.everyschool.schoolservice.api.web.controller.client.response.Descenda
 import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.service.schooluser.dto.MyClassStudentDto;
 import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
-import com.everyschool.schoolservice.domain.schooluser.UserType;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
@@ -43,7 +42,7 @@ public class SchoolUserQueryRepository {
             .fetch();
     }
 
-    public List<SchoolUser> findParentBySchoolClassId(Long schoolClassId) {
+    public List<SchoolUser> findStudentAndParentBySchoolClassId(Long schoolClassId) {
         List<Integer> userType = List.of(STUDENT.getCode(), FATHER.getCode(), MOTHER.getCode());
         return queryFactory
             .select(schoolUser)

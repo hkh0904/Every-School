@@ -23,20 +23,20 @@ public class StudentParentQueryRepository {
 
     public List<StudentParentInfo> findBySchoolClassId(Long schoolClassId) {
         return queryFactory
-            .select(
-                Projections.constructor(
-                    StudentParentInfo.class,
-                    studentParent.student.id,
-                    studentParent.parent.id,
-                    studentParent.parent.parentType
-                ))
-            .from(studentParent)
-            .join(studentParent.parent, parent)
-            .join(studentParent.student, student)
-            .where(
-                studentParent.isDeleted.isFalse(),
-                studentParent.student.schoolClassId.eq(schoolClassId)
-            )
-            .fetch();
+                .select(
+                        Projections.constructor(
+                                StudentParentInfo.class,
+                                studentParent.student.id,
+                                studentParent.parent.id,
+                                studentParent.parent.parentType
+                        ))
+                .from(studentParent)
+                .join(parent).on(studentParent.parent.id.eq(parent.id))
+                .join(student).on(studentParent.student.id.eq(student.id))
+                .where(
+                        studentParent.isDeleted.isFalse(),
+                        studentParent.student.schoolClassId.eq(schoolClassId)
+                )
+                .fetch();
     }
 }
