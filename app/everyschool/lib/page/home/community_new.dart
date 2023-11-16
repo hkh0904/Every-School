@@ -58,7 +58,7 @@ class _CommunityNewState extends State<CommunityNew> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '커뮤니티 최신글',
+                            '자유게시판 최신글',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w700),
                           ),
