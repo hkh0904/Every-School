@@ -36,19 +36,25 @@ export default function ReportHistoryPage() {
   const fetchReports = async () => {
     let rawData = await receivedReportInfo();
 
-    // Filter out data with status '악성민원'
     const filteredData = rawData.filter((item) => item.type !== '악성민원');
-    console.log(filteredData);
+    const completeReportsCount = filteredData.reduce((count, item) => {
+      return item.status === '처리 완료' ? count + 1 : count;
+    }, 0);
+    setCompleteReports(completeReportsCount);
+
     const formattedData = filteredData.map((item) => {
+      if (item.type === '학칙위반(흡연, 기물파손 등)') {
+        item.type = item.type.replace('(흡연, 기물파손 등)', '');
+      }
+
       const splitDateTime = item.date.split('T');
       const time = `${parseInt(splitDateTime[1], 10)}시`;
       const formattedDate = `${splitDateTime[0]} / ${time}`;
-      if (item.status === '처리 완료') {
-        setCompleteReports(completeReports + 1);
-      }
+
       return { ...item, date: formattedDate };
     });
     formattedData.sort((a, b) => b.reportId - a.reportId);
+
     setReports(formattedData);
   };
 

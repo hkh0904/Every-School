@@ -129,11 +129,12 @@ input:not(:placeholder-shown) ~ .reset {
   margin-top: 25px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .pageButton {
   margin: 5px;
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
   font-size: 1vw;
   font-weight: 600;
   cursor: pointer;
