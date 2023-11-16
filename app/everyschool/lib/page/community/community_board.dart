@@ -213,6 +213,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
                                           20
                                       ? '${(boardList[index]['title'] as String).substring(0, 20)}...'
                                       : boardList[index]['title'] as String,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
