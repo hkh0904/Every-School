@@ -140,3 +140,11 @@ input:not(:placeholder-shown) ~ .reset {
   cursor: pointer;
   color: #15075f;
 }
+
+.completedClass {
+  color: rgb(0, 0, 202);
+}
+
+.processingClass {
+  color: rgb(38, 145, 38);
+}
