@@ -162,6 +162,7 @@ class _CallDetailState extends State<CallDetail> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
+                          width: MediaQuery.of(context).size.width - 60,
                           margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                           padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                           decoration: BoxDecoration(
@@ -181,6 +182,7 @@ class _CallDetailState extends State<CallDetail> {
                           ),
                           child: Text(
                             detail['content'],
+                            softWrap: true,
                             style: TextStyle(fontSize: 15, color: Colors.white),
                           ),
                         ),
