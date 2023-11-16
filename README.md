@@ -1,20 +1,38 @@
-# S09P31C108
+[//]: # (# S09P31C108) 학교 보안관
+
 # 👩‍🏫everySCHOOL
 
 <div align="center">
-  <div style="font-size: large; justify-items: center" >교사, 학생, 학부모가 함께 만들어가는 플랫폼</div>
+  <div style="font-size: 2rem; justify-items: center" >교사, 학생, 학부모가 함께 만들어가는 플랫폼</div>
   <img src="./readme_assets/images/everyschoollogo.gif" alt="logo" height="200"> 
 </div>
 
 ---
 
 # 🎬UCC
+
 [<img style="width: 10px;" src="">]()
 
-※ 이미지 클릭시 UCC youtube 이동 
+※ 이미지 클릭시 UCC youtube 이동
 
 # 🎃서비스 소개
 
+### 🫶기획배경
+
+악성민원으로 인한 안타까운 사건 사고를 방지하고 모니터링하여 교사의 사생활을 보호할 수 있으며,
+교사와 학부모, 학생까지 안심하고 사용할 수 있는 **교내 소통 통합 어플리케이션**
+
+### 👨‍🏫 주요 기능
+
+| 기능     | 내용                                                                                   |
+|--------|--------------------------------------------------------------------------------------|
+| 채팅     | 악성 채팅 사전차단으로 서로 상처받지 않는 소통 <br/> 채팅 내용을 분석하여 악성 대화를 기록하고 조회                          |
+| 통화     | 교사나 학생, 학부모의 연락처를 서로 알지 못해도 어플을 통해 간편하게 통화<br/>모든 통화는 기록되고 AI를 통해 통화 내용의 감정을 분석하여 기록 |
+| 신고     | 교내 학교폭력, 학칙 위반, 악성 민원을 신고하고 관리                                                       |
+| 상담신청   | 교사와의 상담 일정을 간편하게 잡기                                                                  |
+| 방해금지   | 교사는 근무시간 외 시간을 연락을 받지 않는 방해금지 모드로 설정 가능                                              |
+| 다양한게시판 | 학급 자유게시판, 교내 공지사항, 가정통신문 등                                                           |
+| 업무시스템  | 웹사이트로 간편하게 관리할 수 있는 교사용 업무 시스템                                                       |
 
 # 👶프로젝트 소개
 
@@ -34,52 +52,40 @@
 - **[🔎 Back-end 저장소(신고 서비스)](./server/report-service/)**
 - **[🔎 Back-end 저장소(알림 서비스)](./server/alarm-service/)**
 
-## 👨‍🏫 주요 기능
-
-| 기능        | 내용                                                                                                           |
-|-----------|--------------------------------------------------------------------------------------------------------------|
-|  |  |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
-
-
 ## 👩‍🏫 기술 스택
 
 ### Front-end
 
-| <img src="./readme_assets/images/flutter.png" alt="HTML5" width="100px"  height="100px" /> | <img src="./readme_assets/images/React.jpg" alt="react" width="100px" height="100px" /> | <img src="./readme_assets/images/agora.png" alt="agora" width="100px" height="100px" /> | <img src="./readme_assets/images/websocket.png" alt="websocket" width="150px" height="100px" /> | <img src="./readme_assets/images/fcm.png" alt="fcm" width="100px" height="100px" /> |
-|:------------:|:----------------:|:----------------:|:-----------------:|:---------------:|
-| flutter | React | agora.io | WebSocket | fcm | swift |
-
-
+| <img src="https://i.namu.wiki/i/UnlqQSIPWzoMTCQ0ll-GFbzEJpsmtpm_IFlUjRx8VwX78MPR1E7B8th3Rt8xwE85y2VmaeHHNgEseRmvoH58klA6hIBuiMKoYD3Xl0gvRLDxa-ZTZuqwysEnIL3FG3VC4qWbL4UnqfTddSjiwqoxlw.svg" alt="HTML5" width="100px"  height="100px" /> | <img src="https://i.namu.wiki/i/mmbIBh97s8Ir8CWiH0gpoMggerAWV68Hj-VNCBXx2-Zz2IIrzbXE3Fy4EPn0hc69lIRy9qSPZ9Fja6g9uaaStvL4BDQeOc4IoyhXgfydvWfMhbb-QCW3Oq-pI1oTniqhqonhgeDkVuFONhijkIoU9Q.svg" alt="react" width="100px" height="100px" /> | <img src="./readme_assets/images/agora.png" alt="agora" width="100px" height="100px" /> | <img src="./readme_assets/images/websocket.png" alt="websocket" width="150px" height="100px" /> | <img src="./readme_assets/images/fcm.png" alt="fcm" width="100px" height="100px" /> |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|
+|                                                                                                                 flutter                                                                                                                  |                                                                                                                  React                                                                                                                  |                                        agora.io                                         |                                            WebSocket                                            |                                         fcm                                         | swift |
 
 ### Back-end
 
 | <img src="./readme_assets/images/java.png" alt="java" width="100px" height="100px" /> | <img src="./readme_assets/images/spring.png" width="100"> | <img src="./readme_assets/images/springcloud.jpg"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/eureka.png"  alt="HTML5" width="100px" height="100px" /> |
-|:-------:|:-------:|:-------:|:-------:|
-| java11 | spring boot | spring cloud | netflix Eureka | 
+|:-------------------------------------------------------------------------------------:|:---------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
+|                                        java11                                         |                        spring boot                        |                                          spring cloud                                          |                                      netflix Eureka                                       | 
 
 | <img src="./readme_assets/images/python.png"  alt="python" width="100px" height="100px" /> | <img src="./readme_assets/images/fastapi.png"  alt="fastapi" width="100px" height="100px" /> | <img src="./readme_assets/images/clova.png"  alt="clova" width="100px" height="100px" /> | <img src="./readme_assets/images/openai.png"  alt="mongodb" width="100px" height="100px" /> |
-|:-----:|:-----:|:-----:|:------:|
-| python | FastAPI | Clova | OpenAI |
+|:------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
+|                                           python                                           |                                           FastAPI                                            |                                          Clova                                           |                                           OpenAI                                            |
 
 ### Database
 
 | <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/H2_logo.png"  alt="h2" width="100px" height="100px" /> | <img src="./readme_assets/images/redis.png"  alt="redis" width="100px" height="100px" /> | <img src="./readme_assets/images/mongodb.jpg"  alt="mongodb" width="100px" height="100px" /> | <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/H2_logo.png"  alt="h2" width="100px" height="100px" /> |
-|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| MySQL | H2 | redis | mongoDB | MySQL | H2 | 
+|:----------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|
+|                                          MySQL                                           |                                           H2                                            |                                          redis                                           |                                           mongoDB                                            |                                          MySQL                                           |                                           H2                                            | 
 
 ### DevOps & Tools & logging
 
 | <img src="./readme_assets/images/jenkins.png"  alt="jenkins" width="100px" height="100px" /> | <img src="./readme_assets/images/docker.png"  alt="docker" width="100px" height="100px" /> | <img src="./readme_assets/images/aws.png"  alt="aws" width="100px" height="100px" /> | <img src="./readme_assets/images/gradle.png"  alt="gradle" width="100px" height="100px" /> | <img src="./readme_assets/images/jira.png"  alt="jira" width="100px" height="100px" /> | <img src="./readme_assets/images/slack.jpg"  alt="slack" width="100px" height="100px" /> | <img src="./readme_assets/images/zipkin.jpg"  alt="zipkin" width="100px" height="100px" /> | <img src="./readme_assets/images/rabbitMQ.png"  alt="rabbitMQ" width="100px" height="100px" /> |
-|:-------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
-| jenkins | docker | AWS EC2 | gradle | Jira | Slack | zipkin | rabbitMQ | 
+|:--------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|
+|                                           jenkins                                            |                                           docker                                           |                                       AWS EC2                                        |                                           gradle                                           |                                          Jira                                          |                                          Slack                                           |                                           zipkin                                           |                                            rabbitMQ                                            | 
 
 ---
 
 ### 아키텍쳐
+
 <img src="" />
 
 ### ERD
@@ -94,14 +100,9 @@
 
 ---
 
-
 # 😺 에브리스쿨 주요 기능
 
-##  Main
-
-
-
-
+## Main
 
 ## 👨‍👩‍👧‍👦팀 소개
 
@@ -171,8 +172,6 @@
         </td>
     </tr>
 </table>
-
-
 
 ## 노션 활용
 
