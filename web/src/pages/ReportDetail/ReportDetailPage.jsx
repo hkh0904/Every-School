@@ -24,7 +24,7 @@ export default function ReportDetailPage() {
     const fetchDetail = async () => {
       const detail = await reportDetailInfo(reportId);
       setData(detail);
-      console.log(detail)
+      console.log(detail);
       if (detail.status) {
         const value = selectOptions.find((option) => option.label === detail.status)?.value || '';
         setSelectedValue(value);
@@ -225,14 +225,14 @@ export default function ReportDetailPage() {
                 style={{
                   backgroundColor: 'transparent',
                   border: 'none',
-                  outline: 'none', // 포커스 상태에서 테두리가 나타나지 않도록 설정
+                  outline: 'none', 
                   width: '100%',
-                  height: 'calc(1.5em * 5)', // 15줄 높이
-                  resize: 'none', // 크기 조절 비활성화
-                  overflowY: 'auto' // 필요한 경우 스크롤
+                  height: 'calc(1.5em * 5)', 
+                  resize: 'none', 
+                  overflowY: 'auto', 
+                  fontFamily: 'Pretendard, sans-serif' 
                 }}
                 placeholder='신고 처리 결과를 입력해주세요'
-                // 필요한 경우 value 및 onChange 핸들러 추가
               />
             </div>
           </Col>
