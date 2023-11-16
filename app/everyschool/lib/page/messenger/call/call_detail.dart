@@ -137,7 +137,7 @@ class _CallDetailState extends State<CallDetail> {
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text('해당 전화는 AI 판단 하에 악성민원으로 분류되었습니다.'),
+                  child: Text('악성 민원으로 분류된 메세지는 빨간색 말풍선으로 표현됩니다.'),
                 ),
               ),
             SizedBox(
