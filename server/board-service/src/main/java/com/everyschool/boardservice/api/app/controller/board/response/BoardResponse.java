@@ -14,6 +14,7 @@ public class BoardResponse {
     private String content;
     private int commentCount;
     private int scrapCount;
+    private Boolean inMyScrap;
     private LocalDateTime createdDate;
     private Boolean isTapped;
 
@@ -24,18 +25,19 @@ public class BoardResponse {
         this.content = content;
         this.commentCount = commentCount;
         this.scrapCount = scrapCount;
+        this.inMyScrap = false;
         this.createdDate = createdDate;
         this.isTapped = false;
     }
 
     public static BoardResponse of(Board board) {
         return BoardResponse.builder()
-            .boardId(board.getId())
-            .title(board.getTitle())
-            .content(board.getContent())
-            .commentCount(board.getCommentCount())
-            .scrapCount(board.getScrapCount())
-            .createdDate(board.getCreatedDate())
-            .build();
+                .boardId(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .commentCount(board.getCommentCount())
+                .scrapCount(board.getScrapCount())
+                .createdDate(board.getCreatedDate())
+                .build();
     }
 }

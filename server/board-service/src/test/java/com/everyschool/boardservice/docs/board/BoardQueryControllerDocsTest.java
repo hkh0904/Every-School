@@ -158,10 +158,13 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
         BoardResponse response2 = createBoardResponse(2L, "자유 게시판 제목 2", "자유 게시판 내용 2", 0);
         BoardResponse response1 = createBoardResponse(1L, "자유 게시판 제목 1", "자유 게시판 내용 1", 3);
 
+        response3.setInMyScrap(true);
+        response1.setInMyScrap(true);
+
         PageRequest pageRequest = PageRequest.of(0, 10);
         SliceImpl<BoardResponse> responses = new SliceImpl<>(List.of(response1, response2, response3), pageRequest, false);
         SliceResponse<BoardResponse> response = new SliceResponse<>(responses);
-        given(boardQueryService.searchFreeBoards(anyLong(), any()))
+        given(boardQueryService.searchFreeBoards(anyLong(), any(), anyString()))
                 .willReturn(response);
 
         mockMvc.perform(
@@ -195,6 +198,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                                         .description("게시글에 달린 댓글수"),
                                 fieldWithPath("data.content[].scrapCount").type(JsonFieldType.NUMBER)
                                         .description("게시글 스크랩 수"),
+                                fieldWithPath("data.content[].inMyScrap").type(JsonFieldType.BOOLEAN)
+                                        .description("게시글 스크랩 여부"),
                                 fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                                         .description("게시글 작성일"),
                                 fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
@@ -217,10 +222,12 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
         BoardResponse response2 = createBoardResponse(2L, "공지사항 제목 2", "공지사항 내용 2", 10);
         BoardResponse response1 = createBoardResponse(1L, "공지사항 제목 1", "공지사항 내용 1", 0);
 
+        response1.setInMyScrap(true);
+
         PageRequest pageRequest = PageRequest.of(0, 10);
         SliceImpl<BoardResponse> responses = new SliceImpl<>(List.of(response1, response2), pageRequest, false);
         SliceResponse<BoardResponse> response = new SliceResponse<>(responses);
-        given(boardQueryService.searchNoticeBoards(anyLong(), any()))
+        given(boardQueryService.searchNoticeBoards(anyLong(), any(), anyString()))
                 .willReturn(response);
 
         mockMvc.perform(
@@ -254,6 +261,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                                         .description("게시글에 달린 댓글수"),
                                 fieldWithPath("data.content[].scrapCount").type(JsonFieldType.NUMBER)
                                         .description("게시글 스크랩 수"),
+                                fieldWithPath("data.content[].inMyScrap").type(JsonFieldType.BOOLEAN)
+                                        .description("게시글 스크랩 여부"),
                                 fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                                         .description("게시글 작성일"),
                                 fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
@@ -276,10 +285,12 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
         BoardResponse response2 = createBoardResponse(2L, "가정통신문 제목 2", "가정통신문 내용 2", 10);
         BoardResponse response1 = createBoardResponse(1L, "가정통신문 제목 1", "가정통신문 내용 1", 0);
 
+        response1.setInMyScrap(true);
+
         PageRequest pageRequest = PageRequest.of(0, 10);
         SliceImpl<BoardResponse> responses = new SliceImpl<>(List.of(response1, response2), pageRequest, false);
         SliceResponse<BoardResponse> response = new SliceResponse<>(responses);
-        given(boardQueryService.searchCommunicationBoards(anyLong(), any()))
+        given(boardQueryService.searchCommunicationBoards(anyLong(), any(), anyString()))
                 .willReturn(response);
 
         mockMvc.perform(
@@ -313,6 +324,8 @@ public class BoardQueryControllerDocsTest extends RestDocsSupport {
                                         .description("게시글에 달린 댓글수"),
                                 fieldWithPath("data.content[].scrapCount").type(JsonFieldType.NUMBER)
                                         .description("게시글 스크랩 수"),
+                                fieldWithPath("data.content[].inMyScrap").type(JsonFieldType.BOOLEAN)
+                                        .description("게시글 스크랩 여부"),
                                 fieldWithPath("data.content[].createdDate").type(JsonFieldType.ARRAY)
                                         .description("게시글 작성일"),
                                 fieldWithPath("data.content[].isTapped").type(JsonFieldType.BOOLEAN)
