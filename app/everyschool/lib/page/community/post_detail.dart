@@ -155,144 +155,139 @@ class _PostDetailState extends State<PostDetail> {
         ),
         body: ListView(
           children: <Widget>[
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          // Row 위젯을 유지
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                              ),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  'assets/images/community/user.png',
-                                  width: 40,
-                                  height: 40,
-                                ),
-                              ),
+            Container(
+              padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        // Row 위젯을 유지
+                        children: [
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        widget.boardName != '자유게시판'
-                                            ? schoolName as String
-                                            : '익명',
-                                        style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                      formatDateTime(postDetail["createdDate"]))
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        GestureDetector(
-                          onTap: () => _toggleScrap(tempMyScrap),
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                            child: SizedBox(
-                              // width: textWidth + 35,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (tempMyScrap == true)
-                                    Icon(
-                                      Icons.favorite,
-                                      color: Color.fromARGB(255, 255, 108, 152),
-                                      size: 25,
-                                    ),
-                                  if (tempMyScrap == false)
-                                    Icon(
-                                      Icons.favorite_border,
-                                      color: Color.fromARGB(255, 255, 108, 152),
-                                      size: 25,
-                                    ),
-                                  Text(
-                                    ' $tempScrapCount',
-                                    style: TextStyle(
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromARGB(255, 255, 108, 152),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/images/community/user.png',
+                                width: 40,
+                                height: 40,
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      '${postDetail["title"]}',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(height: 6),
-                    if (postDetail['imageUrls'] != null &&
-                        postDetail['imageUrls'].isNotEmpty) ...[
-                      Text(
-                        '첨부 이미지',
-                        style: TextStyle(color: Colors.grey[400]),
+                          Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      widget.boardName != '자유게시판'
+                                          ? schoolName as String
+                                          : '익명',
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(formatDateTime(postDetail["createdDate"]))
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      ...postDetail['imageUrls'].map((imageUrl) => Column(
-                            children: [
-                              Image.network(imageUrl),
-                              SizedBox(height: 10),
-                            ],
-                          )),
+                      GestureDetector(
+                        onTap: () => _toggleScrap(tempMyScrap),
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                          child: SizedBox(
+                            // width: textWidth + 35,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if (tempMyScrap == true)
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Color.fromARGB(255, 255, 108, 152),
+                                    size: 25,
+                                  ),
+                                if (tempMyScrap == false)
+                                  Icon(
+                                    Icons.favorite_border,
+                                    color: Color.fromARGB(255, 255, 108, 152),
+                                    size: 25,
+                                  ),
+                                Text(
+                                  ' $tempScrapCount',
+                                  style: TextStyle(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 255, 108, 152),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    '${postDetail["title"]}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(height: 6),
+                  if (postDetail['imageUrls'] != null &&
+                      postDetail['imageUrls'].isNotEmpty) ...[
                     Text(
-                      '${postDetail["content"]}',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
+                      '첨부 이미지',
+                      style: TextStyle(color: Colors.grey[400]),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    if (widget.boardName == '자유게시판')
-                      Row(children: [
-                        // Icon(
-                        //   Icons.comment_outlined,
-                        //   color: Colors.cyan[400],
-                        // ),
-                        Text(
-                          '댓글 ${postDetail["commentCount"]}',
-                          style:
-                              TextStyle(fontSize: 15, color: Colors.cyan[400]),
-                        ),
-                      ]),
+                    ...postDetail['imageUrls'].map((imageUrl) => Column(
+                          children: [
+                            Image.network(imageUrl),
+                            SizedBox(height: 10),
+                          ],
+                        )),
                   ],
-                ),
+                  Text(
+                    '${postDetail["content"]}',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  if (widget.boardName == '자유게시판')
+                    Row(children: [
+                      // Icon(
+                      //   Icons.comment_outlined,
+                      //   color: Colors.cyan[400],
+                      // ),
+                      Text(
+                        '댓글 ${postDetail["commentCount"]}',
+                        style: TextStyle(fontSize: 15, color: Colors.cyan[400]),
+                      ),
+                    ]),
+                ],
               ),
             ),
             if (widget.boardName == '자유게시판')

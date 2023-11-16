@@ -187,41 +187,33 @@ class _PostCommentsState extends State<PostComments> {
                       width: 16, height: 16),
                 ),
               ),
+              SizedBox(width: 10), // 추가된 공간
+              Text(
+                comment['isMine'] ? '익명(글쓴이)' : '익명',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: comment['isMine'] ? Colors.cyan[400] : Colors.black),
+              ),
               Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        comment['isMine'] ? '익명(글쓴이)' : '익명',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: comment['isMine']
-                                ? Colors.cyan[400]
-                                : Colors.black),
-                      ),
-                      if (comment['depth'] == 0)
-                        GestureDetector(
-                          onTap: () => toggleReplyField(comment['commentId']),
-                          child: Text(
-                            '답글',
-                            style: TextStyle(fontSize: 15, color: Colors.black),
-                          ),
-                        ),
-                    ],
+                child: Container(), // 여기에 Expanded를 추가하여 공간을 만듭니다.
+              ),
+              if (comment['depth'] == 0)
+                GestureDetector(
+                  onTap: () => toggleReplyField(comment['commentId']),
+                  child: Text(
+                    '답글',
+                    style: TextStyle(fontSize: 15, color: Colors.black),
                   ),
                 ),
-              ),
             ],
           ),
           SizedBox(height: 5),
           Text(comment['content'],
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
           SizedBox(height: 5),
-          Text(comment['createdDate'],
-              style: TextStyle(color: Colors.grey)), // 답글 입력 필드 조건부 표시
+          Text(formatDateTime(comment['createdDate']),
+              style: TextStyle(color: Colors.grey)),
           if (activeCommentId == comment['commentId'])
             TextField(
               controller: recommentController,

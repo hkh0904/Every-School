@@ -153,6 +153,7 @@ class _PopularPostState extends State<PopularPost> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

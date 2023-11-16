@@ -10,34 +10,169 @@ class SchoolSchedule extends StatefulWidget {
 class _SchoolScheduleState extends State<SchoolSchedule> {
   var scheduleList = [
     {
-      "startDate": "09.08",
-      "endDate": "09.10",
-      "content": "수학여행",
+      "startDate": "06.01",
+      "endDate": "06.01",
+      "content": "모의평가",
+    },
+    {
+      "startDate": "06.06",
+      "endDate": "06.06",
+      "content": "현충일",
+    },
+    {
+      "startDate": "06.07",
+      "endDate": "06.07",
+      "content": "과학경시대회",
+    },
+    {
+      "startDate": "06.08",
+      "endDate": "06.08",
+      "content": "수강신청 시작일",
+    },
+    {
+      "startDate": "06.12",
+      "endDate": "06.12",
+      "content": "수강신청 종료일",
+    },
+    {
+      "startDate": "06.14",
+      "endDate": "06.14",
+      "content": "수학경시대회",
+    },
+    {
+      "startDate": "06.21",
+      "endDate": "06.21",
+      "content": "영어어휘경시대회",
+    },
+    {
+      "startDate": "06.23",
+      "endDate": "06.23",
+      "content": "학생회장선거",
+    },
+    {
+      "startDate": "06.28",
+      "endDate": "06.28",
+      "content": "교직원회의",
+    },
+    {
+      "startDate": "07.03",
+      "endDate": "07.06",
+      "content": "2차 지필평가",
+    },
+    {
+      "startDate": "07.11",
+      "endDate": "07.17",
+      "content": "수업량 유연화 주간",
+    },
+    {
+      "startDate": "07.18",
+      "endDate": "07.18",
+      "content": "방학 선언일",
+    },
+    {
+      "startDate": "08.09",
+      "endDate": "08.09",
+      "content": "개학",
+    },
+    {
+      "startDate": "08.15",
+      "endDate": "08.15",
+      "content": "광복절",
+    },
+    {
+      "startDate": "08.22",
+      "endDate": "08.25",
+      "content": "3학년 1차 지필평가",
+    },
+    {
+      "startDate": "09.06",
+      "endDate": "09.06",
+      "content": "모의평가(3학년)",
     },
     {
       "startDate": "09.20",
       "endDate": "09.20",
-      "content": "개교기념일",
+      "content": "영작문 경시대회",
     },
     {
-      "startDate": "10.17",
-      "endDate": "10.17",
-      "content": "수학여행",
+      "startDate": "09.28",
+      "endDate": "09.30",
+      "content": "추석 연휴",
     },
     {
-      "startDate": "10.18",
-      "endDate": "10.20",
-      "content": "수학여행",
+      "startDate": "10.03",
+      "endDate": "10.03",
+      "content": "개천절",
     },
     {
-      "startDate": "10.18",
-      "endDate": "10.20",
-      "content": "수학여행",
+      "startDate": "10.05",
+      "endDate": "10.11",
+      "content": "지필평가",
     },
     {
-      "startDate": "11.12",
-      "endDate": "11.12",
-      "content": "수학여행",
+      "startDate": "10.19",
+      "endDate": "10.19",
+      "content": "수업 나눔의날",
+    },
+    {
+      "startDate": "10.25",
+      "endDate": "10.25",
+      "content": "어휘 경시대회",
+    },
+    {
+      "startDate": "11.01",
+      "endDate": "11.01",
+      "content": "과학탐구대회",
+    },
+    {
+      "startDate": "11.16",
+      "endDate": "11.16",
+      "content": "대학수학능력시험일",
+    },
+    {
+      "startDate": "11.24",
+      "endDate": "11.24",
+      "content": "축제",
+    },
+    {
+      "startDate": "12.08",
+      "endDate": "12.08",
+      "content": "수능성적통지",
+    },
+    {
+      "startDate": "12.11",
+      "endDate": "12.14",
+      "content": "지필평가(1, 2학년)",
+    },
+    {
+      "startDate": "12.19",
+      "endDate": "12.19",
+      "content": "전국연합(1, 2학년)",
+    },
+    {
+      "startDate": "12.21",
+      "endDate": "12.21",
+      "content": "축제",
+    },
+    {
+      "startDate": "12.28",
+      "endDate": "12.28",
+      "content": "방학선언일",
+    },
+    {
+      "startDate": "01.12",
+      "endDate": "01.12",
+      "content": "학교생활기록부 작성 마감일",
+    },
+    {
+      "startDate": "01.15",
+      "endDate": "01.17",
+      "content": "학생부 점검일",
+    },
+    {
+      "startDate": "01.19",
+      "endDate": "01.19",
+      "content": "졸업식",
     },
   ];
 
