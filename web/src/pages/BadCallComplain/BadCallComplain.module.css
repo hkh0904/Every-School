@@ -1,5 +1,5 @@
 .container {
-  background-color: #F6F5F9;
+  background-color: #f6f5f9;
   height: 90vh;
   padding: 5vw;
 }
@@ -11,7 +11,7 @@
 
 .underText {
   margin-top: 0.5rem;
-  color: rgba(128, 128, 128, 0.651)
+  color: rgba(128, 128, 128, 0.651);
 }
 
 .noresultText {
@@ -20,37 +20,76 @@
 }
 
 .tableBox {
-  padding: 8px;
+  padding: 30px;
   height: 70vh;
   overflow: hidden;
-  margin-top: 3vw;
+  margin-top: 2vw;
   border-radius: 15px;
   background-color: white;
 }
 
 .scrollContainer {
-  height: 80%;
-  padding: 4vw;
-  margin: 20px 30px;
-  padding-top: 1.5vw;
-  padding-bottom: 2vw;
+  height: 61vh;
+
+  padding-top: 0.3vw;
+  padding-bottom: 0.3vw;
+  margin-top: 20px;
+  margin-bottom: 20px;
   overflow-y: auto;
-  box-sizing: border-box; 
-  border: 1px solid black;
+  box-sizing: border-box;
+  border: 1px solid rgba(128, 128, 128, 0.651);
   border-radius: 10px;
 }
 
 .overallBox {
   display: flex;
-  justify-content: center;
+  justify-content: start;
 }
 
 .downloadBox {
   text-align: center;
   font-weight: bold;
+  font-size: 1rem;
   color: black;
   transition: all 0.3s ease;
   cursor: pointer;
+}
+
+.titleText {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.subText {
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.commentText {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.emoText {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: grey;
+}
+
+.contentBox {
+  height: 100%;
+}
+
+
+.detailsItem {
+  padding-left: 2vw;
+  padding-right: 2vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.6vw;
+  margin-bottom: 0.6vw;
 }
 
 .downloadBox:hover {
@@ -64,7 +103,7 @@
 }
 
 .scrollContainer::-webkit-scrollbar-thumb {
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-radius: 10px;
 }
 

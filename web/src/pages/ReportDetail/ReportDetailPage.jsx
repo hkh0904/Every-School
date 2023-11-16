@@ -24,7 +24,6 @@ export default function ReportDetailPage() {
     const fetchDetail = async () => {
       const detail = await reportDetailInfo(reportId);
       setData(detail);
-      console.log(detail);
       if (detail.status) {
         const value = selectOptions.find((option) => option.label === detail.status)?.value || '';
         setSelectedValue(value);
@@ -54,7 +53,7 @@ export default function ReportDetailPage() {
 
   // 버튼 스타일을 결정하는 함수
   const getButtonStyle = () => {
-    if ((selectedValue === 'receive' || selectedValue === 'complete') && reportResult === '') {
+    if (selectedValue === 'receive' || (selectedValue === 'complete' && reportResult === '')) {
       // reportResult가 비어있고, selectedValue가 'receive'나 'complete'일 경우 회색 스타일
       return { backgroundColor: 'lightgrey' };
     } else {
@@ -93,20 +92,6 @@ export default function ReportDetailPage() {
     })
   };
 
-  function formatWitness(data) {
-    if (!data) {
-      return '익명';
-    }
-    const [number, name] = data.split(' ');
-
-    // 각 부분을 추출합니다.
-    const part1 = number.substring(0, 1);
-    const part2 = parseInt(number.substring(1, 3), 10);
-    const part3 = parseInt(number.substring(3), 10);
-
-    return `${part1}학년 ${part2}반 ${part3}번 / ${name}`;
-  }
-
   function formatDateTime(dateTime) {
     if (!dateTime) {
       return '';
@@ -135,12 +120,15 @@ export default function ReportDetailPage() {
         <div className={styles.row}>
           <div>
             <div className={styles.headText}>신고 상세내역</div>
-            <div className={styles.underText}>신고 제목 : {data.description}</div>
           </div>
-          <div className={styles.plusButton} onClick={handleCheckReport} style={getButtonStyle()}>
-            <SvgIcon component={Done} inheritViewBox />
-            <p>처리하기</p>
-          </div>
+          {data.status === '처리 완료' ? (
+            <div></div>
+          ) : (
+            <div className={styles.plusButton} onClick={handleCheckReport} style={getButtonStyle()}>
+              <SvgIcon component={Done} inheritViewBox />
+              <p>처리하기</p>
+            </div>
+          )}
         </div>
         <hr style={{ marginBottom: '50px' }} />
       </div>
@@ -156,49 +144,54 @@ export default function ReportDetailPage() {
               className={[styles.line, styles.bottomLine]}
               style={{ alignItems: 'center', display: 'flex', width: '100%' }}
             >
-              <div className={styles.pickerText}>
-                <Select
-                  styles={customStyles}
-                  onChange={(e) => setSelectedValue(e.value)}
-                  options={selectOptions}
-                  placeholder='유형 선택'
-                  value={selectOptions.filter(function (option) {
-                    return option.value === selectedValue;
-                  })}
-                />
-              </div>
+              {data.status === '처리 완료' ? (
+                <div className={styles.contentText}>{data.status}</div>
+              ) : (
+                <div className={styles.pickerText}>
+                  <Select
+                    styles={customStyles}
+                    onChange={(e) => setSelectedValue(e.value)}
+                    options={selectOptions}
+                    placeholder='유형 선택'
+                    value={selectOptions.filter(function (option) {
+                      return option.value === selectedValue;
+                    })}
+                  />
+                </div>
+              )}
             </Col>
+
             <Col span={21} style={{ marginTop: '50px' }} />
             <Col span={9} className={[styles.line, styles.category]}>
               <div className={styles.contentText}>신고자</div>
             </Col>
             <Col span={12} className={styles.line}>
-              <div className={styles.contentText}>{formatWitness(data.witness)}</div>
+              <div className={styles.dataText}>{data.witness}</div>
             </Col>
             <Col span={9} className={[styles.line, styles.category, styles.bottomLine]}>
               <div className={styles.contentText}>분류</div>
             </Col>
             <Col span={12} className={[styles.line, styles.bottomLine]}>
-              <div className={styles.contentText}>{data.type}</div>
+              <div className={styles.dataText}>{data.type}</div>
             </Col>
             <Col span={21} style={{ marginTop: '50px' }} />
             <Col span={9} className={[styles.line, styles.category]}>
               <div className={styles.contentText}>누가</div>
             </Col>
             <Col span={12} className={styles.line}>
-              <div className={styles.contentText}>{data.who}</div>
+              <div className={styles.dataText}>{data.who}</div>
             </Col>
             <Col span={9} className={[styles.line, styles.category]}>
               <div className={styles.contentText}>어디서</div>
             </Col>
             <Col span={12} className={styles.line}>
-              <div className={styles.contentText}>{data.where}</div>
+              <div className={styles.dataText}>{data.where}</div>
             </Col>
             <Col span={9} className={[styles.line, styles.category, styles.bottomLine]}>
               <div className={styles.contentText}>목격 일시</div>
             </Col>
             <Col span={12} className={[styles.line, styles.bottomLine]}>
-              <div className={styles.contentText}>{formatDateTime(data.when)}</div>
+              <div className={styles.dataText}>{formatDateTime(data.when)}</div>
             </Col>
           </Row>
         </Col>
@@ -210,7 +203,7 @@ export default function ReportDetailPage() {
           </Col>
           <Col span={24}>
             <div className={[styles.reportBox]} style={{ minHeight: '20vh' }}>
-              {data.what}
+              {data.description}
             </div>
           </Col>
           <Col span={24} className={[styles.line, styles.bottomLine]} style={{ backgroundColor: '#f6f5f9' }}>
@@ -218,22 +211,26 @@ export default function ReportDetailPage() {
           </Col>
           <Col span={24} className={styles.bottomLine}>
             <div className={[styles.reportBox]} style={{ minHeight: '20vh' }}>
-              <textarea
-                value={reportResult}
-                onChange={(e) => setReportResult(e.target.value)}
-                className={styles.resultText}
-                style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  outline: 'none', 
-                  width: '100%',
-                  height: 'calc(1.5em * 5)', 
-                  resize: 'none', 
-                  overflowY: 'auto', 
-                  fontFamily: 'Pretendard, sans-serif' 
-                }}
-                placeholder='신고 처리 결과를 입력해주세요'
-              />
+              {data.status === '처리 완료' ? (
+                <div style={{ fontWeight: 'bold' }}>{data.result}</div>
+              ) : (
+                <textarea
+                  value={reportResult}
+                  onChange={(e) => setReportResult(e.target.value)}
+                  className={styles.resultText}
+                  style={{
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    outline: 'none',
+                    width: '100%',
+                    height: 'calc(1.5em * 5)',
+                    resize: 'none',
+                    overflowY: 'auto',
+                    fontFamily: 'Pretendard, sans-serif'
+                  }}
+                  placeholder='신고 처리 결과를 입력해주세요'
+                />
+              )}
             </div>
           </Col>
         </Col>

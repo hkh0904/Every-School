@@ -23,12 +23,20 @@
   margin-top: 0.5rem;
   margin-left: 0.3rem;
   margin-bottom: 0.5rem;
-  color: rgba(128, 128, 128, 0.651)
+  color: rgba(128, 128, 128, 0.651);
 }
 
 .contentText {
   font-weight: bold;
-  font-size: 1.1vw;
+  font-size: 1vw;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 0.3rem;
+}
+
+.dataText {
+  /* font-weight: bold; */
+  font-size: 1vw;
   margin-top: 0.7rem;
   margin-bottom: 0.7rem;
   margin-left: 0.3rem;
@@ -79,15 +87,14 @@
 }
 
 .reportBox {
-  font-size: 1.3vw;
+  font-size: 1.1vw;
   margin-top: 0.7rem;
   margin-bottom: 0.7rem;
   margin-left: 1rem;
   margin-right: 1rem;
   /* height: 20vh; */
-  line-height: 1.7;
+  line-height: 1.6;
 }
-
 
 .plusButton {
   display: flex;
@@ -97,7 +104,7 @@
   border-radius: 7px;
   align-items: center;
   justify-content: center;
-  background-color: #15075F;
+  background-color: #15075f;
 }
 
 .plusButton p {
