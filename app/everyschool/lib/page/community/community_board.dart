@@ -127,7 +127,6 @@ class _CommunityBoardState extends State<CommunityBoard> {
                             PostlistPage(pageTitle: pageTitle),
                       ),
                     ).then((check) {
-                      print(check);
                       if (check == 'refresh') {
                         _loadBoardData();
                       }

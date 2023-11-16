@@ -55,7 +55,6 @@ class _PopularPostState extends State<PopularPost> {
 
       setState(() {
         popPost = topPosts;
-        print(popPost);
       });
     } catch (e) {
       print('커뮤니티 보드 에러: $e');

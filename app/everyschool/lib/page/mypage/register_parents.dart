@@ -64,7 +64,6 @@ class _RegisterParentsState extends State<RegisterParents> {
     var response;
     try {
       response = await userApi.registerParents();
-      print(response);
       setState(() {
         registerCode = response;
       });

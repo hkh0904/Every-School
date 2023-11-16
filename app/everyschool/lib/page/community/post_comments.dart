@@ -61,7 +61,6 @@ class _PostCommentsState extends State<PostComments> {
   }
 
   Future<void> _writeReComment(commentId) async {
-    print(commentId);
     var response;
     try {
       var formData = {'content': recommentController.text};
@@ -74,12 +73,6 @@ class _PostCommentsState extends State<PostComments> {
     } catch (e) {
       print(e);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    print(widget.comments);
   }
 
   String formatDateTime(String dateTimeStr) {

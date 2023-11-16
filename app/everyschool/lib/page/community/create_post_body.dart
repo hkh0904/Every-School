@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:everyschool/store/user_store.dart';
@@ -23,8 +22,10 @@ class _CreatePostBodyState extends State<CreatePostBody> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> pickFile() async {
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(allowMultiple: true);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.image,
+    );
 
     if (result != null) {
       List<File> newFiles =
@@ -176,7 +177,7 @@ class _CreatePostBodyState extends State<CreatePostBody> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '첨부파일',
+                      '이미지 첨부',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,

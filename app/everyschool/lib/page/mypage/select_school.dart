@@ -50,8 +50,6 @@ class _SelectSchoolState extends State<SelectSchool> {
 
   findUserName() async {
     final name = await storage.read(key: 'userName') ?? "";
-    print(name);
-    print(name.runtimeType);
     setState(() {
       userName = name;
     });
