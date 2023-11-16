@@ -208,9 +208,12 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
                                         child: Text(
                                           snapshot.data[index]['status']
                                               as String,
+                                          overflow: TextOverflow.clip,
+                                          softWrap: false,
                                           style: TextStyle(
-                                              color: Colors.grey[50],
-                                              fontWeight: FontWeight.w600),
+                                            color: Colors.grey[50],
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         )),
                                   ],
                                 ),

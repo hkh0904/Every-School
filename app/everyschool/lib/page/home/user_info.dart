@@ -58,7 +58,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
               } else if (snapshot.data['userType'] == 1002) {
                 return snapshot.data['descendants'].length > 0
                     ? SizedBox(
-                        height: 60,
+                        height: 64,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
