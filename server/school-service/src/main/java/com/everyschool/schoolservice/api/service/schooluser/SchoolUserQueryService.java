@@ -17,6 +17,7 @@ import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
 import com.everyschool.schoolservice.domain.schooluser.UserType;
 import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserQueryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import static com.everyschool.schoolservice.error.ErrorMessage.NOT_EXIST_MY_SCHO
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class SchoolUserQueryService {
 
     private final SchoolUserQueryRepository schoolUserQueryRepository;
@@ -87,6 +89,10 @@ public class SchoolUserQueryService {
         //반복문을 돌려서 자식타입이면 학부모 키로 map에서 조회해서 슝
         List<MyClassParentResponse> responses = new ArrayList<>();
         for (StudentParentInfo studentParent : studentParentInfos) {
+            log.debug("[Service] 학부모 조회.");
+            log.debug("[Service] 학부모 조회. map.get(studentParent.getStudentId()).getStudentNumber() = {}", map.get(studentParent.getStudentId()).getStudentNumber());
+            log.debug("[Service] 학부모 조회. map.get(studentParent.getStudentId()).getUserName() = {}", map.get(studentParent.getStudentId()).getUserName());
+            log.debug("[Service] 학부모 조회. map.get(studentParent.getParentId()).getUserName() = {}", map.get(studentParent.getParentId()).getUserName());
             MyClassParentResponse response = MyClassParentResponse.builder()
                     .userId(studentParent.getParentId())
                     .studentNumber(map.get(studentParent.getStudentId()).getStudentNumber())
