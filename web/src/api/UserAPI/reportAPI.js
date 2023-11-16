@@ -1,26 +1,7 @@
 import { baseAxios } from '../Axios.jsx';
 
-const schoolNum = sessionStorage.getItem('schoolId');
-const schoolYear = sessionStorage.getItem('year');
-
-// 세션 스토리지에 값이 설정될 때까지 대기하는 함수
-const waitForSessionValues = () => {
-  return new Promise((resolve) => {
-    const checkInterval = setInterval(() => {
-      const schoolYear = sessionStorage.getItem('year');
-      const schoolNum = sessionStorage.getItem('schoolId');
-      if (schoolYear && schoolNum) {
-        clearInterval(checkInterval);
-        resolve();
-      }
-    }, 500); // 0.5초 간격으로 체크
-  });
-};
-
 // 모든 신고 내역 조회
 export const receivedReportInfo = async () => {
-  await waitForSessionValues(); // 값이 설정될 때까지 기다립니다.
-
   const schoolYear = sessionStorage.getItem('year');
   const schoolNum = sessionStorage.getItem('schoolId');
 
@@ -44,6 +25,8 @@ export const receivedReportInfo = async () => {
 
 // 신고 상세내역 조회
 export const reportDetailInfo = async (reportId) => {
+  const schoolNum = sessionStorage.getItem('schoolId');
+  const schoolYear = sessionStorage.getItem('year');
   try {
     const response = await baseAxios.get(
       `/report-service/v1/web/${schoolYear}/schools/${schoolNum}/reports/${reportId}`,
@@ -61,6 +44,8 @@ export const reportDetailInfo = async (reportId) => {
 
 // 신고 처리중 수정
 export const checkReport = async (reportId) => {
+  const schoolNum = sessionStorage.getItem('schoolId');
+  const schoolYear = sessionStorage.getItem('year');
   try {
     const response = await baseAxios.patch(
       `/report-service/v1/web/${schoolYear}/schools/${schoolNum}/reports/${reportId}`,
@@ -79,6 +64,8 @@ export const checkReport = async (reportId) => {
 
 // 신고 처리중 수정
 export const completeReport = async (reportId, result) => {
+  const schoolNum = sessionStorage.getItem('schoolId');
+  const schoolYear = sessionStorage.getItem('year');
   try {
     const response = await baseAxios.patch(
       `/report-service/v1/web/${schoolYear}/schools/${schoolNum}/reports/${reportId}/result`,

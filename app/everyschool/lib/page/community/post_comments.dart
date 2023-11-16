@@ -9,14 +9,14 @@ class PostComments extends StatefulWidget {
   final List<dynamic> comments;
   final VoidCallback onCommentAdded;
 
-  PostComments({
-    Key? key,
-    required this.boardId,
-    required this.schoolId,
-    required this.schoolYear,
-    required this.comments,
-    required this.onCommentAdded,
-  }) : super(key: key);
+  PostComments(
+      {Key? key,
+      required this.boardId,
+      required this.schoolId,
+      required this.schoolYear,
+      required this.comments,
+      required this.onCommentAdded,})
+      : super(key: key);
 
   @override
   State<PostComments> createState() => _PostCommentsState();
@@ -189,11 +189,11 @@ class _PostCommentsState extends State<PostComments> {
               ),
               SizedBox(width: 10), // 추가된 공간
               Text(
-                comment['isMine'] ? '익명(글쓴이)' : '익명',
+                '익명',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: comment['isMine'] ? Colors.cyan[400] : Colors.black),
+                    color: Colors.black),
               ),
               Expanded(
                 child: Container(), // 여기에 Expanded를 추가하여 공간을 만듭니다.
