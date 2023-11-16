@@ -82,7 +82,7 @@ class _SchoolNotiState extends State<SchoolNoti> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '학교 공지사항',
+                            '학사공지',
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w700),
                           ),
@@ -94,7 +94,7 @@ class _SchoolNotiState extends State<SchoolNoti> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          PostlistPage(pageTitle: '가정통신문')),
+                                          PostlistPage(pageTitle: '학사 공지')),
                                 );
                               },
                               child: Text('더보기',
@@ -182,12 +182,8 @@ class _SchoolNotiState extends State<SchoolNoti> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15),
-              ),
+            return Container(
+              height: 800,
             );
           } else {
             return Container(

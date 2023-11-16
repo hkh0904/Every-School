@@ -136,7 +136,9 @@ class _SelectSchoolState extends State<SelectSchool> {
                       ),
                     );
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                    return Container(
+                      height: 800,
+                    );
                   } else if (snapshot.hasData) {
                     var schools = snapshot.data ?? [];
                     if (schools.isEmpty) {

@@ -86,7 +86,9 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
           height: MediaQuery.of(context).size.height * 0.5,
           child: CupertinoDatePicker(
             mode: CupertinoDatePickerMode.time,
-            initialDateTime: DateTime.now(),
+            initialDateTime: isStart
+                ? startTime ?? DateTime.now()
+                : endTime ?? DateTime.now(),
             onDateTimeChanged: (DateTime dateTime) {
               controller.text = _formatTime(dateTime);
               if (isStart) {
