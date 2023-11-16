@@ -38,7 +38,7 @@ class _SplashState extends State<Splash> {
 
     checkAndNavigationCallingPage();
 
-    Future.delayed(Duration(seconds: 3), () async {
+    Future.delayed(Duration(milliseconds: 1500), () async {
       if (token != null && token!.length > 0) {
         var usertype = await storage.read(key: 'usertype');
         var userInfo = await UserApi().getUserRegisterInfo(token);

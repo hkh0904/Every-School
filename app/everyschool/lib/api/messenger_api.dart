@@ -10,6 +10,7 @@ class MessengerApi {
   //채팅방 만들기
   Future<dynamic> createChatRoom(
       token, userKey, userType, userName, mytype, myclassId) async {
+    print('여기는 $token $userKey $userType $userName $mytype $myclassId');
     print('여기가 1번');
     try {
       final response = await dio.post('${socketApi.httpURL}/v1/chat-rooms',
