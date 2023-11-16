@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:everyschool/api/user_api.dart';
 import 'package:everyschool/main.dart';
 import 'package:everyschool/page/home/select_child.dart';
@@ -69,12 +71,26 @@ class _SplashState extends State<Splash> {
           }
         } else if (usertype == "1002") {
           if (userInfo['data']['descendants'].length > 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => Main(),
-              ),
-            );
+            final selectStudent = await storage.read(key: 'descendant');
+            print(selectStudent);
+            if (selectStudent == null) {
+              await storage.write(
+                  key: 'descendant',
+                  value: jsonEncode(userInfo['data']['descendants'][0]));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => Main(),
+                ),
+              );
+            } else {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => Main(),
+                ),
+              );
+            }
           } else {
             if (userInfo['message'] == '자녀 등록이 필요합니다.') {
               Navigator.pushReplacement(

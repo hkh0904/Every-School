@@ -42,7 +42,7 @@ class _SchoolInfoState extends State<SchoolInfo> {
             if (snapshot.data.isNotEmpty) {
               if (snapshot.data['userType'] == 1001) {
                 return SizedBox(
-                  height: 60,
+                  height: 70,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
