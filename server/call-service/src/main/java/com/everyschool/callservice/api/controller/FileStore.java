@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.net.URLEncoder;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class FileStore {
 
     private final AmazonS3 amazonS3;
@@ -27,7 +29,7 @@ public class FileStore {
 
     public ResponseEntity<byte[]> getObject(String storedFileName) throws IOException {
         S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
-        System.out.println("o: \n" + o);
+        log.debug("o: \n" + o);
         S3ObjectInputStream objectInputStream = o.getObjectContent();
         byte[] bytes = IOUtils.toByteArray(objectInputStream);
 
