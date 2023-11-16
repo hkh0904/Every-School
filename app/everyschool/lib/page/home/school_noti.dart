@@ -172,7 +172,8 @@ class _SchoolNotiState extends State<SchoolNoti> {
                                             extractDate(snapshot.data[index]
                                                 ['createdDate']),
                                             style: TextStyle(
-                                                color: Color(0xff999999)),
+                                                color: Color(0xff999999),
+                                                fontSize: 14),
                                           )
                                         ]),
                                   ),
