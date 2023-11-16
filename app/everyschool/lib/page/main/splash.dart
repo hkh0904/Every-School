@@ -139,11 +139,7 @@ class _SplashState extends State<Splash> {
 
   void getToken() async {
     final storage = FlutterSecureStorage();
-    await storage.delete(key: 'token');
-    await storage.delete(key: 'userkey');
-    await storage.delete(key: 'usertype');
-    await storage.delete(key: 'userName');
-    await storage.delete(key: 'descendant');
+
     token = await storage.read(key: 'token') ?? "";
   }
 
