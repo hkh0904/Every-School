@@ -29,6 +29,6 @@
 }
 
 .outlet {
-  width: 100%;
-  min-width: 784px;
+  width: calc(100% - 240px);
+  min-width: 1300px;
 }

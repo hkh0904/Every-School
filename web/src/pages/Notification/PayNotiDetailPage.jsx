@@ -46,7 +46,7 @@ export default function PayNotiDetailPage() {
   return (
     <div className={styles.registerNoti}>
       <div className={styles.title}>
-        <p>공지사항</p>
+        <p>학사공지</p>
       </div>
       <div className={styles.selectBox}>
         <DetailBox

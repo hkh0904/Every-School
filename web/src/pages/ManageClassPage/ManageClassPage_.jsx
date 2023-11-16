@@ -125,8 +125,8 @@ export default function ManageClassPage() {
   return (
     <div className={styles.manageClass}>
       <div className={styles.title}>
-        <p>승인 관리</p>
-        <p>승인 대기 중 : {accessList?.count}건 </p>
+        <div className={styles.headText}>승인 관리</div>
+        <div className={styles.underText}>승인 대기 중 : {accessList?.count}건 </div>
       </div>
       <div className={styles.approveClass}>
         <div className={styles.approveTab}>

@@ -52,7 +52,7 @@ function RouteLink() {
             <Route path='docs/register-noti' element={<NotiHistory />} />
             <Route path='docs/register-noti/write' element={<RegisterNotiPage />} />
             <Route path='docs/register-noti/detail' element={<NotiDetailPage />} />
-            {/* 공지사항 등록 */}
+            {/* 학사공지 등록 */}
             <Route path='docs/register-payment' element={<Payment />} />
             <Route path='docs/register-payment/write' element={<PayRegisterNotiPage />} />
             <Route path='docs/register-payment/detail' element={<PayNotiDetailPage />} />
