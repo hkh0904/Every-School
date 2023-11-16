@@ -41,9 +41,10 @@ public class BoardAppQueryController {
             @RequestParam(defaultValue = "1") int page
     ) {
         log.debug("call BoardQueryController#searchFreeBoards");
+        String userKey = tokenUtils.getUserKey();
 
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        SliceResponse<BoardResponse> response = boardQueryService.searchFreeBoards(schoolId, pageRequest);
+        SliceResponse<BoardResponse> response = boardQueryService.searchFreeBoards(schoolId, pageRequest, userKey);
         log.debug("results={}", response);
 
         return ApiResponse.ok(response);
@@ -109,8 +110,11 @@ public class BoardAppQueryController {
             @RequestParam(defaultValue = "1") int page) {
         log.debug("call BoardQueryController#searchNoticeBoards");
 
+        String userKey = tokenUtils.getUserKey();
+        log.debug("userKey={}", userKey);
+
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        SliceResponse<BoardResponse> response = boardQueryService.searchNoticeBoards(schoolId, pageRequest);
+        SliceResponse<BoardResponse> response = boardQueryService.searchNoticeBoards(schoolId, pageRequest, userKey);
         log.debug("results={}", response);
 
         return ApiResponse.ok(response);
@@ -177,8 +181,11 @@ public class BoardAppQueryController {
     ) {
         log.debug("call BoardQueryController#searchCommunicationBoards");
 
+        String userKey = tokenUtils.getUserKey();
+        log.debug("userKey={}", userKey);
+
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        SliceResponse<BoardResponse> response = boardQueryService.searchCommunicationBoards(schoolId, pageRequest);
+        SliceResponse<BoardResponse> response = boardQueryService.searchCommunicationBoards(schoolId, pageRequest, userKey);
         log.debug("results={}", response);
 
         return ApiResponse.ok(response);

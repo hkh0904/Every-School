@@ -6,6 +6,7 @@ import com.everyschool.boardservice.api.client.UserServiceClient;
 import com.everyschool.boardservice.api.client.response.UserInfo;
 import com.everyschool.boardservice.api.FileStore;
 import com.everyschool.boardservice.domain.board.Board;
+import com.everyschool.boardservice.domain.board.Category;
 import com.everyschool.boardservice.domain.board.Comment;
 import com.everyschool.boardservice.domain.board.Scrap;
 import com.everyschool.boardservice.domain.board.repository.BoardQueryRepository;
@@ -14,6 +15,7 @@ import com.everyschool.boardservice.domain.board.repository.CommentRepository;
 import com.everyschool.boardservice.domain.board.repository.ScrapQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -89,12 +91,11 @@ public class BoardAppQueryService {
      *
      * @param schoolId 학교 아이디
      * @param pageable 페이징 정보
+     * @param userKey
      * @return 조회된 자유게시판 목록
      */
-    public SliceResponse<BoardResponse> searchFreeBoards(Long schoolId, Pageable pageable) {
-        Slice<BoardResponse> result = boardQueryRepository.findBoardBySchoolId(schoolId, FREE, pageable);
-
-        return new SliceResponse<>(result);
+    public SliceResponse<BoardResponse> searchFreeBoards(Long schoolId, Pageable pageable, String userKey) {
+        return getBoardResponse(schoolId, pageable, userKey, FREE);
     }
 
     /**
@@ -104,10 +105,8 @@ public class BoardAppQueryService {
      * @param pageable 페이징 정보
      * @return 조회된 공지사항 목록
      */
-    public SliceResponse<BoardResponse> searchNoticeBoards(Long schoolId, Pageable pageable) {
-        Slice<BoardResponse> result = boardQueryRepository.findBoardBySchoolId(schoolId, NOTICE, pageable);
-
-        return new SliceResponse<>(result);
+    public SliceResponse<BoardResponse> searchNoticeBoards(Long schoolId, Pageable pageable, String userKey) {
+        return getBoardResponse(schoolId, pageable, userKey, NOTICE);
     }
 
     /**
@@ -117,8 +116,22 @@ public class BoardAppQueryService {
      * @param pageable 페이징 정보
      * @return 조회된 가정통신문 목록
      */
-    public SliceResponse<BoardResponse> searchCommunicationBoards(Long schoolId, Pageable pageable) {
-        Slice<BoardResponse> result = boardQueryRepository.findBoardBySchoolId(schoolId, COMMUNICATION, pageable);
+    public SliceResponse<BoardResponse> searchCommunicationBoards(Long schoolId, Pageable pageable, String userKey) {
+        return getBoardResponse(schoolId, pageable, userKey, COMMUNICATION);
+    }
+
+    @NotNull
+    private SliceResponse<BoardResponse> getBoardResponse(Long schoolId, Pageable pageable, String userKey, Category category) {
+        UserInfo userInfo = userServiceClient.searchUserInfo(userKey);
+
+        Slice<BoardResponse> result = boardQueryRepository.findBoardBySchoolId(schoolId, category, pageable);
+
+        for (BoardResponse board : result) {
+            Scrap scrap = scrapQueryRepository.findByBoardAndUserId(board.getBoardId(), userInfo.getUserId());
+            if (scrap != null) {
+                board.setInMyScrap(true);
+            }
+        }
 
         return new SliceResponse<>(result);
     }
