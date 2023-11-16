@@ -42,130 +42,136 @@ public class MyBoardAppControllerDocsTest extends RestDocsSupport {
     @Test
     void myBoards() throws Exception {
         given(tokenUtils.getUserKey())
-            .willReturn(UUID.randomUUID().toString());
+                .willReturn(UUID.randomUUID().toString());
 
         BoardResponse response = BoardResponse.builder()
-            .boardId(1L)
-            .title("너무 힘들어요...")
-            .content("API가 너무 많아요...")
-            .commentCount(3)
-            .scrapCount(0)
-            .createdDate(LocalDateTime.now())
-            .build();
+                .boardId(1L)
+                .title("너무 힘들어요...")
+                .content("API가 너무 많아요...")
+                .commentCount(3)
+                .scrapCount(0)
+                .createdDate(LocalDateTime.now())
+                .build();
+
+        response.setInMyScrap(true);
 
         given(myBoardAppQueryService.myBoards(anyString(), anyInt()))
-            .willReturn(List.of(response));
+                .willReturn(List.of(response));
 
         mockMvc.perform(
-                get(BASE_URL + "/boards", 2023, 100000)
-                    .param("category", "6001")
-                    .header("Authorization", "Bearer Access Token")
-            )
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document("app-my-boards",
-                preprocessResponse(prettyPrint()),
-                requestHeaders(
-                    headerWithName("Authorization")
-                        .description("Bearer Access Token")
-                ),
-                pathParameters(
-                    parameterWithName("schoolYear")
-                        .description("학년도"),
-                    parameterWithName("schoolId")
-                        .description("학교 아이디")
-                ),
-                requestParameters(
-                    parameterWithName("category")
-                        .description("카테고리 코드")
-                ),
-                responseFields(
-                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-                        .description("코드"),
-                    fieldWithPath("status").type(JsonFieldType.STRING)
-                        .description("상태"),
-                    fieldWithPath("message").type(JsonFieldType.STRING)
-                        .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.ARRAY)
-                        .description("응답 데이터"),
-                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
-                        .description("게시물 아이디"),
-                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
-                        .description("게시물 제목"),
-                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
-                        .description("게시물 내용"),
-                    fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
-                        .description("게시물 댓글 수"),
-                    fieldWithPath("data[].scrapCount").type(JsonFieldType.NUMBER)
-                        .description("게시물 스크랩 수"),
-                    fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
-                        .description("게시물 작성 일시"),
-                    fieldWithPath("data[].isTapped").type(JsonFieldType.BOOLEAN)
-                        .description("탭 여부")
+                        get(BASE_URL + "/boards", 2023, 100000)
+                                .param("category", "6001")
+                                .header("Authorization", "Bearer Access Token")
                 )
-            ));
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("app-my-boards",
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization")
+                                        .description("Bearer Access Token")
+                        ),
+                        pathParameters(
+                                parameterWithName("schoolYear")
+                                        .description("학년도"),
+                                parameterWithName("schoolId")
+                                        .description("학교 아이디")
+                        ),
+                        requestParameters(
+                                parameterWithName("category")
+                                        .description("카테고리 코드")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+                                        .description("응답 데이터"),
+                                fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
+                                        .description("게시물 아이디"),
+                                fieldWithPath("data[].title").type(JsonFieldType.STRING)
+                                        .description("게시물 제목"),
+                                fieldWithPath("data[].content").type(JsonFieldType.STRING)
+                                        .description("게시물 내용"),
+                                fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
+                                        .description("게시물 댓글 수"),
+                                fieldWithPath("data[].scrapCount").type(JsonFieldType.NUMBER)
+                                        .description("게시물 스크랩 수"),
+                                fieldWithPath("data[].inMyScrap").type(JsonFieldType.BOOLEAN)
+                                        .description("게시글 스크랩 여부"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
+                                        .description("게시물 작성 일시"),
+                                fieldWithPath("data[].isTapped").type(JsonFieldType.BOOLEAN)
+                                        .description("탭 여부")
+                        )
+                ));
     }
 
     @DisplayName("나의 댓글 작성 게시물 조회 API")
     @Test
     void myComments() throws Exception {
         given(tokenUtils.getUserKey())
-            .willReturn(UUID.randomUUID().toString());
+                .willReturn(UUID.randomUUID().toString());
 
         BoardResponse response = BoardResponse.builder()
-            .boardId(1L)
-            .title("너무 힘들어요...")
-            .content("API가 너무 많아요...")
-            .commentCount(3)
-            .scrapCount(0)
-            .createdDate(LocalDateTime.now())
-            .build();
+                .boardId(1L)
+                .title("너무 힘들어요...")
+                .content("API가 너무 많아요...")
+                .commentCount(3)
+                .scrapCount(0)
+                .createdDate(LocalDateTime.now())
+                .build();
 
         given(myBoardAppQueryService.myComments(anyString()))
-            .willReturn(List.of(response));
+                .willReturn(List.of(response));
 
         mockMvc.perform(
-                get(BASE_URL + "/comments", 2023, 100000)
-                    .header("Authorization", "Bearer Access Token")
-            )
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andDo(document("app-my-comments",
-                preprocessResponse(prettyPrint()),
-                requestHeaders(
-                    headerWithName("Authorization")
-                        .description("Bearer Access Token")
-                ),
-                pathParameters(
-                    parameterWithName("schoolYear")
-                        .description("학년도"),
-                    parameterWithName("schoolId")
-                        .description("학교 아이디")
-                ),
-                responseFields(
-                    fieldWithPath("code").type(JsonFieldType.NUMBER)
-                        .description("코드"),
-                    fieldWithPath("status").type(JsonFieldType.STRING)
-                        .description("상태"),
-                    fieldWithPath("message").type(JsonFieldType.STRING)
-                        .description("메시지"),
-                    fieldWithPath("data").type(JsonFieldType.ARRAY)
-                        .description("응답 데이터"),
-                    fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
-                        .description("게시물 아이디"),
-                    fieldWithPath("data[].title").type(JsonFieldType.STRING)
-                        .description("게시물 제목"),
-                    fieldWithPath("data[].content").type(JsonFieldType.STRING)
-                        .description("게시물 내용"),
-                    fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
-                        .description("게시물 댓글 수"),
-                    fieldWithPath("data[].scrapCount").type(JsonFieldType.NUMBER)
-                        .description("게시물 스크랩 수"),
-                    fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
-                        .description("게시물 작성 일시"),
-                    fieldWithPath("data[].isTapped").type(JsonFieldType.BOOLEAN)
-                        .description("탭 여부")
+                        get(BASE_URL + "/comments", 2023, 100000)
+                                .header("Authorization", "Bearer Access Token")
                 )
-            ));
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("app-my-comments",
+                        preprocessResponse(prettyPrint()),
+                        requestHeaders(
+                                headerWithName("Authorization")
+                                        .description("Bearer Access Token")
+                        ),
+                        pathParameters(
+                                parameterWithName("schoolYear")
+                                        .description("학년도"),
+                                parameterWithName("schoolId")
+                                        .description("학교 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+                                        .description("응답 데이터"),
+                                fieldWithPath("data[].boardId").type(JsonFieldType.NUMBER)
+                                        .description("게시물 아이디"),
+                                fieldWithPath("data[].title").type(JsonFieldType.STRING)
+                                        .description("게시물 제목"),
+                                fieldWithPath("data[].content").type(JsonFieldType.STRING)
+                                        .description("게시물 내용"),
+                                fieldWithPath("data[].commentCount").type(JsonFieldType.NUMBER)
+                                        .description("게시물 댓글 수"),
+                                fieldWithPath("data[].scrapCount").type(JsonFieldType.NUMBER)
+                                        .description("게시물 스크랩 수"),
+                                fieldWithPath("data[].inMyScrap").type(JsonFieldType.BOOLEAN)
+                                        .description("게시글 스크랩 여부"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.ARRAY)
+                                        .description("게시물 작성 일시"),
+                                fieldWithPath("data[].isTapped").type(JsonFieldType.BOOLEAN)
+                                        .description("탭 여부")
+                        )
+                ));
     }
 }
