@@ -1,7 +1,7 @@
 .MyPage {
   background-color: #f6f5f9;
   min-height: calc(100vh - 60px);
-  padding: 5vw;
+  padding: 3rem 4rem 0 4rem;
   min-width: 1300px;
 }
 
