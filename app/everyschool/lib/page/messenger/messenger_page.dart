@@ -144,9 +144,8 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
                       } else if (snapshot.hasError) {
                         print(snapshot.error);
 
-                        return Text(
-                          '에러뜨니까 확인해 Error: ${snapshot.error}',
-                          style: TextStyle(fontSize: 15),
+                        return Container(
+                          height: 800,
                         );
                       } else {
                         return Container(
@@ -283,12 +282,8 @@ class _UserTapBarState extends State<UserTapBar> {
                           if (snapshot.hasData) {
                             return CallButton(userInfo: snapshot.data);
                           } else if (snapshot.hasError) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Error: ${snapshot.error}',
-                                style: TextStyle(fontSize: 15),
-                              ),
+                            return Container(
+                              height: 800,
                             );
                           } else {
                             return Container(
@@ -331,11 +326,8 @@ class _UserTapBarState extends State<UserTapBar> {
                       if (snapshot.hasData) {
                         return ChatList(chatroomList: chatroomList);
                       } else if (snapshot.hasError) {
-                        return Center(
-                          child: Text(
-                            'Error: ${snapshot.error}',
-                            style: TextStyle(fontSize: 15),
-                          ),
+                        return Container(
+                          height: 800,
                         );
                       } else {
                         return Container(

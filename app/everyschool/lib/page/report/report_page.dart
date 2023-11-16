@@ -432,6 +432,19 @@ class _ReportPageState extends State<ReportPage> {
                     )
                   ],
                 ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                child: const Row(
+                  children: [
+                    Icon(Icons.priority_high_rounded,
+                        color: Color(0xff4A5056), size: 14),
+                    Text(
+                      '허위 신고는 금지됩니다.',
+                      style: TextStyle(color: Color(0xff4A5056)),
+                    )
+                  ],
+                ),
               )
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:everyschool/page/community/post_list.dart';
 import 'package:everyschool/page/community/postlist_page.dart';
 import 'package:everyschool/page/consulting/consulting_list_parent.dart';
+import 'package:everyschool/page/consulting/consulting_reservation_page.dart';
 import 'package:everyschool/page/mypage/my_comment_post.dart';
 import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/my_write_list.dart';
@@ -21,7 +22,7 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
 
   var menulist = [
     ['작성한 글 보기', '작성한 댓글 보기'],
-    ['상담 신청 목록', '가정통신문'],
+    ['상담 내역', '상담 신청'],
     ['상담 목록', '신고 목록'],
   ];
 
@@ -33,12 +34,7 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
 
   var perPagelist = [
     [MyWriteList(), MyCommentPost()],
-    [
-      ConsultingListParent(),
-      PostlistPage(
-        pageTitle: '가정통신문',
-      )
-    ],
+    [ConsultingListParent(), ConsultingReservation()],
     [ReportConsultingPage(index: 0), ReportConsultingPage(index: 1)],
   ];
 
@@ -91,12 +87,8 @@ class _MypageUsermenuState extends State<MypageUsermenu> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15),
-              ),
+            return Container(
+              height: 800,
             );
           } else {
             return Container(

@@ -203,12 +203,8 @@ class _CategoryState extends State<Category> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(fontSize: 15),
-              ),
+            return Container(
+              height: 800,
             );
           } else {
             return Container(
