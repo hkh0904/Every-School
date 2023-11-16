@@ -11,6 +11,18 @@ export const login = async (data) => {
   try {
     const response = await baseAxios.post(`/user-service/login`, userInfo);
     console.log(response.headers);
+
+    sessionStorage.setItem('token', response.headers['token']);
+
+    const user = await getUserInfo();
+
+    console.log(user);
+
+    sessionStorage.setItem('year', 2023);
+    sessionStorage.setItem('classNum', user.schoolClass.classNum);
+    sessionStorage.setItem('grade', user.schoolClass.grade);
+    sessionStorage.setItem('schoolId', user.school.schoolId);
+    sessionStorage.setItem('classNum', user.schoolClass.classNum);
     return response.headers;
   } catch (error) {
     return 0;
