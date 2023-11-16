@@ -9,6 +9,8 @@ import 'package:everyschool/page/mypage/mute_time_set.dart';
 import 'package:everyschool/page/mypage/my_comment_post.dart';
 import 'package:everyschool/page/mypage/my_like_post.dart';
 import 'package:everyschool/page/mypage/my_write_list.dart';
+import 'package:everyschool/page/mypage/register_child.dart';
+import 'package:everyschool/page/mypage/register_parents.dart';
 import 'package:everyschool/page/mypage/userinfo_correction.dart';
 import 'package:everyschool/page/report/my%20_report_list_page.dart';
 import 'package:everyschool/page/report/report_page.dart';
@@ -56,9 +58,9 @@ class _CategoryState extends State<Category> {
   ];
 
   var mypageList = [
-    ['작성한 글 보기', '작성한 댓글 보기', '스크랩한 글', '개인정보 수정', '비밀번호 변경'],
-    ['스크랩한 글', '개인정보 수정', '비밀번호 변경'],
-    ['비밀번호 변경', '방해금지 설정']
+    ['작성한 글 보기', '작성한 댓글 보기', '좋아요한 글', '개인정보 조회', '비밀번호 변경', '학부모 등록하기'],
+    ['자녀 등록하기', '개인정보 조회', '비밀번호 변경'],
+    ['개인정보 조회', '비밀번호 변경', '방해금지 설정']
   ];
 
   var repncsltListLink = [
@@ -107,10 +109,11 @@ class _CategoryState extends State<Category> {
       MyCommentPost(),
       MyLikePost(),
       UserInfoCorrection(),
-      ChangePassword()
+      ChangePassword(),
+      RegisterParents()
     ],
-    [MyLikePost(), UserInfoCorrection(), ChangePassword()],
-    [ChangePassword(), MuteTimeSet()]
+    [RegisterChild(), UserInfoCorrection(), ChangePassword()],
+    [UserInfoCorrection(), ChangePassword(), MuteTimeSet()]
   ];
 
   @override

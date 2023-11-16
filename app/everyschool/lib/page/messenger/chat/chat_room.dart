@@ -328,7 +328,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                   left: 16,
                                   top: 18,
                                 ),
-                                hintText: 'message',
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius: BorderRadius.circular(8.0),
@@ -416,7 +415,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                 left: 16,
                                 top: 18,
                               ),
-                              hintText: 'message',
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                                 borderRadius: BorderRadius.circular(8.0),

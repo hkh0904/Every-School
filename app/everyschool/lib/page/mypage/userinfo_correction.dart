@@ -50,7 +50,7 @@ class _UserInfoCorrectionState extends State<UserInfoCorrection> {
         leading: BackButton(color: Colors.black),
         centerTitle: true,
         title: Text(
-          '개인정보 수정',
+          '개인정보 조회',
           style: TextStyle(
               color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
         ),

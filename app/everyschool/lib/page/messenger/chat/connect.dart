@@ -332,6 +332,32 @@ class _ConnectState extends State<Connect> {
         MaterialPageRoute(builder: (context) => ChatRoom(roomInfo: newInfo)));
   }
 
+  createParentRoom(parentInfo) async {
+    print('실행');
+    final token = await storage.read(key: 'token') ?? "";
+    final userKey = parentInfo['parentKey'];
+    final userName = parentInfo['name'];
+    final userType = parentInfo['parentType'];
+    print(userKey);
+    print(userName);
+    print(userType);
+
+    final kkk = await context.read<UserStore>().userInfo;
+    print(kkk);
+    final mytype = await context.read<UserStore>().userInfo['userType'];
+    final myclassId = await context.read<UserStore>().userInfo['schoolClass']
+        ['schoolClassId'];
+
+    final result = await MessengerApi()
+        .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
+    print('함수');
+    print(result);
+    final newInfo = result;
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChatRoom(roomInfo: newInfo)));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -548,14 +574,14 @@ class _ConnectState extends State<Connect> {
                         ),
                         if (showParentList[index])
                           ...buildParentList(
-                              widget.userConnect[index]['parents']),
+                              index, widget.userConnect[index]['parents']),
                       ],
                     );
             },
           );
   }
 
-  List<Widget> buildParentList(dynamic parents) {
+  List<Widget> buildParentList(index, dynamic parents) {
     List<Map<String, dynamic>> typedParents =
         List<Map<String, dynamic>>.from(parents);
 
@@ -626,11 +652,10 @@ class _ConnectState extends State<Connect> {
                       ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ChatRoom(roomInfo: parent)));
+                        final parentInfo = parent;
+                        print('부모 연락처');
+                        print(parentInfo);
+                        createParentRoom(parentInfo);
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),

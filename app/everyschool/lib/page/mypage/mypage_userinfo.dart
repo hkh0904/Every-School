@@ -14,7 +14,7 @@ class MypageUserInfo extends StatefulWidget {
 class _MypageUserInfoState extends State<MypageUserInfo> {
   var userNum = 1;
 
-  final yearList = ['2023 년도', '2022 년도'];
+  final yearList = ['2023 년도'];
   String selectedYear = '2023 년도';
   final storage = FlutterSecureStorage();
 
