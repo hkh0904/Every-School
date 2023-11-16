@@ -1,6 +1,6 @@
 .container {
-  background-color: #F6F5F9;
-  height: 90vh;
+  background-color: #f6f5f9;
+  /* height: 90vh; */
   padding: 5vw;
 }
 
@@ -11,7 +11,7 @@
 
 .underText {
   margin-top: 0.5rem;
-  color: rgba(128, 128, 128, 0.651)
+  color: rgba(128, 128, 128, 0.651);
 }
 
 .noresultText {
@@ -19,13 +19,24 @@
   font-size: 1.3rem;
 }
 
+.complainTitle {
+  font-weight: 700;
+  font-size: 21px;
+}
+
+.chatBox {
+  margin-top: 40px;
+  padding-bottom: 30px;
+}
+
 .tableBox {
-  padding: 8px;
+  padding: 30px 60px;
   height: 70vh;
   overflow: hidden;
   margin-top: 3vw;
   border-radius: 15px;
   background-color: white;
+  padding-bottom: 60px;
 }
 
 .chatRow {
@@ -41,15 +52,34 @@
 }
 
 .chatContent {
-  font-size: 1vw;
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #15075f;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px 8px 0px 8px;
+}
+
+.chatBubble {
+  display: flex;
+  align-items: end;
+  margin-bottom: 5px;
+}
+
+.teacherChatContent {
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #f4f4f4;
+  font-size: 16px;
+  border-radius: 8px 8px 8px 0;
 }
 
 .chatTime {
-  
+  color: #868e96;
 }
 
 .chatReason {
-
+  color: rgb(212, 42, 42);
 }
 
 .scrollContainer {
@@ -59,7 +89,7 @@
   padding-top: 1.5vw;
   padding-bottom: 2vw;
   overflow-y: auto;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   border: 1px solid black;
   border-radius: 10px;
 }
@@ -70,7 +100,7 @@
 }
 
 .scrollContainer::-webkit-scrollbar-thumb {
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-radius: 10px;
 }
 

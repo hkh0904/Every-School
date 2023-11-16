@@ -278,6 +278,7 @@ export default function Table({ columns, data }) {
             onClick={() => gotoPage(pageNum)}
             disabled={pageIndex === pageNum}
             className={styles.pageButton}
+            style={{ marginBottom: '9px' }}
           >
             {pageNum + 1}
           </div>

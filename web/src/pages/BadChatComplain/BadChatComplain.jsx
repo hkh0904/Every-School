@@ -36,16 +36,30 @@ export default function BadChatComplain() {
       <div className={styles.underText}>악성 민원 번호 : {complainId}</div>
       <hr />
       <div className={styles.tableBox}>
-        {complains.chatList &&
-          complains.chatList.map((complain, index) => (
-            <div key={index} className={complain.teacherSend ? styles.chatRow : styles.teacherChatRow}>
-              <div className={styles.chatContentWrapper}>
-                <div className={styles.chatContent}>{complain.content}</div>
-                <div className={styles.chatTime}>{formatTime(complain.sendTime)}</div>
-                <div className={styles.chatReason}>{complain.reason}</div>
+        <p className={styles.complainTitle}>{complains.title}와(과)의 대화</p>
+        <hr />
+        <div className={styles.chatBox}>
+          {complains.chatList &&
+            complains.chatList.map((complain, index) => (
+              <div key={index} className={complain.teacherSend ? styles.chatRow : styles.teacherChatRow}>
+                <div className={styles.chatContentWrapper}>
+                  {complain.teacherSend ? (
+                    <div className={styles.chatBubble}>
+                      <div className={styles.teacherChatContent}>{complain.content}</div>
+                      <div className={styles.chatTime}>{formatTime(complain.sendTime)}</div>
+                    </div>
+                  ) : (
+                    <div className={styles.chatBubble}>
+                      <div className={styles.chatTime}>{formatTime(complain.sendTime)}</div>
+                      <div className={styles.chatContent}>{complain.content}</div>
+                    </div>
+                  )}
+
+                  <div className={styles.chatReason}>{complain.reason}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     </div>
   );

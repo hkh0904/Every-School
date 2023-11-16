@@ -13,6 +13,30 @@ export default function BadCallComplain() {
     setComplains(rawData);
   };
 
+  const formatName = (name) => {
+    if (name === 'positive') {
+      return '긍정적';
+    } else if (name === 'negative') {
+      return '부정적';
+    } else if (name === 'neutral') {
+      return '중립적';
+    }
+  };
+
+  const formatPercentage = (value) => {
+    const rounded = Math.round(value * 10) / 10; // 소수점 둘째 자리에서 반올림
+    return rounded === 0 ? 0 : rounded; // 0.0인 경우 0으로 표시
+  };
+
+  const sentimentValues = [
+    { label: '긍정적', value: formatPercentage(complains.overallPositive) },
+    { label: '부정적', value: formatPercentage(complains.overallNegative) },
+    { label: '중립적', value: formatPercentage(complains.overallNeutral) }
+  ];
+
+  // 값이 큰 순서대로 정렬
+  sentimentValues.sort((a, b) => b.value - a.value);
+
   useEffect(() => {
     fetchComplainDetail();
   }, []);
@@ -24,37 +48,43 @@ export default function BadCallComplain() {
       <hr />
       <div className={styles.tableBox}>
         {complains && complains.details && complains.details.length > 0 ? (
-          <div>
+          <div className={styles.contentbox}>
             <div className={styles.overallBox}>
-              <div>전체 감정 결과 : {complains.overallSentiment}</div>
-              <div>neutral : {complains.overallNeutral}%</div>
+              <div className={styles.titleText}>통화 감정 결과 : {formatName(complains.overallSentiment)}</div>
             </div>
             <div className={styles.overallBox}>
-              <div>positive : {complains.overallPositive}%</div>
-              <div>negative : {complains.overallNegative}%</div>
+              {sentimentValues.map((item) => (
+                <div className={styles.subText} key={item.label}>
+                  {item.label} : {item.value}%
+                </div>
+              ))}
             </div>
             <div className={styles.scrollContainer}>
               {complains.details.map((detail, index) => (
-                <ul className={styles.detailsItem} key={index}>
-                  <li>{detail.content}</li>
-                  <li>{detail.sentiment}</li>
-                  <li>neutral: {detail.neutral}</li>
-                  <li>positive: {detail.positive}</li>
-                  <li>negative: {detail.negative}</li>
-                  <li>
-                    <a
-                      className={styles.downloadBox}
-                      href={`http://every-school.com:8000/call-service/v1/calls/download/?fileName=${detail.fileName}`}
-                    >
-                      음성 파일 들어보기
-                    </a>
-                  </li>
-                </ul>
+                <div key={index}>
+                  <div className={styles.detailsItem}>
+                    <div className={styles.detailContent}>
+                      <div className={styles.commentText}>{detail.content}</div>
+                      <div className={styles.emoText}>
+                        {formatName(detail.sentiment)} : {formatPercentage(detail[detail.sentiment])}%
+                      </div>
+                    </div>
+                    <div className={styles.downloadContainer}>
+                      <a
+                        className={styles.downloadBox}
+                        href={`http://every-school.com:8000/call-service/v1/calls/download/?fileName=${detail.fileName}`}
+                      >
+                        음성 파일 다운로드
+                      </a>
+                    </div>
+                  </div>
+                  <hr />
+                </div>
               ))}
             </div>
           </div>
         ) : (
-          <div className={styles.noresultText}>분석 결과가 없습니다...</div>
+          <div></div>
         )}
       </div>
     </div>
