@@ -1,8 +1,15 @@
 package com.everyschool.schoolservice.api.web.service.schoolapply;
 
+import com.everyschool.schoolservice.api.client.UserServiceClient;
+import com.everyschool.schoolservice.api.client.response.UserInfo;
+import com.everyschool.schoolservice.api.web.controller.client.response.StudentInfo;
 import com.everyschool.schoolservice.api.web.controller.schoolapply.response.EditSchoolApplyResponse;
 import com.everyschool.schoolservice.domain.schoolapply.SchoolApply;
 import com.everyschool.schoolservice.domain.schoolapply.repository.SchoolApplyRepository;
+import com.everyschool.schoolservice.domain.schooluser.SchoolUser;
+import com.everyschool.schoolservice.domain.schooluser.UserType;
+import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserQueryRepository;
+import com.everyschool.schoolservice.domain.schooluser.repository.SchoolUserRepository;
 import com.everyschool.schoolservice.messagequeue.KafkaProducer;
 import com.everyschool.schoolservice.messagequeue.dto.CreateStudentParentDto;
 import com.everyschool.schoolservice.messagequeue.dto.EditStudentClassInfoDto;
@@ -23,6 +30,9 @@ import static com.everyschool.schoolservice.error.ErrorMessage.NO_SUCH_SCHOOL_AP
 public class SchoolApplyWebService {
 
     private final SchoolApplyRepository schoolApplyRepository;
+    private final SchoolUserRepository schoolUserRepository;
+    private final SchoolUserQueryRepository schoolUserQueryRepository;
+    private final UserServiceClient userServiceClient;
     private final KafkaProducer kafkaProducer;
 
     public EditSchoolApplyResponse approveSchoolApply(Long schoolApplyId) {
@@ -38,7 +48,27 @@ public class SchoolApplyWebService {
 
         log.debug("[부모 자녀 연결] 부모 학급 신청임");
         kafkaProducer.createStudentParent("create-student-parent", createCreateStudentParentDto(schoolApply));
+
+        saveParentToSchoolUser(schoolApply, approvedschoolApply);
+
         return EditSchoolApplyResponse.of(approvedschoolApply);
+    }
+
+    private void saveParentToSchoolUser(SchoolApply schoolApply, SchoolApply approvedschoolApply) {
+        StudentInfo studentInfo = schoolUserQueryRepository.findByUserId(schoolApply.getStudentId()).orElseThrow(()
+                -> new NoSuchElementException("자녀가 학급에 등록되어있지 않습니다."));
+        UserInfo parentUserInfo = userServiceClient.searchUserInfoById(approvedschoolApply.getParentId());
+
+        SchoolUser parentSchoolUser = SchoolUser.builder()
+                .studentNumber(studentInfo.getStudentNum())
+                .userName(parentUserInfo.getUserName())
+                .schoolYear(approvedschoolApply.getSchoolYear())
+                .userTypeId(parentUserInfo.getUserType() == 'M' ? UserType.FATHER.getCode() : UserType.MOTHER.getCode())
+                .userId(parentUserInfo.getUserId())
+                .school(approvedschoolApply.getSchoolClass().getSchool())
+                .schoolClass(approvedschoolApply.getSchoolClass())
+                .build();
+        schoolUserRepository.save(parentSchoolUser);
     }
 
     public EditSchoolApplyResponse rejectSchoolApply(Long schoolApplyId, String rejectedReason) {
