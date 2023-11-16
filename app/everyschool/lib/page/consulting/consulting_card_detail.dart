@@ -95,6 +95,7 @@ class ConsultingCardDetail {
                       ),
                       if (cardInfo['rejectReason'] != null)
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               '거절 사유',
@@ -111,6 +112,7 @@ class ConsultingCardDetail {
                       ),
                       if (cardInfo['resultContent'] != null)
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               '상담 내용',
