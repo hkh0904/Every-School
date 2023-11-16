@@ -49,23 +49,27 @@
 
 ### Front-end
 
-| <img src="./readme_assets/images/android.png" alt="HTML5" width="100px"  height="100px" /> | <img src="./readme_assets/images/ios.png" alt="CSS3" width="100px" height="100px" /> | <img src="./readme_assets/images/kotlin.png" alt="TypeScript" width="100px" height="100px" /> | <img src="./readme_assets/images/kmm.png" alt="React.js" width="150px" height="100px" /> | <img src="./readme_assets/images/swift.png" alt="Redux" width="100px" height="100px" /> | <img src="./readme_assets/images/thymeleaf.png" alt="Vite" width="100px" height="100px" /> |
-|:------------:|:----------------:|:----------------:|:-----------------:|:---------------:|:--------------:|
-| android | ios | kotlin | Kotlin Multiplatform | Mobile | swift | Thymeleaf |
+| <img src="./readme_assets/images/flutter.png" alt="HTML5" width="100px"  height="100px" /> | <img src="./readme_assets/images/React.jpg" alt="react" width="100px" height="100px" /> | <img src="./readme_assets/images/agora.png" alt="agora" width="100px" height="100px" /> | <img src="./readme_assets/images/websocket.png" alt="websocket" width="150px" height="100px" /> | <img src="./readme_assets/images/fcm.png" alt="fcm" width="100px" height="100px" /> |
+|:------------:|:----------------:|:----------------:|:-----------------:|:---------------:|
+| flutter | React | agora.io | WebSocket | fcm | swift |
 
 
 
 ### Back-end
 
-| <img src="./readme_assets/images/java17.png" alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/spring.png" width="100"> | <img src="./readme_assets/images/springcloud.jpg"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/eureka.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/H2_logo.png"  alt="h2" width="100px" height="100px" /> |
+| <img src="./readme_assets/images/java.png" alt="java" width="100px" height="100px" /> | <img src="./readme_assets/images/spring.png" width="100"> | <img src="./readme_assets/images/springcloud.jpg"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/eureka.png"  alt="HTML5" width="100px" height="100px" /> |
+|:-------:|:-------:|:-------:|:-------:|
+| java11 | spring boot | spring cloud | netflix Eureka | 
+
+| <img src="./readme_assets/images/python.png"  alt="python" width="100px" height="100px" /> | <img src="./readme_assets/images/fastapi.png"  alt="fastapi" width="100px" height="100px" /> | <img src="./readme_assets/images/clova.png"  alt="clova" width="100px" height="100px" /> | <img src="./readme_assets/images/openai.png"  alt="mongodb" width="100px" height="100px" /> |
+|:-----:|:-----:|:-----:|:------:|
+| python | FastAPI | Clova | OpenAI |
+
+### Database
+
+| <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/H2_logo.png"  alt="h2" width="100px" height="100px" /> | <img src="./readme_assets/images/redis.png"  alt="redis" width="100px" height="100px" /> | <img src="./readme_assets/images/mongodb.jpg"  alt="mongodb" width="100px" height="100px" /> | <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/H2_logo.png"  alt="h2" width="100px" height="100px" /> |
 |:-------:|:-------:|:-------:|:-------:|:-------:|:-------:|
-| java17 | spring boot | spring cloud | netflix Eureka | MySQL | H2 | 
-
-
-| <img src="./readme_assets/images/redis.png"  alt="redis" width="100px" height="100px" /> | <img src="./readme_assets/images/python.png"  alt="python" width="100px" height="100px" /> | <img src="./readme_assets/images/fastapi.png"  alt="fastapi" width="100px" height="100px" /> | <img src="./readme_assets/images/mongodb.jpg"  alt="mongodb" width="100px" height="100px" /> | <img src="./readme_assets/images/bart.JPG"  alt="mongodb" width="100px" height="100px" /> | <img src="./readme_assets/images/openai.png"  alt="mongodb" width="100px" height="100px" /> |
-|:-----:|:-----:|:-----:|:-----:|:-----:|:------:|
-| redis | python | FastAPI | mongoDB | SKT-AI : KoBART | OpenAI |
-
+| MySQL | H2 | redis | mongoDB | MySQL | H2 | 
 
 ### DevOps & Tools & logging
 
