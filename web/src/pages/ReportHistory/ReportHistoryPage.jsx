@@ -36,7 +36,10 @@ export default function ReportHistoryPage() {
   const fetchReports = async () => {
     let rawData = await receivedReportInfo();
 
-    const formattedData = rawData.map((item) => {
+    // Filter out data with status '악성민원'
+    const filteredData = rawData.filter((item) => item.type !== '악성민원');
+    console.log(filteredData);
+    const formattedData = filteredData.map((item) => {
       const splitDateTime = item.date.split('T');
       const time = `${parseInt(splitDateTime[1], 10)}시`;
       const formattedDate = `${splitDateTime[0]} / ${time}`;
@@ -52,7 +55,7 @@ export default function ReportHistoryPage() {
   useEffect(() => {
     fetchReports();
   }, []);
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.row}>

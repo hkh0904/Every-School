@@ -4,6 +4,7 @@ export const getParentList = async () => {
   const schoolNum = sessionStorage.getItem('schoolId');
   const schoolYear = sessionStorage.getItem('year');
   const classNum = sessionStorage.getItem('classNum');
+  console.log(`/school-service/v1/web/${schoolYear}/schools/${schoolNum}/classes/${classNum}/parents`);
   try {
     const response = await baseAxios.get(
       `/school-service/v1/web/${schoolYear}/schools/${schoolNum}/classes/${classNum}/parents`,
