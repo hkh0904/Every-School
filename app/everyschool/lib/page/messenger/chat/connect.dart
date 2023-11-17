@@ -47,6 +47,7 @@ class _ConnectState extends State<Connect> {
   Timer? timer;
 
   String? chatroomtoken;
+  String? oUserKey;
 
   var userInfo;
 
@@ -170,11 +171,11 @@ class _ConnectState extends State<Connect> {
 
   startRecording() async {
     final token = await storage.read(key: 'token') ?? "";
-    final contact = await MessengerApi().getTeacherConnect(token);
+    // final contact = await MessengerApi().getTeacherConnect(token);
     final myInfo = context.read<UserStore>().userInfo;
     final userKey = await storage.read(key: 'userKey') ?? "";
     var recordingDetail = await CallingApi().callRecordingStart(
-        token, channelName, uid, chatroomtoken, userKey, contact['userKey']);
+        token, channelName, uid, chatroomtoken, userKey, oUserKey);
     sid = recordingDetail['sid'];
     resourceId = recordingDetail['resourceId'];
   }
@@ -187,7 +188,7 @@ class _ConnectState extends State<Connect> {
 
     endDateTime = datetimeToCustomList();
     await CallingApi().callRecordingStop(token, channelName, uid, resourceId,
-        sid, contact['userKey'], sender, startDateTime, endDateTime);
+        sid, oUserKey, sender, startDateTime, endDateTime);
   }
 
   Future<void> setupVoiceSDKEngine() async {
@@ -252,7 +253,7 @@ class _ConnectState extends State<Connect> {
       endDateTime = datetimeToCustomList();
     });
     CallingApi().missedCall(
-        token, contact['userKey'], myInfo['name'], startDateTime, endDateTime);
+        token, oUserKey, myInfo['name'], startDateTime, endDateTime);
   }
 
   void leave() async {
@@ -382,6 +383,8 @@ class _ConnectState extends State<Connect> {
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
+                                            oUserKey = widget.userConnect[index]
+                                                ['userKey'];
                                             return CallModal(
                                                 join: fetchToken,
                                                 uid: uid,
@@ -493,6 +496,10 @@ class _ConnectState extends State<Connect> {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
+                                                oUserKey =
+                                                    widget.userConnect[index]
+                                                        ['userKey'];
+                                                print(channelName);
                                                 return CallModal(
                                                   join: fetchToken,
                                                   uid: uid,
@@ -599,6 +606,7 @@ class _ConnectState extends State<Connect> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
+                              oUserKey = parent['userKey'];
                               return CallModal(
                                   join: fetchToken,
                                   uid: uid,
