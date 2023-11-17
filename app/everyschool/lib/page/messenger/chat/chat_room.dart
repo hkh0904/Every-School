@@ -85,6 +85,9 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void sendMessage() async {
+    if (context.read<ChatController>().textEditingController.text == '') {
+      return;
+    }
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
 
@@ -326,15 +329,8 @@ class _ChatRoomState extends State<ChatRoom> {
                               bottom: 0,
                               right: 0,
                               child: IconButton(
-                                icon: Icon(Icons.send),
-                                onPressed: context
-                                        .watch<ChatController>()
-                                        .textEditingController
-                                        .text
-                                        .isNotEmpty
-                                    ? sendMessage
-                                    : null,
-                              ),
+                                  icon: Icon(Icons.send),
+                                  onPressed: sendMessage),
                             ),
                           ],
                         ),
@@ -409,15 +405,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             bottom: 0,
                             right: 0,
                             child: IconButton(
-                              icon: Icon(Icons.send),
-                              onPressed: context
-                                      .watch<ChatController>()
-                                      .textEditingController
-                                      .text
-                                      .isNotEmpty
-                                  ? sendMessage
-                                  : null,
-                            ),
+                                icon: Icon(Icons.send), onPressed: sendMessage),
                           ),
                         ],
                       ),
