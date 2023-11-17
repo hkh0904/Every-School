@@ -97,7 +97,6 @@ class _MainState extends State<Main> {
     var token = await storage.read(key: 'token') ?? "";
     final userinfo = await UserApi().getUserInfo(token);
     await Provider.of<UserStore>(context, listen: false).setUserInfo(userinfo);
-    print('여기는 스토아 ');
     print(context.read<UserStore>().userInfo);
   }
 

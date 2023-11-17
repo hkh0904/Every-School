@@ -26,7 +26,6 @@ class _GetCallState extends State<GetCall> {
       autoStart: true,
       loopMode: LoopMode.single,
     );
-    print('유저정보 ${widget.userInfo}');
   }
 
   @override

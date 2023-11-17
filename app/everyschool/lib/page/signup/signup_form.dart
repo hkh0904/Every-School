@@ -222,9 +222,6 @@ class _SignupFormState extends State<SignupForm> {
                                               widget.emailAddress.text,
                                               authNumber.text);
 
-                                      print('체크 확인');
-                                      print(check);
-
                                       if (check['code'] == 200) {
                                         setState(() {
                                           emailCodeCheck = true;

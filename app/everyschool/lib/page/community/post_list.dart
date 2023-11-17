@@ -58,12 +58,9 @@ class _PostListState extends State<PostList> {
         setState(() {
           page = requestedPage;
           postList = response['content'];
-          print(postList);
         });
       }
-    } catch (e) {
-      print('데이터 로딩 중 오류 발생: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -105,7 +102,6 @@ class _PostListState extends State<PostList> {
     try {
       postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
     } catch (e) {
-      print('DateTime parsing error: $e');
       return dateTimeStr;
     }
 

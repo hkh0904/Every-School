@@ -83,7 +83,6 @@ class _CallButtonState extends State<CallButton> {
   Future<void> fetchToken(int uid, String channelName, int tokenRole,
       String serverUrl, int tokenExpireTime, bool isTokenExpiring) async {
     final channelId = channelName;
-    print('전화시작화면');
 
     // Prepare the Url
     String url =
@@ -91,7 +90,6 @@ class _CallButtonState extends State<CallButton> {
 
     // Send the request
     final response = await dio.get(url);
-    print('거는사람 $response');
 
     if (response.statusCode == 200) {
       // If the server returns an OK response, then parse the JSON.
@@ -125,9 +123,7 @@ class _CallButtonState extends State<CallButton> {
       // Join a channel.
       showMessage("Token received, joining a channel...");
 
-      print('여기는 $reNewToken, $channelId, $uid');
-      print('채널은 $channelId');
-      if (reNewToken != null && channelId != null && uid != null) {
+      if (uid != null) {
         _navigateToModalCallPage();
         await agoraEngine.joinChannel(
           token: reNewToken,
@@ -143,7 +139,6 @@ class _CallButtonState extends State<CallButton> {
   }
 
   void _navigateToModalCallPage() {
-    print('선생님정보 ${widget.userInfo}');
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -198,13 +193,11 @@ class _CallButtonState extends State<CallButton> {
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission
     await [Permission.microphone].request();
-    print('마이크권한');
 
     //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
     await agoraEngine.initialize(RtcEngineContext(appId: agoraConfig.appId));
     await agoraEngine.enableLocalAudio(true);
-    print('아고라엔진시작');
 
     // Register the event handler
     agoraEngine.registerEventHandler(
@@ -212,18 +205,14 @@ class _CallButtonState extends State<CallButton> {
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           showMessage(
               "Local user uid:${connection.localUid} joined the channel");
-          print('아니 들어감:${connection.localUid} joined the channel');
           setState(() {
             isJoined = true;
             startDateTime = datetimeToCustomList();
           });
-          print('시작시간 $startDateTime');
           startTimer();
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
-          print('상대방전화받았음');
-          print('아니 왜이래 $remoteUid');
           setState(() {
             this.remoteUid = remoteUid;
             peopleGetCall = true;
@@ -242,18 +231,13 @@ class _CallButtonState extends State<CallButton> {
           );
           startRecording();
         },
-        onError: (ErrorCodeType rtcError, String error) {
-          print("Error code: ${rtcError.toString()}");
-          print("Error description: ${rtcError.value()} 고요 $error");
-        },
+        onError: (ErrorCodeType rtcError, String error) {},
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) async {
-          print('전화끊은 유저가 $remoteUid');
           setState(() {
             this.remoteUid = null;
           });
           showMessage("Remote user uid:$remoteUid left the channel");
-          print('전화끊음');
           leave();
         },
       ),
@@ -288,7 +272,6 @@ class _CallButtonState extends State<CallButton> {
 
   @override
   void dispose() async {
-    print('아고라 엔진 종료');
     super.dispose();
     // await agoraEngine.leaveChannel();
     await agoraEngine.release();

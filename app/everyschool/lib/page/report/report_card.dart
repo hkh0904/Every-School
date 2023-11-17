@@ -13,7 +13,6 @@ class ReportCard extends StatefulWidget {
 
 class _ReportCardState extends State<ReportCard> {
   Color _getColorFromState(String state) {
-    print(state);
     switch (state) {
       case '처리 완료':
         return Color(0xff1FAD50);
@@ -51,7 +50,6 @@ class _ReportCardState extends State<ReportCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('돌겠네 ${widget.reportingList}');
   }
 
   @override

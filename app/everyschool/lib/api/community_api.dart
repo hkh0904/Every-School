@@ -72,10 +72,8 @@ class CommunityApi {
           options: Options(contentType: 'multipart/form-data', headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data);
       return response.data['data'];
     } catch (e) {
-      print("에러임!!!!!!!! $e");
       return null;
     }
   }
@@ -89,10 +87,8 @@ class CommunityApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data);
       return response.data['data'];
     } catch (e) {
-      print("에러 발생 $e");
       return null;
     }
   }
@@ -107,10 +103,8 @@ class CommunityApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data);
       return response.data['data'];
     } catch (e) {
-      print("답글 에러발생 $e");
       return null;
     }
   }
@@ -124,7 +118,6 @@ class CommunityApi {
             'Authorization': 'Bearer $token',
           }));
     } catch (e) {
-      print("에러 발생 $e");
       return null;
     }
   }
@@ -138,7 +131,6 @@ class CommunityApi {
             'Authorization': 'Bearer $token',
           }));
     } catch (e) {
-      print("에러 발생 $e");
       return null;
     }
   }
@@ -165,7 +157,6 @@ class CommunityApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -180,7 +171,6 @@ class CommunityApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -195,7 +185,6 @@ class CommunityApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print('${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -204,14 +193,12 @@ class CommunityApi {
 
   Future<dynamic> getMyScrap(year, schoolId) async {
     var token = await storage.read(key: 'token');
-    print('왜 안돼 $token');
     try {
       final response = await dio.get(
           '${serverApi.serverURL}/board-service/v1/app/$year/schools/$schoolId/scraps',
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print('왜 안돼 ${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);

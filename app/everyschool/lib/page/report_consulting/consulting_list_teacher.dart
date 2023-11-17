@@ -18,7 +18,6 @@ class _ConsultingListTeacherState extends State<ConsultingListTeacher> {
 
     var response = await ConsultingApi()
         .getConsultingList(myInfo['school']['schoolId'], year);
-    print(response);
 
     var upcomingConsulting = [];
     var pastConsulting = [];
@@ -48,7 +47,6 @@ class _ConsultingListTeacherState extends State<ConsultingListTeacher> {
     return FutureBuilder(
         future: consultingList(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print(snapshot.data);
           if (snapshot.hasData) {
             if (snapshot.data != 0 &&
                 snapshot.data != 1 &&

@@ -17,7 +17,6 @@ class _ReportDetailState extends State<ReportDetail> {
     final year = context.read<UserStore>().year;
     var response = await ReportApi().getReportDetail(
         year, myInfo['school']['schoolId'], widget.item['reportId']);
-    print(response);
     return response;
   }
 

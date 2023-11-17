@@ -91,7 +91,6 @@ class _ConnectState extends State<Connect> {
 
     // Send the request
     final response = await dio.get(url);
-    print('거는사람 $response');
 
     if (response.statusCode == 200) {
       // If the server returns an OK response, then parse the JSON.
@@ -126,8 +125,6 @@ class _ConnectState extends State<Connect> {
       // Join a channel.
       showMessage("Token received, joining a channel...");
 
-      print('여기는 ');
-      print('채널은 $reNewToken, $channelId, $uid $channelId');
       if (uid != null) {
         if (uid != null) {
           _navigateToModalCallPage();
@@ -146,7 +143,6 @@ class _ConnectState extends State<Connect> {
   }
 
   void _navigateToModalCallPage() {
-    print('갑니다');
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -197,13 +193,11 @@ class _ConnectState extends State<Connect> {
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission
     await [Permission.microphone].request();
-    print('마이크권한');
 
     //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
     await agoraEngine.initialize(RtcEngineContext(appId: agoraConfig.appId));
     await agoraEngine.enableLocalAudio(true);
-    print('아고라엔진시작');
 
     // Register the event handler
     agoraEngine.registerEventHandler(
@@ -211,7 +205,6 @@ class _ConnectState extends State<Connect> {
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           showMessage(
               "Local user uid:${connection.localUid} joined the channel");
-          print('아니 들어감:${connection.localUid} joined the channel');
           setState(() {
             isJoined = true;
             startDateTime = datetimeToCustomList();
@@ -220,8 +213,6 @@ class _ConnectState extends State<Connect> {
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
-          print('상대방전화받았음');
-          print('리모트 $remoteUid');
           setState(() {
             this.remoteUid = remoteUid;
             peopleGetCall = true;
@@ -239,16 +230,11 @@ class _ConnectState extends State<Connect> {
           );
           startRecording();
         },
-        onError: (ErrorCodeType rtcError, String error) {
-          print("Error code: ${rtcError.toString()}");
-          print("Error description: ${rtcError.value()} 고요 $error");
-        },
+        onError: (ErrorCodeType rtcError, String error) {},
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) async {
           await stopRecording();
           showMessage("Remote user uid:$remoteUid left the channel");
-          print('리모트 간다 $remoteUid');
-          print('전화끊음');
           setState(() {
             this.remoteUid = null;
           });
@@ -287,7 +273,6 @@ class _ConnectState extends State<Connect> {
 
   @override
   void dispose() async {
-    print('아고라 엔진 종료');
     super.dispose();
     // await agoraEngine.leaveChannel();
     await agoraEngine.release();
@@ -307,25 +292,19 @@ class _ConnectState extends State<Connect> {
   }
 
   createRoom(index) async {
-    print('실행');
     final token = await storage.read(key: 'token') ?? "";
     final userKey = widget.userConnect[index]['userKey'];
     final userName = widget.userConnect[index]['name'];
     final userType = widget.userConnect[index]['userType'];
-    print(userKey);
-    print(userName);
-    print(userType);
 
     final kkk = await context.read<UserStore>().userInfo;
-    print(kkk);
+
     final mytype = await context.read<UserStore>().userInfo['userType'];
     final myclassId = await context.read<UserStore>().userInfo['schoolClass']
         ['schoolClassId'];
 
     final result = await MessengerApi()
         .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
-    print('함수');
-    print(result);
     final newInfo = result;
 
     Navigator.push(context,
@@ -333,25 +312,18 @@ class _ConnectState extends State<Connect> {
   }
 
   createParentRoom(parentInfo) async {
-    print('실행');
     final token = await storage.read(key: 'token') ?? "";
     final userKey = parentInfo['parentKey'];
     final userName = parentInfo['name'];
     final userType = parentInfo['parentType'];
-    print(userKey);
-    print(userName);
-    print(userType);
 
     final kkk = await context.read<UserStore>().userInfo;
-    print(kkk);
     final mytype = await context.read<UserStore>().userInfo['userType'];
     final myclassId = await context.read<UserStore>().userInfo['schoolClass']
         ['schoolClassId'];
 
     final result = await MessengerApi()
         .createChatRoom(token, userKey, userType, userName, mytype, myclassId);
-    print('함수');
-    print(result);
     final newInfo = result;
 
     Navigator.push(context,
@@ -363,7 +335,6 @@ class _ConnectState extends State<Connect> {
     super.initState();
     getChannelName(16);
     setupVoiceSDKEngine();
-    print('유저정보 ${widget.userConnect}');
   }
 
   List<bool> showParentList = List<bool>.generate(50, (index) => false);
@@ -522,7 +493,6 @@ class _ConnectState extends State<Connect> {
                                             showDialog(
                                               context: context,
                                               builder: (BuildContext context) {
-                                                print(channelName);
                                                 return CallModal(
                                                   join: fetchToken,
                                                   uid: uid,
@@ -653,8 +623,6 @@ class _ConnectState extends State<Connect> {
                     GestureDetector(
                       onTap: () {
                         final parentInfo = parent;
-                        print('부모 연락처');
-                        print(parentInfo);
                         createParentRoom(parentInfo);
                       },
                       child: Padding(
