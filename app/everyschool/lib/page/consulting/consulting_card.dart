@@ -20,7 +20,6 @@ class _ConsultingCardState extends State<ConsultingCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.consultingList);
   }
 
   Color _getColorFromState(String state) {
@@ -62,7 +61,6 @@ class _ConsultingCardState extends State<ConsultingCard> {
                       var consultingDetail = await ConsultingApi()
                           .getConsultDetail(myInfo['school']['schoolId'], year,
                               item['consultId']);
-                      print(consultingDetail);
                       ConsultingCardDetail(consultingDetail)
                           .cardDetail(context);
                     },

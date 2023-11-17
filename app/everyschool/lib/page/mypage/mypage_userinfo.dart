@@ -21,7 +21,6 @@ class _MypageUserInfoState extends State<MypageUserInfo> {
   getCategoryUserInfo() async {
     var token = await storage.read(key: 'token') ?? "";
     var info = await UserApi().getUserInfo(token);
-    print('정보 $info');
     return info;
   }
 
@@ -90,7 +89,6 @@ class _MypageUserInfoState extends State<MypageUserInfo> {
                                         setState(() {
                                           selectedYear = value;
                                         });
-                                        print(selectedYear);
                                       },
                                     ),
                                   ],
@@ -179,7 +177,6 @@ class _MypageUserInfoState extends State<MypageUserInfo> {
                                         setState(() {
                                           selectedYear = value;
                                         });
-                                        print(selectedYear);
                                       },
                                     ),
                                   ],

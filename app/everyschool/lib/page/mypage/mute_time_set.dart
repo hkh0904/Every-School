@@ -26,7 +26,6 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
 
   Future<void> getMuteTime() async {
     var time = await CallingApi().muteTimeInquiry();
-    print(time);
 
     DateTime startTime;
     DateTime endTime;
@@ -132,9 +131,7 @@ class _MuteTimeSetState extends State<MuteTimeSet> {
                 onTap: () {
                   try {
                     Navigator.of(context).pop();
-                  } catch (e) {
-                    print("Error in GestureDetector onTap: $e");
-                  }
+                  } catch (e) {}
                 },
                 child: Container(
                   height: 50,

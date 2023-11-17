@@ -48,9 +48,7 @@ class _HomeNoticeBoardState extends State<HomeNoticeBoard> {
           boardList = response['content'];
         });
       }
-    } catch (e) {
-      print('데이터 로딩 중 오류 발생: $e');
-    }
+    } catch (e) {}
   }
 
   String formatDateTime(String dateTimeStr) {

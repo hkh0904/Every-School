@@ -52,9 +52,7 @@ class _CommunityBoardState extends State<CommunityBoard> {
           boardList = response['content'];
         });
       }
-    } catch (e) {
-      print('커뮤니티 보드 에러: $e');
-    }
+    } catch (e) {}
   }
 
   String formatDateTime(String dateTimeStr) {
@@ -62,7 +60,6 @@ class _CommunityBoardState extends State<CommunityBoard> {
     try {
       postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
     } catch (e) {
-      print('DateTime parsing error: $e');
       return dateTimeStr;
     }
 
@@ -89,7 +86,6 @@ class _CommunityBoardState extends State<CommunityBoard> {
     try {
       postDateTime = tz.TZDateTime.parse(tz.local, dateTimeStr);
     } catch (e) {
-      print('DateTime parsing error: $e');
       return false; // 오류 발생 시 false 반환
     }
 

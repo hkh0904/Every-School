@@ -31,7 +31,6 @@ class _MessengerPageState extends State<MessengerPage> {
     // TODO: implement initState
 
     userType = context.read<UserStore>().userInfo['userType'];
-    print(userType);
     // userType = 1003;
   }
 
@@ -142,8 +141,6 @@ class _ManagerTapBarState extends State<ManagerTapBar> {
                             chatroomList:
                                 context.read<ChatController>().chatroomList);
                       } else if (snapshot.hasError) {
-                        print(snapshot.error);
-
                         return Container(
                           height: 800,
                         );
@@ -195,38 +192,29 @@ class _UserTapBarState extends State<UserTapBar> {
     setState(() {
       chatroomList = response;
     });
-    print(response);
     return response;
   }
 
   createRoom() async {
-    print('실행');
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
 
     final userKey = contact['userKey'];
     final userName = contact['name'];
     final userType = contact['userType'];
-    print(userKey);
-    print(userName);
-    print(userType);
     dynamic _myclassId;
     final mytype = await context.read<UserStore>().userInfo['userType'];
     if (mytype == 1002) {
       final descendantInfo = await storage.read(key: 'descendant') ?? "";
       var selectDescendant = jsonDecode(descendantInfo);
       _myclassId = selectDescendant['schoolClass']['schoolClassId'];
-      print(_myclassId);
     } else {
       final myInfo = await context.read<UserStore>().userInfo;
       _myclassId = myInfo['schoolClass']['schoolClassId'];
-      print(_myclassId);
     }
 
     final result = await MessengerApi()
         .createChatRoom(token, userKey, userType, userName, mytype, _myclassId);
-    print('함수');
-    print(result);
     final newInfo = result;
 
     Navigator.push(context,
@@ -236,7 +224,6 @@ class _UserTapBarState extends State<UserTapBar> {
   getTeacherInfo() async {
     final token = await storage.read(key: 'token') ?? "";
     final contact = await MessengerApi().getTeacherConnect(token);
-    print('왜안나와 $contact');
     return contact;
   }
 

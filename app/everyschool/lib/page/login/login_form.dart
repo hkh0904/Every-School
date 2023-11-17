@@ -29,12 +29,7 @@ class _LoginFormState extends State<LoginForm> {
     var userType = await storage.read(key: 'usertype');
     var userInfo = await UserApi().getUserRegisterInfo(token);
 
-    print(token);
-    print(userType);
-    print(userInfo);
-
     if (userType == '1001') {
-      print(userInfo);
       if (userInfo['data']['school']['schoolId'] == null) {
         if (userInfo['message'] == '학급 승인 대기중입니다.') {
           Navigator.pushReplacement(
@@ -168,8 +163,6 @@ class _LoginFormState extends State<LoginForm> {
                             await FirebaseApi().getMyDeviceToken();
                         int response = await UserApi().login(
                             widget.emailAddress, widget.password, deviceToken);
-                        print('여기가 리스');
-                        print(response);
                         if (response == 1) {
                           loginSuccess();
                         } else {

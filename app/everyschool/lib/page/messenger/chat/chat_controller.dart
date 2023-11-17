@@ -35,10 +35,7 @@ class ChatController extends ChangeNotifier {
   }
 
   setChatList(message) {
-    print('이거 할거든?');
-    print(chatList);
     chatList = [...chatList, ...message];
-    print(chatList);
     notifyListeners();
   }
 
@@ -54,7 +51,6 @@ class ChatController extends ChangeNotifier {
     final kkk = chatList;
 
     chatList = [message, ...kkk];
-    print(chatList);
     notifyListeners();
   }
 

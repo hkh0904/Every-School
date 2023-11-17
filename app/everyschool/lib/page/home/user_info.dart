@@ -20,13 +20,10 @@ class _SchoolInfoState extends State<SchoolInfo> {
   getMainUserInfo() async {
     var token = await storage.read(key: 'token') ?? "";
     var info = await UserApi().getUserInfo(token);
-    print('정보 $info');
 
     if (info['userType'] == 1002) {
-      print('여기');
       var descendant = await storage.read(key: 'descendant') ?? "";
       var selectDescendant = jsonDecode(descendant);
-      print(selectDescendant);
       descend = selectDescendant;
     }
 

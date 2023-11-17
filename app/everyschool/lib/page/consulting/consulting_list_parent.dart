@@ -27,8 +27,6 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
 
     var response = await ConsultingApi()
         .getConsultingList(selectDescendant['school']['schoolId'], year);
-    print(response);
-    print('정보 $selectDescendant');
     return response;
   }
 
@@ -146,7 +144,6 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
                                   selectDescendant['school']['schoolId'],
                                   year,
                                   snapshot.data[index]['consultId']);
-                          print(consultingDetail);
                           ConsultingCardDetail(consultingDetail)
                               .cardDetail(context);
                         },
@@ -188,7 +185,7 @@ class _ConsultingListParentState extends State<ConsultingListParent> {
                                             )),
                                         // Text(snapshot.data[index]['info'] as String),
                                         Text(
-                                            '신청시간 : ${formatConsultDateTime(snapshot.data[index]['consultDateTime']) as String}',
+                                            '신청시간 : ${formatConsultDateTime(snapshot.data[index]['consultDateTime'])}',
                                             style: TextStyle(
                                                 color: Color(0xff999999))),
                                       ],

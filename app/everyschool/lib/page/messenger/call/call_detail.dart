@@ -16,8 +16,6 @@ class _CallDetailState extends State<CallDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.callInfo);
-    print('디테일 ${widget.detail}');
     calculateCallTime();
   }
 

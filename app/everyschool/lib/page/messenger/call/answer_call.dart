@@ -51,7 +51,6 @@ class _AnswerCallState extends State<AnswerCall> {
 
     // Send the request
     final response = await dio.get(url);
-    print('받는사람 $response');
     if (response.statusCode == 200) {
       // If the server returns an OK response, then parse the JSON.
 
@@ -83,8 +82,7 @@ class _AnswerCallState extends State<AnswerCall> {
       // Join a channel.
       showMessage("Token received, joining a channel...");
 
-      print('여기는 $reNewToken, $channelId, $uid');
-      if ((reNewToken != null && channelId != null && uid != null)) {
+      if ((uid != null)) {
         await agoraEngine.joinChannel(
           token: reNewToken,
           channelId: channelId,
@@ -101,13 +99,11 @@ class _AnswerCallState extends State<AnswerCall> {
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission
     await [Permission.microphone].request();
-    print('마이크권한');
 
     //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
     await agoraEngine.initialize(RtcEngineContext(appId: agoraConfig.appId));
     await agoraEngine.enableLocalAudio(true);
-    print('아고라엔진시작');
 
     // Register the event handler
     agoraEngine.registerEventHandler(
@@ -115,33 +111,25 @@ class _AnswerCallState extends State<AnswerCall> {
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           showMessage(
               "Local user uid:${connection.localUid} joined the channel");
-          print('아니 들어감:${connection.localUid} joined the channel');
           // setState(() {
           //   isJoined = true;
           // });
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
-          print('상대방전화받았음');
-          print('리모트 $remoteUid');
 
           setState(() {
             this.remoteUid = remoteUid;
           });
         },
-        onError: (ErrorCodeType rtcError, String error) {
-          print("Error code: ${rtcError.toString()}");
-          print("Error description: ${rtcError.value()} 고요 $error");
-        },
+        onError: (ErrorCodeType rtcError, String error) {},
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
           showMessage("Remote user uid:$remoteUid left the channel");
-          print('리모트 간다 $remoteUid');
           setState(() {
             this.remoteUid = null;
           });
           leave();
-          print('전화끊음');
         },
       ),
     );
@@ -158,7 +146,6 @@ class _AnswerCallState extends State<AnswerCall> {
 
   @override
   void dispose() async {
-    print('아고라 엔진 종료');
     super.dispose();
     if (remoteUid != null) {
       await agoraEngine.leaveChannel();

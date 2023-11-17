@@ -16,7 +16,6 @@ class _MyCommentPostState extends State<MyCommentPost> {
   getCommentPost() async {
     final year = context.read<UserStore>().year;
     final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
-    print('$year $schoolId');
 
     var response = await CommunityApi().getMyComment(year, schoolId);
     return response;

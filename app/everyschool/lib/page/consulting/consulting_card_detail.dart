@@ -18,7 +18,6 @@ class ConsultingCardDetail {
   }
 
   void cardDetail(BuildContext context) {
-    print(cardInfo);
     showDialog(
       context: context,
       builder: (BuildContext context) {

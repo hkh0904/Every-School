@@ -36,7 +36,6 @@ class _ReportPageState extends State<ReportPage> {
   final TextEditingController _fileController = TextEditingController();
 
   postFile() async {
-    print('여기 1');
     FormData formData = FormData.fromMap({
       "typeId": typeId,
       "files": _filePaths
@@ -53,10 +52,8 @@ class _ReportPageState extends State<ReportPage> {
 
     final year = context.read<UserStore>().year;
     final schoolId = context.read<UserStore>().userInfo['school']['schoolId'];
-    print('여기 2');
 
     var response = await ReportApi().writeReport(year, schoolId, formData);
-    print('여기 3');
     if (response.runtimeType != Null) {
       showDialog(
         context: context,
@@ -88,13 +85,10 @@ class _ReportPageState extends State<ReportPage> {
                 GestureDetector(
                   onTap: () {
                     try {
-                      print('여긴 해?');
                       // widget.updateRepPage();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                    } catch (e) {
-                      print("Error in GestureDetector onTap: $e");
-                    }
+                    } catch (e) {}
                   },
                   child: Container(
                     height: 50,

@@ -17,7 +17,6 @@ class _GetCallSuccessState extends State<GetCallSuccess> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('다른사람아이디 ${widget.remoteUid}');
   }
 
   bool canClick = true;

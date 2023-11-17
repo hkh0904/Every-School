@@ -16,7 +16,6 @@ class _CategoryUserInfoState extends State<CategoryUserInfo> {
   getCategoryUserInfo() async {
     var token = await storage.read(key: 'token') ?? "";
     var info = await UserApi().getUserInfo(token);
-    print('정보 $info');
     return info;
   }
 

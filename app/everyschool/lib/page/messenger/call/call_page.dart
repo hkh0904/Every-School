@@ -78,13 +78,11 @@ class _CallPageState extends State<CallPage> {
   Future<void> setupVoiceSDKEngine() async {
     // retrieve or request microphone permission
     await [Permission.microphone].request();
-    print('마이크권한');
 
     //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
     await agoraEngine.initialize(RtcEngineContext(appId: agoraConfig.appId));
     await agoraEngine.enableLocalAudio(true);
-    print('아고라엔진시작');
 
     // Register the event handler
     agoraEngine.registerEventHandler(
@@ -98,20 +96,15 @@ class _CallPageState extends State<CallPage> {
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
-          print('상대방전화받았음');
 
           setState(() {
             _remoteUid = remoteUid;
           });
         },
-        onError: (ErrorCodeType rtcError, String error) {
-          print("Error code: ${rtcError.toString()}");
-          print("Error description: ${rtcError.value()} 고요 $error");
-        },
+        onError: (ErrorCodeType rtcError, String error) {},
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
           showMessage("Remote user uid:$remoteUid left the channel");
-          print('전화끊음');
           setState(() {
             _remoteUid = null;
           });
@@ -131,7 +124,6 @@ class _CallPageState extends State<CallPage> {
 
   @override
   void dispose() async {
-    print('아고라 엔진 종료');
     super.dispose();
     await agoraEngine.leaveChannel();
   }

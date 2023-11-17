@@ -36,12 +36,6 @@ class _CallModalState extends State<CallModal> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('유저아이디 ${widget.uid}');
-    print('채널이름 ${widget.channelName}');
-    print('토큰롤 ${widget.tokenRole}');
-    print('서버주소 ${widget.serverUrl}');
-    print('토큰삭제시점 ${widget.tokenExpireTime}');
-    print('삭제됐니? ${widget.isTokenExpiring}');
   }
 
   @override
@@ -83,15 +77,12 @@ class _CallModalState extends State<CallModal> {
                           widget.tokenExpireTime,
                           widget.isTokenExpiring);
 
-                      print('여기나갈거야');
                       // Navigator.of(context).pop();
 
                       if (widget.getUserKey == null) {
                         final contact =
                             await MessengerApi().getTeacherConnect(token);
                         final myInfo = await context.read<UserStore>().userInfo;
-                        print('콘텍트 ${contact['userKey']}');
-                        print('전화걸때 ${myInfo['name']}');
                         CallingApi().callOthers(token, contact['userKey'],
                             myInfo['name'], widget.channelName);
                       } else {
