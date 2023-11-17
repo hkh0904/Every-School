@@ -44,7 +44,6 @@ class _SplashState extends State<Splash> {
       if (token != null && token!.length > 0) {
         var usertype = await storage.read(key: 'usertype');
         var userInfo = await UserApi().getUserRegisterInfo(token);
-        print('유저정보 $userInfo');
 
         if (usertype == "1001") {
           if (userInfo['message'] == '학급 신청 후 이용바랍니다.') {
@@ -72,7 +71,6 @@ class _SplashState extends State<Splash> {
         } else if (usertype == "1002") {
           if (userInfo['data']['descendants'].length > 0) {
             final selectStudent = await storage.read(key: 'descendant');
-            print(selectStudent);
             if (selectStudent == null) {
               await storage.write(
                   key: 'descendant',
@@ -132,7 +130,6 @@ class _SplashState extends State<Splash> {
     var calls = null;
     if (calls is List) {
       if (calls.isNotEmpty) {
-        print('DATA: $calls');
         _currentUuid = calls[0]['id'];
         return calls[0];
       } else {
@@ -144,8 +141,6 @@ class _SplashState extends State<Splash> {
 
   Future<void> checkAndNavigationCallingPage() async {
     var currentCall = await getCurrentCall();
-    print('현재콜 $currentCall');
-    print('현재콜 ${currentCall.runtimeType}');
 
     // if (currentCall.runtimeType != Null) {
     //   Navigator.pushReplacement(

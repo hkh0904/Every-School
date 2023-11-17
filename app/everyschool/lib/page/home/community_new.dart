@@ -37,7 +37,6 @@ class _CommunityNewState extends State<CommunityNew> {
     }
     final year = context.read<UserStore>().year;
     var response = await CommunityApi().getNewPostList(year, schoolId);
-    print('커뮤니티최신글 $response');
     return response;
   }
 

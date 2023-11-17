@@ -18,7 +18,6 @@ class ReportApi {
           options: Options(contentType: 'multipart/form-data', headers: {
             'Authorization': 'Bearer $token',
           }));
-      print('데이터 ${response.data}');
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -36,7 +35,6 @@ class ReportApi {
             'Authorization': 'Bearer $token',
           }));
 
-      print('겟데이터 ${response.data['data']}');
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -70,7 +68,6 @@ class ReportApi {
           options: Options(headers: {
             'Authorization': 'Bearer $token',
           }));
-      print(response.data['data']);
       return response.data['data'];
     } catch (e) {
       print(e);

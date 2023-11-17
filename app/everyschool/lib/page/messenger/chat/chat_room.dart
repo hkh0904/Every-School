@@ -77,12 +77,6 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   createChatroom() async {
-    print('크리에이트 실행');
-    print(widget.roomInfo['roomId']);
-    print(
-      widget.roomInfo['roomId'],
-    );
-
     await getChat();
 
     stompClient.activate();
@@ -91,6 +85,9 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void sendMessage() async {
+    if (context.read<ChatController>().textEditingController.text == '') {
+      return;
+    }
     final token = await storage.read(key: 'token') ?? "";
     final response = await MessengerApi().getChatList(token);
 
@@ -98,15 +95,12 @@ class _ChatRoomState extends State<ChatRoom> {
         .read<ChatController>()
         .changechatroomList(List<Map>.from(response));
     final myKey = await storage.read(key: 'userKey');
-    print(myKey);
     final filter = await MessengerApi().chatFilter(
         token,
         widget.roomInfo['roomId'],
         myKey,
         context.read<ChatController>().textEditingController.text);
-    print('필터링 보냄');
     if (filter['isBad'] == false) {
-      print('소래만들었을때');
       stompClient.send(
           destination: '/pub/chat.send',
           body: json.encode({
@@ -140,14 +134,10 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   void onConnectCallback(StompFrame connectFrame) {
-    print('받음');
-    print(widget.roomInfo['roomId']);
     var subscription = stompClient.subscribe(
       destination: '/sub/${widget.roomInfo['roomId']}',
       headers: {'Authorization': 'Bearer $token'},
       callback: (frame) {
-        print('메세지 보냈어');
-        print(frame.body!);
         context.read<ChatController>().addNewMessage(Chat(
               message: json.decode(frame.body!)['message'],
               sender: json.decode(frame.body!)['senderUserKey'],
@@ -156,8 +146,6 @@ class _ChatRoomState extends State<ChatRoom> {
         setState(() {});
       },
     );
-
-    print('저기2');
   }
 
   void _handleScrollToTop() {
@@ -210,8 +198,6 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   disconnect(myKey) async {
-    print(widget.roomInfo['roomId']);
-    print(myKey);
     stompClient.send(
         destination: '/pub/chat.unsub.${widget.roomInfo['roomId']}',
         body: json.encode({
@@ -343,15 +329,8 @@ class _ChatRoomState extends State<ChatRoom> {
                               bottom: 0,
                               right: 0,
                               child: IconButton(
-                                icon: Icon(Icons.send),
-                                onPressed: context
-                                        .watch<ChatController>()
-                                        .textEditingController
-                                        .text
-                                        .isNotEmpty
-                                    ? sendMessage
-                                    : null,
-                              ),
+                                  icon: Icon(Icons.send),
+                                  onPressed: sendMessage),
                             ),
                           ],
                         ),
@@ -426,15 +405,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             bottom: 0,
                             right: 0,
                             child: IconButton(
-                              icon: Icon(Icons.send),
-                              onPressed: context
-                                      .watch<ChatController>()
-                                      .textEditingController
-                                      .text
-                                      .isNotEmpty
-                                  ? sendMessage
-                                  : null,
-                            ),
+                                icon: Icon(Icons.send), onPressed: sendMessage),
                           ),
                         ],
                       ),

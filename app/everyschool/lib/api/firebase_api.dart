@@ -31,8 +31,6 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     DateTime currentTime = DateTime.now();
     var userType = await storage.read(key: 'usertype');
 
-    print(message.data);
-
     if (userType == "1003") {
       var time = await CallingApi().muteTimeInquiry();
 
@@ -41,9 +39,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       if (currentTime.isAfter(startTime) &&
           currentTime.isBefore(endTime) &&
           time['isActivate'] == true) {
-        print('현재 시간이 방해 금지 시간에 속합니다.');
       } else {
-        print('현재 시간이 방해 금지 시간에 속하지 않습니다.');
         var name = message.notification!.title;
         var phoneNumber = message.notification!.body;
         var channelName = message.data['cname'];
@@ -73,7 +69,6 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
             listen: false)
         .setReceiver();
   } else if (message.data['type'] == 'report') {
-    print('열받는다고...');
     Navigator.push(
         CandyGlobalVariable.naviagatorState.currentContext as BuildContext,
         MaterialPageRoute(
@@ -150,7 +145,6 @@ class FirebaseApi {
     final firebaseMessaging = FirebaseMessaging.instance;
     await firebaseMessaging.requestPermission();
     final fcmToken = await firebaseMessaging.getToken();
-    print('토큰은 $fcmToken');
 
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
       // TODO: If necessary send token to application server.
@@ -190,7 +184,6 @@ class FirebaseApi {
 
   // 여는 창 예시
   void _handleMessage(initialMessage, context) {
-    print('열받네...!');
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -234,8 +227,6 @@ class FirebaseApi {
   void foregroundMessage(RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
 
-    print('메세지!!!!! 노티피케이션 ${message.notification}');
-    print('메세지!!!!! 데이터 ${message.data}');
     var userType = await storage.read(key: 'usertype');
 
     if (notification != null) {
@@ -251,9 +242,7 @@ class FirebaseApi {
           if (currentTime.isAfter(startTime) &&
               currentTime.isBefore(endTime) &&
               time['isActivate'] == true) {
-            print('현재 시간이 방해 금지 시간에 속합니다.');
           } else {
-            print('현재 시간이 방해 금지 시간에 속하지않습니다.');
             var name = message.notification!.title;
             var phoneNumber = message.notification!.body;
             var channelName = message.data['cname'];
@@ -403,7 +392,6 @@ class FirebaseApi {
                         },
                       )));
         } else if (payloadMap['type'] == 'noti') {
-          print('들어와?');
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -431,21 +419,16 @@ class FirebaseApi {
             MaterialPageRoute(
                 builder: (context) => ReportDetail(
                     item: {'reportId': int.parse(message.data['reportId'])})));
-      } else {
-        print('열받네...?');
-      }
+      } else {}
     }
   }
 
   Future<void> getIncomingCall(context) async {
     FlutterCallkitIncoming.onEvent.listen((event) {
-      print('이벤트 $event');
-      print('바디는 ${event!.body['nameCaller']}');
-      String? channelName = event.body['extra']['userId'];
+      String? channelName = event!.body['extra']['userId'];
       switch (event.event) {
         case Event.actionCallIncoming:
           // TODO: received an incoming call
-          print('전화옴');
           break;
         case Event.actionCallStart:
           // TODO: started an outgoing call
@@ -454,7 +437,6 @@ class FirebaseApi {
         case Event.actionCallAccept:
           // TODO: accepted an incoming call
           // TODO: show screen calling in Flutter
-          print('콜받음');
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -465,50 +447,39 @@ class FirebaseApi {
           break;
         case Event.actionCallDecline:
           // TODO: declined an incoming call
-          print('안받음');
           CallingApi().deniedCall(event.body['extra']['otherUserKey'],
               event.body['nameCaller'], event.body['extra']['startTime']);
           break;
         case Event.actionCallEnded:
           // TODO: ended an incoming/outgoing call
-          print('전화끊음');
 
           break;
         case Event.actionCallTimeout:
           // TODO: missed an incoming call
-          print('전화옴');
           break;
         case Event.actionCallCallback:
           // TODO: only Android - click action `Call back` from missed call notification
-          print('전화옴');
           break;
         case Event.actionCallToggleHold:
           // TODO: only iOS
-          print('전화옴');
           break;
         case Event.actionCallToggleMute:
           // TODO: only iOS
-          print('전화옴');
           break;
         case Event.actionCallToggleDmtf:
           // TODO: only iOS
-          print('전화옴');
           break;
         case Event.actionCallToggleGroup:
           // TODO: only iOS
-          print('전화옴');
           break;
         case Event.actionCallToggleAudioSession:
           // TODO: only iOS
-          print('전화옴');
           break;
         case Event.actionDidUpdateDevicePushTokenVoip:
           // TODO: only iOS
-          print('전화옴');
           break;
         case Event.actionCallCustom:
           // TODO: for custom action
-          print('전화옴');
           break;
       }
     });

@@ -15,7 +15,6 @@ class UserApi {
     if (userType == '1001') {
       lastAdd = '/v1/app/info/student';
     } else if (userType == '1002') {
-      print('학부모조회');
       lastAdd = '/v1/app/info/parent';
     } else {
       lastAdd = '/v1/app/info/teacher';
@@ -35,7 +34,6 @@ class UserApi {
     var userType = await storage.read(key: 'usertype');
     String lastAdd;
     if (userType == '1001') {
-      print('d여기로...');
       lastAdd = '/v1/app/info/student';
     } else if (userType == '1002') {
       lastAdd = '/v1/app/info/parent';
@@ -61,16 +59,12 @@ class UserApi {
         'password': password.text,
         'fcmToken': deviceToken
       });
-      print('gkgkgk');
-      print(response.headers);
       await storage.write(key: 'token', value: response.headers['token']?[0]);
       await storage.write(
           key: 'userKey', value: response.headers['userKey']?[0]);
       await storage.write(
           key: 'usertype', value: response.headers['usertype']?[0]);
       var userInfo = await getUserInfo(response.headers['token']?[0]);
-      print(userInfo);
-      print(userInfo['name']);
       await storage.write(key: 'userName', value: userInfo['name']);
 
       if (userInfo['userType'] == 1002 && userInfo['descendants'].length != 0) {
@@ -95,7 +89,6 @@ class UserApi {
         'birth': birth,
         "parentType": gender
       });
-      print('여기 부모 회원가입');
       return response.data;
     } catch (e) {
       print(e);
@@ -112,7 +105,6 @@ class UserApi {
         'name': name,
         'birth': birth,
       });
-      print('여기 학생 회원가입');
 
       return response.data;
     } catch (e) {
@@ -129,7 +121,6 @@ class UserApi {
               options: Options(headers: {
                 'Authorization': 'Bearer $token',
               }));
-      print(response);
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -146,7 +137,6 @@ class UserApi {
       );
       return response.data['data'];
     } catch (e) {
-      print('API Error: $e');
       // 에러 메시지를 반환합니다.
       return 'API Request Failed: $e';
     }
@@ -194,13 +184,11 @@ class UserApi {
 
   //이메일 인증
   Future<dynamic> authEmail(email) async {
-    print(email);
     try {
       // final deviceToken = getMyDeviceToken();
       final response = await dio.post(
           '${serverApi.serverURL}/user-service/auth/email',
           data: {'email': email});
-      print('실행');
       return response.data['data'];
     } catch (e) {
       print(e);
@@ -209,9 +197,6 @@ class UserApi {
   }
 
   Future<dynamic> checkAuthNumber(email, code) async {
-    print(email);
-    print(code);
-
     try {
       // final deviceToken = getMyDeviceToken();
       final response = await dio.post(
@@ -225,7 +210,6 @@ class UserApi {
 
   //비밀번호 변경
   Future<dynamic> changePassword(token, curPwd, newPwd) async {
-    print(token);
     try {
       final response = await dio.patch(
           '${serverApi.serverURL}/user-service/v1/pwd',

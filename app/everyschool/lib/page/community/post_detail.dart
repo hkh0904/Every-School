@@ -77,9 +77,7 @@ class _PostDetailState extends State<PostDetail> {
           tempScrapCount = response['scrapCount'];
         });
       }
-    } catch (e) {
-      print('데이터 로딩 중 오류 발생: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _toggleScrap(nowStatus) async {
@@ -97,9 +95,7 @@ class _PostDetailState extends State<PostDetail> {
           tempScrapCount -= 1;
         });
       }
-    } catch (e) {
-      print('스크랩 에러 $e');
-    }
+    } catch (e) {}
   }
 
   String formatDateTime(String dateTimeStr) {

@@ -373,7 +373,6 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                   daycheck &&
                                   context.watch<UserStore>().policycheck
                               ? () async {
-                                  print(widget.type);
                                   if (month.text.length == 1) {
                                     month.text = '0${month.text}';
                                   }
@@ -398,7 +397,6 @@ class _AddInfoFormState extends State<AddInfoForm> {
                                           name.text,
                                           birthday.text);
 
-                                  print('여기는 나와서 ${response['data']}');
                                   if (response['data'] is Map) {
                                     showDialog(
                                         context: context,

@@ -64,9 +64,6 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
       final descendantInfo = await storage.read(key: 'descendant') ?? "";
       var selectDescendant = jsonDecode(descendantInfo);
 
-      print(selectDescendant['userKey']);
-      print(selectDescendant['school']['schoolId']);
-
       var result = await ConsultingApi().registerConsult(
           year,
           selectDescendant['school']['schoolId'],
@@ -105,7 +102,6 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
         widget.updatePage();
       }
     } else {
-      print('입력 정보를 확인해주세요');
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -259,10 +255,6 @@ class _ConsultingReservationState extends State<ConsultingReservation> {
                           width: MediaQuery.of(context).size.width,
                           child: TextButton(
                             onPressed: () async {
-                              print(selectedType);
-                              print(selDate);
-                              print(selTime);
-                              print(selReason);
                               var storage = FlutterSecureStorage();
                               var myUserKey =
                                   await storage.read(key: 'userKey') ?? "";
