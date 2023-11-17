@@ -1,0 +1,12 @@
+[[calling-miss]]
+=== 부재중 API
+
+==== HTTP Request
+include::{snippets}/calling-miss/http-request.adoc[]
+include::{snippets}/calling-miss/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/calling-miss/http-response.adoc[]
+include::{snippets}/calling-miss/response-fields.adoc[]
+

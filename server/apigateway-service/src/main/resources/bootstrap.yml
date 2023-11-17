@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    config:
+      uri: http://every-school:8888
+      name: everyschool

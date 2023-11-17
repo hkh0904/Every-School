@@ -1,0 +1,40 @@
+.navbar {
+  width: 100%;
+  min-width: 1670px;
+  height: 60px;
+  background-color: #15075f;
+  color: white;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  margin-left: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logoImg1 {
+  height: 40px;
+}
+
+.logoImg2 {
+  height: 27px;
+  margin-left: 5px;
+}
+
+.menu {
+  display: flex;
+  margin-right: 20px;
+}
+
+.menu > p:nth-child(1) {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.menu > p:nth-child(2) {
+  cursor: pointer;
+}

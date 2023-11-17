@@ -1,0 +1,65 @@
+server:
+  port: 0
+
+# logging
+logging:
+  level:
+    org.hibernate: debug
+    com.everyschool.reportservice: debug
+
+spring:
+  application:
+    name: report-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  # h2 setting
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+
+  # jpa setting
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        format_sql: true
+    open-in-view: true
+  # change upload file size
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 50MB
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info, metrics, prometheus, busrefresh
+
+
+cloud:
+  aws:
+    s3:
+      bucket: everyschool
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: ${my.accessKey}
+      secretKey: ${my.secretKey}

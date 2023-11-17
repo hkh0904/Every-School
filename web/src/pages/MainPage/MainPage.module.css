@@ -1,0 +1,34 @@
+.MainPage {
+  display: flex;
+}
+
+.menubar {
+  min-width: 240px;
+  background-color: #15075f;
+  min-height: calc(100vh - 60px);
+  border-top: 0.5px solid #868e96;
+  color: white;
+}
+
+.teacherInfo {
+  margin-left: 20px;
+  padding: 0px 0 10px 0;
+}
+
+.teacherInfo > p:nth-child(1) {
+  font-weight: 700;
+  font-size: 21px;
+  margin-bottom: 0;
+}
+
+.teacherInfoP1,
+.teacherInfoP2,
+.teacherInfoP3,
+.teacherInfoP4 {
+  font-size: 14px;
+}
+
+.outlet {
+  width: calc(100% - 240px);
+  min-width: 1300px;
+}

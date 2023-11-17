@@ -1,0 +1,131 @@
+.ConsultCompleteCard {
+  background-color: white;
+  margin: 1rem 1rem 0 1rem;
+  min-height: 78vh;
+  padding: 2rem 2rem 2rem 2rem;
+  min-width: 768px;
+  border-radius: 5px;
+}
+
+.checkList {
+  position: relative;
+}
+
+.yearNmonth {
+  font-size: 21px;
+  font-weight: 700;
+  position: relative;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.csltCard {
+  border: 1px solid silver;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  margin: 0 1rem;
+  justify-content: space-between;
+  position: relative;
+  min-height: 10rem;
+}
+
+.cardInfo {
+  display: flex;
+  align-items: center;
+}
+
+.cardImage {
+  width: 4rem;
+  height: 4rem;
+}
+
+.childName {
+  min-width: 110px;
+  font-size: 16px;
+}
+
+.parentName {
+  padding: 0;
+  margin: 7px 0px 7px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.parentName > span {
+  font-size: 15px;
+}
+
+.seeMore {
+  padding: 0px 15px 0px 0px;
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+
+.seeMore > p {
+  padding-right: 5px;
+}
+
+.cardInfo > div:nth-child(1) {
+  margin: 1rem 1rem 1rem 1rem;
+  text-align: center;
+}
+
+.cardInfo > div:nth-child(1) > p {
+  margin: 0;
+}
+
+.reasonBox {
+  padding-left: 1rem;
+  min-width: 400px;
+}
+
+.reasonBoxP1 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.reasonBoxP2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+.reasonBoxP3 {
+  color: red;
+
+  font-size: 16px;
+  margin: 0;
+}
+
+.reasonBoxP4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+.reasonBoxP5 {
+  color: red;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.reasonBoxP6 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.refModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

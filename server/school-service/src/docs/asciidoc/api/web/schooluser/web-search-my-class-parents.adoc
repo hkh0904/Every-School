@@ -1,0 +1,13 @@
+[[web-search-my-class-parents]]
+=== 등록 신청 승인 API
+
+==== HTTP Request
+
+include::{snippets}/web-search-my-class-parents/http-request.adoc[]
+include::{snippets}/web-search-my-class-parents/request-headers.adoc[]
+include::{snippets}/web-search-my-class-parents/path-parameters.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/web-search-my-class-parents/http-response.adoc[]
+include::{snippets}/web-search-my-class-parents/response-fields.adoc[]

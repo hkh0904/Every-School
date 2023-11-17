@@ -1,0 +1,10 @@
+[[search-new-notice-boards]]
+=== 공지사항 새 글 조회 API
+
+==== HTTP Request
+include::{snippets}/search-new-notice-boards/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/search-new-notice-boards/http-response.adoc[]
+include::{snippets}/search-new-notice-boards/response-fields.adoc[]

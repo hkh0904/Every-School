@@ -1,0 +1,139 @@
+.loginBox {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.box {
+  width: 360px;
+}
+
+.logoGif {
+  width: 300px;
+  margin-bottom: 1.2rem;
+}
+
+.form {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: start;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 500;
+  display: block;
+  text-align: start;
+  margin-top: 15px;
+}
+
+.emailInput {
+  width: 350px;
+  height: 50px;
+  padding-left: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  margin-top: 3px;
+  font-size: 15px;
+}
+
+.emailInput:focus {
+  border-color: #4285f4;
+  outline: none;
+}
+
+.pwdInput {
+  width: 350px;
+  height: 50px;
+  padding-left: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  margin-top: 3px;
+  font-size: 15px;
+}
+
+.pwdInput:focus {
+  border-color: #4285f4;
+  outline: none;
+}
+
+.loginBtn {
+  background-color: #15075f;
+  width: 360px;
+  height: 52px;
+  border: 0;
+  color: white;
+  border-radius: 10px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+  margin-top: 30px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.loginBtn:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.naverLoginBtn {
+  background-color: #03c75a;
+  width: 100%;
+  border: 0;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  opacity: 0.8;
+  margin-bottom: 15px;
+  margin-top: 30px;
+  font-size: 15px;
+}
+
+.naverLoginBtn:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.join {
+  color: #404040;
+  font-size: 16px;
+  text-align: center;
+}
+
+.clickjoin {
+  color: #15075f;
+  text-decoration: underline;
+}
+
+.clickjoin:hover {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.horizontalLine {
+  margin: 2rem 0;
+}
+
+.forget {
+  margin: 0;
+  margin-top: 0.5rem;
+  text-align: end;
+  color: #8c8c8c;
+  font-size: 16px;
+}
+
+.policy {
+  position: absolute;
+  bottom: 30px;
+}

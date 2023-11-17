@@ -1,0 +1,11 @@
+[[create-code-group]]
+=== 공통 코드 그룹 등록 API
+
+==== HTTP Request
+include::{snippets}/create-code-group/http-request.adoc[]
+include::{snippets}/create-code-group/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-code-group/http-response.adoc[]
+include::{snippets}/create-code-group/response-fields.adoc[]

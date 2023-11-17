@@ -1,0 +1,117 @@
+.container {
+  background-color: #f6f5f9;
+  height: 90vh;
+  padding: 5vw;
+  padding-top: 3vw;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.headText {
+  font-weight: bold;
+  font-size: 1.5vw;
+  margin-top: 1rem;
+  margin-left: 0.3rem;
+}
+
+.underText {
+  font-size: 1.1vw;
+  margin-top: 0.5rem;
+  margin-left: 0.3rem;
+  margin-bottom: 0.5rem;
+  color: rgba(128, 128, 128, 0.651);
+}
+
+.contentText {
+  font-weight: bold;
+  font-size: 1vw;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 0.3rem;
+}
+
+.dataText {
+  /* font-weight: bold; */
+  font-size: 1vw;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 0.3rem;
+}
+
+.resultText {
+  /* font-weight: 800; */
+  font-size: 1.2vw;
+  line-height: 1.5;
+}
+
+.pickerText {
+  font-weight: bold;
+  font-size: 1.1vw;
+}
+
+.line {
+  border-top: 3px solid #f2f2f2;
+  padding-left: 15px;
+}
+
+.bottomLine {
+  border-bottom: 3px solid #f2f2f2;
+}
+
+.category {
+  border-right: 2px solid #f2f2f2;
+  background-color: #f6f5f9;
+}
+
+.selectItem {
+  border: none !important;
+  background-color: transparent !important;
+  width: 100%;
+}
+
+.selectItem:focus {
+  outline: none;
+}
+
+.contentBox {
+  background-color: white;
+  border: 1px #d9d9d9 solid;
+  border-radius: 8px;
+  padding: 50px;
+  font-size: 1.4vw;
+  line-height: 1.5;
+}
+
+.reportBox {
+  font-size: 1.1vw;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  /* height: 20vh; */
+  line-height: 1.6;
+}
+
+.plusButton {
+  display: flex;
+  width: 7rem;
+  height: 2.8rem;
+  color: white;
+  border-radius: 7px;
+  align-items: center;
+  justify-content: center;
+  background-color: #15075f;
+}
+
+.plusButton p {
+  margin-left: 0.3rem;
+}
+
+.plusButton:hover {
+  cursor: pointer;
+  background-color: #16075f8a;
+}

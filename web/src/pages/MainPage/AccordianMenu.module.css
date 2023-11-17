@@ -1,0 +1,90 @@
+.AccordianMenu {
+  padding-top: 20px;
+  border-top: 0.5px solid #868e96;
+}
+
+.accordianTitle {
+  display: flex;
+  margin: 0 20px 20px 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleLink {
+  text-decoration: none;
+  display: flex;
+  color: white;
+  align-items: center;
+}
+
+.titleLink svg {
+  margin-right: 10px;
+  font-size: 19px;
+}
+
+.titleLink > p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.isActive {
+  text-decoration: none;
+  display: flex;
+  color: #ffff9f;
+  align-items: center;
+}
+
+.isActive svg {
+  margin-right: 10px;
+  font-size: 19px;
+}
+
+.isActive > p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.accordianMain {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.accordianMain > p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.accordianMain svg {
+  margin-right: 10px;
+  font-size: 19px;
+}
+
+.accordianExpand {
+  margin: 0;
+}
+
+.accordianExpand svg {
+  font-size: 19px;
+}
+
+.accordionList {
+  list-style-type: none;
+  padding: 0;
+  margin: 5px 0 25px 55px;
+}
+
+.accordionList li {
+  margin: 0 0 15px 0;
+  font-size: 15px;
+}
+
+.itemInActive {
+  text-decoration: none;
+  color: white;
+}
+
+.itemActive {
+  text-decoration: none;
+  color: #ffff9f;
+}

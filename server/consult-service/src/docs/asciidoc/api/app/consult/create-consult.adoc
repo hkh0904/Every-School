@@ -1,0 +1,12 @@
+[[create-consult]]
+=== 상담 등록 API
+
+==== HTTP Request
+
+include::{snippets}/create-consult/http-request.adoc[]
+include::{snippets}/create-consult/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/create-consult/http-response.adoc[]
+include::{snippets}/create-consult/response-fields.adoc[]

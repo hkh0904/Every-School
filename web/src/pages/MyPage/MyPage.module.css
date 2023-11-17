@@ -1,0 +1,82 @@
+.MyPage {
+  background-color: #f6f5f9;
+  min-height: calc(100vh - 60px);
+  padding: 3rem 4rem 0 4rem;
+  min-width: 1300px;
+}
+
+.title {
+  min-width: 60rem;
+  border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 1.5rem;
+}
+
+.title > p {
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 21px;
+  margin-left: 0.625rem;
+}
+.userInformation {
+  min-height: 78vh;
+  padding-top: 15px;
+}
+.userInformationCard {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+
+  border-radius: 6px;
+}
+
+.userInformationTitle {
+  border-radius: 6px;
+}
+.userInformationTitle > p {
+  font-size: 21px;
+  font-weight: 600;
+}
+
+.userInformationContent {
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  margin: 5px;
+  /* padding: 1rem; */
+  border-radius: 8px;
+}
+
+.userInformationContent > hr {
+  margin: 0;
+  padding: 0;
+  background: #d9d9d9;
+  height: 1px;
+  border: 0;
+}
+
+.userInformationContentBox {
+  display: flex;
+}
+.userInformationContentBox > p:nth-child(1) {
+  min-width: 200px;
+  padding-left: 1rem;
+  font-size: 18px;
+}
+.userInformationContentBox > p:nth-child(2) {
+  font-weight: 600;
+}
+
+.userInformationContentButton {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.userInformationContentButton > p:nth-child(2) {
+  color: blue;
+  text-decoration: underline;
+}
+
+.pwdchangetext:hover {
+  cursor: pointer;
+}

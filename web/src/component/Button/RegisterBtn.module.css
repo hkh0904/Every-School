@@ -1,0 +1,11 @@
+.RegisterBtn {
+  background-color: #28446B;
+  width: 15rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}

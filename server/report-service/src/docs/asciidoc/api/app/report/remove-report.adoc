@@ -1,0 +1,14 @@
+[[remove-report]]
+=== 신고 내역 삭제 API
+
+==== HTTP Request
+
+include::{snippets}/remove-report/http-request.adoc[]
+include::{snippets}/remove-report/request-headers.adoc[]
+include::{snippets}/remove-report/path-parameters.adoc[]
+
+
+==== HTTP Response
+
+include::{snippets}/remove-report/http-response.adoc[]
+include::{snippets}/remove-report/response-fields.adoc[]

@@ -1,0 +1,42 @@
+[[login-user]]
+=== 계정 로그인 API
+
+==== HTTP Request
+[source,http,options="nowrap"]
+----
+POST /login HTTP/1.1
+Content-Type: application/json
+Content-Length: 135
+Host: localhost:8080
+
+{
+  "email" : "ssafy@ssafy.com",
+  "password" : "ssafy1234@"
+}
+----
+
+==== Request Fields
+|===
+|Path|Type|Optional|Description
+
+|`+email+`
+|`+String+`
+|필수
+|계정 이메일
+
+|`+pwd+`
+|`+String+`
+|필수
+|비밀번호
+
+|===
+
+==== HTTP Response
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 0
+token: Bearer Token
+userKey: b8c674c6-ca18-4527-8036-1d7fd3f16c4c
+----

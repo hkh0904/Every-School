@@ -1,0 +1,11 @@
+[[edit-pwd]]
+=== 비밀번호 변경 API
+
+==== HTTP Request
+include::{snippets}/edit-pwd/http-request.adoc[]
+include::{snippets}/edit-pwd/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/edit-pwd/http-response.adoc[]
+include::{snippets}/edit-pwd/response-fields.adoc[]

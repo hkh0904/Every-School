@@ -1,0 +1,11 @@
+[[create-free-board]]
+=== 자유 게시판 작성 API
+
+==== HTTP Request
+include::{snippets}/create-free-board/http-request.adoc[]
+include::{snippets}/create-free-board/request-parameters.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/create-free-board/http-response.adoc[]
+include::{snippets}/create-free-board/response-fields.adoc[]

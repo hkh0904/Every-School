@@ -1,0 +1,12 @@
+[[web-create-notice-board]]
+=== 공지사항 작성 API
+
+==== HTTP Request
+include::{snippets}/web-create-notice-board/http-request.adoc[]
+include::{snippets}/web-create-notice-board/request-parameters.adoc[]
+// include::{snippets}/web-create-notice-board/request-fields.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/web-create-notice-board/http-response.adoc[]
+include::{snippets}/web-create-notice-board/response-fields.adoc[]

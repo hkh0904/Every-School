@@ -1,0 +1,12 @@
+[[finish-consult]]
+=== [교직원] 상담 완료 API
+
+==== HTTP Request
+
+include::{snippets}/finish-consult/http-request.adoc[]
+include::{snippets}/finish-consult/request-fields.adoc[]
+
+==== HTTP Response
+
+include::{snippets}/finish-consult/http-response.adoc[]
+include::{snippets}/finish-consult/response-fields.adoc[]

@@ -1,0 +1,229 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://every-school:8761/eureka
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+
+spring:
+  application:
+    name: apigateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    gateway:
+      routes:
+        # USER SERVICE
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/join/**
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/client/v1/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/auth/**
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/v1/index
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/v1/code-groups/**
+            - Method=GET, POST, DELETE
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/forgot/**
+            - Method=GET, POST, DELETE
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/client/v1/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+        # school-service
+        - id: school-service
+          uri: lb://SCHOOL-SERVICE
+          predicates:
+            - Path=/school-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: school-service
+          uri: lb://SCHOOL-SERVICE
+          predicates:
+            - Path=/school-service/client/v1/**
+            - Method=GET, POST
+        - id: school-service
+          uri: lb://SCHOOL-SERVICE
+          predicates:
+            - Path=/school-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/school-service/(?<segment>.*), /$\{segment}
+        # report-service
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/report-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: report-service
+          uri: lb://REPORT-SERVICE
+          predicates:
+            - Path=/report-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/report-service/(?<segment>.*), /$\{segment}
+        # call-service
+        - id: call-service
+          uri: lb://CALL-SERVICE
+          predicates:
+            - Path=/call-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: call-service
+          uri: lb://CALL-SERVICE
+          predicates:
+            - Path=/call-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/call-service/(?<segment>.*), /$\{segment}
+        # board-service
+        - id: board-service
+          uri: lb://BOARD-SERVICE
+          predicates:
+            - Path=/board-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: board-service
+          uri: lb://BOARD-SERVICE
+          predicates:
+            - Path=/board-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/board-service/(?<segment>.*), /$\{segment}
+        # chat-service
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/client/v1/**
+            - Method=GET, POST
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/chat-service/(?<segment>.*), /$\{segment}
+        # consult-service
+        - id: consult-service
+          uri: lb://CONSULT-SERVICE
+          predicates:
+            - Path=/consult-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: consult-service
+          uri: lb://CONSULT-SERVICE
+          predicates:
+            - Path=/consult-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/consult-service/(?<segment>.*), /$\{segment}
+        # voiceai-service
+        - id: voiceai-service
+          uri: lb://VOICEAI-SERVICE
+          predicates:
+            - Path=/voiceai-service/v1/**
+          filters:
+            - RewritePath=/voiceai-service/(?<segment>.*), /$\{segment}
+        # alarm-service
+        - id: alarm-service
+          uri: lb://ALARM-SERVICE
+          predicates:
+            - Path=/alarm-service/v1/**
+            - Method=GET, POST, PATCH, DELETE
+        - id: alarm-service
+          uri: lb://ALARM-SERVICE
+          predicates:
+            - Path=/alarm-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/alarm-service/(?<segment>.*), /$\{segment}
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace, info, metrics, prometheus, busrefresh
+

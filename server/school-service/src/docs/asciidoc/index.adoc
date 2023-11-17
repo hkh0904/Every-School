@@ -1,0 +1,39 @@
+ifndef::snippets[]
+:snippets: ../../build/generated-snippets
+endif::[]
+= Every School(school-service) REST API 문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+include::overview.adoc[]
+
+[[App-School-API]]
+== App School API
+
+include::api/app/school/app-search-schools.adoc[]
+include::api/app/school/app-search-school.adoc[]
+
+[[App-School-Apply-API]]
+== App School Apply API
+
+include::api/app/schoolapply/app-create-school-apply.adoc[]
+include::api/app/schoolapply/app-exist-school-apply.adoc[]
+
+[[Web-School-Apply-API]]
+== Web School Apply API
+
+include::api/web/schoolapply/web-approve-school-apply.adoc[]
+include::api/web/schoolapply/web-reject-school-apply.adoc[]
+include::api/web/schoolapply/web-search-approve-school-apply.adoc[]
+include::api/web/schoolapply/web-search-wait-school-apply.adoc[]
+include::api/web/schoolapply/web-search-detail-school-apply.adoc[]
+
+[[Web-School-User-API]]
+== Web School User API
+
+include::api/web/schooluser/web-search-my-class-students.adoc[]
+include::api/web/schooluser/web-search-my-class-parents.adoc[]

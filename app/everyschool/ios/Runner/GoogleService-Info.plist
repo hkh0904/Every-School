@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyC7e36qLvpWyoG0RDzuxNj-evh7278vlxE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>261580797567</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.everyschool.everyschool</string>
+	<key>PROJECT_ID</key>
+	<string>everyschool-10f65</string>
+	<key>STORAGE_BUCKET</key>
+	<string>everyschool-10f65.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:261580797567:ios:d417bd0ac2a4487973f14a</string>
+</dict>
+</plist>

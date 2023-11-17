@@ -1,0 +1,110 @@
+.container {
+  background-color: #f6f5f9;
+  min-height: calc(100vh - 60px);
+  padding: 3rem 4rem 0 4rem;
+  min-width: 1300px;
+}
+
+.headText {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.underText {
+  margin-top: 0.5rem;
+  color: rgba(128, 128, 128, 0.651);
+}
+
+.noresultText {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.complainTitle {
+  font-weight: 700;
+  font-size: 21px;
+}
+
+.chatBox {
+  margin-top: 40px;
+  padding-bottom: 30px;
+}
+
+.tableBox {
+  padding: 30px 60px;
+  height: 70vh;
+  overflow: hidden;
+  margin-top: 3vw;
+  border-radius: 15px;
+  background-color: white;
+  padding-bottom: 60px;
+}
+
+.chatRow {
+  margin: 0.5vw;
+}
+
+.teacherChatRow {
+  margin: 0.5vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-align: end;
+}
+
+.chatContent {
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #15075f;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px 8px 0px 8px;
+}
+
+.chatBubble {
+  display: flex;
+  align-items: end;
+  margin-bottom: 5px;
+}
+
+.teacherChatContent {
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #f4f4f4;
+  font-size: 16px;
+  border-radius: 8px 8px 8px 0;
+}
+
+.chatTime {
+  color: #868e96;
+}
+
+.chatReason {
+  color: rgb(212, 42, 42);
+}
+
+.scrollContainer {
+  height: 80%;
+  padding: 4vw;
+  margin: 20px 30px;
+  padding-top: 1.5vw;
+  padding-bottom: 2vw;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+/* 웹킷 브라우저용 스크롤바 스타일 */
+.scrollContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 10px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}

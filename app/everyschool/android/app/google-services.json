@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "261580797567",
+    "project_id": "everyschool-10f65",
+    "storage_bucket": "everyschool-10f65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261580797567:android:f1c67280c831b64d73f14a",
+        "android_client_info": {
+          "package_name": "com.everyschool.everyschool"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCe_EKBfHmQkW8CVh2KmQ2GDvwRxZbaeVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

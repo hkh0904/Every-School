@@ -1,0 +1,10 @@
+[[app-search-user-contact-infos]]
+=== 학급 인원 연락처 조회 API
+
+==== HTTP Request
+include::{snippets}/app-search-user-contact-infos/http-request.adoc[]
+
+
+==== HTTP Response
+include::{snippets}/app-search-user-contact-infos/http-response.adoc[]
+include::{snippets}/app-search-user-contact-infos/response-fields.adoc[]

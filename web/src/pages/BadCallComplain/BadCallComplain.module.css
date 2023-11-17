@@ -1,0 +1,133 @@
+.container {
+  background-color: #f6f5f9;
+  min-height: calc(100vh - 60px);
+  padding: 3rem 4rem 0 4rem;
+  min-width: 1300px;
+}
+
+.headText {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.underText {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: rgba(128, 128, 128, 0.651);
+}
+
+.noresultText {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.tableBox {
+  padding: 30px;
+  height: 70vh;
+  overflow: hidden;
+  margin-top: 2vw;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.scrollContainer {
+  height: 61vh;
+
+  padding-top: 0.3vw;
+  padding-bottom: 0.3vw;
+
+  overflow-y: auto;
+  box-sizing: border-box;
+  /* border: 1px solid rgba(128, 128, 128, 0.651);
+  border-radius: 10px; */
+}
+
+.overallBox {
+  display: flex;
+  justify-content: start;
+}
+
+.downloadBox {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.downloadText {
+  font-size: 1.1rem;
+  margin-top: 3px;
+  margin-right: 5px;
+}
+
+.titleText {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.subText {
+  font-size: 1rem;
+  margin-right: 10px;
+  margin-bottom: 2rem;
+}
+
+.commentText {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.emoText {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: grey;
+}
+
+.contentBox {
+  height: 100%;
+}
+
+.detailsItem {
+  padding-left: 2vw;
+  padding-right: 2vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.6vw;
+  margin-bottom: 0.6vw;
+}
+
+.downloadBox:hover {
+  color: rgb(0, 0, 209);
+}
+
+.downloadIcon {
+  font-size: 24px; /* Adjust the size as needed */
+  color: #15075f;
+}
+
+/* 웹킷 브라우저용 스크롤바 스타일 */
+.scrollContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 10px;
+}
+
+.scrollContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+.positiveText {
+  color: rgb(0, 0, 202); /* 긍정적인 텍스트의 색상 */
+}
+
+.neutralText {
+  color: rgb(38, 145, 38); /* 중립적인 텍스트의 색상 */
+}
+
+.negativeText {
+  color: rgb(208, 0, 0); /* 부정적인 텍스트의 색상 */
+}

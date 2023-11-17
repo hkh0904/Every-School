@@ -1,0 +1,277 @@
+package com.everyschool.callservice.docs.usercall;
+
+import com.everyschool.callservice.api.controller.FileStore;
+import com.everyschool.callservice.api.controller.usercall.UserCallQueryController;
+import com.everyschool.callservice.api.controller.usercall.response.ReportCallsResponse;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallDetailsResponse;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallReportResponse;
+import com.everyschool.callservice.api.controller.usercall.response.UserCallResponse;
+import com.everyschool.callservice.api.service.usercall.UserCallQueryService;
+import com.everyschool.callservice.docs.RestDocsSupport;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.restdocs.payload.JsonFieldType;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+public class UserCallQueryControllerDocsTest extends RestDocsSupport {
+    private final UserCallQueryService userCallQueryService = mock(UserCallQueryService.class);
+    private final FileStore fileStore = mock(FileStore.class);
+
+    @Override
+    protected Object initController() {
+        return new UserCallQueryController(userCallQueryService, fileStore);
+    }
+
+    @DisplayName("내 통화 내역 조회 API")
+    @Test
+    void searchMyCalls() throws Exception {
+        UserCallResponse r1 = UserCallResponse.builder()
+                .userCallId(1L)
+                .senderName("신성주")
+                .receiverName("임우택 선생님")
+                .receiveCall("Y")
+                .sender("O")
+                .startDateTime(LocalDateTime.now().minusHours(10))
+                .endDateTime(LocalDateTime.now().minusHours(9))
+                .isBad(false)
+                .build();
+
+        UserCallResponse r2 = UserCallResponse.builder()
+                .userCallId(2L)
+                .senderName("신성주")
+                .receiverName("임우택 선생님")
+                .receiveCall("M")
+                .sender("O")
+                .startDateTime(LocalDateTime.now().minusHours(10))
+                .endDateTime(LocalDateTime.now().minusHours(9))
+                .isBad(false)
+                .build();
+
+        List<UserCallResponse> rList = new ArrayList<>();
+        rList.add(r2);
+        rList.add(r1);
+
+        given(userCallQueryService.searchMyCalls(anyString()))
+                .willReturn(rList);
+
+        mockMvc.perform(
+                        get("/call-service/v1/calls/{userKey}", UUID.randomUUID().toString())
+                                .header("Authorization", "Bearer Access Token")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("search-userCalls",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+                                        .description("응답 데이터"),
+                                fieldWithPath("data[].userCallId").type(JsonFieldType.NUMBER)
+                                        .description("통화 ID"),
+                                fieldWithPath("data[].senderName").type(JsonFieldType.STRING)
+                                        .description("발신자"),
+                                fieldWithPath("data[].receiverName").type(JsonFieldType.STRING)
+                                        .description("수신자"),
+                                fieldWithPath("data[].receiveCall").type(JsonFieldType.STRING)
+                                        .description("통화 타입(Y: 통화, M: 부재중, C: 취소)"),
+                                fieldWithPath("data[].sender").type(JsonFieldType.STRING)
+                                        .description("발신한 사람(T: 선생님, O: 다른 유저)"),
+                                fieldWithPath("data[].startDateTime").type(JsonFieldType.ARRAY)
+                                        .description("통화 시작 시간"),
+                                fieldWithPath("data[].endDateTime").type(JsonFieldType.ARRAY)
+                                        .description("통화 종료 시간"),
+                                fieldWithPath("data[].isBad").type(JsonFieldType.BOOLEAN)
+                                        .description("악성 민원 여부")
+                        )
+                ));
+    }
+
+    @DisplayName("내 통화 상세 조회 API")
+    @Test
+    void searchCallDetails() throws Exception {
+        UserCallReportResponse response = UserCallReportResponse.builder()
+                .overallSentiment("negative")
+                .overallNeutral(Float.valueOf("0.000001"))
+                .overallPositive(Float.valueOf("0.000001"))
+                .overallNegative(Float.valueOf("99.9999"))
+                .build();
+
+        UserCallDetailsResponse detail1 = UserCallDetailsResponse.builder()
+                .fileName("fileName1")
+                .content("야!!! 너 내가 누군지 알아? 내가 임마 어?")
+                .start(0)
+                .length(26)
+                .sentiment("negative")
+                .neutral(Float.valueOf("0.000001"))
+                .positive(Float.valueOf("0.000001"))
+                .negative(Float.valueOf("99.9999"))
+                .build();
+
+        UserCallDetailsResponse detail2 = UserCallDetailsResponse.builder()
+                .fileName("fileName2")
+                .content("느그 서장하고 어? 밥도 묵고 어? 싸우나도 가고 으어?")
+                .start(26)
+                .length(31)
+                .sentiment("neutral")
+                .neutral(Float.valueOf("78.000001"))
+                .positive(Float.valueOf("2.000001"))
+                .negative(Float.valueOf("20.9999"))
+                .build();
+
+        UserCallDetailsResponse detail3 = UserCallDetailsResponse.builder()
+                .fileName("fileName3")
+                .content("마 다했어 임마? 으어? 이짜식이 말이야 이거 풀어!")
+                .start(31)
+                .length(30)
+                .sentiment("negative")
+                .neutral(Float.valueOf("0.000001"))
+                .positive(Float.valueOf("0.000001"))
+                .negative(Float.valueOf("99.9999"))
+                .build();
+
+        List<UserCallDetailsResponse> detailsList = List.of(detail1, detail2, detail3);
+        response.setDetails(detailsList);
+
+        given(userCallQueryService.searchMyCallDetails(anyLong()))
+                .willReturn(response);
+
+        mockMvc.perform(
+                        get("/call-service/v1/calls/detail/{userCallId}", anyLong())
+                                .header("Authorization", "Bearer Access Token")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("search-userCalls-details",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.OBJECT)
+                                        .description("응답 데이터"),
+                                fieldWithPath("data.overallSentiment").type(JsonFieldType.STRING)
+                                        .description("전체 통화 분석 결과"),
+                                fieldWithPath("data.overallNeutral").type(JsonFieldType.NUMBER)
+                                        .description("전체 통화 중립 척도(퍼센트)"),
+                                fieldWithPath("data.overallPositive").type(JsonFieldType.NUMBER)
+                                        .description("전체 통화 긍정 척도(퍼센트)"),
+                                fieldWithPath("data.overallNegative").type(JsonFieldType.NUMBER)
+                                        .description("전체 통화 부정 척도(퍼센트)"),
+                                fieldWithPath("data.details").type(JsonFieldType.ARRAY)
+                                        .description("통화 세부 분석 리스트"),
+                                fieldWithPath("data.details[].fileName").type(JsonFieldType.STRING)
+                                        .description("파일 다운로드 Key"),
+                                fieldWithPath("data.details[].content").type(JsonFieldType.STRING)
+                                        .description("한문장 내용"),
+                                fieldWithPath("data.details[].start").type(JsonFieldType.NUMBER)
+                                        .description("시작 시점"),
+                                fieldWithPath("data.details[].length").type(JsonFieldType.NUMBER)
+                                        .description("문장 길이"),
+                                fieldWithPath("data.details[].sentiment").type(JsonFieldType.STRING)
+                                        .description("해당 문장 감정 분석"),
+                                fieldWithPath("data.details[].neutral").type(JsonFieldType.NUMBER)
+                                        .description("해당 문장 중립 척도"),
+                                fieldWithPath("data.details[].positive").type(JsonFieldType.NUMBER)
+                                        .description("해당 문장 긍정 척도"),
+                                fieldWithPath("data.details[].negative").type(JsonFieldType.NUMBER)
+                                        .description("해당 문장 부정 척도")
+                        )
+                ));
+    }
+    @DisplayName("신고된 통화 목록 보기 API")
+    @Test
+    void searchReportCalls() throws Exception {
+        ReportCallsResponse response1 = ReportCallsResponse.builder()
+                .userCallId(1L)
+//                .type("통화")
+                .reportedName("김민기")
+                .reportedDate(LocalDateTime.now().minusDays(1))
+                .build();
+        ReportCallsResponse response2 = ReportCallsResponse.builder()
+                .userCallId(2L)
+//                .type("통화")
+                .reportedName("홍경환")
+                .reportedDate(LocalDateTime.now().minusDays(2))
+                .build();
+        ReportCallsResponse response3 = ReportCallsResponse.builder()
+                .userCallId(3L)
+//                .type("통화")
+                .reportedName("오연주")
+                .reportedDate(LocalDateTime.now().minusDays(3))
+                .build();
+
+        List<ReportCallsResponse> responseList = List.of(response1, response2, response3);
+
+        given(userCallQueryService.searchReportCalls(anyString()))
+                .willReturn(responseList);
+
+        mockMvc.perform(
+                        get("/call-service/v1/calls/reports", anyLong())
+                                .header("Authorization", "Bearer Access Token")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("search-userCalls-reports",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER)
+                                        .description("코드"),
+                                fieldWithPath("status").type(JsonFieldType.STRING)
+                                        .description("상태"),
+                                fieldWithPath("message").type(JsonFieldType.STRING)
+                                        .description("메시지"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY)
+                                        .description("응답 데이터"),
+                                fieldWithPath("data[].userCallId").type(JsonFieldType.NUMBER)
+                                        .description("통화 신고 ID"),
+                                fieldWithPath("data[].type").type(JsonFieldType.STRING)
+                                        .description("타입(통화)"),
+                                fieldWithPath("data[].reportedName").type(JsonFieldType.STRING)
+                                        .description("민원인"),
+                                fieldWithPath("data[].reportedDate").type(JsonFieldType.ARRAY)
+                                        .description("신고된 날짜")
+
+                        )
+                ));
+    }
+
+
+    @DisplayName("통화 다운로드 API")
+    @Test
+    void download() throws Exception {
+        mockMvc.perform(
+                        get("/call-service/v1/calls/download")
+                                .param("fileName", "your_file_name")
+                                .header("Authorization", "Bearer Access Token")
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("download-userCalls"));
+    }
+
+}

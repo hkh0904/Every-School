@@ -1,0 +1,49 @@
+# server port
+server:
+  port: 0
+
+---
+# logging
+logging:
+  level:
+    org.hibernate: debug
+    com.everyschool.alarmservice: debug
+
+# MSA setting
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://every-school.com:8761/eureka
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.instance_id:${random.value}}
+
+# spring setting
+spring:
+  application:
+    name: alarm-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  # h2 setting
+  h2:
+    console:
+      enabled: true
+  # jpa setting
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        format_sql: true
+    open-in-view: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info, metrics, prometheus, busrefresh

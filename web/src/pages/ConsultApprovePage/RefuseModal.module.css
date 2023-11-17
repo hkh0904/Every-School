@@ -1,0 +1,76 @@
+.modalBg {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.RefuseModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  /* align-items: center; */
+  flex-direction: column;
+  width: 22rem;
+  height: 17rem;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 2;
+}
+
+.modalBtn {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.refuseInput {
+  margin: 0 2rem;
+  border: none;
+  text-align: center;
+  border-bottom: 1px solid black;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 15rem;
+  font-family: 'Pretendard Variable';
+  padding-bottom: 5px;
+}
+
+.refuseInput::placeholder {
+  font-family: 'Pretendard Variable';
+}
+
+.refuseBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f43f5e;
+  border: 1px solid #f43f5e;
+  width: 6rem;
+  height: 2.8rem;
+  border-radius: 30px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.refuseMsg {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cancelBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  width: 6rem;
+  height: 2.8rem;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+}

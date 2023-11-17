@@ -1,0 +1,76 @@
+.manageClass {
+  background-color: #f6f5f9;
+  min-height: calc(100vh - 60px);
+  padding: 3rem 4rem 0 4rem;
+  min-width: 1300px;
+}
+
+.title {
+  min-width: 60rem;
+  /* border-bottom: 1px solid black; */
+  margin-bottom: 1.5rem;
+}
+
+.headText {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.underText {
+  margin-top: 0.5rem;
+  color: rgba(128, 128, 128, 0.651);
+  margin-bottom: 0;
+}
+.approveClass {
+  min-height: 78vh;
+  background-color: rgb(255, 255, 255);
+  padding-top: 20px;
+}
+
+.approveTab {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  background-color: #f6f5f9;
+  border-radius: 6px;
+  /* border: 1px solid silver; */
+}
+.approveTab > div {
+  flex: 1;
+}
+.approveTab > div > p {
+  margin: 7px;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+}
+
+.approveCardBox {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+.approveCard {
+  border: 1px solid silver;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  min-width: 350px;
+  height: 150px;
+}
+
+.preApproveImg {
+  width: 100px;
+  height: 100px;
+}
+
+.information {
+  flex: 2.8;
+}
+
+.confirm {
+  flex: 1.2;
+}
