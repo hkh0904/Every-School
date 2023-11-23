@@ -120,7 +120,7 @@
 
 | Web 악성민원 확인 |
 | --- |
-| <img src="https://github.com/hkh0904/Every-School/assets/66843981/2ce93009-7b35-41ba-ae0c-ebf12110b743" width="750"> |
+| ![악성민원 웹신고](https://github.com/hkh0904/Every-School/assets/66843981/37220936-4371-4a19-a8dc-8e7b2ec74bd8) |
 
 
 
