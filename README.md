@@ -101,12 +101,10 @@
 ## Main
 
 ## 시연 GIF
-| 회원가입 | 파일 제목 2 |
-| --- | --- |
-| <img src="https://github.com/hkh0904/Every-School/assets/66843981/ce27340b-b5e3-49b7-b597-5735c71d0596" width="100px"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/9e97a12e-f6aa-4dae-aa10-b0c9aec6cdbe" width="100px"> |
-| 파일 제목 3 | 여기에 추가 텍스트나 이미지 |
-| --- | --- |
-| <img src="https://github.com/hkh0904/Every-School/assets/66843981/874bf83b-ac99-4edd-a69b-05cbc7107e16" width="100px"> | 여기에 다음 이미지나 텍스트를 넣으세요 |
+| 회원가입 | 파일 제목 2 | 파일 제목 2 |
+| --- | --- | --- |
+| <img src="https://github.com/hkh0904/Every-School/assets/66843981/ce27340b-b5e3-49b7-b597-5735c71d0596" width="200px"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/9e97a12e-f6aa-4dae-aa10-b0c9aec6cdbe" width="200px"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/874bf83b-ac99-4edd-a69b-05cbc7107e16" width="200px"> |
+
 
 
 
