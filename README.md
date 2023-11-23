@@ -105,7 +105,8 @@
 | --- | --- | --- |
 | ![회원가입](https://github.com/hkh0904/Every-School/assets/66843981/5afd7e04-e710-4ffa-9f44-f7321405ee5c) | ![학교 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/5220f2dc-5dda-4c6a-88dc-05a0c8844121) | ![자녀 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/ff7ab420-5d3a-4abf-a706-7acd713f268e) |
 | 회원가입 | 파일 제목 2 | 파일 제목 2 |
-| --- | --- | --- |
+| ![회원가입](https://github.com/hkh0904/Every-School/assets/66843981/5afd7e04-e710-4ffa-9f44-f7321405ee5c) | ![학교 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/5220f2dc-5dda-4c6a-88dc-05a0c8844121) | ![자녀 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/ff7ab420-5d3a-4abf-a706-7acd713f268e) |
+| 회원가입 | 파일 제목 2 | 파일 제목 2 |
 | ![회원가입](https://github.com/hkh0904/Every-School/assets/66843981/5afd7e04-e710-4ffa-9f44-f7321405ee5c) | ![학교 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/5220f2dc-5dda-4c6a-88dc-05a0c8844121) | ![자녀 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/ff7ab420-5d3a-4abf-a706-7acd713f268e) |
 
 
