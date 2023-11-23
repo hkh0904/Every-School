@@ -100,26 +100,28 @@
 
 ## Main
 
+
 ## 시연 GIF
 | 회원가입 | 학교 등록하기 | 자녀 등록하기 |
 | --- | --- | --- |
-| ![회원가입](https://github.com/hkh0904/Every-School/assets/66843981/5afd7e04-e710-4ffa-9f44-f7321405ee5c) | ![학교 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/5220f2dc-5dda-4c6a-88dc-05a0c8844121) | ![자녀 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/ff7ab420-5d3a-4abf-a706-7acd713f268e) |
+| <img src="https://github.com/hkh0904/Every-School/assets/66843981/5afd7e04-e710-4ffa-9f44-f7321405ee5c" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/5220f2dc-5dda-4c6a-88dc-05a0c8844121" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/ff7ab420-5d3a-4abf-a706-7acd713f268e" width="220"> |
 
 | 로그인시 | 자녀 변경 | 자유게시판 글쓰기 |
 | --- | --- | --- |
-| ![학생 로그인시](https://github.com/hkh0904/Every-School/assets/66843981/9b097151-a85b-4d40-87dd-ccefc781302c) | ![자녀 변경](https://github.com/hkh0904/Every-School/assets/66843981/549de04a-e45e-44eb-ad8c-ec14796f9a80) | ![자유게시판 글쓰기](https://github.com/hkh0904/Every-School/assets/66843981/a8256169-8316-43e4-ba6b-ae63cb269461) |
+| <img src="https://github.com/hkh0904/Every-School/assets/66843981/9b097151-a85b-4d40-87dd-ccefc781302c" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/549de04a-e45e-44eb-ad8c-ec14796f9a80" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/a8256169-8316-43e4-ba6b-ae63cb269461" width="220"> |
 
 | 게시판 | 상담, 신고 확인 | 교사 방해금지모드 |
 | --- | --- | --- |
-| ![자유게시판 상단 메뉴](https://github.com/hkh0904/Every-School/assets/66843981/da4bbee5-77b7-41c2-becc-a000b89eadd9) | ![선생님 상담, 신고확인](https://github.com/hkh0904/Every-School/assets/66843981/e8a432f9-841d-442f-b10e-b05a6d9e77d1) | ![선생님 방해금지 설정](https://github.com/hkh0904/Every-School/assets/66843981/824ebafe-cf68-4d5d-9581-95e77686696f) |
+| <img src="https://github.com/hkh0904/Every-School/assets/66843981/da4bbee5-77b7-41c2-becc-a000b89eadd9" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/033e435b-8302-4a1b-a692-eba0ec76d362" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/824ebafe-cf68-4d5d-9581-95e77686696f" width="220"> |
 
 | 채팅하기 | 전화 걸기 | 전화 받기 |
 | --- | --- | --- |
-| ![채팅하기](https://github.com/hkh0904/Every-School/assets/66843981/f01653c9-b278-44bf-8601-43517cf12d8f) | ![전화 걸기](https://github.com/hkh0904/Every-School/assets/66843981/cf8c72c2-b430-448d-a2a2-30d549c70f98) | ![전화 받기](https://github.com/hkh0904/Every-School/assets/66843981/240c9ba6-e1a3-4370-8ef6-f11c43c87292) |
+| <img src="https://github.com/hkh0904/Every-School/assets/66843981/f01653c9-b278-44bf-8601-43517cf12d8f" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/cf8c72c2-b430-448d-a2a2-30d549c70f98" width="220"> | <img src="https://github.com/hkh0904/Every-School/assets/66843981/240c9ba6-e1a3-4370-8ef6-f11c43c87292" width="220"> |
 
 | Web 악성민원 확인 |
 | --- |
-| ![악성민원 웹신고](https://github.com/hkh0904/Every-School/assets/66843981/2ce93009-7b35-41ba-ae0c-ebf12110b743) |
+| <img src="https://github.com/hkh0904/Every-School/assets/66843981/2ce93009-7b35-41ba-ae0c-ebf12110b743" width="500"> |
+
 
 
 
