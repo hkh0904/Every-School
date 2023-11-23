@@ -1,7 +1,7 @@
 # 👩‍🏫everySCHOOL
 
 <div align="center">
-  <div style="font-size: 2rem; justify-items: center" >교사, 학생, 학부모가 함께 만들어가는 플랫폼</div>
+  <div style="font-size: 20; justify-items: center" >교사, 학생, 학부모가 함께 만들어가는 플랫폼</div>
   <img src="./readme_assets/images/everyschoollogo.gif" alt="logo" height="200"> 
 </div>
 
@@ -84,17 +84,15 @@
 
 ### 아키텍쳐
 
-<img src="" />
+![시스템 아키텍처](https://github.com/hkh0904/Every-School/assets/66843981/4253fc53-24f1-43f2-81db-00893ef7737b)
 
 ### ERD
 
-<img src="">
+![스쿨버스 ver 1](https://github.com/hkh0904/Every-School/assets/66843981/59eb7a93-94c6-4a00-a87b-72940a1b0340)
 
 ### MockUp
 
-[<img src="">](h)
-
-※ 이미지 클릭시 Figma 이동
+![Figma](https://github.com/hkh0904/Every-School/assets/66843981/ff0fb1a2-2135-44d5-a9e6-82d56fb4c68d)
 
 ---
 
