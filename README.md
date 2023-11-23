@@ -100,6 +100,10 @@
 
 ## Main
 
+## 시연 GIF
+| ![회원가입](https://github.com/hkh0904/Every-School/assets/66843981/ce27340b-b5e3-49b7-b597-5735c71d0596) | ![학교 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/9e97a12e-f6aa-4dae-aa10-b0c9aec6cdbe) | ![자녀 등록하기](https://github.com/hkh0904/Every-School/assets/66843981/874bf83b-ac99-4edd-a69b-05cbc7107e16) |
+
+
 ## 👨‍👩‍👧‍👦팀 소개
 
 <table align="center">
