@@ -11,7 +11,7 @@
 
 # 🎬UCC
 
-[<img style="width: 10px;" src="./readme_assets/images/ucc.JPG">](https://www.youtube.com/watch?v=0_jM8-yh6Xo)
+[<img style="width: 10;" src="./readme_assets/images/ucc.JPG">](https://www.youtube.com/watch?v=0_jM8-yh6Xo)
 
 ※ 이미지 클릭시 UCC youtube 이동
 
