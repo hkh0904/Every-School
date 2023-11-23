@@ -1,5 +1,3 @@
-[//]: # (# S09P31C108) 학교 보안관
-
 # 👩‍🏫everySCHOOL
 
 <div align="center">
@@ -17,7 +15,7 @@
 
 # 🎃서비스 소개
 
-### 🫶기획배경
+### 기획배경
 
 악성민원으로 인한 안타까운 사건 사고를 방지하고 모니터링하여 교사의 사생활을 보호할 수 있으며,
 교사와 학부모, 학생까지 안심하고 사용할 수 있는 **교내 소통 통합 어플리케이션**
@@ -56,29 +54,29 @@
 
 ### Front-end
 
-| <img src="https://i.namu.wiki/i/gTkycWkYEjMjGP1Bm4H4f53dDKc22Cp1UgVsKnMHhaxtUPme5kQB8Ga1WxX_42qpwSbNcSaBdLnYKZFa3OCMlZjVdsm3c98eNE2b7LUDZYzUEy3zAde_6dQPj3WjvjyVatt-6ukt0NHRJ8GRiy81Kg.svg" alt="HTML5" width="100px"  height="100px" /> | <img src="https://i.namu.wiki/i/mmbIBh97s8Ir8CWiH0gpoMggerAWV68Hj-VNCBXx2-Zz2IIrzbXE3Fy4EPn0hc69lIRy9qSPZ9Fja6g9uaaStvL4BDQeOc4IoyhXgfydvWfMhbb-QCW3Oq-pI1oTniqhqonhgeDkVuFONhijkIoU9Q.svg" alt="react" width="100px" height="100px" /> | <img src="https://www.agora.io/kr/wp-content/uploads/2023/05/agora-future@2x-1440x1440-1-1024x1024.webp" alt="agora" width="100px" height="100px" /> | <img src="https://seeklogo.com/images/W/websocket-logo-91B815D333-seeklogo.com.png" alt="websocket" width="100px" height="100px" /> | <img src="https://www.gstatic.com/devrel-devsite/prod/va65162e8ce9aacc75e4d3c0cd6d166fc6ceaaf184fea0ff0eac1d9b62c0480be/firebase/images/lockup.svg" alt="fcm" width="100px" height="100px" /> |
+| <img src="https://i.namu.wiki/i/gTkycWkYEjMjGP1Bm4H4f53dDKc22Cp1UgVsKnMHhaxtUPme5kQB8Ga1WxX_42qpwSbNcSaBdLnYKZFa3OCMlZjVdsm3c98eNE2b7LUDZYzUEy3zAde_6dQPj3WjvjyVatt-6ukt0NHRJ8GRiy81Kg.svg" alt="HTML5" width="100"  height="100" /> | <img src="https://i.namu.wiki/i/mmbIBh97s8Ir8CWiH0gpoMggerAWV68Hj-VNCBXx2-Zz2IIrzbXE3Fy4EPn0hc69lIRy9qSPZ9Fja6g9uaaStvL4BDQeOc4IoyhXgfydvWfMhbb-QCW3Oq-pI1oTniqhqonhgeDkVuFONhijkIoU9Q.svg" alt="react" width="100" height="100" /> | <img src="https://www.agora.io/kr/wp-content/uploads/2023/05/agora-future@2x-1440x1440-1-1024x1024.webp" alt="agora" width="100" height="100" /> | <img src="https://seeklogo.com/images/W/websocket-logo-91B815D333-seeklogo.com.png" alt="websocket" width="100" height="100" /> | <img src="https://www.gstatic.com/devrel-devsite/prod/va65162e8ce9aacc75e4d3c0cd6d166fc6ceaaf184fea0ff0eac1d9b62c0480be/firebase/images/lockup.svg" alt="fcm" width="100" height="100" /> |
 |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------:|
 |                                                                                                                 flutter                                                                                                                  |                                                                                                                  React                                                                                                                  |                                        agora.io                                         |                                                              WebSocket                                                              |                                         fcm                                         | swift |
 
 ### Back-end
 
-| <img src="./readme_assets/images/java.png" alt="java" width="100px" height="100px" /> | <img src="./readme_assets/images/spring.png" width="100"> | <img src="./readme_assets/images/springcloud.jpg"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/eureka.png"  alt="HTML5" width="100px" height="100px" /> |
+| <img src="./readme_assets/images/java.png" alt="java" width="100" height="100" /> | <img src="./readme_assets/images/spring.png" width="100"> | <img src="./readme_assets/images/springcloud.jpg"  alt="HTML5" width="100" height="100" /> | <img src="./readme_assets/images/eureka.png"  alt="HTML5" width="100" height="100" /> |
 |:-------------------------------------------------------------------------------------:|:---------------------------------------------------------:|:----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
 |                                        java11                                         |                        spring boot                        |                                          spring cloud                                          |                                      netflix Eureka                                       | 
 
-| <img src="./readme_assets/images/python.png"  alt="python" width="100px" height="100px" /> | <img src="./readme_assets/images/fastapi.png"  alt="fastapi" width="100px" height="100px" /> | <img src="./readme_assets/images/clova.png"  alt="clova" width="100px" height="100px" /> | <img src="./readme_assets/images/openai.png"  alt="mongodb" width="100px" height="100px" /> |
+| <img src="./readme_assets/images/python.png"  alt="python" width="100" height="100" /> | <img src="./readme_assets/images/fastapi.png"  alt="fastapi" width="100" height="100" /> | <img src="./readme_assets/images/clova.png"  alt="clova" width="100" height="100" /> | <img src="./readme_assets/images/openai.png"  alt="mongodb" width="100" height="100" /> |
 |:------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------:|
 |                                           python                                           |                                           FastAPI                                            |                                          Clova                                           |                                           OpenAI                                            |
 
 ### Database
 
-| <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/H2_logo.png"  alt="h2" width="100px" height="100px" /> | <img src="./readme_assets/images/redis.png"  alt="redis" width="100px" height="100px" /> | <img src="./readme_assets/images/mongodb.jpg"  alt="mongodb" width="100px" height="100px" /> | <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100px" height="100px" /> | <img src="./readme_assets/images/s3.png"  alt="h2" width="100px" height="100px" /> |
+| <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100" height="100" /> | <img src="./readme_assets/images/H2_logo.png"  alt="h2" width="100" height="100" /> | <img src="./readme_assets/images/redis.png"  alt="redis" width="100" height="100" /> | <img src="./readme_assets/images/mongodb.jpg"  alt="mongodb" width="100" height="100" /> | <img src="./readme_assets/images/mysql.png"  alt="HTML5" width="100" height="100" /> | <img src="./readme_assets/images/s3.png"  alt="h2" width="100" height="100" /> |
 |:----------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------:|
 |                                          MySQL                                           |                                           H2                                            |                                          redis                                           |                                           mongoDB                                            |                                          MySQL                                           |                                           S3                                            | 
 
 ### DevOps & Tools & logging
 
-| <img src="./readme_assets/images/jenkins.png"  alt="jenkins" width="100px" height="100px" /> | <img src="./readme_assets/images/nginx.png"  alt="docker" width="100px" height="100px" /> | <img src="./readme_assets/images/docker.png"  alt="docker" width="100px" height="100px" /> | <img src="./readme_assets/images/aws.png"  alt="aws" width="100px" height="100px" /> | <img src="./readme_assets/images/gradle.png"  alt="gradle" width="100px" height="100px" /> | <img src="./readme_assets/images/jira.png"  alt="jira" width="100px" height="100px" /> | <img src="./readme_assets/images/slack.jpg"  alt="slack" width="100px" height="100px" /> | <img src="./readme_assets/images/rabbitMQ.png"  alt="rabbitMQ" width="100px" height="100px" /> |
+| <img src="./readme_assets/images/jenkins.png"  alt="jenkins" width="100" height="100" /> | <img src="./readme_assets/images/nginx.png"  alt="docker" width="100" height="100" /> | <img src="./readme_assets/images/docker.png"  alt="docker" width="100" height="100" /> | <img src="./readme_assets/images/aws.png"  alt="aws" width="100" height="100" /> | <img src="./readme_assets/images/gradle.png"  alt="gradle" width="100" height="100" /> | <img src="./readme_assets/images/jira.png"  alt="jira" width="100" height="100" /> | <img src="./readme_assets/images/slack.jpg"  alt="slack" width="100" height="100" /> | <img src="./readme_assets/images/rabbitMQ.png"  alt="rabbitMQ" width="100" height="100" /> |
 |:--------------:|:------------:|:------:|:------------:|:--------:|:----------:|:------------:|:------------:|
 | jenkins | Ngnix | docker | AWS EC2 | gradle | Jira | Slack | rabbitMQ | 
 
@@ -108,42 +106,42 @@
 
 <table align="center">
     <tr align="center">
-        <td style="min-width: 150px;">
+        <td style="min-width: 150;">
             <a href="https://github.com/chaos0103">
               <img src="./readme_assets/profile/lyt.png" width="200" height="175">
               <br />
               <b>chaos0103</b>
             </a>
         </td>
-        <td style="min-width: 150px;">
+        <td style="min-width: 150;">
             <a href="https://github.com/leeyr0412">
               <img src="./readme_assets/profile/lyl.png" width="200">
               <br />
               <b>leeyr0412</b>
             </a> 
         </td>
-        <td style="min-width: 150px;">
+        <td style="min-width: 150;">
             <a href="https://github.com/hans0537">
               <img src="./readme_assets/profile/ssj.png" width="200">
               <br />
               <b>hans0537</b>
             </a> 
         </td>
-        <td style="min-width: 150px;">
+        <td style="min-width: 150;">
             <a href="https://github.com/OH-Yeonju">
               <img src="./readme_assets/profile/oyj.png" width="200">
               <br />
               <b>OH-Yeonju</b>
             </a> 
         </td>
-        <td style="min-width: 150px;">
+        <td style="min-width: 150;">
             <a href="https://github.com/illu1996">
               <img src="./readme_assets/profile/lgh.png" width="200">
               <br />
               <b>illu1996</b>
             </a> 
         </td>
-        <td style="min-width: 150px;">
+        <td style="min-width: 150;">
             <a href="https://github.com/hkh0904">
               <img src="./readme_assets/profile/hkh.png" width="200">
               <br />
@@ -174,7 +172,7 @@
 </table>
 
 ## 노션 활용
-[<img style="width: 10px;" src="./readme_assets/images/notion1.JPG" alt="notion">](https://dong82.notion.site/011c84e3500748acb05c4b0751141c6f?pvs=4) [<img style="width: 10px;" src="./readme_assets/images/notion2.JPG" alt="notion">](https://dong82.notion.site/011c84e3500748acb05c4b0751141c6f?pvs=4)
+[<img style="width: 10;" src="./readme_assets/images/notion1.JPG" alt="notion">](https://dong82.notion.site/011c84e3500748acb05c4b0751141c6f?pvs=4) [<img style="width: 10;" src="./readme_assets/images/notion2.JPG" alt="notion">](https://dong82.notion.site/011c84e3500748acb05c4b0751141c6f?pvs=4)
 
 
 ※ 이미지 클릭시 Notion 이동 
